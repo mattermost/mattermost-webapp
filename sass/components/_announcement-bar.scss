@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .announcement-bar {
-    background-color: #579EFF;
+    background-color: #579eff;
     color: $white;
     min-height: $announcement-bar-height;
     position: fixed;
@@ -54,33 +54,35 @@
             right: 0;
             text-decoration: none;
             top: 5px;
+
             &:hover {
                 color: $white;
                 text-decoration: none;
             }
         }
-
     }
 
     .fa-wrapper {
         margin: 0 5px;
     }
 
-    .resend-verification-wrapper:before {
+    .resend-verification-wrapper::before {
         content: "\00a0 ";
     }
 
-    .content__icon, i {
+    .content__icon,
+    i {
         font-family: 'compass-icons';
         font-size: 16px;
-        color: #FFFFFF;
+        color: #fff;
         margin-right: 4px;
     }
 
     button {
         &:hover {
-            background-color: rgba(255, 255, 255, 0.08)
+            background-color: rgba(255, 255, 255, 0.08);
         }
+
         margin-left: 8px;
         font-family: Open Sans;
         font-style: normal;
@@ -88,7 +90,7 @@
         font-size: 12px;
         line-height: 16px;
         padding: 4px 8px;
-        border: 1px solid #FFFFFF;
+        border: 1px solid #fff;
         height: 24px;
         box-sizing: border-box;
         border-radius: 4px;
@@ -97,23 +99,23 @@
 }
 
 .announcement-bar-critical {
-    background-color: #F74343;
+    background-color: #f74343;
 }
 
 .announcement-bar-success {
-    background-color: #06D6A0;
+    background-color: #06d6a0;
 }
 
 .announcement-bar-advisor {
-    background-color: #579EFF;
+    background-color: #579eff;
 }
 
 .announcement-bar-advisor-ack {
-    background-color: #06D6A0;
+    background-color: #06d6a0;
 }
 
 .announcement-bar-general {
-    background-color: #3D3C40;
+    background-color: #3d3c40;
 }
 
 .announcement-bar__link {

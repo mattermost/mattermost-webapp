@@ -4,7 +4,7 @@
     display: flex;
     background-color: var(--sys-center-channel-bg);
     border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
-    box-shadow: 0px 2px 3px #00000014;
+    box-shadow: 0 2px 3px #00000014;
     border-radius: 4px;
 
     button {
@@ -45,6 +45,7 @@
     font-size: 14px;
     line-height: 30px;
     margin-bottom: 5px;
+
     &.bolder {
         font-weight: 600;
     }

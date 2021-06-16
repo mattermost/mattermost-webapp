@@ -22,18 +22,23 @@
         text-align: center;
         font-weight: 300;
         line-height: 1;
+
         strong {
             font-weight: 400;
         }
     }
+
     h2 {
         font-weight: 300;
+
         strong {
             font-weight: 400;
         }
     }
+
     .modal-icon {
         text-align: center;
+
         svg {
             fill: var(--button-bg);
             height: 38px;
@@ -47,28 +52,34 @@
     .modal-dialog {
         width: 400px;
     }
+
     .modal-content {
         border-radius: 8px;
     }
+
     .modal-header {
         border-radius: 8px 8px 0 0;
         background: var(--center-channel-bg);
-        border: 0px;
+        border: 0;
         min-height: 64px;
         padding: 20px;
+
         .modal-title {
             font-size: 20px;
             color: var(--center-channel-color);
         }
     }
+
     .modal-body {
         padding: 0 20px;
     }
+
     .modal-footer {
         border-radius: 0 0 8px 8px;
-        border: 0px;
+        border: 0;
         min-height: 80px;
         padding: 20px;
+
         button {
             outline: none;
             font-size: 15px;

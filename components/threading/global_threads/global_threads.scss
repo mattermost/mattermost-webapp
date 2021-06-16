@@ -10,7 +10,7 @@
 }
 
 .GlobalThreads {
-    --border: 1px solid rgba(var(--center-channel-color-rgb), .16);
+    --border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
 
     .GlobalThreads___header {
         grid-area: header;
@@ -34,6 +34,7 @@
 
     > .no-results__holder {
         grid-area: list/list/pane/pane;
+
         @media screen and (max-width: 1020px) {
             grid-area: main;
         }
@@ -42,6 +43,7 @@
     .no-results__wrapper svg {
         margin-bottom: 20px;
     }
+
     .no-results__subtitle {
         max-width: 378px;
     }
@@ -75,6 +77,7 @@
             .ThreadList {
                 grid-area: main;
             }
+
             .ThreadPane,
             .ThreadList + .no-results__holder {
                 display: none;
@@ -85,11 +88,14 @@
             .ThreadList {
                 display: none;
             }
+
             .ThreadPane {
                 grid-area: main;
+
                 .Header {
                     padding-left: 5px;
                 }
+
                 .back {
                     display: unset;
                 }
@@ -99,9 +105,11 @@
 
     @media screen and (max-width: 768px) {
         grid-template-rows: 0 1fr;
+
         > .Header {
             display: none;
         }
+
         .Header {
             border-top: var(--border);
         }
@@ -127,6 +135,7 @@
         @media screen and (min-width: 1267px) {
             --rhs-width: 400px;
         }
+
         @media screen and (min-width: 1680px) {
             --rhs-width: 500px;
         }

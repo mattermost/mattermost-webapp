@@ -14,7 +14,8 @@
     background: var(--center-channel-color-16);
     border: none;
 
-    &.BotBadge, &.GuestBadge {
+    &.BotBadge,
+    &.GuestBadge {
         padding: 2px 4px;
     }
 }

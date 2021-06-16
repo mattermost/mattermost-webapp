@@ -111,6 +111,7 @@
             height: 128px;
             width: 128px;
         }
+
         .profile-img__container {
             height: 128px;
             position: relative;
@@ -119,7 +120,8 @@
 
         .profile-img__remove {
             @include border-radius(50%);
-            @include single-transition(all, .15s, ease);
+            @include single-transition(all, 0.15s, ease);
+
             background: $black;
             color: $white;
             height: 26px;
@@ -140,7 +142,6 @@
             }
         }
 
-
         .team-img-preview,
         .team-img__container {
             height: 128px;
@@ -154,13 +155,15 @@
 
             .img-preview__image {
                 @include border-radius(6px);
+
                 background-color: $white;
-                border: 1px solid alpha-color($black, .15);
+                border: 1px solid alpha-color($black, 0.15);
                 overflow: hidden;
             }
 
             div {
                 @include background-size(cover);
+
                 background-color: $white;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -171,7 +174,8 @@
 
         .team-img__remove {
             @include border-radius(50%);
-            @include single-transition(all, .15s, ease);
+            @include single-transition(all, 0.15s, ease);
+
             background: $black;
             color: $white;
             height: 24px;
@@ -233,7 +237,8 @@
 
                 .section-max {
                     @include legacy-pie-clearfix;
-                    @include alpha-property('background', $black, .05);
+                    @include alpha-property('background', $black, 0.05);
+
                     margin-bottom: 0;
                     padding: 1em 0 1.3em;
 
@@ -258,7 +263,7 @@
                         }
 
                         img {
-                            border: 1px solid rgba(black, .15);
+                            border: 1px solid rgba(black, 0.15);
                             width: 29px;
                         }
                     }
@@ -266,12 +271,14 @@
                     .group--code {
                         select {
                             @include appearance(none);
+
                             appearance: none;
                             padding-right: 25px;
                         }
 
-                        &:before {
+                        &::before {
                             @include font-smoothing;
+
                             content: '\f0d7';
                             display: inline-block;
                             font: normal normal normal 14px/1 FontAwesome;
@@ -301,8 +308,9 @@
 
                         img {
                             border: 3px solid transparent;
+
                             &:hover {
-                              cursor: pointer;
+                                cursor: pointer;
                             }
                         }
 
@@ -348,7 +356,8 @@
                         }
 
                         .header__icon {
-                            @include opacity(.5);
+                            @include opacity(0.5);
+
                             float: right;
                         }
                     }
@@ -452,7 +461,7 @@
                     margin: 0 5px;
                 }
 
-                .resend-verification-wrapper:before {
+                .resend-verification-wrapper::before {
                     content: "\00a0 ";
                 }
 
@@ -480,8 +489,9 @@
                 }
             }
         }
+
         .disabledMessage {
-            background-color: rgba(0,0,0,0.1);
+            background-color: rgba(0, 0, 0, 0.1);
             padding: 15px;
             margin-top: 10px;
         }
@@ -516,7 +526,7 @@
 
             &:hover {
                 button {
-                    @include alpha-property(background-color, $black, .1);
+                    @include alpha-property(background-color, $black, 0.1);
                 }
             }
 
@@ -525,7 +535,7 @@
                     background-color: #e1e1e1;
                     color: #111;
 
-                    &:before {
+                    &::before {
                         background: $black;
                         content: '';
                         height: 100%;
@@ -539,7 +549,8 @@
                 button,
                 button:hover,
                 button:focus {
-                    @include alpha-property(background-color, $black, .1);
+                    @include alpha-property(background-color, $black, 0.1);
+
                     border-radius: 0;
                     font-weight: 400;
                     position: relative;
@@ -583,6 +594,7 @@
 
     .post-profile-img {
         @include border-radius(50px);
+
         margin-right: 8px;
     }
 }
@@ -633,7 +645,7 @@
 }
 
 .user-settings__submit-checkbox {
-    padding-top: 0px;
+    padding-top: 0;
     padding-bottom: 20px;
 }
 
@@ -641,6 +653,7 @@
     padding: 1em;
     cursor: pointer;
     position: relative;
+
     @include clearfix;
 
     &:hover {
@@ -666,7 +679,6 @@
     padding-right: 50px;
     font-size: 14px;
     line-height: 20px;
-
 }
 
 .section-min__edit {
@@ -674,7 +686,8 @@
     text-align: right;
 
     .fa {
-        @include opacity(.5);
+        @include opacity(0.5);
+
         display: none;
         font-size: 12px;
         margin-right: 5px;
@@ -683,7 +696,8 @@
 
 .section-min__describe {
     @include clearfix;
-    @include opacity(.7);
+    @include opacity(0.7);
+
     text-overflow: ellipsis;
     white-space: pre;
 }

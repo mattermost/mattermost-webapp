@@ -5,6 +5,7 @@
 
     .header__info {
         @include flex-grow(1);
+
         color: $white;
         padding: 3px 15px 0 8px;
         position: relative;
@@ -31,7 +32,7 @@
         height: 8px;
         right: 2px;
         bottom: 2px;
-        background: #F74343;
+        background: #f74343;
     }
 
     .unread-badge-addon {
@@ -45,7 +46,8 @@
     }
 
     .menu-icon {
-        @include opacity(.8);
+        @include opacity(0.8);
+
         fill: $white;
     }
 

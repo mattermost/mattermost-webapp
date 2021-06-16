@@ -6,6 +6,7 @@
         &.processing {
             display: none;
         }
+
         overflow: hidden;
         color: var(--center-channel-color);
         font-size: 16px;
@@ -24,7 +25,7 @@
         }
 
         .fineprint-text {
-            color:  rgba(var(--center-channel-color-rgb), 0.72);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
             font-size: 12px;
             line-height: 16px;
             margin-top: 24px;
@@ -46,7 +47,7 @@
             }
 
             .image {
-                padding: 32px 0px;
+                padding: 32px 0;
             }
         }
 
@@ -61,12 +62,12 @@
                 padding: 10px 0 0 10%;
 
                 .PaymentInfoDisplay__paymentInfo-text {
-                    background-color: #FFFFFF;
+                    background-color: #fff;
                     border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
                     box-sizing: border-box;
-                    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+                    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
                     border-radius: 4px;
-                    margin: 24px 0px;
+                    margin: 24px 0;
                     padding: 32px;
                     width: 416px;
                     height: 318px;
@@ -77,7 +78,7 @@
                     }
 
                     .PaymentInfoDisplay__paymentInfo-cardInfo {
-                        margin: 10px 0px;
+                        margin: 10px 0;
                     }
                 }
 
@@ -113,7 +114,7 @@
                 padding: 24px;
                 border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
                 box-sizing: border-box;
-                box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
                 border-radius: 4px;
                 background-color: var(--center-channel-bg);
                 margin-bottom: 24px;
@@ -150,7 +151,7 @@
                             line-height: 16px;
                         }
 
-                        @media screen and (-webkit-min-device-pixel-ratio:0) {
+                        @media screen and (-webkit-min-device-pixel-ratio: 0) {
                             input[type='radio'] {
                                 visibility: hidden;
                             }
@@ -162,8 +163,8 @@
                             }
                         }
 
-                        input[type='radio']:after {
-                            background-color: #FFFFFF;
+                        input[type='radio']::after {
+                            background-color: #fff;
                             border-radius: 15px;
                             border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.24);
                             content: '';
@@ -176,7 +177,7 @@
                             width: 15px;
                         }
 
-                        input[type='radio']:checked:before {
+                        input[type='radio']:checked::before {
                             border-radius: 9px;
                             background-color: var(--button-bg);
                             content: "";
@@ -189,7 +190,7 @@
                             width: 9px;
                         }
 
-                        input[type='radio']:checked:after {
+                        input[type='radio']:checked::after {
                             background-color: transparent;
                             border-radius: 15px;
                             border: 1px solid var(--button-bg);
@@ -242,7 +243,7 @@
             .price-text {
                 font-size: 32px;
                 font-weight: 600;
-                padding: 16px 0px;
+                padding: 16px 0;
                 line-height: 1;
             }
 
@@ -260,6 +261,7 @@
             top: 0;
             z-index: -1;
             width: 100%;
+
             stop {
                 stop-color: var(--button-bg);
             }
@@ -283,12 +285,11 @@
 
         .logo {
             position: absolute;
-            bottom: 0px;
-            right: 0px;
+            bottom: 0;
+            right: 0;
         }
 
         button {
-            background: #0058CC;
             width: fit-content;
             height: 40px;
             font-weight: 600;

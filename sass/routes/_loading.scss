@@ -8,7 +8,7 @@
     }
 
     to {
-        opacity: .1;
+        opacity: 0.1;
     }
 }
 
@@ -28,29 +28,28 @@
             display: inline-block;
             font-size: 16px;
             font-weight: 400;
-            margin: 0 .2em;
+            margin: 0 0.2em;
         }
 
         .round {
-            @include animation(move .75s infinite linear);
+            @include animation(move 0.75s infinite linear);
             @include border-radius(10px);
-            background-color: #444444;
+
+            background-color: #444;
             display: inline-block;
             height: 4px;
             margin: 0 2px;
-            opacity: .1;
+            opacity: 0.1;
             width: 4px;
         }
 
         @for $i from 1 through 3 {
             .round-#{$i} {
-                @include animation-delay(.2s*$i);
+                @include animation-delay(0.2s*$i);
             }
         }
     }
-}
 
-.loading-screen {
     .hideAnimation {
         display: none;
     }

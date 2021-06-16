@@ -16,7 +16,8 @@
             padding: 7px 15px;
 
             .small {
-                @include opacity(.8);
+                @include opacity(0.8);
+
                 margin-left: 4px;
             }
         }
@@ -89,6 +90,7 @@
 
             &.navbar-right__icon {
                 @include border-radius(50px);
+
                 display: flex;
                 background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
                 align-items: center;
@@ -120,7 +122,7 @@
             &.icon__mute {
                 width: 30px;
                 padding: 0;
-                opacity: .6;
+                opacity: 0.6;
                 font-size: 15px;
             }
 
@@ -139,10 +141,11 @@
             display: flex;
 
             .app__body & {
-                color: var(--sidebar-header-text-color)
+                color: var(--sidebar-header-text-color);
             }
 
-            .dropdown, .MenuWrapper {
+            .dropdown,
+            .MenuWrapper {
                 max-width: calc(100% - 40px);
             }
 
@@ -157,7 +160,8 @@
                 margin-left: 6px;
             }
 
-            .dropdown-toggle, .MenuWrapper > a {
+            .dropdown-toggle,
+            .MenuWrapper > a {
                 align-items: center;
                 color: inherit;
                 display: flex;

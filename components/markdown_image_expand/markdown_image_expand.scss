@@ -4,7 +4,6 @@
 
 .markdown-image-expand {
     position: relative;
-
     display: flex;
     align-items: center;
 }
@@ -13,19 +12,17 @@
     position: absolute;
     top: 0;
     left: 0;
-
     display: none;
     width: 24px;
     height: 24px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     padding: 0;
-
     font-size: 18px;
     line-height: 21px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
-
     background-color: var(--center-channel-bg);
     border-radius: 16px;
+
     @include box-shadow($elevation-1);
 
     .icon {
@@ -53,11 +50,9 @@
     border: none;
     display: inline-block;
     padding: 0;
-
     font-size: 18px;
     line-height: 18px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
-
     background: transparent;
     border-radius: 4px;
 
@@ -69,7 +64,7 @@
         width: 18px;
         height: 18px;
 
-        &:before {
+        &::before {
             margin-left: 0;
             margin-right: 0;
         }
@@ -83,7 +78,6 @@
 
 .markdown-image-expand__alt-text {
     display: inline-block;
-
     font-size: 12px;
     line-height: 16px;
 }

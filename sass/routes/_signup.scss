@@ -11,7 +11,7 @@ body {
 .signup-header {
     background: $bg--gray;
     line-height: 33px;
-    padding: 0 1em .2em;
+    padding: 0 1em 0.2em;
     width: 100%;
     position: fixed;
     left: 0;
@@ -46,20 +46,22 @@ body {
     &.branded {
         @include display-flex;
         @include flex-direction(row);
+
         max-width: 900px;
 
         .signup__markdown {
             @include flex(1.3 0 0);
+
             padding-right: 80px;
 
             ul + p,
             ol + p {
-                margin-top: .6em;
+                margin-top: 0.6em;
             }
 
             p + ul,
             p + ol {
-                margin-top: .6em;
+                margin-top: 0.6em;
             }
 
             img {
@@ -79,7 +81,6 @@ body {
         .signup__content {
             @include flex(1 0 0);
         }
-
     }
 
     &.padding--less {
@@ -92,8 +93,8 @@ body {
     }
 
     .terms-of-service__footer {
-        padding-top: .5em;
-        padding-bottom: .5em;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
 
         .terms-of-service__button-group {
             padding-top: 1em;
@@ -110,7 +111,7 @@ body {
     }
 
     .form-control:focus {
-        @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6));
+        @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6));
     }
 
     .terms-of-service-error__height--fill {
@@ -121,12 +122,6 @@ body {
     .terms-of-service__height--fill {
         min-height: calc(100vh - 69px - 3em);
         height: calc(100vh - 69px - 3em);
-    }
-
-    .medium-center {
-        width: 70%;
-        margin-left: auto;
-        margin-right: auto;
     }
 
     h1,
@@ -146,8 +141,8 @@ body {
     h2 {
         font-size: em(30px);
         font-weight: 600;
-        letter-spacing: -.5px;
-        margin-bottom: .8em;
+        letter-spacing: -0.5px;
+        margin-bottom: 0.8em;
     }
 
     h3 {
@@ -171,9 +166,14 @@ body {
     }
 
     p {
-        color: #555555;
+        color: #555;
         line-height: 1.5;
         margin-bottom: 1em;
+
+        .black,
+        &.black {
+            color: #000;
+        }
     }
 
     .input-group {
@@ -207,14 +207,15 @@ body {
 
     .block--gray {
         @include border-radius(3px);
+
         background: #f2f2f2;
         display: inline-block;
         font-weight: 600;
-        padding: .85em 1.2em;
+        padding: 0.85em 1.2em;
     }
 
     form {
-        margin-bottom: .8em;
+        margin-bottom: 0.8em;
     }
 
     .signup-team-confirm__container {
@@ -235,13 +236,13 @@ body {
     .signup-team__name {
         font-size: 2.2em;
         font-weight: 600;
-        margin: .5em 0 0;
+        margin: 0.5em 0 0;
     }
 
     .signup-team__subdomain {
         font-size: 1.5em;
         font-weight: 300;
-        margin: .2em 0 1.2em;
+        margin: 0.2em 0 1.2em;
         text-transform: uppercase;
     }
 
@@ -250,14 +251,14 @@ body {
     }
 
     .or__container {
-        background: #dddddd;
+        background: #ddd;
         height: 1px;
         margin: 2em 0;
         margin: 2.5em 0 2.5em -1rem;
         text-align: left;
 
         span {
-            background: #ffffff;
+            background: #fff;
             display: inline-block;
             font-size: 1.14286em;
             font-weight: 600;
@@ -297,10 +298,20 @@ body {
                 position: relative;
                 top: 1px;
             }
+
+            position: relative;
+
+            &.fa-check,
+            &.fa-refresh {
+                font-size: 0.9em;
+                left: -2px;
+                margin-right: 0.5em;
+            }
         }
 
         .icon {
             @include background-size(100% 100%);
+
             display: inline-block;
             height: 18px;
             margin-right: 12px;
@@ -311,8 +322,8 @@ body {
 
         &.btn-custom-login {
             @include border-radius(2px);
+
             color: $white;
-            display: block;
             height: 40px;
             margin: 1em 0;
             min-width: 200px;
@@ -333,10 +344,10 @@ body {
             }
 
             &.gitlab {
-                background: #554488;
+                background: #548;
 
                 &:hover {
-                    background: darken(#554488, 10%);
+                    background: darken(#548, 10%);
                 }
 
                 .icon {
@@ -375,7 +386,8 @@ body {
                 &:hover {
                     background: darken(#0079d6, 10%);
                 }
-                > span {    
+
+                > span {
                     > span {
                         line-height: normal;
                         width: 150px;
@@ -383,14 +395,14 @@ body {
                         overflow: hidden;
                         text-overflow: ellipsis;
                     }
-                }    
+                }
             }
 
             &.ldap {
-                background: #3AA1CF;
+                background: #3aa1cf;
 
                 &:hover {
-                    background: darken(#3AA1CF, 10%);
+                    background: darken(#3aa1cf, 10%);
                 }
             }
 
@@ -422,18 +434,7 @@ body {
         }
 
         &.btn-default {
-            color: #444444;
-        }
-
-        .fa {
-            position: relative;
-
-            &.fa-check,
-            &.fa-refresh {
-                font-size: .9em;
-                left: -2px;
-                margin-right: .5em;
-            }
+            color: #444;
         }
     }
 
@@ -444,17 +445,19 @@ body {
 
         .control-label {
             @include border-radius(3px);
+
             background: #f2f2f2;
-            color: #999999;
+            color: #999;
             font-size: 14px;
             font-weight: normal;
             margin: 1em 0 0;
-            padding: .7em 1em;
+            padding: 0.7em 1em;
             width: 100%;
 
-            &:before {
+            &::before {
                 @extend %font-awesome;
-                color: #aaaaaa;
+
+                color: #aaa;
                 content: '\f071';
                 margin-right: 4px;
             }
@@ -463,7 +466,8 @@ body {
 
     .reset-form {
         @include border-radius(3px);
-        font-size: .95em;
+
+        font-size: 0.95em;
         position: relative;
 
         p {
@@ -488,15 +492,8 @@ body {
         }
     }
 
-    p {
-        .black,
-        &.black {
-            color: #000000;
-        }
-    }
-
     .color--light {
-        color: #777777;
+        color: #777;
     }
 }
 
@@ -506,13 +503,15 @@ body {
 
 .signup-team-all {
     @include border-radius(2px);
-    border: 1px solid #dddddd;
+
+    border: 1px solid #ddd;
     margin: 0 0 20px;
     border-radius: 4px;
     max-height: calc(75vh - (108px + 89px));
 
     .signup-team-dir {
         @include legacy-pie-clearfix;
+
         display: flex;
         align-items: center;
         background: #fafafa;
@@ -523,7 +522,8 @@ body {
         max-width: 100%;
 
         &:hover {
-            @include single-transition(background-color, .15s, ease);
+            @include single-transition(background-color, 0.15s, ease);
+
             background: $white;
         }
 
@@ -539,7 +539,7 @@ body {
             cursor: pointer;
             float: left;
             margin: 0 -8px 0 15px;
-            opacity: .45;
+            opacity: 0.45;
             height: 20px;
 
             svg {
@@ -590,7 +590,6 @@ body {
         text-overflow: ellipsis;
         white-space: nowrap;
         width: calc(100% - 50px);
-
     }
 
     .signup-team__icon {
@@ -599,7 +598,7 @@ body {
         position: relative;
 
         &.fa-spin {
-            font-size: .9em;
+            font-size: 0.9em;
             right: -2px;
             top: 16px;
         }
@@ -607,8 +606,8 @@ body {
         &.fa-info-circle {
             float: left;
             line-height: 1.5em;
-            margin-right: .3em;
-            padding-left: .5em;
+            margin-right: 0.3em;
+            padding-left: 0.5em;
             font-size: 1.5em;
             top: 11px;
         }

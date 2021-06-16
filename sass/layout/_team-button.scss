@@ -1,7 +1,8 @@
 .team-btn {
     @include border-radius(8px);
+
     font-weight: bold;
-    letter-spacing: -.5px;
+    letter-spacing: -0.5px;
     position: relative;
     text-align: center;
     text-transform: capitalize;
@@ -25,7 +26,7 @@
             &:hover {
                 border-color: transparent;
                 box-shadow: none;
-                background-color: rgba(var(--sidebar-text-rgb), 0.08)
+                background-color: rgba(var(--sidebar-text-rgb), 0.08);
             }
 
             &:active {
@@ -37,7 +38,7 @@
                 }
             }
 
-            &:before {
+            &::before {
                 display: none;
             }
 

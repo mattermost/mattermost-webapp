@@ -8,7 +8,8 @@
     z-index: 1030 !important;
     overflow: auto;
 
-    .close-x, .back {
+    .close-x,
+    .back {
         border: 0;
         background: none;
         padding: 0;
@@ -47,16 +48,21 @@
     }
 
     // Animation
-    &-enter, &-appear {
+    &-enter,
+    &-appear {
         opacity: 0;
     }
-    &-enter-active, &-appear-active {
+
+    &-enter-active,
+    &-appear-active {
         opacity: 1;
         transition: opacity 100ms;
     }
+
     &-exit {
         opacity: 1;
     }
+
     &-exit-active {
         opacity: 0;
         transition: opacity 100ms;
@@ -74,7 +80,8 @@
         right: 16px;
     }
 
-    .close-x, .back {
+    .close-x,
+    .back {
         position: absolute;
     }
 }

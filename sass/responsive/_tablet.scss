@@ -125,7 +125,8 @@
     }
 
     .sidebar--right {
-        .post-collapse__show-more, .post-attachment-collapse__show-more {
+        .post-collapse__show-more,
+        .post-attachment-collapse__show-more {
             padding-right: 0;
         }
     }
@@ -219,18 +220,67 @@
         &.post--compact {
             .post-message--overflow {
                 @include clearfix;
+
                 margin-top: 22px; //Any value change to this needs to reflect for MARGIN_CHANGE_FOR_COMPACT_POST variable in show_more component
             }
+
             .attachment__body .post-message--overflow {
-                margin-top: 0px; //The above margin was added for wrapping texg in compact view but it isnt needed for attachment text
+                margin-top: 0; //The above margin was added for wrapping texg in compact view but it isnt needed for attachment text
             }
 
             &.same--root {
                 &.same--user {
                     .post-message {
                         &.post-message--overflow {
-                            margin-top: 0
+                            margin-top: 0;
                         }
+                    }
+
+                    padding-left: 77px;
+                    padding-top: 0;
+
+                    .card-icon__container {
+                        left: -16px;
+                        position: absolute;
+                        top: 4px;
+                    }
+
+                    .post__header {
+                        .post-menu {
+                            top: -34px;
+                        }
+                    }
+
+                    .post__img {
+                        img {
+                            display: none;
+                        }
+                    }
+
+                    &.post--root {
+                        .post__img {
+                            img {
+                                display: block;
+                            }
+                        }
+
+                        .post__time {
+                            @include opacity(0.6);
+                        }
+                    }
+                }
+
+                &.post--comment {
+                    &.same--user {
+                        .post__img {
+                            img {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    .post__header {
+                        margin-left: 12px;
                     }
                 }
             }
@@ -239,7 +289,7 @@
                 &.other--root {
                     .post-message {
                         &.post-message--overflow {
-                            margin-top: 0
+                            margin-top: 0;
                         }
                     }
                 }
@@ -248,7 +298,7 @@
             &.post--thread {
                 .post-message {
                     &.post-message--overflow {
-                        margin-top: 0
+                        margin-top: 0;
                     }
                 }
             }
@@ -263,7 +313,7 @@
                 }
 
                 .post__time {
-                    font-size: .85em;
+                    font-size: 0.85em;
                 }
 
                 .star-icon__container {
@@ -276,7 +326,7 @@
             }
 
             &:not(.post--thread) {
-                padding: 0 .5em 0 77px; // .post-row__padding.bottom needs to be changed accordingly if this is changed
+                padding: 0 0.5em 0 77px; // .post-row__padding.bottom needs to be changed accordingly if this is changed
 
                 .post__link {
                     margin: 3px 0 7px;
@@ -315,7 +365,7 @@
                 }
 
                 &.other--root {
-                    .post__link+.post__body {
+                    .post__link + .post__body {
                         clear: both;
                     }
 
@@ -346,57 +396,6 @@
                 position: relative;
                 top: 2px;
             }
-
-            &.same--root {
-                &.same--user {
-                    padding-left: 77px;
-                    padding-top: 0;
-
-                    .card-icon__container {
-                        left: -16px;
-                        position: absolute;
-                        top: 4px;
-                    }
-
-                    .post__header {
-                        .post-menu {
-                            top: -34px;
-                        }
-                    }
-
-                    .post__img {
-                        img {
-                            display: none;
-                        }
-                    }
-
-                    &.post--root {
-                        .post__img {
-                            img {
-                                display: block;
-                            }
-                        }
-
-                        .post__time {
-                            @include opacity(.6);
-                        }
-                    }
-                }
-
-                &.post--comment {
-                    &.same--user {
-                        .post__img {
-                            img {
-                                display: none;
-                            }
-                        }
-                    }
-
-                    .post__header {
-                        margin-left: 12px;
-                    }
-                }
-            }
         }
 
         &.same--root {
@@ -411,7 +410,6 @@
                     .post-menu {
                         top: -32px;
                     }
-
                 }
 
                 &:not(.post--compact) {
@@ -458,10 +456,11 @@
     }
 
     .sidebar--right {
-        @include single-transition(all, .35s, ease);
+        @include single-transition(all, 0.35s, ease);
         @include translateX(100%);
+
         z-index: 13;
-        top: 0px;
+        top: 0;
 
         .announcement-bar--fixed & {
             top: 32px;
@@ -479,7 +478,7 @@
             transform: translateX(0) !important;
 
             .browser--ie & {
-                -webkit-transform: none   !important;
+                -webkit-transform: none !important;
                 -moz-transform: none !important;
                 -ms-transform: none !important;
                 -o-transform: none !important;
@@ -491,9 +490,9 @@
                 z-index: 5;
                 display: block !important;
 
-                 .search__form {
-                     width: 100% !important;
-                 }
+                .search__form {
+                    width: 100% !important;
+                }
             }
         }
     }
@@ -504,6 +503,7 @@
                 > #post-list {
                     margin-right: 0 !important;
                 }
+
                 > .post-create__container {
                     width: 100% !important;
                 }
@@ -514,10 +514,12 @@
             .search-bar__container {
                 display: none;
             }
+
             .app__content {
                 > #post-list {
                     margin-right: 0 !important;
                 }
+
                 > .post-create__container {
                     width: 100% !important;
                 }

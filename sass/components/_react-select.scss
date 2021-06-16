@@ -39,18 +39,18 @@
             fill: rgba(var(--sys-center-channel-color-rgb), 0.64);
 
             &:hover {
-                fill: rgba(var(--sys-center-channel-color-rgb), 0.80);
+                fill: rgba(var(--sys-center-channel-color-rgb), 0.8);
             }
 
             .app__body & {
                 fill: rgba(var(--center-channel-color-rgb), 0.64);
 
                 &:hover {
-                    fill: rgba(var(--center-channel-color-rgb), 0.80);
+                    fill: rgba(var(--center-channel-color-rgb), 0.8);
                 }
             }
 
-            opacity: .6;
+            opacity: 0.6;
         }
     }
 
@@ -71,7 +71,7 @@
 
         &:hover {
             .react-select__indicator {
-                opacity: .8;
+                opacity: 0.8;
             }
         }
 
@@ -99,18 +99,19 @@
     }
 
     .react-select__indicator-separator {
-        background-color: rgba(var(--sys-center-channel-color-rgb), 0.40);
+        background-color: rgba(var(--sys-center-channel-color-rgb), 0.4);
 
         .app__body & {
-            background-color: rgba(var(--center-channel-color-rgb), 0.40);
+            background-color: rgba(var(--center-channel-color-rgb), 0.4);
         }
     }
 
     .react-select__indicator {
-        @include single-transition(opacity, .2s, ease);
+        @include single-transition(opacity, 0.2s, ease);
+
         color: inherit;
         padding: 7px 8px;
-        opacity: .4;
+        opacity: 0.4;
     }
 
     .react-select__single-value {
@@ -120,7 +121,7 @@
     // additionally adding `&__***` definitions,
     // since using portal on the react-select component
     // renders it as the last child of the body.
-    &__input ,
+    &__input,
     .react-select__input {
         color: var(--sys-center-channel-color);
 

@@ -141,8 +141,10 @@
         position: relative;
         width: 100%;
         padding-bottom: 10px;
+
         li {
-            >h4, >.nav-more {
+            >h4,
+            >.nav-more {
                 color: rgba(var(--sidebar-text-rgb), 0.6);
             }
         }
@@ -212,6 +214,7 @@
 
             .sidebar-item {
                 @include single-transition(none);
+
                 color: rgba(var(--sidebar-text-rgb), 0.6);
                 align-items: center;
                 border-radius: 0;
@@ -240,8 +243,9 @@
                     &.icon__draft,
                     &.icon__lock,
                     &.icon__bot {
-                        @include opacity(.5);
+                        @include opacity(0.5);
                     }
+
                     &.icon__bot {
                         // Restrict icon size for user customized bot icons
                         svg {
@@ -249,6 +253,7 @@
                             max-height: 15px;
                         }
                     }
+
                     &.icon__shared {
                         font-size: 17px;
                     }
@@ -257,13 +262,15 @@
                 &.has-close {
                     &:hover {
                         .btn-close {
-                            @include opacity(.8);
+                            @include opacity(0.8);
+
                             visibility: visible;
                         }
                     }
 
                     .btn-close {
                         @include opacity(0);
+
                         visibility: hidden;
                         font-family: 'Open Sans', sans-serif;
                         font-size: 21px;
@@ -289,7 +296,6 @@
                 &.muted {
                     opacity: 0.5;
                 }
-
             }
 
             &.active {
@@ -299,8 +305,9 @@
                     opacity: 1;
                 }
 
-                button,a {
-                    &:before {
+                button,
+                a {
+                    &::before {
                         background: var(--sidebar-text-active-border);
                         content: '';
                         height: 100%;
@@ -317,14 +324,18 @@
                     &.icon__draft,
                     &.icon__lock,
                     &.icon__bot {
-                        @include opacity(.7);
+                        @include opacity(0.7);
                     }
                 }
 
-                button,a,
-                button:hover,a:hover,
-                button:focus,a:focus {
-                    @include alpha-property(background-color, $black, .1);
+                button,
+                a,
+                button:hover,
+                a:hover,
+                button:focus,
+                a:focus {
+                    @include alpha-property(background-color, $black, 0.1);
+
                     border-radius: 0;
                     font-weight: 400;
 
@@ -351,7 +362,8 @@
         height: 28px;
         color: rgba(var(--sidebar-text-rgb), 0.8);
 
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             color: var(--sidebar-text);
         }
 
@@ -389,7 +401,7 @@
 /* context menu shown when right-clicking on a channel in the LHS when using the desktop app */
 .react-contextmenu--visible {
     background: #f0f0f0;
-    border: 1px solid #C6C6C6;
+    border: 1px solid #c6c6c6;
     border-radius: 5px;
     color: black;
     cursor: pointer;
@@ -402,7 +414,7 @@
     padding: 0 22px;
 
     &:hover {
-        background: #489DFE;
+        background: #489dfe;
         color: $white;
     }
 

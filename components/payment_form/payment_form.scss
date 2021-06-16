@@ -11,9 +11,10 @@
 
     .form-row-third-1 {
         .DropdownInput {
-            margin-top: 0px;
+            margin-top: 0;
             z-index: 99999;
         }
+
         max-width: 288px;
         width: 66%;
         margin-right: 16px;
@@ -24,7 +25,7 @@
         width: 34%;
     }
 
-    .section-title{
+    .section-title {
         font-weight: 600;
         font-size: 16px;
         color: var(--center-channel-text);
@@ -36,19 +37,18 @@
         margin-bottom: 24px;
         height: 36px;
         position: relative;
-
         z-index: 999999;
 
         .DropDown__control {
-            min-height: 0px;
+            min-height: 0;
         }
     }
 
     .full-width {
-        width: 100%
+        width: 100%;
     }
 
-    Input{
+    input {
         font-size: 14px;
     }
 
@@ -70,9 +70,8 @@
         &.Input_fieldset:focus-within {
             box-shadow: inset 0 0 0 2px var(--button-bg);
             color: var(--button-bg);
-            padding-top: 2px
+            padding-top: 2px;
         }
-
 
         &.Input_fieldset___error {
             color: var(--error-text);
@@ -88,18 +87,18 @@
 
         .Input {
             height: 32px;
-            &::placeholder{
+
+            &::placeholder {
                 color: var(--center-channel-color);
                 opacity: 0.64;
             }
         }
     }
 
-
     .PaymentForm-saved {
         width: 442px;
         height: fit-content;
-        background: #FFFFFF;
+        background: #fff;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
         box-sizing: border-box;
         border-radius: 4px;
@@ -114,7 +113,7 @@
         line-height: 18px;
         letter-spacing: 1.5px;
         text-transform: uppercase;
-        color: #22406D;
+        color: #22406d;
         opacity: 0.4;
         margin-bottom: 16px;
     }
@@ -123,7 +122,7 @@
         font-family: Source Sans Pro;
         font-size: 16px;
         line-height: 24px;
-        color: #22406D;
+        color: #22406d;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         padding-bottom: 16px;
     }
@@ -132,7 +131,7 @@
         font-family: Source Sans Pro;
         font-size: 16px;
         line-height: 24px;
-        color: #22406D;
+        color: #22406d;
         margin-top: 16px;
         margin-bottom: 16px;
     }
@@ -142,7 +141,7 @@
         font-weight: 600;
         font-size: 16px;
         line-height: 20px;
-        color: #0058CC;
+        color: #0058cc;
     }
 }
 

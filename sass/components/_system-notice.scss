@@ -1,10 +1,11 @@
 @charset 'UTF-8';
 
 .system-notice {
-    @include box-shadow(0 20px 30px alpha-color($black, .07), 0 14px 20px alpha-color($black, .07));
+    @include box-shadow(0 20px 30px alpha-color($black, 0.07), 0 14px 20px alpha-color($black, 0.07));
     @include border-radius(4px);
+
     background-color: $white;
-    border: 1px solid alpha-color($black, .15);
+    border: 1px solid alpha-color($black, 0.15);
     bottom: 12px;
     padding: 18px 20px 0;
     position: absolute;
@@ -30,7 +31,8 @@
 
 .system-notice__title {
     @include nowrap;
-    @include opacity(.7);
+    @include opacity(0.7);
+
     flex: 10 1 auto;
     line-height: 16px;
     overflow: hidden;
@@ -39,7 +41,8 @@
 }
 
 .system-notice__info {
-    @include opacity(.5);
+    @include opacity(0.5);
+
     font-size: 12px;
     margin-bottom: 12px;
 
@@ -49,13 +52,14 @@
 }
 
 .system-notice__body {
-    @include opacity(.7);
+    @include opacity(0.7);
+
     line-height: 16px;
     padding: 18px 0 16px;
 }
 
 .system-notice__footer {
-    border-top: 1px solid alpha-color($black, .2);
+    border-top: 1px solid alpha-color($black, 0.2);
     display: flex;
     margin: 0 -20px;
 
@@ -75,7 +79,8 @@
 
         &:last-child {
             @include border-radius(0 0 4px 0);
-            border-left: 1px solid alpha-color($black, .2);
+
+            border-left: 1px solid alpha-color($black, 0.2);
         }
     }
 }

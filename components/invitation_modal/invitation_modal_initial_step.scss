@@ -6,6 +6,7 @@
         left: 30px;
         top: 30px;
     }
+
     .invitation-modal-option {
         display: flex;
         max-width: 720px;
@@ -16,17 +17,20 @@
         align-items: center;
         cursor: pointer;
         font-size: 16px;
+
         &:last-child {
             border-bottom: 1px solid;
             border-bottom-color: var(--center-channel-color-20);
             margin-bottom: 28px;
         }
+
         h2 {
-            margin-top: 0px;
+            margin-top: 0;
             margin-bottom: 16px;
             font-size: 24px;
             line-height: 1.38;
         }
+
         .arrow {
             svg {
                 height: 48px;

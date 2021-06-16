@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .tip-backdrop {
-    background: alpha-color($black, .5);
+    background: alpha-color($black, 0.5);
     height: 100%;
     left: 0;
     position: absolute;
@@ -12,6 +12,7 @@
 
 .tip-overlay {
     @include border-radius(3px);
+
     background-color: $white;
     max-width: 90%;
     padding: 20px;
@@ -103,7 +104,8 @@
 
     .btn {
         @include border-radius(3px);
-        background: alpha-color($black, .3);
+
+        background: alpha-color($black, 0.3);
         border: none;
         color: $white;
         margin: 10px 0;
@@ -111,7 +113,7 @@
         &:hover,
         &:active,
         &:focus {
-            background: alpha-color($black, .4);
+            background: alpha-color($black, 0.4);
             border: none;
             color: $white;
         }
@@ -121,7 +123,7 @@
         font-size: 12px;
 
         span {
-            @include opacity(.9);
+            @include opacity(0.9);
         }
     }
 
@@ -154,12 +156,13 @@
         top: 21px;
 
         .tip-button {
-            @include opacity(.8);
+            @include opacity(0.8);
         }
     }
 
     &.tip-overlay--sidebar {
-        @include opacity(.8);
+        @include opacity(0.8);
+
         left: 0;
         top: -9px;
     }
@@ -174,7 +177,6 @@
     flex-wrap: wrap;
 
     .tutorial__content {
-
         .tutorial__steps {
             display: inline-block;
             margin-bottom: 50px;
@@ -217,7 +219,8 @@
 
     .circle {
         @include border-radius(9px);
-        @include opacity(.2);
+        @include opacity(0.2);
+
         background: $black;
         display: inline-block;
         height: 9px;
@@ -226,6 +229,7 @@
 
         &.active {
             @include opacity(1);
+
             background: $primary-color;
         }
     }

@@ -3,20 +3,25 @@
 .InvitationModalMembersStep {
     max-width: 720px;
     width: 100%;
+
     h2 {
         margin-bottom: 12px;
-        margin-top: 0px;
+        margin-top: 0;
         font-size: 20px;
+
         span {
             font-weight: 400;
         }
     }
+
     .share-link {
         max-width: 720px;
         width: 100%;
+
         .share-link-input-block {
             display: flex;
         }
+
         .share-link-input {
             flex-grow: 1;
             height: 48px;
@@ -30,6 +35,7 @@
             font-size: 16px;
             color: var(--center-channel-color-56);
         }
+
         .share-link-input-button {
             display: flex;
             align-items: center;
@@ -44,30 +50,37 @@
             background: var(--center-channel-bg);
             font-size: 16px;
             font-weight: 600;
+
             &:hover {
                 background: var(--button-bg-08);
             }
+
             &:active {
                 background: var(--button-bg-08);
             }
+
             span {
                 display: inline-block;
                 margin-right: 9px;
                 height: 24px;
             }
+
             svg {
                 fill: var(--button-bg);
             }
         }
+
         .help-text {
             margin-top: 8px;
             color: var(--center-channel-color-64);
         }
     }
+
     .search-and-add {
         max-width: 720px;
         width: 100%;
         margin-bottom: 28px;
+
         .search-and-add-input {
             height: 48px;
             background: $white;
@@ -76,11 +89,13 @@
             padding: 12px 14px;
             width: 100%;
         }
+
         .help-text {
             margin-top: 8px;
             color: var(--center-channel-color-64);
         }
     }
+
     .invitation-modal-or {
         position: relative;
         max-width: 720px;
@@ -88,12 +103,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
         hr {
             max-width: 720px;
             width: calc(100% - 40px);
             margin: 45px 0;
             border-color: var(--center-channel-color-08);
         }
+
         div {
             text-align: center;
             display: inline-block;
@@ -105,13 +122,12 @@
             font-size: 20px;
         }
     }
+
     .invite-members {
         text-align: right;
         margin-bottom: 28px;
     }
-}
 
-.InvitationModalMembersStep {
     .btn {
         line-height: 16px;
         height: 48px;
@@ -122,14 +138,19 @@
         border-radius: 4px;
         background: var(--button-bg);
         color: var(--button-color);
-        &:focus, &:active, &:focus:active {
+
+        &:focus,
+        &:active,
+        &:focus:active {
             outline: none;
             border-color: transparent;
         }
+
         &.btn-inactive {
             background: var(--center-channel-color-08);
             color: var(--center-channel-color-56);
         }
+
         &.btn-secondary {
             background: var(--center-channel-bg);
             border: 1px solid var(--button-bg);

@@ -13,11 +13,12 @@
 
 .InviteMembersStep__shareInviteLink {
     margin-top: 32px;
-    
+
     .InviteMembersStep__shareLinkBlock {
         display: flex;
         margin-top: 8px;
     }
+
     .InviteMembersStep__shareLinkInput {
         flex-grow: 1;
         border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -30,6 +31,7 @@
         line-height: 16px;
         color: rgba(var(--center-channel-color-rgb), 0.64);
     }
+
     .InviteMembersStep__shareLinkInputButton {
         display: flex;
         align-items: center;
@@ -50,7 +52,7 @@
         i {
             font-size: 14px;
 
-            &::before{
+            &::before {
                 margin: 0;
             }
         }
@@ -80,7 +82,7 @@
     i {
         font-size: 14px;
 
-        &::before{
+        &::before {
             margin: 0;
         }
     }
@@ -132,13 +134,14 @@
         }
 
         button.upgradeLink {
-            background: none!important;
+            background: none !important;
             border: none;
-            padding: 0!important;
+            padding: 0 !important;
             margin-left: 5px;
             font-weight: 600;
+
             span {
-               color: var(--sys-button-bg);
+                color: var(--sys-button-bg);
             }
         }
     }

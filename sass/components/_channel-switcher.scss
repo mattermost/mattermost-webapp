@@ -171,7 +171,6 @@
             height: 40px;
             padding: 0 2.4rem;
 
-
             .more-modal__name {
                 font-weight: 400;
             }
@@ -188,7 +187,7 @@
         padding: 0;
 
         .icon-magnify {
-            opacity: .48;
+            opacity: 0.48;
             width: 2rem;
             height: 2rem;
             display: flex;
@@ -262,7 +261,7 @@
             &:first-child {
                 margin: 0;
 
-                &:before {
+                &::before {
                     display: none;
                 }
             }
@@ -284,6 +283,6 @@
     h1 {
         font-weight: 600;
         font-size: 2rem;
-        margin: 0 0 .8rem;
+        margin: 0 0 0.8rem;
     }
 }

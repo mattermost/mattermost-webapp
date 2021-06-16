@@ -16,6 +16,7 @@
 
 .file-preview {
     @include clearfix;
+
     flex-shrink: 0;
     flex-wrap: nowrap;
     border: 1px solid $light-gray;
@@ -75,7 +76,6 @@
     width: 300px;
 }
 
-
 .file-icon {
     height: 100%;
     width: 100%;
@@ -96,7 +96,8 @@
         @include file-icon('../images/icons/ppt.svg');
     }
 
-    &.generic, &.other {
+    &.generic,
+    &.other {
         @include file-icon('../images/icons/generic.svg');
     }
 
@@ -170,6 +171,7 @@
 
         .image-container {
             @include legacy-pie-clearfix;
+
             position: relative;
             max-width: 1024px;
             width: 100%;
@@ -189,13 +191,14 @@
 
             .fa {
                 font-size: 20px;
-                opacity: .6;
+                opacity: 0.6;
             }
         }
 
         .image-loaded {
-            @include single-transition(all, .1s, linear);
+            @include single-transition(all, 0.1s, linear);
             @include border-radius(4px);
+
             bottom: 0;
             min-height: 40px;
             min-width: 40px;
@@ -208,7 +211,8 @@
 
             img {
                 @include border-radius(4px);
-                @include single-transition(all, .1s, linear);
+                @include single-transition(all, 0.1s, linear);
+
                 cursor: pointer;
                 align-self: center;
                 max-height: 350px;
@@ -289,8 +293,9 @@
 }
 
 .post-image__column {
-    @include single-transition(box-shadow, .15s, ease);
+    @include single-transition(box-shadow, 0.15s, ease);
     @include border-radius(4px);
+
     cursor: pointer;
     overflow: hidden;
     align-items: center;
@@ -342,6 +347,7 @@
 
 .post-image {
     @include background-size(cover);
+
     background-color: $white;
     background-repeat: no-repeat;
     overflow: hidden;
@@ -385,6 +391,7 @@
 
 .post-image__thumbnail {
     @include cursor(zoom-in);
+
     flex: none;
     height: 100%;
     width: 6.3rem;
@@ -432,18 +439,20 @@
             }
 
             .post-image__type {
-                @include opacity(.6);
+                @include opacity(0.6);
             }
 
             .post-image__size {
-                @include opacity(.6);
+                @include opacity(0.6);
+
                 margin-left: 4px;
             }
         }
     }
 
     .post-image__download {
-        @include single-transition(opacity, .15s, ease);
+        @include single-transition(opacity, 0.15s, ease);
+
         align-items: center;
         display: flex;
         height: 100%;
@@ -486,9 +495,10 @@
         }
 
         svg {
-            @include opacity(.7);
-            @include single-transition(all, .1s, linear);
+            @include opacity(0.7);
+            @include single-transition(all, 0.1s, linear);
             @include border-radius(50%);
+
             border: 1px solid;
             display: inline-block;
             height: 30px;
@@ -501,12 +511,12 @@
     }
 
     .post-image__progressBar {
-        margin-bottom: 0px;
+        margin-bottom: 0;
         height: 7px;
         position: absolute;
-        bottom: 0px;
+        bottom: 0;
         width: 100%;
-        border-radius: 0px;
+        border-radius: 0;
     }
 
     .progress-bar {
@@ -520,6 +530,7 @@
 
 .file-details__container {
     @include display-flex;
+
     background: $white;
 
     .file-details {
@@ -530,14 +541,14 @@
         width: 320px;
 
         .file-details__name {
-            color: alpha-color($black, .9);
+            color: alpha-color($black, 0.9);
             font-size: 16px;
             margin: 5px 0;
             word-break: break-word;
         }
 
         .file-details__info {
-            color: alpha-color($black, .5);
+            color: alpha-color($black, 0.5);
         }
     }
 
@@ -561,13 +572,14 @@
 }
 
 .file-playback__controls {
-    @include single-transition(opacity, .6s);
+    @include single-transition(opacity, 0.6s);
+
     bottom: 0;
     cursor: pointer;
     font-size: 22px;
     position: absolute;
     right: 5px;
-    transition: opacity .6s;
+    transition: opacity 0.6s;
     z-index: 2;
 
     &.stop {
@@ -589,7 +601,7 @@
     .fa {
         color: $white;
         font-size: 20px;
-        opacity: .6;
+        opacity: 0.6;
     }
 }
 
@@ -609,7 +621,9 @@
     margin: 5px 2px;
     background: var(--center-channel-bg);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.32);
+
     @include border-radius(4px);
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -619,8 +633,9 @@
     max-width: calc(100% - 5px);
 
     &:hover {
-        @include single-transition(all, .1s, linear);
+        @include single-transition(all, 0.1s, linear);
         @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
+
         z-index: 2;
     }
 }

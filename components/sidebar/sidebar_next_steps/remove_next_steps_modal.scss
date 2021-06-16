@@ -48,7 +48,7 @@
         padding: 13px 20px;
         line-height: 14px;
 
-        & +.GenericModal__button {
+        & + .GenericModal__button {
             margin-left: 10px;
         }
     }

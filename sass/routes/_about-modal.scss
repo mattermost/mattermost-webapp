@@ -2,7 +2,8 @@
 
 .modal {
     .modal-content {
-        @include box-shadow(0 0 10px rgba($black, .5));
+        @include box-shadow(0 0 10px rgba($black, 0.5));
+
         border-radius: $border-rad;
     }
 
@@ -22,7 +23,7 @@
                     font-weight: normal;
                     right: 15px;
                     font-size: 30px;
-                    opacity: .5;
+                    opacity: 0.5;
                 }
 
                 .more-modal__image {
@@ -41,7 +42,8 @@
                     top: 1px;
 
                     svg {
-                        @include opacity(.8);
+                        @include opacity(0.8);
+
                         height: 14px;
                         width: 14px;
                     }
@@ -80,7 +82,7 @@
                 padding: 8px 12px;
             }
 
-            &:after {
+            &::after {
                 top: 9px;
                 right: 12px;
                 font-size: 20px;
@@ -106,16 +108,18 @@
             @include clearfix;
             @include display-flex;
             @include flex-direction(row);
+
             padding: 1em 0 3em;
         }
 
         .about-modal__copyright {
-            @include opacity(.6);
-            margin-top: .5em;
+            @include opacity(0.6);
+
+            margin-top: 0.5em;
         }
 
         .about-modal__links {
-            margin-top: .5em;
+            margin-top: 0.5em;
         }
 
         .about-modal__footer {
@@ -128,13 +132,14 @@
         }
 
         .about-modal__subtitle {
-            @include opacity(.6);
+            @include opacity(0.6);
         }
 
         .about-modal__hash {
-            @include opacity(.4);
+            @include opacity(0.4);
+
             overflow: hidden;
-            font-size: .75em;
+            font-size: 0.75em;
             text-align: right;
 
             p {
@@ -146,8 +151,9 @@
         }
 
         .about-modal__notice {
-            @include opacity(.8);
-            font-size: .79em;
+            @include opacity(0.8);
+
+            font-size: 0.79em;
             text-align: right;
 
             p {
@@ -158,7 +164,8 @@
         }
 
         .about-modal__logo {
-            @include opacity(.9);
+            @include opacity(0.9);
+
             padding: 0 40px 0 20px;
 
             svg {

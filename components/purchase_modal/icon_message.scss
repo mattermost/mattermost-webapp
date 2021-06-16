@@ -6,17 +6,23 @@
     overflow: auto;
     margin: auto;
     position: absolute;
-    top: 0px; left: 0; bottom: 0; right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
     .content {
         &.success {
             padding-left: 7px;
             padding-bottom: 2px;
         }
+
         margin: 0;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         position: absolute;
+
         .IconMessage-h3 {
             font-size: 24px;
             line-height: 32px;
@@ -33,7 +39,7 @@
 
         .IconMessage-sub {
             &.error {
-                color: #DB3214;
+                color: #db3214;
             }
 
             margin-top: 16px;
@@ -42,9 +48,6 @@
             font-weight: normal;
             line-height: 20px;
             color: var(--center-channel-color);
-        }
-
-        .IconMessage-img {
         }
 
         .IconMessage-progress {
@@ -58,7 +61,7 @@
 
         .IconMessage-progress-fill {
             height: 100%;
-            background: #0058CC;
+            background: #0058cc;
             border-radius: 4px;
         }
 
@@ -85,10 +88,8 @@
             font-size: 14px;
             line-height: 14px;
             text-align: center;
-            color: #0058CC;
+            color: #0058cc;
             margin-left: -10px;
         }
-
     }
 }
-

@@ -2,6 +2,7 @@
 
 .sidebar--right {
     @include translateX(100%);
+
     height: 100%;
     padding: 0;
     position: fixed;
@@ -18,7 +19,8 @@
     }
 
     &.sidebar--right--expanded {
-        @include box-shadow(0px 8px 24px alpha-color($black, .24));
+        @include box-shadow(0 8px 24px alpha-color($black, 0.24));
+
         z-index: 13;
 
         .sidebar-right__body {
@@ -27,6 +29,10 @@
 
         &.move--left {
             transition: width 0.25s 0s ease-in, z-index 0.15s 0.1s step-start;
+        }
+
+        .sidebar--right__bg {
+            visibility: visible;
         }
     }
 
@@ -40,12 +46,6 @@
         // Since the element (sidebar--right__bg) is tied to the sidebar, we need to expand beyond it, we're given an arbitrary large width and left positioning so that it may take the width completely
         width: 1000%;
         left: -500%;
-    }
-
-    &.sidebar--right--expanded {
-        .sidebar--right__bg {
-            visibility: visible;
-        }
     }
 
     .sidebar-right__table {
@@ -74,11 +74,13 @@
     .sidebar--right__content {
         @include display-flex;
         @include flex-direction(column);
+
         height: 100%;
     }
 
     .sidebar--right__back {
-        @include single-transition(all, .2s, ease-in);
+        @include single-transition(all, 0.2s, ease-in);
+
         border-radius: 4px;
         text-decoration: none;
         color: rgba(var(--center-channel-color-rgb), 0.56);
@@ -89,7 +91,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        text-decoration: none;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -106,6 +107,7 @@
         @include display-flex;
         @include flex(1 1 auto);
         @include flex-direction(column);
+
         background: v(center-channel-bg);
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
         height: calc(100% - 56px);
@@ -113,7 +115,7 @@
         .loading-screen {
             position: relative;
             height: 40px;
-            padding: 0px;
+            padding: 0;
 
             .loading__content {
                 height: 40px;
@@ -132,7 +134,8 @@
     }
 
     .sidebar__overlay {
-        @include opacity(.1);
+        @include opacity(0.1);
+
         background-color: $yellow;
         height: 100%;
         pointer-events: none;
@@ -163,7 +166,9 @@
 
     .sidebar--right__title {
         height: 2.4rem;
+
         @include clearfix;
+
         display: flex;
         flex: 1 1 auto;
         font-size: 1.6rem;
@@ -207,6 +212,7 @@
 
     .sidebar--right__header {
         @include flex(0 0 56px);
+
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -229,7 +235,8 @@
     }
 
     .sidebar--right__loading {
-        @include opacity(.7);
+        @include opacity(0.7);
+
         text-align: center;
 
         .fa {
@@ -239,6 +246,7 @@
 
     .sidebar--right__subheader {
         @include single-transition(width, 0.25s, ease-in);
+
         font-size: 1em;
         width: 100%;
         margin: auto;
@@ -254,18 +262,20 @@
         }
 
         ul {
-            @include opacity(.7);
+            @include opacity(0.7);
+
             padding: 0 0 0 30px;
             margin: 0;
         }
 
         li {
-            font-size: .95em;
+            font-size: 0.95em;
             padding-bottom: 10px;
         }
 
         .usage__icon {
-            @include opacity(.9);
+            @include opacity(0.9);
+
             margin: 0 3px;
             position: relative;
             top: 3px;
@@ -290,8 +300,9 @@
 }
 
 .sidebar-collapse {
-    @include single-transition(all, .2s, linear);
+    @include single-transition(all, 0.2s, linear);
     @include translateX(0);
+
     cursor: pointer;
     height: 48px;
     text-align: center;

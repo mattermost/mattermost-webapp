@@ -5,7 +5,6 @@
         }
 
         .DataGrid_cell {
-
             .TeamList_nameColumn {
                 display: flex;
                 align-items: center;
@@ -27,7 +26,7 @@
                 }
 
                 .TeamIcon {
-                    background: rgba(0, 0, 0, .12);
+                    background: rgba(0, 0, 0, 0.12);
                     margin-right: 12px;
                 }
             }

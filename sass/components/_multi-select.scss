@@ -36,12 +36,13 @@
 
     > div:not(.multi-select__note),
     > span {
-        @include opacity(.6);
+        @include opacity(0.6);
     }
 }
 
 .multi-select__note {
     @include border-radius(3px);
+
     display: table;
     padding: 8px 13px;
     width: 100%;

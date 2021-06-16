@@ -7,7 +7,7 @@ button {
         width: 8px;
         height: 8px;
         margin: 0 0 0 40px;
-        background: #F74343;
+        background: #f74343;
     }
 
     &.style--none {
@@ -37,7 +37,7 @@ button {
 }
 
 .btn {
-    @include single-transition(all, .15s, ease);
+    @include single-transition(all, 0.15s, ease);
     @include border-radius($border-rad);
 
     &.btn-primary {
@@ -104,7 +104,7 @@ button {
 }
 
 %btn-transition {
-    @include single-transition(all, .15s, ease);
+    @include single-transition(all, 0.15s, ease);
 }
 
 .btn-icon {

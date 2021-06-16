@@ -18,7 +18,7 @@
         text-decoration: underline;
     }
 
-    a[href^=http]:after {
+    a[href^=http]::after {
         content: ' <' attr(href) '> ';
     }
 
@@ -82,7 +82,7 @@
         margin-right: 0;
     }
 
-    .post-image__columns > div:first-child:before {
+    .post-image__columns > div:first-child::before {
         content: 'Attachments:';
         display: block;
         font-weight: bold;
@@ -102,11 +102,11 @@
         border: 0 none;
         line-height: 98px;
 
-        .post-image__name:before {
+        .post-image__name::before {
             content: '[';
         }
 
-        .post-image__name:after {
+        .post-image__name::after {
             content: ': ' attr(href) ']';
         }
 

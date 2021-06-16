@@ -15,6 +15,7 @@
         height: 56px;
         padding: 12px 16px;
         border-bottom: var(--border);
+
         --button-separator-height: 24px;
 
         .left {
@@ -52,7 +53,7 @@
 
             .Button {
                 font-weight: 400;
-                color: rgba(var(--center-channel-color-rgb), .56);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
             }
         }
 
@@ -68,10 +69,9 @@
     .ThreadViewer {
         grid-area: pane;
         overflow: hidden;
+
         .post-right__scroll {
             padding-top: 0; // remove excess padding in relative time (no zero-height date separators)
         }
     }
 }
-
-

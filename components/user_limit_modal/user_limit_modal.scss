@@ -1,5 +1,5 @@
 .UserLimitModal {
-     .modal-dialog {
+    .modal-dialog {
         position: absolute;
         width: 512px;
         margin: auto;
@@ -9,7 +9,7 @@
         border: 1 px solid rgba(var(--center-channel-color-rgb), 0.08);
         border-radius: 8px;
         height: 404px;
-     }
+    }
 
     .modal-content {
         border-radius: 8px;
@@ -25,14 +25,16 @@
                 color: var(--center-channel-color-72);
                 opacity: 1;
             }
+
             color: rgba(var(--center-channel-color-rgb), 0.56);
             width: 4rem;
             height: 4rem;
             right: 4px;
             top: 6px;
             border-radius: 4px;
-            font-family: 'Open Sans',
-            sans-serif;
+            font-family:
+                'Open Sans',
+                sans-serif;
             font-size: 32px;
             font-weight: 400;
         }
@@ -42,7 +44,6 @@
         padding: 0;
         height: 48px;
         min-height: 48px;
-        border-radius: 8px;
         color: var(--center-channel-color);
         background: var(--center-channel-bg) !important;
     }
@@ -51,10 +52,12 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
+
         .upgrade-image {
             display: block;
             margin: auto;
         }
+
         .title {
             font-family: Open Sans;
             font-style: normal;
@@ -64,12 +67,14 @@
             text-align: center;
             margin-top: 16px;
         }
+
         .description {
             font-family: Open Sans;
             font-style: normal;
             font-weight: normal;
             font-size: 12px;
             line-height: 16px;
+
             /* or 133% */
             text-align: center;
             margin-top: 8px;
@@ -83,11 +88,15 @@
             text-align: center;
 
             .dismiss-link {
-                &:hover, &:active, &:focus, &:active:focus {
+                &:hover,
+                &:active,
+                &:focus,
+                &:active:focus {
                     background: var(--button-bg-08);
                     border-radius: 4px;
                     border: none;
                 }
+
                 height: 40px;
                 border: none;
                 font-weight: 600;
@@ -100,10 +109,15 @@
             }
 
             .confirm-button {
-                &:hover, &:active, &:focus, &:active:focus {
-                    background: linear-gradient(0deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.16)),
-                    var(--button-bg);
+                &:hover,
+                &:active,
+                &:focus,
+                &:active:focus {
+                    background:
+                        linear-gradient(0deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.16)),
+                        var(--button-bg);
                 }
+
                 height: 40px;
                 padding: 12px 20px;
                 background: var(--button-bg);
@@ -117,6 +131,7 @@
                 border: none;
             }
         }
+
         padding: 0;
         width: 100%;
     }

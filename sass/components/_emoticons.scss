@@ -3,7 +3,7 @@
 .reacticon {
     display: inline-block;
     fill: inherit;
-    opacity: .7;
+    opacity: 0.7;
     position: relative;
     top: 2px;
     vertical-align: middle;
@@ -37,7 +37,7 @@
     &:not(.emoticon--unicode) {
         color: transparent;
 
-        &::selection{
+        &::selection {
             background-color: transparent;
             color: transparent;
         }
@@ -46,6 +46,7 @@
 
 .emoticon-suggestion {
     @include clearfix;
+
     cursor: pointer;
     font-size: 13px;
     height: 30px;
@@ -73,6 +74,7 @@
     @include border-radius($border-rad);
     @include clearfix;
     @include user-select(none);
+
     border-radius: 3px;
     border: 1px solid;
     display: flex;
@@ -82,7 +84,7 @@
     width: 315px;
     z-index: 1100;
 
-    .emoji-picker__header{
+    .emoji-picker__header {
         background: var(--sidebar-header-bg);
     }
 
@@ -105,7 +107,7 @@
     }
 
     .nav-tabs {
-        margin-bottom: 0px;
+        margin-bottom: 0;
         flex: 0 0 34px;
         display: flex;
         justify-content: flex-end;
@@ -211,7 +213,7 @@
 
 .modal-body .emoji-picker .emoji-picker__header {
     .emoji-picker__header-title {
-        margin-top: 0px;
+        margin-top: 0;
     }
 }
 
@@ -230,14 +232,14 @@
     }
 
     .emoji-picker__search {
-        border-width: 0px;
+        border-width: 0;
         border-radius: inherit;
         padding: 2px 0 2px 27px;
         width: 100%;
         height: 26px;
         font-size: 13px;
 
-        &:focus{
+        &:focus {
             outline: none;
         }
     }
@@ -313,7 +315,6 @@
     align-items: center;
     justify-content: center;
     height: 26px;
-    margin: 0;
     overflow: hidden;
     padding: 2px;
     position: relative;
@@ -339,6 +340,7 @@
 
         &.emoji-category--custom {
             @include transform(scale(1));
+
             height: auto;
             left: auto;
             max-height: 22px;

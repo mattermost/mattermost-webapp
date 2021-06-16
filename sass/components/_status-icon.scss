@@ -28,7 +28,7 @@
             }
 
             .icon__container {
-                &:after {
+                &::after {
                     border-radius: 20px;
                     content: '';
                     height: 10px;
@@ -71,6 +71,7 @@
 
             i {
                 @include opacity(1);
+
                 font-size: 10px;
                 position: relative;
                 top: 4px;
@@ -85,7 +86,7 @@
     }
 }
 
-.status-selector:hover>.status {
+.status-selector:hover > .status {
     opacity: 0;
     visibility: hidden;
 
@@ -97,7 +98,7 @@
     }
 }
 
-.status-selector>.status {
+.status-selector > .status {
     opacity: 1;
     visibility: visible;
 
@@ -109,7 +110,7 @@
     }
 }
 
-.status-selector>.status-edit {
+.status-selector > .status-edit {
     opacity: 0;
     visibility: hidden;
 
@@ -121,7 +122,7 @@
     }
 }
 
-.status-selector:hover>.status-edit {
+.status-selector:hover > .status-edit {
     opacity: 1;
     visibility: visible;
 
@@ -183,7 +184,7 @@
     i,
     path,
     ellipse {
-        @include opacity(.5);
+        @include opacity(0.5);
 
         &.online--icon,
         &.away--icon,
@@ -206,29 +207,34 @@
     .online--icon > svg {
         fill: var(--online-indicator);
     }
+
     .away--icon > svg {
         fill: var(--away-indicator);
     }
+
     .dnd--icon > svg {
         fill: var(--dnd-indicator);
     }
+
     .offline--icon {
         fill: rgba(var(--center-channel-color-rgb), 0.56);
     }
 }
 
-.app__body{
-    .status{
-        &.status--online{
+.app__body {
+    .status {
+        &.status--online {
             color: var(--online-indicator);
         }
-        .online--icon{
+
+        .online--icon {
             fill: var(--online-indicator);
         }
 
         &.status--away {
             color: var(--away-indicator);
         }
+
         .away--icon {
             fill: var(--away-indicator);
         }

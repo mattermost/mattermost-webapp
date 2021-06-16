@@ -1,5 +1,6 @@
 .channel-header__icon {
     @include border-radius(4px);
+
     border: none;
     background: transparent;
     display: flex;
@@ -44,9 +45,11 @@
         background: rgba(var(--button-bg-rgb), 0.08);
         fill: v(button-bg);
         color: v(button-bg);
+
         .icon__text {
             color: v(button-bg);
         }
+
         .icon {
             color: v(button-bg);
         }
@@ -72,10 +75,12 @@
     padding: 4px;
     margin: 0 4px 0 0;
     height: unset;
+
     .icon {
         width: 16px;
         height: 16px;
     }
+
     svg {
         width: 12px;
         height: 12px;

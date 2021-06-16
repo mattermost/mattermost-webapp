@@ -60,13 +60,13 @@
     > ul {
         @include clearfix;
         @include border-radius(2px);
+
         border-left: 1px solid $light-gray;
         border-right: 1px solid $light-gray;
     }
 }
 
 .backstage-sidebar__category {
-
     + .backstage-sidebar__category {
         .category-title {
             border-top: none;
@@ -83,7 +83,8 @@
         position: relative;
 
         .fa {
-            @include opacity(.5);
+            @include opacity(0.5);
+
             position: relative;
             text-align: center;
             top: 1px;
@@ -117,7 +118,7 @@
     .section-title,
     .subsection-title {
         display: block;
-        font-size: .95em;
+        font-size: 0.95em;
         line-height: 29px;
         padding-left: 2em;
         text-decoration: none;
@@ -142,6 +143,7 @@
 
 .backstage-header {
     @include clearfix;
+
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
@@ -186,7 +188,8 @@
     width: 270px;
 
     .fa {
-        @include opacity(.4);
+        @include opacity(0.4);
+
         left: 11px;
         position: absolute;
         top: 11px;
@@ -228,6 +231,7 @@
 
     .item-details__row + .item-details__row {
         @include clearfix;
+
         text-overflow: ellipsis;
     }
 
@@ -297,11 +301,11 @@
 
     .form__help {
         color: $dark-gray;
-        font-size: .95em;
+        font-size: 0.95em;
         margin-top: 1em;
 
         & + .form__help {
-            margin-top: .4em;
+            margin-top: 0.4em;
         }
     }
 }
@@ -336,13 +340,10 @@
     }
 }
 
-.integrations-list {
-
-}
-
 .integration-option {
-    @include single-transition(all, .2s, ease);
+    @include single-transition(all, 0.2s, ease);
     @include border-radius(4px);
+
     background-color: $white;
     border: 1px solid $light-gray;
     flex: 0 0 30%;
@@ -352,6 +353,7 @@
 
     &:hover {
         @extend %box-shadow-1;
+
         color: default;
         text-decoration: none;
     }
@@ -359,7 +361,7 @@
 
 .integration-option__image {
     height: 80px;
-    margin: .5em 0 .7em;
+    margin: 0.5em 0 0.7em;
 }
 
 .integration-option__title {
@@ -414,6 +416,7 @@
 
     input {
         @include opacity(0);
+
         height: 100%;
         left: 0;
         position: absolute;
@@ -468,15 +471,16 @@
 .bot-disabled {
     width: 100%;
     height: 11px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     text-align: left;
     margin-top: 10px;
     margin-bottom: 10px;
+
     span {
         padding: 0 10px;
         opacity: 0.9;
-        color: #000000;
-        background-color: #FFFFFF;
+        color: #000;
+        background-color: #fff;
         font-family: "Open Sans";
         font-size: 14px;
         font-weight: 600;
@@ -514,7 +518,8 @@
 
 .bot-profile__remove {
     @include border-radius(50%);
-    @include single-transition(all, .15s, ease);
+    @include single-transition(all, 0.15s, ease);
+
     background: $black;
     color: $white;
     height: 26px;
@@ -540,11 +545,11 @@
 
 .bot-list__disabled {
     .item-details {
-        color: rgba($black, .6);
+        color: rgba($black, 0.6);
     }
 
     .bot-list {
-        opacity: .6;
+        opacity: 0.6;
     }
 }
 

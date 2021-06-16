@@ -9,16 +9,23 @@
         height: 32px;
         display: flex;
         justify-content: space-between;
-
         font-style: normal;
         font-weight: normal;
         font-size: 12px;
         line-height: 28px;
         color: rgba(var(--sys-center-channel-color-rgb), 0.64);
-        padding: 1px 0px 1px 4px;
+        padding: 1px 0 1px 4px;
 
         &:hover {
             border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.48);
+
+            .TeamFilterDropdownButton_more {
+                margin-right: 0;
+            }
+
+            .TeamFilterDropdownButton_clear {
+                display: block;
+            }
         }
 
         .TeamFilterDropdownButton_text {
@@ -40,6 +47,7 @@
             height: 31px;
             border-left: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
             margin-top: -1px;
+
             .Icon {
                 display: flex;
                 width: 14px;
@@ -59,16 +67,6 @@
             font-size: 14px;
             color: rgba(var(--sys-center-channel-color-rgb), 0.56);
         }
-
-        &:hover {
-            .TeamFilterDropdownButton_more {
-                margin-right: 0;
-            }
-
-            .TeamFilterDropdownButton_clear {
-                display: block;
-            }
-        }
     }
 
     .TeamFilterDropdownOptions {
@@ -78,7 +76,7 @@
         background: var(--sys-center-channel-bg);
         border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
         box-sizing: border-box;
-        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         border-radius: 4px;
         z-index: 1;
         min-width: 304px;
@@ -106,7 +104,7 @@
     }
 
     .TeamFilterDropdown_checkbox {
-        color: rgba(var(--sys-center-channel-color-rgb), .8);
+        color: rgba(var(--sys-center-channel-color-rgb), 0.8);
         height: 32px;
         margin-right: 4px;
 
@@ -123,6 +121,7 @@
             }
 
             opacity: 0.64;
+
             &:checked {
                 opacity: 1;
             }
@@ -136,6 +135,7 @@
             text-overflow: ellipsis;
             display: inline-block;
             overflow: hidden;
+
             &:hover {
                 cursor: pointer;
             }
@@ -155,7 +155,6 @@
         border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.2);
         box-sizing: border-box;
         border-radius: 4px;
-
         padding: 8px 12px;
         font-size: 12px;
         line-height: 16px;
@@ -171,13 +170,13 @@
         font-size: 12px;
         font-weight: 600;
         color: var(--sys-link-color);
-        padding: 4px 0px 8px 1px;
+        padding: 4px 0 8px 1px;
     }
 
     .TeamFilterDropdown_allTeams {
         font-weight: normal;
         font-size: 12px;
-        padding: 4px 0px 8px 1px;
+        padding: 4px 0 8px 1px;
         color: rgba(var(--sys-center-channel-color-rgb), 0.64);
     }
 
@@ -186,7 +185,8 @@
         margin: 4px -16px;
     }
 
-    .TeamFilterDropdown_empty, .TeamFilterDropdown_loading {
+    .TeamFilterDropdown_empty,
+    .TeamFilterDropdown_loading {
         font-weight: normal;
         color: rgba(var(--sys-center-channel-color-rgb), 0.64);
         padding-top: 8px;

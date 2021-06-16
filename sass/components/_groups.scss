@@ -3,7 +3,8 @@
 }
 
 .groups-list {
-    @include single-transition(all, .4s, ease-in-out, 0s);
+    @include single-transition(all, 0.4s, ease-in-out, 0s);
+
     padding: 2rem 2rem 2rem 2rem;
 
     &.groups-list-less-padding {
@@ -21,16 +22,16 @@
             flex-grow: 1;
             stroke: $dark-gray;
             position: relative;
-            border: 1px solid rgba(0, 0, 0, .1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             height: 30px;
             max-width: 280px;
 
             input {
-                border: 0px;
+                border: 0;
                 margin-left: 25px;
                 margin-right: 15px;
-                font-size: .95em;
+                font-size: 0.95em;
                 width: 100%;
             }
 
@@ -41,7 +42,7 @@
             margin-top: 2px;
 
             .group-filter-action {
-                padding: 8px 10px 0px 0px;
+                padding: 8px 10px 0 0;
 
                 &.hidden {
                     visibility: hidden;
@@ -60,7 +61,7 @@
             width: 303px;
             background-color: white;
             top: 40px;
-            border: 1px solid rgba(0, 0, 0, .1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             padding: 20px;
 
             .search-groups-btn {
@@ -105,7 +106,7 @@
         flex-direction: row;
         font-size: 1.1em;
         font-weight: bold;
-        padding: .5em 0;
+        padding: 0.5em 0;
 
         .group-name {
             margin-left: 16px;
@@ -140,7 +141,7 @@
             text-align: center;
             margin-top: 1rem;
             font-size: 1.6rem;
-            background: alpha-color($white, .5);
+            background: alpha-color($white, 0.5);
             color: $gray;
 
             span {
@@ -165,7 +166,7 @@
             color: $dark-gray;
 
             &.disabled {
-                opacity: .5;
+                opacity: 0.5;
             }
         }
 
@@ -200,8 +201,8 @@
 
     .group-name {
         display: flex;
-        flex-grow: 1;
         flex: 1.8;
+        flex-grow: 1;
         align-items: center;
     }
 
@@ -216,7 +217,7 @@
         display: flex;
         height: 100%;
         overflow: hidden;
-        opacity: .65;
+        opacity: 0.65;
         width: 150px;
 
         &.adjusted {
@@ -272,7 +273,7 @@
         }
 
         &:nth-child(even) {
-            background: alpha-color($white, .5)
+            background: alpha-color($white, 0.5);
         }
 
         &.checked:nth-child(even) {
@@ -321,14 +322,15 @@
 
 #groupDisplayName {
     &.group-profile {
-        padding-bottom: 0px;
+        padding-bottom: 0;
     }
 }
 
 #groupMention {
     .group-profile {
-        padding-top: 0px;
+        padding-top: 0;
     }
+
     .group-at-mention-input {
         padding-left: 26px;
     }
@@ -377,13 +379,13 @@
             text-align: center;
             padding: 20px;
             font-size: 1.5em;
-            background: alpha-color($white, .5);
+            background: alpha-color($white, 0.5);
             color: $gray;
         }
 
         .group-users-row {
             &:nth-child(even) {
-                background: alpha-color($white, .5)
+                background: alpha-color($white, 0.5);
             }
 
             display: flex;
@@ -435,7 +437,7 @@
             color: $dark-gray;
 
             &.disabled {
-                opacity: .5;
+                opacity: 0.5;
             }
         }
 
@@ -445,7 +447,6 @@
             margin-bottom: 2px;
         }
     }
-
 }
 
 .channel-moderation {
@@ -457,42 +458,36 @@
 
             th {
                 &:first-child {
+                    padding-left: 0;
                     width: 100%;
                 }
 
-                border-bottom: solid 1px alpha-color(#CCCCCC, .75);
+                border-bottom: solid 1px alpha-color(#ccc, 0.75);
+                padding: 6px 20px;
             }
 
             tr {
-                &:not(:last-child){
-                    border-bottom: solid 1px alpha-color(#CCCCCC, .75);
+                &:not(:last-child) {
+                    border-bottom: solid 1px alpha-color(#ccc, 0.75);
                 }
 
-                &:last-child{
+                &:last-child {
                     td {
-                        padding-bottom: 0px;
+                        padding-bottom: 0;
                     }
                 }
             }
 
             td {
-                padding: 20px 0px;
+                padding: 20px 0;
 
                 &:first-child {
-                    padding-left: 0px;
+                    padding-left: 0;
                 }
 
                 &:not(:first-child) {
                     text-align: center;
                     vertical-align: middle;
-                }
-            }
-
-            th {
-                padding: 6px 20px;
-
-                &:first-child {
-                    padding-left: 0px;
                 }
             }
 
@@ -517,7 +512,7 @@
                     border: 0;
 
                     svg {
-                        fill: #145DBF;
+                        fill: #145dbf;
                     }
                 }
             }
@@ -535,7 +530,7 @@
         text-align: center;
         padding: 20px;
         font-size: 1.5em;
-        background: alpha-color($white, .5);
+        background: alpha-color($white, 0.5);
         color: $gray;
     }
 
@@ -552,9 +547,10 @@
                 margin-left: 20px;
             }
         }
+
         .group-teams-and-channels-row {
             &:nth-child(even) {
-                background: alpha-color($white, .5)
+                background: alpha-color($white, 0.5);
             }
 
             .team-icon,
@@ -563,7 +559,7 @@
                 height: 16px;
                 margin: 0 7px 0 4px;
                 color: inherit;
-                opacity: .7;
+                opacity: 0.7;
             }
 
             .arrow-icon {
@@ -578,7 +574,7 @@
             }
 
             .team-icon-private {
-                font-size: .35em;
+                font-size: 0.35em;
             }
 
             .actions {
@@ -590,9 +586,11 @@
             .type {
                 color: #454448;
                 opacity: 50%;
+                flex: 1;
+                margin-left: -29px;
             }
 
-            .name-no-arrow{
+            .name-no-arrow {
                 margin-left: 16px;
             }
 
@@ -620,12 +618,6 @@
                 }
             }
 
-
-            .type{
-                flex: 1;
-                margin-left: -29px;
-            }
-
             .remove {
                 height: 30px;
             }
@@ -645,7 +637,7 @@
 
 .group-settings {
     .group-settings--body {
-        padding: 0px 20px 20px 20px;
+        padding: 0 20px 20px 20px;
     }
 }
 
@@ -675,7 +667,6 @@
     }
 }
 
-
 .group-user-profile-picture {
     width: 32px;
     height: 32px;
@@ -685,7 +676,7 @@
 
 .group-users-to-remove-modal-description {
     padding: 16px;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
 }
 
 .group-description.group-user-removal-column {
@@ -705,8 +696,8 @@
     z-index: 0;
 
     hr {
-        border-color: #333333;
-        opacity: .12;
+        border-color: #333;
+        opacity: 0.12;
         margin: 0;
         position: relative;
         top: 2rem;
@@ -728,11 +719,11 @@
     padding-left: 12px;
     padding-top: 9px;
     position: absolute;
-    opacity: .8;
+    opacity: 0.8;
 }
 
 .AdminChannelDetails_archiveContainer {
-    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     position: relative;
     width: 920px;
     left: -22px;
@@ -752,12 +743,13 @@
     height: 16px;
 }
 
-$archived-color: #166DE0;
-$unarchived-color: #F74343;
+$archived-color: #166de0;
+$unarchived-color: #f74343;
 
 .ArchiveButton___archived {
     border-color: rgba($archived-color, 1);
     color: rgba($archived-color, 1);
+
     svg {
         fill: rgba($archived-color, 1);
     }
@@ -766,6 +758,7 @@ $unarchived-color: #F74343;
 .ArchiveButton___unarchived {
     border-color: rgba($unarchived-color, 1);
     color: rgba($unarchived-color, 1);
+
     svg {
         fill: rgba($unarchived-color, 1);
     }
@@ -779,11 +772,12 @@ $unarchived-color: #F74343;
 }
 
 .ArchiveButton___unarchived:hover {
-    background-color: rgba($unarchived-color, .06);
+    background-color: rgba($unarchived-color, 0.06);
     color: rgba($unarchived-color, 1);
 }
+
 .ArchiveButton___archived:hover {
-    background-color: rgba($archived-color, .06);
+    background-color: rgba($archived-color, 0.06);
     color: rgba($archived-color, 1);
 }
 
@@ -802,11 +796,11 @@ $unarchived-color: #F74343;
 }
 
 .ArchiveButton___archived:focus:active {
-    background-color: rgba($archived-color, .12);
+    background-color: rgba($archived-color, 0.12);
 }
 
 .ArchiveButton___unarchived:focus:active {
-    background-color: rgba($unarchived-color, .12);
+    background-color: rgba($unarchived-color, 0.12);
 }
 
 .ArchiveButton:active {

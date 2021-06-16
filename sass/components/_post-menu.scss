@@ -2,6 +2,7 @@
 
 .post-menu {
     @include border-radius(4px);
+
     border: 1px solid transparent;
     display: flex;
     justify-content: flex-end;
@@ -76,7 +77,9 @@
         &.a11y--active {
             .post-menu {
                 border-color: rgba(v(center-channel-color-rgb), 0.08);
+
                 @include box-shadow($elevation-1);
+
                 background-color: v(center-channel-bg);
             }
 
@@ -102,7 +105,7 @@
                 &:active,
                 &--active,
                 &--active:hover {
-                    background: rgba(var(--button-bg-rgb), 0.08);;
+                    background: rgba(var(--button-bg-rgb), 0.08);
                     fill: v(button-bg);
                     color: v(button-bg);
                 }

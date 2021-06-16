@@ -2,7 +2,6 @@
 
 .inner-wrap {
     &.move--left {
-
         .search-btns {
             display: none;
         }
@@ -16,7 +15,7 @@
             // stays on the top and don't get hidden by the
             // search's input block
             float: right;
-            padding-right: 0px !important;
+            padding-right: 0 !important;
             position: relative;
             z-index: 6;
         }
@@ -41,7 +40,7 @@
             // search's input block
             float: right;
             margin-right: -18px;
-            padding-right: 0px !important;
+            padding-right: 0 !important;
             position: relative;
             z-index: 6;
         }
@@ -51,6 +50,7 @@
 .app__content {
     @include display-flex;
     @include flex-direction(column);
+
     background: $white;
     height: 100%;
     margin-left: 220px;
@@ -64,11 +64,13 @@
 
 #archive-link-home {
     @include flex(0 0 auto);
+
     cursor: pointer;
     font-size: 13px;
 
     .fa {
-        @include opacity(.7);
+        @include opacity(0.7);
+
         font-size: 11px;
     }
 
@@ -88,4 +90,3 @@
     padding-left: 15px;
     padding-right: 15px;
 }
-

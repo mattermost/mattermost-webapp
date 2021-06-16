@@ -69,7 +69,9 @@
     &__emoji-button {
         background: transparent;
         border: none;
+
         @include border-radius(4px);
+
         width: 36px;
         height: 36px;
         display: flex;
@@ -114,6 +116,7 @@
         }
     }
 }
+
 .status-dropdown-menu,
 .StatusModal__input {
     .input-clear-x {
@@ -132,10 +135,10 @@
     .MaxLengthInput.form-control.has-error {
         padding-right: 76px !important;
     }
-
 }
 
-.ic-clear-search, .ic-search {
+.ic-clear-search,
+.ic-search {
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
@@ -207,7 +210,6 @@
         white-space: nowrap;
     }
 }
-
 
 .suggestion-clear {
     margin-left: auto;

@@ -6,7 +6,7 @@
 .get-app__header {
     height: 102px;
     width: 100%;
-    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
     display: flex;
 
     .get-app__logo {
@@ -27,15 +27,15 @@
         margin-left: 40px;
 
         > span {
-            opacity: 0.8;	
-            color: #000;	
-            font-family: "Open Sans";	
+            opacity: 0.8;
+            color: #000;
+            font-family: "Open Sans";
             font-size: 40px;
-            font-weight: bold;	
+            font-weight: bold;
             line-height: 40px;
         }
     }
-    
+
     .get-app__custom-logo + .get-app__custom-site-name {
         margin-left: 8px;
     }
@@ -55,13 +55,11 @@
     &.mobile {
         flex: 0 1 300px;
     }
-    
+
     > img {
         max-width: 100%;
     }
 }
-
-
 
 .get-app__dialog-body {
     margin-left: 60px;
@@ -70,31 +68,31 @@
 }
 
 .get-app__launching > span {
-    opacity: 0.8;	
-    color: #000;	
-    font-family: "Open Sans";	
+    opacity: 0.8;
+    color: #000;
+    font-family: "Open Sans";
     font-size: 32px;
-    font-weight: 600;	
+    font-weight: 600;
     line-height: 43px;
 }
 
 .get-app__alternative {
     margin-top: 8px;
-    
+
     span {
-        opacity: 0.8;	
-        font-family: "Open Sans";	
-        font-size: 20px;	
+        opacity: 0.8;
+        font-family: "Open Sans";
+        font-size: 20px;
         line-height: 27px;
     }
 
     > a {
         text-decoration: none;
-        color: #145DBF;
+        color: #145dbf;
     }
 
     > span {
-        color: #000000;
+        color: #000;
     }
 
     &.redirect-page {
@@ -117,8 +115,8 @@
     display: inline-block;
 
     > a {
-        font-size: 16px;	
-        font-weight: 600;	
+        font-size: 16px;
+        font-weight: 600;
         line-height: 22px;
         padding: 13px 30px;
         border-radius: 4px;
@@ -126,36 +124,36 @@
 }
 
 .get-app__download {
-    background-color: #145DBF !important;
+    background-color: #145dbf !important;
     border: none !important;
 
     &:hover {
-        background-color: #145DBF !important;
-        box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1), 0 2px 10px 0 rgba(0,0,0,0.1);
+        background-color: #145dbf !important;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1), 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     }
 
     &:active,
     &:focus {
-        background-color: #1151A6 !important;
+        background-color: #1151a6 !important;
     }
 }
 
 .get-app__continue {
-    color: #145DBF !important;
-    border-color: #145DBF !important;
+    color: #145dbf !important;
+    border-color: #145dbf !important;
 
     &:hover {
-        background-color: rgba(255,255,255,0.1) !important;	
-        box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1), 0 2px 10px 0 rgba(0,0,0,0.1);
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1), 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     }
 
     &:active {
-        background-color: rgba(20,93,191,0.1) !important;
-        box-shadow: 0 2px 5px 0 rgba(0,0,0,0.1), 0 2px 10px 0 rgba(0,0,0,0.1);
+        background-color: rgba(20, 93, 191, 0.1) !important;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1), 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     }
 
     &:focus {
-        background-color: rgba(20,93,191,0.1) !important;
+        background-color: rgba(20, 93, 191, 0.1) !important;
     }
 }
 
@@ -164,16 +162,15 @@
     display: flex;
 
     > span {
-        opacity: 0.8;	
-        color: #000;	
-        font-family: "Open Sans";	
-        font-size: 16px;	
+        opacity: 0.8;
+        color: #000;
+        font-family: "Open Sans";
+        font-size: 16px;
         line-height: 22px;
         font-weight: normal;
         margin-top: -2px;
     }
 }
-
 
 .get-app__checkbox {
     border-radius: 3px;
@@ -192,22 +189,22 @@
         border: 0;
 
         svg {
-            fill: #145DBF;
+            fill: #145dbf;
         }
     }
 }
 
 .get-app__download-link {
     margin-top: 40px;
-    opacity: 0.8;	
-    color: #000000;	
-    font-family: "Open Sans";	
-    font-size: 16px;	
+    opacity: 0.8;
+    color: #000;
+    font-family: "Open Sans";
+    font-size: 16px;
     line-height: 22px;
 
     > span > a {
         text-decoration: none;
-        color: #145DBF;
+        color: #145dbf;
     }
 
     > br {
@@ -271,7 +268,7 @@
 @media only screen and (max-width: 768px) {
     .get-app__header {
         height: 52px;
-        box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
         justify-content: center;
 
         .get-app__logo {
@@ -287,9 +284,9 @@
 
         .get-app__custom-site-name {
             margin-left: 0;
-            
+
             > span {
-                font-size: 24px;	
+                font-size: 24px;
                 line-height: 24px;
                 font-weight: bold;
             }
@@ -310,7 +307,7 @@
         margin: 16px 40px 0 40px;
         flex-basis: unset !important;
     }
-    
+
     .get-app__dialog-body {
         margin-left: 0;
     }
@@ -321,7 +318,7 @@
         padding: 0 24px;
 
         > span {
-            font-size: 20px;	
+            font-size: 20px;
             line-height: 27px;
             font-weight: 600;
         }

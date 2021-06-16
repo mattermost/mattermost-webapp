@@ -35,7 +35,8 @@
 }
 
 .input__help {
-    @include opacity(.8);
+    @include opacity(0.8);
+
     color: inherit;
     margin: 10px 0 0 0;
     word-break: break-word;
@@ -61,7 +62,8 @@
         text-align: left;
 
         &.light {
-            @include opacity(.6);
+            @include opacity(0.6);
+
             font-size: 1.05em;
             font-style: italic;
             font-weight: normal;
@@ -84,7 +86,7 @@
 
 .help-block {
     color: $dark-gray;
-    font-size: .95em;
+    font-size: 0.95em;
     margin: 10px 0 0;
 }
 
@@ -154,7 +156,7 @@
 
     span {
         &:last-child {
-            @include opacity(.8);
+            @include opacity(0.8);
         }
     }
 }
@@ -166,7 +168,7 @@
         background: v(center-channel-bg);
 
         &:focus {
-            border-color: rgba(var(--center-channel-color-rgb), 0.40);
+            border-color: rgba(var(--center-channel-color-rgb), 0.4);
         }
 
         &.inline {
@@ -177,7 +179,7 @@
         &::-moz-placeholder,
         &:-moz-placeholder {
             color: inherit !important;
-            opacity: .6;
+            opacity: 0.6;
         }
     }
 }

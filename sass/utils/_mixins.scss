@@ -2,6 +2,7 @@
 
 @mixin file-icon($path) {
     @include background-size(32px 40px);
+
     background-image: url($path);
     background-position: center;
     background-repeat: no-repeat;
@@ -16,6 +17,7 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+
     @else {
         -webkit-font-smoothing: subpixel-antialiased;
         -moz-osx-font-smoothing: auto;

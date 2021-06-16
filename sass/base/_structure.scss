@@ -72,12 +72,14 @@ body {
 
 .container-fluid {
     @include legacy-pie-clearfix;
+
     height: 100%;
     position: relative;
 }
 
 .channel-view {
     @include clearfix;
+
     height: 100%;
     position: relative;
 }

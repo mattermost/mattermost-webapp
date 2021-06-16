@@ -3,7 +3,9 @@
 }
 
 .post.current--user {
-    &.other--root, &.post--root, &.post--comment {
+    &.other--root,
+    &.post--root,
+    &.post--comment {
         .post__header-set-custom-status {
             display: block;
             background: rgba(var(--center-channel-color-rgb), 0.08);

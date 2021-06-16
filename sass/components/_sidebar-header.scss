@@ -2,13 +2,16 @@
     display: flex;
     cursor: pointer;
     padding: 0;
+
     .MenuWrapper {
         height: 100%;
     }
+
     .MenuWrapper:first-child {
         width: 100%;
         height: 100%;
     }
+
     .status-selector {
         margin: 3px 8px 0 6px;
     }

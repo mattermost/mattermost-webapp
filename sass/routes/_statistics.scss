@@ -3,6 +3,7 @@
 .team_statistics {
     .total-count {
         @include border-radius(3px);
+
         background: $white;
         border: 1px solid $light-gray;
         margin: 1em 0;
@@ -25,7 +26,7 @@
             }
 
             .fa {
-                color: #555555;
+                color: #555;
                 float: right;
                 font-size: 16px;
                 margin: 0;
@@ -33,11 +34,11 @@
         }
 
         .content {
-            color: #555555;
+            color: #555;
             font-size: 30px;
             font-weight: 600;
             overflow: auto;
-            padding: .3em 0 .35em;
+            padding: 0.3em 0 0.35em;
         }
     }
 
@@ -77,6 +78,7 @@
 
             td {
                 @include clearfix;
+
                 border-left: 1px solid $light-gray;
                 border-top: 1px solid $light-gray;
                 font-size: 13px;

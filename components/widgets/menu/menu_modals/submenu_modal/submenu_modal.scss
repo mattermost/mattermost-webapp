@@ -1,14 +1,14 @@
 @charset 'UTF-8';
+
 @import 'utils/variables';
 
 @media screen and (max-width: 768px) {
-
     #submenuModal {
-        padding: 0px;
+        padding: 0;
 
         .mobile-sub-menu {
             height: 100%;
-            margin-top: 0px !important;
+            margin-top: 0 !important;
             max-width: 100% !important;
 
             .modal-content {
@@ -16,13 +16,13 @@
                 box-shadow: unset;
                 border: unset;
                 height: 100%;
-                padding: 0px;
+                padding: 0;
 
                 .modal-body {
                     overflow: unset;
                     height: 100%;
                     max-height: unset;
-                    padding: 0px;
+                    padding: 0;
 
                     .MenuWrapper {
                         height: 100%;
@@ -44,8 +44,8 @@
                                 margin-bottom: 0;
                                 max-height: inherit;
                                 max-width: inherit;
-                                border: 0px;
-                                padding-top: 0px;
+                                border: 0;
+                                padding-top: 0;
                                 box-shadow: none;
                                 color: inherit;
                                 display: flex;
@@ -56,7 +56,7 @@
                                 button,
                                 a,
                                 a:hover {
-                                    opacity: .8;
+                                    opacity: 0.8;
                                 }
 
                                 .MenuItem {
@@ -71,9 +71,8 @@
                                         text-align: left;
                                         border-top: 1px solid;
                                         height: auto;
-                                        opacity: 1.0;
+                                        opacity: 1;
                                         border-color: var(--center-channel-color-08);
-
                                     }
 
                                     &:first-child {

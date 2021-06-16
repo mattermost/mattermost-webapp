@@ -6,23 +6,24 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, .1);
+    background: rgba(0, 0, 0, 0.1);
 }
 
 ::-webkit-scrollbar-thumb {
     @include border-radius($border-rad * 2);
-    background: rgba(0, 0, 0, .2);
+
+    background: rgba(0, 0, 0, 0.2);
 }
 
 body {
     &.app__body {
-        scrollbar-3dlight-color: #7D7E94;
-        scrollbar-arrow-color: #C1C1D1;
-        scrollbar-darkshadow-color: #2D2C4D;
-        scrollbar-face-color: rgba(var(--center-channel-bg-rgb), .1);
-        scrollbar-highlight-color: #7D7E94;
-        scrollbar-shadow-color: #2D2C4D;
-        scrollbar-track-color: rgba(var(--center-channel-bg-rgb), .1);
+        scrollbar-3dlight-color: #7d7e94;
+        scrollbar-arrow-color: #c1c1d1;
+        scrollbar-darkshadow-color: #2d2c4d;
+        scrollbar-face-color: rgba(var(--center-channel-bg-rgb), 0.1);
+        scrollbar-highlight-color: #7d7e94;
+        scrollbar-shadow-color: #2d2c4d;
+        scrollbar-track-color: rgba(var(--center-channel-bg-rgb), 0.1);
     }
 
     .ps {
@@ -45,6 +46,7 @@ body {
 .scrollbar--horizontal,
 .scrollbar--vertical {
     @include border-radius(2px);
+
     background-color: #999;
 }
 

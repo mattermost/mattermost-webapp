@@ -47,7 +47,7 @@
         top: 8px;
         right: 10px;
         color: rgb(61, 60, 64);
-        background: #CECECF;
+        background: #cececf;
         font-size: 10px;
     }
 
@@ -67,7 +67,7 @@
         margin-left: 8px;
         color: rgba(61, 60, 64, 0.56);
 
-        &:before {
+        &::before {
             margin: 0;
         }
     }
@@ -126,7 +126,7 @@
             line-height: 16px;
             margin-left: 8px;
 
-            &:before {
+            &::before {
                 margin: 0;
             }
         }
@@ -166,7 +166,7 @@
     font-weight: 600;
 
     span {
-        opacity: .56;
+        opacity: 0.56;
     }
 }
 
@@ -176,7 +176,8 @@
 }
 
 .slash-command__desc {
-    @include opacity(.56);
+    @include opacity(0.56);
+
     margin: 2px 0 0;
     font-size: 12px;
     line-height: 1.6;
@@ -206,12 +207,12 @@
     font-weight: 600;
 
     &:first-child {
-        &:before {
+        &::before {
             display: none;
         }
     }
 
-    &:before {
+    &::before {
         content: '';
         height: 1px;
         background: rgba(var(--center-channel-color-rgb), 0.08);
@@ -229,7 +230,7 @@
 
     >span {
         display: inline-block;
-        font-size: .9em;
+        font-size: 0.9em;
         padding: 0 10px 0 5px;
         position: relative;
         z-index: 5;

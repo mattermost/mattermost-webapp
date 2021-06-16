@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .animation--highlight {
-    &:before {
+    &::before {
         animation: highlight 1.5s ease;
         content: '';
         height: 100%;
@@ -48,7 +48,7 @@
     }
 
     .report__info {
-        @include opacity(.8);
+        @include opacity(0.8);
     }
 }
 

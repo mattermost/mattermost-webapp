@@ -1,13 +1,13 @@
 @import 'utils/variables';
 
 .OpenIdConvert {
-    background-color: rgba(87,158,255,0.08);
+    background-color: rgba(87, 158, 255, 0.08);
     display: grid;
     grid-template-columns: auto 1fr;
     border-radius: 4px;
-    border: 1px solid; 
-    border-color: rgba(87,158,255,0.24);
-    padding: 0px;
+    border: 1px solid;
+    border-color: rgba(87, 158, 255, 0.24);
+    padding: 0;
     margin-bottom: 25px;
     font-family: Open Sans;
     font-style: normal;
@@ -27,7 +27,10 @@
         border-radius: 4px;
         background: $primary-color;
         color: $white;
-        &:focus, &:active, &:focus:active {
+
+        &:focus,
+        &:active,
+        &:focus:active {
             outline: none;
             border-color: transparent;
         }
@@ -42,6 +45,7 @@
         height: 32px;
         margin: 0 10px 0 0;
         text-decoration: none;
+
         &:hover {
             background-color: $primary-color;
             color: $white;
@@ -52,7 +56,7 @@
 .OpenIdConvert_actionWrapper {
     display: flex;
     align-items: center;
-    border-top: 1px solid alpha-color($black, .1);
+    border-top: 1px solid alpha-color($black, 0.1);
     height: 40px;
     padding: 4 0 4px;
     z-index: 100;
@@ -61,13 +65,14 @@
     width: 100%;
 }
 
-
 .OpenIdConvert_copyWrapper {
     padding: 16px 16px 16px 12px;
 }
+
 .OpenIdConvert_imageWrapper {
-    padding: 16px 0px 0px 16px;
+    padding: 16px 0 0 16px;
 }
+
 .OpenIdConvert_image {
     height: 18px;
 }

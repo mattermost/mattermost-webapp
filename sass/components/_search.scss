@@ -6,14 +6,17 @@
             line-height: 25px;
         }
     }
+
+    padding: 0 4px 0 8px;
 }
 
 .icon--rotate {
-    @include animation(spin .7s infinite linear);
+    @include animation(spin 0.7s infinite linear);
 }
 
 .search-item-snippet {
     @include clearfix;
+
     text-overflow: ellipsis;
 
     ul,
@@ -82,10 +85,6 @@
     }
 }
 
-.search-bar__container {
-    padding: 0 4px 0 8px;
-}
-
 .search__form {
     display: flex;
     align-items: center;
@@ -97,17 +96,21 @@
         background: rgba(v(button-bg-rgb), 0.08);
         color: v(button-bg);
         padding: 2px 2px 2px 7px;
+
         @include border-radius(4px);
+
         position: relative;
         left: 26px;
         align-items: center;
         justify-content: center;
         font-weight: 700;
         font-size: 10px;
+
         .icon-close {
             cursor: pointer;
             padding: 2px;
         }
+
         &:hover {
             background: rgba(v(button-bg-rgb), 0.16);
         }
@@ -115,6 +118,7 @@
 
     .search-bar__container & {
         @include border-radius(4px);
+
         border: 1px solid v(center-channel-color-24);
         margin: 16px 0 0;
         width: 180px;
@@ -172,6 +176,7 @@
 
     .LoadingSpinner {
         @include opacity(0.5);
+
         font-size: 1em;
         position: absolute;
         right: 25px;
@@ -181,6 +186,7 @@
 
 .search-items-container {
     @include flex(1 1 auto);
+
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 56px);
     position: relative;
@@ -202,7 +208,7 @@
 
 .search-results-header {
     border-bottom: $border-gray;
-    color: #999999;
+    color: #999;
     font-size: 1em;
     font-weight: 400;
     height: 44px;
@@ -214,6 +220,7 @@
 .search-item__container {
     display: flex;
     flex-direction: column;
+
     .post {
         margin: 0;
         padding: 0 1em 16px;
@@ -260,9 +267,9 @@
         vertical-align: top;
     }
 
-
     .search-item__jump {
         @include border-radius(4px);
+
         font-size: 12px;
         position: relative;
         padding: 5px 4px 0;
@@ -273,8 +280,9 @@
 }
 
 .search-item-time {
-    @include opacity(.7);
-    font-size: .9em;
+    @include opacity(0.7);
+
+    font-size: 0.9em;
 }
 
 .search-results-none {
@@ -341,6 +349,7 @@
 
     button {
         @include border-radius(4px);
+
         display: flex;
         align-items: center;
         justify-content: center;
@@ -351,11 +360,14 @@
         padding: 8px 16px;
         margin: 18px 8px 16px 0;
         line-height: 1;
+
         .icon {
             font-size: 14px;
             margin-right: 6px;
         }
-        &:hover, &.highlighted {
+
+        &:hover,
+        &.highlighted {
             background: rgba(v(button-bg-rgb), 0.04);
         }
     }

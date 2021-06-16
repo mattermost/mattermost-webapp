@@ -1,18 +1,18 @@
 @keyframes rowhighlight {
-    0%  {
-      background-color: $transparent;
+    0% {
+        background-color: $transparent;
     }
 
     20% {
-      background-color: beige;
+        background-color: beige;
     }
 
     80% {
-      background-color: beige;
+        background-color: beige;
     }
 
     100% {
-      background-color: $transparent;
+        background-color: $transparent;
     }
 }
 
@@ -31,34 +31,42 @@
             padding: 0 1.5rem;
         }
     }
+
     .no-team-schemes {
         margin: 20px;
         padding: 20px;
-        background: rgba(255, 255, 255, .5);
+        background: rgba(255, 255, 255, 0.5);
         font-size: 16px;
         color: $gray;
         text-align: center;
     }
+
     .team-override-unavailable {
         padding: 20px;
         color: #3333337d;
         opacity: 50%;
+
         .team-override-unavailable__inner {
             padding: 20px;
             background-color: $white;
         }
     }
+
     .teams-list {
         padding: 20px;
+
         .no-team-schemes {
             margin: 0;
         }
+
         .team {
             display: flex;
             padding: 10px;
+
             &:nth-child(even) {
-                background: rgba(255, 255, 255, .5);
+                background: rgba(255, 255, 255, 0.5);
             }
+
             .remove {
                 flex-grow: 0;
             }
@@ -67,9 +75,10 @@
 }
 
 .permissions-tree {
-    @include single-transition(all, .4s, ease-in-out, 0s);
+    @include single-transition(all, 0.4s, ease-in-out, 0s);
+
     max-height: 2000px;
-    padding: .8em 1.5rem;
+    padding: 0.8em 1.5rem;
 
     &.guest {
         .permission-row {
@@ -79,19 +88,21 @@
         .permission-group {
             .permission-group-row {
                 padding-left: 15px;
+
                 .permission-name {
                     min-width: 300px;
                 }
             }
         }
     }
+
     .permissions-tree--header {
-        border-bottom: 1px solid #cccccc;
+        border-bottom: 1px solid #ccc;
         display: flex;
         flex-direction: row;
         font-size: 1.1em;
         font-weight: bold;
-        padding: .5em 0;
+        padding: 0.5em 0;
 
         .permission-name {
             margin-left: 16px;
@@ -108,7 +119,7 @@
 
     .permissions-tree--body {
         background-color: $bg--gray;
-        background-image: linear-gradient(transparent 50%, alpha-color($white, .5) 50%);
+        background-image: linear-gradient(transparent 50%, alpha-color($white, 0.5) 50%);
         background-size: 68px 68px;
         cursor: pointer;
     }
@@ -126,7 +137,7 @@
             transform: rotate(90deg);
             transform-origin: 55% 50%;
             transition: transform 300ms;
-            margin-top: 6px
+            margin-top: 6px;
         }
     }
 
@@ -162,7 +173,7 @@
         height: 100%;
         overflow: hidden;
         width: 100%;
-        opacity: .65;
+        opacity: 0.65;
 
         span {
             display: inline-block;
@@ -245,6 +256,7 @@
         &:hover {
             background-color: lighten($primary-color, 40%);
             border-left: 2px solid $primary-color;
+
             .permission-description {
                 opacity: 1;
             }
@@ -277,36 +289,45 @@
     padding: 10px 20px 0 20px;
     border-left: 2px solid $transparent;
     cursor: pointer;
+
     &:nth-child(2) {
         margin-top: 20px;
     }
+
     &:last-child {
         margin-bottom: 20px;
     }
+
     &:nth-child(odd) {
-        background: rgba(255, 255, 255, .5);
+        background: rgba(255, 255, 255, 0.5);
     }
+
     &:hover {
         background-color: lighten($primary-color, 40%);
         border-left: 2px solid $primary-color;
     }
+
     .permissions-scheme-summary--header {
         display: flex;
         flex-direction: row;
         font-size: 1.1em;
+
         .title {
             flex-grow: 1;
             font-weight: bold;
             font-size: 14px;
         }
+
         .actions {
             flex-grow: 0;
+
             a {
                 display: inline-block;
                 padding: 0 3px;
             }
         }
     }
+
     .permissions-scheme-summary--teams {
         padding: 1.5em 0 0.5em;
 
@@ -321,7 +342,7 @@
             align-items: center;
             justify-content: center;
             font-size: 11px;
-            color: alpha-color($black, .6);
+            color: alpha-color($black, 0.6);
         }
     }
 }
@@ -339,8 +360,10 @@
 
 .team-scheme-details {
     padding: 20px 20px 5px 20px;
+
     .form-group {
         display: flex;
+
         label {
             width: 240px;
         }
@@ -355,12 +378,13 @@
     .team-data {
         flex-grow: 1;
         padding: 0 0 0 10px;
+
         .title {
             font-weight: bold;
         }
     }
 
     .TeamIcon {
-        background: rgba(0, 0, 0, .12);
+        background: rgba(0, 0, 0, 0.12);
     }
 }

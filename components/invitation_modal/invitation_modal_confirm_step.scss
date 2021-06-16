@@ -5,21 +5,25 @@
 }
 
 .InvitationModalConfirmStep {
-    display:block;
+    display: block;
     width: 720px;
+
     @media screen and (max-width: 768px) {
-        width:100%;
+        width: 100%;
     }
+
     .subtitle {
         margin-bottom: 40px;
-        margin-top: 0px;
+        margin-top: 0;
         font-size: 16px;
         text-align: center;
         font-weight: 400;
+
         strong {
             font-weight: 600;
         }
     }
+
     .invitation-modal-confirm-not-sent {
         h2 {
             margin-top: 32px;
@@ -27,6 +31,7 @@
             font-size: 20px;
             font-weight: 400;
         }
+
         .InvitationModalConfirmStepTable {
             .table-header {
                 height: 40px;
@@ -34,17 +39,19 @@
                 border-bottom: 1px solid;
                 border-top: 1px solid;
                 border-color: var(--center-channel-color-08);
-                background: rgba(238,179,0,0.2);
+                background: rgba(238, 179, 0, 0.2);
                 color: var(--center-channel-color);
             }
         }
     }
+
     .invitation-modal-confirm-sent {
         h2 {
             font-size: 20px;
             margin-bottom: 13px;
             font-weight: 400;
         }
+
         .InvitationModalConfirmStepTable {
             .table-header {
                 height: 40px;
@@ -52,8 +59,9 @@
                 border-bottom: 1px solid;
                 border-top: 1px solid;
                 border-color: var(--center-channel-color-08);
-                background: rgba(0,131,89,0.2);
+                background: rgba(0, 131, 89, 0.2);
                 color: var(--center-channel-color);
+
                 svg {
                     fill: var(--center-channel-color);
                     height: 18px;
@@ -62,10 +70,12 @@
             }
         }
     }
+
     .button-input-block {
         margin-top: 32px;
         text-align: right;
         margin-bottom: 28px;
+
         button {
             height: 48px;
             min-width: 120px;
@@ -73,6 +83,7 @@
             font-weight: 600;
             border-radius: 4px;
         }
+
         .invite-more {
             margin-right: 16px;
             padding: 13px 20px;
@@ -80,18 +91,24 @@
             border-color: var(--button-bg);
             background: var(--center-channel-bg);
             color: var(--button-bg);
+
             &:hover {
                 background: var(--button-bg-08);
             }
+
             &:active {
                 background: var(--button-bg-08);
             }
         }
+
         .confirm-done {
             padding: 13px 40px;
             background: var(--button-bg);
             color: var(--button-color);
-            &:focus, &:active, &:focus:active {
+
+            &:focus,
+            &:active,
+            &:focus:active {
                 outline: none;
                 border-color: transparent;
             }

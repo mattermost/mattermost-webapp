@@ -10,7 +10,7 @@
 
 .modal-backdrop {
     &.in {
-        @include opacity(.64);
+        @include opacity(0.64);
     }
 }
 
@@ -18,6 +18,17 @@
     max-height: calc(90vh - 80px);
     overflow: auto;
     padding: 20px 15px;
+
+    .manage-teams__teams {
+        .MenuWrapper {
+            position: static;
+        }
+
+        .Menu {
+            top: inherit;
+            margin-right: 20px;
+        }
+    }
 }
 
 .no-scroll {
@@ -67,8 +78,9 @@
             position: relative;
 
             .post-error {
-                @include opacity(.55);
-                font-size: .85em;
+                @include opacity(0.55);
+
+                font-size: 0.85em;
                 font-weight: normal;
                 margin-bottom: 0;
                 position: relative;
@@ -87,16 +99,17 @@
 }
 
 .modal__hint {
-    @include opacity(.8);
+    @include opacity(0.8);
+
     display: block;
-    font-size: .9em;
+    font-size: 0.9em;
     margin: 0 0 10px;
 }
 
 .modal__error {
     color: $red;
     float: left;
-    font-size: .95em;
+    font-size: 0.95em;
     font-weight: normal;
     margin-top: 6px;
 }
@@ -107,7 +120,7 @@
 }
 
 .modal {
-    color: alpha-color($black, .9);
+    color: alpha-color($black, 0.9);
     width: 100%;
 
     .modal--overflow {
@@ -154,8 +167,9 @@
     }
 
     .info__label {
-        @include opacity(.5);
-        font-size: .9em;
+        @include opacity(0.5);
+
+        font-size: 0.9em;
         font-weight: 600;
         margin-bottom: 3px;
     }
@@ -225,6 +239,7 @@
     .modal-header {
         @include border-radius(0);
         @include clearfix;
+
         border-radius: 3px 3px 0 0;
         background: #333;
         border: 1px solid $light-gray;
@@ -248,14 +263,14 @@
             }
 
             .shared-channel-icon {
-                color: #3D3C40;
+                color: #3d3c40;
                 font-size: 16px;
                 width: 16px;
                 height: 16px;
                 line-height: 16px;
                 margin: 0 8px;
 
-                &:before {
+                &::before {
                     margin: 0;
                 }
             }
@@ -268,7 +283,8 @@
 
         .close {
             @include opacity(0.7);
-            @include single-transition(all, .1s, ease-in);
+            @include single-transition(all, 0.1s, ease-in);
+
             color: white;
             height: 30px;
             line-height: 30px;
@@ -281,7 +297,7 @@
 
             &:hover {
                 @include opacity(1);
-                @include alpha-property(background, $black, .1);
+                @include alpha-property(background, $black, 0.1);
             }
 
             .sr-only {
@@ -316,7 +332,8 @@
         }
 
         .secondary-message {
-            @include opacity(.8);
+            @include opacity(0.8);
+
             margin: 1em 0 0;
         }
     }
@@ -349,6 +366,7 @@
 
         .modal-body {
             @include clearfix;
+
             background: transparent;
             display: table;
             height: 100%;
@@ -359,7 +377,7 @@
 
         // provides a background for the scrollbar
         .modal-image__background {
-            background: #F3F3F3;
+            background: #f3f3f3;
         }
 
         .modal-image__content {
@@ -391,7 +409,6 @@
                     width: max-content;
                 }
             }
-
         }
 
         .post-code__container {
@@ -400,6 +417,7 @@
 
         .modal-image__wrapper {
             @include border-radius(3px);
+
             display: table-cell;
             max-width: 90%;
             position: relative;
@@ -447,16 +465,17 @@
             }
 
             .modal-close {
-                @include single-transition(opacity, .6s);
+                @include single-transition(opacity, 0.6s);
                 @include background-size(100% 100%);
                 @include opacity(1);
+
                 background-image: url('../images/close.png');
                 cursor: pointer;
                 height: 37px;
                 position: absolute;
                 right: -13px;
                 top: -13px;
-                transition: opacity .6s;
+                transition: opacity 0.6s;
                 width: 37px;
                 z-index: 9999;
             }
@@ -471,11 +490,11 @@
                 text-decoration: none;
             }
 
-                .btn-inactive {
-                    color: gray;
-                    margin-left: 6px;
-                    margin-right: 6px;
-                }
+            .btn-inactive {
+                color: gray;
+                margin-left: 6px;
+                margin-right: 6px;
+            }
 
             >div {
                 display: inline-block;
@@ -581,6 +600,7 @@
                 margin-left: 5px;
                 vertical-align: middle;
             }
+
             .modal-column {
                 flex: 1;
             }
@@ -594,7 +614,8 @@
         }
 
         .channel-count {
-            @include opacity(.8);
+            @include opacity(0.8);
+
             float: right;
             margin-top: 5px;
         }
@@ -621,11 +642,12 @@
 }
 
 .more-modal {
-    .loading-screen{
+    .loading-screen {
         padding: 1.9em 1em;
         font-size: 1.25em;
         height: auto;
     }
+
     .Select-input {
         >input {
             padding: 8px 0;
@@ -668,13 +690,15 @@
     }
 
     .member-count {
-        @include opacity(.8);
+        @include opacity(0.8);
+
         float: right;
         margin-top: 5px;
     }
 
     .member-show {
-        @include opacity(.8);
+        @include opacity(0.8);
+
         float: right;
         margin-right: 3px;
         margin-top: 8px;
@@ -686,7 +710,8 @@
         }
 
         select {
-            @include opacity(.8);
+            @include opacity(0.8);
+
             float: right;
             margin: 1px 5px 0 2px;
             width: auto;
@@ -694,7 +719,7 @@
     }
 
     .more-purpose {
-        @include opacity(.7);
+        @include opacity(0.7);
     }
 }
 
@@ -724,7 +749,7 @@
         margin: 0 0 16px;
 
         >li {
-            margin-right: 0px;
+            margin-right: 0;
             width: 50%;
             text-align: center;
             border: none;
@@ -739,7 +764,7 @@
             }
 
             >a {
-                opacity: .5;
+                opacity: 0.5;
                 color: inherit;
                 height: 40px;
                 padding-bottom: 12px;
@@ -750,6 +775,7 @@
                 justify-content: center;
                 align-items: center;
                 background: var(--center-channel-bg);
+
                 &:active {
                     opacity: 1;
                 }
@@ -760,7 +786,7 @@
 
 .more-modal__button {
     .btn {
-        font-size: .9em;
+        font-size: 0.9em;
         font-weight: 600;
         height: 39px;
         width: 100%;
@@ -773,7 +799,7 @@
     display: inline-flex;
 
     span {
-        font-size: .9em;
+        font-size: 0.9em;
         color: var(--center-channel-color);
     }
 
@@ -801,7 +827,7 @@
     }
 
     .popover & {
-        font-size: .95em;
+        font-size: 0.95em;
 
         .more-modal__row {
             padding: 5px 10px;
@@ -810,6 +836,7 @@
 
     .more-modal__image {
         @include border-radius(60px);
+
         flex-grow: 0;
         flex-shrink: 0;
         margin-top: 2px;
@@ -830,10 +857,10 @@
             height: 16px;
             line-height: 16px;
             margin-left: 8px;
-            margin-top: 0px;
+            margin-top: 0;
             color: rgba(61, 60, 64, 0.72);
 
-            &:before {
+            &::before {
                 margin: 0;
             }
         }
@@ -888,7 +915,8 @@
     }
 
     .more-modal__description {
-        @include opacity(.6);
+        @include opacity(0.6);
+
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -935,10 +963,16 @@
                 line-height: 16px;
                 margin-left: 4px;
 
-                &:before {
+                &::before {
                     margin: 0;
                 }
             }
+        }
+
+        min-height: 65px;
+
+        #member-list-popover & {
+            min-height: 0;
         }
     }
 
@@ -946,6 +980,7 @@
         display: block;
         opacity: 0.6;
         margin-left: 5px;
+
         time {
             font-weight: bold;
             white-space: nowrap;
@@ -962,7 +997,7 @@
         display: none;
         text-align: center;
         width: 32px;
-        opacity: .5;
+        opacity: 0.5;
     }
 
     .more-modal__right {
@@ -980,7 +1015,7 @@
         display: flex;
     }
 
-    .more-modal__bottom>.has-error {
+    .more-modal__bottom > .has-error {
         padding-left: 5px;
     }
 
@@ -1006,6 +1041,7 @@
     >div {
         flex: 1 1 auto;
     }
+
     .multi-select__wrapper {
         display: flex;
         flex-direction: column;
@@ -1019,6 +1055,9 @@
     }
 
     .filter-button {
+        margin-left: 0;
+        padding-left: 0;
+
         .btn {
             height: 34px;
         }
@@ -1031,28 +1070,15 @@
             float: right;
         }
     }
-
-    .filter-button {
-        margin-left: 0;
-        padding-left: 0;
-    }
-}
-
-.more-modal__list .more-modal__row {
-    min-height: 65px;
-
-    #member-list-popover & {
-        min-height: 0;
-    }
 }
 
 .team-selector-modal,
 .channel-selector-modal {
     .more-modal__row {
-        border: 0px;
+        border: 0;
 
         &:nth-child(odd) {
-            background: rgba(0, 0, 0, .03);
+            background: rgba(0, 0, 0, 0.03);
         }
 
         .team-name {
@@ -1065,16 +1091,7 @@
             margin-right: 5px;
         }
     }
-}
 
-.modal-invite-member {
-    .btn:hover {
-        text-decoration: underline;
-    }
-}
-
-.team-selector-modal,
-.channel-selector-modal {
     .modal-header {
         background: $black;
         color: $white;
@@ -1133,21 +1150,14 @@
     }
 }
 
-.more-public-direct-channels {
-    .filtered-user-list {
-        height: calc(90vh - 180px);
+.modal-invite-member {
+    .btn:hover {
+        text-decoration: underline;
     }
 }
 
-.modal-body {
-    .manage-teams__teams {
-        .MenuWrapper {
-            position: static;
-        }
-
-        .Menu {
-            top: inherit;
-            margin-right: 20px;
-        }
+.more-public-direct-channels {
+    .filtered-user-list {
+        height: calc(90vh - 180px);
     }
 }

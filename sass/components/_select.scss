@@ -5,24 +5,24 @@
     margin: 8px 8px 0 0;
 
     &:hover {
-        &:after {
-            opacity: .6;
+        &::after {
+            opacity: 0.6;
         }
     }
 
-    &:after {
-        @include single-transition(opacity, .15s, ease);
+    &::after {
+        @include single-transition(opacity, 0.15s, ease);
+
         content: '\F107';
         display: inline-block;
         font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
         text-rendering: auto;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         top: 8px;
         position: absolute;
         right: 1rem;
-        opacity: .4;
+        opacity: 0.4;
         font-size: 16px;
         pointer-events: none;
     }
@@ -33,6 +33,7 @@
         height: 32px;
         max-width: 100%;
         padding-right: 3rem;
+
         @include border-radius(3px);
         @include box-shadow(unset);
     }

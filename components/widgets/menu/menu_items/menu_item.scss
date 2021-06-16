@@ -36,7 +36,8 @@
         }
 
         span.MenuItem__help-text {
-            @include opacity(.7);
+            @include opacity(0.7);
+
             display: block;
             font-size: 12px;
             line-height: 16px;
@@ -44,23 +45,7 @@
             padding-bottom: 8px;
 
             @media (max-width: 768px) {
-                margin: 0 0px 4px 38px;
-            }
-        }
-
-        > a {
-            text-decoration: none;
-
-            &:focus,
-            &:hover {
-                color: inherit;
-            }
-        }
-
-        > div {
-            &:hover,
-            &:focus {
-                background-color: var(--center-channel-color-08) !important;
+                margin: 0 0 4px 38px;
             }
         }
 
@@ -107,10 +92,6 @@
                 position: relative;
             }
 
-            &:hover {
-                background: alpha-color($black, .08);
-            }
-
             &.MenuItem__dangerous {
                 color: var(--dnd-indicator);
 
@@ -126,6 +107,22 @@
                         color: var(--sidebar-text) !important;
                     }
                 }
+            }
+        }
+
+        > a {
+            text-decoration: none;
+
+            &:focus,
+            &:hover {
+                color: inherit;
+            }
+        }
+
+        > div {
+            &:hover,
+            &:focus {
+                background-color: var(--center-channel-color-08) !important;
             }
         }
     }
@@ -153,7 +150,7 @@
 }
 
 .SubMenu {
-    padding-left: 0px;
+    padding-left: 0;
     position: absolute;
     top: unset;
     left: unset;

@@ -30,6 +30,7 @@
 
     .team__header {
         @include legacy-pie-clearfix;
+
         display: none;
         padding: 0 15px;
 
@@ -38,7 +39,7 @@
         }
 
         .navbar-right {
-            font-size: .85em;
+            font-size: 0.85em;
             margin: 16px -5px 0;
 
             .dropdown-toggle {
@@ -54,6 +55,7 @@
 
             .dropdown__icon {
                 @include background-size(100% 100%);
+
                 display: inline-block;
                 height: 16px;
                 width: 4px;
@@ -107,6 +109,7 @@
         }
     }
 }
+
 .app__body {
     .modal-tabs {
         .nav-tabs > li {

@@ -51,7 +51,8 @@
 
         > li {
             > a {
-                @include single-transition(all, .15s, ease);
+                @include single-transition(all, 0.15s, ease);
+
                 padding: 10px 16px;
             }
         }
@@ -68,6 +69,7 @@
 
     h2 {
         font-weight: 300;
+
         strong {
             font-weight: 400;
         }
@@ -92,14 +94,16 @@
                 border-top: 1px solid rgba(black, 0.1);
                 padding: 10px 10px 0 0;
                 margin: 10px 10px 0 0;
-                font-size: .9em;
+                font-size: 0.9em;
             }
         }
 
         .more-modal__description {
             margin: 2px 0 0;
-            font-size: .9em;
+            font-size: 0.9em;
         }
+
+        padding-bottom: 80px;
     }
 
     .search_input {
@@ -152,14 +156,10 @@
 
             &:hover {
                 .plugin__actions--round {
-                    opacity: .5;
+                    opacity: 0.5;
                 }
             }
         }
-    }
-
-    .more-modal__list {
-        padding-bottom: 80px;
     }
 
     .icon__plugin {
@@ -174,9 +174,6 @@
         svg {
             width: 32px;
             height: 32px;
-        }
-
-        svg {
             fill: var(--button-bg);
         }
     }
@@ -191,8 +188,8 @@
         }
     }
 
-    .no_plugins_div{
-        text-align: center
+    .no_plugins_div {
+        text-align: center;
     }
 
     .item_error {

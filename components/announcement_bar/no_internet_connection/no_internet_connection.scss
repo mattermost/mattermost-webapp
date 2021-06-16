@@ -15,8 +15,9 @@
         height: 56px;
         margin: 0 auto;
     }
-    
-    .noInternetConnection__contactSupport, .noInternetConnection__emailUs {
+
+    .noInternetConnection__contactSupport,
+    .noInternetConnection__emailUs {
         font-style: normal;
         font-weight: normal;
         font-size: 16px;
@@ -24,7 +25,7 @@
         text-align: center;
         color: rgba(var(--center-channel-color-rgb), 0.72);
     }
-    
+
     .noInternetConnection__image {
         margin: 0 auto;
     }

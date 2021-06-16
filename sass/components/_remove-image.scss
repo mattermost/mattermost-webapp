@@ -6,7 +6,7 @@
 }
 
 .remove-image__img {
-    border: 1px solid alpha-color($black, .15);
+    border: 1px solid alpha-color($black, 0.15);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -23,7 +23,7 @@
 }
 
 .remove-image__btn {
-    background: alpha-color($black, .8);
+    background: alpha-color($black, 0.8);
     color: white;
     position: absolute;
     top: -8px;

@@ -18,11 +18,13 @@ check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
 
 	npm run check
+	npx stylelint "**/*.{css,scss}"
 
 fix-style: node_modules ## Fix JS file ESLint issues
 	@echo Fixing lint issues to follow style guide
 
 	npm run fix
+	npx stylelint "**/*.{css,scss}" --fix
 
 check-types: node_modules ## Checks TS file for TypeScript confirmity
 	@echo Checking for TypeScript compliance

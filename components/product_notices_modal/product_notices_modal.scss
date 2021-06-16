@@ -26,6 +26,7 @@
         margin: 20px auto 0;
         display: block;
     }
+
     .productNotices__imageDiv {
         margin: 0 auto;
     }
@@ -62,6 +63,7 @@
         position: relative;
         padding: 0;
     }
+
     .GenericModal__button {
         display: inline-flex;
         align-items: center;
@@ -75,7 +77,8 @@
             color: var(--button-color);
 
             &:hover:not(.disabled) {
-                background: linear-gradient(
+                background:
+                    linear-gradient(
                         0deg,
                         rgba(var(--center-channel-color-rgb), 0.16),
                         rgba(var(--center-channel-color-rgb), 0.16)
@@ -84,7 +87,8 @@
             }
 
             &:active {
-                background: linear-gradient(
+                background:
+                    linear-gradient(
                         0deg,
                         rgba(var(--center-channel-color-rgb), 0.32),
                         rgba(var(--center-channel-color-rgb), 0.32)

@@ -3,14 +3,17 @@
 .InvitationModalGuestsStep {
     max-width: 720px;
     width: 100%;
+
     h2 {
         margin-bottom: 12px;
-        margin-top: 0px;
+        margin-top: 0;
         font-size: 20px;
+
         span {
             font-weight: 400;
         }
     }
+
     input {
         background: var(--center-channel-bg);
         border-color: var(--center-channel-color-64);
@@ -19,6 +22,7 @@
         padding: 12px 14px;
         width: 100%;
     }
+
     textarea {
         height: 90px;
         background: var(--center-channel-bg);
@@ -28,61 +32,30 @@
         padding: 12px;
         width: 100%;
         margin-top: 4px;
+
         &:focus {
             border: 2px solid;
             padding: 11px;
             border-color: var(--button-bg);
         }
     }
+
     .help-text {
         margin-top: 8px;
         color: var(--center-channel-color-64);
     }
-    .add-people, .add-channels, .custom-message {
+
+    .add-people,
+    .add-channels,
+    .custom-message {
         max-width: 720px;
         width: 100%;
         margin-bottom: 28px;
     }
+
     .invite-guests {
         text-align: right;
-        button {
-            height: 48px;
-            padding: 13px 26px;
-            font-size: 16px;
-            width: 180px;
-            border-radius: 4px;
-        }
-    }
-    .custom-message {
-        position: relative;
-        a {
-            font-weight: 600;
-            color: var(--button-bg-88);
-        }
-        span {
-            font-weight: 600;
-        }
-        svg {
-            &:hover {
-                fill: var(--center-channel-color-80);
-            }
-            fill: var(--center-channel-color-64);
-            cursor: pointer;
-            position: absolute;
-            right: 0px;
-            top: 3px;
-            width: 19.2px;
-            height: 19.2px;
-        }
-        .help-text {
-            span {
-                font-weight: normal;
-            }
-        }
-    }
-    .invite-guests {
-        text-align: right;
-        margin-bottom: 28px;
+
         button {
             height: 48px;
             padding: 13px 26px;
@@ -92,13 +65,52 @@
             border-radius: 4px;
             background: var(--button-bg);
             color: var(--button-color);
-            &:focus, &:active, &:focus:active {
+
+            &:focus,
+            &:active,
+            &:focus:active {
                 outline: none;
                 border-color: transparent;
             }
+
             &.btn-inactive {
                 background: var(--center-channel-color-08);
                 color: var(--center-channel-color-56);
+            }
+        }
+
+        margin-bottom: 28px;
+    }
+
+    .custom-message {
+        position: relative;
+
+        a {
+            font-weight: 600;
+            color: var(--button-bg-88);
+        }
+
+        span {
+            font-weight: 600;
+        }
+
+        svg {
+            &:hover {
+                fill: var(--center-channel-color-80);
+            }
+
+            fill: var(--center-channel-color-64);
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+            top: 3px;
+            width: 19.2px;
+            height: 19.2px;
+        }
+
+        .help-text {
+            span {
+                font-weight: normal;
             }
         }
     }

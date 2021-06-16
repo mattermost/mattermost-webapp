@@ -2,6 +2,7 @@
     .MenuWrapper {
         align-self: end;
         z-index: 100;
+
         .action-icon {
             border-radius: 4px;
             border: none;
@@ -34,13 +35,12 @@
             }
         }
     }
+
     .MenuItem {
         span.icon {
             position: absolute;
             right: 13px;
             color: var(--button-bg);
         }
-    }
-    .action-icon {
     }
 }

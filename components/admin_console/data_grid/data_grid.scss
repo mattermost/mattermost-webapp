@@ -2,7 +2,6 @@
 
 .DataGrid {
     width: 100%;
-
     padding: 2rem 2rem 2rem 2rem;
     background: $bg--gray;
     color: var(--sys-center-channel-color);
@@ -14,25 +13,23 @@
         display: flex;
         flex-direction: row;
         font-weight: bold;
-        padding: .5em 0;
+        padding: 0.5em 0;
 
         .DataGrid_searchBar {
             display: flex;
             position: relative;
-
             height: 32px;
             width: 300px;
             border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.2);
             box-sizing: border-box;
             border-radius: 4px;
-
             margin-left: 8px;
 
             input {
-                border: 0px;
+                border: 0;
                 margin-left: 32px;
                 margin-right: 16px;
-                font-size: .95em;
+                font-size: 0.95em;
                 width: 100%;
             }
 
@@ -63,7 +60,7 @@
         flex-direction: row;
         font-size: 1.1em;
         font-weight: bold;
-        padding: .5em 0;
+        padding: 0.5em 0;
     }
 
     .DataGrid_rows {
@@ -87,7 +84,7 @@
             color: rgba(0, 0, 0, 0.3);
             text-align: center;
         }
-       
+
         .DataGrid_row {
             border-left: 2px solid transparent;
 
@@ -116,7 +113,7 @@
                         font-size: 16px;
                         margin-left: 8px;
 
-                        &:before {
+                        &::before {
                             margin: 0;
                         }
                     }
@@ -125,15 +122,16 @@
         }
     }
 
-    .DataGrid_row, .DataGrid_header {
+    .DataGrid_row,
+    .DataGrid_header {
         display: flex;
         flex-direction: row;
         padding-left: 18px;
         height: auto;
 
         .DataGrid_cell {
-            flex-basis: 100%;
             flex: 1 0;
+            flex-basis: 100%;
         }
     }
 
@@ -141,13 +139,11 @@
         display: flex;
         flex-direction: row;
         height: auto;
-
         text-align: right;
         background: $white;
         border-top: solid 1px rgba(0, 0, 0, 0.1);
         border-bottom: solid 1px rgba(0, 0, 0, 0.1);
         padding: 5px 0;
-
         color: rgba(0, 0, 0, 0.5);
         font-size: 1.1em;
 
@@ -158,7 +154,7 @@
     }
 
     &.customTable {
-        background: #ffffff;
+        background: #fff;
         padding: 0;
 
         .DataGrid_header {
@@ -166,11 +162,13 @@
             font-size: 14px;
             line-height: 16px;
             border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
-            padding: 8px 0px;
+            padding: 8px 0;
             color: var(--sys-center-channel-color);
+
             &:last-child {
                 border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
             }
+
             .DataGrid_cell {
                 padding: 0 16px;
             }
@@ -184,18 +182,20 @@
             border-left: none;
 
             &:nth-child(odd) {
-                background: #ffffff;
+                background: #fff;
             }
 
             &:nth-child(even) {
                 background: rgba(var(--sys-button-bg-rgb), 0.04);
             }
+
             &:hover {
                 background-color: rgba(var(--sys-button-bg-rgb), 0.08);
                 cursor: pointer;
                 color: var(--sys-center-channel-color);
                 border-left: none;
             }
+
             .actionIcon {
                 width: 32px;
 
@@ -204,9 +204,11 @@
                     margin-left: auto;
                 }
             }
+
             .actionIcon a i {
                 display: none;
             }
+
             .actionIcon a {
                 text-decoration: none;
                 padding: 8px;
@@ -220,16 +222,20 @@
                 color: rgba(var(--sys-center-channel-color-rgb), 0.72);
                 margin-left: auto;
             }
+
             &:hover .actionIcon a i {
                 display: flex;
             }
+
             .actionIcon a:hover {
                 background: rgba(var(--sys-center-channel-color-rgb), 0.08);
             }
+
             .DataGrid_cell {
                 white-space: normal;
                 margin: 0;
                 padding: 10px 16px;
+
                 &.actionIcon {
                     overflow: visible;
                     padding: 4px 16px;

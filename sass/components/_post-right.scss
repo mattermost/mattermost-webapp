@@ -1,6 +1,7 @@
 @charset 'UTF-8';
 
-.post-right__container, .ThreadViewer {
+.post-right__container,
+.ThreadViewer {
     @include display-flex;
     @include flex-direction(column);
 
@@ -24,7 +25,7 @@
                     .separator__hr {
                         overflow: visible;
 
-                        &:before {
+                        &::before {
                             content: '';
                             background: rgba(v(center-channel-color-rgb), 0.04);
                             width: 100%;
@@ -63,13 +64,14 @@
         .post-pre-header__icons-container {
             padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
             width: 60px; // If the width of post__img changes, this needs to be adjusted accordingly
-            margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
+            margin-left: 0; // if left margin of post__content changes, this needs to be adjusted accordingly
         }
 
         .post__header {
             .post-menu {
                 text-align: right;
             }
+
             .col__name {
                 &.Badge {
                     flex: none;
@@ -107,7 +109,7 @@
                         height: auto;
 
                         .post__time {
-                            opacity: .6;
+                            opacity: 0.6;
                         }
                     }
                 }
@@ -126,7 +128,7 @@
             }
 
             .card-icon__container {
-                margin: 0px 0 0 6px;
+                margin: 0 0 0 6px;
             }
         }
 
@@ -164,7 +166,8 @@
         }
 
         .msg-typing {
-            @include opacity(.7);
+            @include opacity(0.7);
+
             display: block;
             float: left;
             font-size: 13px;
@@ -177,7 +180,8 @@
         }
 
         .post-right-comments-upload-in-progress {
-            @include opacity(.7);
+            @include opacity(0.7);
+
             margin-right: 10px;
             padding: 6px 0;
         }
@@ -185,7 +189,7 @@
         .emoji-picker {
             position: absolute;
             top: -361px;
-            right: 0px;
+            right: 0;
         }
 
         form {
@@ -193,14 +197,15 @@
         }
 
         .post-create {
-            padding: .5em 15px 0;
+            padding: 0.5em 15px 0;
         }
 
         .post-create-footer {
             .post-error {
-                @include opacity(.55);
+                @include opacity(0.55);
+
                 display: inline-block;
-                font-size: .85em;
+                font-size: 0.85em;
                 font-weight: normal;
                 margin-bottom: 0;
                 position: relative;
@@ -209,8 +214,10 @@
         }
     }
 }
+
 .post-right__container {
     height: 100%;
+
     .ThreadViewer {
         height: 100%;
     }
@@ -267,7 +274,9 @@
 
 .post-right__scroll {
     -webkit-overflow-scrolling: touch;
+
     @include flex(1 1 auto);
+
     padding-top: 28px;
     position: relative;
 
