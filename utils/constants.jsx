@@ -443,6 +443,7 @@ export const RecommendedNextSteps = {
 export const Threads = {
     CHANGED_SELECTED_THREAD: 'changed_selected_thread',
     CHANGED_LAST_VIEWED_AT: 'changed_last_viewed_at',
+    MANUALLY_UNREAD_THREAD: 'manually_unread_thread',
 };
 
 export const CloudBanners = {

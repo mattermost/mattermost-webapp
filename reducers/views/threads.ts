@@ -31,7 +31,24 @@ export const lastViewedAt = (state: ViewsState['threads']['lastViewedAt'] | Reco
     return state;
 };
 
+export function manuallyUnread(state: ViewsState['threads']['manuallyUnread'] | Record<string, unknown> = {}, action: GenericAction) {
+    switch (action.type) {
+    case Threads.CHANGED_LAST_VIEWED_AT:
+        return {
+            ...state,
+            [action.data.threadId]: false,
+        };
+    case Threads.MANUALLY_UNREAD_THREAD:
+        return {
+            ...state,
+            [action.data.threadId]: true,
+        };
+    }
+    return state;
+}
+
 export default combineReducers({
     selectedThreadIdInTeam,
     lastViewedAt,
+    manuallyUnread,
 });
