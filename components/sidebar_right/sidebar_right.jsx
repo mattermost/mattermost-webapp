@@ -115,7 +115,13 @@ export default class SidebarRight extends React.PureComponent {
             actions.showChannelFiles(rhsChannel.id);
         }
 
-        if (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) {
+        // in the case of navigating to another channel
+        // or from global threads to a channel
+        // we shrink the sidebar
+        if (
+            (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) ||
+            (channel && !prevProps.channel)
+        ) {
             this.props.actions.setRhsExpanded(false);
         }
 

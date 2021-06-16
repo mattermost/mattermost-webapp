@@ -227,6 +227,8 @@ function isSidebarExpanded(state = false, action) {
         return action.postId ? state : false;
     case ActionTypes.TOGGLE_RHS_MENU:
         return false;
+    case ActionTypes.SUPPRESS_RHS:
+        return false;
     case ActionTypes.OPEN_RHS_MENU:
         return false;
     case ActionTypes.TOGGLE_LHS:
