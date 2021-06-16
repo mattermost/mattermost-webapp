@@ -20,6 +20,7 @@ export function getSelectedThreadIdInTeam(state: GlobalState) {
 }
 
 export const getSelectedThreadIdInCurrentTeam: (state: GlobalState) => ViewsState['threads']['selectedThreadIdInTeam'][$ID<Team>] = createSelector(
+    'getSelectedThreadIdInCurrentTeam',
     getCurrentTeamId,
     getSelectedThreadIdInTeam,
     (
@@ -31,6 +32,7 @@ export const getSelectedThreadIdInCurrentTeam: (state: GlobalState) => ViewsStat
 );
 
 export const getSelectedThreadInCurrentTeam: (state: GlobalState) => UserThread | null = createSelector(
+    'getSelectedThreadInCurrentTeam',
     getCurrentTeamId,
     getSelectedThreadIdInTeam,
     getThreads,
@@ -46,6 +48,7 @@ export const getSelectedThreadInCurrentTeam: (state: GlobalState) => UserThread 
 
 export function makeGetThreadLastViewedAt(): (state: GlobalState, threadId: $ID<Post>) => number {
     return createSelector(
+        'makeGetThreadLastViewedAt',
         (state: GlobalState, threadId: $ID<Post>) => state.views.threads.lastViewedAt[threadId],
         getThreads,
         (_state, threadId) => threadId,
@@ -60,6 +63,7 @@ export function makeGetThreadLastViewedAt(): (state: GlobalState, threadId: $ID<
 }
 
 export const getOpenThreadId: (state: GlobalState) => $ID<UserThread> | null = createSelector(
+    'getOpenThreadId',
     getSelectedThreadIdInCurrentTeam,
     getSelectedPostId,
     (selectedThreadId, selectedPostId) => {

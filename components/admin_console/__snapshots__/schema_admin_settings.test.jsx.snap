@@ -286,7 +286,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               Array [
                 Object {
                   "order": 0,
-                  "text": "Deutsch",
+                  "text": "Deutsch (Beta)",
                   "value": "de",
                 },
                 Object {
@@ -311,7 +311,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 5,
-                  "text": "Italiano",
+                  "text": "Italiano (Beta)",
                   "value": "it",
                 },
                 Object {
@@ -326,7 +326,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 8,
-                  "text": "Polski",
+                  "text": "Polski (Beta)",
                   "value": "pl",
                 },
                 Object {
@@ -412,7 +412,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               Array [
                 Object {
                   "order": 0,
-                  "text": "Deutsch",
+                  "text": "Deutsch (Beta)",
                   "value": "de",
                 },
                 Object {
@@ -437,7 +437,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 5,
-                  "text": "Italiano",
+                  "text": "Italiano (Beta)",
                   "value": "it",
                 },
                 Object {
@@ -452,7 +452,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 8,
-                  "text": "Polski",
+                  "text": "Polski (Beta)",
                   "value": "pl",
                 },
                 Object {

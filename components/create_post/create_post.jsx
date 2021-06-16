@@ -118,11 +118,6 @@ class CreatePost extends React.PureComponent {
         }).isRequired,
 
         /**
-         *  Data used dispatching handleViewAction
-         */
-        commentCountForPost: PropTypes.number,
-
-        /**
          *  Data used dispatching handleViewAction ex: edit post
          */
         latestReplyablePostId: PropTypes.string,
@@ -1077,7 +1072,7 @@ class CreatePost extends React.PureComponent {
         if (this.textboxRef.current) {
             this.textboxRef.current.blur();
         }
-        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
+        this.props.actions.setEditingPost(lastPost.id, 'post_textbox', type);
     }
 
     replyToLastPost = (e) => {
@@ -1161,7 +1156,7 @@ class CreatePost extends React.PureComponent {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji.name || emoji.aliases[0];
+        const emojiAlias = (emoji.short_names && emoji.short_names[0]) || emoji.name;
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
