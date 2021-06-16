@@ -24,6 +24,7 @@ import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
 import {setSelectedThreadId} from 'actions/views/threads';
+import {unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
@@ -64,6 +65,11 @@ const GlobalThreads = () => {
     useEffect(() => {
         dispatch(selectChannel(''));
         loadProfilesForSidebar();
+
+        // unsuppresses RHS on navigating away (unmount)
+        return () => {
+            dispatch(unsuppressRHS);
+        };
     }, []);
 
     useEffect(() => {

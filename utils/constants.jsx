@@ -230,6 +230,9 @@ export const ActionTypes = keyMirror({
 
     SET_SHOW_NEXT_STEPS_VIEW: null,
     SET_FILES_FILTER_BY_EXT: null,
+
+    SUPPRESS_RHS: null,
+    UNSUPPRESS_RHS: null,
 });
 
 export const PostRequestTypes = keyMirror({
