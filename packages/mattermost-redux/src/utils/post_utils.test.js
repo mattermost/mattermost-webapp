@@ -15,6 +15,7 @@ import {
     shouldFilterJoinLeavePost,
     isPostCommentMention,
     getEmbedFromMetadata,
+    shouldUpdatePost,
 } from 'mattermost-redux/utils/post_utils';
 
 describe('PostUtils', () => {
@@ -557,6 +558,76 @@ describe('PostUtils', () => {
             const embedValue = {type: 'opengraph', url: 'url'};
             const embedData = getEmbedFromMetadata({embeds: [embedValue, {type: 'image', url: 'url1'}]});
             assert.equal(embedData, embedValue);
+        });
+    });
+
+    describe('shouldUpdatePost', () => {
+        const storedPost = {
+            id: 'post1',
+            message: '123',
+            update_at: 100,
+            is_following: false,
+            participants: null,
+            reply_count: 4,
+        };
+
+        it('should return true for new posts', () => {
+            const post = {
+                ...storedPost,
+                update_at: 100,
+            };
+
+            expect(shouldUpdatePost(post, null)).toBe(true);
+        });
+
+        it('should return false for older posts', () => {
+            const post = {
+                ...storedPost,
+                update_at: 40,
+            };
+
+            expect(shouldUpdatePost(post, storedPost)).toBe(false);
+        });
+
+        it('should return true for newer posts', () => {
+            const post = {
+                id: 'post1',
+                message: 'test',
+                update_at: 400,
+                is_following: false,
+                participants: null,
+                reply_count: 4,
+            };
+            expect(shouldUpdatePost(post, storedPost)).toBe(true);
+        });
+
+        it('should return false for same posts', () => {
+            const post = {...storedPost};
+            expect(shouldUpdatePost(post, storedPost)).toBe(false);
+        });
+
+        it('should return true for same posts with participants changed', () => {
+            const post = {
+                ...storedPost,
+                participants: [],
+            };
+            expect(shouldUpdatePost(post, storedPost)).toBe(true);
+        });
+
+        it('should return true for same posts with reply_count changed', () => {
+            const post = {
+                ...storedPost,
+                reply_count: 2,
+            };
+            expect(shouldUpdatePost(post, storedPost)).toBe(true);
+        });
+
+        it('should return true for same posts with is_following changed', () => {
+            const post = {
+                ...storedPost,
+                is_following: true,
+            };
+            expect(shouldUpdatePost(post, storedPost)).toBe(true);
         });
     });
 });
