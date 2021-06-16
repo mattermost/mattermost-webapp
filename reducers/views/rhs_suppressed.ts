@@ -6,7 +6,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {ViewsState} from 'types/store/views';
 import {ActionTypes} from 'utils/constants';
 
-export default function rhsStash(state: ViewsState['rhsSuppressed'] = false, action: GenericAction): boolean {
+export default function rhsSuppressed(state: ViewsState['rhsSuppressed'] = false, action: GenericAction): boolean {
     switch (action.type) {
     case ActionTypes.SUPPRESS_RHS:
         return true;
