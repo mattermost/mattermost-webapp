@@ -21,6 +21,7 @@ import jsonData from 'emoji-datasource/emoji.json';
 import jsonCategories from 'emoji-datasource/categories.json';
 
 const EMOJI_SIZE = 64;
+const EMOJI_SIZE_PADDED = EMOJI_SIZE + 2; // 1px per side
 const EMOJI_DEFAULT_SKIN = 'default';
 const endResults = [];
 
@@ -48,6 +49,8 @@ Fs.copyFile(sheetSource, sheetFile).catch((err) => console.log(`[ERROR] Failed t
 const emojiIndicesByAlias = [];
 const emojiIndicesByUnicode = [];
 const emojiIndicesByCategory = new Map();
+const emojiIndicesByCategoryAndSkin = new Map();
+const emojiIndicesByCategoryNoSkin = new Map();
 const categoryNamesSet = new Set();
 const categoryDefaultTranslation = new Map();
 const emojiImagesByAlias = [];
@@ -67,8 +70,6 @@ const skinNames = {
     '1F3FE': 'MEDIUM DARK SKIN TONE',
     '1F3FF': 'DARK SKIN TONE',
 };
-const emojiIndicesByCategoryNoSkin = new Map(); // this contains all emojis that are not 'skinnable'
-const emojiIndicesByCategoryAndSkin = new Map(); // this contains emojis that can have multiple skin tones.
 const control = new AbortController();
 const writeOptions = {
     encoding: 'utf8',
@@ -136,6 +137,7 @@ const skinset = new Set();
 fullEmoji.forEach((emoji, index) => {
     emojiIndicesByUnicode.push([emoji.unified.toLowerCase(), index]);
     const safeCat = convertCategory(emoji.category);
+    emoji.category = safeCat;
     categoryDefaultTranslation.set(safeCat, emoji.category);
     addIndexToMap(emojiIndicesByCategory, safeCat, index);
     if (emoji.skins || emoji.skin_variations) {
@@ -150,19 +152,22 @@ fullEmoji.forEach((emoji, index) => {
     categoryNamesSet.add(safeCat);
     emojiIndicesByAlias.push(...emoji.short_names.map((alias) => [alias, index]));
     const file = filename(emoji);
-    emojiFilePositions.set(file, `-${emoji.sheet_x * EMOJI_SIZE}px -${emoji.sheet_y * EMOJI_SIZE}px;`);
+    emoji.fileName = emoji.image;
+    emoji.image = file;
+    emojiFilePositions.set(file, `-${emoji.sheet_x * EMOJI_SIZE_PADDED}px -${emoji.sheet_y * EMOJI_SIZE_PADDED}px;`);
     emojiImagesByAlias.push(...emoji.short_names.map((alias) => `"${alias}": "${file}"`));
 });
-console.log(`skins: ${Array.from(skinset)}`);
 
 // write emoji.json
 endResults.push(writeFile('emoji.json', 'utils/emoji.json', JSON.stringify(fullEmoji)));
 
 const categoryList = Object.keys(jsonCategories).filter((item) => item !== 'Component').map(convertCategory);
-const categoryNames = ['recent', ...categoryList];
+const categoryNames = ['recent', ...categoryList, 'custom'];
 categoryDefaultTranslation.set('recent', 'Recently Used');
 categoryDefaultTranslation.set('searchResults', 'Search Results');
-const categoryTranslations = ['searchResults', ...categoryNames].map((c) => `['${c}', t('emoji_picker.${c}')]`);
+categoryDefaultTranslation.set('custom', 'Custom');
+
+const categoryTranslations = ['recent', 'searchResults', ...categoryNames].map((c) => `['${c}', t('emoji_picker.${c}')]`);
 const writeableSkinCategories = [];
 for (const skin of emojiIndicesByCategoryAndSkin.keys()) {
     writeableSkinCategories.push(`['${skin}', new Map(${JSON.stringify(Array.from(emojiIndicesByCategoryAndSkin.get(skin)))})]`);
@@ -254,7 +259,7 @@ if (process.env.SERVER_DIR) {
 
 // sprite css file
 
-const cssCats = categoryNames.map((cat) => `.emoji-category-${cat} { background-image: url('${sheetFile}'); }`);
+const cssCats = categoryNames.filter((cat) => cat !== 'custom').map((cat) => `.emoji-category-${cat} { background-image: url('${sheetFile}'); }`);
 const cssEmojis = [];
 for (const key of emojiFilePositions.keys()) {
     cssEmojis.push(`.emoji-${key} { background-position: ${emojiFilePositions.get(key)} }`);
@@ -268,11 +273,11 @@ const cssRules = `
     -moz-transform: scale(0.55);
     background-repeat: no-repeat;
     cursor: pointer;
-    height: 64px;
+    height: ${EMOJI_SIZE_PADDED}px;
     max-width: none;
-    transform-origin: 0 0;
-    width: 64px;
+    width: ${EMOJI_SIZE_PADDED}px;
     padding: 0 10px 0 0;
+    transform-origin: 0 0;
 }
 .emojisprite {
     zoom: 0.35;
@@ -280,10 +285,9 @@ const cssRules = `
     background-repeat: no-repeat;
     border-radius: 18px;
     cursor: pointer;
-    height: 64px;
+    height: ${EMOJI_SIZE_PADDED}px;
     max-width: none;
-    transform-origin: 0 0;
-    width: 64px;
+    width: ${EMOJI_SIZE_PADDED}px;
 }
 .emojisprite-loading {
     background-image: none !important;
@@ -292,10 +296,9 @@ const cssRules = `
     background-repeat: no-repeat;
     border-radius: 18px;
     cursor: pointer;
-    height: 64px;
+    height: ${EMOJI_SIZE_PADDED}px;
     max-width: none;
-    transform-origin: 0 0;
-    width: 64px;
+    width: ${EMOJI_SIZE_PADDED}px;
 }
 
 ${cssCats.join('\n')};

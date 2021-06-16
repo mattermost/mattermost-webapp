@@ -118,11 +118,6 @@ class CreatePost extends React.PureComponent {
         }).isRequired,
 
         /**
-         *  Data used dispatching handleViewAction
-         */
-        commentCountForPost: PropTypes.number,
-
-        /**
          *  Data used dispatching handleViewAction ex: edit post
          */
         latestReplyablePostId: PropTypes.string,
@@ -1077,7 +1072,7 @@ class CreatePost extends React.PureComponent {
         if (this.textboxRef.current) {
             this.textboxRef.current.blur();
         }
-        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
+        this.props.actions.setEditingPost(lastPost.id, 'post_textbox', type);
     }
 
     replyToLastPost = (e) => {

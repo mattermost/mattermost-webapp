@@ -186,17 +186,32 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
     public morePostsToFetch() {
         const rootPost = Utils.getRootPost(this.props.posts);
-        const replyCount = rootPost?.reply_count || this.props.userThread?.reply_count || 0;
+        const replyCount = this.getReplyCount();
         return rootPost && this.props.posts.length < (replyCount + 1);
     }
 
+    public getReplyCount() {
+        return Utils.getRootPost(this.props.posts)?.reply_count || this.props.userThread?.reply_count || 0;
+    }
+
     fetchThread() {
-        this.props.actions.getThread(
-            this.props.currentUserId,
-            this.props.currentTeamId,
-            this.props.selected.id,
-            true,
-        );
+        const {
+            actions: {
+                getThread,
+            },
+            currentUserId,
+            currentTeamId,
+            selected,
+        } = this.props;
+
+        if (this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
+            getThread(
+                currentUserId,
+                currentTeamId,
+                selected.id,
+                true,
+            );
+        }
     }
 
     markThreadRead() {
@@ -232,13 +247,6 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
         if (reconnected || selectedChanged) {
             this.props.actions.getPostThread(this.props.selected.id);
-
-            if (
-                this.props.isCollapsedThreadsEnabled &&
-                this.props.userThread == null
-            ) {
-                this.fetchThread();
-            }
         }
 
         if (

@@ -41,7 +41,6 @@ class EditPostModal extends React.PureComponent {
             post: PropTypes.object,
             postId: PropTypes.string,
             refocusId: PropTypes.string,
-            commentCount: PropTypes.number,
             show: PropTypes.bool.isRequired,
             title: PropTypes.string,
             isRHS: PropTypes.bool,
@@ -207,7 +206,6 @@ class EditPostModal extends React.PureComponent {
                 dialogType: DeletePostModal,
                 dialogProps: {
                     post: editingPost.post,
-                    commentCount: editingPost.commentCount,
                     isRHS: editingPost.isRHS,
                 },
             };

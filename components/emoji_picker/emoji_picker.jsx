@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -506,8 +507,9 @@ export default class EmojiPicker extends React.PureComponent {
 
         Object.values(emojis).forEach((emoji) => {
             let emojiArray = emojisMinusRecent;
-            for (let i = 0; i < emoji.short_names.length; i++) {
-                if (recentEmojisProps.includes(emoji.short_names[i].toLowerCase())) {
+            const alias = 'short_names' in emoji ? emoji.short_names : [emoji.name];
+            for (let i = 0; i < alias.length; i++) {
+                if (recentEmojisProps.includes(alias[i].toLowerCase())) {
                     emojiArray = recentEmojis;
                 }
             }
@@ -532,8 +534,9 @@ export default class EmojiPicker extends React.PureComponent {
     getEmojisByCategory(category) {
         if (this.props.filter) {
             const emojis = Object.values(this.state.allEmojis).filter((emoji) => {
-                for (let i = 0; i < emoji.short_names.length; i++) {
-                    if (emoji.short_names[i].toLowerCase().includes(this.props.filter)) {
+                const alias = 'short_names' in emoji ? emoji.short_names : [emoji.name];
+                for (let i = 0; i < alias.length; i++) {
+                    if (alias[i].toLowerCase().includes(this.props.filter)) {
                         return true;
                     }
                 }
@@ -552,8 +555,8 @@ export default class EmojiPicker extends React.PureComponent {
         if (!emoji) {
             return '';
         }
-
-        return emoji.short_names[0].replace(/_/g, ' ');
+        const name = 'short_name' in emoji ? emoji.short_name : emoji.name;
+        return name.replace(/_/g, ' ');
     }
 
     getCurrentEmojiCategoryName() {
@@ -713,6 +716,7 @@ export default class EmojiPicker extends React.PureComponent {
             }
             return (
                 <EmojiPickerItem
+                    // eslint-disable-next-line react/no-array-index-key
                     key={emoji.image + ':' + emojiIndex}
                     emoji={emoji}
                     onItemOver={this.handleItemOver}
@@ -770,3 +774,5 @@ export default class EmojiPicker extends React.PureComponent {
         );
     }
 }
+
+/* eslint-enable max-lines */

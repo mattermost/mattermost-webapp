@@ -33,14 +33,14 @@ export default class EmojiPickerPreview extends React.PureComponent {
                             id='emojiPickerSpritePreview'
                             alt={'emoji category image'}
                             src={imgTrans}
-                            className={'emojisprite-preview emoji-category-' + emoji.category + '-' + emoji.batch + ' emoji-' + emoji.image}
+                            className={'emojisprite-preview emoji-category-' + emoji.category + ' emoji-' + emoji.image}
                         />
                     </span>
                 );
             } else {
                 // This is a custom emoji that matches the model on the server
                 name = emoji.name;
-                aliases = [emoji.name];
+                aliases = [name];
                 previewImage = (
                     <img
                         id='emojiPickerSpritePreview'
