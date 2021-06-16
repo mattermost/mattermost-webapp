@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
@@ -9,13 +9,11 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getThreads} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
 import {suppressRHS} from 'actions/views/rhs';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
-import {useThreadRouting} from '../hooks';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 
@@ -26,12 +24,11 @@ import './global_threads_link.scss';
 const GlobalThreadsLink = () => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const isFeatureEnabled = useSelector(isCollapsedThreadsEnabled);
 
+    const isFeatureEnabled = useSelector(isCollapsedThreadsEnabled);
     const {url} = useRouteMatch();
     const {pathname} = useLocation();
     const inGlobalThreads = matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'}) != null;
-    const {currentTeamId, currentUserId} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const unreadsOnly = useSelector(isUnreadFilterEnabled);
@@ -40,13 +37,6 @@ const GlobalThreadsLink = () => {
     const closeRHS = useCallback(() => {
         dispatch(suppressRHS);
     }, []);
-
-    useEffect(() => {
-        // load counts if necessary
-        if (isFeatureEnabled) {
-            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
-        }
-    }, [currentTeamId, isFeatureEnabled]);
 
     if (!isFeatureEnabled || (unreadsOnly && !inGlobalThreads && !someUnreadThreads)) {
         // hide link if feature disabled or filtering unreads and there are no unread threads

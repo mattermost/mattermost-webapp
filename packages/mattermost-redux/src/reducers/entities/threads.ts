@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import {PostTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team, TeamUnread} from 'mattermost-redux/types/teams';
 import {Post} from 'mattermost-redux/types/posts';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -189,6 +189,21 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
             },
         };
     }
+    case TeamTypes.RECEIVED_MY_TEAM_UNREADS: {
+        const members = action.data;
+        return {
+            ...state,
+            ...members.reduce((result: ThreadsState['counts'], member: TeamUnread) => {
+                result[member.team_id] = {
+                    ...state[member.team_id],
+                    total_unread_threads: member.thread_count,
+                    total_unread_mentions: member.thread_mention_count,
+                };
+
+                return result;
+            }, {}),
+        };
+    }
     case ThreadTypes.READ_CHANGED_THREAD: {
         const {
             teamId,
@@ -201,12 +216,12 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
         // ThreadsState['counts'] unread totals contain DM/GM thread-unreads.
         // If DM/GM (no threadId), apply decrement/increment to all team counts.
         const countsByTeam = teamId ? {[teamId]: state[teamId] || {
-            total_unread_threads: 0,
             total: 0,
+            total_unread_threads: 0,
             total_unread_mentions: 0,
         }} : state;
 
-        const changedCounts = Object.entries(countsByTeam).reduce<ThreadsState['counts']>((result, [entryId, entryCounts]) => {
+        const changedCounts = Object.entries(countsByTeam).reduce((result: ThreadsState['counts'], [entryId, entryCounts]) => {
             const counts = {...entryCounts};
 
             const unreadMentionDiff = newUnreadMentions - prevUnreadMentions;

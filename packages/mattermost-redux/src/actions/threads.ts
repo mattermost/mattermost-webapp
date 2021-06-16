@@ -16,8 +16,6 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
 import {getThreadsInChannel} from 'mattermost-redux/selectors/entities/threads';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -202,21 +200,20 @@ export function handleFollowChanged(
     if (!following) {
         const state = getState();
         const thread = state.entities.threads.threads[threadId];
-        if (thread) {
-            handleReadChanged(
-                dispatch,
-                thread.id,
-                teamId,
-                thread.post.channel_id,
-                {
-                    lastViewedAt: thread.last_viewed_at,
-                    prevUnreadMentions: thread.unread_mentions,
-                    newUnreadMentions: 0,
-                    prevUnreadReplies: thread.unread_replies,
-                    newUnreadReplies: 0,
-                },
-            );
-        }
+
+        handleReadChanged(
+            dispatch,
+            threadId,
+            teamId,
+            thread?.post?.channel_id,
+            {
+                lastViewedAt: thread?.last_viewed_at,
+                prevUnreadMentions: thread?.unread_mentions, // TODO manually fetch, for multi-tab
+                newUnreadMentions: 0,
+                prevUnreadReplies: thread?.unread_replies, // TODO manually fetch, for multi-tab
+                newUnreadReplies: 0,
+            },
+        );
     }
 
     dispatch({

@@ -61,6 +61,8 @@ export type TeamUnread = {
     msg_count: number;
     mention_count_root: number;
     msg_count_root: number;
+    thread_count: number;
+    thread_mention_count: number;
 };
 
 export type GetTeamMembersOpts = {
