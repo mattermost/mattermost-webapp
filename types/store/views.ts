@@ -48,6 +48,8 @@ export type ViewsState = {
 
     rhs: RhsViewState;
 
+    rhsSuppressed: boolean;
+
     posts: {
         editingPost: {
             show: boolean;

@@ -337,7 +337,7 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} användare",
   "admin.billing.subscription.privateCloudCard.cloudEnterprise.description": "På Mattermost arbetar vi tillsammans med dig och ditt team för att uppfylla dina behov i produkten. Om du vill ha en årlig rabatt kan du kontakta vårt säljteam.",
   "admin.billing.subscription.privateCloudCard.cloudEnterprise.title": "Letar du efter en årlig rabatt? ",
-  "admin.billing.subscription.privateCloudCard.cloudProfessional.description": "Avancerade funktioner för säkerhet och efterlevnad med premiumsupport. Se [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) för mer information.",
+  "admin.billing.subscription.privateCloudCard.cloudProfessional.description": "Avancerade funktioner för säkerhet och efterlevnad med premiumsupport. Se {pricingLink} för mer information.",
   "admin.billing.subscription.privateCloudCard.cloudProfessional.title": "Uppgradera till Cloud Enterprise",
   "admin.billing.subscription.privateCloudCard.cloudStarter.description": "Optimera dina processer med gästkonton, Office365-integrationer, Gitlab SSO och avancerade behörigheter.",
   "admin.billing.subscription.privateCloudCard.cloudStarter.title": "Uppgradera till Cloud Professional",

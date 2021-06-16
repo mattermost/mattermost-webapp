@@ -43,6 +43,7 @@ export function getInt(state: GlobalState, category: string, name: string, defau
 
 export function makeGetCategory(): (state: GlobalState, category: string) => PreferenceType[] {
     return createSelector(
+        'makeGetCategory',
         getMyPreferences,
         (state: GlobalState, category: string) => category,
         (preferences, category) => {
@@ -80,6 +81,7 @@ export function getFavoritesPreferences(state: GlobalState) {
 }
 
 export const getVisibleTeammate: (state: GlobalState) => Array<$ID<UserProfile>> = createSelector(
+    'getVisibleTeammate',
     getDirectShowPreferences,
     (direct) => {
         return direct.filter((dm) => dm.value === 'true' && dm.name).map((dm) => dm.name);
@@ -87,6 +89,7 @@ export const getVisibleTeammate: (state: GlobalState) => Array<$ID<UserProfile>>
 );
 
 export const getVisibleGroupIds: (state: GlobalState) => string[] = createSelector(
+    'getVisibleGroupIds',
     getGroupShowPreferences,
     (groups) => {
         return groups.filter((dm) => dm.value === 'true' && dm.name).map((dm) => dm.name);
@@ -94,6 +97,7 @@ export const getVisibleGroupIds: (state: GlobalState) => string[] = createSelect
 );
 
 export const getTeammateNameDisplaySetting: (state: GlobalState) => string = createSelector(
+    'getTeammateNameDisplaySetting',
     getConfig,
     getMyPreferences,
     getLicense,
@@ -110,6 +114,7 @@ export const getTeammateNameDisplaySetting: (state: GlobalState) => string = cre
 );
 
 const getThemePreference = createSelector(
+    'getThemePreference',
     getMyPreferences,
     (state) => state.entities.teams.currentTeamId,
     (myPreferences, currentTeamId) => {
@@ -128,7 +133,7 @@ const getThemePreference = createSelector(
     },
 );
 
-const getDefaultTheme = createSelector(getConfig, (config): Theme => {
+const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): Theme => {
     if (config.DefaultTheme && config.DefaultTheme in Preferences.THEMES) {
         const theme: Theme = Preferences.THEMES[config.DefaultTheme];
         if (theme) {
@@ -141,6 +146,7 @@ const getDefaultTheme = createSelector(getConfig, (config): Theme => {
 });
 
 export const getTheme: (state: GlobalState) => Theme = createShallowSelector(
+    'getTheme',
     getThemePreference,
     getDefaultTheme,
     (themePreference, defaultTheme): Theme => {
@@ -156,6 +162,7 @@ export const getTheme: (state: GlobalState) => Theme = createShallowSelector(
 
 export function makeGetStyleFromTheme<Style>(): (state: GlobalState, getStyleFromTheme: (theme: Theme) => Style) => Style {
     return createSelector(
+        'makeGetStyleFromTheme',
         getTheme,
         (state: GlobalState, getStyleFromTheme: (theme: Theme) => Style) => getStyleFromTheme,
         (theme, getStyleFromTheme) => {
@@ -179,6 +186,7 @@ const defaultSidebarPrefs: SidebarPreferences = {
 };
 
 export const getSidebarPreferences: (state: GlobalState) => SidebarPreferences = createSelector(
+    'getSidebarPreferences',
     (state: GlobalState) => {
         const config = getConfig(state);
         return config.ExperimentalGroupUnreadChannels !== General.DISABLED && getBool(
@@ -212,6 +220,7 @@ export const getSidebarPreferences: (state: GlobalState) => SidebarPreferences =
 
 // shouldShowUnreadsCategory returns true if the user has unereads grouped separately with the new sidebar enabled.
 export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = createSelector(
+    'shouldShowUnreadsCategory',
     (state: GlobalState) => get(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION),
     (state: GlobalState) => get(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, ''),
     (state: GlobalState) => getConfig(state).ExperimentalGroupUnreadChannels,
