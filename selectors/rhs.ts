@@ -62,6 +62,7 @@ function getRealSelectedPost(state: GlobalState) {
 }
 
 export const getSelectedPost = createSelector(
+    'getSelectedPost',
     getSelectedPostId,
     getRealSelectedPost,
     getSelectedChannelId,

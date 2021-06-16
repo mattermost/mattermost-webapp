@@ -13,6 +13,7 @@ export const getPlugins = (state: GlobalState): MarketplacePlugin[] => state.vie
 export const getApps = (state: GlobalState): MarketplaceApp[] => state.views.marketplace.apps;
 
 export const getListing = createSelector(
+    'getListing',
     getPlugins,
     getApps,
     (plugins, apps) => {
@@ -25,6 +26,7 @@ export const getListing = createSelector(
 );
 
 export const getInstalledListing = createSelector(
+    'getInstalledListing',
     getListing,
     (listing) => listing.filter((i) => {
         if (isPlugin(i)) {

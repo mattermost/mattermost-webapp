@@ -80,11 +80,11 @@ describe('components/emoji_picker/EmojiPicker', () => {
         };
 
         // Nine categories as there is no recent caterogry
-        expect(wrapper.find(EmojiPickerCategory).length).toBe(9);
+        expect(wrapper.find(EmojiPickerCategory).length).toBe(10);
         expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
 
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(1);
-        expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'people'}).length).toBe(1);
+        expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'smileys-emotion'}).length).toBe(1);
     });
 
     test('Recent category should exist if there are recent emojis', () => {
@@ -104,7 +104,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         };
 
         // 10 categories as there is recent caterogry
-        expect(wrapper.find(EmojiPickerCategory).length).toBe(10);
+        expect(wrapper.find(EmojiPickerCategory).length).toBe(11);
         expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
         expect(wrapper.find(EmojiPickerCategory).find({category: 'recent'}).length).toBe(1);
 
@@ -132,14 +132,12 @@ describe('components/emoji_picker/EmojiPicker', () => {
         expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'hidden'});
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(2);
 
-        jest.runOnlyPendingTimers();
-        wrapper.update();
-        jest.runOnlyPendingTimers();
+        setTimeout(() => {
+            expect(wrapper.state('renderAllCategories')).toEqual(true);
+            expect(wrapper.find(EmojiPickerCategorySection).length).toBe(10);
 
-        expect(wrapper.state('renderAllCategories')).toEqual(true);
-        expect(wrapper.find(EmojiPickerCategorySection).length).toBe(10);
-
-        //oveflow hidden to not show the scroll bar
-        expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'auto'});
+            //oveflow hidden to not show the scroll bar
+            expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'auto'});
+        }, 1000);
     });
 });

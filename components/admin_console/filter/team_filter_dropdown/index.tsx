@@ -16,6 +16,7 @@ import {GlobalState} from 'types/store';
 import TeamFilterDropdown from './team_filter_dropdown';
 
 const getSortedListOfTeams = createSelector(
+    'getSortedListOfTeams',
     getTeams,
     (teams) => Object.values(teams).sort((a, b) => a.display_name.localeCompare(b.display_name)),
 );

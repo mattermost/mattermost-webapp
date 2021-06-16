@@ -19,6 +19,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 export {getMySystemPermissions, getMySystemRoles, getRoles};
 
 export const getMyTeamRoles: (state: GlobalState) => Dictionary<Set<string>> = createSelector(
+    'getMyTeamRoles',
     getTeamMemberships,
     (teamsMemberships) => {
         const roles: Dictionary<Set<string>> = {};
@@ -34,6 +35,7 @@ export const getMyTeamRoles: (state: GlobalState) => Dictionary<Set<string>> = c
 );
 
 export const getMyChannelRoles: (state: GlobalState) => Dictionary<Set<string>> = createSelector(
+    'getMyChannelRoles',
     (state: GlobalState) => state.entities.channels.myMembers,
     (channelsMemberships) => {
         const roles: Dictionary<Set<string>> = {};
@@ -53,6 +55,7 @@ export const getMyRoles: (state: GlobalState) => {
     team: Dictionary<Set<string>>;
     channel: Dictionary<Set<string>>;
 } = createSelector(
+    'getMyRoles',
     getMySystemRoles,
     getMyTeamRoles,
     getMyChannelRoles,
@@ -66,6 +69,7 @@ export const getMyRoles: (state: GlobalState) => {
 );
 
 export const getRolesById: (state: GlobalState) => Dictionary<Role> = createSelector(
+    'getRolesById',
     getRoles,
     (rolesByName) => {
         const rolesById: Dictionary<Role> = {};
@@ -77,6 +81,7 @@ export const getRolesById: (state: GlobalState) => Dictionary<Role> = createSele
 );
 
 export const getMyCurrentTeamPermissions: (state: GlobalState) => Set<string> = createSelector(
+    'getMyCurrentTeamPermissions',
     getMyTeamRoles,
     getRoles,
     getMySystemPermissions,
@@ -100,6 +105,7 @@ export const getMyCurrentTeamPermissions: (state: GlobalState) => Set<string> = 
 );
 
 export const getMyCurrentChannelPermissions: (state: GlobalState) => Set<string> = createSelector(
+    'getMyCurrentChannelPermissions',
     getMyChannelRoles,
     getRoles,
     getMyCurrentTeamPermissions,
@@ -123,6 +129,7 @@ export const getMyCurrentChannelPermissions: (state: GlobalState) => Set<string>
 );
 
 export const getMyTeamPermissions: (state: GlobalState, options: PermissionsOptions) => Set<string> = createSelector(
+    'getMyTeamPermissions',
     getMyTeamRoles,
     getRoles,
     getMySystemPermissions,
@@ -146,6 +153,7 @@ export const getMyTeamPermissions: (state: GlobalState, options: PermissionsOpti
 );
 
 export const getMyChannelPermissions: (state: GlobalState, options: PermissionsOptions) => Set<string> = createSelector(
+    'getMyChannelPermissions',
     getMyChannelRoles,
     getRoles,
     getMyTeamPermissions,
@@ -169,6 +177,7 @@ export const getMyChannelPermissions: (state: GlobalState, options: PermissionsO
 );
 
 export const haveISystemPermission: (state: GlobalState, options: PermissionsOptions) => boolean = createSelector(
+    'haveISystemPermission',
     getMySystemPermissions,
     (state: GlobalState, options: PermissionsOptions) => options.permission,
     (permissions, permission) => {
@@ -177,6 +186,7 @@ export const haveISystemPermission: (state: GlobalState, options: PermissionsOpt
 );
 
 export const haveITeamPermission: (state: GlobalState, options: PermissionsOptions) => boolean = createSelector(
+    'haveITeamPermission',
     getMyTeamPermissions,
     (state, options) => options.permission,
     (permissions, permission) => {
@@ -185,6 +195,7 @@ export const haveITeamPermission: (state: GlobalState, options: PermissionsOptio
 );
 
 export const haveIChannelPermission: (state: GlobalState, options: PermissionsOptions) => boolean = createSelector(
+    'haveIChannelPermission',
     getMyChannelPermissions,
     (state, options) => options.permission,
     (permissions, permission) => {
@@ -193,6 +204,7 @@ export const haveIChannelPermission: (state: GlobalState, options: PermissionsOp
 );
 
 export const haveICurrentTeamPermission: (state: GlobalState, options: PermissionsOptions) => boolean = createSelector(
+    'haveICurrentTeamPermission',
     getMyCurrentTeamPermissions,
     (state: GlobalState, options: PermissionsOptions) => options.permission,
     (permissions, permission) => {
@@ -201,6 +213,7 @@ export const haveICurrentTeamPermission: (state: GlobalState, options: Permissio
 );
 
 export const haveICurrentChannelPermission: (state: GlobalState, options: PermissionsOptions) => boolean = createSelector(
+    'haveICurrentChannelPermission',
     getMyCurrentChannelPermissions,
     (state: GlobalState, options: PermissionsOptions) => options.permission,
     (permissions, permission) => {
