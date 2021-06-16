@@ -14,6 +14,7 @@ import {
     getMyChannelMemberships,
     getChannelByName,
     getCurrentChannel,
+    getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -600,7 +601,7 @@ export default class SwitchChannelProvider extends Provider {
 
     fetchAndFormatRecentlyViewedChannels(resultsCallback) {
         const state = getState();
-        const recentChannels = getChannelsInCurrentTeam(state);
+        const recentChannels = getAllRecentChannels(state);
         const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
         if (channels.length === 0) {
             prefix = '';
@@ -656,11 +657,11 @@ export default class SwitchChannelProvider extends Provider {
                 if (!user) {
                     continue;
                 }
-
-                wrappedChannel = this.userWrappedChannel(
+                const userWrappedChannel = this.userWrappedChannel(
                     user,
                     channel,
                 );
+                wrappedChannel = {...wrappedChannel, ...userWrappedChannel};
             }
             wrappedChannel.type = channelType;
             channelList.push(wrappedChannel);
