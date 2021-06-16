@@ -441,10 +441,10 @@ export function getChannelsIdForTeam(state: GlobalState, teamId: string): string
     }, [] as string[]);
 }
 
-export function getGroupDisplayNameFromUserIds(userIds: string[], profiles: IDMappedObjects<UserProfile>, currentUserId: string, teammateNameDisplay: string): string {
+export function getGroupDisplayNameFromUserIds(userIds: string[], profiles: IDMappedObjects<UserProfile>, currentUserId: string, teammateNameDisplay: string, omitCurrentUser = true): string {
     const names: string[] = [];
     userIds.forEach((id) => {
-        if (id !== currentUserId) {
+        if (!(id === currentUserId && omitCurrentUser)) {
             names.push(displayUsername(profiles[id], teammateNameDisplay));
         }
     });
@@ -468,13 +468,13 @@ export function isDefault(channel: Channel): boolean {
     return channel.name === General.DEFAULT_CHANNEL;
 }
 
-function completeDirectGroupInfo(usersState: UsersState, teammateNameDisplay: string, channel: Channel) {
+export function completeDirectGroupInfo(usersState: UsersState, teammateNameDisplay: string, channel: Channel, omitCurrentUser = true) {
     const {currentUserId, profiles, profilesInChannel} = usersState;
     const profilesIds = profilesInChannel[channel.id];
     const gm = {...channel};
 
     if (profilesIds) {
-        gm.display_name = getGroupDisplayNameFromUserIds(profilesIds, profiles, currentUserId, teammateNameDisplay);
+        gm.display_name = getGroupDisplayNameFromUserIds(profilesIds, profiles, currentUserId, teammateNameDisplay, omitCurrentUser);
         return gm;
     }
 

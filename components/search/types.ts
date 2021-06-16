@@ -39,6 +39,7 @@ export type StateProps = {
 export type DispatchProps = {
     actions: {
         updateSearchTerms: (term: string) => Action;
+        updateSearchTermsForShortcut: () => void;
         updateSearchType: (searchType: string) => Action;
         showSearchResults: (isMentionSearch: boolean) => Record<string, any>;
         showChannelFiles: (channelId: string) => void;

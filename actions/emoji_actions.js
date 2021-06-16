@@ -55,10 +55,10 @@ export function addRecentEmoji(alias) {
         const emoji = emojiMap.get(alias);
         if (!emoji) {
             return;
-        } else if (emoji.name) {
-            name = emoji.name;
+        } else if (emoji.short_name) {
+            name = emoji.short_name;
         } else {
-            name = emoji.aliases[0];
+            name = emoji.name;
         }
 
         const index = recentEmojis.indexOf(name);

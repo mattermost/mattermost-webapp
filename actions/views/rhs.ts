@@ -16,7 +16,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
@@ -100,6 +100,13 @@ export function updateSearchTerms(terms: string) {
     return {
         type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
         terms,
+    };
+}
+
+export function updateSearchTermsForShortcut() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const currentChannelName = getCurrentChannelNameForSearchShortcut(getState());
+        return dispatch(updateSearchTerms(`in:${currentChannelName} `));
     };
 }
 

@@ -14,6 +14,7 @@ import {getItemFromStorage} from 'selectors/storage';
 import EmojiMap from 'utils/emoji_map';
 
 export const getEmojiMap = createSelector(
+    'getEmojiMap',
     getCustomEmojisByName,
     (customEmojisByName) => {
         return new EmojiMap(customEmojisByName);
@@ -23,6 +24,7 @@ export const getEmojiMap = createSelector(
 export const getShortcutReactToLastPostEmittedFrom = (state) => state.views.emoji.shortcutReactToLastPostEmittedFrom;
 
 export const getRecentEmojis = createSelector(
+    'getRecentEmojis',
     (state) => state.storage,
     getCurrentUserId,
     (storage, currentUserId) => {
