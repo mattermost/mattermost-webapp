@@ -93,6 +93,7 @@ export default class Root extends React.PureComponent {
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
             setBrowserNotificationsPermission: PropTypes.func.isRequired,
+            scheduleNextNotificationsPermissionRequest: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
     }
@@ -109,6 +110,7 @@ export default class Root extends React.PureComponent {
         setSystemEmojis(EmojiIndicesByAlias);
 
         this.props.actions.setBrowserNotificationsPermission();
+        this.props.actions.scheduleNextNotificationsPermissionRequest();
 
         // Force logout of all tabs if one tab is logged out
         window.addEventListener('storage', this.handleLogoutLoginSignal);

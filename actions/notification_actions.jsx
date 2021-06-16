@@ -209,19 +209,35 @@ export const enableBrowserNotifications = () => {
 
 const SEVEN_DAYS_IN_MS = 1000 * 60 * 60 * 24 * 7;
 
+export const scheduleNextNotificationsPermissionRequest = () => {
+    return (dispatch, getState) => {
+        const state = getState();
+
+        const currentShownTimes = getGlobalItem(state, StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, 0);
+        if (currentShownTimes > Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS) {
+            dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, null));
+            return;
+        }
+
+        const currentShowBarAt = getGlobalItem(state, StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, 0);
+        if (currentShowBarAt === null || currentShowBarAt !== 0) {
+            return;
+        }
+
+        const requestNotificationsPermissionAt = currentShownTimes === Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS 
+            ? Date.now() + SEVEN_DAYS_IN_MS
+            : 0;
+
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, requestNotificationsPermissionAt));
+    };
+};
+
 export const trackEnableNotificationsBarDisplay = () => {
     return (dispatch, getState) => {
         const state = getState();
-        const enableDesktopNotificationsBarShownTimes = getGlobalItem(state, StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BAR_SHOWN_TIMES, 0);
-        const currentShownTimes = enableDesktopNotificationsBarShownTimes + 1;
+        const enableDesktopNotificationsBarShownTimes = getGlobalItem(state, StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, 0);
 
-        if (currentShownTimes === Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS) {
-            const sevenDaysFromNowTimestamp = Date.now() + SEVEN_DAYS_IN_MS;
-
-            dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_LAST_ENABLE_DESKTOP_NOTIFICATIONS_BAR_AT, sevenDaysFromNowTimestamp));
-        }
-
-        dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BAR_SHOWN_TIMES, currentShownTimes));
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, enableDesktopNotificationsBarShownTimes + 1));
     };
 };
 
@@ -231,8 +247,8 @@ export const setBrowserNotificationsPermission = () => {
         const isPermissionGranted = permission === 'granted';
 
         if (isPermissionGranted) {
-            dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BANNER_SHOWN_TIMES, 0));
-            dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_LAST_ENABLE_DESKTOP_NOTIFICATIONS_BAR_AT, null));
+            dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, 0));
+            dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, null));
         }
 
         dispatch({

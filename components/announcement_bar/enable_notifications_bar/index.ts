@@ -8,22 +8,21 @@ import EnableNotificationsBar from './enable_notifications_bar';
 import { isNotificationsPermissionGranted } from 'selectors/browser';
 import { enableBrowserNotifications, trackEnableNotificationsBarDisplay } from 'actions/notification_actions';
 import { getGlobalItem } from 'selectors/storage';
-import Constants from 'utils/constants';
 import { StoragePrefixes } from 'utils/constants';
 
 function mapStateToProps(state: GlobalState) {
     const areNotificationsDisabled = !isNotificationsPermissionGranted(state);
-    const showBarLastTimeAt = getGlobalItem(state, StoragePrefixes.SHOW_LAST_ENABLE_DESKTOP_NOTIFICATIONS_BAR_AT, 0);
-    const isLastPermissionsRequestScheduled = showBarLastTimeAt !== 0;
-    const barShownTimes = getGlobalItem(state, StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BAR_SHOWN_TIMES, 0);
-    const isAllowedToShowBar = barShownTimes < Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS + 1;
+    const showBarAt = getGlobalItem(state, StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, null);
+    const isBarDismissedForever = showBarAt === null;
     
-    let show = areNotificationsDisabled && isAllowedToShowBar;
+    let show = areNotificationsDisabled;
 
-    if (isLastPermissionsRequestScheduled) {
-        const shouldShowBarForLastTime = Date.now() > showBarLastTimeAt;
+    if (isBarDismissedForever) {
+        show = false;
+    } else {
+        const shouldShowBar = Date.now() > showBarAt;
 
-        show = show && shouldShowBarForLastTime;
+        show = show && shouldShowBar;
     }
 
     return {

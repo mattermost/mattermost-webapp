@@ -562,8 +562,8 @@ export const StoragePrefixes = {
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
     INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
-    SHOW_LAST_ENABLE_DESKTOP_NOTIFICATIONS_BAR_AT: 'showLastEnableNotificationsBarAt',
-    ENABLE_DESKTOP_NOTIFICATIONS_BAR_SHOWN_TIMES: 'enableDesktopNotificationsBarShownTimes',
+    SHOW_ENABLE_NOTIFICATIONS_BAR_AT: 'showEnableNotificationsBarAt',
+    ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES: 'enableNotificationsBarShownTimes',
 };
 
 export const LandingPreferenceTypes = {
