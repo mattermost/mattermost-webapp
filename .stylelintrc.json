@@ -1,5 +1,5 @@
 {
-    "extends": ["stylelint-config-standard", "stylelint-config-idiomatic-order", "stylelint-config-recommended-scss"],
+    "extends": ["stylelint-config-recommended", "stylelint-config-standard", "stylelint-config-idiomatic-order", "stylelint-config-recommended-scss"],
     "rules": {
         "indentation": 4,
         "no-descending-specificity": null,
