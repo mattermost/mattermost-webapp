@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
+/* eslint-disable max-lines */
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
@@ -28,8 +28,8 @@ import {
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
+import ScreenshotUploadModal from 'components/screenshot_upload_modal/screenshot_upload_modal';
 
 const holders = defineMessages({
     limited: {
@@ -168,6 +168,9 @@ class FileUpload extends PureComponent {
         this.state = {
             requests: {},
             menuOpen: false,
+            ScreenshotUploadImgName: '',
+            ScreenshotUploadImgURL: '',
+            ScreenshotUploadModalShow: false,
         };
         this.fileInput = React.createRef();
     }
@@ -326,6 +329,7 @@ class FileUpload extends PureComponent {
             this.props.onUploadError(errors.join(', '));
         }
     }
+   
 
     handleChange = (e) => {
         if (e.target.files.length > 0) {
@@ -342,7 +346,6 @@ class FileUpload extends PureComponent {
             this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
             return;
         }
-
         this.props.onUploadError(null);
 
         const items = e.dataTransfer.items || [];
@@ -476,6 +479,10 @@ class FileUpload extends PureComponent {
                 if (!file) {
                     continue;
                 }
+                var urlCreator = window.URL || window.webkitURL;
+                var imageURL = urlCreator.createObjectURL(file);
+                this.setState({ScreenshotUploadModalShow: true, ScreenshotUploadImgURL: imageURL,  ScreenshotUploadImgName: 'test'  });
+                
 
                 var d = new Date();
                 let hour = d.getHours();
@@ -505,6 +512,9 @@ class FileUpload extends PureComponent {
                 this.props.onFileUploadChange();
             }
         }
+    }
+    closeScreenShotModal = () => {
+        this.setState({ScreenshotUploadModalShow: false});
     }
 
     keyUpload = (e) => {
@@ -695,8 +705,19 @@ class FileUpload extends PureComponent {
         }
 
         return (
+            <div>
             <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                
                 {bodyAction}
+            </div>
+            <div>
+                { this.state.ScreenshotUploadModalShow ? <ScreenshotUploadModal
+                    imgURL={this.state.ScreenshotUploadImgURL}
+                    imgName={this.state.ScreenshotUploadImgName}
+                    show={this.state.ScreenshotUploadModalShow}
+                    onHide={this.closeScreenShotModal}
+                /> : null}
+            </div>
             </div>
         );
     }
