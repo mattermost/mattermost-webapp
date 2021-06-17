@@ -89,13 +89,12 @@ type Props = {
     loadingMessageId: string;
     loadingMessageDefault: string;
     emailInvitationsEnabled: boolean;
-    extraErrorText: any;
+    extraErrorText: string;
 }
 
 export default class UsersEmailsInput extends React.PureComponent<Props> {
-
-    selectRef:React.RefObject<HTMLSelectElement>
-    state:UserEmailInputState;
+    selectRef: React.RefObject<HTMLSelectElement>
+    state: UserEmailInputState;
 
     static propTypes = {
         placeholder: PropTypes.string,
@@ -136,7 +135,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         };
     }
 
-    renderUserName = (user:UserProfile) => {
+    renderUserName = (user: UserProfile) => {
         const parts = getLongDisplayNameParts(user);
         let fullName = null;
         if (parts.fullName) {
@@ -167,11 +166,11 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         return (<LoadingSpinner text={text}/>);
     }
 
-    getOptionValue = (user:UserProfile) => {
+    getOptionValue = (user: UserProfile) => {
         return user.id || user.value;
     }
 
-    formatOptionLabel = (user:UserProfile, options:{context: string}) => {
+    formatOptionLabel = (user: UserProfile, options: {context: string}) => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
         let botBadge = null;
@@ -180,7 +179,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
             botBadge = <BotBadge/>;
         }
 
-        if (!isEmail(user?.value || "") && isGuest(user)) {
+        if (!isEmail(user?.value || '') && isGuest(user)) {
             guestBadge = <GuestBadge/>;
         }
 
@@ -225,18 +224,24 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         );
     }
 
-    onChange = (value: Array<OnChangeInput>): void => {
+    onChange = (value: Array<OnChangeInput|Option|string>): void => {
         if (this.props.onChange) {
-            this.props.onChange(value.map((v) => {
-                if (v?.id) {
+            this.props.onChange(value.map((v): string => {
+                if (typeof v === 'string') {
                     return v;
                 }
-                return v?.value;
+                if (v instanceof Option) {
+                    return v.text;
+                } else if (v.value) {
+
+                    return v.value;
+                }
+                const val: OnChangeInput = v;
             }));
         }
     }
 
-    getCreateLabel = (value: string) => (
+    getCreateLabel = (value: string): React.ReactFragment => (
         <React.Fragment>
             <MailPlusIcon className='mail-plus-icon'/>
             <FormattedMarkdownMessage
@@ -249,7 +254,10 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         </React.Fragment>
     );
 
-    NoOptionsMessage = ({selectProps,...props}:{selectProps:{inputValue:string}, props:CommonProps<any>}) => {
+    NoOptionsMessage = ({selectProps, props}: {
+        selectProps: {inputValue: string};
+        props: NoticeProps<OptionsType<OptionTypeBase>>;
+    }): ReactElement|null => {
         const inputValue = selectProps.inputValue;
         if (!inputValue) {
             return null;
@@ -273,7 +281,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         );
     };
 
-    MultiValueRemove = ({children, innerProps}:{children:React.ReactElement, innerProps: any}) => (
+    MultiValueRemove = ({children, innerProps}: {children: React.ReactElement; innerProps: unknown}): ReactElement => (
         <div {...innerProps}>
             {children || <CloseCircleSolidIcon/>}
         </div>
@@ -285,14 +293,9 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         IndicatorsContainer: () => null,
     };
 
-    handleInputChange = (inputValue:onChangeInput|string, action:{action:string}) => {
+    handleInputChange = (inputValue: OnChangeInput|string, action: {action: string}): void => {
         if (action.action === 'input-blur' && inputValue !== '') {
-            const values = this.props.value.map((v) => {
-                if (v.id) {
-                    return v;
-                }
-                return {label: v, value: v};
-            });
+            const values = this.props.value;
 
             for (const option of this.state.options) {
                 if (this.props.inputValue === option.username || this.props.inputValue === ('@' + option.username)) {
@@ -331,7 +334,8 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
     }
 
     onFocus = () => {
-        this.selectRef.current?.handleInputChange(this.props.inputValue, {action: 'custom'});
+        const selfRef = this.selectRef.current;
+        selfRef?.handleInputChange(this.props.inputValue, {action: 'custom'});
     }
 
     onBlur = () => {
