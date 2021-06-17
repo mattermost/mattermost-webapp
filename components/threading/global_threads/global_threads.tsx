@@ -88,6 +88,13 @@ const GlobalThreads = () => {
         }
     }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
 
+    // cleanup on unmount
+    useEffect(() => {
+        return () => {
+            dispatch(setSelectedThreadId(currentTeamId, ''));
+        };
+    }, []);
+
     return (
         <div
             id='app-content'

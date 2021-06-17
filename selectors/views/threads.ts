@@ -53,11 +53,11 @@ export function makeGetThreadLastViewedAt(): (state: GlobalState, threadId: $ID<
         getThreads,
         (_state, threadId) => threadId,
         (lastViewedAt, threads, threadId) => {
-            if (lastViewedAt) {
+            if (typeof lastViewedAt === 'number') {
                 return lastViewedAt;
             }
 
-            return threads[threadId]?.last_viewed_at || 0;
+            return threads[threadId]?.last_viewed_at;
         },
     );
 }
