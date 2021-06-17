@@ -3,6 +3,11 @@
 
 import {batchActions} from 'redux-batched-actions';
 
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {GetStateFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {browserHistory} from 'utils/browser_history';
+
 import {Threads} from 'utils/constants';
 
 export function updateThreadLastOpened(threadId: string, lastViewedAt: number) {
@@ -33,4 +38,15 @@ export function manuallyMarkThreadAsUnread(threadId: string, lastViewedAt: numbe
             data: {threadId},
         },
     ]);
+}
+
+export function switchToGlobalThreads() {
+    return (_dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const teamUrl = getCurrentRelativeTeamUrl(state);
+
+        browserHistory.push(`${teamUrl}/threads`);
+
+        return {data: true};
+    };
 }
