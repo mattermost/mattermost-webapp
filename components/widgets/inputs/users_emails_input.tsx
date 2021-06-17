@@ -38,60 +38,49 @@ type Option = {
 }
 
 type UserEmailInputState = {
-    options: Option[]
+    options: Option[];
 }
 
-type onChangeInput = {
-    id:string; 
-    value:string
-}
-type Props  = {
-  placeholder: string;
-  ariaLabel: string;
-  usersLoader: (input:string, customCallback:(options:Option[]) => void) => Promise<void>;
-  onChange: () => string;
-  showError: boolean;
-  errorMessageId: string;
-  errorMessageDefault: string;
-  errorMessageValues: object;
-  value: object[]|string[];
-  onInputChange: (input:string) => void;
-  inputValue: string;
-  noMatchMessageId: string;
-  noMatchMessageDefault: string;
-  validAddressMessageId: string;
-  validAddressMessageDefault: string;
-  loadingMessageId: string;
-  loadingMessageDefault: string;
-  emailInvitationsEnabled: boolean;
-  extraErrorText: any;
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>; // eslint-disable-line global-require
+// type Props  = {
+//   placeholder: string;
+//   ariaLabel: string;
+//   usersLoader: (input:string, customCallback:(options:Option[]) => void) => Promise<void>;
+//   onChange: () => string;
+//   showError: boolean;
+//   errorMessageId: string;
+//   errorMessageDefault: string;
+//   errorMessageValues: object;
+//   value: object[]|string[];
+//   onInputChange: (input:string) => void;
+//   inputValue: string;
+//   noMatchMessageId: string;
+//   noMatchMessageDefault: string;
+//   validAddressMessageId: string;
+//   validAddressMessageDefault: string;
+//   loadingMessageId: string;
+//   loadingMessageDefault: string;
+//   emailInvitationsEnabled: boolean;
+//   extraErrorText: any;
 
 type OnChangeInput = {
-    id: string;
+    id?: string;
     value: string;
+    label: string;
 }
-
-type UserData = {
-    id: string;
-    value: string;
-    username: string;
-    last_picture_update: number | undefined;
-    is_bot: boolean;
-}
-
 
 type Props = {
     placeholder: string;
     ariaLabel: string;
-    usersLoader: (input: string, customCallback: (options: object) => void) => Promise<UserData>;
+
+    // usersLoader: (input: string, customCallback: (options: object) => void) => Promise<UserData>;
+    usersLoader: (input: string, customCallback: (options: Option[]) => void) => Promise<void>;
     onChange: (input: Array<(OnChangeInput| string)>) => string;
     showError: boolean;
     errorMessageId: string;
     errorMessageDefault: string;
-    errorMessageValues: object;
-    value: object[]|string[];
-    onInputChange: (input:string) => void;
+    errorMessageValues: unknown;
+    value: Array<(OnChangeInput|string)>;
+    onInputChange: (input: string) => void;
     inputValue: string;
     noMatchMessageId: string;
     noMatchMessageDefault: string;
