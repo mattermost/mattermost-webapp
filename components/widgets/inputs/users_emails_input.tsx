@@ -2,14 +2,12 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
-import classNames from 'classnames';
+import React, {ReactElement} from 'react';
 import {FormattedMessage} from 'react-intl';
-import AsyncSelect from 'react-select/async';
-import {CommonProps, components} from 'react-select';
 import classNames from 'classnames';
-import {ActionMeta, components, ValueType} from 'react-select';
+import {components, OptionsType, OptionTypeBase} from 'react-select';
 import {Props as AsyncSelectProps} from 'react-select/async';
+import {NoticeProps} from 'react-select/src/components/Menu';
 
 import {AppSelectOption} from 'mattermost-redux/types/apps';
 
@@ -29,7 +27,10 @@ import {t} from 'utils/i18n.jsx';
 import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
-import { UserProfile } from 'mattermost-redux/types/users';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+
+const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>; // eslint-disable-line global-require
 
 type Option = {
     username: string;
