@@ -443,6 +443,21 @@ export function removeLicense(): ActionFunc {
     });
 }
 
+export function getPrevTrialLicense(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getPrevTrialLicense();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch({type: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS, data});
+        return {data};
+    };
+}
+
 export function getAnalytics(name: string, teamId = ''): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: AdminTypes.GET_ANALYTICS_REQUEST, data: null});

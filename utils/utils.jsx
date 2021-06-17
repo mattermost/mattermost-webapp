@@ -56,6 +56,9 @@ import store from 'stores/redux_store.jsx';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
+
 import {joinPrivateChannelPrompt} from './channel_utils';
 
 export function isMac() {
@@ -2267,6 +2270,25 @@ export function stringToNumber(s) {
     }
 
     return parseInt(s, 10);
+}
+
+export function renderPurchaseLicense() {
+    return (
+        <div className='purchase-card'>
+            <PurchaseLink
+                eventID='post_trial_purchase_license'
+                buttonTextElement={
+                    <FormattedMessage
+                        id='admin.license.trialCard.purchase_license'
+                        defaultMessage='Purchase a license'
+                    />
+                }
+            />
+            <ContactUsButton
+                eventID='post_trial_contact_sales'
+            />
+        </div>
+    );
 }
 
 export function deleteKeysFromObject(value, keys) {
