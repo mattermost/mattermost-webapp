@@ -18,10 +18,13 @@ import NoResultsIndicator from 'components/no_results_indicator/no_results_indic
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
+import {setRecentSkin} from 'stores/local_storage_store';
+
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
+import EmojiPickerSkin from './components/emoji_picker_skin';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
 
@@ -76,8 +79,6 @@ for (const cat of Emoji.CategoryNames) {
     CATEGORIES[cat] = createCategory(cat);
 }
 
-const smileysEmojiCategory = {'smileys-emotion': CATEGORIES['smileys-emotion']};
-
 const recentEmojiCategory = {recent: createCategory('recent')};
 
 const searchResultsCategory = createCategory(CATEGORY_SEARCH_RESULTS);
@@ -101,6 +102,7 @@ export default class EmojiPicker extends React.PureComponent {
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
         recentEmojis: PropTypes.array.isRequired,
+        recentSkin: PropTypes.string.isRequired,
         customEmojiPage: PropTypes.number.isRequired,
         visible: PropTypes.bool,
         actions: PropTypes.shape({
@@ -133,7 +135,7 @@ export default class EmojiPicker extends React.PureComponent {
                     return emojiMap.get(name);
                 });
             } else {
-                const indices = Emoji.EmojiIndicesByCategory.get(category) || [];
+                const indices = Emoji.getSkinnedCategories(props.recentSkin).get(category) || [];
                 categoryEmojis = indices.map((index) => Emoji.Emojis[index]);
                 if (category === 'custom') {
                     categoryEmojis = categoryEmojis.concat([...customEmojiMap.values()]);
@@ -181,7 +183,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.divHeight = 0;
         this.missingPages = true;
         this.loadingMoreEmojis = false;
-        const categories = props.recentEmojis.length ? {...recentEmojiCategory, ...smileysEmojiCategory} : smileysEmojiCategory;
+        const categories = props.recentEmojis.length ? {...recentEmojiCategory, ...CATEGORIES} : CATEGORIES;
         this.state = {
             allEmojis: {},
             categories,
@@ -189,6 +191,7 @@ export default class EmojiPicker extends React.PureComponent {
             divTopOffset: 0,
             emojisToShow: SYSTEM_EMOJIS_COUNT,
             renderAllCategories: false,
+            skinPicker: false,
         };
     }
 
@@ -481,6 +484,16 @@ export default class EmojiPicker extends React.PureComponent {
         }
     }
 
+    showSkinTones() {
+        this.setState({
+            skinPicker: true,
+        });
+    }
+
+    onSkinSelected(skin) {
+        setRecentSkin(skin);
+    }
+
     getCategoryByIndex(index) {
         if (this.props.filter && index !== 0) {
             return null;
@@ -618,27 +631,33 @@ export default class EmojiPicker extends React.PureComponent {
     emojiSearch() {
         return (
             <div className='emoji-picker__search-container'>
-                <span className='fa fa-search emoji-picker__search-icon'/>
-                <FormattedMessage
-                    id='emoji_picker.search_emoji'
-                    defaultMessage='Search for an emoji'
-                >
-                    {(ariaLabel) => (
-                        <LocalizedInput
-                            id='emojiPickerSearch'
-                            aria-label={ariaLabel}
-                            ref={this.emojiSearchInput}
-                            className='emoji-picker__search'
-                            data-testid='emojiInputSearch'
-                            type='text'
-                            onChange={this.handleFilterChange}
-                            onKeyDown={this.handleKeyDown}
-                            autoComplete='off'
-                            placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
-                            value={this.props.filter}
-                        />
-                    )}
-                </FormattedMessage>
+                <div className='emoji-picker__text-container'>
+                    <span className='fa fa-search emoji-picker__search-icon'/>
+                    <FormattedMessage
+                        id='emoji_picker.search_emoji'
+                        defaultMessage='Search for an emoji'
+                    >
+                        {(ariaLabel) => (
+                            <LocalizedInput
+                                id='emojiPickerSearch'
+                                aria-label={ariaLabel}
+                                ref={this.emojiSearchInput}
+                                className='emoji-picker__search'
+                                data-testid='emojiInputSearch'
+                                type='text'
+                                onChange={this.handleFilterChange}
+                                onKeyDown={this.handleKeyDown}
+                                autoComplete='off'
+                                placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
+                                value={this.props.filter}
+                            />
+                        )}
+                    </FormattedMessage>
+                </div>
+                <EmojiPickerSkin
+                    recentSkin={this.props.recentSkin}
+                    onSkinSelected={this.onSkinSelected}
+                />
             </div>
         );
     }

@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {getCustomEmojis, searchCustomEmojis} from 'mattermost-redux/actions/emojis';
 
 import {incrementEmojiPickerPage} from 'actions/emoji_actions';
-import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojis, getRecentSkin} from 'selectors/emojis';
 
 import EmojiPicker from './emoji_picker.jsx';
 
@@ -17,6 +17,7 @@ function mapStateToProps(state) {
         customEmojiPage: state.views.emoji.emojiPickerCustomPage,
         emojiMap: getEmojiMap(state),
         recentEmojis: getRecentEmojis(state),
+        recentSkin: getRecentSkin(state),
     };
 }
 
