@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, { useCallback } from "react";
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 export type Props = {
     className?: string;
@@ -12,12 +12,17 @@ export type Props = {
 const PostAttachmentContainer = (props: Props) => {
     const {children, className, link} = props;
     const history = useHistory();
-    const handleOnClick = useCallback(() => {
-        history.push(link);
+    const handleOnClick = useCallback((e) => {
+        const tagName = e.target.tagName
+        const elements = ['A', 'IMG', 'BUTTON']
+        if (!elements.includes(tagName) && (e.target.getAttribute('role') !== 'button' && e.target.className !== `attachment attachment--${className}`)) {
+            history.push(link);
+        }
     }, [history]);
     return (
         <div 
             className={`attachment attachment--${className}`}
+            role={'button'}
             onClick={handleOnClick}
         >
             <div className={`attachment__content attachment__content--${className}`}>

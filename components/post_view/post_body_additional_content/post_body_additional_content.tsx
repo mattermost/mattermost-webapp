@@ -114,12 +114,15 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 />
             );
         case 'permalink': {
-            return (
-                <PostMessagePreview 
-                    userId={embed.data.user_id}
-                    metadata={embed.data}
-                />
-            )
+            if (embed.data) {
+                return (
+                    <PostMessagePreview
+                        metadata={embed.data}
+                        createAt={embed.data.create_at}
+                    />
+                )
+            }
+            
         }
         default:
             return null;

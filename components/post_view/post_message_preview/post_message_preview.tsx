@@ -3,35 +3,31 @@
 
 import React from "react";
 
-import { Post, PostPreviewMetadata } from "mattermost-redux/types/posts";
+import {PostPreviewMetadata} from "mattermost-redux/types/posts";
 import UserProfileComponent from 'components/user_profile';
 import {UserProfile} from 'mattermost-redux/types/users';
 import Avatar from 'components/widgets/users/avatar';
 import * as Utils from 'utils/utils';
 import PostMessageView from 'components/post_view/post_message_view';
-import {THREADING_TIME} from 'components/threading/common/options';
 
-import Timestamp, {RelativeRanges} from 'components/timestamp';
-import { Channel } from "mattermost-redux/types/channels";
-import { Link } from "react-router-dom";
+import Timestamp from 'components/timestamp';
 import PostAttachmentContainer from "../post_attachment_container/post_attachment_container";
 
 export type Props = {
     user?: UserProfile;
     metadata: PostPreviewMetadata;
-    channel?: Channel;
+    createAt: number;
 };
 export default class PostMessagePreview extends React.PureComponent<Props> {
     render() {
         const {user, metadata} = this.props;
-        console.log('hello');
         return (
             <PostAttachmentContainer
                 className='permalink'
-                link={`/ad-1/pl/${this.props.metadata.id}`}
+                link={`/${this.props.metadata.team_name}/pl/${this.props.metadata.id}`}
             >
                 <div className='post-preview'>
-                    <div className='post__header'>
+                    <div className='post-preview__header'>
                         <div className='col col__name'>
                             <div className='post__img'>
                                 <span className='profile-icon'>
@@ -39,6 +35,7 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
                                         username={this.props.user?.username}
                                         size={'sm'}
                                         url={Utils.imageURLForUser(this.props.user?.id)}
+                                        className={'avatar-post-preview'}
                                     />
                                 </span>
                             </div>
@@ -61,7 +58,7 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
                                 ]}
                                 useTime={false}
                                 day={'numeric'}
-                                className='post__time'
+                                className='post-preview__time'
                             />
                         </div>
                     </div>
@@ -71,7 +68,7 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
                     />
                     <div className='post__preview-footer'>
                         <p>
-                            {`Originally posted in ~${this.props.channel?.display_name}`}
+                            {`Originally posted in ~${this.props.metadata?.channel_display_name}`}
                         </p>
                     </div>
                 </div>

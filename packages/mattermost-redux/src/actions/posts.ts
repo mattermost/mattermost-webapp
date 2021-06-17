@@ -944,7 +944,19 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     const statusesToLoad = new Set<string>();
 
     Object.values(posts).forEach((post) => {
+        
         const userId = post.user_id;
+
+        if (post.metadata.embeds) {
+            post.metadata.embeds.forEach((embed: any) => {
+                if (embed.type === 'permalink') {
+                    if (!profiles[embed.data.user_id] && embed.data.user_id !== currentUserId) {
+                        console.log(embed.data.user_id);
+                        userIdsToLoad.add(embed.data.user_id);
+                    }
+                }
+            });
+        }
 
         if (!statuses[userId]) {
             statusesToLoad.add(userId);
@@ -957,6 +969,8 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         if (!profiles[userId]) {
             userIdsToLoad.add(userId);
         }
+
+        
     });
 
     const promises: any[] = [];

@@ -753,7 +753,8 @@
         &.same--user {
             padding: 0 .5em 0 1em;
 
-            .post__header {
+            .post__header,
+            .post-preview__header {
                 margin-bottom: 0;
 
                 .post__header--info {
@@ -895,7 +896,8 @@
             margin: 0;
         }
 
-        .post__header {
+        .post__header,
+        .post-preview__header {
             display: flex;
             height: 22px;
             margin-bottom: 0;
@@ -1252,7 +1254,8 @@
         }
     }
 
-    .post__header {
+    .post__header,
+    .post-preview__header {
         display: flex;
         margin-bottom: 2px;
         white-space: nowrap;
@@ -1603,7 +1606,8 @@
         padding: 4px;
     }
 
-    .post__time {
+    .post__time,
+    .post-preview__time {
         @include opacity(.6);
         font-size: .9em;
         margin-right: 4px;
@@ -1795,11 +1799,20 @@
             text-align: left;
             width: 24px;
             padding: 0;
+
+            img.avatar-post-preview {
+                display: block;
+            }
         }
+        
 
         .user-popover {
             padding-left: 8px;
         }
+        .post-message__text-container {
+            overflow: hidden;
+        }
+
         .post-message--collapsed.post-message-preview--overflow .post-message__text {
             text-overflow: ellipsis;
             overflow: hidden;
@@ -1817,13 +1830,13 @@
             color: #2389D7;
         }
         
-        .post__time {
+        .post-preview__time {
             margin-left: 6px;
         }
 
         .post__preview-footer {
             display: block;
-            padding-top: 12px;
+            padding-top: 8px;
 
             p {
                 display: inline-block;

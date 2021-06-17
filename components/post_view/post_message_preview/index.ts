@@ -2,34 +2,25 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
-
-import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 import PostMessagePreview from './post_message_preview';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import { getChannel } from 'mattermost-redux/selectors/entities/channels';
-import { PostPreviewMetadata } from 'mattermost-redux/types/posts';
+import {PostPreviewMetadata} from 'mattermost-redux/types/posts';
 
 type Props = {
-    userId: string;
     metadata: PostPreviewMetadata;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
-    const user = getUser(state, ownProps.userId);
-    const channel = getChannel(state, ownProps.metadata.channel_id);
+    let user = null;
+    if (ownProps.metadata.user_id) {
+        user = getUser(state, ownProps.metadata.user_id);
+    }
 
     return {
         user,
-        channel,
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostMessagePreview);
+export default connect(mapStateToProps, null)(PostMessagePreview);

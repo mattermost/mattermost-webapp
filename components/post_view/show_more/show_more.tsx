@@ -67,6 +67,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
 
     toggleCollapse = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        e.stopPropagation();
         this.setState((prevState) => {
             return {
                 isCollapsed: !prevState.isCollapsed,
