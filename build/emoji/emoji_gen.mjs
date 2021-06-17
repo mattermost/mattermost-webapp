@@ -215,7 +215,7 @@ function genSkinnedCategories(skin) {
         indices.push(...(EmojiIndicesByCategoryNoSkin.get(cat) || []));
         indices.push(...skinCat);
 
-        result.set('cat', indices);
+        result.set(cat, indices);
     }
     return result;
 }
