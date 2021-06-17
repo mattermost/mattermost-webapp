@@ -179,10 +179,13 @@ describe('Actions.Posts', () => {
 
         await testStore.dispatch(Actions.handleNewPost(newPost, msg));
         expect(testStore.getActions()).toEqual([
-            INCREASED_POST_VISIBILITY,
             {
                 meta: {batch: true},
-                payload: [PostActions.receivedNewPost(newPost, false), STOP_TYPING],
+                payload: [
+                    INCREASED_POST_VISIBILITY,
+                    PostActions.receivedNewPost(newPost, false),
+                    STOP_TYPING,
+                ],
                 type: 'BATCHING_REDUCER.BATCH',
             },
             {
@@ -210,12 +213,6 @@ describe('Actions.Posts', () => {
                             userId: newPost.user_id,
                         },
                     },
-                ],
-                type: 'BATCHING_REDUCER.BATCH',
-            },
-            {
-                meta: {batch: true},
-                payload: [
                     {
                         type: ChannelTypes.INCREMENT_UNREAD_MSG_COUNT,
                         data: {
