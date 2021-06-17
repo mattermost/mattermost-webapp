@@ -6,7 +6,7 @@ import {GlobalState} from 'types/store';
 import * as selectors from './threads';
 
 describe('selectors/views/threads', () => {
-    const makeState = (selectedThreadId: string|null, selectedPostId: string) => ({
+    const makeState = (selectedThreadId: string|null, selectedPostId: string, isSidebarOpen = true) => ({
         entities: {
             teams: {
                 currentTeamId: 'current_team_id',
@@ -31,14 +31,21 @@ describe('selectors/views/threads', () => {
             },
             rhs: {
                 selectedPostId,
+                isSidebarOpen,
             },
+            rhsSuppressed: false,
         },
     }) as unknown as GlobalState;
 
     describe('getOpenThreadId', () => {
-        test('should return selected post id if it exists', () => {
+        test('should return selected post id if it exists and rhs is open', () => {
             const state = makeState(null, 'selected_post_id');
             expect(selectors.getOpenThreadId(state)).toBe('selected_post_id');
+        });
+
+        test('should return null if selected post id exists but rhs is closed ', () => {
+            const state = makeState(null, 'selected_post_id', false);
+            expect(selectors.getOpenThreadId(state)).toBe(null);
         });
 
         test('should return selected thread id is selected post doesn\'t exist', () => {

@@ -13,7 +13,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
-import {getSelectedPostId} from 'selectors/rhs';
+import {getIsRhsOpen, getSelectedPostId} from 'selectors/rhs';
 
 export function getSelectedThreadIdInTeam(state: GlobalState) {
     return state.views.threads.selectedThreadIdInTeam;
@@ -66,8 +66,13 @@ export const getOpenThreadId: (state: GlobalState) => $ID<UserThread> | null = c
     'getOpenThreadId',
     getSelectedThreadIdInCurrentTeam,
     getSelectedPostId,
-    (selectedThreadId, selectedPostId) => {
-        return selectedPostId || selectedThreadId;
+    getIsRhsOpen,
+    (selectedThreadId, selectedPostId, isRhsOpen) => {
+        if (isRhsOpen && selectedPostId) {
+            return selectedPostId;
+        }
+
+        return selectedThreadId;
     },
 );
 
