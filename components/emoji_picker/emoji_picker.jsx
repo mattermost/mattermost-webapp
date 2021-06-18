@@ -162,6 +162,10 @@ export default class EmojiPicker extends React.PureComponent {
             }
         }
 
+        if (!props.customEmojisEnabled || categories.custom?.emojiIds?.length === 0) {
+            delete categories.custom;
+        }
+
         return {categories, allEmojis};
     }
 
@@ -184,7 +188,6 @@ export default class EmojiPicker extends React.PureComponent {
         this.missingPages = true;
         this.loadingMoreEmojis = false;
 
-        // const categories = props.recentEmojis.length ? {...recentEmojiCategory, ...CATEGORIES} : CATEGORIES;
         const categories = props.recentEmojis.length ? {...recentEmojiCategory, ...smileysCategory} : smileysCategory;
         this.state = {
             allEmojis: {},
@@ -314,8 +317,10 @@ export default class EmojiPicker extends React.PureComponent {
         this.setState({
             cursor: [Object.keys(this.state.categories).indexOf(categoryName), 0],
         });
-        this.updateEmojisToShow(this.state.categories[categoryName].offset);
-        this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
+        if (this.state.categories[categoryName]) {
+            this.updateEmojisToShow(this.state.categories[categoryName].offset);
+            this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
+        }
         this.searchInput.focus();
     }
 
@@ -585,7 +590,10 @@ export default class EmojiPicker extends React.PureComponent {
 
     emojiCategories() {
         const categories = this.props.recentEmojis.length ? {...recentEmojiCategory, ...CATEGORIES} : CATEGORIES;
-        const categoryKeys = Object.keys(categories);
+        let categoryKeys = Object.keys(categories);
+        if (!this.props.customEmojisEnabled) {
+            categoryKeys = categoryKeys.filter((key) => key !== 'custom');
+        }
         const currentCategoryName = this.props.filter ? categoryKeys[0] : this.getCurrentEmojiCategoryName();
         const emojiPickerCategories = categoryKeys.map((categoryName) => {
             const category = categories[categoryName];
