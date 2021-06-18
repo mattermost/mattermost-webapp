@@ -15,9 +15,6 @@ import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferen
 import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
-    getMostRecentPostIdInChannel,
-    getPost,
-    makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
@@ -49,7 +46,6 @@ import {canUploadFiles} from 'utils/file_utils';
 import CreatePost from './create_post.jsx';
 
 function makeMapStateToProps() {
-    const getCommentCountForPost = makeGetCommentCountForPost();
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST);
 
     return (state, ownProps) => {
@@ -57,8 +53,6 @@ function makeMapStateToProps() {
         const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
         const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
-        const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
-        const post = getPost(state, recentPostIdInChannel);
         const latestReplyablePostId = getLatestReplyablePostId(state);
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         const enableTutorial = config.EnableTutorial === 'true';
@@ -105,7 +99,6 @@ function makeMapStateToProps() {
             showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER,
             messageInHistoryItem: getMessageInHistoryItem(state),
             draft,
-            commentCountForPost: getCommentCountForPost(state, {post}),
             latestReplyablePostId,
             locale: getCurrentLocale(state),
             currentUsersLatestPost: getCurrentUsersLatestPost(state),

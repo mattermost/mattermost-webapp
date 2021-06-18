@@ -15,6 +15,7 @@ export function getBotAccounts(state: GlobalState) {
 }
 
 export const getExternalBotAccounts: (state: GlobalState) => Dictionary<Bot> = createSelector(
+    'getExternalBotAccounts',
     getBotAccounts,
     getUsers,
     (botAccounts, userProfiles) => {

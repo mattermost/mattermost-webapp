@@ -337,7 +337,7 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} gebruikers",
   "admin.billing.subscription.privateCloudCard.cloudEnterprise.description": "Bij Mattermost werken we samen met jou en jouw team om aan je behoeften te voldoen gedurende het hele product. Als je op zoek bent naar een jaarlijkse korting, neem dan contact op met ons verkoopteam.",
   "admin.billing.subscription.privateCloudCard.cloudEnterprise.title": "Op zoek naar een jaarlijkse korting? ",
-  "admin.billing.subscription.privateCloudCard.cloudProfessional.description": "Geavanceerde beveiligings- en nalevingsfuncties met premium ondersteuning. Zie [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) voor meer details.",
+  "admin.billing.subscription.privateCloudCard.cloudProfessional.description": "Geavanceerde beveiligings- en nalevingsfuncties met premium ondersteuning. Zie {pricingLink}voor verdere details.",
   "admin.billing.subscription.privateCloudCard.cloudProfessional.title": "Upgrade naar Cloud Enterprise",
   "admin.billing.subscription.privateCloudCard.cloudStarter.description": "Optimaliseer je processen met Gast-accounts, Office365-suite-integraties, Gitlab SSO en geavanceerde machtigingen.",
   "admin.billing.subscription.privateCloudCard.cloudStarter.title": "Upgrade naar Cloud Professional",

@@ -13,6 +13,7 @@ import {GlobalState} from 'types/store';
 
 export function makeGetCustomStatus(): (state: GlobalState, userID?: string) => UserCustomStatus {
     return createSelector(
+        'makeGetCustomStatus',
         (state: GlobalState, userID?: string) => (userID ? getUser(state, userID) : getCurrentUser(state)),
         (user) => {
             const userProps = user?.props || {};
@@ -22,6 +23,7 @@ export function makeGetCustomStatus(): (state: GlobalState, userID?: string) => 
 }
 
 export const getRecentCustomStatuses = createSelector(
+    'getRecentCustomStatuses',
     (state: GlobalState) => get(state, Preferences.CATEGORY_CUSTOM_STATUS, Preferences.NAME_RECENT_CUSTOM_STATUSES),
     (value) => {
         return value ? JSON.parse(value) : [];

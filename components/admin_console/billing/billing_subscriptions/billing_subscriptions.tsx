@@ -8,12 +8,11 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 import AlertBanner from 'components/alert_banner';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 import freeTrialPrivateCloudImage from 'images/free-trial-private-cloud-image.svg';
 
-import {CloudProducts} from 'utils/constants';
+import {CloudLinks, CloudProducts} from 'utils/constants';
 
 export const contactSalesCard = (
     contactSalesLink: any,
@@ -25,6 +24,18 @@ export const contactSalesCard = (
 ) => {
     let title;
     let description;
+
+    const pricingLink = (
+        <a
+            href={CloudLinks.CLOUD_PRICING}
+            rel='noopener noreferrer'
+            target='_blank'
+            className='PrivateCloudCard__pricingLink'
+            onClick={() => trackEvent('cloud_admin', 'click_pricing_link')}
+        >
+            {CloudLinks.CLOUD_PRICING}
+        </a>
+    );
 
     if (isFreeTrial) {
         title = (
@@ -76,9 +87,10 @@ export const contactSalesCard = (
                 />
             );
             description = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
-                    defaultMessage='Advanced security and compliance features with premium support. See [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) for more details.'
+                    defaultMessage='Advanced security and compliance features with premium support. See {pricingLink} for more details.'
+                    values={{pricingLink}}
                 />
             );
             break;
@@ -104,9 +116,10 @@ export const contactSalesCard = (
                 />
             );
             description = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
-                    defaultMessage='Advanced security and compliance features with premium support. See [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) for more details.'
+                    defaultMessage='Advanced security and compliance features with premium support. See {pricingLink} for more details.'
+                    values={{pricingLink}}
                 />
             );
             break;
@@ -126,7 +139,7 @@ export const contactSalesCard = (
                     <a
                         href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
                         rel='noopener noreferrer'
-                        target='_new'
+                        target='_blank'
                         className='PrivateCloudCard__actionButton'
                         onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
                     >

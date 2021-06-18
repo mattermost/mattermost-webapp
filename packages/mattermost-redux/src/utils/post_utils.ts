@@ -228,3 +228,36 @@ export function getEmbedFromMetadata(metadata: PostMetadata): PostEmbed | null {
 
     return metadata.embeds[0];
 }
+
+export function shouldUpdatePost(receivedPost: Post, storedPost?: Post): boolean {
+    if (!storedPost) {
+        return true;
+    }
+
+    if (storedPost.update_at > receivedPost.update_at) {
+        // The stored post is newer than the one we've received
+        return false;
+    }
+
+    if (
+        storedPost.update_at && receivedPost.update_at &&
+        storedPost.update_at === receivedPost.update_at
+    ) {
+        // The stored post has the same update at with the one we've received
+        if (
+            storedPost.is_following !== receivedPost.is_following ||
+            storedPost.reply_count !== receivedPost.reply_count ||
+            storedPost.participants?.length !== receivedPost.participants?.length
+        ) {
+            // CRT properties are not the same between posts
+            // e.g: in the case of toggling CRT on/off
+            return true;
+        }
+
+        // The stored post is the same as the one we've received
+        return false;
+    }
+
+    // The stored post is older than the one we've received
+    return true;
+}

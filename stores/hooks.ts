@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {useSelector, useDispatch} from 'react-redux';
+
 import {createSelector} from 'reselect';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -10,7 +11,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem} from 'actions/storage';
 
-export const currentUserAndTeamSuffix = createSelector([
+export const currentUserAndTeamSuffix = createSelector('currentUserAndTeamSuffix', [
     getCurrentUserId,
     getCurrentTeamId,
 ], (
@@ -20,7 +21,7 @@ export const currentUserAndTeamSuffix = createSelector([
     return `:${userId}:${teamId}`;
 });
 
-export const currentUserSuffix = createSelector([
+export const currentUserSuffix = createSelector('currentUserSuffix', [
     getCurrentUserId,
 ], (
     userId,
