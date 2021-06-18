@@ -18,11 +18,11 @@ export const EmojiIndicesByUnicode = new Map([["1f600",0],["1f603",1],["1f604",2
 
 export const CategoryNames = ["recent","smileys-emotion","people-body","animals-nature","food-drink","travel-places","activities","objects","symbols","flags","custom"];
 
-export const CategoryMessage = new Map([[["smileys-emotion","smileys-emotion"],["people-body","people-body"],["component","component"],["animals-nature","animals-nature"],["food-drink","food-drink"],["travel-places","travel-places"],["activities","activities"],["objects","objects"],["symbols","symbols"],["flags","flags"],["recent","Recently Used"],["searchResults","Search Results"],["custom","Custom"]]]);
+export const CategoryMessage = new Map([[["smileys-emotion","Smileys & Emotion"],["people-body","People & Body"],["component","Component"],["animals-nature","Animals & Nature"],["food-drink","Food & Drink"],["travel-places","Travel & Places"],["activities","Activities"],["objects","Objects"],["symbols","Symbols"],["flags","Flags"],["recent","Recently Used"],["searchResults","Search Results"],["custom","Custom"]]]);
 
 export const CategoryTranslations = new Map([['recent', t('emoji_picker.recent')],['searchResults', t('emoji_picker.searchResults')],['recent', t('emoji_picker.recent')],['smileys-emotion', t('emoji_picker.smileys-emotion')],['people-body', t('emoji_picker.people-body')],['animals-nature', t('emoji_picker.animals-nature')],['food-drink', t('emoji_picker.food-drink')],['travel-places', t('emoji_picker.travel-places')],['activities', t('emoji_picker.activities')],['objects', t('emoji_picker.objects')],['symbols', t('emoji_picker.symbols')],['flags', t('emoji_picker.flags')],['custom', t('emoji_picker.custom')]]);
 
-export const SkinTranslations = new Map([["'default'","t('emoji_skin.default')"],["'1F3FB'","t('emoji_skin.light_skin_tone')"],["'1F3FC'","t('emoji_skin.medium_light_skin_tone')"],["'1F3FD'","t('emoji_skin.medium_skin_tone')"],["'1F3FE'","t('emoji_skin.medium_dark_skin_tone')"],["'1F3FF'","t('emoji_skin.dark_skin_tone')"]]);
+export const SkinTranslations = new Map([['default', t('emoji_skin.default')], ['1F3FB', t('emoji_skin.light_skin_tone')], ['1F3FC', t('emoji_skin.medium_light_skin_tone')], ['1F3FD', t('emoji_skin.medium_skin_tone')], ['1F3FE', t('emoji_skin.medium_dark_skin_tone')], ['1F3FF', t('emoji_skin.dark_skin_tone')]]);
 
 export const ComponentCategory = 'Component';
 
@@ -49,4 +49,4 @@ function genSkinnedCategories(skin) {
 }
 
 export const getSkinnedCategories = memoize(genSkinnedCategories);
-export const EmojiIndicesByCategory = getSkinnedCategories(EMOJI_DEFAULT_SKIN);
+export const EmojiIndicesByCategory = new Map([['default', genSkinnedCategories('default')], ['1F3FB', genSkinnedCategories('1F3FB')], ['1F3FC', genSkinnedCategories('1F3FC')], ['1F3FD', genSkinnedCategories('1F3FD')], ['1F3FE', genSkinnedCategories('1F3FE')], ['1F3FF', genSkinnedCategories('1F3FF')]]);

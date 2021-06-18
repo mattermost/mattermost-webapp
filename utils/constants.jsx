@@ -170,6 +170,7 @@ export const ActionTypes = keyMirror({
     UPDATE_CHANNEL_LAST_VIEWED_AT: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
+    SET_RECENT_SKIN: null,
 
     STATUS_DROPDOWN_TOGGLE: null,
     TOGGLE_LHS: null,

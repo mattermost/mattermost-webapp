@@ -138,8 +138,8 @@ const skinset = new Set();
 fullEmoji.forEach((emoji, index) => {
     emojiIndicesByUnicode.push([emoji.unified.toLowerCase(), index]);
     const safeCat = convertCategory(emoji.category);
-    emoji.category = safeCat;
     categoryDefaultTranslation.set(safeCat, emoji.category);
+    emoji.category = safeCat;
     addIndexToMap(emojiIndicesByCategory, safeCat, index);
     if (emoji.skins || emoji.skin_variations) {
         const skin = (emoji.skins && emoji.skins[0]) || EMOJI_DEFAULT_SKIN;
@@ -171,9 +171,11 @@ categoryDefaultTranslation.set('custom', 'Custom');
 const categoryTranslations = ['recent', 'searchResults', ...categoryNames].map((c) => `['${c}', t('emoji_picker.${c}')]`);
 const writeableSkinCategories = [];
 const skinTranslations = [];
+const skinnedCats = [];
 for (const skin of emojiIndicesByCategoryAndSkin.keys()) {
     writeableSkinCategories.push(`['${skin}', new Map(${JSON.stringify(Array.from(emojiIndicesByCategoryAndSkin.get(skin)))})]`);
-    skinTranslations.push([`'${skin}'`, `t('emoji_skin.${skinCodes[skin]}')`]);
+    skinTranslations.push(`['${skin}', t('emoji_skin.${skinCodes[skin]}')]`);
+    skinnedCats.push(`['${skin}', genSkinnedCategories('${skin}')]`);
 }
 
 // generate emoji.jsx out of the emoji.json parsing we did
@@ -201,7 +203,7 @@ export const CategoryMessage = new Map([${JSON.stringify(Array.from(categoryDefa
 
 export const CategoryTranslations = new Map([${categoryTranslations}]);
 
-export const SkinTranslations = new Map(${JSON.stringify(skinTranslations)});
+export const SkinTranslations = new Map([${skinTranslations.join(', ')}]);
 
 export const ComponentCategory = 'Component';
 
@@ -228,7 +230,7 @@ function genSkinnedCategories(skin) {
 }
 
 export const getSkinnedCategories = memoize(genSkinnedCategories);
-export const EmojiIndicesByCategory = getSkinnedCategories(EMOJI_DEFAULT_SKIN);
+export const EmojiIndicesByCategory = new Map([${skinnedCats.join(', ')}]);
 `;
 
 // write emoji.jsx

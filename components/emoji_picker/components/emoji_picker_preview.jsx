@@ -12,6 +12,27 @@ import imgTrans from 'images/img_trans.gif';
 export default class EmojiPickerPreview extends React.PureComponent {
     static propTypes = {
         emoji: PropTypes.object,
+        customEmojisEnabled: PropTypes.bool,
+        currentTeamName: PropTypes.string.isRequired,
+    }
+
+    customEmojis = () => {
+        if (!this.props.customEmojisEnabled) {
+            return null;
+        }
+        return (
+            <div className='emoji-picker__custom'>
+                <a
+                    className='btn btn-link'
+                    href={`/${this.props.currentTeamName}/emoji`}
+                >
+                    <FormattedMessage
+                        id='emoji_picker.custom_emoji'
+                        defaultMessage='Custom Emoji'
+                    />
+                </a>
+            </div>
+        );
     }
 
     render() {
@@ -52,23 +73,29 @@ export default class EmojiPickerPreview extends React.PureComponent {
             }
 
             return (
-                <div className='emoji-picker__preview'>
-                    <div className='emoji-picker__preview-image-box'>
-                        {previewImage}
+                <div className='emoji-picker__footer'>
+                    <div className='emoji-picker__preview'>
+                        <div className='emoji-picker__preview-image-box'>
+                            {previewImage}
+                        </div>
+                        <div className='emoji-picker__preview-image-label-box'>
+                            <span className='emoji-picker__preview-name'>{':' + aliases.join(': :') + ':'}</span>
+                        </div>
                     </div>
-                    <div className='emoji-picker__preview-image-label-box'>
-                        <span className='emoji-picker__preview-name'>{':' + aliases.join(': :') + ':'}</span>
-                    </div>
+                    {this.customEmojis()}
                 </div>
             );
         }
 
         return (
-            <div className='emoji-picker__preview emoji-picker__preview-placeholder'>
-                <FormattedMessage
-                    id='emoji_picker.emojiPicker'
-                    defaultMessage='Select an Emoji'
-                />
+            <div className='emoji-picker__footer'>
+                <div className='emoji-picker__preview emoji-picker__preview-placeholder'>
+                    <FormattedMessage
+                        id='emoji_picker.emojiPicker'
+                        defaultMessage='Select an Emoji'
+                    />
+                </div>
+                {this.customEmojis()}
             </div>
         );
     }

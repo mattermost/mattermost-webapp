@@ -39,19 +39,18 @@ export const getRecentEmojis = createSelector(
     },
 );
 
-export const getRecentSkin = createSelector(
-    'getRecentSkin',
-    getCurrentUserId,
-    (currentUserId) => {
-        const recentSkin = LocalStorageStore.getRecentSkin(currentUserId);
+function getStateRecentSkin(state) {
+    return state.views.emoji?.recentSkin;
+}
 
-        if (!recentSkin) {
-            return [];
-        }
-
-        return recentSkin;
-    },
-);
+export function getRecentSkin(state) {
+    const stateSkin = getStateRecentSkin(state);
+    if (stateSkin) {
+        return stateSkin;
+    }
+    const recentSkin = LocalStorageStore.getRecentSkin(getCurrentUserId(state));
+    return recentSkin || 'default';
+}
 
 export function isCustomEmojiEnabled(state) {
     const config = getConfig(state);

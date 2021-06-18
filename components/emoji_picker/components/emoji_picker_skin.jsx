@@ -3,10 +3,13 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
-
+import {injectIntl, FormattedMessage} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 import classNames from 'classnames';
 
+import OverlayTrigger from 'components/overlay_trigger';
+
+import {Constants} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 
 import * as Emoji from 'utils/emoji.jsx';
@@ -37,7 +40,7 @@ export class EmojiPickerSkin extends React.PureComponent {
         };
     }
 
-    ariaLabel(skin) {
+    ariaLabel = (skin) => {
         return this.props.intl.formatMessage({
             id: 'emoji_skin_item.emoji_aria_label',
             defaultMessage: '{skinName} emoji',
@@ -47,14 +50,14 @@ export class EmojiPickerSkin extends React.PureComponent {
         });
     }
 
-    hideSkinTonePicker(skin) {
+    hideSkinTonePicker = (skin) => {
         if (skin !== this.props.recentSkin) {
             this.props.onSkinSelected(skin);
         }
         this.setState({pickerExtended: false});
     }
 
-    showSkinTonePicker() {
+    showSkinTonePicker = () => {
         this.setState({pickerExtended: true});
     }
 
@@ -65,15 +68,19 @@ export class EmojiPickerSkin extends React.PureComponent {
             const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.image}`);
 
             return (
-                <img
-                    data-testid={`skin-pick-${skin}`}
+                <div
+                    className='skin-tones__icon'
                     key={skin}
-                    src={imgTrans}
-                    className={spriteClassName}
-                    onClick={() => this.hideSkinTonePicker(skin)}
-                    aria-label={this.ariaLabel(skin)}
-                    role='button'
-                />
+                >
+                    <img
+                        data-testid={`skin-pick-${skin}`}
+                        src={imgTrans}
+                        className={spriteClassName}
+                        onClick={() => this.hideSkinTonePicker(skin)}
+                        aria-label={this.ariaLabel(skin)}
+                        role='button'
+                    />
+                </div>
             );
         });
         return (
@@ -81,40 +88,63 @@ export class EmojiPickerSkin extends React.PureComponent {
                 <div className='skin-tones__close'>
                     <button
                         className='skin-tones__close-icon'
-                        onClick={this.hideSkinTonePicker}
+                        onClick={() => this.hideSkinTonePicker(this.props.recentSkin)}
                     >
                         <i className='icon-close icon--no-spacing icon-16'/>
                     </button>
                     <div className='skin-tones__close-text'>
-                        {'Default'}<br/>{'Skin Tone'}
+                        <FormattedMessage
+                            id={Emoji.SkinTranslations.get(this.props.recentSkin)}
+                        />
                     </div>
                 </div>
-                {choices}
+                <div className='skin-tones__icons'>
+                    {choices}
+                </div>
             </>
         );
     }
     collapsed() {
         const emoji = skinToneEmojis.get(this.props.recentSkin);
         const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.image}`);
+        const tooltip = (
+            <Tooltip
+                id='skinTooltip'
+                className=''
+            >
+                <span>
+                    <FormattedMessage
+                        id={'emoji_picker.skin_tone'}
+                        defaultMessage={'Skin tone'}
+                    />
+                </span>
+            </Tooltip>);
         return (
-            <div className='skin-tones__icon'>
-                <img
-                    alt={'emoji skin tone picker'}
-                    data-testid={`skin-picked-${this.props.recentSkin}`}
-                    src={imgTrans}
-                    className={spriteClassName}
-                    onClick={this.showSkinTonePicker}
-                    aria-label={this.ariaLabel(this.props.recentSkin)}
-                    role='button'
-                />
-            </div>);
+            <OverlayTrigger
+                trigger={['hover']}
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                overlay={tooltip}
+            >
+                <div className='skin-tones__icon'>
+                    <img
+                        alt={'emoji skin tone picker'}
+                        data-testid={`skin-picked-${this.props.recentSkin}`}
+                        src={imgTrans}
+                        className={spriteClassName}
+                        onClick={this.showSkinTonePicker}
+                        aria-label={this.ariaLabel(this.props.recentSkin)}
+                        role='button'
+                    />
+                </div>
+            </OverlayTrigger>);
     }
 
     render() {
         return (
-            <div className={classNames('skin-tones', {'skin-tones--active': this.state.skinPicker})}>
+            <div className={classNames('skin-tones', {'skin-tones--active': this.state.pickerExtended})}>
                 <div className='skin-tones__content'>
-                    {this.collapsed()}
+                    {this.state.pickerExtended ? this.extended() : this.collapsed()}
                 </div>
             </div>
         );

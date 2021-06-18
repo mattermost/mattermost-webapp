@@ -43,6 +43,16 @@ export function incrementEmojiPickerPage() {
     };
 }
 
+export function setRecentSkin(skin) {
+    return async (dispatch) => {
+        dispatch({
+            type: ActionTypes.SET_RECENT_SKIN,
+            payload: skin,
+        });
+        return {data: skin};
+    };
+}
+
 const MAXIMUM_RECENT_EMOJI = 27;
 
 export function addRecentEmoji(alias) {

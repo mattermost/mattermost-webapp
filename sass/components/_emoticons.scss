@@ -150,7 +150,8 @@
     flex-shrink: 0;
     display: flex;
     justify-content: space-between;
-    padding: 5px 10px;
+    padding: 0px 10px;
+    margin-bottom: 8px;
 
     .emoji-picker__category {
         color: v(center-channel-color-48);
@@ -172,8 +173,11 @@
             color: v(center-channel-color);
         }
 
-        &--selected {
-            color: v(center-channel-color);
+        &--selected, {
+            background: rgba(var(--button-bg-rgb), 0.08);
+            fill: var(--button-bg);
+            color: var(--button-bg);
+            border-radius: 4px;
         }
 
         &.disable {
@@ -237,11 +241,15 @@
         overflow: hidden;
 
         &--active {
-            width: calc(100% - 40px);
+            position:absolute;
 
             .skin-tones__close,
             .skin-tones__icons {
                 opacity: 1;
+                overflow: hidden;
+                display: inline-flex;
+                justify-content: center;
+                position: relative;
             }
         }
 
@@ -294,6 +302,7 @@
         font-weight: 600;
         font-size: 12px;
         line-height: 14px;
+        width: 60px;
     }
 
     .skin-tones__close-icon {
@@ -482,9 +491,33 @@
     }
 }
 
+.emoji-tooltip {
+    z-index: 99999;
+}
+
+.emoji-picker__footer {
+    display: flex;
+    border-top: solid 1px;
+    justify-content: space-between;
+    border-color: rgba(61, 60, 64, 0.2);
+}
+
+.emoji-picker__custom {
+    margin: 12px;
+    position: relative;
+    top: 6px;
+
+    a,
+    a:hover {
+        background: rgba(var(--button-bg-rgb), 0.08);
+        fill: var(--button-bg);
+        color: var(--button-bg);
+        border-radius: 4px;
+    }
+}
+
 .emoji-picker__preview {
     align-items: stretch;
-    border-top: 1px solid;
     display: flex;
     flex-direction: row;
     flex-grow: 0;
@@ -494,10 +527,13 @@
     padding: 18px 0 18px 16px;
     position: relative;
     vertical-align: middle;
+    max-width: 210px;
+    overflow: hidden;
 
     &.emoji-picker__preview-placeholder {
         padding: 12px;
         span {
+            font-weight: bold;
             display: flex;
             align-items: center;
         }
@@ -514,8 +550,13 @@
         min-width: 0;
 
         .emoji-picker__preview-name {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: bold;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            max-width: 120px;
+            display: inline-block;
         }
 
         .emoji-picker__preview-aliases {
@@ -537,7 +578,6 @@
         width: 32px;
         text-align: center;
         position: relative;
-        top: -9px;
         margin-right: 12px;
 
         .sprite-preview {
