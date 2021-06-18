@@ -173,7 +173,7 @@
             color: v(center-channel-color);
         }
 
-        &--selected, {
+        &--selected {
             background: rgba(var(--button-bg-rgb), 0.08);
             fill: var(--button-bg);
             color: var(--button-bg);
@@ -301,7 +301,7 @@
     .skin-tones__close-text {
         font-weight: 600;
         font-size: 12px;
-        line-height: 14px;
+        line-height: 11px;
         width: 60px;
     }
 
