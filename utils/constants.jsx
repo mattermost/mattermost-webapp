@@ -231,6 +231,9 @@ export const ActionTypes = keyMirror({
 
     SET_SHOW_NEXT_STEPS_VIEW: null,
     SET_FILES_FILTER_BY_EXT: null,
+
+    SUPPRESS_RHS: null,
+    UNSUPPRESS_RHS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -441,6 +444,7 @@ export const RecommendedNextSteps = {
 export const Threads = {
     CHANGED_SELECTED_THREAD: 'changed_selected_thread',
     CHANGED_LAST_VIEWED_AT: 'changed_last_viewed_at',
+    MANUALLY_UNREAD_THREAD: 'manually_unread_thread',
 };
 
 export const CloudBanners = {
@@ -1617,6 +1621,8 @@ export const Constants = {
     MENTION_MEMBERS: 'mention.members',
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
+    MENTION_PUBLIC_CHANNELS: 'mention.public.channels',
+    MENTION_RECENT_CHANNELS: 'mention.recent.channels',
     MENTION_SPECIAL: 'mention.special',
     MENTION_GROUPS: 'mention.groups',
     DEFAULT_NOTIFICATION_DURATION: 5000,
@@ -1677,6 +1683,8 @@ t('suggestion.mention.unread.channels');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
+t('suggestion.mention.public.channels');
+t('suggestion.mention.recent.channels');
 t('suggestion.mention.special');
 t('suggestion.archive');
 t('suggestion.mention.groups');

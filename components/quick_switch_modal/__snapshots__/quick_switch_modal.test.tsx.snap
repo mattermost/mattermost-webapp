@@ -94,7 +94,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
             },
           ]
         }
-        renderDividers={false}
+        renderDividers={true}
         renderNoResults={false}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}

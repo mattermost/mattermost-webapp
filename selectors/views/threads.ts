@@ -53,11 +53,11 @@ export function makeGetThreadLastViewedAt(): (state: GlobalState, threadId: $ID<
         getThreads,
         (_state, threadId) => threadId,
         (lastViewedAt, threads, threadId) => {
-            if (lastViewedAt) {
+            if (typeof lastViewedAt === 'number') {
                 return lastViewedAt;
             }
 
-            return threads[threadId]?.last_viewed_at || 0;
+            return threads[threadId]?.last_viewed_at;
         },
     );
 }
@@ -73,4 +73,8 @@ export const getOpenThreadId: (state: GlobalState) => $ID<UserThread> | null = c
 
 export const isThreadOpen = (state: GlobalState, threadId: $ID<UserThread>): boolean => {
     return threadId === getOpenThreadId(state);
+};
+
+export const isThreadManuallyUnread = (state: GlobalState, threadId: $ID<UserThread>): boolean => {
+    return state.views.threads.manuallyUnread[threadId] || false;
 };

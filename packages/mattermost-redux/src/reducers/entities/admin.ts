@@ -77,6 +77,16 @@ function config(state: Partial<AdminConfig> = {}, action: GenericAction) {
     }
 }
 
+function prevTrialLicense(state: Partial<AdminConfig> = {}, action: GenericAction) {
+    switch (action.type) {
+    case AdminTypes.PREV_TRIAL_LICENSE_SUCCESS: {
+        return action.data;
+    }
+    default:
+        return state;
+    }
+}
+
 function environmentConfig(state: Partial<EnvironmentConfig> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_ENVIRONMENT_CONFIG: {
@@ -684,4 +694,7 @@ export default combineReducers({
 
     // total custom retention policies
     dataRetentionCustomPoliciesCount,
+
+    // the last trial license the server used.
+    prevTrialLicense,
 });
