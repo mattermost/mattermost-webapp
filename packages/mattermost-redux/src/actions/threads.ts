@@ -196,6 +196,8 @@ export function handleFollowChanged(
     threadId: string,
     teamId: string,
     following: boolean,
+    prevUnreadMentions = 0, // TODO provide
+    prevUnreadReplies = 0, // TODO provide
 ) {
     if (!following) {
         const state = getState();
@@ -208,9 +210,9 @@ export function handleFollowChanged(
             thread?.post?.channel_id,
             {
                 lastViewedAt: thread?.last_viewed_at,
-                prevUnreadMentions: thread?.unread_mentions, // TODO manually fetch, for multi-tab
+                prevUnreadMentions: thread?.unread_mentions ?? prevUnreadMentions, // TODO manually fetch, for multi-tab
                 newUnreadMentions: 0,
-                prevUnreadReplies: thread?.unread_replies, // TODO manually fetch, for multi-tab
+                prevUnreadReplies: thread?.unread_replies ?? prevUnreadReplies, // TODO manually fetch, for multi-tab
                 newUnreadReplies: 0,
             },
         );

@@ -1441,9 +1441,9 @@ function handleThreadReadChanged(msg) {
                 msg.data.channel_id,
                 {
                     lastViewedAt: msg.data.timestamp,
-                    prevUnreadMentions: thread?.unread_mentions ?? msg.data.prev_unread_mentions, // TODO
+                    prevUnreadMentions: thread?.unread_mentions ?? msg.data.prev_unread_mentions,
                     newUnreadMentions: msg.data.unread_mentions,
-                    prevUnreadReplies: thread?.unread_replies ?? msg.data.prev_unread_replies, // TODO
+                    prevUnreadReplies: thread?.unread_replies ?? msg.data.prev_unread_replies,
                     newUnreadReplies: msg.data.unread_replies,
                 },
             );

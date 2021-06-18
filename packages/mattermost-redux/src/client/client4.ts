@@ -1234,9 +1234,9 @@ export default class Client4 {
         );
     };
 
-    getMyTeamUnreads = () => {
+    getMyTeamUnreads = (collapsedThreads = false) => {
         return this.doFetch<TeamUnread[]>(
-            `${this.getUserRoute('me')}/teams/unread`,
+            `${this.getUserRoute('me')}/teams/unread${buildQueryString({collapsedThreads})}`,
             {method: 'get'},
         );
     };

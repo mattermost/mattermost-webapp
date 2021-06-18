@@ -4,22 +4,29 @@
 import {useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isEmpty} from 'lodash';
+
+import {isCollapsedThreadsEnabled, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 
 import {resetReloadPostsInChannel} from 'mattermost-redux/actions/posts';
+import {getMyTeamUnreads} from 'mattermost-redux/actions/teams';
 
-const PostsChannelResetWatcher = () => {
+const CrtToggleWatcher = () => {
     const dispatch = useDispatch();
     const isCRTEnabled = useSelector(isCollapsedThreadsEnabled);
+    const preferencesLoaded = !isEmpty(useSelector(getMyPreferences));
     const loaded = useRef(false);
     useEffect(() => {
         if (loaded.current) {
             dispatch(resetReloadPostsInChannel());
-        } else {
+            if (isCRTEnabled) {
+                dispatch(getMyTeamUnreads(isCRTEnabled));
+            }
+        } else if (preferencesLoaded) {
             loaded.current = true;
         }
-    }, [isCRTEnabled]);
+    }, [preferencesLoaded, isCRTEnabled]);
     return null;
 };
 
-export default PostsChannelResetWatcher;
+export default CrtToggleWatcher;
