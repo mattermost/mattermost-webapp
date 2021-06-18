@@ -504,7 +504,6 @@
 .emoji-picker__custom {
     margin: 12px;
     position: relative;
-    top: 6px;
 
     a,
     a:hover {
@@ -586,6 +585,7 @@
             padding: 0;
             vertical-align: middle;
             width: 32px;
+            margin-top: -9px;
         }
     }
 
