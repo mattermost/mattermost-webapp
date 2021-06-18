@@ -1619,6 +1619,8 @@ export const Constants = {
     MENTION_MEMBERS: 'mention.members',
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
+    MENTION_PUBLIC_CHANNELS: 'mention.public.channels',
+    MENTION_RECENT_CHANNELS: 'mention.recent.channels',
     MENTION_SPECIAL: 'mention.special',
     MENTION_GROUPS: 'mention.groups',
     DEFAULT_NOTIFICATION_DURATION: 5000,
@@ -1679,6 +1681,8 @@ t('suggestion.mention.unread.channels');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
+t('suggestion.mention.public.channels');
+t('suggestion.mention.recent.channels');
 t('suggestion.mention.special');
 t('suggestion.archive');
 t('suggestion.mention.groups');
