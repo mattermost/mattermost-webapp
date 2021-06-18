@@ -88,4 +88,12 @@ body {
 
 img {
     max-width: 100%;
+    
+}
+// For react-image-magnifiers, we need to remove max-width. That's why I added important.
+.screenshot{
+    img{
+        max-width: none !important;
+    }
+    
 }
