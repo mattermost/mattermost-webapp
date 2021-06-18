@@ -95,22 +95,22 @@ export default class Toast extends React.PureComponent<Props> {
                     {showActions && jumpSection()}
                     {this.props.children}
                 </div>
-                <div
-                    className='toast__dismiss'
-                    onClick={this.handleDismiss}
-                    data-testid={extraClasses ? `dismissToast-${extraClasses}` : 'dismissToast'}
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={closeTooltip}
                 >
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='bottom'
-                        overlay={closeTooltip}
+                    <div
+                        className='toast__dismiss'
+                        onClick={this.handleDismiss}
+                        data-testid={extraClasses ? `dismissToast-${extraClasses}` : 'dismissToast'}
                     >
                         <CloseIcon
                             className='close-btn'
                             id='dismissToast'
                         />
-                    </OverlayTrigger>
-                </div>
+                    </div>
+                </OverlayTrigger>
             </div>
         );
     }
