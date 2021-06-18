@@ -110,9 +110,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     actions.openRHSSearch();
                     setKeepInputFocused(true);
                 }
-                if (currentChannel) {
-                    handleUpdateSearchTerms(`in:${currentChannel.name} `);
-                }
+                actions.updateSearchTermsForShortcut();
                 handleFocus();
             }
         };
@@ -121,7 +119,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [currentChannel, hideSearchBar]);
+    }, [hideSearchBar]);
 
     useEffect((): void => {
         if (!Utils.isMobile()) {

@@ -101,7 +101,7 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     return currentProduct;
 }
 
-function selectselectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
+function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
     const currentProduct = findProductInDictionary(products, productId);
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
@@ -119,15 +119,22 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             billingDetails: null,
             cardInputComplete: false,
             processing: false,
-            editPaymentInfo: isEmpty(this.props.customer?.payment_method && this.props.customer?.billing_address),
+            editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
             currentProduct: findProductInDictionary(props.products, props.productId),
-            selectedProduct: selectselectedProduct(props.products, props.productId),
+            selectedProduct: getSelectedProduct(props.products, props.productId),
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
-        this.props.actions.getCloudProducts();
+        if (isEmpty(this.state.currentProduct || this.state.selectedProduct)) {
+            await this.props.actions.getCloudProducts();
+            // eslint-disable-next-line react/no-did-mount-set-state
+            this.setState({
+                currentProduct: findProductInDictionary(this.props.products, this.props.productId),
+                selectedProduct: getSelectedProduct(this.props.products, this.props.productId),
+            });
+        }
 
         // this.fetchProductPrice();
         this.props.actions.getClientConfig();
@@ -257,6 +264,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         );
 
         let initialBillingDetails;
+        let validBillingDetails = false;
 
         if (this.props.customer?.billing_address && this.props.customer?.payment_method) {
             initialBillingDetails = {
@@ -268,6 +276,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 postalCode: this.props.customer?.billing_address.postal_code,
                 name: this.props.customer?.payment_method.name,
             } as BillingDetails;
+
+            validBillingDetails = areBillingDetailsValid(initialBillingDetails);
         }
 
         return (
@@ -308,7 +318,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </a>
                 </div>
                 <div className='central-panel'>
-                    {this.state.editPaymentInfo ?
+                    {(this.state.editPaymentInfo || !validBillingDetails) ?
                         <PaymentForm
                             className='normal-text'
                             onInputChange={this.onPaymentInput}

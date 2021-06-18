@@ -27,10 +27,12 @@ export default class AtMentionSuggestion extends Suggestion {
         if (item.username === 'all') {
             itemname = 'all';
             description = (
-                <FormattedMessage
-                    id='suggestion.mention.all'
-                    defaultMessage='Notifies everyone in this channel'
-                />
+                <span className='light ml-2'>
+                    <FormattedMessage
+                        id='suggestion.mention.all'
+                        defaultMessage='Notifies everyone in this channel'
+                    />
+                </span>
             );
             icon = (
                 <FormattedMessage
@@ -50,10 +52,12 @@ export default class AtMentionSuggestion extends Suggestion {
         } else if (item.username === 'channel') {
             itemname = 'channel';
             description = (
-                <FormattedMessage
-                    id='suggestion.mention.channel'
-                    defaultMessage='Notifies everyone in this channel'
-                />
+                <span className='light ml-2'>
+                    <FormattedMessage
+                        id='suggestion.mention.channel'
+                        defaultMessage='Notifies everyone in this channel'
+                    />
+                </span>
             );
             icon = (
                 <FormattedMessage
@@ -73,10 +77,12 @@ export default class AtMentionSuggestion extends Suggestion {
         } else if (item.username === 'here') {
             itemname = 'here';
             description = (
-                <FormattedMessage
-                    id='suggestion.mention.here'
-                    defaultMessage='Notifies everyone online in this channel'
-                />
+                <span className='light ml-2'>
+                    <FormattedMessage
+                        id='suggestion.mention.here'
+                        defaultMessage='Notifies everyone online in this channel'
+                    />
+                </span>
             );
             icon = (
                 <FormattedMessage

@@ -41,7 +41,6 @@ class EditPostModal extends React.PureComponent {
             post: PropTypes.object,
             postId: PropTypes.string,
             refocusId: PropTypes.string,
-            commentCount: PropTypes.number,
             show: PropTypes.bool.isRequired,
             title: PropTypes.string,
             isRHS: PropTypes.bool,
@@ -115,7 +114,7 @@ class EditPostModal extends React.PureComponent {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji && (emoji.name || (emoji.aliases && emoji.aliases[0]));
+        const emojiAlias = emoji && ((emoji.short_names && emoji.short_names[0]) || emoji.name);
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
@@ -207,7 +206,6 @@ class EditPostModal extends React.PureComponent {
                 dialogType: DeletePostModal,
                 dialogProps: {
                     post: editingPost.post,
-                    commentCount: editingPost.commentCount,
                     isRHS: editingPost.isRHS,
                 },
             };

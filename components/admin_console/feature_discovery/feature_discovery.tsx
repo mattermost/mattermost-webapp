@@ -13,6 +13,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import './feature_discovery.scss';
+import {ClientLicense} from 'mattermost-redux/types/config';
 
 type Props = {
     featureName: string;
@@ -27,10 +28,13 @@ type Props = {
 
     featureDiscoveryImage: JSX.Element;
 
+    prevTrialLicense: ClientLicense;
+
     stats?: Dictionary<number | AnalyticsRow[]>;
     actions: {
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
         getLicenseConfig: () => void;
+        getPrevTrialLicense: () => void;
     };
 }
 
@@ -47,6 +51,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             gettingTrial: false,
             gettingTrialError: null,
         };
+    }
+
+    componentDidMount() {
+        this.props.actions.getPrevTrialLicense();
     }
 
     requestLicense = async (e: React.MouseEvent) => {
@@ -66,6 +74,48 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         }
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();
+    }
+
+    renderStartTrial = (learnMoreURL: string, gettingTrialError: React.ReactNode) => {
+        return (
+            <React.Fragment>
+                <button
+                    type='button'
+                    className='btn btn-primary'
+                    data-testid='featureDiscovery_primaryCallToAction'
+                    onClick={this.requestLicense}
+                >
+                    <LoadingWrapper
+                        loading={this.state.gettingTrial}
+                        text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
+                    >
+                        <FormattedMessage
+                            id='admin.ldap_feature_discovery.call_to_action.primary'
+                            defaultMessage='Start trial'
+                        />
+                    </LoadingWrapper>
+                </button>
+                <a
+                    className='btn btn-secondary'
+                    href={learnMoreURL}
+                    data-testid='featureDiscovery_secondaryCallToAction'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                >
+                    <FormattedMessage
+                        id='admin.ldap_feature_discovery.call_to_action.secondary'
+                        defaultMessage='Learn more'
+                    />
+                </a>
+                {gettingTrialError}
+                <p className='trial-legal-terms'>
+                    <FormattedMarkdownMessage
+                        id='admin.license.trial-request.accept-terms'
+                        defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
+                    />
+                </p>
+            </React.Fragment>
+        );
     }
 
     render() {
@@ -108,41 +158,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                             defaultMessage={copyDefault}
                         />
                     </div>
-                    <button
-                        type='button'
-                        className='btn btn-primary'
-                        data-testid='featureDiscovery_primaryCallToAction'
-                        onClick={this.requestLicense}
-                    >
-                        <LoadingWrapper
-                            loading={this.state.gettingTrial}
-                            text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
-                        >
-                            <FormattedMessage
-                                id='admin.ldap_feature_discovery.call_to_action.primary'
-                                defaultMessage='Start trial'
-                            />
-                        </LoadingWrapper>
-                    </button>
-                    <a
-                        className='btn btn-secondary'
-                        href={learnMoreURL}
-                        data-testid='featureDiscovery_secondaryCallToAction'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
-                        <FormattedMessage
-                            id='admin.ldap_feature_discovery.call_to_action.secondary'
-                            defaultMessage='Learn more'
-                        />
-                    </a>
-                    {gettingTrialError}
-                    <p className='trial-legal-terms'>
-                        <FormattedMarkdownMessage
-                            id='admin.license.trial-request.accept-terms'
-                            defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
-                        />
-                    </p>
+                    {this.props.prevTrialLicense?.IsLicensed === 'true' ? Utils.renderPurchaseLicense() : this.renderStartTrial(learnMoreURL, gettingTrialError)}
                 </div>
 
                 <div className='FeatureDiscovery_imageWrapper'>

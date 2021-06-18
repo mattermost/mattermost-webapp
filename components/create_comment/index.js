@@ -131,8 +131,8 @@ function makeMapDispatchToProps() {
             onMoveHistoryIndexForward = makeOnMoveHistoryIndex(ownProps.rootId, 1);
         }
 
-        if (rootId !== ownProps.rootId || channelId !== ownProps.channelId) {
-            onEditLatestPost = makeOnEditLatestPost(ownProps.channelId, ownProps.rootId);
+        if (rootId !== ownProps.rootId) {
+            onEditLatestPost = makeOnEditLatestPost(ownProps.rootId);
         }
 
         if (rootId !== ownProps.rootId || channelId !== ownProps.channelId || latestPostId !== ownProps.latestPostId) {

@@ -80,11 +80,6 @@ class SearchResultsItem extends React.PureComponent {
         currentTeamName: PropTypes.string,
 
         /**
-        *  Data used for delete in DotMenu
-        */
-        commentCountForPost: PropTypes.number,
-
-        /**
          * Whether post username overrides are to be respected.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
@@ -322,7 +317,6 @@ class SearchResultsItem extends React.PureComponent {
                         location={Locations.SEARCH}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
-                        commentCount={this.props.commentCountForPost}
                         isMenuOpen={this.state.dropdownOpened}
                         isReadOnly={channelIsArchived || null}
                     />
