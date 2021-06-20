@@ -20,7 +20,13 @@ class ChannelMentionSuggestion extends Suggestion {
         const item = this.props.item;
 
         const channelName = item.channel.display_name;
-        const channelIcon = (<span className='suggestion-list__icon suggestion-list__icon--large'><i className='icon icon--no-spacing icon-globe'/></span>);
+
+        let channelIcon;
+        if (item.channel.type === Constants.OPEN_CHANNEL) {
+            channelIcon = (<span className='suggestion-list__icon suggestion-list__icon--large'><i className='icon icon--no-spacing icon-globe'/></span>);
+        } else if (item.channel.type === Constants.PRIVATE_CHANNEL) {
+            channelIcon = (<span className='suggestion-list__icon suggestion-list__icon--large'><i className='icon icon--no-spacing icon-lock'/></span>);
+        }
 
         let className = 'mentions__name no-flex';
         if (isSelection) {
