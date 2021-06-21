@@ -44,7 +44,7 @@ export function incrementEmojiPickerPage() {
 }
 
 export function setRecentSkin(skin) {
-    return async (dispatch) => {
+    return (dispatch) => {
         dispatch({
             type: ActionTypes.SET_RECENT_SKIN,
             payload: skin,
