@@ -7,6 +7,7 @@ import {GlobalState} from 'types/store';
 import {FileDropdownPluginComponent} from '../types/store/plugins';
 
 export const getFilesDropdownPluginMenuItems = createSelector(
+    'getFilesDropdownPluginMenuItems',
     (state: GlobalState) => state.plugins.components.FilesDropdown,
     (components) => {
         return (components || []) as unknown as FileDropdownPluginComponent[];
