@@ -249,7 +249,6 @@
     .skin-tones {
         @include single-transition(all, .35s, ease);
         z-index: 10;
-        width: 32;
         height: 100%;
         display: flex;
         align-items: center;
@@ -266,6 +265,10 @@
                 display: inline-flex;
                 justify-content: center;
                 position: relative;
+                margin: 0 3px;
+                .skin-tones__icon {
+                    width: 32px;
+                }
             }
         }
 
@@ -275,8 +278,16 @@
             display: inline-flex;
             justify-content: center;
             position: relative;
-            width: 24px;
-            margin-left: 12px;
+            height: 32px;
+
+            &:hover {
+                background-color: rgba(var(--center-channel-color-rgb), 0.08);
+                border-radius: 4px;
+            }
+
+            & img {
+                margin-top: -15px;
+            }
         }
 
         .emoji-picker__item {
@@ -287,20 +298,26 @@
     }
 
     .skin-tones__content {
-        width: 100%;
-        min-width: 32px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        max-height: 32px;
+        &.skin-tones__content__single {
+            width: 32px;
+        }
     }
 
     .emoji-picker__text-container {
         border-radius: 4px;
         height: 32px;
         width: 284px;
-        border: 2px solid #166DE0;
+        border: 1px solid var(--center-channel-color-24);
         position: relative;
         z-index: 5;
+
+        &:focus-within {
+            border: 2px solid #166DE0;
+        }
     }
 
     .skin-tones__close {
@@ -317,7 +334,7 @@
     .skin-tones__close-text {
         font-weight: 600;
         font-size: 12px;
-        line-height: 11px;
+        line-height: 14px;
         width: 60px;
     }
 
@@ -370,7 +387,7 @@
 
     .emoji-picker__search-icon {
         padding-left: 9px;
-        padding-top: 6px;
+        padding-top: 8px;
         position: absolute;
         font-size: 14px;
     }
@@ -378,7 +395,7 @@
     .emoji-picker__search {
         border-width: 0px;
         border-radius: inherit;
-        padding: 2px 0 2px 27px;
+        padding: 4px 0 0px 27px;
         width: 100%;
         height: 26px;
         font-size: 13px;

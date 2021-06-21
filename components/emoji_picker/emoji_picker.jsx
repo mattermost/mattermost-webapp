@@ -628,7 +628,7 @@ export default class EmojiPicker extends React.PureComponent {
         return (
             <div className='emoji-picker__search-container'>
                 <div className='emoji-picker__text-container'>
-                    <span className='fa fa-search emoji-picker__search-icon'/>
+                    <span className='icon-magnify icon emoji-picker__search-icon'/>
                     <FormattedMessage
                         id='emoji_picker.search_emoji'
                         defaultMessage='Search for an emoji'

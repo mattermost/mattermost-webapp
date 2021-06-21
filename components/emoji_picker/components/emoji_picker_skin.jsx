@@ -110,7 +110,7 @@ export class EmojiPickerSkin extends React.PureComponent {
         const tooltip = (
             <Tooltip
                 id='skinTooltip'
-                className=''
+                className='emoji-tooltip'
             >
                 <span>
                     <FormattedMessage
@@ -143,7 +143,7 @@ export class EmojiPickerSkin extends React.PureComponent {
     render() {
         return (
             <div className={classNames('skin-tones', {'skin-tones--active': this.state.pickerExtended})}>
-                <div className='skin-tones__content'>
+                <div className={classNames('skin-tones__content', {'skin-tones__content__single': !this.state.pickerExtended})}>
                     {this.state.pickerExtended ? this.extended() : this.collapsed()}
                 </div>
             </div>
