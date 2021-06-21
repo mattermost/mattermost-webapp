@@ -284,6 +284,30 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a files dropdown list item by providing some text and an action function.
+    // Accepts the following:
+    // - match - A function  that receives the fileInfo and returns a boolean indicating if the plugin is able to process it.
+    // - text - A string or React element to display in the menu
+    // - action - A function that receives the fileInfo and is called when the menu items is clicked.
+    // Returns a unique identifier.
+    registerFileDropdownMenuAction(match, text, action) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'FilesDropdown',
+            data: {
+                id,
+                pluginId: this.id,
+                match,
+                text: resolveReactElement(text),
+                action,
+            },
+        });
+
+        return id;
+    }
+
     // Register a post menu list item by providing some text and an action function.
     // Accepts the following:
     // - text - A string or React element to display in the menu
