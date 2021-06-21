@@ -6,6 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import imgTrans from 'images/img_trans.gif';
 
@@ -21,17 +23,19 @@ export default class EmojiPickerPreview extends React.PureComponent {
             return null;
         }
         return (
-            <div className='emoji-picker__custom'>
-                <a
-                    className='btn btn-link'
-                    href={`/${this.props.currentTeamName}/emoji`}
-                >
-                    <FormattedMessage
-                        id='emoji_picker.custom_emoji'
-                        defaultMessage='Custom Emoji'
-                    />
-                </a>
-            </div>
+            <AnyTeamPermissionGate permissions={[Permissions.CREATE_EMOJIS]}>
+                <div className='emoji-picker__custom'>
+                    <a
+                        className='btn btn-link'
+                        href={`/${this.props.currentTeamName}/emoji`}
+                    >
+                        <FormattedMessage
+                            id='emoji_picker.custom_emoji'
+                            defaultMessage='Custom Emoji'
+                        />
+                    </a>
+                </div>
+            </AnyTeamPermissionGate>
         );
     }
 
