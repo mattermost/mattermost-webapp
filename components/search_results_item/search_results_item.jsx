@@ -133,6 +133,7 @@ class SearchResultsItem extends React.PureComponent {
 
         this.state = {
             dropdownOpened: false,
+            fileDropdownOpened: false,
             showPreview: false,
         };
     }
@@ -166,6 +167,12 @@ class SearchResultsItem extends React.PureComponent {
         });
     };
 
+    handleFileDropdownOpened = (isOpened) => {
+        this.setState({
+            fileDropdownOpened: isOpened,
+        });
+    };
+
     renderPostTime = () => {
         const post = this.props.post;
 
@@ -189,7 +196,7 @@ class SearchResultsItem extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened) {
             className += ' post--hovered';
         }
 
@@ -251,6 +258,7 @@ class SearchResultsItem extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.handleFileDropdownOpened}
                 />
             );
         }

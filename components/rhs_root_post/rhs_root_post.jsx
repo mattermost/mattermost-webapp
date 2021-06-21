@@ -86,6 +86,7 @@ class RhsRootPost extends React.PureComponent {
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
+            fileDropdownOpened: false,
             currentAriaLabel: '',
         };
 
@@ -188,7 +189,7 @@ class RhsRootPost extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -208,6 +209,12 @@ class RhsRootPost extends React.PureComponent {
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened,
+        });
+    };
+
+    handleFileDropdownOpened = (isOpened) => {
+        this.setState({
+            fileDropdownOpened: isOpened,
         });
     };
 
@@ -259,6 +266,7 @@ class RhsRootPost extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.handleFileDropdownOpened}
                 />
             );
         }
