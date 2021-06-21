@@ -1,9 +1,6 @@
 .custom_status__row {
-    display: flex !important;
     font-size: inherit;
-    align-items: center;
-    height: 34px;
-    max-width: 238px;
+    height: auto;
     &:hover {
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
         .custom-status-emoji {
@@ -17,16 +14,27 @@
 }
 
 .custom_status {
+    &__container {
+        padding: 7px 0;
+        display: flex;
+        line-height: 20px;
+    }
+
     &__icon {
-        margin-right: 10px;
+        margin-right: 12px;
     }
 
     &__text {
         overflow: hidden;
-        height: 28px;
+        height: 16px;
+        line-height: 16px;
         max-width: 73%;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    &__expiry.MenuItem__help-text{
+        padding-left: 28px;
     }
 }
 

@@ -5,6 +5,8 @@ import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
+
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
@@ -968,10 +970,6 @@ export const Constants = {
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/model/config.go#L105
     MAXIMUM_LOGIN_ATTEMPTS_DEFAULT: 10,
 
-    // This is the same limit set
-    // https://github.com/mattermost/mattermost-server/pull/16835/files#diff-73c61af5954b16f5e3cb5ee786af9eb698f660eff0d65db5556949be5fb6e60bR15
-    CUSTOM_STATUS_TEXT_CHARACTER_LIMIT: 100,
-
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
     MAX_ADD_MEMBERS_BATCH: 256,
 
@@ -1686,5 +1684,51 @@ t('suggestion.mention.recent.channels');
 t('suggestion.mention.special');
 t('suggestion.archive');
 t('suggestion.mention.groups');
+
+const {
+    DONT_CLEAR,
+    THIRTY_MINUTES,
+    ONE_HOUR,
+    FOUR_HOURS,
+    TODAY,
+    THIS_WEEK,
+    DATE_AND_TIME,
+    CUSTOM_DATE_TIME,
+} = CustomStatusDuration;
+
+export const durationValues = {
+    [DONT_CLEAR]: {
+        id: t('custom_status.expiry_dropdown.dont_clear'),
+        defaultMessage: "Don't clear",
+    },
+    [THIRTY_MINUTES]: {
+        id: t('custom_status.expiry_dropdown.thirty_minutes'),
+        defaultMessage: '30 minutes',
+    },
+    [ONE_HOUR]: {
+        id: t('custom_status.expiry_dropdown.one_hour'),
+        defaultMessage: '1 hour',
+    },
+    [FOUR_HOURS]: {
+        id: t('custom_status.expiry_dropdown.four_hours'),
+        defaultMessage: '4 hours',
+    },
+    [TODAY]: {
+        id: t('custom_status.expiry_dropdown.today'),
+        defaultMessage: 'Today',
+    },
+    [THIS_WEEK]: {
+        id: t('custom_status.expiry_dropdown.this_week'),
+        defaultMessage: 'This week',
+    },
+    [DATE_AND_TIME]: {
+        id: t('custom_status.expiry_dropdown.date_and_time'),
+        defaultMessage: 'Custom Date and Time',
+    },
+    [CUSTOM_DATE_TIME]: {
+        id: t('custom_status.expiry_dropdown.date_and_time'),
+        defaultMessage: 'Custom Date and Time',
+    },
+};
 
 export default Constants;
