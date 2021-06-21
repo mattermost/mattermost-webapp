@@ -8,11 +8,11 @@ import moment from 'moment';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import {trackEvent} from 'actions/telemetry_actions';
 import {daysToLicenseExpire} from 'utils/license_utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import './trial_license_card.scss';
 
@@ -24,12 +24,6 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
     const currentDate = new Date();
     const endDate = new Date(parseInt(license?.ExpiresAt, 10));
     const daysToEndLicense = daysToLicenseExpire(license);
-
-    const handleContactLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        trackEvent('admin', 'in_trial_contact_sales');
-        window.open('https://mattermost.com/contact-us/', '_blank');
-    };
 
     const message = () => {
         if (currentDate.toDateString() === endDate.toDateString()) {
@@ -75,15 +69,7 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
                         />
                     }
                 />
-                <button
-                    className='ContactSales'
-                    onClick={(e) => handleContactLinkClick(e)}
-                >
-                    <FormattedMessage
-                        id='admin.license.trialCard.contactSales'
-                        defaultMessage='Contact sales'
-                    />
-                </button>
+                <ContactUsButton/>
             </div>
         </div>
     );

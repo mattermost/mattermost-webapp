@@ -656,7 +656,9 @@ class CreateComment extends React.PureComponent {
         const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter, 0, 0, this.state.caretPosition);
 
         if (allowSending) {
-            e.persist();
+            if (e.persist) {
+                e.persist();
+            }
             if (this.textboxRef.current) {
                 this.textboxRef.current.blur();
             }

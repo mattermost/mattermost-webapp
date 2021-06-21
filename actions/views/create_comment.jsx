@@ -162,7 +162,12 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
         if (isReaction && emojiMap.has(isReaction[2])) {
             dispatch(submitReaction(latestPostId, isReaction[1], isReaction[2]));
         } else if (message.indexOf('/') === 0 && !options.ignoreSlash) {
-            await dispatch(submitCommand(channelId, rootId, draft));
+            try {
+                await dispatch(submitCommand(channelId, rootId, draft));
+            } catch (err) {
+                dispatch(updateCommentDraft(rootId, draft));
+                throw err;
+            }
         } else {
             dispatch(submitPost(channelId, rootId, draft));
         }
@@ -172,7 +177,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
 function makeGetCurrentUsersLatestReply() {
     const getPostIdsInThread = makeGetPostIdsForThread();
     return createSelector(
-        'makeGetCurrentUsersLatestPost',
+        'makeGetCurrentUsersLatestReply',
         getCurrentUserId,
         getPostIdsInThread,
         (state) => (id) => getPost(state, id),

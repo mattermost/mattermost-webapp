@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
@@ -13,6 +13,7 @@ import {getThreads} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
+import {suppressRHS} from 'actions/views/rhs';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {useThreadRouting} from '../hooks';
 
@@ -36,6 +37,10 @@ const GlobalThreadsLink = () => {
     const unreadsOnly = useSelector(isUnreadFilterEnabled);
     const someUnreadThreads = counts?.total_unread_threads;
 
+    const closeRHS = useCallback(() => {
+        dispatch(suppressRHS);
+    }, []);
+
     useEffect(() => {
         // load counts if necessary
         if (isFeatureEnabled) {
@@ -58,6 +63,7 @@ const GlobalThreadsLink = () => {
                 tabIndex={-1}
             >
                 <Link
+                    onClick={closeRHS}
                     to={`${url}/threads`}
                     draggable='false'
                     className={classNames('SidebarLink sidebar-item', {

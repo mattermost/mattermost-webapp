@@ -472,6 +472,10 @@ class CreatePost extends React.PureComponent {
 
         this.setState({submitting: true, serverError: null});
 
+        const fasterThanHumanWillClick = 150;
+        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
+        this.focusTextbox(forceFocus);
+
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
         if (post.message.indexOf('/') === 0 && !ignoreSlash) {
             this.setState({message: '', postError: null});
@@ -531,11 +535,6 @@ class CreatePost extends React.PureComponent {
         cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
-
-        const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
-
-        this.focusTextbox(forceFocus);
     }
 
     handleNotifyAllConfirmation = (e) => {

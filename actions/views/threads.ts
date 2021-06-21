@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {batchActions} from 'redux-batched-actions';
+
 import {Threads} from 'utils/constants';
 
 export function updateThreadLastOpened(threadId: string, lastViewedAt: number) {
@@ -21,4 +23,14 @@ export function setSelectedThreadId(teamId: string, threadId: string | undefined
             team_id: teamId,
         },
     };
+}
+
+export function manuallyMarkThreadAsUnread(threadId: string, lastViewedAt: number) {
+    return batchActions([
+        updateThreadLastOpened(threadId, lastViewedAt),
+        {
+            type: Threads.MANUALLY_UNREAD_THREAD,
+            data: {threadId},
+        },
+    ]);
 }

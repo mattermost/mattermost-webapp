@@ -472,3 +472,11 @@ export function openAtPrevious(previous: any) { // TODO Could not find the prope
         return openRHSSearch()(dispatch);
     };
 }
+
+export const suppressRHS = {
+    type: ActionTypes.SUPPRESS_RHS,
+};
+
+export const unsuppressRHS = {
+    type: ActionTypes.UNSUPPRESS_RHS,
+};
