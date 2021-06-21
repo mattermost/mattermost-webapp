@@ -244,9 +244,10 @@ export function markPostAsUnread(post, location) {
         const userId = getCurrentUserId(state);
         const currentTeamId = getCurrentTeamId(state);
 
-        // if CRT:ON and this is from within ThreadViewer (e.g. post dot-menu), mark the thread as unread
+        // if CRT:ON and this is from within ThreadViewer (e.g. post dot-menu), mark the thread as unread and followed
         if (isCollapsedThreadsEnabled(state) && (location === 'RHS_ROOT' || location === 'RHS_COMMENT')) {
             const threadId = post.root_id || post.id;
+            ThreadActions.handleFollowChanged(dispatch, threadId, currentTeamId, true);
             dispatch(manuallyMarkThreadAsUnread(threadId, post.create_at));
             await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, threadId, post.create_at));
         } else {
