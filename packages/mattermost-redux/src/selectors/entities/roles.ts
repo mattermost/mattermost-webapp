@@ -34,21 +34,9 @@ export const getMyTeamRoles: (state: GlobalState) => Dictionary<Set<string>> = c
     },
 );
 
-export const getMyChannelRoles: (state: GlobalState) => Dictionary<Set<string>> = createSelector(
-    'getMyChannelRoles',
-    (state: GlobalState) => state.entities.channels.myMembers,
-    (channelsMemberships) => {
-        const roles: Dictionary<Set<string>> = {};
-        if (channelsMemberships) {
-            for (const key in channelsMemberships) {
-                if (channelsMemberships.hasOwnProperty(key) && channelsMemberships[key].roles) {
-                    roles[key] = new Set<string>(channelsMemberships[key].roles.split(' '));
-                }
-            }
-        }
-        return roles;
-    },
-);
+export function getMyChannelRoles(state: GlobalState): Dictionary<Set<string>> {
+    return state.entities.channels.roles;
+}
 
 export const getMyRoles: (state: GlobalState) => {
     system: Set<string>;

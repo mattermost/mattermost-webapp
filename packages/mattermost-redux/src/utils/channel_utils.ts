@@ -42,6 +42,10 @@ export function completeDirectChannelInfo(usersState: UsersState, teammateNameDi
     return channel;
 }
 
+export function splitRoles(roles: string): Set<string> {
+    return new Set<string>(roles.split(' '));
+}
+
 // newCompleteDirectChannelInfo is a variant of completeDirectChannelInfo that accepts the minimal
 // data required instead of depending on the entirety of state.entities.users. This allows the
 // calling selector to have fewer dependencies, reducing its need to recompute when memoized.
