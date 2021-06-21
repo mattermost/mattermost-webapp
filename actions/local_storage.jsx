@@ -30,7 +30,7 @@ export function setRecentEmojis(recentEmojis = []) {
 }
 
 export function persistRecentSkin(recentSkin = 'default') {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         const currentUserId = getCurrentUserId(getState());
 
         LocalStorageStore.setRecentSkin(currentUserId, recentSkin);
