@@ -738,6 +738,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             </p>
             <Connect(FileAttachmentList)
               compactDisplay={true}
+              handleFileDropdownOpened={[Function]}
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -880,6 +881,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             </p>
             <Connect(FileAttachmentList)
               compactDisplay={true}
+              handleFileDropdownOpened={[Function]}
               post={
                 Object {
                   "channel_id": "channel_id",
