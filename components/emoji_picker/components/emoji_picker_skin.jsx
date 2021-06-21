@@ -51,10 +51,10 @@ export class EmojiPickerSkin extends React.PureComponent {
     }
 
     hideSkinTonePicker = (skin) => {
+        this.setState({pickerExtended: false});
         if (skin !== this.props.recentSkin) {
             this.props.onSkinSelected(skin);
         }
-        this.setState({pickerExtended: false});
     }
 
     showSkinTonePicker = () => {
@@ -71,12 +71,12 @@ export class EmojiPickerSkin extends React.PureComponent {
                 <div
                     className='skin-tones__icon'
                     key={skin}
+                    onClick={() => this.hideSkinTonePicker(skin)}
                 >
                     <img
                         data-testid={`skin-pick-${skin}`}
                         src={imgTrans}
                         className={spriteClassName}
-                        onClick={() => this.hideSkinTonePicker(skin)}
                         aria-label={this.ariaLabel(skin)}
                         role='button'
                     />
