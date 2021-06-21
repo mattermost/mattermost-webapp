@@ -318,6 +318,10 @@
 
         &:focus-within {
             border: 2px solid #166DE0;
+            & .emoji-picker__search-icon {
+                padding-left: 8px;
+                padding-top: 7px;
+            }
         }
     }
 
