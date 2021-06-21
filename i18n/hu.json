@@ -513,7 +513,6 @@
   "admin.complianceExport.exportFormat.actiance": "Actiance XML",
   "admin.complianceExport.exportFormat.csv": "CSV",
   "admin.complianceExport.exportFormat.description": "A megfelelőségi export formátuma. Megfelel annak a rendszernek, amelybe importálni szeretné az adatokat.\n \nAz Actiance XML esetében a megfelelőség-exportáló fájlokat a konfigurált [Local Storage Directory] \"export\" alkönyvtárába írják ({siteURL} / admin_console / environment / file_storage). A Global Relay EML esetében a konfigurált e-mail címre küldjük őket.",
-  "admin.complianceExport.exportFormat.globalrelay": "",
   "admin.complianceExport.exportFormat.title": "Exportálási formátum:",
   "admin.complianceExport.exportJobStartTime.description": "Állítsa be a napi ütemezett megfelelőségi export munka kezdő időpontját. Válasszon egy olyan időt, amikor kevesebb ember használja a rendszert. 24 órás időbélyegzőnek kell lennie HH: MM formájában.",
   "admin.complianceExport.exportJobStartTime.example": "Pl.: \"02:00\"",
