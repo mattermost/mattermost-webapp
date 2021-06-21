@@ -357,23 +357,20 @@ export function makeGetPostsForThread(): (state: GlobalState, props: {rootId: $I
         (state: GlobalState, props: {rootId: $ID<Post>}) => state.entities.posts.postsInThread[props.rootId],
         (state: GlobalState, props: {rootId: $ID<Post>}) => state.entities.posts.posts[props.rootId],
         (posts, postsForThread, rootPost) => {
-            if (!postsForThread) {
-                return [];
-            }
-
             const thread: Post[] = [];
 
             if (rootPost) {
                 thread.push(rootPost);
             }
 
-            postsForThread.forEach((id) => {
+            postsForThread?.forEach((id) => {
                 const post = posts[id];
 
                 if (post) {
                     thread.push(post);
                 }
             });
+
             thread.sort(comparePosts);
             return thread;
         },
