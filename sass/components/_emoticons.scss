@@ -538,6 +538,8 @@
         fill: var(--button-bg);
         color: var(--button-bg);
         border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
     }
 }
 
@@ -570,9 +572,6 @@
     }
 
     .emoji-picker__preview-image-label-box {
-        margin-top: -3px;
-        margin-left: 4px;
-        min-width: 0;
 
         .emoji-picker__preview-name {
             font-size: 14px;
