@@ -10,7 +10,8 @@ import {getCurrentTeamId, getCurrentRelativeTeamUrl} from 'mattermost-redux/sele
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
-import {getThread} from 'mattermost-redux/selectors/entities/threads';
+import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
 
@@ -37,7 +38,7 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         currentTeamId: getCurrentTeamId(state),
         currentUserId: getCurrentUserId(state),
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        isFollowingThread: getThread(state, rootPostId)?.is_following,
+        isFollowingThread: isCollapsedThreadsEnabled(state) && getThreadOrSynthetic(state, getPost(state, rootPostId)).is_following,
     };
 }
 

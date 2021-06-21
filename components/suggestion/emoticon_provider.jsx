@@ -119,9 +119,9 @@ export default class EmoticonProvider extends Provider {
                 continue;
             }
 
-            if (emoji.aliases) {
+            if (emoji.short_names) {
                 // This is a system emoji so it may have multiple names
-                for (const alias of emoji.aliases) {
+                for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
                         const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ?
                             recentMatched :

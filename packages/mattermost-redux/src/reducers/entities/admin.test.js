@@ -851,4 +851,168 @@ describe('reducers.entities.admin', () => {
             assert.deepEqual(actualState.ldapGroups, expectedState);
         });
     });
+
+    describe('Data Retention', () => {
+        it('initial state', () => {
+            const state = {};
+            const action = {};
+            const expectedState = {};
+
+            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
+            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+        });
+
+        it('RECEIVED_DATA_RETENTION_CUSTOM_POLICIES', () => {
+            const state = {};
+            const action = {
+                type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICIES,
+                data: {
+                    policies: [
+                        {
+                            id: 'id1',
+                            display_name: 'Test Policy',
+                            post_duration: 100,
+                            team_count: 2,
+                            channel_count: 1,
+                        },
+                        {
+                            id: 'id2',
+                            display_name: 'Test Policy 2',
+                            post_duration: 365,
+                            team_count: 0,
+                            channel_count: 9,
+                        },
+                    ],
+                    total_count: 2,
+                },
+            };
+            const expectedState = {
+                id1: {
+                    id: 'id1',
+                    display_name: 'Test Policy',
+                    post_duration: 100,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+                id2: {
+                    id: 'id2',
+                    display_name: 'Test Policy 2',
+                    post_duration: 365,
+                    team_count: 0,
+                    channel_count: 9,
+                },
+            };
+
+            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
+            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+        });
+
+        it('RECEIVED_DATA_RETENTION_CUSTOM_POLICY', () => {
+            const state = {};
+            const action = {
+                type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY,
+                data: {
+                    id: 'id1',
+                    display_name: 'Test Policy',
+                    post_duration: 100,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+            };
+            const expectedState = {
+                id1: {
+                    id: 'id1',
+                    display_name: 'Test Policy',
+                    post_duration: 100,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+            };
+
+            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
+            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+        });
+
+        it('DELETE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS', () => {
+            const state = {
+                id1: {
+                    id: 'id1',
+                    display_name: 'Test Policy',
+                    post_duration: 100,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+            };
+            const action = {
+                type: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS,
+                data: {
+                    id: 'id1',
+                },
+            };
+            const expectedState = {};
+
+            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
+            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+        });
+
+        it('CREATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS', () => {
+            const state = {};
+            const action = {
+                type: AdminTypes.CREATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS,
+                data: {
+                    id: 'id1',
+                    display_name: 'Test Policy',
+                    post_duration: 100,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+            };
+            const expectedState = {
+                id1: {
+                    id: 'id1',
+                    display_name: 'Test Policy',
+                    post_duration: 100,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+            };
+
+            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
+            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+        });
+
+        it('UPDATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS', () => {
+            const state = {
+                id1: {
+                    id: 'id1',
+                    display_name: 'Test Policy',
+                    post_duration: 100,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+            };
+            const action = {
+                type: AdminTypes.CREATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS,
+                data: {
+                    id: 'id1',
+                    display_name: 'Test Policy 123',
+                    post_duration: 365,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+            };
+            const expectedState = {
+                id1: {
+                    id: 'id1',
+                    display_name: 'Test Policy 123',
+                    post_duration: 365,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+            };
+
+            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
+            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+        });
+    });
 });

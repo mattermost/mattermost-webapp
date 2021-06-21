@@ -28,6 +28,7 @@ export function getOAuthApps(state: GlobalState) {
 }
 
 export const getAppsOAuthAppIDs: (state: GlobalState) => string[] = createSelector(
+    'getAppsOAuthAppIDs',
     appsEnabled,
     (state: GlobalState) => state.entities.integrations.appsOAuthAppIDs,
     (apps, ids) => {
@@ -36,6 +37,7 @@ export const getAppsOAuthAppIDs: (state: GlobalState) => string[] = createSelect
 );
 
 export const getAppsBotIDs: (state: GlobalState) => string[] = createSelector(
+    'getAppsBotIDs',
     appsEnabled,
     (state: GlobalState) => state.entities.integrations.appsBotIDs,
     (apps, ids) => {
@@ -51,6 +53,7 @@ export function getSystemCommands(state: GlobalState) {
  * get outgoing hooks in current team
  */
 export const getOutgoingHooksInCurrentTeam: (state: GlobalState) => OutgoingWebhook[] = createSelector(
+    'getOutgoingHooksInCurrentTeam',
     getCurrentTeamId,
     getOutgoingHooks,
     (teamId, hooks) => {
@@ -59,6 +62,7 @@ export const getOutgoingHooksInCurrentTeam: (state: GlobalState) => OutgoingWebh
 );
 
 export const getAllCommands: (state: GlobalState) => IDMappedObjects<Command> = createSelector(
+    'getAllCommands',
     getCommands,
     getSystemCommands,
     (commands, systemCommands) => {
@@ -70,6 +74,7 @@ export const getAllCommands: (state: GlobalState) => IDMappedObjects<Command> = 
 );
 
 export const getAutocompleteCommandsList: (state: GlobalState) => Command[] = createSelector(
+    'getAutocompleteCommandsList',
     getAllCommands,
     getCurrentTeamId,
     (commands, currentTeamId) => {
