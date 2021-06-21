@@ -117,8 +117,6 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
     private scrollbarsRef: React.RefObject<Scrollbars>;
     private newMessagesRef: React.RefObject<HTMLDivElement>;
 
-    static whyDidYouRender = true;
-
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
         if (state.selected && props.selected && state.selected.id !== props.selected.id) {
