@@ -20,6 +20,8 @@ import path from 'path';
 import jsonData from 'emoji-datasource/emoji.json';
 import jsonCategories from 'emoji-datasource/categories.json';
 
+import additionalShortnames from './additional_shortnames.json';
+
 const EMOJI_SIZE = 64;
 const EMOJI_SIZE_PADDED = EMOJI_SIZE + 2; // 1px per side
 const endResults = [];
@@ -120,6 +122,13 @@ jsonData.forEach((emoji, index) => {
     const variations = genSkinVariations(emoji, index, nextOrder);
     nextOrder += variations.length;
     fullEmoji.push(...variations);
+});
+
+// add old shortnames to maintain backwards compatibility with gemoji
+fullEmoji.forEach((emoji) => {
+    if (emoji.short_name in additionalShortnames) {
+        emoji.short_names.push(...additionalShortnames[emoji.short_name]);
+    }
 });
 
 fullEmoji.sort((emojiA, emojiB) => emojiA.sort_order - emojiB.sort_order);
