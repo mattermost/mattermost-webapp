@@ -94,7 +94,7 @@ export class EmojiPickerSkin extends React.PureComponent {
                     </button>
                     <div className='skin-tones__close-text'>
                         <FormattedMessage
-                            id={Emoji.SkinTranslations.get(this.props.recentSkin)}
+                            id={Emoji.SkinTranslations.get('default')}
                         />
                     </div>
                 </div>
