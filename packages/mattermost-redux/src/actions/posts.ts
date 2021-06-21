@@ -425,6 +425,29 @@ export function editPost(post: Post) {
         ],
     });
 }
+export function getPostsByIds(ids: string[]) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let posts;
+
+        try {
+            posts = await Client4.getPostsByIds(ids);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(batchActions([
+                {type: PostTypes.GET_POSTS_FAILURE, error},
+                logError(error),
+            ]));
+            return {error};
+        }
+
+        dispatch({
+            type: PostTypes.RECEIVED_POSTS,
+            data: {posts: posts},
+        });
+
+        return {data: {posts: posts}};
+    };
+}
 
 function getUnreadPostData(unreadChan: ChannelUnread, state: GlobalState) {
     const member = getMyChannelMemberSelector(state, unreadChan.channel_id);
@@ -930,29 +953,37 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         return Promise.resolve();
     }
 
-    const posts = Object.values(postsArrayOrMap);
+    const postsArray = Object.values(postsArrayOrMap);
 
-    if (posts.length === 0) {
+    if (postsArray.length === 0) {
         return Promise.resolve();
     }
 
     const state = getState();
+    console.log(state.entities.posts.posts);
+    const {posts} = state.entities.posts;
     const {currentUserId, profiles, statuses} = state.entities.users;
 
     // Statuses and profiles of the users who made the posts
     const userIdsToLoad = new Set<string>();
     const statusesToLoad = new Set<string>();
+    const postsToLoad = new Set<string>();
 
-    Object.values(posts).forEach((post) => {
+    Object.values(postsArray).forEach((post) => {
         
         const userId = post.user_id;
 
         if (post.metadata.embeds) {
             post.metadata.embeds.forEach((embed: any) => {
-                if (embed.type === 'permalink') {
-                    if (!profiles[embed.data.user_id] && embed.data.user_id !== currentUserId) {
-                        console.log(embed.data.user_id);
+                if (embed.type === 'permalink' && embed.data) {
+                    if (embed.data.user_id && !profiles[embed.data.user_id] && embed.data.user_id !== currentUserId) {
                         userIdsToLoad.add(embed.data.user_id);
+                    }
+                    if (embed.data.id && !posts[embed.data.id]) {
+                        postsToLoad.add(embed.data.id);
+                    }
+                    if (embed.data.user_id && !statuses[embed.data.user_id]) {
+                        statusesToLoad.add(embed.data.user_id);
                     }
                 }
             });
@@ -969,7 +1000,6 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         if (!profiles[userId]) {
             userIdsToLoad.add(userId);
         }
-
         
     });
 
@@ -983,17 +1013,21 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     }
 
     // Profiles of users mentioned in the posts
-    const usernamesToLoad = getNeededAtMentionedUsernames(state, posts);
+    const usernamesToLoad = getNeededAtMentionedUsernames(state, postsArray);
 
     if (usernamesToLoad.size > 0) {
         promises.push(getProfilesByUsernames(Array.from(usernamesToLoad))(dispatch, getState));
     }
 
     // Emojis used in the posts
-    const emojisToLoad = getNeededCustomEmojis(state, posts);
+    const emojisToLoad = getNeededCustomEmojis(state, postsArray);
 
     if (emojisToLoad && emojisToLoad.size > 0) {
         promises.push(getCustomEmojisByName(Array.from(emojisToLoad))(dispatch, getState));
+    }
+
+    if (postsToLoad.size > 0) {
+        promises.push(getPostsByIds(Array.from(postsToLoad))(dispatch, getState));
     }
 
     return Promise.all(promises);

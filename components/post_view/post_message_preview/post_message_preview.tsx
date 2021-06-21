@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import {PostPreviewMetadata} from "mattermost-redux/types/posts";
+import {Post, PostPreviewMetadata} from "mattermost-redux/types/posts";
 import UserProfileComponent from 'components/user_profile';
 import {UserProfile} from 'mattermost-redux/types/users';
 import Avatar from 'components/widgets/users/avatar';
@@ -15,8 +15,8 @@ import PostAttachmentContainer from "../post_attachment_container/post_attachmen
 
 export type Props = {
     user?: UserProfile;
+    post?: Post;
     metadata: PostPreviewMetadata;
-    createAt: number;
 };
 export default class PostMessagePreview extends React.PureComponent<Props> {
     render() {
@@ -49,7 +49,7 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
                         </div>
                         <div className='col'>
                             <Timestamp
-                                value={this.props.metadata.create_at}
+                                value={this.props.post?.create_at}
                                 units={[
                                     'now',
                                     'minute',
@@ -62,10 +62,14 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
                             />
                         </div>
                     </div>
-                    <PostMessageView
-                        post={this.props.metadata}
-                        messagePreviewShowMore={true}
-                    />
+                    {
+                        this.props.post && 
+                        <PostMessageView
+                            post={this.props.post}
+                            messagePreviewShowMore={true}
+                        />
+                    }
+                    
                     <div className='post__preview-footer'>
                         <p>
                             {`Originally posted in ~${this.props.metadata?.channel_display_name}`}

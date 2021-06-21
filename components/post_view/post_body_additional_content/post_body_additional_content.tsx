@@ -117,8 +117,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
             if (embed.data) {
                 return (
                     <PostMessagePreview
-                        metadata={embed.data}
-                        createAt={embed.data.create_at}
+                        metadata={embed.data as PostPreviewMetadata}
                     />
                 )
             }

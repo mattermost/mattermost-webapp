@@ -7,6 +7,7 @@ import {GlobalState} from 'types/store';
 import PostMessagePreview from './post_message_preview';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {PostPreviewMetadata} from 'mattermost-redux/types/posts';
+import { getPost } from 'mattermost-redux/selectors/entities/posts';
 
 type Props = {
     metadata: PostPreviewMetadata;
@@ -14,11 +15,16 @@ type Props = {
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     let user = null;
-    if (ownProps.metadata.user_id) {
-        user = getUser(state, ownProps.metadata.user_id);
+    let post = null;
+    if (ownProps.metadata.id) {
+        post = getPost(state, ownProps.metadata.id);
+    }
+    if (post && post.user_id) {
+        user = getUser(state, post.user_id);
     }
 
     return {
+        post,
         user,
     };
 }
