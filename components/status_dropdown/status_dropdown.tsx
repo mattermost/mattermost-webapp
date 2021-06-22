@@ -22,10 +22,11 @@ import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
+import ExpiryTime from 'components/custom_status/expiry_time';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {UserCustomStatus, UserStatus} from 'mattermost-redux/types/users';
+import {UserCustomStatus, UserStatus, CustomStatusDuration} from 'mattermost-redux/types/users';
 
 import './status_dropdown.scss';
 
@@ -40,10 +41,12 @@ type Props = {
         unsetCustomStatus: () => ActionFunc;
         setStatusDropdown: (open: boolean) => void;
     };
-    customStatus: UserCustomStatus;
+    customStatus?: UserCustomStatus;
     isCustomStatusEnabled: boolean;
+    isCustomStatusExpired: boolean;
     isStatusDropdownOpen: boolean;
     showCustomStatusPulsatingDot: boolean;
+    timezone?: string;
 }
 
 type State = {
@@ -57,10 +60,6 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         userId: '',
         profilePicture: '',
         status: UserStatuses.OFFLINE,
-        customStatus: {
-            emoji: '',
-            text: '',
-        },
     }
 
     isUserOutOfOffice = (): boolean => {
@@ -145,9 +144,9 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         if (!this.props.isCustomStatusEnabled) {
             return null;
         }
-        const customStatus = this.props.customStatus;
-        const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0);
-        const customStatusText = isStatusSet ? customStatus.text : localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
+        const {customStatus, isCustomStatusExpired} = this.props;
+        const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0) && !isCustomStatusExpired;
+        const customStatusText = isStatusSet ? customStatus?.text : localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
         const customStatusEmoji = isStatusSet ? (
             <span className='d-flex'>
                 <CustomStatusEmoji
@@ -187,6 +186,16 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             <span className='pulsating_dot'/>
         );
 
+        const expiryTime = isStatusSet && customStatus?.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR &&
+            (
+                <ExpiryTime
+                    time={customStatus.expires_at}
+                    timezone={this.props.timezone}
+                    className={'custom_status__expiry MenuItem__help-text'}
+                    withinBrackets={true}
+                />
+            );
+
         return (
             <Menu.Group>
                 <Menu.ItemToggleModalRedux
@@ -197,14 +206,17 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     id={'status-menu-custom-status'}
                     sibling={clearButton}
                 >
-                    <span className='custom_status__icon'>
-                        {customStatusEmoji}
+                    <span className='custom_status__container'>
+                        <span className='custom_status__icon'>
+                            {customStatusEmoji}
+                        </span>
+                        <CustomStatusText
+                            text={customStatusText}
+                            className='custom_status__text'
+                        />
+                        {pulsatingDot}
                     </span>
-                    <CustomStatusText
-                        text={customStatusText}
-                        className='custom_status__text'
-                    />
-                    {pulsatingDot}
+                    {expiryTime}
                 </Menu.ItemToggleModalRedux>
             </Menu.Group>
         );
