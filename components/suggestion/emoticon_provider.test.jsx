@@ -54,13 +54,15 @@ describe('components/EmoticonProvider', () => {
         expect(resultsCallback).toHaveBeenCalled();
         const args = resultsCallback.mock.calls[0][0];
         const results = args.items.filter((item) => item.name.indexOf('skin') === -1);
-        expect(results.length).toEqual(6);
-        expect(results[0].name).toEqual('thumbsup');
-        expect(results[1].name).toEqual('thumbsdown');
-        expect(results[2].name).toEqual('thumbsdown-custom');
-        expect(results[3].name).toEqual('thumbsup-custom');
-        expect(results[4].name).toEqual('thunder_cloud_and_rain');
-        expect(results[5].name).toEqual('lithuania-custom');
+        expect(results.map((item) => item.name)).toEqual([
+            'thumbsup', // thumbsup is a special case where it always appears before thumbsdown
+            'thumbsdown',
+            'thumbsdown-custom',
+            'thumbsup-custom',
+            'thunder_cloud_and_rain',
+            'lithuania',
+            'lithuania-custom',
+        ]);
     });
 
     it('should not suggest emojis if no match', () => {
@@ -112,13 +114,15 @@ describe('components/EmoticonProvider', () => {
             expect(resultsCallback).toHaveBeenCalled();
             const args = resultsCallback.mock.calls[0][0];
             const results = args.items.filter((item) => item.name.indexOf('skin') === -1);
-            expect(results.length).toEqual(6);
-            expect(results[0].name).toEqual('thumbsup');
-            expect(results[1].name).toEqual('thunder_cloud_and_rain');
-            expect(results[2].name).toEqual('thumbsdown');
-            expect(results[3].name).toEqual('thumbsdown-custom');
-            expect(results[4].name).toEqual('thumbsup-custom');
-            expect(results[5].name).toEqual('lithuania-custom');
+            expect(results.map((item) => item.name)).toEqual([
+                'thumbsup',
+                'thunder_cloud_and_rain',
+                'thumbsdown',
+                'thumbsdown-custom',
+                'thumbsup-custom',
+                'lithuania',
+                'lithuania-custom',
+            ]);
         }
     });
 
@@ -132,13 +136,15 @@ describe('components/EmoticonProvider', () => {
         expect(resultsCallback).toHaveBeenCalled();
         const args = resultsCallback.mock.calls[0][0];
         const results = args.items.filter((item) => item.name.indexOf('skin') === -1);
-        expect(results.length).toEqual(6);
-        expect(results[0].name).toEqual('thumbsdown-custom');
-        expect(results[1].name).toEqual('lithuania-custom');
-        expect(results[2].name).toEqual('thumbsup');
-        expect(results[3].name).toEqual('thumbsdown');
-        expect(results[4].name).toEqual('thumbsup-custom');
-        expect(results[5].name).toEqual('thunder_cloud_and_rain');
+        expect(results.map((item) => item.name)).toEqual([
+            'thumbsdown-custom',
+            'lithuania-custom',
+            'thumbsup',
+            'thumbsdown',
+            'thumbsup-custom',
+            'thunder_cloud_and_rain',
+            'lithuania',
+        ]);
     });
 
     it('should suggest emojis ordered by recently used first (custom and system)', () => {
@@ -151,13 +157,15 @@ describe('components/EmoticonProvider', () => {
         expect(resultsCallback).toHaveBeenCalled();
         const args = resultsCallback.mock.calls[0][0];
         const results = args.items.filter((item) => item.name.indexOf('skin') === -1);
-        expect(results.length).toEqual(6);
-        expect(results[0].name).toEqual('thumbsup');
-        expect(results[1].name).toEqual('thumbsdown');
-        expect(results[2].name).toEqual('thumbsdown-custom');
-        expect(results[3].name).toEqual('lithuania-custom');
-        expect(results[4].name).toEqual('thumbsup-custom');
-        expect(results[5].name).toEqual('thunder_cloud_and_rain');
+        expect(results.map((item) => item.name)).toEqual([
+            'thumbsup',
+            'thumbsdown',
+            'thumbsdown-custom',
+            'lithuania-custom',
+            'thumbsup-custom',
+            'thunder_cloud_and_rain',
+            'lithuania',
+        ]);
     });
 
     it('should suggest emojis ordered by recently used first with partial name match', () => {
@@ -170,10 +178,11 @@ describe('components/EmoticonProvider', () => {
         expect(resultsCallback).toHaveBeenCalled();
         const args = resultsCallback.mock.calls[0][0];
         const results = args.items.filter((item) => item.name.indexOf('skin') === -1);
-        expect(results.length).toEqual(4);
-        expect(results[0].name).toEqual('thumbsup');
-        expect(results[1].name).toEqual('thumbsup-custom');
-        expect(results[2].name).toEqual('thumbsdown');
-        expect(results[3].name).toEqual('thumbsdown-custom');
+        expect(results.map((item) => item.name)).toEqual([
+            'thumbsup',
+            'thumbsup-custom',
+            'thumbsdown',
+            'thumbsdown-custom',
+        ]);
     });
 });
