@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {createSelector} from 'reselect';
+
 import moment from 'moment-timezone';
+
+import {createSelector} from 'reselect';
 
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
