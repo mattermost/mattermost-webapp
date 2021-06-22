@@ -75,7 +75,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         };
     }
 
-    setStatus = (status: string, dndEndTime: any): void => {
+    setStatus = (status: string, dndEndTime?: number): void => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status,
@@ -89,22 +89,22 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
 
     setOnline = (event: Event): void => {
         event.preventDefault();
-        this.setStatus(UserStatuses.ONLINE, '');
+        this.setStatus(UserStatuses.ONLINE);
     }
 
     setOffline = (event: Event): void => {
         event.preventDefault();
-        this.setStatus(UserStatuses.OFFLINE, '');
+        this.setStatus(UserStatuses.OFFLINE);
     }
 
     setAway = (event: Event): void => {
         event.preventDefault();
-        this.setStatus(UserStatuses.AWAY, '');
+        this.setStatus(UserStatuses.AWAY);
     }
 
     setDndUntimed = (event: Event): void => {
         event.preventDefault();
-        this.setStatus(UserStatuses.DND, '');
+        this.setStatus(UserStatuses.DND);
     }
 
     setDnd = (index: number): void => {
