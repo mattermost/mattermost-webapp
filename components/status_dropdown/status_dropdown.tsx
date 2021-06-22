@@ -141,7 +141,6 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             modalId: ModalIdentifiers.DND_CUSTOM_TIME_PICKER,
             dialogType: DndCustomTimePicker,
             dialogProps: {
-                userId: this.props.userId,
                 currentDate: getCurrentDateTimeForTimezone(this.props.timezone),
             },
         };
