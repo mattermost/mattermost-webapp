@@ -4,6 +4,7 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {MessageDescriptor, useIntl, FormattedMessage} from 'react-intl';
+import {useSelector} from 'react-redux';
 import Scrollbars from 'react-custom-scrollbars';
 
 import classNames from 'classnames';
@@ -11,6 +12,8 @@ import classNames from 'classnames';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {FileSearchResultItem as FileSearchResultItemType} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
+
+import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
 
 import * as Utils from 'utils/utils.jsx';
 import {searchHintOptions} from 'utils/constants';
@@ -73,7 +76,7 @@ const defaultProps: Partial<Props> = {
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const scrollbars = useRef<Scrollbars|null>(null);
     const [searchType, setSearchType] = useState<string>(props.searchType);
-
+    const filesDropdownPluginMenuItems = useSelector(getFilesDropdownPluginMenuItems);
     const intl = useIntl();
 
     useEffect(() => {
@@ -292,6 +295,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     teamName={props.currentTeamName}
                     channelType={props.channels[item.channel_id] && props.channels[item.channel_id].type}
                     channelDisplayName={props.channels[item.channel_id] && props.channels[item.channel_id].display_name}
+                    pluginMenuItems={filesDropdownPluginMenuItems}
                 />
             );
         });

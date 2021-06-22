@@ -176,10 +176,6 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
-        if (!this.props.currentChannelId) {
-            return null;
-        }
-
         return channelIds.find((channelId) => {
             return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
         });
