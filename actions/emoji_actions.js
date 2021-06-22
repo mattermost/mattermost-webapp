@@ -43,6 +43,16 @@ export function incrementEmojiPickerPage() {
     };
 }
 
+export function setRecentSkin(skin) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.SET_RECENT_SKIN,
+            data: skin,
+        });
+        return {data: skin};
+    };
+}
+
 const MAXIMUM_RECENT_EMOJI = 27;
 
 export function addRecentEmoji(alias) {
@@ -77,6 +87,7 @@ export function addRecentEmoji(alias) {
 }
 
 export function loadCustomEmojisForCustomStatusesByUserIds(userIds) {
+    const getCustomStatus = makeGetCustomStatus();
     return (dispatch, getState) => {
         const state = getState();
         const customEmojiEnabled = isCustomEmojiEnabled(state);
@@ -85,7 +96,6 @@ export function loadCustomEmojisForCustomStatusesByUserIds(userIds) {
             return {data: false};
         }
 
-        const getCustomStatus = makeGetCustomStatus();
         const emojisToLoad = new Set();
 
         userIds.forEach((userId) => {
