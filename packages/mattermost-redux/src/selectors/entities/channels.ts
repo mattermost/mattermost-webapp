@@ -745,12 +745,12 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
     getConfig,
     getLicense,
     hasNewPermissions,
-    (state: GlobalState): boolean => haveICurrentChannelPermission(state, {
-        permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-    }),
-    (state: GlobalState): boolean => haveICurrentChannelPermission(state, {
-        permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-    }),
+    (state: GlobalState): boolean => haveICurrentChannelPermission(state,
+        Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+    ),
+    (state: GlobalState): boolean => haveICurrentChannelPermission(state,
+        Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+    ),
     (
         channel: Channel,
         user: UserProfile,
@@ -806,17 +806,17 @@ export const canManageAnyChannelMembersInCurrentTeam: (state: GlobalState) => bo
                 continue;
             }
 
-            if (channel.type === General.OPEN_CHANNEL && haveIChannelPermission(state, {
-                permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-                channel: channelId,
-                team: currentTeamId,
-            })) {
+            if (channel.type === General.OPEN_CHANNEL && haveIChannelPermission(state,
+                currentTeamId,
+                channelId,
+                Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+            )) {
                 return true;
-            } else if (channel.type === General.PRIVATE_CHANNEL && haveIChannelPermission(state, {
-                permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-                channel: channelId,
-                team: currentTeamId,
-            })) {
+            } else if (channel.type === General.PRIVATE_CHANNEL && haveIChannelPermission(state,
+                currentTeamId,
+                channelId,
+                Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+            )) {
                 return true;
             }
         }
@@ -1475,10 +1475,10 @@ export const getMyFirstChannelForTeams: (state: GlobalState) => RelationOneToOne
 export const getRedirectChannelNameForTeam = (state: GlobalState, teamId: string): string => {
     const defaultChannelForTeam = getDefaultChannelForTeams(state)[teamId];
     const myFirstChannelForTeam = getMyFirstChannelForTeams(state)[teamId];
-    const canIJoinPublicChannelsInTeam = !hasNewPermissions(state) || haveITeamPermission(state, {
-        team: teamId,
-        permission: Permissions.JOIN_PUBLIC_CHANNELS,
-    });
+    const canIJoinPublicChannelsInTeam = !hasNewPermissions(state) || haveITeamPermission(state,
+        teamId,
+        Permissions.JOIN_PUBLIC_CHANNELS,
+    );
     const myChannelMemberships = getMyChannelMemberships(state);
     const iAmMemberOfTheTeamDefaultChannel = Boolean(defaultChannelForTeam && myChannelMemberships[defaultChannelForTeam.id]);
 

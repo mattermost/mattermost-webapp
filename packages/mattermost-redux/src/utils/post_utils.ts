@@ -66,9 +66,9 @@ export function canDeletePost(state: GlobalState, config: any, license: any, tea
     const isOwner = isPostOwner(userId, post);
 
     if (hasNewPermissions(state)) {
-        const canDelete = haveIChannelPermission(state, {team: teamId, channel: channelId, permission: Permissions.DELETE_POST});
+        const canDelete = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
         if (!isOwner) {
-            return canDelete && haveIChannelPermission(state, {team: teamId, channel: channelId, permission: Permissions.DELETE_OTHERS_POSTS});
+            return canDelete && haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
         }
         return canDelete;
     }
@@ -92,7 +92,7 @@ export function canEditPost(state: GlobalState, config: any, license: any, teamI
 
     if (hasNewPermissions(state)) {
         const permission = isOwner ? Permissions.EDIT_POST : Permissions.EDIT_OTHERS_POSTS;
-        canEdit = haveIChannelPermission(state, {team: teamId, channel: channelId, permission});
+        canEdit = haveIChannelPermission(state, teamId, channelId, permission);
         if (license.IsLicensed === 'true' && config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
             const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Date.now();
             if (timeLeft <= 0) {

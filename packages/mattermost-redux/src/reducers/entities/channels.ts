@@ -847,7 +847,7 @@ function roles(state: RelationOneToOne<Channel, Set<string>> = {}, action: Gener
         }
 
         for (const cm of action.data) {
-            const oldRoles = state[cm.channel_id];
+            const oldRoles = nextState[cm.channel_id];
             const newRoles = splitRoles(cm.roles);
 
             // If roles didn't change no need to update state
