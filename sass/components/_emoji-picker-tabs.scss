@@ -7,10 +7,10 @@
           width: max-content;
 
           .custom-emoji-tab__icon svg {
-              fill: #777679;
+              fill: var(--center-channel-color-72);
           }
           div {
-              color: #777679;
+              color: var(--center-channel-color-72);
           }
       }
   }
@@ -18,10 +18,10 @@
   li.active {
       a {
           .custom-emoji-tab__icon svg {
-              fill: #166de0;
+              fill: var(--mention-bg-rgb);
           }
           div {
-              color: #166de0;
+              color: var(--button-bg);
           }
       }
   }

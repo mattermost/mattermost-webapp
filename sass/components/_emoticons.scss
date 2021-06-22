@@ -252,7 +252,7 @@
         height: 100%;
         display: flex;
         align-items: center;
-        background: #fff;
+        background: var(--center-channel-bg);
         overflow: hidden;
 
         &--active {
@@ -318,7 +318,7 @@
         z-index: 5;
 
         &:focus-within {
-            border: 2px solid #166DE0;
+            border: 2px solid v(button-bg);
             & .emoji-picker__search-icon {
                 padding-left: 8px;
                 padding-top: 7px;
@@ -437,7 +437,7 @@
         margin-bottom: 6px;
         margin-top: 3px;
         padding-top: 3px;
-        color: #929294;
+        color: var(--center-channel-color-48);
         text-transform: uppercase;
         position: relative;
     }
