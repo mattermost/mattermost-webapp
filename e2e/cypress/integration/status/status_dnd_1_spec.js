@@ -28,7 +28,7 @@ describe('DND Status - Setting Your Own DND Status', () => {
 
     it('MM-8497_1 Set status DND with predefined end times', () => {
         // # Loop through all predefined end times and verify them
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 4; i++) {
             // # Open status dropdown menu and hover over Do Not Disturb option
             openDndStatusSubMenu();
 
