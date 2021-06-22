@@ -62,22 +62,11 @@ export function makeGetThreadLastViewedAt(): (state: GlobalState, threadId: $ID<
     );
 }
 
-export const getOpenThreadId: (state: GlobalState) => $ID<UserThread> | null = createSelector(
-    'getOpenThreadId',
-    getSelectedThreadIdInCurrentTeam,
-    getSelectedPostId,
-    getIsRhsOpen,
-    (selectedThreadId, selectedPostId, isRhsOpen) => {
-        if (isRhsOpen && selectedPostId) {
-            return selectedPostId;
-        }
-
-        return selectedThreadId;
-    },
-);
-
 export const isThreadOpen = (state: GlobalState, threadId: $ID<UserThread>): boolean => {
-    return threadId === getOpenThreadId(state);
+    return (
+        threadId === getSelectedThreadIdInCurrentTeam(state) ||
+        (getIsRhsOpen(state) && threadId === getSelectedPostId(state))
+    );
 };
 
 export const isThreadManuallyUnread = (state: GlobalState, threadId: $ID<UserThread>): boolean => {
