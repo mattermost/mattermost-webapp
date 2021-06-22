@@ -43,7 +43,7 @@ export function completeDirectChannelInfo(usersState: UsersState, teammateNameDi
 }
 
 export function splitRoles(roles: string): Set<string> {
-    return new Set<string>(roles.split(' '));
+    return roles ? new Set<string>(roles.split(' ')) : new Set<string>([]);
 }
 
 // newCompleteDirectChannelInfo is a variant of completeDirectChannelInfo that accepts the minimal
