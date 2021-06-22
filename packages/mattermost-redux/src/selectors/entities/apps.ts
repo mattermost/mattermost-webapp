@@ -13,6 +13,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
 export const appsEnabled = createSelector(
+    'appsEnabled',
     (state: GlobalState) => getConfig(state),
     (config?: Partial<ClientConfig>) => {
         const enabled = config?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>];
@@ -22,6 +23,7 @@ export const appsEnabled = createSelector(
 
 export const makeAppBindingsSelector = (location: string) => {
     return createSelector(
+        'makeAppBindingsSelector',
         (state: GlobalState) => state.entities.apps.bindings,
         (state: GlobalState) => appsEnabled(state),
         (bindings: AppBinding[], areAppsEnabled: boolean) => {

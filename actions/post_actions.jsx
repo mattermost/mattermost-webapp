@@ -16,7 +16,7 @@ import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
-import {updateThreadLastOpened} from 'actions/views/threads';
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
 import {
@@ -208,7 +208,7 @@ export function unpinPost(postId) {
     };
 }
 
-export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
+export function setEditingPost(postId = '', refocusId = '', title = '', isRHS = false) {
     return async (dispatch, getState) => {
         const state = getState();
         const post = PostSelectors.getPost(state, postId);
@@ -230,7 +230,7 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
         if (canEditNow) {
             dispatch({
                 type: ActionTypes.SHOW_EDIT_POST_MODAL,
-                data: {postId, commentCount, refocusId, title, isRHS},
+                data: {postId, refocusId, title, isRHS},
             });
         }
 
@@ -244,10 +244,11 @@ export function markPostAsUnread(post, location) {
         const userId = getCurrentUserId(state);
         const currentTeamId = getCurrentTeamId(state);
 
-        // if CRT:ON and this is from within ThreadViewer (e.g. post dot-menu), mark the thread as unread
+        // if CRT:ON and this is from within ThreadViewer (e.g. post dot-menu), mark the thread as unread and followed
         if (isCollapsedThreadsEnabled(state) && (location === 'RHS_ROOT' || location === 'RHS_COMMENT')) {
             const threadId = post.root_id || post.id;
-            dispatch(updateThreadLastOpened(threadId, post.create_at));
+            ThreadActions.handleFollowChanged(dispatch, threadId, currentTeamId, true);
+            dispatch(manuallyMarkThreadAsUnread(threadId, post.create_at));
             await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, threadId, post.create_at));
         } else {
             // use normal channel unread system

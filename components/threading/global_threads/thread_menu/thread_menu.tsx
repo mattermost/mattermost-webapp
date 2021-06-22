@@ -11,7 +11,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {setThreadFollow, updateThreadRead} from 'mattermost-redux/actions/threads';
-import {updateThreadLastOpened} from 'actions/views/threads';
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 
 import {
     flagPost as savePost,
@@ -58,6 +58,20 @@ function ThreadMenu({
     } = useThreadRouting();
 
     const isSaved = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, threadId, null) != null);
+
+    const handleReadUnread = useCallback(() => {
+        const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
+
+        dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
+        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, lastViewedAt));
+    }, [
+        currentUserId,
+        currentTeamId,
+        threadId,
+        hasUnreads,
+        updateThreadRead,
+        unreadTimestamp,
+    ]);
 
     return (
         <MenuWrapper
@@ -109,10 +123,7 @@ function ThreadMenu({
                         id: t('threading.threadMenu.markUnread'),
                         defaultMessage: 'Mark as unread',
                     })}
-                    onClick={useCallback(() => {
-                        dispatch(updateThreadLastOpened(threadId, hasUnreads ? Date.now() : unreadTimestamp));
-                        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : unreadTimestamp));
-                    }, [currentUserId, currentTeamId, threadId, hasUnreads, updateThreadRead, unreadTimestamp])}
+                    onClick={handleReadUnread}
                 />
 
                 <Menu.ItemAction

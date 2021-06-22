@@ -18,6 +18,8 @@ describe('components/threading/ThreadViewer', () => {
         channel_id: 'channel_id',
         create_at: 1502715365009,
         update_at: 1502715372443,
+        is_following: true,
+        reply_count: 3,
     });
 
     const channel: Channel = TestHelper.getChannelMock({
@@ -58,10 +60,12 @@ describe('components/threading/ThreadViewer', () => {
         isCollapsedThreadsEnabled: false,
     };
 
-    test('should match snapshot', () => {
+    test('should match snapshot', async () => {
         const wrapper = shallow(
             <ThreadViewer {...baseProps}/>,
         );
+
+        await new Promise((resolve) => setTimeout(resolve));
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -73,7 +77,7 @@ describe('components/threading/ThreadViewer', () => {
         wrapper.setProps({socketConnectionStatus: false});
         wrapper.setProps({socketConnectionStatus: true});
 
-        expect(actions.getPostThread).toHaveBeenCalledWith(post.id);
+        return expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
     });
 
     test('should update openTime state when selected prop updated', async () => {
@@ -178,7 +182,7 @@ describe('components/threading/ThreadViewer', () => {
         }).not.toThrowError("Cannot read property 'reply_count' of undefined");
     });
 
-    test('should call fetchThread when no thread on mount', () => {
+    test('should call fetchThread when no thread on mount', (done) => {
         const {actions} = baseProps;
 
         shallow(
@@ -189,9 +193,13 @@ describe('components/threading/ThreadViewer', () => {
         );
 
         expect.assertions(3);
-        expect(actions.updateThreadLastOpened).not.toHaveBeenCalled();
-        expect(actions.updateThreadRead).not.toHaveBeenCalled();
-        expect(actions.getThread).toHaveBeenCalledWith('user_id', 'team_id', 'id', true);
+
+        process.nextTick(() => {
+            expect(actions.updateThreadLastOpened).not.toHaveBeenCalled();
+            expect(actions.updateThreadRead).not.toHaveBeenCalled();
+            expect(actions.getThread).toHaveBeenCalledWith('user_id', 'team_id', 'id', true);
+            done();
+        });
     });
 
     test('should call updateThreadLastOpened on mount', () => {
@@ -240,8 +248,10 @@ describe('components/threading/ThreadViewer', () => {
         expect(actions.getThread).not.toHaveBeenCalled();
     });
 
-    test('should call updateThreadLastOpened and updateThreadRead upon thread id change', () => {
-        jest.useFakeTimers('modern').setSystemTime(400);
+    test('should call updateThreadLastOpened and updateThreadRead upon thread id change', (done) => {
+        jest.useRealTimers();
+        const dateNowOrig = Date.now;
+        Date.now = () => new Date(400).getMilliseconds();
         const {actions} = baseProps;
 
         const userThread = {
@@ -258,15 +268,19 @@ describe('components/threading/ThreadViewer', () => {
         );
 
         expect.assertions(6);
-        expect(actions.updateThreadLastOpened).not.toHaveBeenCalled();
-        expect(actions.updateThreadRead).not.toHaveBeenCalled();
-        expect(actions.getThread).toHaveBeenCalled();
+        process.nextTick(() => {
+            expect(actions.updateThreadLastOpened).not.toHaveBeenCalled();
+            expect(actions.updateThreadRead).not.toHaveBeenCalled();
+            expect(actions.getThread).toHaveBeenCalled();
 
-        jest.resetAllMocks();
-        wrapper.setProps({userThread});
+            jest.resetAllMocks();
+            wrapper.setProps({userThread});
 
-        expect(actions.updateThreadLastOpened).toHaveBeenCalledWith('id', 42);
-        expect(actions.updateThreadRead).toHaveBeenCalledWith('user_id', 'team_id', 'id', 400);
-        expect(actions.getThread).not.toHaveBeenCalled();
+            expect(actions.updateThreadLastOpened).toHaveBeenCalledWith('id', 42);
+            expect(actions.updateThreadRead).toHaveBeenCalledWith('user_id', 'team_id', 'id', 400);
+            expect(actions.getThread).not.toHaveBeenCalled();
+            Date.now = dateNowOrig;
+            done();
+        });
     });
 });

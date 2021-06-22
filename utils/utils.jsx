@@ -9,22 +9,35 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import {getChannel as getChannelAction, getChannelByNameAndTeamName, getChannelMember, joinChannel} from 'mattermost-redux/actions/channels';
+import {
+    getChannel as getChannelAction,
+    getChannelByNameAndTeamName,
+    getChannelMember,
+    joinChannel,
+} from 'mattermost-redux/actions/channels';
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getChannelsNameMapInTeam, getMyChannelMemberships, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannel,
+    getChannelsNameMapInTeam,
+    getMyChannelMemberships,
+    getRedirectChannelNameForTeam,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {
-    blendColors,
-    changeOpacity,
-} from 'mattermost-redux/utils/theme_utils';
+import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam, getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getCurrentRelativeTeamUrl,
+    getCurrentTeamId,
+    getTeam,
+    getTeamByName,
+    getTeamMemberships,
+} from 'mattermost-redux/selectors/entities/teams';
 
 import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
@@ -42,6 +55,9 @@ import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -2254,4 +2270,30 @@ export function stringToNumber(s) {
     }
 
     return parseInt(s, 10);
+}
+
+export function renderPurchaseLicense() {
+    return (
+        <div className='purchase-card'>
+            <PurchaseLink
+                eventID='post_trial_purchase_license'
+                buttonTextElement={
+                    <FormattedMessage
+                        id='admin.license.trialCard.purchase_license'
+                        defaultMessage='Purchase a license'
+                    />
+                }
+            />
+            <ContactUsButton
+                eventID='post_trial_contact_sales'
+            />
+        </div>
+    );
+}
+
+export function deleteKeysFromObject(value, keys) {
+    for (const key of keys) {
+        delete value[key];
+    }
+    return value;
 }

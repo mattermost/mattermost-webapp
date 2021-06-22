@@ -40,6 +40,7 @@ import {
     handleFollowChanged,
     handleThreadArrived,
     handleAllThreadsInChannelMarkedRead,
+    updateThreadRead,
 } from 'mattermost-redux/actions/threads';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -76,7 +77,7 @@ import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 
 import {getSelectedChannelId} from 'selectors/rhs';
-import {isThreadOpen} from 'selectors/views/threads';
+import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
@@ -1454,12 +1455,34 @@ function handleThreadReadChanged(msg) {
 
 function handleThreadUpdated(msg) {
     return (doDispatch, doGetState) => {
+        let threadData;
         try {
-            const threadData = JSON.parse(msg.data.thread);
-            handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
+            threadData = JSON.parse(msg.data.thread);
         } catch {
             // invalid JSON
+            return;
         }
+
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const currentTeamId = getCurrentTeamId(state);
+
+        let lastViewedAt;
+        if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
+            lastViewedAt = Date.now();
+
+            // prematurely update thread data as read
+            // so we won't flash the indicators when
+            // we mark the thread as read on the server
+            threadData.last_viewed_at = lastViewedAt;
+            threadData.unread_mentions = 0;
+            threadData.unread_replies = 0;
+
+            // mark thread as read on the server
+            dispatch(updateThreadRead(currentUserId, currentTeamId, threadData.id, lastViewedAt));
+        }
+
+        handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
     };
 }
 
@@ -1467,7 +1490,7 @@ function handleThreadFollowChanged(msg) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const thread = getThread(state, msg.data.thread_id);
-        if (!thread && msg.data.state) {
+        if (!thread && msg.data.state && msg.data.reply_count) {
             await doDispatch(fetchThread(getCurrentUserId(state), getCurrentTeamId(state), msg.data.thread_id, true));
         }
         handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);

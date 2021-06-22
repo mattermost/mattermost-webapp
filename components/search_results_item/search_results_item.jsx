@@ -80,11 +80,6 @@ class SearchResultsItem extends React.PureComponent {
         currentTeamName: PropTypes.string,
 
         /**
-        *  Data used for delete in DotMenu
-        */
-        commentCountForPost: PropTypes.number,
-
-        /**
          * Whether post username overrides are to be respected.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
@@ -139,6 +134,7 @@ class SearchResultsItem extends React.PureComponent {
 
         this.state = {
             dropdownOpened: false,
+            fileDropdownOpened: false,
             showPreview: false,
         };
     }
@@ -172,6 +168,12 @@ class SearchResultsItem extends React.PureComponent {
         });
     };
 
+    handleFileDropdownOpened = (isOpened) => {
+        this.setState({
+            fileDropdownOpened: isOpened,
+        });
+    };
+
     renderPostTime = () => {
         const post = this.props.post;
 
@@ -195,7 +197,7 @@ class SearchResultsItem extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened) {
             className += ' post--hovered';
         }
 
@@ -257,6 +259,7 @@ class SearchResultsItem extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.handleFileDropdownOpened}
                 />
             );
         }
@@ -322,7 +325,6 @@ class SearchResultsItem extends React.PureComponent {
                         location={Locations.SEARCH}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
-                        commentCount={this.props.commentCountForPost}
                         isMenuOpen={this.state.dropdownOpened}
                         isReadOnly={channelIsArchived || null}
                     />
