@@ -28,7 +28,6 @@ export type UserProfileProps = {
     isRHS?: boolean;
     overwriteImage?: React.ReactNode;
     channelId?: string;
-    excludeOverlay?: boolean;
 }
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
