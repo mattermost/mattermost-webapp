@@ -108,7 +108,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
     }
 
     setDnd = (index: number): void => {
-        const currentDate = getCurrentDateTimeForTimezone(this.props.timezone);
+        const currentDate = this.props.timezone ? getCurrentDateTimeForTimezone(this.props.timezone) : new Date();
         const currentTime = currentDate.getTime();
         let endTime = new Date(currentTime);
         switch (index) {
@@ -141,7 +141,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             modalId: ModalIdentifiers.DND_CUSTOM_TIME_PICKER,
             dialogType: DndCustomTimePicker,
             dialogProps: {
-                currentDate: getCurrentDateTimeForTimezone(this.props.timezone),
+                currentDate: this.props.timezone ? getCurrentDateTimeForTimezone(this.props.timezone) : new Date(),
             },
         };
 
