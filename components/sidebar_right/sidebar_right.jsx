@@ -221,7 +221,7 @@ export default class SidebarRight extends React.PureComponent {
                         getFocus={this.getSearchBarFocus}
                         channelDisplayName={rhsChannel ? rhsChannel.display_name : ''}
                     >
-                        {content}
+                        {isOpen && content}
                     </Search>
                 </div>
             </div>
