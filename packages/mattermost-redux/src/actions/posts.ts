@@ -971,7 +971,7 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     Object.values(postsArray).forEach((post) => {
         const userId = post.user_id;
 
-        if (post.metadata.embeds) {
+        if (post.metadata && post.metadata.embeds) {
             post.metadata.embeds.forEach((embed: any) => {
                 if (embed.type === 'permalink' && embed.data) {
                     if (embed.data.user_id && !profiles[embed.data.user_id] && embed.data.user_id !== currentUserId) {
