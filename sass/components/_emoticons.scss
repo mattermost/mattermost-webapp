@@ -538,15 +538,18 @@
 .emoji-picker__custom {
     margin: 12px;
     position: relative;
+    text-decoration: none;
 
     a,
     a:hover {
         background: rgba(var(--button-bg-rgb), 0.08);
         fill: var(--button-bg);
-        color: var(--button-bg);
+        color: var(--button-bg) !important; // it gets overriden by link color
         border-radius: 4px;
         font-size: 12px;
         font-weight: 600;
+        text-decoration: none;
+        background-color: rgba(var(--button-bg-rgb), 0.12);
     }
 }
 
