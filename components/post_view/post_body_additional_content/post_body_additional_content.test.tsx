@@ -372,4 +372,46 @@ describe('PostBodyAdditionalContent', () => {
 
         expect(getEmbedFromMetadata).toHaveBeenCalledWith(metadata);
     });
+
+    describe('with a permalinklink', () => {
+        const permalinkUrl = 'https://community.mattermost.com/core/pl/123456789';
+
+        const permalinkBaseProps = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                message: permalinkUrl,
+                metadata: {
+                    embeds: [{
+                        type: 'permalink',
+                        data: {
+                            id: 'post_id123',
+                            user_id: 'user_id123',
+                            channel_display_name: 'channel1',
+                            team_name: 'core',
+                        },
+                    }],
+                } as PostMetadata,
+            },
+        };
+
+        test("Render permalink preview", () => {
+            const wrapper = shallow(<PostBodyAdditionalContent {...permalinkBaseProps}/>);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test("Render permalink preview with no data", () => {
+            let props = {
+                ...permalinkBaseProps,
+            };
+
+            props.post.metadata.embeds[0] = {
+                type: 'permalink',
+                url: '',
+            }
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
 });

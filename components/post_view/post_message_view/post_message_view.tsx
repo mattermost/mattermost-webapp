@@ -118,7 +118,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
             compactDisplay,
             isRHS,
             theme,
-            messagePreviewShowMore
+            messagePreviewShowMore,
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {

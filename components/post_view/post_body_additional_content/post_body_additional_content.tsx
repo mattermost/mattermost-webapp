@@ -113,16 +113,15 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                     toggleEmbedVisibility={this.toggleEmbedVisibility}
                 />
             );
-        case 'permalink': {
+        case 'permalink':
             if (embed.data) {
                 return (
                     <PostMessagePreview
                         metadata={embed.data as PostPreviewMetadata}
                     />
-                )
+                );
             }
-            
-        }
+            return null;
         default:
             return null;
         }

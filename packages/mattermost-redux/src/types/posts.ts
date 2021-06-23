@@ -146,20 +146,9 @@ export declare type OpenGraphMetadata = {
     images: OpenGraphMetadataImage[];
 };
 
-export declare type PostPreviewMetadata = Post & {
-    // id?: string;
-    // message?: string;
-    // type?: PostType;
-    // channel_id?: string;
-    // create_at?: number;
-    // update_at?: number;
-    // user_id?: string;
+export declare type PostPreviewMetadata = {
+    id: string;
+    user_id: string;
     channel_display_name: string;
     team_name: string;
-
-    // Need the following to fix types in other components
-    // state?: 'DELETED';
-    // props?: Record<string, any>;
-    // metadata?: PostMetadata;
-    // message_source?: string;
 };

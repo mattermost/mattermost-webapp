@@ -33,7 +33,12 @@ export default class ShowMore extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.maxHeight = this.props.messagePreviewShowMore ? 100 : this.props.isAttachmentText ? MAX_ATTACHMENT_TEXT_HEIGHT : MAX_POST_HEIGHT;
+        this.maxHeight = MAX_POST_HEIGHT;
+        if (this.props.messagePreviewShowMore) {
+            this.maxHeight = 100;
+        } else if (this.props.isAttachmentText) {
+            this.maxHeight = MAX_ATTACHMENT_TEXT_HEIGHT;
+        }
         this.textContainer = React.createRef();
         this.state = {
             isCollapsed: true,
@@ -171,8 +176,6 @@ export default class ShowMore extends React.PureComponent<Props, State> {
                 );
                 className += ' post-message-preview--overflow';
             }
-
-            
         }
 
         return (

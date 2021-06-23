@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useCallback } from "react";
-import {useHistory} from "react-router-dom";
+import React, {useCallback} from 'react';
+import {useHistory} from 'react-router-dom';
 
 export type Props = {
     className?: string;
@@ -13,14 +13,14 @@ const PostAttachmentContainer = (props: Props) => {
     const {children, className, link} = props;
     const history = useHistory();
     const handleOnClick = useCallback((e) => {
-        const tagName = e.target.tagName
-        const elements = ['A', 'IMG', 'BUTTON']
+        const tagName = e.target.tagName;
+        const elements = ['A', 'IMG', 'BUTTON'];
         if (!elements.includes(tagName) && (e.target.getAttribute('role') !== 'button' && e.target.className !== `attachment attachment--${className}`)) {
             history.push(link);
         }
     }, [history]);
     return (
-        <div 
+        <div
             className={`attachment attachment--${className}`}
             role={'button'}
             onClick={handleOnClick}
@@ -34,6 +34,6 @@ const PostAttachmentContainer = (props: Props) => {
             </div>
         </div>
     );
-}
+};
 
 export default PostAttachmentContainer;

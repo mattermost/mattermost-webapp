@@ -4,10 +4,12 @@
 import {connect} from 'react-redux';
 
 import {GlobalState} from 'types/store';
-import PostMessagePreview from './post_message_preview';
+
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {PostPreviewMetadata} from 'mattermost-redux/types/posts';
-import { getPost } from 'mattermost-redux/selectors/entities/posts';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
+
+import PostMessagePreview from './post_message_preview';
 
 type Props = {
     metadata: PostPreviewMetadata;

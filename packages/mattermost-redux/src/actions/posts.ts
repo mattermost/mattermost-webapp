@@ -442,10 +442,10 @@ export function getPostsByIds(ids: string[]) {
 
         dispatch({
             type: PostTypes.RECEIVED_POSTS,
-            data: {posts: posts},
+            data: {posts},
         });
 
-        return {data: {posts: posts}};
+        return {data: {posts}};
     };
 }
 
@@ -960,7 +960,6 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     }
 
     const state = getState();
-    console.log(state.entities.posts.posts);
     const {posts} = state.entities.posts;
     const {currentUserId, profiles, statuses} = state.entities.users;
 
@@ -970,7 +969,6 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     const postsToLoad = new Set<string>();
 
     Object.values(postsArray).forEach((post) => {
-        
         const userId = post.user_id;
 
         if (post.metadata.embeds) {
@@ -1000,7 +998,6 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         if (!profiles[userId]) {
             userIdsToLoad.add(userId);
         }
-        
     });
 
     const promises: any[] = [];
