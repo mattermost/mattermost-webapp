@@ -1,30 +1,45 @@
 @charset "UTF-8";
 
 .emoji-picker {
-  li {
+  li.custom-emoji-tab:not(.active) {
       a {
           padding-top: 7px !important;
           width: max-content;
 
-          .custom-emoji-tab__icon svg {
-              fill: var(--center-channel-color-72);
-          }
+          svg,
           div {
-              color: var(--center-channel-color-72);
+              fill: var(--center-channel-color-56);
+              color: var(--center-channel-color-56);
+
+            &:hover {
+                fill: var(--center-channel-color-72);
+                color: var(--center-channel-color-72);
+            }
           }
       }
   }
 
-  li.active {
+  li.custom-emoji-tab.active {
       a {
-          .custom-emoji-tab__icon svg {
+        padding-top: 7px !important;
+        width: max-content;
+
+          svg,
+          div
+           {
               fill: var(--mention-bg-rgb);
-          }
-          div {
               color: var(--button-bg);
+              &:hover {
+                fill: var(--mention-bg-rgb);
+                color: var(--button-bg);
+              }
           }
       }
   }
+}
+.custom-emoji-tab__icon__text {
+    display: flex;
+    flex-direction: row;
 }
 
 .custom-emoji-tab {
