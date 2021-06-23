@@ -1,8 +1,5 @@
 .custom_status__row {
-    display: flex !important;
-    max-width: 238px;
-    height: 34px;
-    align-items: center;
+    height: auto;
     font-size: inherit;
 
     &:hover {
@@ -19,16 +16,27 @@
 }
 
 .custom_status {
+    &__container {
+        display: flex;
+        padding: 7px 0;
+        line-height: 20px;
+    }
+
     &__icon {
-        margin-right: 10px;
+        margin-right: 12px;
     }
 
     &__text {
         overflow: hidden;
         max-width: 73%;
-        height: 28px;
+        height: 16px;
+        line-height: 16px;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    &__expiry.MenuItem__help-text {
+        padding-left: 28px;
     }
 }
 

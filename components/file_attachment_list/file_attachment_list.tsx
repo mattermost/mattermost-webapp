@@ -33,6 +33,7 @@ export type Props = {
     isEmbedVisible?: boolean;
     locale: string;
 
+    handleFileDropdownOpened: (open: boolean) => void;
 }
 
 type State = {
@@ -95,6 +96,7 @@ export default class FileAttachmentList extends React.PureComponent<Props, State
                         index={i}
                         handleImageClick={this.handleImageClick}
                         compactDisplay={compactDisplay}
+                        handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                     />,
                 );
             }

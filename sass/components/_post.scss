@@ -769,6 +769,10 @@
         .post__body {
             background: transparent !important;
         }
+
+        .search-item-snippet {
+            overflow: visible;
+        }
     }
 
     &.post--hide-controls {

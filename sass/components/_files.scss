@@ -309,9 +309,31 @@
     color: v(center-channel-color);
     cursor: pointer;
 
+    &:hover,
+    &:focus-within,
+    &.keep-open {
+        @include box-shadow(0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1));
+
+        overflow: visible;
+
+        .file-dropdown-icon {
+            display: flex;
+        }
+
+        > .post-image__details {
+            overflow: visible;
+        }
+    }
+
     &:hover {
         @include box-shadow($elevation-1);
 
+        .post-image__download {
+            opacity: 1;
+        }
+    }
+
+    &:focus-within {
         .post-image__download {
             opacity: 1;
         }
@@ -399,6 +421,39 @@
     flex: none;
     align-items: center;
     justify-content: center;
+}
+
+.file-dropdown-icon {
+    @include single-transition(opacity, 0.15s, ease);
+    @include border-radius(4px);
+
+    display: none;
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    margin-left: 8px;
+    background-color: var(--center-channel-bg);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    cursor: pointer;
+    fill: rgba(var(--center-channel-color-rgb), 0.72);
+    text-decoration: none;
+
+    svg {
+        display: flex;
+    }
+
+    &:hover {
+        display: flex;
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+    }
+
+    &:focus {
+        display: flex;
+    }
 }
 
 .post-image__details {
@@ -508,6 +563,10 @@
                 @include opacity(1);
             }
         }
+    }
+
+    div.MenuWrapper + .post-image__download {
+        padding-left: 8px;
     }
 
     .post-image__progressBar {
