@@ -103,7 +103,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 const field = Object.keys(fieldErrors)[0];
                 state.formError = this.props.intl.formatMessage({
                     id: 'apps.error.responses.unknown_field_error',
-                    defaultMessage: 'Received an error for an unkown field. Field name: `{field}`. Error: `{error}`.',
+                    defaultMessage: 'Received an error for an unknown field. Field name: `{field}`. Error: `{error}`.',
                 }, {
                     field,
                     error: fieldErrors[field],
