@@ -395,20 +395,20 @@ describe('PostBodyAdditionalContent', () => {
             },
         };
 
-        test("Render permalink preview", () => {
+        test('Render permalink preview', () => {
             const wrapper = shallow(<PostBodyAdditionalContent {...permalinkBaseProps}/>);
             expect(wrapper).toMatchSnapshot();
         });
 
-        test("Render permalink preview with no data", () => {
-            let props = {
+        test('Render permalink preview with no data', () => {
+            const props = {
                 ...permalinkBaseProps,
             };
 
             props.post.metadata.embeds[0] = {
                 type: 'permalink',
                 url: '',
-            }
+            };
 
             const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
             expect(wrapper).toMatchSnapshot();
