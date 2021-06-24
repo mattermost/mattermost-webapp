@@ -46,13 +46,9 @@ export function manuallyMarkThreadAsUnread(threadId: string, lastViewedAt: numbe
 }
 
 export function switchToGlobalThreads() {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return (_dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
         const teamUrl = getCurrentRelativeTeamUrl(state);
-
-        if (getIsRhsOpen(state)) {
-            dispatch(suppressRHS);
-        }
         browserHistory.push(`${teamUrl}/threads`);
 
         return {data: true};
