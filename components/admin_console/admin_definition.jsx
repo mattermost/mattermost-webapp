@@ -2584,6 +2584,15 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnablePermalinkPreviews',
+                        label: t('admin.customization.enablePermalinkPreviewsTitle'),
+                        label_default: 'Enable Permalink Previews:',
+                        help_text: t('admin.customization.enablePermalinkPreviewsDesc'),
+                        help_text_default: '',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ServiceSettings.RestrictLinkPreviews',
                         label: t('admin.customization.restrictLinkPreviewsTitle'),
