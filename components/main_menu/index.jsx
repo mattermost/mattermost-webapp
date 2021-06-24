@@ -75,8 +75,8 @@ function mapStateToProps(state) {
     const subscription = state.entities.cloud.subscription;
     const isFreeTrial = subscription?.is_free_trial === 'true';
     let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    if (daysLeftOnTrial > 14) {
-        daysLeftOnTrial = 14;
+    if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
+        daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
     }
 
     return {
