@@ -6,10 +6,6 @@ import {batchActions} from 'redux-batched-actions';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {GetStateFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {suppressRHS} from 'actions/views/rhs';
-
-import {getIsRhsOpen} from 'selectors/rhs';
-
 import {browserHistory} from 'utils/browser_history';
 
 import {GlobalState} from 'types/store';
