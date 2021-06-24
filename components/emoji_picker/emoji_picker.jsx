@@ -162,10 +162,6 @@ export default class EmojiPicker extends React.PureComponent {
             }
         }
 
-        if (!props.customEmojisEnabled || categories.custom?.emojiIds?.length === 0) {
-            delete categories.custom;
-        }
-
         return {categories, allEmojis};
     }
 
@@ -589,10 +585,7 @@ export default class EmojiPicker extends React.PureComponent {
 
     emojiCategories() {
         const categories = this.props.recentEmojis.length ? {...recentEmojiCategory, ...CATEGORIES} : CATEGORIES;
-        let categoryKeys = Object.keys(categories);
-        if (!this.props.customEmojisEnabled) {
-            categoryKeys = categoryKeys.filter((key) => key !== 'custom');
-        }
+        const categoryKeys = Object.keys(categories);
         const currentCategoryName = this.props.filter ? categoryKeys[0] : this.getCurrentEmojiCategoryName();
         const emojiPickerCategories = categoryKeys.map((categoryName) => {
             const category = categories[categoryName];
