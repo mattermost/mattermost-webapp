@@ -102,9 +102,22 @@ export type UserStatus = {
     active_channel?: string;
 };
 
+export enum CustomStatusDuration {
+    DONT_CLEAR = '',
+    THIRTY_MINUTES = 'thirty_minutes',
+    ONE_HOUR = 'one_hour',
+    FOUR_HOURS = 'four_hours',
+    TODAY = 'today',
+    THIS_WEEK = 'this_week',
+    DATE_AND_TIME = 'date_and_time',
+    CUSTOM_DATE_TIME = 'custom_date_time',
+}
+
 export type UserCustomStatus = {
     emoji: string;
     text: string;
+    duration: CustomStatusDuration;
+    expires_at?: string;
 };
 
 export type UserAccessToken = {
