@@ -94,7 +94,7 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial:
             <img src={upgradeMattermostCloudImage}/>
         </div>
         <div className='UpgradeMattermostCloud__title'>
-            {(daysLeftOnTrial !== TrialPeriodDays.TRIAL_1_DAY && daysLeftOnTrial !== TrialPeriodDays.TRIAL_0_DAYS) &&
+            {daysLeftOnTrial > TrialPeriodDays.TRIAL_1_DAY &&
                 <FormattedMessage
                     id='admin.billing.subscription.freeTrial.title'
                     defaultMessage={'You\'re currently on a free trial'}

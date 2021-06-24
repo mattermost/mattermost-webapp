@@ -165,13 +165,14 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             />
         );
 
-        const userEndTrialHour = getLocaleDateFromUTC((this.props.subscription?.trial_end_at as number / 1000), 'MMMM Do YYYY, HH:mm:ss', this.props.currentUser.timezone?.automaticTimezone as string);
+        const userEndTrialDate = getLocaleDateFromUTC((this.props.subscription?.trial_end_at as number / 1000), 'MMMM Do YYYY', this.props.currentUser.timezone?.automaticTimezone as string);
+        const userEndTrialHour = getLocaleDateFromUTC((this.props.subscription?.trial_end_at as number / 1000), 'HH:mm:ss', this.props.currentUser.timezone?.automaticTimezone as string);
 
         const trialLastDaysMsg = (
             <FormattedMessage
                 id='admin.billing.subscription.cloudTrial.lastDay'
-                defaultMessage='This is the last day of your free trial. Your access will expire at {userEndTrialHour}.'
-                values={{userEndTrialHour}}
+                defaultMessage='This is the last day of your free trial. Your access will expire on {userEndTrialDate} at {userEndTrialHour}.'
+                values={{userEndTrialHour, userEndTrialDate}}
             />
         );
 
