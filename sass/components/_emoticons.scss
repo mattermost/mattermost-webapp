@@ -628,7 +628,10 @@
     }
 
     .emoji-picker__preview-image {
+        left: 2px;
         max-height: 36px;
-        max-width: 42px;
+        max-width: 36px;
+        position: relative;
+        top: -8px;
     }
 }
