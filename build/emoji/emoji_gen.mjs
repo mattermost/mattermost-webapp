@@ -178,7 +178,11 @@ fullEmoji.forEach((emoji, index) => {
     const file = filename(emoji);
     emoji.fileName = emoji.image;
     emoji.image = file;
-    emojiFilePositions.set(file, `-${emoji.sheet_x * EMOJI_SIZE_PADDED}px -${emoji.sheet_y * EMOJI_SIZE_PADDED}px;`);
+
+    if (emoji.category !== 'custom') {
+        emojiFilePositions.set(file, `-${emoji.sheet_x * EMOJI_SIZE_PADDED}px -${emoji.sheet_y * EMOJI_SIZE_PADDED}px;`);
+    }
+
     emojiImagesByAlias.push(...emoji.short_names.map((alias) => `"${alias}": "${file}"`));
 });
 
