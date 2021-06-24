@@ -29,6 +29,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render 1`] = `
     description="test plugin"
     homepageUrl="http://example.com"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion=""
     installing={false}
@@ -90,6 +91,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render installe
     description="test plugin"
     homepageUrl="http://example.com"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion="1.0.0"
     installing={false}
@@ -153,6 +155,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with emp
     description="test plugin"
     homepageUrl="http://example.com"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion=""
     installing={false}
@@ -216,6 +219,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
     }
     description="test plugin"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion=""
     installing={false}
@@ -278,6 +282,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
     }
     homepageUrl="http://example.com"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion=""
     installing={false}
@@ -403,6 +408,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with one
     description="test plugin"
     homepageUrl="http://example.com"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion=""
     installing={false}
@@ -476,6 +482,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with ser
     error="An error occurred."
     homepageUrl="http://example.com"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion=""
     installing={false}
@@ -539,6 +546,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with two
     description="test plugin"
     homepageUrl="http://example.com"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion=""
     installing={false}
@@ -614,6 +622,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
     description="test plugin"
     homepageUrl="http://example.com"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion="0.9.9"
     installing={false}
@@ -678,6 +687,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
     description="test plugin"
     homepageUrl="http://example.com"
     iconData="icon"
+    iconSource="icon"
     id="id"
     installedVersion="0.9.9"
     installing={false}

@@ -94,13 +94,13 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial:
             <img src={upgradeMattermostCloudImage}/>
         </div>
         <div className='UpgradeMattermostCloud__title'>
-            {daysLeftOnTrial !== TrialPeriodDays.TRIAL_1_DAY &&
+            {daysLeftOnTrial > TrialPeriodDays.TRIAL_1_DAY &&
                 <FormattedMessage
                     id='admin.billing.subscription.freeTrial.title'
                     defaultMessage={'You\'re currently on a free trial'}
                 />
             }
-            {daysLeftOnTrial === TrialPeriodDays.TRIAL_1_DAY &&
+            {(daysLeftOnTrial === TrialPeriodDays.TRIAL_1_DAY || daysLeftOnTrial === TrialPeriodDays.TRIAL_0_DAYS) &&
                 <FormattedMessage
                     id='admin.billing.subscription.freeTrial.lastDay.title'
                     defaultMessage={'Your free trial ends today'}
@@ -122,7 +122,7 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial:
                     values={{daysLeftOnTrial}}
                 />
             }
-            {(daysLeftOnTrial === TrialPeriodDays.TRIAL_1_DAY) &&
+            {(daysLeftOnTrial === TrialPeriodDays.TRIAL_1_DAY || daysLeftOnTrial === TrialPeriodDays.TRIAL_0_DAYS) &&
                 <FormattedMarkdownMessage
                     id='admin.billing.subscription.freeTrial.lastDay.description'
                     defaultMessage='Your free trial has ended. Add payment information to continue enjoying the benefits of Cloud Professional.'
