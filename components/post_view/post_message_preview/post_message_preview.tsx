@@ -12,6 +12,7 @@ import PostMessageView from 'components/post_view/post_message_view';
 
 import Timestamp from 'components/timestamp';
 import PostAttachmentContainer from '../post_attachment_container/post_attachment_container';
+import {FormattedMessage} from 'react-intl';
 
 export type Props = {
     user?: UserProfile;
@@ -65,12 +66,18 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
                         </div>
                         <PostMessageView
                             post={post}
-                            messagePreviewShowMore={true}
+                            attachmentTextOverflowType='ellipsis'
                         />
 
                         <div className='post__preview-footer'>
                             <p>
-                                {`Originally posted in ~${metadata?.channel_display_name}`}
+                                <FormattedMessage
+                                    id='post_message_preview.channel'
+                                    defaultMessage='Originally posted in ~{channel}'
+                                    values={{
+                                        channel: metadata?.channel_display_name,
+                                    }}
+                                />
                             </p>
                         </div>
                     </div>

@@ -29,6 +29,8 @@ export type PostType = 'system_add_remove' |
 
 export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph' | 'permalink';
 
+export type AttachmentTextOverflowType = 'ellipsis';
+
 export type PostEmbed = {
     type: PostEmbedType;
     url: string;

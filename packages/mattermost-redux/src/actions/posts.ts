@@ -953,10 +953,15 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         return Promise.resolve();
     }
 
-    const postsArray = Object.values(postsArrayOrMap);
+    const postsArray: Post[] = Object.values(postsArrayOrMap);
 
     if (postsArray.length === 0) {
         return Promise.resolve();
+    }
+
+    const postsDictionary: Dictionary<Post> = {};
+    for (let i = 0; i < postsArray.length; i++) {
+        postsDictionary[postsArray[i].id] = postsArray[i];
     }
 
     const state = getState();
@@ -971,7 +976,7 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     const statusesToLoad = new Set<string>();
     const postsToLoad = new Set<string>();
 
-    Object.values(postsArray).forEach((post) => {
+    postsArray.forEach((post) => {
         const userId = post.user_id;
 
         if (post.metadata && post.metadata.embeds) {
@@ -980,7 +985,7 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
                     if (embed.data.user_id && !profiles[embed.data.user_id] && embed.data.user_id !== currentUserId) {
                         userIdsToLoad.add(embed.data.user_id);
                     }
-                    if (embed.data.id && posts && !posts[embed.data.id]) {
+                    if (embed.data.id && posts && !posts[embed.data.id] && !postsDictionary[embed.data.id]) {
                         postsToLoad.add(embed.data.id);
                     }
                     if (embed.data.user_id && !statuses[embed.data.user_id]) {

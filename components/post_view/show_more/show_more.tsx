@@ -4,6 +4,7 @@
 
 import React from 'react';
 
+import {AttachmentTextOverflowType} from 'mattermost-redux/types/posts';
 import {localizeMessage} from 'utils/utils.jsx';
 
 const MAX_POST_HEIGHT = 600;
@@ -18,7 +19,7 @@ type Props = {
     isRHSOpen: boolean;
     text?: string;
     compactDisplay: boolean;
-    messagePreviewShowMore?: boolean;
+    attachmentTextOverflowType?: AttachmentTextOverflowType;
 }
 
 type State = {
@@ -34,7 +35,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.maxHeight = MAX_POST_HEIGHT;
-        if (this.props.messagePreviewShowMore) {
+        if (this.props.attachmentTextOverflowType === 'ellipsis') {
             this.maxHeight = 100;
         } else if (this.props.isAttachmentText) {
             this.maxHeight = MAX_ATTACHMENT_TEXT_HEIGHT;
@@ -113,7 +114,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
             children,
             isAttachmentText,
             compactDisplay,
-            messagePreviewShowMore,
+            attachmentTextOverflowType,
         } = this.props;
 
         let className = 'post-message';
@@ -142,29 +143,8 @@ export default class ShowMore extends React.PureComponent<Props, State> {
                 showIcon = 'fa fa-angle-down';
                 showText = localizeMessage('post_info.message.show_more', 'Show more');
             }
-
-            attachmentTextOverflow = (
-                <div className='post-collapse'>
-                    <div
-                        id='collapseGradient'
-                        className={collapseGradientClass}
-                    />
-                    <div className={collapseShowMoreClass}>
-                        <div className='post-collapse__show-more-line'/>
-                        <button
-                            id='showMoreButton'
-                            className='post-collapse__show-more-button'
-                            onClick={this.toggleCollapse}
-                        >
-                            <span className={showIcon}/>
-                            {showText}
-                        </button>
-                        <div className='post-collapse__show-more-line'/>
-                    </div>
-                </div>
-            );
-            className += ' post-message--overflow';
-            if (messagePreviewShowMore) {
+            switch (attachmentTextOverflowType) {
+            case 'ellipsis':
                 attachmentTextOverflow = (
                     <button
                         id='showMoreButton'
@@ -175,6 +155,31 @@ export default class ShowMore extends React.PureComponent<Props, State> {
                     </button>
                 );
                 className += ' post-message-preview--overflow';
+                break;
+
+            default:
+                attachmentTextOverflow = (
+                    <div className='post-collapse'>
+                        <div
+                            id='collapseGradient'
+                            className={collapseGradientClass}
+                        />
+                        <div className={collapseShowMoreClass}>
+                            <div className='post-collapse__show-more-line'/>
+                            <button
+                                id='showMoreButton'
+                                className='post-collapse__show-more-button'
+                                onClick={this.toggleCollapse}
+                            >
+                                <span className={showIcon}/>
+                                {showText}
+                            </button>
+                            <div className='post-collapse__show-more-line'/>
+                        </div>
+                    </div>
+                );
+                className += ' post-message--overflow';
+                break;
             }
         }
 
