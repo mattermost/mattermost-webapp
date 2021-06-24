@@ -14,7 +14,7 @@ const PermissionsFeatureDiscovery: React.FC = () => {
         <FeatureDiscovery
             featureName='permissions'
             titleID='admin.permissions_feature_discovery.title'
-            titleDefault='Set team-based permissions with Mattermost Enterprise'
+            titleDefault='Set team-based permissions with Mattermost Professional'
             copyID='admin.permissions_feature_discovery.copy'
             copyDefault={'Decide who can perform an array of actions such as creating channels, inviting people, managing and archiving channels, managing webhooks, and more in Permission Schemes.'}
             learnMoreURL='https://docs.mattermost.com/deployment/advanced-permissions.html'
