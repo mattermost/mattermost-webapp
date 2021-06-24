@@ -192,8 +192,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     listPlans = () => {
         const products = this.props.products!;
         const options = Object.keys(products).map((key: string) => {
-            return {key: products[key].name, value: products[key].id};
-        });
+            return {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
+        }).sort((a, b) => a.price - b.price);
         const badgeTitle = (
             <FormattedMessage
                 defaultMessage={'Current Plan'}

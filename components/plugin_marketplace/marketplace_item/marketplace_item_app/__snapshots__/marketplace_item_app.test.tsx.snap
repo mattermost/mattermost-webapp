@@ -112,6 +112,47 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with empty 
 </Fragment>
 `;
 
+exports[`components/MarketplaceItemApp MarketplaceItem should render with icon 1`] = `
+<Fragment>
+  <MarketplaceItem
+    actions={
+      Object {
+        "closeMarketplaceModal": [MockFunction],
+        "installApp": [MockFunction],
+      }
+    }
+    button={
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.install"
+          />
+        </LoadingWrapper>
+      </button>
+    }
+    description="test plugin"
+    homepageUrl="http://example.com"
+    iconSource="http://localhost:8065/plugins/com.mattermost.apps/apps/com.mattermost.servicenow/static/now-mobile-icon.png"
+    iconURL="http://localhost:8065/plugins/com.mattermost.apps/apps/com.mattermost.servicenow/static/now-mobile-icon.png"
+    id="id"
+    installed={false}
+    installing={false}
+    name="name"
+    trackEvent={[MockFunction]}
+    updateDetails={null}
+    versionLabel={null}
+  />
+</Fragment>
+`;
+
 exports[`components/MarketplaceItemApp MarketplaceItem should render with no homepage url 1`] = `
 <Fragment>
   <MarketplaceItem
