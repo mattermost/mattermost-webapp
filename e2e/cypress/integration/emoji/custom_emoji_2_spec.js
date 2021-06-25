@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @emoji
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -22,9 +21,6 @@ describe('Custom emojis', () => {
 
     const largeEmojiFile = 'gif-image-file.gif';
     const largeEmojiFileResized = 'gif-image-file-resized.gif';
-
-    const tooLargeEmojiFile = 'huge-image.jpg';
-
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -48,35 +44,6 @@ describe('Custom emojis', () => {
         }).then(() => {
             cy.apiLogin(testUser);
             cy.visit(townsquareLink);
-        });
-    });
-
-    it('MM-T2183 Custom emoji - try to add too large', () => {
-        const {customEmojiWithColons} = getCustomEmoji();
-
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
-
-        // # Click on add new emoji
-        cy.findByText('Add Custom Emoji').should('be.visible').click();
-
-        // # Type emoji name
-        cy.get('#name').type(customEmojiWithColons);
-
-        // # Select emoji image
-        cy.get('input#select-emoji').attachFile(tooLargeEmojiFile);
-
-        // * Is the image loaded?
-        cy.get('.add-emoji__filename').should('have.text', tooLargeEmojiFile);
-        cy.get('.backstage-form__footer').within(($form) => {
-            // # Click on Save
-            cy.findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
-
-            // * Check for error
-            cy.wrap($form).find('.has-error').should('be.visible').and('have.text', 'Unable to create emoji. Image must be smaller than 1028 by 1028.');
         });
     });
 

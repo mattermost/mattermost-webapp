@@ -22,6 +22,7 @@ describe('Custom emojis', () => {
 
     const largeEmojiFile = 'gif-image-file.gif';
     const largeEmojiFileResized = 'gif-image-file-resized.gif';
+    const tooLargeEmojiFile = 'huge-image.jpg';
 
     const animatedGifEmojiFile = 'animated-gif-image-file.gif';
 
@@ -64,7 +65,7 @@ describe('Custom emojis', () => {
         // # Type emoji name and click on save
         cy.get('#name').type('croissant');
         cy.get('.backstage-form__footer').within(($form) => {
-            cy.findByText('Save').click();
+            cy.findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
 
             // * Check for error saying that the emoji icon is a system one
             cy.wrap($form).find('.has-error').should('be.visible').and('have.text', 'This name is already in use by a system emoji. Please choose another name.');
@@ -125,6 +126,7 @@ describe('Custom emojis', () => {
 
         // # Click on Save
         cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.findByText('Add Custom Emoji').should('be.visible');
 
         // # Go back to home channel
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
@@ -181,6 +183,7 @@ describe('Custom emojis', () => {
 
         // # Click on Save
         cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.findByText('Add Custom Emoji').should('be.visible');
 
         // # Go back to home channel
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
@@ -197,5 +200,34 @@ describe('Custom emojis', () => {
         // * Get list of emojis based on search text
         cy.findAllByTestId('emojiItem').children().should('have.length', 1);
         cy.findAllByTestId('emojiItem').children('img').first().should('have.class', 'emoji-category--custom');
+    });
+
+    it('MM-T2183 Custom emoji - try to add too large', () => {
+        const {customEmojiWithColons} = getCustomEmoji();
+
+        // # Open sidebar
+        cy.get('#sidebarHeaderDropdownButton').click();
+
+        // # Click on custom emojis
+        cy.findByText('Custom Emoji').should('be.visible').click();
+
+        // # Click on add new emoji
+        cy.findByText('Add Custom Emoji').should('be.visible').click();
+
+        // # Type emoji name
+        cy.get('#name').type(customEmojiWithColons);
+
+        // # Select emoji image
+        cy.get('input#select-emoji').attachFile(tooLargeEmojiFile);
+
+        // * Is the image loaded?
+        cy.get('.add-emoji__filename').should('have.text', tooLargeEmojiFile);
+        cy.get('.backstage-form__footer').within(($form) => {
+            // # Click on Save
+            cy.findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+
+            // * Check for error
+            cy.wrap($form).find('.has-error').should('be.visible').and('have.text', 'Unable to create emoji. Image must be smaller than 1028 by 1028.');
+        });
     });
 });

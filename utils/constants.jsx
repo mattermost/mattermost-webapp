@@ -5,6 +5,8 @@ import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
+
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
@@ -80,10 +82,16 @@ export const Preferences = {
     MESSAGE_DISPLAY_CLEAN: 'clean',
     MESSAGE_DISPLAY_COMPACT: 'compact',
     MESSAGE_DISPLAY_DEFAULT: 'clean',
+    COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
+    COLLAPSED_REPLY_THREADS_OFF: 'off',
+    COLLAPSED_REPLY_THREADS_ON: 'on',
+    COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT: 'off',
     LINK_PREVIEW_DISPLAY: 'link_previews',
     LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
     COLLAPSE_DISPLAY: 'collapse_previews',
     COLLAPSE_DISPLAY_DEFAULT: 'false',
+    AVAILABILITY_STATUS_ON_POSTS: 'availability_status_on_posts',
+    AVAILABILITY_STATUS_ON_POSTS_DEFAULT: 'true',
     USE_MILITARY_TIME: 'use_military_time',
     USE_MILITARY_TIME_DEFAULT: 'false',
     CATEGORY_THEME: 'theme',
@@ -100,18 +108,22 @@ export const Preferences = {
     TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
+    CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
 };
 
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
+    HIGHLIGHT_REPLY: null,
+    CLEAR_HIGHLIGHT_REPLY: null,
     SELECT_POST_CARD: null,
     INCREASE_POST_VISIBILITY: null,
     LOADING_POSTS: null,
 
     UPDATE_RHS_STATE: null,
     UPDATE_RHS_SEARCH_TERMS: null,
+    UPDATE_RHS_SEARCH_TYPE: null,
     UPDATE_RHS_SEARCH_RESULTS_TERMS: null,
 
     SET_RHS_EXPANDED: null,
@@ -160,6 +172,7 @@ export const ActionTypes = keyMirror({
     UPDATE_CHANNEL_LAST_VIEWED_AT: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
+    SET_RECENT_SKIN: null,
 
     STATUS_DROPDOWN_TOGGLE: null,
     TOGGLE_LHS: null,
@@ -194,10 +207,11 @@ export const ActionTypes = keyMirror({
     UPDATE_ACTIVE_SECTION: null,
 
     RECEIVED_MARKETPLACE_PLUGINS: null,
-    INSTALLING_MARKETPLACE_PLUGIN: null,
-    INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED: null,
-    INSTALLING_MARKETPLACE_PLUGIN_FAILED: null,
-    FILTER_MARKETPLACE_PLUGINS: null,
+    RECEIVED_MARKETPLACE_APPS: null,
+    FILTER_MARKETPLACE_LISTING: null,
+    INSTALLING_MARKETPLACE_ITEM: null,
+    INSTALLING_MARKETPLACE_ITEM_SUCCEEDED: null,
+    INSTALLING_MARKETPLACE_ITEM_FAILED: null,
 
     POST_UNREAD_SUCCESS: null,
 
@@ -218,6 +232,10 @@ export const ActionTypes = keyMirror({
     PREFETCH_POSTS_FOR_CHANNEL: null,
 
     SET_SHOW_NEXT_STEPS_VIEW: null,
+    SET_FILES_FILTER_BY_EXT: null,
+
+    SUPPRESS_RHS: null,
+    UNSUPPRESS_RHS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -262,6 +280,7 @@ export const ModalIdentifiers = {
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
+    APPS_MODAL: 'apps_modal',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
     INVITATION: 'invitation',
     ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
@@ -276,6 +295,7 @@ export const ModalIdentifiers = {
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
+    CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
@@ -308,6 +328,12 @@ export const EventTypes = Object.assign(
         POST_LIST_SCROLL_TO_BOTTOM: null,
     }),
 );
+
+export const CloudProducts = {
+    STARTER: 'cloud-starter',
+    PROFESSIONAL: 'cloud-professional',
+    ENTERPRISE: 'cloud-enterprise',
+};
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
@@ -392,6 +418,11 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
+    APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.mattermost.apps_refresh_bindings',
+    FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
+    THREAD_UPDATED: 'thread_updated',
+    THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
+    THREAD_READ_CHANGED: 'thread_read_changed',
 };
 
 export const TutorialSteps = {
@@ -412,8 +443,15 @@ export const RecommendedNextSteps = {
     SKIP: 'skip',
 };
 
+export const Threads = {
+    CHANGED_SELECTED_THREAD: 'changed_selected_thread',
+    CHANGED_LAST_VIEWED_AT: 'changed_last_viewed_at',
+    MANUALLY_UNREAD_THREAD: 'manually_unread_thread',
+};
+
 export const CloudBanners = {
     HIDE: 'hide',
+    TRIAL: 'trial',
 };
 
 export const TELEMETRY_CATEGORIES = {
@@ -513,6 +551,9 @@ export const SearchTypes = keyMirror({
     SET_SYSTEM_USERS_SEARCH: null,
     SET_USER_GRID_SEARCH: null,
     SET_USER_GRID_FILTERS: null,
+    SET_TEAM_LIST_SEARCH: null,
+    SET_CHANNEL_LIST_SEARCH: null,
+    SET_CHANNEL_LIST_FILTERS: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -536,6 +577,7 @@ export const StoragePrefixes = {
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
+    INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
 };
 
 export const LandingPreferenceTypes = {
@@ -596,6 +638,7 @@ export const AnnouncementBarMessages = {
     WARN_METRIC_STATUS_NUMBER_OF_USERS_ACK: t('announcement_bar.warn_metric_status.number_of_users_ack.text'),
     WARN_METRIC_STATUS_NUMBER_OF_POSTS: t('announcement_bar.warn_metric_status.number_of_posts.text'),
     WARN_METRIC_STATUS_NUMBER_OF_POSTS_ACK: t('announcement_bar.warn_metric_status.number_of_posts_ack.text'),
+    TRIAL_LICENSE_EXPIRING: t('announcement_bar.error.trial_license_expiring'),
 };
 
 export const VerifyEmailErrors = {
@@ -652,6 +695,7 @@ export const RHSStates = {
     FLAG: 'flag',
     PIN: 'pin',
     PLUGIN: 'plugin',
+    CHANNEL_FILES: 'channel-files',
 };
 
 export const UploadStatuses = {
@@ -694,6 +738,8 @@ export const CloudLinks = {
     EXPORTING_DATA: 'https://docs.mattermost.com/cloud/exporting-data-from-other-chat-service',
     IMPORTING_DATA: 'https://docs.mattermost.com/cloud/importing-data-from-other-chat-service',
     HELP_IMPORTING_FROM: 'https://docs.mattermost.com/cloud/help_importing_from',
+    COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
+    CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
 };
 
 export const PermissionsScope = {
@@ -765,7 +811,7 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
-    [Permissions.MANAGE_REMOTE_CLUSTERS]: 'system_scope',
+    [Permissions.MANAGE_SECURE_CONNECTIONS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -928,10 +974,6 @@ export const Constants = {
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/model/config.go#L105
     MAXIMUM_LOGIN_ATTEMPTS_DEFAULT: 10,
 
-    // This is the same limit set
-    // https://github.com/mattermost/mattermost-server/pull/16835/files#diff-73c61af5954b16f5e3cb5ee786af9eb698f660eff0d65db5556949be5fb6e60bR15
-    CUSTOM_STATUS_TEXT_CHARACTER_LIMIT: 100,
-
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
     MAX_ADD_MEMBERS_BATCH: 256,
 
@@ -979,6 +1021,7 @@ export const Constants = {
     },
     MAX_UPLOAD_FILES: 5,
     MAX_FILENAME_LENGTH: 35,
+    EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT: 100,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
     PREVIEWER_HEIGHT: 170,
@@ -1516,6 +1559,7 @@ export const Constants = {
         OAUTH_APP: 'oauth2-apps',
         BOT: 'bots',
         EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
+        COMMAND_SUGGESTION_ERROR: 'error',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
@@ -1526,7 +1570,7 @@ export const Constants = {
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
-    PERMALINK_FADEOUT: 6000,
+    PERMALINK_FADEOUT: 5000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
@@ -1552,6 +1596,7 @@ export const Constants = {
     DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD: 365,
     EMOJI_PATH: '/static/emoji',
     RECENT_EMOJI_KEY: 'recentEmojis',
+    RECENT_SKIN_KEY: 'recentSkin',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
     MHPNS: 'https://push.mattermost.com',
     MTPNS: 'https://push-test.mattermost.com',
@@ -1577,6 +1622,8 @@ export const Constants = {
     MENTION_MEMBERS: 'mention.members',
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
+    MENTION_PUBLIC_CHANNELS: 'mention.public.channels',
+    MENTION_RECENT_CHANNELS: 'mention.recent.channels',
     MENTION_SPECIAL: 'mention.special',
     MENTION_GROUPS: 'mention.groups',
     DEFAULT_NOTIFICATION_DURATION: 5000,
@@ -1597,6 +1644,8 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
+    ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
+    ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
 };
 
 export const ValidationErrors = {
@@ -1619,14 +1668,72 @@ export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_
     {searchTerm: '""', message: {id: t('search_list_option.phrases'), defaultMessage: 'Messages with phrases'}},
 ];
 
+export const searchFilesHintOptions = [{searchTerm: 'From:', message: {id: t('search_files_list_option.from'), defaultMessage: 'Files from a user'}},
+    {searchTerm: 'In:', message: {id: t('search_files_list_option.in'), defaultMessage: 'Files in a channel'}},
+    {searchTerm: 'On:', message: {id: t('search_files_list_option.on'), defaultMessage: 'Files on a date'}},
+    {searchTerm: 'Before:', message: {id: t('search_files_list_option.before'), defaultMessage: 'Files before a date'}},
+    {searchTerm: 'After:', message: {id: t('search_files_list_option.after'), defaultMessage: 'Files after a date'}},
+    {searchTerm: 'Ext:', message: {id: t('search_files_list_option.ext'), defaultMessage: 'Files with a extension'}},
+    {searchTerm: '-', message: {id: t('search_files_list_option.exclude'), defaultMessage: 'Exclude search terms'}, additionalDisplay: '—'},
+    {searchTerm: '""', message: {id: t('search_files_list_option.phrases'), defaultMessage: 'Files with phrases'}},
+];
+
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
+t('suggestion.mention.public.channels');
+t('suggestion.mention.recent.channels');
 t('suggestion.mention.special');
 t('suggestion.archive');
 t('suggestion.mention.groups');
+
+const {
+    DONT_CLEAR,
+    THIRTY_MINUTES,
+    ONE_HOUR,
+    FOUR_HOURS,
+    TODAY,
+    THIS_WEEK,
+    DATE_AND_TIME,
+    CUSTOM_DATE_TIME,
+} = CustomStatusDuration;
+
+export const durationValues = {
+    [DONT_CLEAR]: {
+        id: t('custom_status.expiry_dropdown.dont_clear'),
+        defaultMessage: "Don't clear",
+    },
+    [THIRTY_MINUTES]: {
+        id: t('custom_status.expiry_dropdown.thirty_minutes'),
+        defaultMessage: '30 minutes',
+    },
+    [ONE_HOUR]: {
+        id: t('custom_status.expiry_dropdown.one_hour'),
+        defaultMessage: '1 hour',
+    },
+    [FOUR_HOURS]: {
+        id: t('custom_status.expiry_dropdown.four_hours'),
+        defaultMessage: '4 hours',
+    },
+    [TODAY]: {
+        id: t('custom_status.expiry_dropdown.today'),
+        defaultMessage: 'Today',
+    },
+    [THIS_WEEK]: {
+        id: t('custom_status.expiry_dropdown.this_week'),
+        defaultMessage: 'This week',
+    },
+    [DATE_AND_TIME]: {
+        id: t('custom_status.expiry_dropdown.date_and_time'),
+        defaultMessage: 'Custom Date and Time',
+    },
+    [CUSTOM_DATE_TIME]: {
+        id: t('custom_status.expiry_dropdown.date_and_time'),
+        defaultMessage: 'Custom Date and Time',
+    },
+};
 
 export default Constants;

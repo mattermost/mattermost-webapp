@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
+
 import StatusDropdown from './status_dropdown';
 
 describe('components/StatusDropdown', () => {
@@ -17,7 +19,14 @@ describe('components/StatusDropdown', () => {
     const baseProps = {
         actions,
         userId: '',
+        userTimezone: {
+            useAutomaticTimezone: 'true',
+            automaticTimezone: 'America/New_York',
+            manualTimezone: '',
+        },
+        isTimezoneEnabled: true,
         isCustomStatusEnabled: false,
+        isCustomStatusExpired: false,
         isStatusDropdownOpen: false,
         showCustomStatusPulsatingDot: false,
     };
@@ -72,6 +81,47 @@ describe('components/StatusDropdown', () => {
             isStatusDropdownOpen: true,
             isCustomStatusEnabled: true,
             showCustomStatusPulsatingDot: true,
+        };
+
+        const wrapper = shallow(
+            <StatusDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom status and expiry', () => {
+        const customStatus = {
+            emoji: 'calendar',
+            text: 'In a meeting',
+            duration: CustomStatusDuration.TODAY,
+            expires_at: '2021-05-03T23:59:59.000Z',
+        };
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+            isCustomStatusEnabled: true,
+            customStatus,
+        };
+
+        const wrapper = shallow(
+            <StatusDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom status expired', () => {
+        const customStatus = {
+            emoji: 'calendar',
+            text: 'In a meeting',
+            duration: CustomStatusDuration.TODAY,
+            expires_at: '2021-05-03T23:59:59.000Z',
+        };
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+            isCustomStatusEnabled: true,
+            isCustomStatusExpired: true,
+            customStatus,
         };
 
         const wrapper = shallow(

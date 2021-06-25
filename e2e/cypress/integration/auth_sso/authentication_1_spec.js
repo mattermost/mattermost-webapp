@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getEmailUrl, getRandomId} from '../../utils';
+import {getRandomId} from '../../utils';
 
 describe('Authentication', () => {
     let testUser;
@@ -90,7 +90,7 @@ describe('Authentication', () => {
             cy.get('#sidebarHeaderDropdownButton').click();
 
             // * Verify Account Settings button is visible and exist and then click on it
-            cy.findByText('Account Settings', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist').click();
+            cy.findByText('Account Settings', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
             // # Click "Edit" to the right of "Email"
             cy.get('#emailEdit').should('be.visible').click();
@@ -130,17 +130,8 @@ describe('Authentication', () => {
             cy.findByText('Create Account').click();
 
             // * Make sure account was not created successfully
-            cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible').and('exist');
+            cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible');
         });
-    });
-
-    it('MM-T1762 - Invite Salt', () => {
-        cy.visit('/admin_console/site_config/public_links');
-
-        cy.findByText('Regenerate', {timeout: TIMEOUTS.ONE_MIN}).click();
-
-        // * Assert that create account button is visible
-        cy.get('#FileSettings.PublicLinkSalt', {timeout: TIMEOUTS.ONE_MIN}).should('not.have.text', '********************************');
     });
 
     it('MM-T1763 - Security - Signup: Email verification not required, user immediately sees Town Square', () => {
@@ -153,7 +144,7 @@ describe('Authentication', () => {
                 EnableUserCreation: true,
                 EnableOpenServer: true,
             },
-        }).then(() => {
+        }).then(({config}) => {
             cy.apiLogout();
 
             // # Go to front page
@@ -166,23 +157,22 @@ describe('Authentication', () => {
             cy.visit('/signup_email');
 
             const username = `Hossein${getRandomId()}`;
+            const email = `${username.toLowerCase()}@example.com`;
 
-            cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`${username}@example.com`);
+            cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(email);
 
             cy.get('#password').type('Test123456!');
 
-            cy.get('#name').clear().type(`${username}`);
+            cy.get('#name').clear().type(username);
 
             cy.findByText('Create Account').click();
 
             // * Make sure account was created successfully and we are on the team joining page
             cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
-            const mailUrl = getEmailUrl(Cypress.config('baseUrl'));
-
-            cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
+            cy.getRecentEmail({username, email}).then(({subject}) => {
                 // * Verify the subject
-                expect(response.data.subject).to.include('[Mattermost] You joined');
+                expect(subject).to.include(`[${config.TeamSettings.SiteName}] You joined`);
             });
         });
     });
@@ -211,7 +201,7 @@ describe('Authentication', () => {
             cy.findByText('GitLab Single Sign-On', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // * Email and Password option does not exist
-            cy.findByText('Email and Password').should('not.exist').and('not.be.visible');
+            cy.findByText('Email and Password').should('not.exist');
         });
     });
 });

@@ -53,7 +53,7 @@ describe('Channel sidebar - group unreads separately', () => {
         cy.get('.SidebarLink:contains(Town Square)').should('be.visible').click();
 
         // * Verify unreads category has disappeared
-        cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.be.visible');
+        cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');
 
         // * Verify channel is in the CHANNELS category
         cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get(`.SidebarChannel:contains(${testChannel.display_name})`).should('be.visible');
@@ -70,7 +70,7 @@ describe('Channel sidebar - group unreads separately', () => {
         enableOrDisableUnreadsCategory(false);
 
         // * Verify unreads category has disappeared
-        cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.be.visible');
+        cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');
 
         // * Verify that the channel is in the CHANNELS category
         cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get(`.SidebarChannel.unread:contains(${testChannel.display_name})`).should('be.visible');

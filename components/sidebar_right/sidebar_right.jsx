@@ -20,14 +20,16 @@ export default class SidebarRight extends React.PureComponent {
     static propTypes = {
         isExpanded: PropTypes.bool.isRequired,
         isOpen: PropTypes.bool.isRequired,
-        currentUserId: PropTypes.string.isRequired,
+        isSuppressed: PropTypes.bool,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
+        postRightSameAsSelectedThread: PropTypes.bool,
         postCardVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
+        isChannelFiles: PropTypes.bool,
         isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
         rhsChannel: PropTypes.object,
@@ -40,6 +42,7 @@ export default class SidebarRight extends React.PureComponent {
             closeRightHandSide: PropTypes.func.isRequired,
             openAtPrevious: PropTypes.func.isRequired,
             updateSearchTerms: PropTypes.func.isRequired,
+            showChannelFiles: PropTypes.func.isRequired,
         }),
     };
 
@@ -61,6 +64,7 @@ export default class SidebarRight extends React.PureComponent {
             searchVisible: this.props.searchVisible,
             isMentionSearch: this.props.isMentionSearch,
             isPinnedPosts: this.props.isPinnedPosts,
+            isChannelFiles: this.props.isChannelFiles,
             isFlaggedPosts: this.props.isFlaggedPosts,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,
@@ -102,12 +106,22 @@ export default class SidebarRight extends React.PureComponent {
             trackEvent('ui', 'ui_rhs_opened');
         }
 
-        const {actions, isPinnedPosts, rhsChannel, channel} = this.props;
+        const {actions, isChannelFiles, isPinnedPosts, rhsChannel, channel} = this.props;
         if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && rhsChannel.id !== prevProps.rhsChannel.id) {
             actions.showPinnedPosts(rhsChannel.id);
         }
 
-        if (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) {
+        if (isChannelFiles && prevProps.isChannelFiles === isChannelFiles && rhsChannel.id !== prevProps.rhsChannel.id) {
+            actions.showChannelFiles(rhsChannel.id);
+        }
+
+        // in the case of navigating to another channel
+        // or from global threads to a channel
+        // we shrink the sidebar
+        if (
+            (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) ||
+            (channel && !prevProps.channel)
+        ) {
             this.props.actions.setRhsExpanded(false);
         }
 
@@ -151,9 +165,9 @@ export default class SidebarRight extends React.PureComponent {
     render() {
         const {
             rhsChannel,
-            currentUserId,
             isFlaggedPosts,
             isPinnedPosts,
+            isChannelFiles,
             postRightVisible,
             postCardVisible,
             previousRhsState,
@@ -161,6 +175,7 @@ export default class SidebarRight extends React.PureComponent {
             isPluginView,
             isOpen,
             isExpanded,
+            isSuppressed,
         } = this.props;
 
         let content = null;
@@ -173,7 +188,6 @@ export default class SidebarRight extends React.PureComponent {
                     <FileUploadOverlay overlayType='right'/>
                     <RhsThread
                         previousRhsState={previousRhsState}
-                        currentUserId={currentUserId}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                     />
@@ -201,13 +215,13 @@ export default class SidebarRight extends React.PureComponent {
                 />
                 <div className='sidebar-right-container'>
                     <Search
-                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}
+                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts && !isChannelFiles && !isSuppressed}
                         isSideBarRight={true}
                         isSideBarRightOpen={this.state.isOpened}
                         getFocus={this.getSearchBarFocus}
                         channelDisplayName={rhsChannel ? rhsChannel.display_name : ''}
                     >
-                        {content}
+                        {isOpen && content}
                     </Search>
                 </div>
             </div>

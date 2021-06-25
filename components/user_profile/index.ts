@@ -17,9 +17,12 @@ function makeMapStateToProps() {
     const getDisplayName = makeGetDisplayName();
 
     return (state: GlobalState, ownProps: OwnProps) => {
+        const user = getUser(state, ownProps.userId);
+
         return {
             displayName: getDisplayName(state, ownProps.userId, true),
-            user: getUser(state, ownProps.userId),
+            user,
+            isShared: Boolean(user && user.remote_id),
         };
     };
 }

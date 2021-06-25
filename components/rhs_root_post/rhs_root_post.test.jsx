@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
@@ -62,6 +63,7 @@ describe('components/RhsRootPost', () => {
             markPostAsUnread: jest.fn(),
         },
         emojiMap: new EmojiMap(new Map()),
+        collapsedThreadsEnabled: false,
     };
 
     test('should match snapshot', () => {
@@ -110,6 +112,17 @@ describe('components/RhsRootPost', () => {
         };
         const wrapper = shallowWithIntl(
             <RhsRootPost {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot on CRT enabled', () => {
+        const wrapper = shallowWithIntl(
+            <RhsRootPost
+                {...baseProps}
+                collapsedThreadsEnabled={true}
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

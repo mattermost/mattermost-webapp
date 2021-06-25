@@ -51,7 +51,7 @@ declare namespace Cypress {
          * @returns {Channel} `out.channel` as `Channel`
          *
          * @example
-         *   cy.apiCreateDirectChannel('user-1-id', 'user-2-id').then(({channel}) => {
+         *   cy.apiCreateDirectChannel(['user-1-id', 'user-2-id']).then(({channel}) => {
          *       // do something with channel
          *   });
          */
@@ -64,7 +64,7 @@ declare namespace Cypress {
          * @returns {Channel} `out.channel` as `Channel`
          *
          * @example
-         *   cy.apiCreateGroupChannel('user-1-id', 'user-2-id', 'current-user-id').then(({channel}) => {
+         *   cy.apiCreateGroupChannel(['user-1-id', 'user-2-id', 'current-user-id']).then(({channel}) => {
          *       // do something with channel
          *   });
          */
@@ -194,5 +194,22 @@ declare namespace Cypress {
          *   });
          */
         apiAddUserToChannel(channelId: string, userId: string): Chainable<ChannelMembership>;
+
+        /**
+         * Convenient command that create, post into and then archived a channel.
+         * @param {string} name - name of channel to be created
+         * @param {string} displayName - display name of channel to be created
+         * @param {string} type - type of channel
+         * @param {string} teamId - team Id where the channel will be added
+         * @param {string[]} messages - messages to be posted before archiving a channel
+         * @param {UserProfile} user - user who will be posting the messages
+         * @returns {Channel} `out.channel` as `Channel`
+         *
+         * @example
+         *   cy.apiCreateArchivedChannel('channel-name', 'channel-display-name', 'team-id', messages, user).then(({channel}) => {
+         *       // do something with channel
+         *   });
+         */
+        apiCreateArchivedChannel(name: string, displayName: string, type: string, teamId: string, messages: string[], user: UserProfile): Chainable<{channel: Channel}>;
     }
 }

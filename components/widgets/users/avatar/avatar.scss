@@ -1,5 +1,10 @@
+@use "sass:color";
+
 .Avatar {
-    border-radius: 50%;
+    &, &:focus, &.a11y--focused {
+        border-radius: 50%;
+    }
+
     -webkit-user-select: none; /* Chrome all / Safari all */
     -moz-user-select: none;    /* Firefox all */
     -ms-user-select: none;     /* IE 10+ */
@@ -56,6 +61,7 @@
         justify-content: center;
         background: white;
 
+
         &::before {
             content: attr(data-content);
 
@@ -67,7 +73,6 @@
             height: 100%;
             border-radius: 50%;
 
-            background: rgba(var(--center-channel-color-rgb), 0.08);
             color: rgba(var(--center-channel-color-rgb), 0.64);
         }
     }

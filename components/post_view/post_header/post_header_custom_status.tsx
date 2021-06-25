@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -15,18 +15,19 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 interface ComponentProps {
     userId: string;
     isSystemMessage: boolean;
+    isBot: boolean;
 }
 
 const PostHeaderCustomStatus = (props: ComponentProps) => {
-    const {userId, isSystemMessage} = props;
-    const getCustomStatus = makeGetCustomStatus();
+    const getCustomStatus = useMemo(makeGetCustomStatus, []);
+    const {userId, isSystemMessage, isBot} = props;
     const dispatch = useDispatch();
     const userCustomStatus = useSelector((state: GlobalState) => getCustomStatus(state, userId));
     const showUpdateStatusButton = useSelector(showPostHeaderUpdateStatusButton);
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
 
     const isCustomStatusSet = userCustomStatus && userCustomStatus.emoji;
-    if (!customStatusEnabled || isSystemMessage) {
+    if (!customStatusEnabled || isSystemMessage || isBot) {
         return null;
     }
 
@@ -35,10 +36,9 @@ const PostHeaderCustomStatus = (props: ComponentProps) => {
             <CustomStatusEmoji
                 userID={userId}
                 showTooltip={true}
-                emojiSize={14}
                 emojiStyle={{
                     marginLeft: 4,
-                    marginTop: 1,
+                    marginTop: 2,
                 }}
             />
         );

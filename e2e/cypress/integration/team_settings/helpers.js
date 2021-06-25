@@ -3,13 +3,10 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {
-    getEmailUrl,
+    getJoinEmailTemplate,
     reUrl,
-    splitEmailBodyText,
+    verifyEmailBody,
 } from '../../utils';
-
-const baseUrl = Cypress.config('baseUrl');
-const mailUrl = getEmailUrl(baseUrl);
 
 export const allowOnlyUserFromSpecificDomain = (domain) => {
     // # Open 'Team Settings' modal
@@ -48,16 +45,23 @@ export const inviteUserByEmail = (email) => {
     cy.wait(TIMEOUTS.TWO_SEC);
 };
 
-export const verifyEmailInviteAndVisitLink = (username, email, teamName, teamDisplayName) => {
+export const verifyEmailInviteAndVisitLink = (sender, username, email, team, siteName) => {
     // # Invite a new user
-    cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-        verifyEmailInvite(response, teamName, teamDisplayName, email);
+    cy.getRecentEmail({username, email}).then((data) => {
+        const {body: actualEmailBody, subject} = data;
 
-        const bodyText = splitEmailBodyText(response.data.body.text);
-        const permalink = bodyText[6].match(reUrl)[0];
+        // * Verify email subject
+        expect(subject).to.contain(`[${siteName}] ${sender} invited you to join ${team.display_name} Team`);
+
+        // * Verify email body
+        const expectedEmailBody = getJoinEmailTemplate(sender, email, team);
+        verifyEmailBody(expectedEmailBody, actualEmailBody);
 
         // # Visit permalink (e.g. click on email link)
+        const permalink = actualEmailBody[3].match(reUrl)[0];
         cy.visit(permalink);
+
+        // * Verify it redirects into the signup page
         cy.get('#signup_email_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     });
 };
@@ -84,29 +88,4 @@ export const signupAndVerifyTutorial = (username, password, teamDisplayName) => 
     // * Check that the 'Welcome to: Mattermost' message is visible
     cy.get('#tutorialIntroOne').findByText('Welcome to:').should('be.visible');
     cy.get('#tutorialIntroOne').findByText('Mattermost').should('be.visible');
-};
-
-const verifyEmailInvite = (response, teamName, teamDisplayName, email) => {
-    const isoDate = new Date().toISOString().substring(0, 10);
-    const {data, status} = response;
-
-    // * Should return success status
-    expect(status).to.equal(200);
-
-    // * Verify that email is addressed to the correct user
-    expect(data.to.length).to.equal(1);
-    expect(data.to[0]).to.contain(email);
-
-    // * Verify that date is current
-    expect(data.date).to.contain(isoDate);
-
-    // * Verify that the email subject is correct
-    expect(data.subject).to.contain(`[Mattermost] sysadmin invited you to join ${teamDisplayName} Team`);
-
-    // * Verify that the email body is correct
-    const bodyText = splitEmailBodyText(data.body.text);
-    expect(bodyText.length).to.equal(17);
-    expect(bodyText[1]).to.equal('You\'ve been invited');
-    expect(bodyText[4]).to.equal(`*sysadmin* , has invited you to join *${teamDisplayName}*.`);
-    expect(bodyText[10]).to.contain(`${baseUrl}/${teamName}`);
 };

@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import path from 'path';
 
-const path = require('path');
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 export function downloadAndUnzipExportFile(targetDownload) {
     // # Get the download link
@@ -41,42 +41,22 @@ export function verifyExportedMessagesCount(expectedNumber) {
 }
 
 export function editLastPost(message) {
-    cy.apiGetTeamsForUser().then(({teams}) => {
-        const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`);
+    cy.getLastPostId().then(() => {
+        cy.get('#post_textbox').clear().type('{uparrow}');
 
-        cy.getLastPostId().then(() => {
-            cy.get('#post_textbox').clear().type('{uparrow}');
+        // # Edit post modal should appear
+        cy.get('#editPostModal').should('be.visible');
 
-            // # Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+        // # Update the post message and type ENTER
+        cy.get('#edit_textbox').invoke('val', '').type(`${message}`).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
-            // # Update the post message and type ENTER
-            cy.get('#edit_textbox').invoke('val', '').type(`${message}`).type('{enter}').wait(TIMEOUTS.HALF_SEC);
-
-            // * Edit modal should not be visible
-            cy.get('#editPostModal').should('be.not.visible');
-        });
-    });
-}
-
-export function gotoTeamAndPostMessage() {
-    // # Get user team
-    cy.apiGetTeamsForUser().then(({teams}) => {
-        const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-        cy.postMessage('Hello This is Testing');
+        // * Edit modal should not be visible
+        cy.get('#editPostModal').should('not.exist');
     });
 }
 
 export function gotoTeamAndPostImage() {
-    // # Get user teams
-    cy.apiGetTeamsForUser().then(({teams}) => {
-        const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    });
+    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
     // # Remove images from post message footer if exist
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
@@ -104,3 +84,53 @@ export function gotoTeamAndPostImage() {
     cy.postMessage(`file uploaded-${file.filename}`);
 }
 
+export function gotoGlobalPolicy() {
+    // # Click edit on global policy data table
+    cy.get('#global_policy_table .DataGrid .MenuWrapper').trigger('mouseover').click();
+    cy.findByRole('button', {name: /edit/i}).should('be.visible').click();
+    cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Global Retention Policy');
+}
+
+export function editGlobalPolicyMessageRetention(input, result) {
+    // # Click message retention dropdown
+    cy.get('.DataRetentionSettings #global_direct_message_dropdown #DropdownInput_channel_message_retention').should('be.visible').click();
+
+    // # Select days from message retention dropdown
+    cy.get('.channel_message_retention_dropdown__menu .channel_message_retention_dropdown__option span.option_days').should('be.visible').click();
+
+    // # Input retention days
+    cy.get('.DataRetentionSettings #global_direct_message_dropdown input#channel_message_retention_input').clear().type(input);
+
+    // # Save Global Policy
+    cy.findByRole('button', {name: /save/i}).should('be.visible').click();
+
+    // * Assert global policy data table is visible
+    cy.get('#global_policy_table .DataGrid').should('be.visible');
+
+    // * Assert global policy message retention is correct
+    cy.findByTestId('global_message_retention_cell').within(() => {
+        cy.get('span').should('have.text', result);
+    });
+}
+
+export function editGlobalPolicyFileRetention(input, result) {
+    // # Click file retention dropdown
+    cy.get('.DataRetentionSettings #global_file_dropdown #DropdownInput_file_retention').should('be.visible').click();
+
+    // # Select days from file retention dropdown
+    cy.get('.file_retention_dropdown__menu .file_retention_dropdown__option span.option_days').should('be.visible').click();
+
+    // # Input retention days
+    cy.get('.DataRetentionSettings #global_file_dropdown input#file_retention_input').clear().type(input);
+
+    // # Save Global Policy
+    cy.findByRole('button', {name: /save/i}).should('be.visible').click();
+
+    // * Assert global policy data table is visible
+    cy.get('#global_policy_table .DataGrid').should('be.visible');
+
+    // * Assert global policy file retention is correct
+    cy.findByTestId('global_file_retention_cell').within(() => {
+        cy.get('span').should('have.text', result);
+    });
+}

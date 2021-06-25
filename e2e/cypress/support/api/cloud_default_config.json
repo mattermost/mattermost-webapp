@@ -37,6 +37,7 @@
         "EnableOpenServer": true,
         "EnableUserDeactivation": false,
         "RestrictCreationToDomains": "",
+        "EnableCustomUserStatuses": true,
         "EnableCustomBrand": false,
         "CustomBrandText": "",
         "CustomDescriptionText": "",
@@ -88,7 +89,7 @@
         "ShowFullName": true
     },
     "SupportSettings": {
-        "SupportEmail": "feedback@mattermost.com",
+        "SupportEmail": "",
         "CustomTermsOfServiceEnabled": false,
         "CustomTermsOfServiceReAcceptancePeriod": 365,
         "EnableAskCommunityLink": true

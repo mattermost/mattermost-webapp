@@ -4,6 +4,7 @@
 import {batchActions} from 'redux-batched-actions';
 import configureStore, {MockStoreEnhanced} from 'redux-mock-store';
 import thunk from 'redux-thunk';
+
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as SearchActions from 'mattermost-redux/actions/search';
 import {SearchTypes} from 'mattermost-redux/action_types';
@@ -15,6 +16,7 @@ import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 import {
     updateRhsState,
     selectPostFromRightHandSideSearch,
+    selectPostAndHighlight,
     updateSearchTerms,
     performSearch,
     showSearchResults,
@@ -29,9 +31,12 @@ import {
     openMenu,
     closeMenu,
     openAtPrevious,
+    updateSearchType,
+    suppressRHS,
+    unsuppressRHS,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {ActionTypes, RHSStates} from 'utils/constants';
+import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
@@ -62,6 +67,7 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 
 jest.mock('mattermost-redux/actions/search', () => ({
     searchPostsWithParams: (...args: any) => ({type: 'MOCK_SEARCH_POSTS', args}),
+    searchFilesWithParams: (...args: any) => ({type: 'MOCK_SEARCH_FILES', args}),
     clearSearch: (...args: any) => ({type: 'MOCK_CLEAR_SEARCH', args}),
     getFlaggedPosts: jest.fn(),
     getPinnedPosts: jest.fn(),
@@ -107,6 +113,7 @@ describe('rhs view actions', () => {
         views: {
             rhs: {
                 rhsState: null,
+                filesSearchExtFilter: [] as string[],
             },
         },
     } as GlobalState;
@@ -154,6 +161,7 @@ describe('rhs view actions', () => {
                     views: {
                         rhs: {
                             rhsState: RHSStates.FLAG,
+                            filesSearchExtFilter: [] as string[],
                         },
                     } as ViewsState,
                 });
@@ -199,11 +207,13 @@ describe('rhs view actions', () => {
 
             const compareStore = mockStore(initialState);
             compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
             compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
@@ -217,6 +227,7 @@ describe('rhs view actions', () => {
             views: {
                 rhs: {
                     searchTerms: terms,
+                    filesSearchExtFilter: [] as string[],
                 },
             },
         } as GlobalState;
@@ -296,17 +307,9 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_STATE,
-                            channelId: currentChannelId,
-                            state: RHSStates.PIN,
-                        },
-                    ],
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId: currentChannelId,
+                    state: RHSStates.PIN,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -349,17 +352,9 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_STATE,
-                            channelId,
-                            state: RHSStates.PIN,
-                        },
-                    ],
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId,
+                    state: RHSStates.PIN,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -483,6 +478,7 @@ describe('rhs view actions', () => {
                 rhs: {
                     rhsState: RHSStates.PLUGIN,
                     pluggableId,
+                    filesSearchExtFilter: [] as string[],
                 },
             },
         } as GlobalState;
@@ -492,6 +488,7 @@ describe('rhs view actions', () => {
             views: {
                 rhs: {
                     rhsState: RHSStates.PIN,
+                    filesSearchExtFilter: [] as string[],
                 },
             },
         } as GlobalState;
@@ -642,17 +639,9 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_STATE,
-                            channelId: currentChannelId,
-                            state: RHSStates.PIN,
-                        },
-                    ],
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId: currentChannelId,
+                    state: RHSStates.PIN,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -736,6 +725,7 @@ describe('rhs view actions', () => {
                 views: {
                     rhs: {
                         searchTerms: terms,
+                        filesSearchExtFilter: [] as string[],
                     },
                 },
             } as GlobalState;
@@ -758,6 +748,105 @@ describe('rhs view actions', () => {
             store.dispatch(openAtPrevious({}));
 
             expect(store.getActions()).toEqual(actionsForEmptySearch());
+        });
+    });
+
+    describe('searchType', () => {
+        test('updateSearchType', () => {
+            const store = mockStore(initialState);
+            store.dispatch(updateSearchType('files'));
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.UPDATE_RHS_SEARCH_TYPE,
+                searchType: 'files',
+            }]);
+        });
+    });
+
+    describe('selectPostAndHighlight', () => {
+        const post1 = {id: '42'} as Post;
+        const post2 = {id: '43'} as Post;
+        const post3 = {id: '44'} as Post;
+
+        beforeEach(() => {
+            jest.useFakeTimers('modern');
+            jest.setSystemTime(POST_CREATED_TIME);
+        });
+
+        const batchedActions = (postId: string, delay = 0) => [{
+            meta: {batch: true},
+            payload: [{
+                postId,
+                timestamp: POST_CREATED_TIME + delay,
+                type: ActionTypes.SELECT_POST,
+            }, {
+                postId,
+                type: ActionTypes.HIGHLIGHT_REPLY,
+            }],
+            type: 'BATCHING_REDUCER.BATCH',
+        }];
+
+        it('should select, and highlight a post, and after a delay clear the highlight', () => {
+            const store = mockStore(initialState);
+            store.dispatch(selectPostAndHighlight(post1));
+
+            expect(store.getActions()).toEqual([
+                ...batchedActions('42'),
+            ]);
+
+            expect(jest.getTimerCount()).toBe(1);
+
+            jest.advanceTimersByTime(Constants.PERMALINK_FADEOUT);
+
+            expect(jest.getTimerCount()).toBe(0);
+
+            expect(store.getActions()).toEqual([
+                ...batchedActions('42'),
+                {type: ActionTypes.CLEAR_HIGHLIGHT_REPLY},
+            ]);
+        });
+
+        it('should clear highlight only once after last call no matter how many times called', () => {
+            const store = mockStore(initialState);
+            store.dispatch(selectPostAndHighlight(post1));
+            jest.advanceTimersByTime(1000);
+            store.dispatch(selectPostAndHighlight(post2));
+            jest.advanceTimersByTime(1000);
+            store.dispatch(selectPostAndHighlight(post3));
+
+            expect(jest.getTimerCount()).toBe(1);
+
+            jest.advanceTimersByTime(Constants.PERMALINK_FADEOUT - 2000);
+
+            expect(jest.getTimerCount()).toBe(1);
+
+            jest.advanceTimersByTime(2000);
+
+            expect(jest.getTimerCount()).toBe(0);
+
+            expect(store.getActions()).toEqual([
+                ...batchedActions('42'),
+                ...batchedActions('43', 1000),
+                ...batchedActions('44', 2000),
+                {type: ActionTypes.CLEAR_HIGHLIGHT_REPLY},
+            ]);
+        });
+    });
+
+    describe('rsh suppress actions', () => {
+        it('should suppress rhs', () => {
+            const store = mockStore(initialState);
+            store.dispatch(suppressRHS);
+
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.SUPPRESS_RHS,
+            }]);
+        });
+
+        it('should unsuppresses rhs', () => {
+            store.dispatch(unsuppressRHS);
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.UNSUPPRESS_RHS,
+            }]);
         });
     });
 });

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {OAuthApp} from 'mattermost-redux/types/integrations';
 
 import {localizeMessage} from 'utils/utils.jsx';
@@ -24,6 +25,11 @@ type Props = {
     oauthApps: {
         [key: string]: OAuthApp;
     };
+
+    /**
+     * List of IDs for apps managed by the App Framwork
+     */
+    appsOAuthAppIDs: string[];
 
     /**
     * Set if user can manage oath
@@ -106,6 +112,7 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
                     onDelete={this.deleteOAuthApp}
                     team={this.props.team}
                     creatorName=''
+                    fromApp={this.props.appsOAuthAppIDs.includes(app.id)}
                 />
             );
         });

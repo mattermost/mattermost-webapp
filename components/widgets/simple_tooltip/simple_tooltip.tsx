@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ReactNode, ComponentProps, useState, CSSProperties} from 'react';
+import React, {ReactNode, ComponentProps, useState, CSSProperties, useMemo} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
@@ -46,17 +46,17 @@ const SimpleTooltip = ({
     );
 };
 
-export default memo(SimpleTooltip);
+export default SimpleTooltip;
 
 export function useSynchronizedImmediate(): [Partial<ComponentProps<typeof SimpleTooltip>>, (isImmediate: boolean) => void] {
     const [isImmediate, setImmediate] = useState(false);
 
     return [
-        {
+        useMemo((): Partial<ComponentProps<typeof SimpleTooltip>> => ({
             onEntered: () => setImmediate(true),
             animation: !isImmediate,
             delayShow: isImmediate ? 0 : undefined,
-        },
+        }), [isImmediate, setImmediate]),
         setImmediate,
     ];
 }

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import SystemRolePermissionDropdown from './system_role_permission_dropdown';

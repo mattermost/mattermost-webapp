@@ -54,6 +54,7 @@ describe('components/RhsComment', () => {
         reactions: {},
         isFlagged: true,
         isBusy: false,
+        isFocused: false,
         removePost: jest.fn(),
         previewCollapsed: '',
         previewEnabled: false,
@@ -71,6 +72,8 @@ describe('components/RhsComment', () => {
         },
         emojiMap: new EmojiMap(new Map()),
         isBot: false,
+        collapsedThreadsEnabled: false,
+        isInViewport: jest.fn(),
     };
 
     test('should match snapshot', () => {
@@ -116,6 +119,28 @@ describe('components/RhsComment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot on CRT enabled', () => {
+        const wrapper = shallowWithIntl(
+            <RhsComment
+                {...baseProps}
+                collapsedThreadsEnabled={true}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when highlighted', () => {
+        const wrapper = shallowWithIntl(
+            <RhsComment
+                {...baseProps}
+                isFocused={true}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should show pointer when alt is held down', () => {
         const wrapper = shallowWithIntl(
             <RhsComment {...baseProps}/>,
@@ -156,7 +181,7 @@ describe('components/RhsComment', () => {
 
         wrapper.simulate('click', {altKey: true});
 
-        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post);
+        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post, 'RHS_COMMENT');
     });
 
     test('should not call markPostAsUnread when post is alt+clicked on when channel is archived', () => {
@@ -226,5 +251,32 @@ describe('components/RhsComment', () => {
         expect(visibleMessage.prop('children')).toBeTruthy();
         expect(visibleMessage.prop('children').props).toBeTruthy();
         expect(visibleMessage.prop('children').props.id).toEqual('post_info.message.visible');
+    });
+
+    test('should call scrollIntoHighlight when isFocused changes to true', () => {
+        const scrollIntoHighlight = jest.fn();
+        isSystemMessage.mockImplementationOnce(() => true);
+
+        const wrapper = shallowWithIntl(
+            <RhsComment {...baseProps}/>,
+        );
+
+        const instance = wrapper.instance();
+
+        instance.scrollIntoHighlight = scrollIntoHighlight;
+
+        expect(scrollIntoHighlight).not.toHaveBeenCalled();
+
+        wrapper.setProps({
+            isFocused: true,
+        });
+
+        expect(scrollIntoHighlight).toHaveBeenCalled();
+
+        wrapper.setProps({
+            isFocused: false,
+        });
+
+        expect(scrollIntoHighlight).toHaveBeenCalledTimes(1);
     });
 });

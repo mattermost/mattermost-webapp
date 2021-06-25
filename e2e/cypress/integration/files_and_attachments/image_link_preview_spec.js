@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @file_and_attachments
+// Stage: @prod
+// Group: @files_and_attachments
 
 describe('Image Link Preview', () => {
     let testTeam;
@@ -24,13 +25,16 @@ describe('Image Link Preview', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
 
-            // # For test user, enable link previews and expand image previews
+            // # Enable link previews
             cy.apiSaveLinkPreviewsPreference('true');
-
-            cy.apiSaveCollapsePreviewsPreference('false');
 
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
+    });
+
+    beforeEach(() => {
+        // # Expand image previews
+        cy.apiSaveCollapsePreviewsPreference('false');
     });
 
     it('MM-T331 Image link preview - Collapse and expand', () => {
@@ -80,13 +84,13 @@ describe('Image Link Preview', () => {
         });
 
         // # In center message box, post slash command /collapse
-        cy.postMessage('/collapse');
+        cy.postMessage('/collapse ');
 
         // # Observe all image previews collapse
         cy.findByLabelText('file thumbnail').should('not.exist');
 
         // # In RHS reply box, post slash command /expand
-        cy.postMessageReplyInRHS('/expand');
+        cy.postMessageReplyInRHS('/expand ');
 
         // # All image previews expand back open
         cy.findAllByLabelText('file thumbnail').should('be.visible').and('have.length', 4);
@@ -205,47 +209,53 @@ describe('Image Link Preview', () => {
             {
                 filename: 'image-1000x40.jpg',
                 originalSize: {width: 1000, height: 40},
-                thumbnailSize: {width: 971, height: 38.82},
+                thumbnailSize: {width: 951, height: 38},
                 containerSize: {height: 46},
             },
             {
                 filename: 'image-1600x40.jpg',
                 originalSize: {width: 1600, height: 40},
-                thumbnailSize: {width: 971, height: 24.26},
-                previewSize: {width: 1248, height: 31.18},
+                thumbnailSize: {width: 951, height: 23.77},
+                previewSize: {width: 1170, height: 29.25},
                 containerSize: {height: 46},
             },
         ];
 
-        listOfMinWidthHeightImages.forEach((imageWithMinWidthHeight) => {
+        listOfMinWidthHeightImages.forEach(({
+            filename,
+            originalSize,
+            thumbnailSize,
+            previewSize,
+            containerSize,
+        }) => {
             // # Upload Image as attachment and post it
-            cy.get('#fileUploadInput').attachFile(imageWithMinWidthHeight.filename);
-            cy.postMessage(`file uploaded-${imageWithMinWidthHeight.filename}`);
+            cy.get('#fileUploadInput').attachFile(filename);
+            cy.postMessage(`file uploaded-${filename}`);
 
             // # Get the last uploaded image post
             cy.getLastPostId().then((lastPostId) => {
                 // # Move inside the last post for finer control
                 cy.get(`#${lastPostId}_message`).should('exist').and('be.visible').within(() => {
                 // # If image is below min dimensions then do checks for image container dimensions
-                    if (imageWithMinWidthHeight.containerSize) {
+                    if (containerSize) {
                     // * Check if container is rendered for preview of image
                         cy.get('.small-image__container').should('be.visible').and((imageContainer) => {
-                            if (imageWithMinWidthHeight.containerSize.height) {
+                            if (containerSize.height) {
                             // * Should match thumbnail's container height
-                                expect(imageContainer.height()).to.closeTo(imageWithMinWidthHeight.containerSize.height, 0.01);
+                                expect(imageContainer.height()).to.closeTo(containerSize.height, 0.1);
                             } else {
                             // * Should match thumbnail's container width
-                                expect(imageContainer.width()).to.closeTo(imageWithMinWidthHeight.containerSize.width, 0.01);
+                                expect(imageContainer.width()).to.closeTo(containerSize.width, 0.1);
                             }
                         });
                     }
 
                     // # Find the attached image and verify its dimensions and click on it to open preview modal
-                    cy.findByLabelText(`file thumbnail ${imageWithMinWidthHeight.filename}`).should('exist').and('be.visible').
+                    cy.findByLabelText(`file thumbnail ${filename}`).should('exist').and('be.visible').
                         and((imageAttachment) => {
                             // * Check the dimensions of image's dimensions is almost equal to its thumbnail dimensions
-                            expect(imageAttachment.height()).to.closeTo(imageWithMinWidthHeight.thumbnailSize.height, 0.01);
-                            expect(imageAttachment.width()).to.be.closeTo(imageWithMinWidthHeight.thumbnailSize.width, 0.01);
+                            expect(imageAttachment.height()).to.closeTo(thumbnailSize.height, 0.1);
+                            expect(imageAttachment.width()).to.be.closeTo(thumbnailSize.width, 0.1);
                         }).click();
                 });
 
@@ -259,14 +269,14 @@ describe('Image Link Preview', () => {
                                 expect(imagePreview.attr('alt')).equals('preview url image');
 
                                 // # If image is bigger than viewport, then its preview will be check for dimensions
-                                if (imageWithMinWidthHeight.previewSize) {
+                                if (previewSize) {
                                     // * It should match preview dimension for images bigger than viewport
-                                    expect(imagePreview.height()).to.closeTo(imageWithMinWidthHeight.previewSize.height, 0.01);
-                                    expect(imagePreview.width()).to.be.closeTo(imageWithMinWidthHeight.previewSize.width, 0.01);
+                                    expect(imagePreview.height()).to.closeTo(previewSize.height, 0.1);
+                                    expect(imagePreview.width()).to.be.closeTo(previewSize.width, 0.1);
                                 } else {
                                     // * It should match original dimension for images less than viewport size
-                                    expect(imagePreview.height()).to.equal(imageWithMinWidthHeight.originalSize.height);
-                                    expect(imagePreview.width()).to.be.equal(imageWithMinWidthHeight.originalSize.width);
+                                    expect(imagePreview.height()).to.equal(originalSize.height);
+                                    expect(imagePreview.width()).to.be.equal(originalSize.width);
                                 }
                             });
                     });

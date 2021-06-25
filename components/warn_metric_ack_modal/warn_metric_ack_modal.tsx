@@ -5,10 +5,11 @@ import React, {CSSProperties} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/src/types/users';
-import {Dictionary} from 'mattermost-redux/src/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {WarnMetricStatus} from 'mattermost-redux/types/config';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -30,7 +31,7 @@ type Props = {
     show: boolean;
     closeParentComponent?: () => Promise<void>;
     stats?: Dictionary<number | AnalyticsRow[]>;
-    warnMetricStatus: any;
+    warnMetricStatus: WarnMetricStatus;
     actions: {
         closeModal: (arg: string) => void;
         getStandardAnalytics: () => any;

@@ -19,33 +19,31 @@ import {
     setRhsExpanded,
 } from 'actions/views/rhs';
 
-import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
+import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 import {getDirectTeammate, getDisplayNameByUser} from 'utils/utils.jsx';
 
 import SearchResultsItem from './search_results_item.jsx';
 
 function mapStateToProps() {
-    const getReplyCount = makeGetReplyCount();
     const createAriaLabelForPost = makeCreateAriaLabelForPost();
-    const getCommentCountForPost = makeGetCommentCountForPost();
+    const getReplyCount = makeGetCommentCountForPost();
 
     return (state, ownProps) => {
+        const {post} = ownProps;
         const config = getConfig(state);
         const preferences = getMyPreferences(state);
         const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
-        const {post} = ownProps;
         const user = getUser(state, post.user_id);
         const channel = getChannel(state, post.channel_id) || {delete_at: 0};
         const directTeammate = getDirectTeammate(state, channel.id);
 
         return {
+            currentTeamName: getCurrentTeam(state).name,
             createAriaLabel: createAriaLabelForPost(state, post),
             channelId: channel.id,
             channelName: channel.display_name,
             channelType: channel.type,
             channelIsArchived: channel.delete_at !== 0,
-            currentTeamName: getCurrentTeam(state).name,
-            commentCountForPost: getCommentCountForPost(state, {post}),
             enablePostUsernameOverride,
             isFlagged: isPostFlagged(post.id, preferences),
             isBot: user ? user.is_bot : false,

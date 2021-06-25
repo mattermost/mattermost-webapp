@@ -5,25 +5,39 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {getChannel as getChannelAction, getChannelByNameAndTeamName, joinChannel} from 'mattermost-redux/actions/channels';
+import cssVars from 'css-vars-ponyfill';
+
+import moment from 'moment';
+
+import {
+    getChannel as getChannelAction,
+    getChannelByNameAndTeamName,
+    getChannelMember,
+    joinChannel,
+} from 'mattermost-redux/actions/channels';
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getChannelsNameMapInTeam, getMyChannelMemberships, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannel,
+    getChannelsNameMapInTeam,
+    getMyChannelMemberships,
+    getRedirectChannelNameForTeam,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {
-    blendColors,
-    changeOpacity,
-} from 'mattermost-redux/utils/theme_utils';
+import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam, getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import cssVars from 'css-vars-ponyfill';
-
-import moment from 'moment';
+import {
+    getCurrentRelativeTeamUrl,
+    getCurrentTeamId,
+    getTeam,
+    getTeamByName,
+    getTeamMemberships,
+} from 'mattermost-redux/selectors/entities/teams';
 
 import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
@@ -41,6 +55,9 @@ import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -246,6 +263,24 @@ export function getDateForUnixTicks(ticks) {
 // returns Unix timestamp in milliseconds
 export function getTimestamp() {
     return Date.now();
+}
+
+export function getRemainingDaysFromFutureTimestamp(timestamp) {
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+    const futureDate = new Date(timestamp);
+    const utcFuture = Date.UTC(futureDate.getFullYear(), futureDate.getMonth(), futureDate.getDate());
+    const today = new Date();
+    const utcToday = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+
+    return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
+}
+
+export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = '') {
+    if (!timestamp) {
+        return moment.now();
+    }
+    const timezone = userTimezone ? ' ' + moment().tz(userTimezone).format('z') : '';
+    return moment.unix(timestamp).format(format) + timezone;
 }
 
 // Replaces all occurrences of a pattern
@@ -501,6 +536,10 @@ export function isHexColor(value) {
     return value && (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i).test(value);
 }
 
+export function dropAlpha(value) {
+    return value.substr(value.indexOf('(') + 1).split(',', 3).join(',');
+}
+
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
 export function toRgbValues(hexStr) {
     const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
@@ -534,11 +573,7 @@ export function applyTheme(theme) {
 
     if (theme.sidebarHeaderBg) {
         changeCss('.app__body .MenuWrapper .status-wrapper .status, .app__body #status-dropdown .status-wrapper .status-edit, .sidebar--left .team__header, .app__body .sidebar--menu .team__header, .app__body .post-list__timestamp > div', 'background:' + theme.sidebarHeaderBg);
-        changeCss('.app__body .modal .modal-header', 'background:' + theme.sidebarHeaderBg);
         changeCss('.app__body .multi-teams .team-sidebar, .app__body #navbar_wrapper .navbar-default', 'background:' + theme.sidebarHeaderBg);
-        changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'background:' + theme.sidebarHeaderBg);
-        changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + theme.sidebarHeaderBg);
-        changeCss('.emoji-picker .emoji-picker__header', 'background:' + theme.sidebarHeaderBg);
     }
 
     if (theme.sidebarHeaderTextColor) {
@@ -637,7 +672,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .post-image__details .post-image__download svg', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.35));
         changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .post-menu, .app__body .post.post--hovered .post__header .post-menu, .app__body .post.a11y--active .post__header .post-menu', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
-        changeCss('.app__body .MenuWrapper .MenuItem__divider, .app__body .modal .about-modal .modal-content .modal-header, .post .attachment .attachment__image.attachment__image--opengraph, .app__body .DayPicker .DayPicker-Caption, .app__body .modal .settings-modal .team-img-preview div, .app__body .modal .settings-modal .team-img__container div, .app__body .system-notice__footer, .app__body .system-notice__footer .btn:last-child, .app__body .modal .shortcuts-modal .subsection, .app__body .channel-header, .app__body .nav-tabs > li > a:hover, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:focus, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:hover, .app__body .post .dropdown-menu a, .sidebar--left, .app__body .suggestion-list__content .command, .app__body .channel-archived__message, .app__body .post-card--info', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .help-text, .app__body .post .post-waiting, .app__body .post.post--system .post__body', 'color:' + changeOpacity(theme.centerChannelColor, 0.6));
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a, pp__body .input-group-addon, .app__body .app__content, .app__body .post-create__container .post-create-body .btn-file, .app__body .post-create__container .post-create-footer .msg-typing, .app__body .dropdown-menu, .app__body .popover, .app__body .mentions__name, .app__body .tip-overlay, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .post .post__link', 'color:' + changeOpacity(theme.centerChannelColor, 0.65));
@@ -667,7 +701,7 @@ export function applyTheme(theme) {
         changeCss('body.app__body, .app__body .custom-textarea', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
@@ -707,7 +741,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker__search-icon', 'color:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .emoji-picker__preview, .app__body .emoji-picker__items, .app__body .emoji-picker__search-container', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.emoji-picker__category .fa:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
-        changeCss('.app__body .emoji-picker__category--selected, .app__body .emoji-picker__category--selected:focus, .app__body .emoji-picker__category--selected:hover', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker__item-wrapper:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .icon__postcontent_picker:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .emoji-picker .nav-tabs li a', 'fill:' + theme.centerChannelColor);
@@ -743,32 +776,6 @@ export function applyTheme(theme) {
                 '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
-
-            // Fade out effect for permalinked posts
-            if (theme.mentionHighlightBg) {
-                const highlightBg = blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5);
-                const ownPostHighlightBg = blendColors(highlightBg, theme.centerChannelColor, 0.05);
-
-                // For permalinked posts made by another user
-                changeCss(
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-
-                // For permalinked posts made by the current user
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
-                );
-
-                // For hovered posts
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-            }
         }
     }
 
@@ -821,6 +828,8 @@ export function applyTheme(theme) {
         changeCss('.app__body .mention--highlight, .app__body .search-highlight', 'background:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--comment .post__body.mention-comment', 'border-color:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--highlight', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
+        changeCss('.app__body .post.post--highlight .post-collapse__gradient', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
+        changeCss('.app__body .post.post--highlight .post-collapse__show-more', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
     }
 
     if (theme.mentionHighlightLink) {
@@ -848,6 +857,9 @@ export function applyTheme(theme) {
             'mention-color-rgb': toRgbValues(theme.mentionColor),
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
+            'mention-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5)),
+            'pinned-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.12)),
+            'own-highlight-bg-rgb': dropAlpha(blendColors(theme.mentionHighlightBg, theme.centerChannelColor, 0.05)),
             'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
             'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),
@@ -1698,6 +1710,19 @@ export function localizeMessage(id, defaultMessage) {
     return translations[id];
 }
 
+export function localizeAndFormatMessage(id, defaultMessage, template) {
+    const base = localizeMessage(id, defaultMessage);
+
+    if (!template) {
+        return base;
+    }
+
+    return base.replace(/{[\w]+}/g, (match) => {
+        const key = match.substr(1, match.length - 2);
+        return template[key] || match;
+    });
+}
+
 export function mod(a, b) {
     return ((a % b) + b) % b;
 }
@@ -1845,25 +1870,35 @@ export async function handleFormattedTextClick(e, currentRelativeTeamUrl) {
                                 }
                             }
                         }
-                        if (channel && channel.type === Constants.PRIVATE_CHANNEL && !getMyChannelMemberships(state)[channel.id]) {
-                            const {data} = await store.dispatch(joinPrivateChannelPrompt(team, channel, false));
-                            if (data.join) {
-                                let error = false;
-                                if (!getTeamMemberships(state)[team.id]) {
-                                    const joinTeamResult = await store.dispatch(addUserToTeam(team.id, user.id));
-                                    error = joinTeamResult.error;
+                        if (channel && channel.type === Constants.PRIVATE_CHANNEL) {
+                            let member = getMyChannelMemberships(state)[channel.id];
+                            if (!member) {
+                                const membership = await store.dispatch(getChannelMember(channel.id, getCurrentUserId(state)));
+                                if ('data' in membership) {
+                                    member = membership.data;
                                 }
-                                if (!error) {
-                                    await store.dispatch(joinChannel(user.id, team.id, channel.id, channel.name));
+                            }
+                            if (!member) {
+                                const {data} = await store.dispatch(joinPrivateChannelPrompt(team, channel, false));
+                                if (data.join) {
+                                    let error = false;
+                                    if (!getTeamMemberships(state)[team.id]) {
+                                        const joinTeamResult = await store.dispatch(addUserToTeam(team.id, user.id));
+                                        error = joinTeamResult.error;
+                                    }
+                                    if (!error) {
+                                        await store.dispatch(joinChannel(user.id, team.id, channel.id, channel.name));
+                                    }
+                                } else {
+                                    return;
                                 }
-                            } else {
-                                return;
                             }
                         }
                     }
                 }
             }
 
+            e.stopPropagation();
             browserHistory.push(linkAttribute.value);
         }
     } else if (channelMentionAttribute) {
@@ -2242,4 +2277,30 @@ export function stringToNumber(s) {
     }
 
     return parseInt(s, 10);
+}
+
+export function renderPurchaseLicense() {
+    return (
+        <div className='purchase-card'>
+            <PurchaseLink
+                eventID='post_trial_purchase_license'
+                buttonTextElement={
+                    <FormattedMessage
+                        id='admin.license.trialCard.purchase_license'
+                        defaultMessage='Purchase a license'
+                    />
+                }
+            />
+            <ContactUsButton
+                eventID='post_trial_contact_sales'
+            />
+        </div>
+    );
+}
+
+export function deleteKeysFromObject(value, keys) {
+    for (const key of keys) {
+        delete value[key];
+    }
+    return value;
 }

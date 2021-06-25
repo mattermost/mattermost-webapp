@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 
+import {bindActionCreators, Dispatch} from 'redux';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-
-import {bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators(
             {
-                closeModal: () => closeModal(ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT),
+                closeModal: (identifier) => closeModal(identifier),
                 openModal: (modalData) => openModal(modalData),
             },
             dispatch,

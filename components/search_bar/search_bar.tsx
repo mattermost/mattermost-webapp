@@ -3,7 +3,7 @@
 
 import React, {ChangeEvent, CSSProperties, FormEvent, useEffect, useRef} from 'react';
 import classNames from 'classnames';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -29,11 +29,14 @@ type Props = {
     handleFocus: () => void;
     handleBlur: () => void;
     keepFocused: boolean;
+    setKeepFocused: (value: boolean) => void;
     isFocused: boolean;
     suggestionProviders: Provider[];
     isSearchingTerm: boolean;
     isFocus: boolean;
     isSideBarRight?: boolean;
+    searchType: string;
+    clearSearchType?: () => void;
     getFocus?: (searchBarFocus: () => void) => void;
     children?: React.ReactNode;
 }
@@ -86,6 +89,12 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
             props.handleEnterKey(e);
         }
+
+        if (Utils.isKeyPressed(e, KeyCodes.BACKSPACE) && !searchTerms) {
+            if (props.clearSearchType) {
+                props.clearSearchType();
+            }
+        }
     };
 
     const getSearch = (node: SuggestionBox): void => {
@@ -111,6 +120,30 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                 <div className='search__font-icon'>
                     <i className='icon icon-magnify icon-16'/>
                 </div>
+
+                {props.searchType !== '' &&
+                    <div
+                        className='searchTypeBadge'
+                        onMouseDown={props.handleFocus}
+                    >
+                        {props.searchType === 'messages' &&
+                            <FormattedMessage
+                                id='search_bar.search_types.messages'
+                                defaultMessage='MESSAGES'
+                            />}
+                        {props.searchType === 'files' &&
+                            <FormattedMessage
+                                id='search_bar.search_types.files'
+                                defaultMessage='FILES'
+                            />}
+                        <i
+                            className='icon icon-close icon-12'
+                            onMouseDown={() => {
+                                props.setKeepFocused(true);
+                            }}
+                            onClick={() => props.clearSearchType && props.clearSearchType()}
+                        />
+                    </div>}
                 <SuggestionBox
                     ref={getSearch}
                     id={props.isSideBarRight ? 'sbrSearchBox' : 'searchBox'}

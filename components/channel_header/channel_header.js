@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -18,19 +17,17 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import OverlayTrigger from 'components/overlay_trigger';
 import PopoverListMembers from 'components/popover_list_members';
-import Search from 'components/search/index.tsx';
 import StatusIcon from 'components/status_icon';
-import FlagIcon from 'components/widgets/icons/flag_icon';
-import MentionsIcon from 'components/widgets/icons/mentions_icon';
-import SearchIcon from 'components/widgets/icons/search_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
+import RHSSearchNav from 'components/rhs_search_nav';
+
 import {
     Constants,
     ModalIdentifiers,
@@ -46,12 +43,9 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
-import UserGuideDropdown from './components/user_guide_dropdown';
 
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
 const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
-
-const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 class ChannelHeader extends React.PureComponent {
     static propTypes = {
@@ -78,8 +72,8 @@ class ChannelHeader extends React.PureComponent {
             unfavoriteChannel: PropTypes.func.isRequired,
             showFlaggedPosts: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
+            showChannelFiles: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
-            openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
@@ -93,6 +87,7 @@ class ChannelHeader extends React.PureComponent {
         announcementBarCount: PropTypes.number,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -103,7 +98,6 @@ class ChannelHeader extends React.PureComponent {
         this.headerOverlayRef = React.createRef();
 
         this.state = {
-            showSearchBar: ChannelHeader.getShowSearchBar(props),
             popoverOverlayWidth: 0,
             showChannelHeaderPopover: false,
             leftOffset: 0,
@@ -121,15 +115,6 @@ class ChannelHeader extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
-        document.addEventListener('keydown', this.handleShortcut);
-        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
-        window.addEventListener('resize', this.handleResize);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleShortcut);
-        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
-        window.removeEventListener('resize', this.handleResize);
     }
 
     componentDidUpdate(prevProps) {
@@ -139,18 +124,6 @@ class ChannelHeader extends React.PureComponent {
             this.props.actions.getCustomEmojisInText(header);
         }
     }
-
-    static getDerivedStateFromProps(nextProps) {
-        return {showSearchBar: ChannelHeader.getShowSearchBar(nextProps)};
-    }
-
-    static getShowSearchBar(props) {
-        return !Utils.isMobile() && (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE || props.rhsOpen);
-    }
-
-    handleResize = () => {
-        this.setState({showSearchBar: ChannelHeader.getShowSearchBar(this.props)});
-    };
 
     handleClose = () => {
         this.props.actions.goToLastViewedChannel();
@@ -187,15 +160,6 @@ class ChannelHeader extends React.PureComponent {
         actions.updateChannelNotifyProps(currentUser.id, channel.id, options);
     };
 
-    searchMentions = (e) => {
-        e.preventDefault();
-        if (this.props.rhsState === RHSStates.MENTION) {
-            this.props.actions.closeRightHandSide();
-        } else {
-            this.props.actions.showMentions();
-        }
-    };
-
     showPinnedPosts = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.PIN) {
@@ -205,55 +169,13 @@ class ChannelHeader extends React.PureComponent {
         }
     };
 
-    getFlagged = (e) => {
-        e.preventDefault();
-        if (this.props.rhsState === RHSStates.FLAG) {
+    showChannelFiles = () => {
+        if (this.props.rhsState === RHSStates.CHANNEL_FILES) {
             this.props.actions.closeRightHandSide();
         } else {
-            this.props.actions.showFlaggedPosts();
+            this.props.actions.showChannelFiles(this.props.channel.id);
         }
     };
-
-    searchButtonClick = (e) => {
-        e.preventDefault();
-
-        this.props.actions.openRHSSearch();
-    };
-
-    handleShortcut = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
-                e.preventDefault();
-                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
-                this.searchMentions(e);
-            }
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
-                // just close the modal if it's open, but let someone else handle the shortcut
-                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
-            }
-        }
-    };
-
-    handleQuickSwitchKeyPress = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-            if (!e.altKey) {
-                e.preventDefault();
-                this.toggleQuickSwitchModal();
-            }
-        }
-    }
-
-    toggleQuickSwitchModal = () => {
-        const {isQuickSwitcherOpen} = this.props;
-        if (isQuickSwitcherOpen) {
-            this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
-        } else {
-            this.props.actions.openModal({
-                modalId: ModalIdentifiers.QUICK_SWITCH,
-                dialogType: QuickSwitchModal,
-            });
-        }
-    }
 
     removeTooltipLink = () => {
         // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
@@ -299,9 +221,9 @@ class ChannelHeader extends React.PureComponent {
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     renderCustomStatus = () => {
-        const {customStatus} = this.props;
-        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
-        if (!(this.props.isCustomStatusEnabled && isStatusSet)) {
+        const {customStatus, isCustomStatusEnabled, isCustomStatusExpired} = this.props;
+        const isStatusSet = !isCustomStatusExpired && (customStatus?.text || customStatus?.emoji);
+        if (!(isCustomStatusEnabled && isStatusSet)) {
             return null;
         }
 
@@ -309,10 +231,11 @@ class ChannelHeader extends React.PureComponent {
             <>
                 <CustomStatusEmoji
                     userID={this.props.dmUser.id}
-                    emojiSize={15}
+                    showTooltip={true}
+                    tooltipDirection='bottom'
                     emojiStyle={{
                         verticalAlign: 'top',
-                        margin: '0 4px 4px',
+                        margin: '0 4px 1px',
                     }}
                 />
                 <CustomStatusText
@@ -371,6 +294,16 @@ class ChannelHeader extends React.PureComponent {
         let archivedIcon = null;
         if (channelIsArchived) {
             archivedIcon = (<ArchiveIcon className='icon icon__archive icon channel-header-archived-icon svg-text-color'/>);
+        }
+        let sharedIcon = null;
+        if (channel.shared) {
+            sharedIcon = (
+                <SharedChannelIndicator
+                    className='shared-channel-icon'
+                    channelType={channel.type}
+                    withTooltip={true}
+                />
+            );
         }
         const isDirect = (channel.type === Constants.DM_CHANNEL);
         const isGroup = (channel.type === Constants.GM_CHANNEL);
@@ -474,12 +407,18 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
+        let channelFilesIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
+        if (rhsState === RHSStates.CHANNEL_FILES) {
+            channelFilesIconClass += ' channel-header__icon--active';
+        }
+        const channelFilesIcon = <i className='icon icon-file-document-outline'/>;
+
         let pinnedIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
         if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' channel-header__icon--active';
         }
-        const pinnedIcon = (this.props.pinnedPostsCount ?
-            (<React.Fragment>
+        const pinnedIcon = this.props.pinnedPostsCount ? (
+            <>
                 <i
                     aria-hidden='true'
                     className='icon icon-pin-outline channel-header__pin'
@@ -490,11 +429,13 @@ class ChannelHeader extends React.PureComponent {
                 >
                     {this.props.pinnedPostsCount}
                 </span>
-            </React.Fragment>) : (
-                <i
-                    aria-hidden='true'
-                    className='icon icon-pin-outline channel-header__pin'
-                />));
+            </>
+        ) : (
+            <i
+                aria-hidden='true'
+                className='icon icon-pin-outline channel-header__pin'
+            />
+        );
 
         let headerTextContainer;
         const headerText = (isDirect && dmUser.is_bot) ? dmUser.bot_description : channel.header;
@@ -527,6 +468,7 @@ class ChannelHeader extends React.PureComponent {
                 <div
                     id='channelHeaderDescription'
                     className='channel-header__description'
+                    dir='auto'
                 >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
@@ -538,6 +480,14 @@ class ChannelHeader extends React.PureComponent {
                         buttonId={'channelHeaderPinButton'}
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
+                    />
+                    <HeaderIconWrapper
+                        iconComponent={channelFilesIcon}
+                        ariaLabel={true}
+                        buttonClass={channelFilesIconClass}
+                        buttonId={'channelHeaderFilesButton'}
+                        onClick={this.showChannelFiles}
+                        tooltipKey={'channelFiles'}
                     />
                     {hasGuestsText}
                     <div
@@ -648,6 +598,14 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
+                    <HeaderIconWrapper
+                        iconComponent={channelFilesIcon}
+                        ariaLabel={true}
+                        buttonClass={channelFilesIconClass}
+                        buttonId={'channelHeaderFilesButton'}
+                        onClick={this.showChannelFiles}
+                        tooltipKey={'channelFiles'}
+                    />
                     {hasGuestsText}
                     {editMessage}
                 </div>
@@ -726,15 +684,6 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let mentionsIconClass = 'channel-header__icon';
-        if (rhsState === RHSStates.MENTION) {
-            mentionsIconClass += ' channel-header__icon--active';
-        }
-
-        let flaggedIconClass = 'channel-header__icon';
-        if (rhsState === RHSStates.FLAG) {
-            flaggedIconClass += ' channel-header__icon--active';
-        }
         let title = (
             <React.Fragment>
                 <MenuWrapper onToggle={this.setTitleMenuOpen}>
@@ -755,6 +704,7 @@ class ChannelHeader extends React.PureComponent {
                                 <span>
                                     {archivedIcon}
                                     {channelTitle}
+                                    {sharedIcon}
                                 </span>
                             </strong>
                             <span
@@ -823,54 +773,7 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
-
-                    {this.state.showSearchBar ? (
-                        <div
-                            id='searchbarContainer'
-                            className='flex-child search-bar__container'
-                        >
-                            <Search
-                                isFocus={Utils.isMobile() || (this.props.rhsOpen && Boolean(this.props.rhsState))}
-                            />
-                        </div>
-                    ) : (
-                        <HeaderIconWrapper
-                            iconComponent={
-                                <SearchIcon
-                                    className='icon icon--standard'
-                                    aria-hidden='true'
-                                />
-                            }
-                            ariaLabel={true}
-                            buttonId={'channelHeaderSearchButton'}
-                            onClick={this.searchButtonClick}
-                            tooltipKey={'search'}
-                        />
-                    )}
-                    <HeaderIconWrapper
-                        iconComponent={
-                            <MentionsIcon
-                                className='icon icon--standard'
-                                aria-hidden='true'
-                            />
-                        }
-                        ariaLabel={true}
-                        buttonClass={mentionsIconClass}
-                        buttonId={'channelHeaderMentionButton'}
-                        onClick={this.searchMentions}
-                        tooltipKey={'recentMentions'}
-                    />
-                    <HeaderIconWrapper
-                        iconComponent={
-                            <FlagIcon className='icon icon__flag'/>
-                        }
-                        ariaLabel={true}
-                        buttonClass={flaggedIconClass}
-                        buttonId={'channelHeaderFlagButton'}
-                        onClick={this.getFlagged}
-                        tooltipKey={'flaggedPosts'}
-                    />
-                    <UserGuideDropdown/>
+                    <RHSSearchNav/>
                 </div>
             </div>
         );
@@ -878,4 +781,3 @@ class ChannelHeader extends React.PureComponent {
 }
 
 export default injectIntl(ChannelHeader);
-/* eslint-enable react/no-string-refs */

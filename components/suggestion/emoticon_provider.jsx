@@ -60,7 +60,7 @@ export default class EmoticonProvider extends Provider {
     }
     handlePretextChanged(pretext, resultsCallback) {
         // Look for the potential emoticons at the start of the text, after whitespace, and at the start of emoji reaction commands
-        const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext);
+        const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }
@@ -119,9 +119,9 @@ export default class EmoticonProvider extends Provider {
                 continue;
             }
 
-            if (emoji.aliases) {
+            if (emoji.short_names) {
                 // This is a system emoji so it may have multiple names
-                for (const alias of emoji.aliases) {
+                for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
                         const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ?
                             recentMatched :

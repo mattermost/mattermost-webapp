@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+
 import {Client4} from 'mattermost-redux/client';
 
 import {uploadBrandImage, deleteBrandImage} from 'actions/admin_actions.jsx';
@@ -246,7 +247,7 @@ export default class BrandImageSetting extends React.PureComponent {
                         <input
                             ref={this.fileInputRef}
                             type='file'
-                            accept='.jpg,.png,.bmp'
+                            accept={Constants.ACCEPT_STATIC_IMAGE}
                             disabled={this.props.disabled}
                             onChange={this.handleImageChange}
                         />

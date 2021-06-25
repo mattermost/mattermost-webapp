@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {injectIntl, IntlShape, MessageDescriptor} from 'react-intl';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -173,7 +174,7 @@ export type Props = {
     currentUsername: string;
     intl: IntlShape;
     messageData: Array<{
-        actorId: string;
+        actorId?: string;
         postType: string;
         userIds: string[];
     }>;
@@ -263,7 +264,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         return usernames;
     }
 
-    renderFormattedMessage(postType: string, userIds: string[], actorId: string): JSX.Element {
+    renderFormattedMessage(postType: string, userIds: string[], actorId?: string): JSX.Element {
         const {formatMessage} = this.props.intl;
         const {currentUserId, currentUsername} = this.props;
         const usernames = this.getUsernamesByIds(userIds);
@@ -319,7 +320,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         );
     }
 
-    renderMessage(postType: string, userIds: string[], actorId: string): JSX.Element {
+    renderMessage(postType: string, userIds: string[], actorId?: string): JSX.Element {
         return (
             <React.Fragment key={postType + actorId}>
                 {this.renderFormattedMessage(postType, userIds, actorId)}

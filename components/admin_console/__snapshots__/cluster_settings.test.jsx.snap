@@ -138,37 +138,6 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
         }
         helpText={
           <FormattedMessage
-            defaultMessage="When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health."
-            id="admin.cluster.UseExperimentalGossipDesc"
-          />
-        }
-        id="UseExperimentalGossip"
-        label={
-          <FormattedMessage
-            defaultMessage="Use Gossip:"
-            id="admin.cluster.UseExperimentalGossip"
-          />
-        }
-        onChange={[Function]}
-        setByEnv={false}
-        trueText={
-          <FormattedMessage
-            defaultMessage="true"
-            id="admin.true"
-          />
-        }
-        value={true}
-      />
-      <BooleanSetting
-        disabled={false}
-        falseText={
-          <FormattedMessage
-            defaultMessage="false"
-            id="admin.false"
-          />
-        }
-        helpText={
-          <FormattedMessage
             defaultMessage="When true, all communication through the gossip protocol will be encrypted."
             id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
           />
@@ -431,37 +400,6 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
           />
         }
         value={false}
-      />
-      <BooleanSetting
-        disabled={false}
-        falseText={
-          <FormattedMessage
-            defaultMessage="false"
-            id="admin.false"
-          />
-        }
-        helpText={
-          <FormattedMessage
-            defaultMessage="When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health."
-            id="admin.cluster.UseExperimentalGossipDesc"
-          />
-        }
-        id="UseExperimentalGossip"
-        label={
-          <FormattedMessage
-            defaultMessage="Use Gossip:"
-            id="admin.cluster.UseExperimentalGossip"
-          />
-        }
-        onChange={[Function]}
-        setByEnv={false}
-        trueText={
-          <FormattedMessage
-            defaultMessage="true"
-            id="admin.true"
-          />
-        }
-        value={true}
       />
       <BooleanSetting
         disabled={false}
@@ -746,37 +684,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         }
         helpText={
           <FormattedMessage
-            defaultMessage="When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health."
-            id="admin.cluster.UseExperimentalGossipDesc"
-          />
-        }
-        id="UseExperimentalGossip"
-        label={
-          <FormattedMessage
-            defaultMessage="Use Gossip:"
-            id="admin.cluster.UseExperimentalGossip"
-          />
-        }
-        onChange={[Function]}
-        setByEnv={false}
-        trueText={
-          <FormattedMessage
-            defaultMessage="true"
-            id="admin.true"
-          />
-        }
-        value={true}
-      />
-      <BooleanSetting
-        disabled={false}
-        falseText={
-          <FormattedMessage
-            defaultMessage="false"
-            id="admin.false"
-          />
-        }
-        helpText={
-          <FormattedMessage
             defaultMessage="When true, all communication through the gossip protocol will be encrypted."
             id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
           />
@@ -1039,37 +946,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           />
         }
         value={false}
-      />
-      <BooleanSetting
-        disabled={false}
-        falseText={
-          <FormattedMessage
-            defaultMessage="false"
-            id="admin.false"
-          />
-        }
-        helpText={
-          <FormattedMessage
-            defaultMessage="When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health."
-            id="admin.cluster.UseExperimentalGossipDesc"
-          />
-        }
-        id="UseExperimentalGossip"
-        label={
-          <FormattedMessage
-            defaultMessage="Use Gossip:"
-            id="admin.cluster.UseExperimentalGossip"
-          />
-        }
-        onChange={[Function]}
-        setByEnv={false}
-        trueText={
-          <FormattedMessage
-            defaultMessage="true"
-            id="admin.true"
-          />
-        }
-        value={true}
       />
       <BooleanSetting
         disabled={false}

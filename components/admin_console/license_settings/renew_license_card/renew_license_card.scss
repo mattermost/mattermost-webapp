@@ -7,9 +7,9 @@
     box-shadow: 0px 2px 3px #00000014;
     border-radius: 4px;
 
-    button {
-        background: var(--button-bg);
-        color: var(--button-color);
+    .annnouncementBar__purchaseNow {
+        background: var(--sys-button-bg);
+        color: var(--sys-button-color);
         padding: 12px 20px;
         border: none;
         border-radius: 4px;
@@ -31,15 +31,15 @@
     font-size: 18px;
     line-height: 24px;
     margin-bottom: 5px;
-    color: var( --sidebar-text-active-border);
+    color: var(--sys-sidebar-text-active-border);
 
     &.critical {
-        color: var( --error-text);
+        color: var(--sys-error-text);
     }
 }
 
 .RenewLicenseCard__text-description {
-    color: var(----center-channel-color);
+    color: var(--sys-center-channel-color);
     font-family: Open Sans;
     font-style: normal;
     font-size: 14px;

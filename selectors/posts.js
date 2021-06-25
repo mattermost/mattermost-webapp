@@ -2,14 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
+
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getGlobalItem} from 'selectors/storage';
+import {arePreviewsCollapsed} from 'selectors/preferences';
 import {Preferences, StoragePrefixes} from 'utils/constants';
 
 export const getEditingPost = createSelector(
+    'getEditingPost',
     (state) => {
         if (state.views.posts.editingPost && state.views.posts.editingPost.postId) {
             return getPost(state, state.views.posts.editingPost.postId);
@@ -28,14 +31,16 @@ export const getEditingPost = createSelector(
 
 export function isEmbedVisible(state, postId) {
     const currentUserId = getCurrentUserId(state);
-    const previewCollapsed = getBoolPreference(
-        state,
-        Preferences.CATEGORY_DISPLAY_SETTINGS,
-        Preferences.COLLAPSE_DISPLAY,
-        Preferences.COLLAPSE_DISPLAY_DEFAULT !== 'false',
-    );
+    const previewCollapsed = arePreviewsCollapsed(state);
 
     return getGlobalItem(state, StoragePrefixes.EMBED_VISIBLE + currentUserId + '_' + postId, !previewCollapsed);
+}
+
+export function isInlineImageVisible(state, postId, imageKey) {
+    const currentUserId = getCurrentUserId(state);
+    const imageCollapsed = arePreviewsCollapsed(state);
+
+    return getGlobalItem(state, StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !imageCollapsed);
 }
 
 export function shouldShowJoinLeaveMessages(state) {

@@ -12,6 +12,7 @@
 
 describe('Bot display name', () => {
     let townsquareChannel;
+    let otherSysadmin;
 
     before(() => {
         // # Set ServiceSettings to expected values
@@ -23,16 +24,21 @@ describe('Bot display name', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        cy.apiInitSetup().then(({team}) => {
-            cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
-                townsquareChannel = channel;
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            otherSysadmin = sysadmin;
+            cy.apiLogin(otherSysadmin);
+
+            cy.apiInitSetup().then(({team}) => {
+                cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
+                    townsquareChannel = channel;
+                });
+                cy.visit(`/${team.name}/channels/town-square`);
             });
-            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     it('MM-T1813 Display name for bots stays current', () => {
-        cy.makeClient().then((client) => {
+        cy.makeClient({user: otherSysadmin}).then((client) => {
             // # Create a bot and get bot user id
             cy.apiCreateBot().then(({bot}) => {
                 const botUserId = bot.user_id;
@@ -50,11 +56,12 @@ describe('Bot display name', () => {
                         its('id').
                         should('exist').
                         as('botPost');
+                    cy.uiWaitUntilMessagePostedIncludes(firstMessage);
 
                     // # Go to the channel
                     cy.get('#sidebarItem_town-square').click({force: true});
 
-                    // * Verify bot displayname
+                    // * Verify bot display name
                     cy.get('@botPost').then((postIdA) => {
                         cy.get(`#post_${postIdA} button.user-popover`).click();
 
@@ -64,14 +71,15 @@ describe('Bot display name', () => {
                         cy.findByTestId(`popover-fullname-${bot.username}`).
                             should('have.text', bot.display_name);
                     }).then(() => {
-                        // # Change displayname after prior verification
+                        // # Change display name after prior verification
                         cy.wrap(client.patchBot(bot.user_id, {display_name: `NEW ${bot.display_name}`})).then((newBot) => {
                             cy.postBotMessage({token, message: secondMessage, props, channelId: townsquareChannel.id}).
                                 its('id').
                                 should('exist').
                                 as('newBotPost');
+                            cy.uiWaitUntilMessagePostedIncludes(secondMessage);
 
-                            // * Verify changed displayname
+                            // * Verify changed display name
                             cy.get('@newBotPost').then(() => {
                                 cy.get('#user-profile-popover').
                                     should('be.visible');

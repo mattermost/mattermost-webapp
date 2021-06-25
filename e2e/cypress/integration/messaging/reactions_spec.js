@@ -29,7 +29,7 @@ describe('Messaging', () => {
             cy.clickPostCommentIcon(postId);
 
             // # Type "+:+1:" in comment box to react to the post with a thumbs-up and post
-            cy.postMessageReplyInRHS('+:+1:{enter}');
+            cy.postMessageReplyInRHS('+:+1:');
 
             // * Thumbs-up reaction displays as reaction on post
             cy.get(`#${postId}_message`).within(() => {
@@ -51,13 +51,19 @@ describe('Messaging', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Add a reaction to the post
-            cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
+            // cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
+            cy.findByTestId('smiley').
+                should('exist').
+                click({force: true});
 
             // # Click the `+` button next to the existing reactions (visible on hover)
             cy.get(`#addReaction-${postId}`).should('exist').click({force: true});
 
             // # Click to select an emoji from the picker
-            cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
+            // cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
+            cy.findByTestId('upside_down_face').
+                should('exist').
+                click({force: true});
 
             // * Emoji reaction is added to the post
             cy.get(`#${postId}_message`).within(() => {
@@ -68,7 +74,7 @@ describe('Messaging', () => {
             // * Reaction appears in recently used section of emoji picker
             cy.get('#emojiPickerButton').click().then(() => {
                 cy.findAllByTestId('emojiItem').first().within(($el) => {
-                    cy.wrap($el).findByTestId('upside_down_face').should('be.visible');
+                    cy.wrap($el).findByTestId('upside_down_face').should('exist');
                 });
             });
         });
@@ -88,18 +94,24 @@ describe('Messaging', () => {
                 cy.get(`#RHS_ROOT_reaction_${postId}`).should('exist').click({force: true});
 
                 // # Click the emoji picker icon to react to the message, select a reaction
-                cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
+                // cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
+                cy.findByTestId('smiley').
+                    should('exist').
+                    click({force: true});
 
                 // # Hover over the post again and observe the `+` icon next to your reaction
                 cy.get(`#addReaction-${postId}`).should('exist').click({force: true});
 
                 // # Click the `+` icon and select a different reaction
-                cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
+                // cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
+                cy.findByTestId('upside_down_face').
+                    should('exist').
+                    click({force: true});
 
                 // * Two reactions are added to the message in the expanded RHS
                 cy.get(`#rhsPost_${postId}`).within(() => {
                     cy.findByLabelText('reactions').should('be.visible');
-                    cy.findByLabelText('remove reaction scream').should('be.visible');
+                    cy.findByLabelText('remove reaction smiley').should('be.visible');
                     cy.findByLabelText('remove reaction upside down face').should('be.visible');
                 });
 
@@ -149,7 +161,7 @@ describe('Messaging', () => {
 
     it('MM-T2196 Emoji reaction - not available on ephemeral message Save - not available on ephemeral message Pin - not available on ephemeral message Timestamp - not a link on ephemeral message Can close ephemeral message', () => {
         // # Post `/away` to create an ephemeral message
-        cy.postMessage('/away');
+        cy.postMessage('/away ');
 
         cy.getLastPostId().then((postId) => {
             // * (Only visible to you) displays next to timestamp (standard view) or after message text (compact view)

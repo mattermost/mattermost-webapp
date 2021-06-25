@@ -39,7 +39,7 @@ function postAttachments() {
     });
 }
 
-describe('MM-T105 Long post with mutiple attachments', () => {
+describe('Messaging', () => {
     let testTeam;
 
     beforeEach(() => {
@@ -53,7 +53,8 @@ describe('MM-T105 Long post with mutiple attachments', () => {
         });
     });
 
-    it('Attachment previews/thumbnails display as expected, when viewing full or partial post', () => {
+    it('MM-T105 Long post with mutiple attachments', () => {
+        // * Attachment previews/thumbnails display as expected, when viewing full or partial post':
         // # Post attachments
         postAttachments();
 
@@ -73,9 +74,8 @@ describe('MM-T105 Long post with mutiple attachments', () => {
                     find('.post-image__name').contains('small-image.png').should('exist');
             });
         });
-    });
 
-    it('Can click one of the attachments and cycle through the multiple attachment previews as usual', () => {
+        // * Can click one of the attachments and cycle through the multiple attachment previews as usual:
         // # Post attachments
         postAttachments();
 

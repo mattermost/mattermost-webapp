@@ -23,6 +23,8 @@ jest.mock('utils/user_agent', () => ({
     isMobile: jest.fn().mockReturnValue(false),
 }));
 
+jest.useFakeTimers();
+
 function createEditPost({canEditPost, canDeletePost, useChannelMentions, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
     const canEditPostProp = canEditPost === undefined ? true : canEditPost;
     const canDeletePostProp = canDeletePost === undefined ? true : canDeletePost;
@@ -42,7 +44,6 @@ function createEditPost({canEditPost, canDeletePost, useChannelMentions, ctrlSen
             message: 'test',
             channel_id: '5',
         },
-        commentCount: 3,
         refocusId: 'test',
         show: true,
         title: 'test',
@@ -101,7 +102,6 @@ describe('components/EditPostModal', () => {
                 channel_id: '5',
                 file_ids: ['file_id_1'],
             },
-            commentCount: 3,
             refocusId: 'test',
             show: true,
             title: 'test',
@@ -299,7 +299,6 @@ describe('components/EditPostModal', () => {
                     message: 'test',
                     channel_id: '5',
                 },
-                commentCount: 3,
             },
         });
         expect(actions.addMessageIntoHistory).not.toBeCalled();
@@ -580,7 +579,6 @@ describe('components/EditPostModal', () => {
                 channel_id: '5',
                 file_ids: ['file_id_1'],
             },
-            commentCount: 3,
             refocusId: 'test',
             show: true,
             title: 'test',
@@ -599,7 +597,6 @@ describe('components/EditPostModal', () => {
                     message: value,
                     channel_id: '5',
                 },
-                commentCount: 3,
                 refocusId: 'test',
                 show: true,
                 title: 'test',
@@ -622,7 +619,6 @@ describe('components/EditPostModal', () => {
                         message: value,
                         channel_id: '5',
                     },
-                    commentCount: 3,
                     refocusId: 'test',
                     show: true,
                     title: 'test',
@@ -654,7 +650,6 @@ describe('components/EditPostModal', () => {
                         message: value,
                         channel_id: '5',
                     },
-                    commentCount: 3,
                     refocusId: 'test',
                     show: true,
                     title: 'test',

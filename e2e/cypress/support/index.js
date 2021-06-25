@@ -7,6 +7,9 @@
 
 /* eslint-disable no-loop-func */
 
+import dayjs from 'dayjs';
+import localforage from 'localforage';
+
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import 'cypress-wait-until';
@@ -18,6 +21,7 @@ import './api_commands'; // soon to deprecate
 import './client';
 import './common_login_commands';
 import './db_commands';
+import './email';
 import './external_commands';
 import './extended_commands';
 import './fetch_commands';
@@ -30,9 +34,10 @@ import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
-import './visual_commands';
 
 import {getDefaultConfig} from './api/system';
+
+Cypress.dayjs = dayjs;
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
@@ -101,6 +106,9 @@ Cypress.on('uncaught:exception', () => {
 });
 
 before(() => {
+    // # Clear localforage state
+    localforage.clear();
+
     // # Try to login using existing sysadmin account
     cy.apiAdminLogin({failOnStatusCode: false}).then((response) => {
         if (response.user) {
@@ -189,6 +197,9 @@ function sysadminSetup(user) {
             cy.apiPatchUserRoles(user.id, ['system_admin', 'system_manager', 'system_user']);
         }
     });
+
+    // # Disable plugins not included in prepackaged
+    cy.apiDisableNonPrepackagedPlugins();
 
     // # Check if default team is present; create if not found.
     cy.apiGetTeamsForUser().then(({teams}) => {

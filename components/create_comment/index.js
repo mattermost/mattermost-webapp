@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -130,8 +131,8 @@ function makeMapDispatchToProps() {
             onMoveHistoryIndexForward = makeOnMoveHistoryIndex(ownProps.rootId, 1);
         }
 
-        if (rootId !== ownProps.rootId || channelId !== ownProps.channelId) {
-            onEditLatestPost = makeOnEditLatestPost(ownProps.channelId, ownProps.rootId);
+        if (rootId !== ownProps.rootId) {
+            onEditLatestPost = makeOnEditLatestPost(ownProps.rootId);
         }
 
         if (rootId !== ownProps.rootId || channelId !== ownProps.channelId || latestPostId !== ownProps.latestPostId) {
