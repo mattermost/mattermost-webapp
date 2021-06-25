@@ -351,10 +351,10 @@ export function makeGetPostsAroundPost(): (state: GlobalState, postId: $ID<Post>
 // only argument and will be memoized based on that argument.
 
 export function makeGetPostsForThread(): (state: GlobalState, props: {rootId: $ID<Post>}) => Post[] {
-    return createSelector(
+    return createIdsSelector(
         'makeGetPostsForThread',
         getAllPosts,
-        (state: GlobalState, props: {rootId: $ID<Post>}) => state.entities.posts.postsInThread[props.rootId] || [],
+        (state: GlobalState, props: {rootId: $ID<Post>}) => state.entities.posts.postsInThread[props.rootId],
         (state: GlobalState, props: {rootId: $ID<Post>}) => state.entities.posts.posts[props.rootId],
         (posts, postsForThread, rootPost) => {
             const thread: Post[] = [];
@@ -363,13 +363,14 @@ export function makeGetPostsForThread(): (state: GlobalState, props: {rootId: $I
                 thread.push(rootPost);
             }
 
-            postsForThread.forEach((id) => {
+            postsForThread?.forEach((id) => {
                 const post = posts[id];
 
                 if (post) {
                     thread.push(post);
                 }
             });
+
             thread.sort(comparePosts);
             return thread;
         },
