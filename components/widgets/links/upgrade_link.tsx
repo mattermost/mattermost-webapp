@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {FormattedMessage} from 'react-intl';
@@ -17,6 +17,7 @@ import './link.scss';
 
 export interface UpgradeLinkProps {
     telemetryInfo?: string;
+    extraClass?: string;
     buttonText?: string;
     styleButton?: boolean; // show as a blue primary button
     styleLink?: boolean; // show as a anchor link

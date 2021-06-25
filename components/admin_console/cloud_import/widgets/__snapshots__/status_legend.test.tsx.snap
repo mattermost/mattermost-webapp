@@ -15,7 +15,7 @@ exports[`admin_console/status_legend status legend match snapshot 1`] = `
 `;
 
 exports[`admin_console/status_legend status legend shows completed 1`] = `
-<StatusLegend
+<Memo(StatusLegend)
   status="completed"
 >
   <div
@@ -33,11 +33,11 @@ exports[`admin_console/status_legend status legend shows completed 1`] = `
       </span>
     </FormattedMessage>
   </div>
-</StatusLegend>
+</Memo(StatusLegend)>
 `;
 
 exports[`admin_console/status_legend status legend shows failed 1`] = `
-<StatusLegend
+<Memo(StatusLegend)
   status="failed"
 >
   <div
@@ -55,5 +55,5 @@ exports[`admin_console/status_legend status legend shows failed 1`] = `
       </span>
     </FormattedMessage>
   </div>
-</StatusLegend>
+</Memo(StatusLegend)>
 `;

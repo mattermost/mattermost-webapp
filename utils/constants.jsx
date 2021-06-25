@@ -737,6 +737,7 @@ export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
     EXPORTING_DATA: 'https://docs.mattermost.com/cloud/exporting-data-from-other-chat-service',
     IMPORTING_DATA: 'https://docs.mattermost.com/cloud/importing-data-from-other-chat-service',
+    HELP_IMPORTING_FROM: 'https://docs.mattermost.com/cloud/help_importing_from',
     COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
     CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
 };
