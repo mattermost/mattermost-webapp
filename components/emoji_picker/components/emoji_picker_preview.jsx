@@ -6,12 +6,37 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import imgTrans from 'images/img_trans.gif';
 
 export default class EmojiPickerPreview extends React.PureComponent {
     static propTypes = {
         emoji: PropTypes.object,
+        customEmojisEnabled: PropTypes.bool,
+        currentTeamName: PropTypes.string.isRequired,
+    }
+
+    customEmojis = () => {
+        if (!this.props.customEmojisEnabled) {
+            return null;
+        }
+        return (
+            <AnyTeamPermissionGate permissions={[Permissions.CREATE_EMOJIS]}>
+                <div className='emoji-picker__custom'>
+                    <a
+                        className='btn btn-link'
+                        href={`/${this.props.currentTeamName}/emoji`}
+                    >
+                        <FormattedMessage
+                            id='emoji_picker.custom_emoji'
+                            defaultMessage='Custom Emoji'
+                        />
+                    </a>
+                </div>
+            </AnyTeamPermissionGate>
+        );
     }
 
     render() {
@@ -22,7 +47,7 @@ export default class EmojiPickerPreview extends React.PureComponent {
             let aliases;
             let previewImage;
 
-            if (emoji.short_names) {
+            if (emoji.short_names && emoji.image !== 'mattermost') {
                 // This is a system emoji which only has a list of aliases
                 name = emoji.short_names[0];
                 aliases = emoji.short_names;
@@ -40,7 +65,7 @@ export default class EmojiPickerPreview extends React.PureComponent {
             } else {
                 // This is a custom emoji that matches the model on the server
                 name = emoji.name;
-                aliases = [emoji.name];
+                aliases = [name];
                 previewImage = (
                     <img
                         id='emojiPickerSpritePreview'
@@ -52,29 +77,29 @@ export default class EmojiPickerPreview extends React.PureComponent {
             }
 
             return (
-                <div className='emoji-picker__preview'>
-                    <div className='emoji-picker__preview-image-box'>
-                        {previewImage}
+                <div className='emoji-picker__footer'>
+                    <div className='emoji-picker__preview'>
+                        <div className='emoji-picker__preview-image-box'>
+                            {previewImage}
+                        </div>
+                        <div className='emoji-picker__preview-image-label-box'>
+                            <span className='emoji-picker__preview-name'>{':' + aliases.join(': :') + ':'}</span>
+                        </div>
                     </div>
-                    <div className='emoji-picker__preview-image-label-box'>
-                        <span className='emoji-picker__preview-name'>{name}</span>
-                        <span
-                            id='emojiPickerAliasesPreview'
-                            className='emoji-picker__preview-aliases'
-                        >
-                            {':' + aliases.join(': :') + ':'}
-                        </span>
-                    </div>
+                    {this.customEmojis()}
                 </div>
             );
         }
 
         return (
-            <div className='emoji-picker__preview emoji-picker__preview-placeholder'>
-                <FormattedMessage
-                    id='emoji_picker.emojiPicker'
-                    defaultMessage='Emoji Picker'
-                />
+            <div className='emoji-picker__footer'>
+                <div className='emoji-picker__preview emoji-picker__preview-placeholder'>
+                    <FormattedMessage
+                        id='emoji_picker.emojiPicker'
+                        defaultMessage='Select an Emoji'
+                    />
+                </div>
+                {this.customEmojis()}
             </div>
         );
     }
