@@ -117,7 +117,7 @@ export const TrialPeriodDays = {
     TRIAL_WARNING_THRESHOLD: 3,
     TRIAL_2_DAYS: 2,
     TRIAL_1_DAY: 1,
-    TRIAL_0_DAYS: 0
+    TRIAL_0_DAYS: 0,
 };
 
 export const ActionTypes = keyMirror({
