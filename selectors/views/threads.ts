@@ -13,7 +13,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
-import {getSelectedPostId} from 'selectors/rhs';
+import {getIsRhsOpen, getSelectedPostId} from 'selectors/rhs';
 
 export function getSelectedThreadIdInTeam(state: GlobalState) {
     return state.views.threads.selectedThreadIdInTeam;
@@ -62,17 +62,11 @@ export function makeGetThreadLastViewedAt(): (state: GlobalState, threadId: $ID<
     );
 }
 
-export const getOpenThreadId: (state: GlobalState) => $ID<UserThread> | null = createSelector(
-    'getOpenThreadId',
-    getSelectedThreadIdInCurrentTeam,
-    getSelectedPostId,
-    (selectedThreadId, selectedPostId) => {
-        return selectedPostId || selectedThreadId;
-    },
-);
-
 export const isThreadOpen = (state: GlobalState, threadId: $ID<UserThread>): boolean => {
-    return threadId === getOpenThreadId(state);
+    return (
+        threadId === getSelectedThreadIdInCurrentTeam(state) ||
+        (getIsRhsOpen(state) && threadId === getSelectedPostId(state))
+    );
 };
 
 export const isThreadManuallyUnread = (state: GlobalState, threadId: $ID<UserThread>): boolean => {

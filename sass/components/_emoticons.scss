@@ -132,7 +132,6 @@
                 border-bottom-style: solid;
                 margin-right: 5px;
                 margin-left: 5px;
-                opacity: 0.7;
                 outline: none;
             }
         }
@@ -256,7 +255,7 @@
         overflow: hidden;
         height: 100%;
         align-items: center;
-        background: #fff;
+        background: var(--center-channel-bg);
 
         &--active {
             position: absolute;
@@ -323,7 +322,7 @@
         border-radius: 4px;
 
         &:focus-within {
-            border: 2px solid #166de0;
+            border: 2px solid v(button-bg);
 
             & .emoji-picker__search-icon {
                 padding-top: 7px;
@@ -444,7 +443,7 @@
         padding-top: 3px;
         margin-top: 3px;
         margin-bottom: 6px;
-        color: #929294;
+        color: var(--center-channel-color-48);
         font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
@@ -547,15 +546,21 @@
 .emoji-picker__custom {
     position: relative;
     margin: 12px;
+    text-decoration: none;
 
     a,
     a:hover {
         background: rgba(var(--button-bg-rgb), 0.08);
         border-radius: 4px;
-        color: var(--button-bg);
+        color: var(--button-bg) !important; // it gets overriden by link color
         fill: var(--button-bg);
         font-size: 12px;
         font-weight: 600;
+        text-decoration: none;
+    }
+
+    a:hover {
+        background-color: rgba(var(--button-bg-rgb), 0.12);
     }
 }
 
@@ -632,7 +637,10 @@
     }
 
     .emoji-picker__preview-image {
-        max-width: 42px;
+        position: relative;
+        top: -8px;
+        left: 2px;
+        max-width: 36px;
         max-height: 36px;
     }
 }
