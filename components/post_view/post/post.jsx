@@ -16,6 +16,7 @@ import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
 class Post extends React.PureComponent {
     static propTypes = {
@@ -24,6 +25,11 @@ class Post extends React.PureComponent {
          * The post to render
          */
         post: PropTypes.object.isRequired,
+
+        /**
+         * The corresponding UserThread
+         */
+        thread: PropTypes.object,
 
         /**
          * The function to create an aria-label
@@ -76,9 +82,9 @@ class Post extends React.PureComponent {
         isCommentMention: PropTypes.bool,
 
         /**
-         * The number of replies in the same thread as this post
+         * If the post has replies
          */
-        replyCount: PropTypes.number,
+        hasReplies: PropTypes.bool,
 
         /**
          * To Check if the current post is last in the list
@@ -101,6 +107,8 @@ class Post extends React.PureComponent {
          * Set to mark the post as flagged
          */
         isFlagged: PropTypes.bool.isRequired,
+
+        isCollapsedThreadsEnabled: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -114,6 +122,7 @@ class Post extends React.PureComponent {
 
         this.state = {
             dropdownOpened: false,
+            fileDropdownOpened: false,
             hover: false,
             alt: false,
             a11yActive: false,
@@ -190,7 +199,7 @@ class Post extends React.PureComponent {
         }
 
         if (e.altKey) {
-            this.props.actions.markPostAsUnread(post);
+            this.props.actions.markPostAsUnread(post, 'CENTER');
         }
     }
 
@@ -201,6 +210,12 @@ class Post extends React.PureComponent {
 
         this.setState({
             dropdownOpened: opened,
+        });
+    }
+
+    handleFileDropdownOpened = (opened) => {
+        this.setState({
+            fileDropdownOpened: opened,
         });
     }
 
@@ -256,7 +271,7 @@ class Post extends React.PureComponent {
         let postType = '';
         if (post.root_id && post.root_id.length > 0) {
             postType = 'post--comment';
-        } else if (this.props.replyCount > 0) {
+        } else if (this.props.hasReplies) {
             postType = 'post--root';
             sameUserClass = '';
             rootUser = '';
@@ -279,7 +294,7 @@ class Post extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.a11yActive) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.a11yActive) {
             className += ' post--hovered';
         }
 
@@ -331,7 +346,11 @@ class Post extends React.PureComponent {
     }
 
     render() {
-        const {post} = this.props;
+        const {
+            post,
+            hasReplies,
+            isCollapsedThreadsEnabled,
+        } = this.props;
         if (!post.id) {
             return null;
         }
@@ -343,7 +362,7 @@ class Post extends React.PureComponent {
         const fromBot = post && post.props && post.props.from_bot === 'true';
 
         let profilePic;
-        const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;
+        const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && !hasReplies) && !fromBot;
         if (!hideProfilePicture) {
             profilePic = (
                 <PostProfilePicture
@@ -407,9 +426,8 @@ class Post extends React.PureComponent {
                                 handleDropdownOpened={this.handleDropdownOpened}
                                 compactDisplay={this.props.compactDisplay}
                                 isFirstReply={this.props.isFirstReply}
-                                replyCount={this.props.replyCount}
                                 showTimeWithoutHover={!hideProfilePicture}
-                                hover={this.state.hover || this.state.a11yActive}
+                                hover={this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened}
                                 isLastPost={this.props.isLastPost}
                             />
                             <PostBody
@@ -418,7 +436,12 @@ class Post extends React.PureComponent {
                                 compactDisplay={this.props.compactDisplay}
                                 isCommentMention={this.props.isCommentMention}
                                 isFirstReply={this.props.isFirstReply}
+                                handleFileDropdownOpened={this.handleFileDropdownOpened}
                             />
+                            {isCollapsedThreadsEnabled && !post.root_id && (hasReplies || post.is_following) ? (
+                                <ThreadFooter threadId={post.id}/>
+                            ) : null}
+
                         </div>
                     </div>
                 </div>

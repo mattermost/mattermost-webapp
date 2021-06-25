@@ -6,6 +6,8 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 export function markAsUnreadFromPost(post, rhs = false) {
     const prefix = rhs ? 'rhsPost' : 'post';
 
+    cy.get(`#${prefix}_${post.id}`).scrollIntoView().should('be.visible');
+
     cy.get('body').type('{alt}', {release: false});
     cy.get(`#${prefix}_${post.id}`).click({force: true});
     cy.get('body').type('{alt}', {release: true});
@@ -17,7 +19,7 @@ export function markAsUnreadShouldBeAbsent(postId, prefix = 'post', location = '
     cy.get('.dropdown-menu').
         should('be.visible').
         within(() => {
-            cy.findByText('Mark as Unread').should('not.be.visible');
+            cy.findByText('Mark as Unread').should('not.exist');
         });
 }
 
@@ -45,6 +47,18 @@ export function verifyPostNextToNewMessageSeparator(message) {
         parent().
         parent().
         next().
+        should('contain', message);
+}
+
+export function verifyTopSpaceForNewMessage(message) {
+    cy.get('.post-row__padding.top').
+        should('be.visible').
+        should('contain', message);
+}
+
+export function verifyBottomSpaceForNewMessage(message) {
+    cy.get('.post-row__padding.bottom').
+        should('be.visible').
         should('contain', message);
 }
 

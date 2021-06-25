@@ -4,8 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect} from 'react-router';
-import {viewChannel} from 'mattermost-redux/actions/channels';
+
 import semver from 'semver';
+
+import {viewChannel} from 'mattermost-redux/actions/channels';
 
 import * as GlobalActions from 'actions/global_actions';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';

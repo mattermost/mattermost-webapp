@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getPost, makeIsPostCommentMention, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {markPostAsUnread} from 'actions/post_actions';
@@ -14,7 +14,7 @@ import {selectPost, selectPostCard} from 'actions/views/rhs';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
-import {areConsecutivePostsBySameUser, makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
+import {areConsecutivePostsBySameUser, makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';
 
@@ -35,7 +35,7 @@ export function isFirstReply(post, previousPost) {
 }
 
 function makeMapStateToProps() {
-    const getReplyCount = makeGetReplyCount();
+    const getReplyCount = makeGetCommentCountForPost();
     const isPostCommentMention = makeIsPostCommentMention();
     const createAriaLabelForPost = makeCreateAriaLabelForPost();
 
@@ -63,12 +63,13 @@ function makeMapStateToProps() {
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,
             previousPostIsComment,
-            replyCount: getReplyCount(state, post),
+            hasReplies: getReplyCount(state, post) > 0,
             isCommentMention: isPostCommentMention(state, post.id),
             center: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             channelIsArchived: isArchivedChannel(channel),
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
+            isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         };
     };
 }

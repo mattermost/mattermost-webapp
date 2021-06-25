@@ -3,7 +3,9 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
 import {createSelector} from 'reselect';
+
 import {searchProfilesInCurrentChannel, getProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 import {getMembersInCurrentChannel, getCurrentChannelStats, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMembersInCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -26,6 +28,7 @@ import {GlobalState} from 'types/store';
 import MemberListChannel, {Props} from './member_list_channel';
 
 const getUsersAndActionsToDisplay = createSelector(
+    'getUsersAndActionsToDisplay',
     (state: GlobalState, users: UserProfile[]) => users,
     getMembersInCurrentTeam,
     getMembersInCurrentChannel,

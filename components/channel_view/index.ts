@@ -3,14 +3,16 @@
 
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
+
 import {createSelector} from 'reselect';
+
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {withRouter} from 'react-router-dom';
 
 import {getProfiles} from 'mattermost-redux/actions/users';
 
@@ -37,6 +39,7 @@ type Actions = {
 
 // Temporary selector until getDirectTeammate is converted to be redux-friendly
 const getDeactivatedChannel = createSelector(
+    'getDeactivatedChannel',
     (state: GlobalState, channelId: string) => {
         return getDirectTeammate(state, channelId);
     },

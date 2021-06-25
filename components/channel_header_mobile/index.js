@@ -3,7 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {withRouter, matchPath} from 'react-router-dom';
+
 import {createSelector} from 'reselect';
+
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentChannel,
@@ -24,17 +27,19 @@ import {getIsRhsOpen} from 'selectors/rhs';
 import ChannelHeaderMobile from './channel_header_mobile';
 
 const isCurrentChannelMuted = createSelector(
+    'isCurrentChannelMuted',
     getMyCurrentChannelMembership,
     (membership) => isChannelMuted(membership),
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, {location: {pathname}}) => ({
     user: getCurrentUser(state),
     channel: getCurrentChannel(state),
     isMuted: isCurrentChannelMuted(state),
     isReadOnly: isCurrentChannelReadOnly(state),
     isRHSOpen: getIsRhsOpen(state),
     currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
+    inGlobalThreads: Boolean(matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'})),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -45,4 +50,4 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChannelHeaderMobile);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChannelHeaderMobile));

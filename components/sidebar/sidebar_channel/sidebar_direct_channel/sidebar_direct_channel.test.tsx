@@ -25,6 +25,7 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
             purpose: '',
             last_post_at: 0,
             total_msg_count: 0,
+            total_msg_count_root: 0,
             extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
@@ -37,6 +38,7 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         active: false,
         botIconUrl: null,
         isCollapsed: false,
+        isMobile: false,
         actions: {
             savePreferences: jest.fn(),
             leaveDirectChannel: jest.fn(),

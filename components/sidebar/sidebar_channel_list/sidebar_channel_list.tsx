@@ -8,12 +8,12 @@ import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from '
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 
+import debounce from 'lodash/debounce';
+
 import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
-
-import debounce from 'lodash/debounce';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
@@ -24,6 +24,8 @@ import * as ChannelUtils from 'utils/channel_utils.jsx';
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
+
+import GlobalThreadsLink from 'components/threading/global_threads_link';
 
 export function renderView(props: any) {
     return (
@@ -80,7 +82,6 @@ type Props = {
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
-        expandCategory: (categoryId: string) => void;
         clearChannelSelection: () => void;
         multiSelectChannelAdd: (channelId: string) => void;
     };
@@ -175,10 +176,6 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
-        if (!this.props.currentChannelId) {
-            return null;
-        }
-
         return channelIds.find((channelId) => {
             return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
         });
@@ -503,46 +500,49 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         return (
 
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
-            <div
-                id='lhsList'
-                role='application'
-                aria-label={ariaLabel}
-                className={classNames('SidebarNavContainer a11y__region', {
-                    disabled: this.props.isUnreadFilterEnabled,
-                })}
-                data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
-                data-a11y-sort-order='7'
-                onTransitionEnd={this.onTransitionEnd}
-            >
-                <UnreadChannelIndicator
-                    name='Top'
-                    show={this.state.showTopUnread}
-                    onClick={this.scrollToFirstUnreadChannel}
-                    extraClass='nav-pills__unread-indicator-top'
-                    content={above}
-                />
-                <UnreadChannelIndicator
-                    name='Bottom'
-                    show={this.state.showBottomUnread}
-                    onClick={this.scrollToLastUnreadChannel}
-                    extraClass='nav-pills__unread-indicator-bottom'
-                    content={below}
-                />
-                <Scrollbars
-                    ref={this.scrollbar}
-                    autoHide={true}
-                    autoHideTimeout={500}
-                    autoHideDuration={500}
-                    renderThumbHorizontal={renderThumbHorizontal}
-                    renderThumbVertical={renderThumbVertical}
-                    renderTrackVertical={renderTrackVertical}
-                    renderView={renderView}
-                    onScroll={this.onScroll}
-                    style={{position: 'absolute'}}
+            <>
+                <GlobalThreadsLink/>
+                <div
+                    id='sidebar-left'
+                    role='application'
+                    aria-label={ariaLabel}
+                    className={classNames('SidebarNavContainer a11y__region', {
+                        disabled: this.props.isUnreadFilterEnabled,
+                    })}
+                    data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
+                    data-a11y-sort-order='7'
+                    onTransitionEnd={this.onTransitionEnd}
                 >
-                    {channelList}
-                </Scrollbars>
-            </div>
+                    <UnreadChannelIndicator
+                        name='Top'
+                        show={this.state.showTopUnread}
+                        onClick={this.scrollToFirstUnreadChannel}
+                        extraClass='nav-pills__unread-indicator-top'
+                        content={above}
+                    />
+                    <UnreadChannelIndicator
+                        name='Bottom'
+                        show={this.state.showBottomUnread}
+                        onClick={this.scrollToLastUnreadChannel}
+                        extraClass='nav-pills__unread-indicator-bottom'
+                        content={below}
+                    />
+                    <Scrollbars
+                        ref={this.scrollbar}
+                        autoHide={true}
+                        autoHideTimeout={500}
+                        autoHideDuration={500}
+                        renderThumbHorizontal={renderThumbHorizontal}
+                        renderThumbVertical={renderThumbVertical}
+                        renderTrackVertical={renderTrackVertical}
+                        renderView={renderView}
+                        onScroll={this.onScroll}
+                        style={{position: 'absolute'}}
+                    >
+                        {channelList}
+                    </Scrollbars>
+                </div>
+            </>
         );
     }
 }

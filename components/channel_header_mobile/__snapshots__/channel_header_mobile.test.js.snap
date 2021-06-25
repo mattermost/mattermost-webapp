@@ -18,6 +18,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -29,7 +32,7 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
         }
       />
       <Connect(ShowSearchButton) />
-      <Connect(MobileChannelHeaderPlug)
+      <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
             "display_name": "display_name",
@@ -64,6 +67,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -76,7 +82,7 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
         }
       />
       <Connect(ShowSearchButton) />
-      <Connect(MobileChannelHeaderPlug)
+      <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
             "display_name": "Town Square",
@@ -112,6 +118,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -123,7 +132,7 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
         }
       />
       <Connect(ShowSearchButton) />
-      <Connect(MobileChannelHeaderPlug)
+      <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
             "display_name": "display_name",
@@ -158,6 +167,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -169,7 +181,7 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
         }
       />
       <Connect(ShowSearchButton) />
-      <Connect(MobileChannelHeaderPlug)
+      <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
             "display_name": "display_name",
@@ -204,6 +216,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -216,7 +231,7 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
         }
       />
       <Connect(ShowSearchButton) />
-      <Connect(MobileChannelHeaderPlug)
+      <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
             "display_name": "display_name",
@@ -252,6 +267,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -263,7 +281,7 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
         }
       />
       <Connect(ShowSearchButton) />
-      <Connect(MobileChannelHeaderPlug)
+      <Connect(injectIntl(MobileChannelHeaderPlug))
         channel={
           Object {
             "display_name": "display_name",

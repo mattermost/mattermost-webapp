@@ -5,7 +5,7 @@ import React from 'react';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import {FileInfo} from 'mattermost-redux/src/types/files';
+import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {FileTypes} from 'utils/constants';
@@ -33,6 +33,7 @@ export type Props = {
     isEmbedVisible?: boolean;
     locale: string;
 
+    handleFileDropdownOpened: (open: boolean) => void;
 }
 
 type State = {
@@ -95,6 +96,7 @@ export default class FileAttachmentList extends React.PureComponent<Props, State
                         index={i}
                         handleImageClick={this.handleImageClick}
                         compactDisplay={compactDisplay}
+                        handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                     />,
                 );
             }

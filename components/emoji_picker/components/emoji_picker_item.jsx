@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl} from 'react-intl';
 import debounce from 'lodash/debounce';
+
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import imgTrans from 'images/img_trans.gif';
@@ -37,13 +38,14 @@ class EmojiPickerItem extends React.Component {
     };
 
     emojiName = () => {
+        const name = 'short_name' in this.props.emoji ? this.props.emoji.short_name : this.props.emoji.name;
         const {formatMessage} = this.props.intl;
         return formatMessage({
             id: 'emoji_picker_item.emoji_aria_label',
             defaultMessage: '{emojiName} emoji',
         },
         {
-            emojiName: this.props.emoji.aliases[0].replace(/_/g, ' '),
+            emojiName: name.replace(/_/g, ' '),
         });
     }
 
@@ -81,20 +83,20 @@ class EmojiPickerItem extends React.Component {
         }
 
         let spriteClassName = 'emojisprite';
-        spriteClassName += ' emoji-category-' + emoji.category + '-' + emoji.batch;
-        spriteClassName += ' emoji-' + emoji.filename;
+        spriteClassName += ' emoji-category-' + emoji.category;
+        spriteClassName += ' emoji-' + emoji.image;
 
         let image;
-        if (emoji.category && emoji.batch) {
+        if (emoji.category && emoji.category !== 'custom') {
             image = (
                 <img
                     alt={'emoji image'}
-                    data-testid={emoji.aliases}
+                    data-testid={emoji.short_names}
                     onMouseOver={this.handleMouseOverThrottle}
                     src={imgTrans}
                     className={spriteClassName}
                     onClick={this.handleClick}
-                    id={'emoji-' + emoji.filename}
+                    id={'emoji-' + emoji.image}
                     aria-label={this.emojiName()}
                     role='button'
                 />

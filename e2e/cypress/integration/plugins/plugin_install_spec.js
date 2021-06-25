@@ -2,34 +2,32 @@
 // See LICENSE.txt for license information.
 // <reference path="../support/index.d.ts" />
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @system_console @plugin
-
 /**
- * Note : This test requires the demo plugin tar file under fixtures folder.
- * Download from : https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.9.0/com.mattermost.demo-plugin-0.9.0.tar.gz
- * Copy to : ./e2e/cypress/fixtures/com.mattermost.demo-plugin-0.9.0.tar.gz
+ * Note: This spec requires "demoPlugin" file at fixtures folder.
+ * See details at "e2e/cypress/utils/plugins.js", download the file
+ * from the given "@url" and save as indicated in the "@filename"
+ * under fixtures folder.
  */
 
+// Stage: @prod
+// Group: @system_console @plugin @not_cloud
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
+import {demoPlugin} from '../../utils/plugins';
+
+import {waitForAlertMessage} from './helpers';
+
 describe('Plugins Management', () => {
-    const pluginID = 'com.mattermost.demo-plugin';
-    const pluginFile = 'com.mattermost.demo-plugin-0.9.0.tar.gz';
-
     before(() => {
-        cy.apiInitSetup();
-
-        cy.apiRemovePluginById(pluginID);
-    });
-
-    after(() => {
-        cy.apiRemovePluginById(pluginID);
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+        cy.apiUninstallAllPlugins();
     });
 
     it('MM-T2400 Plugins Management', () => {
@@ -37,49 +35,60 @@ describe('Plugins Management', () => {
         cy.visit('/admin_console/plugins/plugin_management');
 
         const mimeType = 'application/gzip';
-        cy.fixture(pluginFile, 'binary').
+        cy.fixture(demoPlugin.filename, 'binary').
             then(Cypress.Blob.binaryStringToBlob).
             then((fileContent) => {
-                cy.get('input[type=file]').attachFile({fileContent, fileName: pluginFile, mimeType});
+                cy.get('input[type=file]').attachFile({fileContent, fileName: demoPlugin.filename, mimeType});
             });
 
         // # Upload plugin
         cy.get('#uploadPlugin').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify initial disabled state after upload
-        cy.findByTestId(pluginID, {timeout: TIMEOUTS.FIVE_MIN}).scrollIntoView().should('be.visible').within(() => {
+        cy.findByTestId(demoPlugin.id, {timeout: TIMEOUTS.FIVE_MIN}).scrollIntoView().should('be.visible').within(() => {
             cy.findByText('Enable').should('be.visible');
             cy.findByText('Remove').should('be.visible');
-            cy.findByText('This plugin is not enabled.').should('be.visible');
         });
+
+        verifyStatus(demoPlugin.id, 'This plugin is not enabled.');
 
         // * Reload browser to make plugin's Settings appear
         cy.reload();
 
-        cy.findByTestId(pluginID, {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').within(() => {
+        cy.findByTestId(demoPlugin.id, {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').within(() => {
             // * Verify disabled state
             cy.findByText('Enable').should('be.visible');
             cy.findByText('Remove').should('be.visible');
             cy.findByText('Settings').should('be.visible');
-            cy.findByText('This plugin is not enabled.').should('be.visible');
+        });
 
+        verifyStatus(demoPlugin.id, 'This plugin is not enabled.');
+
+        cy.findByTestId(demoPlugin.id).scrollIntoView().should('be.visible').within(() => {
             // # Enable plugin
             cy.findByText('Enable').should('be.visible').click();
 
             // * Verify enabling state
-            cy.findByText('Enabling...', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.findByText('Enabling...').should('be.visible');
             cy.findByText('This plugin is starting.').should('be.visible');
+        });
 
-            // * Verify enabled state
-            cy.findByText('This plugin is running.', {timeout: TIMEOUTS.FIVE_MIN}).should('be.visible');
+        // * Verify enabled state
+        verifyStatus(demoPlugin.id, 'This plugin is running.');
 
+        cy.findByTestId(demoPlugin.id).scrollIntoView().should('be.visible').within(() => {
             // # Disable plugin
             cy.findByText('Disable').should('be.visible').click();
-
-            // * Verify final disabled state
-            cy.findByText('This plugin is stopping.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-            cy.findByText('This plugin is not enabled.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-            cy.findByText('Enable').should('be.visible');
+            cy.findByText('This plugin is stopping.').should('be.visible');
         });
+
+        // * Verify final disabled state
+        verifyStatus(demoPlugin.id, 'This plugin is not enabled.');
+        cy.findByText('Enable').should('be.visible');
     });
 });
+
+function verifyStatus(pluginId, message) {
+    waitForAlertMessage(pluginId, message);
+    cy.findByText(message).should('be.visible');
+}

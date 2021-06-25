@@ -3,6 +3,8 @@
 
 import {shallow} from 'enzyme';
 
+import React from 'react';
+
 import {
     Post,
     PostEmbed,
@@ -11,8 +13,6 @@ import {
 } from 'mattermost-redux/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
-
-import React from 'react';
 
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
@@ -44,6 +44,7 @@ describe('PostBodyAdditionalContent', () => {
         actions: {
             toggleEmbedVisibility: jest.fn(),
         },
+        appsEnabled: false,
     };
 
     describe('with an image preview', () => {

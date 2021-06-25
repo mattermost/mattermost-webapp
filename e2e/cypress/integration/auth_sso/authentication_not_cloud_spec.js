@@ -22,6 +22,19 @@ describe('Authentication', () => {
         cy.apiAdminLogin();
     });
 
+    it('MM-T1762 - Invite Salt', () => {
+        cy.visit('/admin_console/site_config/public_links');
+
+        // * Check that public link salt is masked
+        cy.findByText('********************************').should('be.visible');
+
+        // # Click "Regenerate"
+        cy.findByText('Regenerate', {timeout: TIMEOUTS.ONE_MIN}).click();
+
+        // * Check that new public link is generated and unmasked
+        cy.findByText('********************************').should('not.exist');
+    });
+
     it('MM-T1775 - Maximum Login Attempts field resets to default after saving invalid value', () => {
         cy.visit('/admin_console/authentication/password');
 
@@ -43,7 +56,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('2');
 
-        cy.findByRole('button', {name: 'Save'}).click();
+        cy.uiSaveConfig();
 
         // * Ensure error appears when saving a password outside of the limits
         cy.findByPlaceholderText('E.g.: "10"').invoke('val').should('equal', '2');

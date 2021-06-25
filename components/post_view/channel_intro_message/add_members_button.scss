@@ -1,0 +1,71 @@
+.LessThanMaxFreeUsers, .MoreThanMaxFreeUsers{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+
+    .titleAndButton {
+        display: flex;
+        flex-direction: column;
+        margin-left: 20px;
+        padding: 20px 5px;
+
+        > span {
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            margin-bottom: 15px;
+        }
+    }
+
+    button {
+        background-color: var(--button-bg);
+        padding: 8px 16px;
+        border-radius: 4px;
+        width: fit-content;
+        font-weight: 600;
+        font-size: 12px;
+        color: var(--button-color);
+        border: none;
+        line-height: 16px;
+    
+        span {
+            color: var(--button-color);
+        }
+    
+        i {
+            color: var(--button-color);
+            font-size: 14px;
+        }
+    
+        &:hover:not(.disabled) {
+            background: linear-gradient(0deg, rgba(var(--center-channel-color-rgb), 0.16), rgba(var(--center-channel-color-rgb), 0.16)), var(--button-bg);
+            text-decoration: none;
+            color: var(--button-color);
+        }
+    }
+}
+
+.MoreThanMaxFreeUsersWrapper {
+    display: flex;
+    flex-direction: row;
+
+    .setHeaderButton {
+        margin-top: 10px;
+    }
+}
+
+.setHeaderButton {
+    font-size: 12px;
+    border-radius: 4px;
+    line-height: 16px;
+    font-weight: 600;
+    color: var(--button-bg);
+
+    i {
+        font-size: 14px;
+    }
+
+    &:hover {
+        background-color: rgba(var(--button-bg-rgb), 0.04);
+    }
+}

@@ -17,6 +17,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       pluggableName="LeftSidebarHeader"
     />
   </div>
+  <GlobalThreadsLink />
   <div
     aria-label="channel sidebar region"
     className="sidebar--left__list a11y__region"
@@ -277,6 +278,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       pluggableName="LeftSidebarHeader"
     />
   </div>
+  <GlobalThreadsLink />
   <div
     aria-label="channel sidebar region"
     className="sidebar--left__list a11y__region"
@@ -537,6 +539,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       pluggableName="LeftSidebarHeader"
     />
   </div>
+  <GlobalThreadsLink />
   <div
     aria-label="channel sidebar region"
     className="sidebar--left__list a11y__region"
@@ -797,6 +800,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       pluggableName="LeftSidebarHeader"
     />
   </div>
+  <GlobalThreadsLink />
   <div
     aria-label="channel sidebar region"
     className="sidebar--left__list a11y__region"
@@ -1065,6 +1069,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
       pluggableName="LeftSidebarHeader"
     />
   </div>
+  <GlobalThreadsLink />
   <div
     aria-label="channel sidebar region"
     className="sidebar--left__list a11y__region"
@@ -1325,6 +1330,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
       pluggableName="LeftSidebarHeader"
     />
   </div>
+  <GlobalThreadsLink />
   <div
     aria-label="channel sidebar region"
     className="sidebar--left__list a11y__region"

@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getSupportedTimezones as getTimezones} from 'mattermost-redux/selectors/entities/general';
 import moment from 'moment-timezone';
+
+import {getSupportedTimezones as getTimezones} from 'mattermost-redux/selectors/entities/general';
 
 import store from 'stores/redux_store.jsx';
 
@@ -25,4 +26,8 @@ export function getUtcOffsetForTimeZone(timezone) {
 export function getCurrentDateForTimezone(timezone) {
     const tztime = moment().tz(timezone);
     return new Date(tztime.year(), tztime.month(), tztime.date());
+}
+
+export function getCurrentMomentForTimezone(timezone) {
+    return timezone ? moment.tz(timezone) : moment();
 }

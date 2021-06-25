@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
 
 import {
@@ -275,6 +276,30 @@ export default class PluginRegistry {
             data: {
                 id,
                 pluginId: this.id,
+                text: resolveReactElement(text),
+                action,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a files dropdown list item by providing some text and an action function.
+    // Accepts the following:
+    // - match - A function  that receives the fileInfo and returns a boolean indicating if the plugin is able to process it.
+    // - text - A string or React element to display in the menu
+    // - action - A function that receives the fileInfo and is called when the menu items is clicked.
+    // Returns a unique identifier.
+    registerFileDropdownMenuAction(match, text, action) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'FilesDropdown',
+            data: {
+                id,
+                pluginId: this.id,
+                match,
                 text: resolveReactElement(text),
                 action,
             },

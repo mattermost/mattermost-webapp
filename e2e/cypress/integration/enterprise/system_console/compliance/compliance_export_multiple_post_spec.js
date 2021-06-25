@@ -7,13 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console
+// Stage: @prod
+// Group: @enterprise @system_console @compliance_export
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
-
-import {verifyExportedMessagesCount, gotoTeamAndPostMessage, editLastPost} from './helpers';
+import {verifyExportedMessagesCount, editLastPost} from './helpers';
 
 describe('Compliance Export', () => {
+    let teamName;
+
     before(() => {
         cy.apiRequireLicenseForFeature('Compliance');
 
@@ -23,19 +24,27 @@ describe('Compliance Export', () => {
                 DownloadExportResults: true,
             },
         });
+
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            cy.apiLogin(sysadmin);
+            cy.apiInitSetup().then(({team}) => {
+                teamName = team.name;
+            });
+
+            // # Go to compliance page, enable export and do initial export
+            cy.uiGoToCompliancePage();
+            cy.uiEnableComplianceExport();
+            cy.uiExportCompliance();
+        });
     });
 
     it('MM-T1177_1 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
+        // # Visit town-square channel
+        cy.visit(`/${teamName}/channels/town-square`);
 
-        // # Navigate to a team and post a message
-        gotoTeamAndPostMessage();
-
-        // Post a message
-        cy.postMessage('this testing');
+        // # Post messages
+        cy.postMessage('Testing one');
+        cy.postMessage('Testing two');
 
         // # Edit last post
         editLastPost('This is Edit Post');
@@ -49,13 +58,11 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1177_2 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
+        // # Visit town-square channel
+        cy.visit(`/${teamName}/channels/town-square`);
 
-        // # Navigate to a team and post a Message
-        gotoTeamAndPostMessage();
+        // # Post a Message
+        cy.postMessage('Testing');
 
         // # Edit last post
         editLastPost('This is Edit One');
@@ -72,20 +79,16 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1177_3 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
-
         // # Navigate to a team and post a message
-        gotoTeamAndPostMessage();
+        cy.visit(`/${teamName}/channels/town-square`);
+        cy.postMessage('Testing');
 
         // # Go to compliance page and export
         cy.uiGoToCompliancePage();
         cy.uiExportCompliance();
 
         // # Editing previously exported post
-        goToUserTeam();
+        cy.visit(`/${teamName}/channels/town-square`);
         editLastPost('This is Edit Three');
 
         // # Go to compliance page and export
@@ -97,20 +100,16 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1177_4 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
-
         // # Navigate to a team and post a Message
-        gotoTeamAndPostMessage();
+        cy.visit(`/${teamName}/channels/town-square`);
+        cy.postMessage('Testing');
 
         // # Go to compliance page and export
         cy.uiGoToCompliancePage();
         cy.uiExportCompliance();
 
         // # Editing previously exported post
-        goToUserTeam();
+        cy.visit(`/${teamName}/channels/town-square`);
         editLastPost('This is Edit Three');
 
         // # Post new message
@@ -125,13 +124,11 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1177_5 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
+        // # Visit town-square channel
+        cy.visit(`/${teamName}/channels/town-square`);
 
         // # Navigate to a team and post a message
-        gotoTeamAndPostMessage();
+        cy.postMessage('Testing');
 
         // # Editing previously exported post
         editLastPost('This is Edit Four');
@@ -145,11 +142,3 @@ describe('Compliance Export', () => {
         verifyExportedMessagesCount('3');
     });
 });
-
-function goToUserTeam() {
-    cy.apiGetTeamsForUser().then(({teams}) => {
-        const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    });
-}

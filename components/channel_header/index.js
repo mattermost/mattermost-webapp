@@ -4,6 +4,7 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+
 import {
     favoriteChannel,
     unfavoriteChannel,
@@ -34,11 +35,11 @@ import {openModal, closeModal} from 'actions/views/modals';
 import {
     showFlaggedPosts,
     showPinnedPosts,
+    showChannelFiles,
     showMentions,
-    openRHSSearch,
     closeRightHandSide,
 } from 'actions/views/rhs';
-import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
@@ -91,6 +92,7 @@ function makeMapStateToProps() {
             announcementBarCount: getAnnouncementBarCount(state),
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
+            isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
         };
     };
 }
@@ -101,8 +103,8 @@ const mapDispatchToProps = (dispatch) => ({
         unfavoriteChannel,
         showFlaggedPosts,
         showPinnedPosts,
+        showChannelFiles,
         showMentions,
-        openRHSSearch,
         closeRightHandSide,
         getCustomEmojisInText,
         updateChannelNotifyProps,

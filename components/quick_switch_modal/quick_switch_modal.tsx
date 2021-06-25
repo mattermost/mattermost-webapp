@@ -5,6 +5,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
@@ -334,6 +335,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}
                             forceSuggestionsWhenBlur={true}
+                            renderDividers={true}
                         />
                         {!this.state.shouldShowLoadingSpinner && !this.state.hasSuggestions && this.state.text &&
                         <NoResultsIndicator

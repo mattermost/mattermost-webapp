@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/src/types/users';
-import {Channel} from 'mattermost-redux/src/types/channels';
-import {ChannelNotifyProps} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelNotifyProps} from 'mattermost-redux/types/channels';
+
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {NotificationLevels} from 'utils/constants';

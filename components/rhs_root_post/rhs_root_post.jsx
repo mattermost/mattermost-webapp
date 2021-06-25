@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -68,6 +69,9 @@ class RhsRootPost extends React.PureComponent {
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
         emojiMap: PropTypes.object.isRequired,
+        timestampProps: PropTypes.object,
+        isBot: PropTypes.bool,
+        collapsedThreadsEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -82,6 +86,7 @@ class RhsRootPost extends React.PureComponent {
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
+            fileDropdownOpened: false,
             currentAriaLabel: '',
         };
 
@@ -157,6 +162,7 @@ class RhsRootPost extends React.PureComponent {
                 eventTime={post.create_at}
                 postId={post.id}
                 location={Locations.RHS_ROOT}
+                timestampProps={this.props.timestampProps}
             />
         );
     };
@@ -183,7 +189,7 @@ class RhsRootPost extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -206,13 +212,19 @@ class RhsRootPost extends React.PureComponent {
         });
     };
 
+    handleFileDropdownOpened = (isOpened) => {
+        this.setState({
+            fileDropdownOpened: isOpened,
+        });
+    };
+
     handlePostClick = (e) => {
         if (this.props.channelIsArchived) {
             return;
         }
 
         if (e.altKey) {
-            this.props.actions.markPostAsUnread(this.props.post);
+            this.props.actions.markPostAsUnread(this.props.post, 'RHS_ROOT');
         }
     }
 
@@ -226,7 +238,7 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -254,6 +266,7 @@ class RhsRootPost extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.handleFileDropdownOpened}
                 />
             );
         }
@@ -346,9 +359,10 @@ class RhsRootPost extends React.PureComponent {
                     ref={this.dotMenuRef}
                     className='col post-menu'
                 >
-                    {dotMenu}
+                    {!collapsedThreadsEnabled && dotMenu}
                     {postReaction}
                     {postFlagIcon}
+                    {collapsedThreadsEnabled && dotMenu}
                 </div>
             );
         }
@@ -385,15 +399,14 @@ class RhsRootPost extends React.PureComponent {
         }
 
         let customStatus;
-        if (!isSystemMessage) {
+        if (!(isSystemMessage || post?.props?.from_webhook || isBot)) {
             customStatus = (
                 <CustomStatusEmoji
                     userID={post.user_id}
                     showTooltip={true}
-                    emojiSize={14}
                     emojiStyle={{
                         marginLeft: 4,
-                        marginTop: 1,
+                        marginTop: 2,
                     }}
                 />
             );
@@ -426,6 +439,7 @@ class RhsRootPost extends React.PureComponent {
                             isRHS={true}
                             post={post}
                             userId={post.user_id}
+                            channelId={post.channel_id}
                         />
                     </div>
                     <div>
@@ -468,4 +482,3 @@ class RhsRootPost extends React.PureComponent {
 }
 
 export default injectIntl(RhsRootPost);
-

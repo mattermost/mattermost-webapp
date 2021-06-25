@@ -42,6 +42,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "team_id": "id_123",
             "team_name": "team",
             "total_msg_count": 0,
+            "total_msg_count_root": 0,
             "type": "O",
             "update_at": 0,
           }
@@ -88,6 +89,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModeration
+        channelPermissions={Array []}
         guestAccountsEnabled={true}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
@@ -135,6 +137,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "team_id": "id_123",
             "team_name": "team",
             "total_msg_count": 0,
+            "total_msg_count_root": 0,
             "type": "O",
             "update_at": 0,
           }
@@ -230,6 +233,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "team_id": "id_123",
             "team_name": "team",
             "total_msg_count": 0,
+            "total_msg_count_root": 0,
             "type": "O",
             "update_at": 0,
           }
@@ -272,6 +276,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModeration
+        channelPermissions={Array []}
         guestAccountsEnabled={true}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
@@ -319,6 +324,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
             "team_id": "id_123",
             "team_name": "team",
             "total_msg_count": 0,
+            "total_msg_count_root": 0,
             "type": "O",
             "update_at": 0,
           }

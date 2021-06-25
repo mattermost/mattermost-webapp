@@ -2,10 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Tooltip} from 'react-bootstrap';
+import classNames from 'classnames';
+
+import * as GlobalActions from 'actions/global_actions';
+
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from 'mattermost-redux/types/files';
+import {FileDropdownPluginComponent} from 'types/store/plugins';
 
-import {FileTypes} from 'utils/constants';
+import OverlayTrigger from 'components/overlay_trigger';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
+
+import {Constants, FileTypes} from 'utils/constants';
 import {trimFilename} from 'utils/file_utils';
 import {
     fileSizeToString,
@@ -40,15 +50,21 @@ interface Props {
     compactDisplay?: boolean;
     canDownloadFiles?: boolean;
     enableSVGs: boolean;
+    enablePublicLink: boolean;
+    pluginMenuItems: FileDropdownPluginComponent[];
+    handleFileDropdownOpened?: (open: boolean) => void;
 }
 
 interface State {
     loaded: boolean;
+    keepOpen: boolean;
+    openUp: boolean;
     fileInfo: FileInfo;
 }
 
 export default class FileAttachment extends React.PureComponent<Props, State> {
     mounted = false;
+    private readonly buttonRef: React.RefObject<HTMLButtonElement>;
 
     constructor(props: Props) {
         super(props);
@@ -56,7 +72,10 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         this.state = {
             loaded: getFileType(props.fileInfo.extension) !== FileTypes.IMAGE,
             fileInfo: props.fileInfo,
+            keepOpen: false,
+            openUp: false,
         };
+        this.buttonRef = React.createRef<HTMLButtonElement>();
     }
 
     componentDidMount() {
@@ -120,6 +139,124 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         }
     }
 
+    refCallback = (menuRef: Menu) => {
+        if (menuRef) {
+            const anchorRect = this.buttonRef.current?.getBoundingClientRect();
+            let y;
+            if (typeof anchorRect?.y === 'undefined') {
+                y = typeof anchorRect?.top === 'undefined' ? 0 : anchorRect?.top;
+            } else {
+                y = anchorRect?.y;
+            }
+            const windowHeight = window.innerHeight;
+
+            const totalSpace = windowHeight - 80;
+            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
+
+            this.setState({
+                openUp: (spaceOnTop > spaceOnBottom),
+            });
+        }
+    }
+
+    private handleDropdownOpened = (open: boolean) => {
+        this.props.handleFileDropdownOpened?.(open);
+        this.setState({keepOpen: open});
+    }
+
+    handleGetPublicLink = () => {
+        GlobalActions.showGetPublicLinkModal(this.props.fileInfo.id);
+    }
+
+    private renderFileMenuItems = () => {
+        const {enablePublicLink, fileInfo, pluginMenuItems} = this.props;
+
+        let divider;
+        const defaultItems = [];
+        if (enablePublicLink) {
+            defaultItems.push(
+                <Menu.ItemAction
+                    data-title='Public Image'
+                    onClick={this.handleGetPublicLink}
+                    ariaLabel={localizeMessage('view_image_popover.publicLink', 'Get a public link')}
+                    text={localizeMessage('view_image_popover.publicLink', 'Get a public link')}
+                />,
+            );
+        }
+
+        const pluginItems = pluginMenuItems?.filter((item) => item?.match(fileInfo)).map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={() => item?.action(fileInfo)}
+                    text={item.text}
+                />
+            );
+        });
+
+        const isMenuVisible = defaultItems?.length || pluginItems?.length;
+        if (!isMenuVisible) {
+            return null;
+        }
+
+        const isDividerVisible = defaultItems?.length && pluginItems?.length;
+        if (isDividerVisible) {
+            divider = (
+                <li
+                    id={`divider_file_${fileInfo.id}_plugins`}
+                    className='MenuItem__divider'
+                    role='menuitem'
+                />
+            );
+        }
+
+        const tooltip = (
+            <Tooltip id='file-name__tooltip'>
+                {localizeMessage('file_search_result_item.more_actions', 'More Actions')}
+            </Tooltip>
+        );
+
+        return (
+            <MenuWrapper
+                onToggle={this.handleDropdownOpened}
+                stopPropagationOnToggle={true}
+            >
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={1000}
+                    placement='top'
+                    overlay={tooltip}
+                >
+                    <button
+                        ref={this.buttonRef}
+                        id={`file_action_button_${this.props.fileInfo.id}`}
+                        aria-label={localizeMessage('file_search_result_item.more_actions', 'More Actions').toLowerCase()}
+                        className={classNames(
+                            'file-dropdown-icon', 'dots-icon',
+                            {'a11y--active': this.state.keepOpen},
+                        )}
+                        aria-expanded={this.state.keepOpen}
+                    >
+                        <i className='icon icon-dots-vertical'/>
+                    </button>
+                </OverlayTrigger>
+                <Menu
+                    id={`file_dropdown_${this.props.fileInfo.id}`}
+                    ariaLabel={'file menu'}
+                    openLeft={true}
+                    openUp={this.state.openUp}
+                    ref={this.refCallback}
+                >
+                    {defaultItems}
+                    {divider}
+                    {pluginItems}
+                </Menu>
+            </MenuWrapper>
+        );
+    }
+
     render() {
         const {
             compactDisplay,
@@ -129,6 +266,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         const trimmedFilename = trimFilename(fileInfo.name);
         let fileThumbnail;
         let fileDetail;
+        let fileActions;
         const ariaLabelImage = `${localizeMessage('file_attachment.thumbnail', 'file thumbnail')} ${fileInfo.name}`.toLowerCase();
 
         if (!compactDisplay) {
@@ -161,6 +299,8 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                     </div>
                 </div>
             );
+
+            fileActions = this.renderFileMenuItems();
         }
 
         let filenameOverlay;
@@ -179,10 +319,18 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         }
 
         return (
-            <div className='post-image__column'>
+            <div
+                className={
+                    classNames([
+                        'post-image__column',
+                        {'keep-open': this.state.keepOpen},
+                    ])
+                }
+            >
                 {fileThumbnail}
                 <div className='post-image__details'>
                     {fileDetail}
+                    {fileActions}
                     {filenameOverlay}
                 </div>
             </div>

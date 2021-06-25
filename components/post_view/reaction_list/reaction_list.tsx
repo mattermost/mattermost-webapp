@@ -5,6 +5,7 @@
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
@@ -74,7 +75,7 @@ export default class ReactionList extends React.PureComponent<Props, State> {
 
     handleEmojiClick = (emoji: Emoji): void => {
         this.setState({showEmojiPicker: false});
-        const emojiName = isCustomEmoji(emoji) ? emoji.name : emoji.aliases[0];
+        const emojiName = isCustomEmoji(emoji) ? emoji.name : emoji.short_names[0];
         this.props.actions.addReaction(this.props.post.id, emojiName);
     }
 

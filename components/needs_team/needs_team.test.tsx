@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
+
 import {TeamType} from 'mattermost-redux/types/teams';
 
 import {TestHelper} from 'utils/test_helper';
@@ -81,6 +82,7 @@ describe('components/needs_team', () => {
 
     const actions = {
         fetchMyChannelsAndMembers: jest.fn().mockResolvedValue({data: true}),
+        fetchThreadMentionCountsByChannel: jest.fn().mockResolvedValue({data: true}),
         getMyTeamUnreads: jest.fn(),
         viewChannel: jest.fn(),
         markChannelAsReadOnFocus: jest.fn(),
@@ -108,6 +110,7 @@ describe('components/needs_team', () => {
         history,
         useLegacyLHS: true,
         previousTeamId: '',
+        selectedThreadId: null,
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});
@@ -121,7 +124,7 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, fetchMyChannelsAndMembers};
         const props = {...baseProps, actions: newActions, match: existingTeamMatch};
 
-        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
+        const wrapper = shallow<NeedsTeam>(
             <NeedsTeam {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -136,7 +139,7 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, addUserToTeam};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
+        const wrapper = shallow<NeedsTeam>(
             <NeedsTeam {...props}/>,
         );
         expect(wrapper.state().team).toEqual(null);
@@ -149,7 +152,7 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, addUserToTeam};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
+        const wrapper = shallow<NeedsTeam>(
             <NeedsTeam {...props}/>,
         );
 
@@ -164,7 +167,7 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, addUserToTeam, getTeamByName};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
+        const wrapper = shallow<NeedsTeam>(
             <NeedsTeam {...props}/>,
         );
 
@@ -183,17 +186,17 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, getMyTeamUnreads, addUserToTeam, selectTeam, setPreviousTeamId};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
+        const wrapper = shallow<NeedsTeam>(
             <NeedsTeam {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);
         await wrapper.instance().joinTeam(props);
 
-        expect(wrapper.state().team.name).toEqual('new');
+        expect(wrapper.state().team!.name).toEqual('new');
         expect(selectTeam).toBeCalledWith(wrapper.state().team);
         expect(getMyTeamUnreads).toHaveBeenCalledTimes(2); // called twice, first on initial mount and then on instance().joinTeam()
-        expect(setPreviousTeamId).toBeCalledWith(wrapper.state().team.id);
+        expect(setPreviousTeamId).toBeCalledWith(wrapper.state().team!.id);
 
         const existingTeamMatch = {
             params: {

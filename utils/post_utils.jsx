@@ -4,13 +4,16 @@
 import {createSelector} from 'reselect';
 
 import {Client4} from 'mattermost-redux/client';
+import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetDisplayName, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
-import {canEditPost as canEditPostRedux, isPostEphemeral} from 'mattermost-redux/utils/post_utils';
+import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
+import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
 import {allAtMentions} from 'utils/text_formatting';
 
@@ -338,6 +341,7 @@ export function makeCreateAriaLabelForPost() {
     const getDisplayName = makeGetDisplayName();
 
     return createSelector(
+        'makeCreateAriaLabelForPost',
         (state, post) => post,
         (state, post) => getDisplayName(state, post.user_id),
         (state, post) => getReactionsForPost(state, post.id),
@@ -481,21 +485,6 @@ export function getNewMessageIndex(postListIds) {
     );
 }
 
-export function makeGetReplyCount() {
-    return createSelector(
-        (state) => state.entities.posts.posts,
-        (state, post) => state.entities.posts.postsInThread[post.root_id || post.id],
-        (allPosts, postIds) => {
-            if (!postIds) {
-                return 0;
-            }
-
-            // Count the number of non-ephemeral posts in the thread
-            return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
-        },
-    );
-}
-
 export function areConsecutivePostsBySameUser(post, previousPost) {
     if (!(post && previousPost)) {
         return false;
@@ -504,4 +493,31 @@ export function areConsecutivePostsBySameUser(post, previousPost) {
         post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT && // And was within a short time period
         !(post.props && post.props.from_webhook) && !(previousPost.props && previousPost.props.from_webhook) && // And neither is from a webhook
         !isSystemMessage(post) && !isSystemMessage(previousPost); // And neither is a system message
+}
+
+// Constructs the URL of a post.
+// Was made to be used with permalinks.
+//
+// If the post is a reply and CRT is enabled
+// the URL constructed is the URL of the channel instead.
+//
+// Note: In the case of DM_CHANNEL, users must be fetched beforehand.
+export function getPostURL(state, post) {
+    const channel = getChannel(state, post.channel_id);
+    const currentUserId = getCurrentUserId(state, post.channel_id);
+    const team = getTeam(state, channel.team_id || getCurrentTeamId(state));
+
+    const postURI = isCollapsedThreadsEnabled(state) && isComment(post) ? '' : `/${post.id}`;
+
+    switch (channel.type) {
+    case Constants.DM_CHANNEL: {
+        const userId = getUserIdFromChannelName(currentUserId, channel.name);
+        const user = getUser(state, userId);
+        return `/${team.name}/messages/@${user.username}${postURI}`;
+    }
+    case Constants.GM_CHANNEL:
+        return `/${team.name}/messages/${channel.name}${postURI}`;
+    default:
+        return `/${team.name}/channels/${channel.name}${postURI}`;
+    }
 }

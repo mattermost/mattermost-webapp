@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
@@ -55,8 +56,6 @@ const ctrlSendProp = false;
 
 const currentUsersLatestPostProp = {id: 'b', root_id: 'a', channel_id: currentChannelProp.id};
 
-const commentCountForPostProp = 10;
-
 const actionsProp = {
     addMessageIntoHistory: jest.fn(),
     moveHistoryIndexBack: jest.fn(),
@@ -99,7 +98,6 @@ function createPost({
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
-    commentCountForPost = commentCountForPostProp,
     readOnlyChannel = false,
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
@@ -120,7 +118,6 @@ function createPost({
             locale={locale}
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
-            commentCountForPost={commentCountForPost}
             actions={actions}
             readOnlyChannel={readOnlyChannel}
             canUploadFiles={canUploadFiles}
@@ -916,7 +913,7 @@ describe('components/create_post', () => {
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
     it('Should call edit action as post for arrow up', () => {
@@ -935,7 +932,7 @@ describe('components/create_post', () => {
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
     it('Should call moveHistoryIndexForward as ctrlKey and down arrow', () => {

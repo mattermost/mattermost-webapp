@@ -13,7 +13,7 @@ import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {GlobalState} from 'types/store';
-import {RhsState, FakePost, PostDraft} from 'types/store/rhs';
+import {RhsState, FakePost, PostDraft, SearchType} from 'types/store/rhs';
 
 export function getSelectedPostId(state: GlobalState): $ID<Post> {
     return state.views.rhs.selectedPostId;
@@ -25,6 +25,14 @@ export function getSelectedPostFocussedAt(state: GlobalState): number {
 
 export function getSelectedPostCardId(state: GlobalState): $ID<Post> {
     return state.views.rhs.selectedPostCardId;
+}
+
+export function getHighlightedPostId(state: GlobalState): $ID<Post> {
+    return state.views.rhs.highlightedPostId;
+}
+
+export function getFilesSearchExtFilter(state: GlobalState): string[] {
+    return state.views.rhs.filesSearchExtFilter;
 }
 
 export function getSelectedPostCard(state: GlobalState) {
@@ -54,6 +62,7 @@ function getRealSelectedPost(state: GlobalState) {
 }
 
 export const getSelectedPost = createSelector(
+    'getSelectedPost',
     getSelectedPostId,
     getRealSelectedPost,
     getSelectedChannelId,
@@ -85,6 +94,10 @@ export function getPreviousRhsState(state: GlobalState): RhsState {
 
 export function getSearchTerms(state: GlobalState): string {
     return state.views.rhs.searchTerms;
+}
+
+export function getSearchType(state: GlobalState): SearchType {
+    return state.views.rhs.searchType;
 }
 
 export function getSearchResultsTerms(state: GlobalState): string {
@@ -122,8 +135,12 @@ export function getPostDraft(state: GlobalState, prefixId: string, suffixId: str
     return defaultDraft;
 }
 
+export function getIsRhsSuppressed(state: GlobalState): boolean {
+    return state.views.rhsSuppressed;
+}
+
 export function getIsRhsOpen(state: GlobalState): boolean {
-    return state.views.rhs.isSidebarOpen;
+    return state.views.rhs.isSidebarOpen && !state.views.rhsSuppressed;
 }
 
 export function getIsRhsMenuOpen(state: GlobalState): boolean {

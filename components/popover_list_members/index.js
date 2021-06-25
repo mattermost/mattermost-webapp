@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {createSelector} from 'reselect';
 import {bindActionCreators} from 'redux';
+
+import {createSelector} from 'reselect';
+
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserStatuses, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
@@ -19,6 +21,7 @@ import PopoverListMembers from './popover_list_members.jsx';
 
 const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel) => {
     return createSelector(
+        'makeSortUsersByStatusAndDisplayName',
         (state, channelId) => doGetProfilesInChannel(state, channelId, true),
         getUserStatuses,
         getTeammateNameDisplaySetting,

@@ -3,15 +3,20 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
 import {getExternalBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {loadBots, disableBot, enableBot} from 'mattermost-redux/actions/bots';
+import {getAppsBotIDs as fetchAppsBotIDs} from 'mattermost-redux/actions/integrations';
+import {getAppsBotIDs} from 'mattermost-redux/selectors/entities/integrations';
 import {createUserAccessToken, revokeUserAccessToken, enableUserAccessToken, disableUserAccessToken, getUserAccessTokensForUser, getUser} from 'mattermost-redux/actions/users';
 import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionResult, ActionFunc} from 'mattermost-redux/types/actions';
 import {Bot as BotType} from 'mattermost-redux/types/bots';
 import {UserProfile} from 'mattermost-redux/types/users';
+
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import Bots from './bots';
 
@@ -37,10 +42,13 @@ function mapStateToProps(state: GlobalState) {
         accessTokens: state.entities.admin.userAccessTokensByUser,
         owners,
         users,
+        appsBotIDs: getAppsBotIDs(state),
+        appsEnabled: appsEnabled(state),
     };
 }
 
 type Actions = {
+    fetchAppsBotIDs: () => Promise<{data: string[]}>;
     loadBots: (page?: number, perPage?: number) => Promise<{data: BotType[]; error?: Error}>;
     getUserAccessTokensForUser: (userId: string, page?: number, perPage?: number) => void;
     createUserAccessToken: (userId: string, description: string) => Promise<{
@@ -58,6 +66,7 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+            fetchAppsBotIDs,
             loadBots,
             getUserAccessTokensForUser,
             createUserAccessToken,

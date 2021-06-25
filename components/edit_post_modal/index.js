@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
 import {Preferences, Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -26,10 +27,11 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const editingPost = getEditingPost(state);
     const currentUserId = getCurrentUserId(state);
-    const channelId = getCurrentChannelId(state);
+    const channelId = editingPost?.post?.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
     let canDeletePost = false;
     let canEditPost = false;
+
     if (editingPost && editingPost.post && editingPost.post.user_id === currentUserId) {
         canDeletePost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.DELETE_POST});
         canEditPost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.EDIT_POST});

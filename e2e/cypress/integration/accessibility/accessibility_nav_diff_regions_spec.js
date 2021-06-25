@@ -83,13 +83,13 @@ describe('Verify Quick Navigation support across different regions in the app', 
             cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
             // * Verify post region on RHS reads out correctly
-            verifyNavSupport('#rhsContent', 'message details complimentary region', '3');
+            verifyNavSupport('.post-right__content', 'message details complimentary region', '3');
 
             // # Shift the focus to the RHS input
             cy.get('#fileUploadButton').focus().tab({shift: true});
 
             // * Verify post input on RHS reads out correctly
-            verifyNavSupport('#rhsFooter', 'reply input region', '4');
+            verifyNavSupport('.post-create', 'reply input region', '4');
         });
     });
 
@@ -110,7 +110,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         cy.get('#headerInfo button').focus().tab().tab().tab().tab();
 
         // * Verify nav support in LHS sidebar
-        verifyNavSupport('#lhsList', 'channel sidebar region', '7');
+        verifyNavSupport('#sidebar-left', 'channel sidebar region', '7');
     });
 
     it('MM-T1460_6 Verify Navigation Support in Channel Header', () => {
@@ -128,7 +128,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         // # Change the focus to search results
         cy.get('#searchContainer').within(() => {
             cy.get('button.sidebar--right__expand').focus().tab({shift: true}).tab();
-            cy.focused().tab().tab();
+            cy.focused().tab().tab().tab().tab();
         });
         cy.get('body').type('{downarrow}{uparrow}');
 

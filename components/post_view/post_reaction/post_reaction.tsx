@@ -6,10 +6,11 @@ import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Permissions from 'mattermost-redux/constants/permissions';
 import {Dispatch} from 'redux';
 
-import {CustomEmoji, Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
+import Permissions from 'mattermost-redux/constants/permissions';
+
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 import {Locations} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -49,8 +50,7 @@ export default class PostReaction extends React.PureComponent<Props, State> {
 
     handleAddEmoji = (emoji: Emoji): void => {
         this.setState({showEmojiPicker: false});
-        const emojiName = (emoji as CustomEmoji).name ||
-            (emoji as SystemEmoji).aliases[0];
+        const emojiName = 'short_name' in emoji ? emoji.short_name : emoji.name;
         this.props.actions.addReaction(this.props.postId, emojiName);
         this.props.toggleEmojiPicker();
     };

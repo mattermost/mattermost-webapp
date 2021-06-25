@@ -20,7 +20,6 @@ describe('Cluster', () => {
         cy.apiUpdateConfig({
             ClusterSettings: {
                 Enable: null,
-                UseExperimentalGossip: null,
                 EnableExperimentalGossipEncryption: null,
             },
         });
@@ -46,7 +45,6 @@ describe('Cluster', () => {
         cy.apiUpdateConfig({
             ClusterSettings: {
                 Enable: true,
-                UseExperimentalGossip: true,
                 EnableExperimentalGossipEncryption: true,
             },
         });
@@ -75,7 +73,6 @@ describe('Cluster', () => {
         cy.apiUpdateConfig({
             ClusterSettings: {
                 Enable: true,
-                UseExperimentalGossip: true,
                 EnableGossipCompression: false,
             },
         });

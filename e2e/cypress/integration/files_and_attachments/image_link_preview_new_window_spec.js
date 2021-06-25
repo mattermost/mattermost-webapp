@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @file_and_attachments
+// Group: @files_and_attachments
 
 describe('Image Link Preview', () => {
     let testTeam;

@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Groups} from 'mattermost-redux/constants';
+
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal/add_groups_to_team_modal';
 
 describe('components/AddGroupsToTeamModal', () => {
@@ -56,36 +58,34 @@ describe('components/AddGroupsToTeamModal', () => {
         expect(wrapper.state('addError')).toEqual(message);
     });
 
-    /*test('should match state when handleSubmit is called', async () => {
-        const linkGroupSyncable = jest.fn().
-            mockResolvedValueOnce({error: true}).
-            mockResolvedValue({data: true});
+    test('should match state when handleSubmit is called', async () => {
+        const linkGroupSyncable = jest.fn().mockResolvedValue({error: true, data: true});
         const actions = {...baseProps.actions, linkGroupSyncable};
         const props = {...baseProps, actions};
         const wrapper = shallow(
-            <AddGroupsToTeamModal {...props}/>
+            <AddGroupsToTeamModal {...props}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as AddGroupsToTeamModal;
         instance.handleResponse = jest.fn();
         instance.handleHide = jest.fn();
 
         wrapper.setState({values: []});
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await instance.handleSubmit();
         expect(actions.linkGroupSyncable).not.toBeCalled();
+        expect(instance.handleResponse).not.toBeCalled();
+        expect(instance.handleHide).not.toBeCalled();
 
         wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await instance.handleSubmit();
         expect(actions.linkGroupSyncable).toBeCalled();
         expect(actions.linkGroupSyncable).toHaveBeenCalledTimes(2);
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true});
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: false});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: false});
 
-        setTimeout(() => {
-            expect(instance.handleResponse).toBeCalledTimes(2);
-        }, 0);
+        expect(instance.handleResponse).toBeCalledTimes(2);
         expect(instance.handleHide).not.toBeCalled();
         expect(wrapper.state('saving')).toEqual(true);
-    });*/
+    });
 
     test('should match state when addValue is called', () => {
         const wrapper = shallow<AddGroupsToTeamModal>(

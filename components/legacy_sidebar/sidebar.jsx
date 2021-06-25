@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
+/* eslint-disable max-lines */
 
 import $ from 'jquery';
 import React from 'react';
@@ -28,6 +29,8 @@ import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
 import UnreadChannelIndicator from 'components/sidebar/unread_channel_indicator';
 import Pluggable from 'plugins/pluggable';
+
+import GlobalThreadsLink from 'components/threading/global_threads_link';
 
 import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
@@ -120,11 +123,6 @@ class LegacySidebar extends React.PureComponent {
         intl: intlShape.isRequired,
 
         /**
-         * Number of unread mentions/messages
-         */
-        unreads: PropTypes.object.isRequired,
-
-        /**
          * Permission to create public channel
          */
         canCreatePublicChannel: PropTypes.bool.isRequired,
@@ -143,6 +141,11 @@ class LegacySidebar extends React.PureComponent {
          * Setting that enables user to view archived channels
          */
         viewArchivedChannels: PropTypes.bool,
+
+        /**
+         * Setting that enables user to view threads nav menu
+         */
+        isCollapsedThreadsEnabled: PropTypes.bool,
 
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
@@ -531,6 +534,7 @@ class LegacySidebar extends React.PureComponent {
         const {orderedChannelIds} = this.state;
 
         const sectionsToHide = [SidebarChannelGroups.UNREADS, SidebarChannelGroups.FAVORITE];
+        let shownIndex = 0;
 
         return (
             <Scrollbars
@@ -562,6 +566,12 @@ class LegacySidebar extends React.PureComponent {
                         const sectionId = `${section.type}Channel`;
                         const ariaLabel = section.name.toLowerCase();
 
+                        let sectionHeaderClassName = 'sidebar-section__header';
+                        if (shownIndex === 0 && this.props.isCollapsedThreadsEnabled) {
+                            sectionHeaderClassName += ' margin-top--none';
+                        }
+                        shownIndex += 1;
+
                         return (
                             <ul
                                 key={section.type}
@@ -570,7 +580,7 @@ class LegacySidebar extends React.PureComponent {
                                 id={sectionId + 'List'}
                                 tabIndex='-1'
                             >
-                                <li className='sidebar-section__header'>
+                                <li className={sectionHeaderClassName}>
                                     <h4
                                         role='presentation'
                                         id={sectionId}
@@ -720,6 +730,8 @@ class LegacySidebar extends React.PureComponent {
                 <div className='sidebar--left__icons'>
                     <Pluggable pluggableName='LeftSidebarHeader'/>
                 </div>
+
+                <GlobalThreadsLink/>
 
                 <div
                     id='lhsList'

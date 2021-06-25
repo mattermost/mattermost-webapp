@@ -49,7 +49,11 @@
         }
 
         .popover-content {
-            padding: 1px 3px;
+            padding: 2px 3px;
+
+            .markdown__list {
+                margin: 0;
+            };
 
             p {
                 white-space: normal;
@@ -189,6 +193,31 @@
     }
 }
 
+.user-popover-image {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 128px;
+
+    .user-popover-status {
+        right: 8px;
+        bottom: 0;
+        top: auto;
+        position: absolute;
+        height: 28px;
+        width: 28px;
+        background: rgba(var(--center-channel-bg-rgb), 1);
+        border-radius: 50px;
+        display: flex;
+        padding: 4px;
+
+        svg {
+            min-height: 100%;
+            width: 100%;
+        }
+    }
+}
+
 .user-popover__username,
 .user-popover__username > a {
     display: inline-block;
@@ -241,6 +270,19 @@
             border-top: none;
             @include box-shadow(rgba(var(--center-channel-color-rgb), 0.08) 0px 17px 50px 0px, rgba(var(--center-channel-color-rgb), 0.08) 0px 12px 15px 0px);
             background: v(center-channel-bg);
+
+            .shared-user-icon {
+                color: rgba(61, 60, 64, 0.72);
+                font-size: 16px;
+                height: 16px;
+                width: 16px;
+                line-height: 20px;
+                margin-left: 8px;
+
+                &:before {
+                    margin: 0;
+                }
+            }
         }
     }
 }
@@ -554,6 +596,12 @@
                     width: 100%;
                 }
             }
+
+            .shared-user-icon {
+                font-size: 16px;
+                margin-top: 5px;
+                color: rgba(61, 60, 64, 0.56);
+            }
         }
 
         .more-modal__name {
@@ -571,6 +619,20 @@
         .more-modal__details {
             line-height: 39px;
             padding-left: 16px;
+
+            .shared-user-icon {
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                font-size: 16px;
+                margin-top: 16px;
+                margin-left: 8px;
+                color: rgba(61, 60, 64, 0.72);
+
+                &:before {
+                    margin: 0;
+                }
+            }
         }
 
         .more-modal__actions {

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import PDFJS from 'pdfjs-dist';
 import debounce from 'lodash/debounce';
+
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -112,6 +113,10 @@ export default class PDFPreview extends React.PureComponent {
 
     renderPDFPage = async (pageIndex) => {
         const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
+        if (!canvas) {
+            // Refs are undefined when testing
+            return;
+        }
 
         // Always render the first INITIAL_RENDERED_PAGES pages to avoid
         // problems detecting isInViewport during the open animation

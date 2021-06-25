@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @mfa
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
@@ -73,7 +74,7 @@ describe('Settings', () => {
             });
     });
 
-    it('MM-T953: Verify correct authentication method', () => {
+    it('MM-T953 Verify correct authentication method', () => {
         cy.visit('/admin_console/user_management/users');
 
         const adminUsername = getAdminAccount().username;

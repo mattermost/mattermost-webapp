@@ -71,7 +71,12 @@ Cypress.Commands.add('externalRequest', ({user, method, path, data, failOnStatus
 
     return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response) => {
         // Temporarily ignore error related to Cloud
-        if (response.data && response.data.id !== 'ent.cloud.request_error' && failOnStatusCode) {
+        const cloudErrorId = [
+            'ent.cloud.request_error',
+            'api.cloud.get_subscription.error',
+        ];
+
+        if (response.data && !cloudErrorId.includes(response.data.id) && failOnStatusCode) {
             expect(response.status).to.be.oneOf([200, 201, 204]);
         }
 
@@ -128,7 +133,10 @@ Cypress.Commands.add('urlHealthCheck', ({name, url, helperMessage, method, httpS
 });
 
 Cypress.Commands.add('requireWebhookServer', () => {
-    const webhookBaseUrl = Cypress.env().webhookBaseUrl;
+    const baseUrl = Cypress.config('baseUrl');
+    const webhookBaseUrl = Cypress.env('webhookBaseUrl');
+    const adminUsername = Cypress.env('adminUsername');
+    const adminPassword = Cypress.env('adminPassword');
     const helperMessage = `
 __Tips:__
     1. In local development, you may run "__npm run start:webhook__" at "/e2e" folder.
@@ -142,6 +150,16 @@ __Tips:__
         method: 'get',
         httpStatus: 200,
     });
+
+    cy.task('postIncomingWebhook', {
+        url: `${webhookBaseUrl}/setup`,
+        data: {
+            baseUrl,
+            webhookBaseUrl,
+            adminUsername,
+            adminPassword,
+        }}).
+        its('status').should('be.equal', 201);
 });
 
 Cypress.Commands.add('requireStorybookServer', () => {

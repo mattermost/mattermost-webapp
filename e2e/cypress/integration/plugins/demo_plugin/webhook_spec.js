@@ -8,24 +8,13 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @plugin
-
-/**
- * Note : This test requires two demo plugin tar files under fixtures folder.
- * Download version 0.1.0 from :
- * https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.9.0/com.mattermost.demo-plugin-0.1.0.tar.gz
- * Copy to : ./e2e/cypress/fixtures/com.mattermost.demo-plugin-0.9.0.tar.gz
- */
+// Group: @plugin @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import * as MESSAGES from '../../../fixtures/messages';
-
-import {uninstallAllPlugins} from './helper.js';
+import {demoPlugin} from '../../../utils/plugins';
 
 describe('Demo plugin - Webhook events', () => {
-    const pluginId = 'com.mattermost.demo-plugin';
-    const pluginName = 'com.mattermost.demo-plugin-0.9.0.tar.gz';
-
     let team1;
     let team2;
     let testUser;
@@ -33,6 +22,9 @@ describe('Demo plugin - Webhook events', () => {
     let testChannel;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         // # Set plugin settings
         const newSettings = {
             PluginSettings: {
@@ -53,17 +45,12 @@ describe('Demo plugin - Webhook events', () => {
                 team2 = anotherTeam;
             });
 
-            // # Uninstall all plugins
-            uninstallAllPlugins();
-
-            // # Install demo plugin
-            cy.apiUploadPlugin(pluginName).then(() => {
-                cy.apiEnablePluginById(pluginId);
-            });
+            // # Install demo plugin by file
+            cy.apiUploadAndEnablePlugin(demoPlugin);
 
             // # Enable webhook events
             cy.visit(`/${team1.name}/channels/town-square`);
-            cy.postMessage('/demo_plugin true').wait(TIMEOUTS.TWO_SEC);
+            cy.postMessage('/demo_plugin true ').wait(TIMEOUTS.TWO_SEC);
 
             // * Verify that hooks are enabled
             cy.getLastPost().contains('enabled', {matchCase: false});
@@ -162,7 +149,7 @@ describe('Demo plugin - Webhook events', () => {
             // # Choose "slightly_frowning_face" emoji
             // delaying 500ms in case of lag
             // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click();
+            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click({force: true});
 
             // # Open demo plugin channel
             cy.visit(`/${team1.name}/channels/demo_plugin`);

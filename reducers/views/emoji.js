@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
+
 import {UserTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes, Locations} from 'utils/constants';
@@ -34,7 +35,18 @@ function shortcutReactToLastPostEmittedFrom(state = '', action) {
     }
 }
 
+function recentSkin(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.SET_RECENT_SKIN: {
+        return action.data;
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     emojiPickerCustomPage,
     shortcutReactToLastPostEmittedFrom,
+    recentSkin,
 });

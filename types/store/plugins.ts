@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
+
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
+import {FileInfo} from 'mattermost-redux//types/files';
 import {PostEmbed} from 'mattermost-redux/types/posts';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
-import React from 'react';
 
 export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;
@@ -39,6 +41,14 @@ export type PluginComponent = {
     icon?: React.ReactElement;
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
+};
+
+export type FileDropdownPluginComponent = {
+    id: string;
+    pluginId: string;
+    text: string | React.ReactElement;
+    match: (fileInfo: FileInfo) => boolean;
+    action: (fileInfo: FileInfo) => void;
 };
 
 export type PostPluginComponent = {

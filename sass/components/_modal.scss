@@ -31,6 +31,14 @@
             border-color: rgba(var(--center-channel-color-rgb), 0.16);
             color: v(center-channel-color);
         }
+
+        .modal-header {
+            background: var(--sidebar-header-bg);
+
+            .close {
+                color: var(--sidebar-header-text-color);
+            }
+        }
     }
 
     .edit-modal-body {
@@ -238,6 +246,19 @@
                 color: $white;
                 font-weight: 600;
             }
+
+            .shared-channel-icon {
+                color: #3D3C40;
+                font-size: 16px;
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                margin: 0 8px;
+
+                &:before {
+                    margin: 0;
+                }
+            }
         }
 
         .modal-action {
@@ -248,7 +269,7 @@
         .close {
             @include opacity(0.7);
             @include single-transition(all, .1s, ease-in);
-            color: v(sidebar-header-text-color);
+            color: white;
             height: 30px;
             line-height: 30px;
             position: absolute;
@@ -343,13 +364,13 @@
 
         .modal-image__content {
             max-height: 91.5vh;
-            max-width: 96vw;
+            max-width: 90vw;
             min-width: 440px;
             overflow-x: hidden;
             overflow-y: visible;
 
             &.modal-auto__content {
-                width: 96vw;
+                width: 90vw;
                 overflow: auto;
 
                 &::-webkit-scrollbar-thumb {
@@ -357,7 +378,7 @@
                 }
 
                 .view-image__loading {
-                    width: 96vw;
+                    width: 90vw;
                 }
             }
 
@@ -799,10 +820,23 @@
         align-self: center;
         flex-grow: 1;
         flex-shrink: 1;
-        font-size: .9em;
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;
+
+        .shared-channel-icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            margin-left: 8px;
+            margin-top: 0px;
+            color: rgba(61, 60, 64, 0.72);
+
+            &:before {
+                margin: 0;
+            }
+        }
 
         .more-modal__name {
             margin: 5px 0;
@@ -838,7 +872,7 @@
 
         span {
             overflow: hidden;
-            max-width: 90%;
+            max-width: 100%;
             text-overflow: ellipsis;
         }
     }
@@ -876,11 +910,45 @@
         }
 
         &.more-modal__row--selected {
-            background: rgba(var(--center-channel-color-rgb), 0.08);
+            background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+
+            .app__body & {
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+            }
 
             .more-modal__actions--round {
-                opacity: .5;
+                display: block;
             }
+
+            .more-modal__lastPostAt {
+                display: none;
+            }
+        }
+
+        .more-modal__shared-actions {
+            color: rgba(61, 60, 64, 0.72);
+
+            .shared-user-icon {
+                font-size: 16px;
+                height: 16px;
+                width: 16px;
+                line-height: 16px;
+                margin-left: 4px;
+
+                &:before {
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    .more-modal__lastPostAt {
+        display: block;
+        opacity: 0.6;
+        margin-left: 5px;
+        time {
+            font-weight: bold;
+            white-space: nowrap;
         }
     }
 
@@ -891,9 +959,10 @@
     .more-modal__actions--round {
         height: 32px;
         line-height: 32px;
-        opacity: 0;
+        display: none;
         text-align: center;
         width: 32px;
+        opacity: .5;
     }
 
     .more-modal__right {
@@ -969,6 +1038,14 @@
     }
 }
 
+.more-modal__list .more-modal__row {
+    min-height: 65px;
+
+    #member-list-popover & {
+        min-height: 0;
+    }
+}
+
 .team-selector-modal,
 .channel-selector-modal {
     .more-modal__row {
@@ -1023,7 +1100,7 @@
             background-color: lighten($primary-color, 40%);
 
             .more-modal__actions--round {
-                opacity: .5;
+                display: block;
             }
         }
 

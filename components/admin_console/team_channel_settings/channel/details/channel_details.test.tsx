@@ -45,6 +45,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             purpose: 'purpose',
             last_post_at: 0,
             total_msg_count: 0,
+            total_msg_count_root: 0,
             extra_update_at: 0,
             creator_id: 'id',
             scheme_id: 'id',
@@ -91,6 +92,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
         };
 
         const additionalProps = {
+            channelPermissions: [],
             guestAccountsEnabled: true,
             isDisabled: false,
         };
