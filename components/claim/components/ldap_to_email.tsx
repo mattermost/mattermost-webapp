@@ -10,21 +10,21 @@ import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 type Props = {
-    email?: any,
-    passwordConfig?: object,
-    switchLdapToEmail?: any,
+    email?: string;
+    passwordConfig?: string;
+    switchLdapToEmail?: string;
 };
 
 export type State = {
     passwordError?: React.ReactNode;
     serverError?: React.ReactNode;
-    confirmError?: string,
-    ldapPasswordError: string,
-    showMfa?: any,
-    password?: string,
+    confirmError?: string;
+    ldapPasswordError: string;
+    showMfa?: boolean;
+    password?: string;
 };
 
-export default class LDAPToEmail extends React.PureComponent <Props, State>{
+export default class LDAPToEmail extends React.PureComponent <Props, State> {
     private ldapPasswordInput: React.RefObject<HTMLInputElement>;
     private passwordInput: React.RefObject<HTMLInputElement>;
     private passwordConfirmInput: React.RefObject<HTMLInputElement>;
@@ -38,20 +38,20 @@ export default class LDAPToEmail extends React.PureComponent <Props, State>{
     }
 
     getDefaultState() {
-        return {
-            passwordError: '',
-            ldapError: '',
-            ldapPasswordError: '',
-            serverError: '',
-            confirmError: '',
-            showMfa: '',
+        type State = {
+            passwordError: '';
+            ldapError: '';
+            ldapPasswordError: '';
+            serverError: '';
+            confirmError: '';
+            showMfa: '';
         };
     }
 
     preSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        const state=this.getDefaultState();
+        const state = this.getDefaultState();
 
         const ldapPassword = this.ldapPasswordInput.current && this.ldapPasswordInput.current.value;
         if (!ldapPassword) {
@@ -90,28 +90,24 @@ export default class LDAPToEmail extends React.PureComponent <Props, State>{
     }
 
     submit = async (loginId: string, password: string, token: string, ldapPassword: string) => {
-        
         const res = await this.props.switchLdapToEmail(ldapPassword, this.props.email, password, token);
-
-        // this.props.switchLdapToEmail(ldapPassword || ldapPassword, this.props.email, password, token).then(({data, error: err}) => {
-            if ('data' in res ) {
-                const {data} = res
-                if (data.follow_link) {
-                    window.location.href = data.follow_link;
-                }
-            } else if ('err' in res) {
-                const {error: err} = res
-                if (err.server_error_id.startsWith('model.user.is_valid.pwd')) {
-                    this.setState({passwordError: err.message, showMfa: false});
-                } else if (err.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
-                    this.setState({ldapPasswordError: err.message, showMfa: false});
-                } else if (!this.state.showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
-                    this.setState({showMfa: true});
-                } else {
-                    this.setState({serverError: err.message, showMfa: false});
-                }
+        if ('data' in res) {
+            const {data} = res;
+            if (data.follow_link) {
+                window.location.href = data.follow_link;
             }
-        // });
+        } else if ('err' in res) {
+            const {error: err} = res;
+            if (err.server_error_id.startsWith('model.user.is_valid.pwd')) {
+                this.setState({passwordError: err.message, showMfa: false});
+            } else if (err.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
+                this.setState({ldapPasswordError: err.message, showMfa: false});
+            } else if (!this.state.showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                this.setState({showMfa: true});
+            } else {
+                this.setState({serverError: err.message, showMfa: false});
+            }
+        }
     }
 
     render() {

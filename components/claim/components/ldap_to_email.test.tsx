@@ -19,7 +19,7 @@ describe('components/claim/components/ldap_to_email', () => {
         const token = 'abcd1234';
         const ldapPassword = 'ldapPsw';
 
-        const wrapper = shallow<LDAPToEmail>(<LDAPToEmail { ...requiredProps}/>);
+        const wrapper = shallow<LDAPToEmail>(<LDAPToEmail {...requiredProps}/>);
 
         await wrapper.instance().submit(loginId, password, token, ldapPassword);
 

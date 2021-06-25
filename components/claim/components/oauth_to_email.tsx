@@ -11,10 +11,10 @@ import {t} from 'utils/i18n.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 type Props = {
-    currentType?: any,
-    email?: any,
-    siteName?: string,
-    passwordConfig?: object,
+    currentType?: string;
+    email?: string;
+    siteName?: string;
+    passwordConfig?: string;
 };
 
 export default class OAuthToEmail extends React.PureComponent<Props> {
@@ -31,8 +31,8 @@ export default class OAuthToEmail extends React.PureComponent<Props> {
     }
 
     getDefaultState() {
-        return {
-            error: null,
+        type State = {
+            error: null;
         };
     }
 
@@ -67,24 +67,24 @@ export default class OAuthToEmail extends React.PureComponent<Props> {
             this.props.currentType,
             this.props.email,
             password,
-            (data: { follow_link: string; }) => {
+            (data: { follow_link: string }) => {
                 if (data.follow_link) {
                     window.location.href = data.follow_link;
                 }
             },
-            (err: { message: any; }) => {
+            (err: { message: any }) => {
                 this.setState({error: err.message});
             },
         );
     }
     render() {
-        var error = null;
-        const state = this.getDefaultState()
+        let error = null;
+        const state = this.getDefaultState();
         if (state.error) {
             error = <div className='form-group has-error'><label className='control-label'>{state.error}</label></div>;
         }
 
-        var formClass = 'form-group';
+        let formClass = 'form-group';
         if (error) {
             formClass += ' has-error';
         }
