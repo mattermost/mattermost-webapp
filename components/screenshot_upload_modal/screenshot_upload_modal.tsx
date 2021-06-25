@@ -38,10 +38,10 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
 
     constructor(props: Props) {
         super(props);
-        let originalScreenshot = new Image();
-        originalScreenshot.src = this.props.imgURL;
-        originalScreenshot.onload = () =>{
-            console.log(originalScreenshot.width);
+        const screenshot = new Image();
+        screenshot.src = this.props.imgURL;
+        screenshot.onload = () =>{
+            console.log(screenshot.width);
         };
         this.cropperRef = React.createRef();
         this.state = {
@@ -49,81 +49,78 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
             crop: { x: 0, y: 0 },
             zoom: 1,
             aspect: 4 / 3,
-            originalScreenshot: originalScreenshot,
-            
+            screenshot: screenshot,
+
         };
-       
     }
     onCropChange = (crop) => {
         this.setState({ crop })
     }
-    
+
     onCropComplete = (croppedArea, croppedAreaPixels) => {
         console.log(croppedArea, croppedAreaPixels)
     }
-    
+
     onZoomChange = (zoom) => {
         this.setState({ zoom })
     }
-   
 
     render() {
-        let originalScreenshotDOMElement = (
+        const originalScreenshotDOMElement = (
             <Cropper
-            image={this.props.imgURL}
-            crop={this.state.crop}
-            zoom={this.state.zoom}
-            aspect={this.state.aspect}
-            onCropChange={this.onCropChange}
-            onCropComplete={this.onCropComplete}
-            onZoomChange={this.onZoomChange}
-          />
+                image={this.props.imgURL}
+                crop={this.state.crop}
+                zoom={this.state.zoom}
+                aspect={this.state.aspect}
+                onCropChange={this.onCropChange}
+                onCropComplete={this.onCropComplete}
+                onZoomChange={this.onZoomChange}
+                showGrid={false}
+                classes={{containerClassName: 'crop-container', mediaClassName: 'img screenshot'}}
+            />
         );
         return (
-        //<div> {originalScreenshotDOMElement}</div>
-           
-            <div>
-                <Modal
-                    show={this.state.show}
-                    onHide={this.props.onHide}
-                    // className='modal-image'
+            <Modal
+                show={this.state.show}
+                onHide={this.props.onHide}
+                dialogClassName='a11y__modal modal-image'
+                role='dialog'
+                aria-labelledby='screenshotUploadModalLabel'
+            >
+                <Modal.Header closeButton={true}>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='cscreenshotUploadModalLabel'
+                    >
+                        <FormattedMessage
+                            id='channel_info.about'
+                            defaultMessage='About'
+                        />
+                        <strong>{this.props.imgName}</strong>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div
+                        className={'modal-image__wrapper'}
+                    >
+                        {originalScreenshotDOMElement}
+                    </div>
 
-                    // dialogClassName='a11y__modal modal-image'
-                    role='dialog'
-                    aria-labelledby='screenshotUploadModalLabel'
-                >
-                    <Modal.Header closeButton={true}>
-                        <Modal.Title
-                            componentClass='h1'
-                            id='cscreenshotUploadModalLabel'
-                        >
-                            <FormattedMessage
-                                id='channel_info.about'
-                                defaultMessage='About'
-                            />
-                            <strong>{this.props.imgName}</strong>
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div
-                            className={'modal-image__wrapper'}
+                </Modal.Body>
+                <Modal.Footer componentClass='h1'
+                        id='fscreenshotUploadModalLabel'>
+                
+                        
+                    >
+                        <FormattedMessage
+                            id='channel_info.about'
+                            defaultMessage='About'
+                        />
+                        <strong>{this.props.imgName}</strong>
+                   
+                </Modal.Footer>
+            </Modal>
 
-                        > 
-                            {originalScreenshotDOMElement}
-                            {/* <div className='modal-image__background'> 
-                                <div className={'modal-image__content'}> 
-
-                                    {originalScreenshotDOMElement}
-
-                                </div> 
-                            </div> */}
-
-                        </div> 
-
-                    </Modal.Body>
-                </Modal>
-              
-            </div>
         );
     }
 }
