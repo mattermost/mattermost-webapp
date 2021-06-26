@@ -259,6 +259,9 @@
                     margin: 0;
                 }
             }
+            &.screenshot{
+                margin: 3%;
+            }
         }
 
         .modal-action {
@@ -355,6 +358,11 @@
             max-height: 100%;
             table-layout: fixed;
             width: 100%;
+            &.test{
+                max-height: 70%;
+                height:fit-content;
+                display:block !important;
+            }
         }
 
         // provides a background for the scrollbar
@@ -516,8 +524,12 @@
                     z-index: 2;
                 }
             }
-            .crop-container{
-                position: relative;
+            // .screenshot-crop-container{
+            //     position: relative;
+            // }
+            &.screenshot{
+                margin:auto;
+                display:block !important;
             }
         }
 

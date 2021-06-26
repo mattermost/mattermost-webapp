@@ -76,7 +76,7 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
                 onCropComplete={this.onCropComplete}
                 onZoomChange={this.onZoomChange}
                 showGrid={false}
-                classes={{containerClassName: 'crop-container', mediaClassName: 'img screenshot'}}
+                classes={{containerClassName: 'screenshot-crop-container', mediaClassName: 'img screenshot'}}
             />
         );
         return (
@@ -86,24 +86,25 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
                 dialogClassName='a11y__modal modal-image'
                 role='dialog'
                 aria-labelledby='screenshotUploadModalLabel'
-            >
-                <Modal.Header closeButton={true}>
-                    <Modal.Title
-                        componentClass='h1'
-                        id='cscreenshotUploadModalLabel'
-                    >
-                        <FormattedMessage
-                            id='channel_info.about'
-                            defaultMessage='About'
-                        />
-                        <strong>{this.props.imgName}</strong>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+            >   
+            <Modal.Header>
+            <Modal.Title
+                                componentClass='h1'
+                                id='viewImageModalLabel'
+                                className='screenshot'
+                            >
+                                {this.props.imgURL}
+                            </Modal.Title>
+            </Modal.Header>
+             
+                <Modal.Body className="test">
                     <div
-                        className={'modal-image__wrapper'}
+                        className={'modal-image__wrapper screenshot'}
                     >
+                        
                         {originalScreenshotDOMElement}
+                        
+                       
                     </div>
 
                 </Modal.Body>
