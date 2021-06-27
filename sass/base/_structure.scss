@@ -89,6 +89,8 @@ body {
 img {
     max-width: 100%;
     &.screenshot{
-        position: relative !important
+        display:block;
+        margin-left: auto;
+        margin-right: auto;
     }
 }

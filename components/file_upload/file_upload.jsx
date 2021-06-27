@@ -30,6 +30,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import ScreenshotUploadModal from 'components/screenshot_upload_modal/screenshot_upload_modal';
+import { getImageDimensions } from 'utils/image_utils';
 
 const holders = defineMessages({
     limited: {
@@ -168,9 +169,10 @@ class FileUpload extends PureComponent {
         this.state = {
             requests: {},
             menuOpen: false,
-            ScreenshotUploadImgName: '',
+            ScreenshotUploadImgTitle: '',
             ScreenshotUploadImgURL: '',
             ScreenshotUploadModalShow: false,
+            ScreenshotUploadAspectRatio: 16 / 9,
         };
         this.fileInput = React.createRef();
     }
@@ -329,7 +331,6 @@ class FileUpload extends PureComponent {
             this.props.onUploadError(errors.join(', '));
         }
     }
-   
 
     handleChange = (e) => {
         if (e.target.files.length > 0) {
@@ -438,7 +439,7 @@ class FileUpload extends PureComponent {
 
     containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);
 
-    pasteUpload = (e) => {
+    pasteUpload = async (e) => {
         const {formatMessage} = this.props.intl;
 
         if (!e.clipboardData || !e.clipboardData.items || getTable(e.clipboardData)) {
@@ -481,9 +482,13 @@ class FileUpload extends PureComponent {
                 }
                 var urlCreator = window.URL || window.webkitURL;
                 var imageURL = urlCreator.createObjectURL(file);
-                this.setState({ScreenshotUploadModalShow: true, ScreenshotUploadImgURL: imageURL,  ScreenshotUploadImgName: 'test'  });
-                
+                // eslint-disable-next-line no-await-in-loop
+                var dimensionsOfScreenshot = await getImageDimensions(imageURL);
 
+                // user might stack monitors vertically or horizontally
+                if (dimensionsOfScreenshot.w > window.screen.width || dimensionsOfScreenshot.h > window.screen.height) {
+                    this.setState({ScreenshotUploadModalShow: true, ScreenshotUploadImgURL: imageURL, ScreenshotUploadImgTitle: 'Please crop the picture'});
+                }
                 var d = new Date();
                 let hour = d.getHours();
                 hour = hour < 10 ? `0${hour}` : `${hour}`;
@@ -706,18 +711,18 @@ class FileUpload extends PureComponent {
 
         return (
             <div>
-            <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
-                
-                {bodyAction}
-            </div>
-            <div>
-                { this.state.ScreenshotUploadModalShow ? <ScreenshotUploadModal
-                    imgURL={this.state.ScreenshotUploadImgURL}
-                    imgName={this.state.ScreenshotUploadImgName}
-                    show={this.state.ScreenshotUploadModalShow}
-                    onHide={this.closeScreenShotModal}
-                /> : null}
-            </div>
+                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+
+                    {bodyAction}
+                </div>
+                <div>
+                    { this.state.ScreenshotUploadModalShow ? <ScreenshotUploadModal
+                        imgURL={this.state.ScreenshotUploadImgURL}
+                        imgName={this.state.ScreenshotUploadImgTitle}
+                        show={this.state.ScreenshotUploadModalShow}
+                        onHide={this.closeScreenShotModal}
+                                                             /> : null}
+                </div>
             </div>
         );
     }

@@ -7,11 +7,13 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Cropper from 'react-easy-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-type Props = {
-    onHide: () => void;
-    imgName?: string;
-    imgURL?: string;
-};
+import PopoverBar from 'components/view_image/popover_bar';
+// type Props = {
+//     onHide: () => void;
+//     imgName: string;
+//     imgURL: string;
+//     aspectRatio: number;
+// };
 
 
 
@@ -29,27 +31,27 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
         imgURL: PropTypes.string,
 
         /**
-        *  Image name to show.
+        *  Image title to show.
         */
         imgName: PropTypes.string,
+
+        /**
+        *  Aspect ratio (Think of a scenario where user pastes screenshot of 2 or more screen, he might want to crop it for one of his screens. In this case we want to provide a shortcut for him to save his time.).
+        */
+        aspectRatio: PropTypes.number,
 
     };
     cropperRef: React.RefObject<unknown>;
 
     constructor(props: Props) {
         super(props);
-        const screenshot = new Image();
-        screenshot.src = this.props.imgURL;
-        screenshot.onload = () =>{
-            console.log(screenshot.width);
-        };
+
         this.cropperRef = React.createRef();
         this.state = {
             show: true,
             crop: { x: 0, y: 0 },
             zoom: 1,
-            aspect: 4 / 3,
-            screenshot: screenshot,
+            aspect: 16 / 9,
 
         };
     }
@@ -71,55 +73,26 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
                 image={this.props.imgURL}
                 crop={this.state.crop}
                 zoom={this.state.zoom}
-                aspect={this.state.aspect}
+                aspect={this.props.aspectRatio}
                 onCropChange={this.onCropChange}
                 onCropComplete={this.onCropComplete}
                 onZoomChange={this.onZoomChange}
                 showGrid={false}
-                classes={{containerClassName: 'screenshot-crop-container', mediaClassName: 'img screenshot'}}
+                classes={{ mediaClassName: 'img screenshot'}}
             />
         );
         return (
             <Modal
                 show={this.state.show}
                 onHide={this.props.onHide}
-                dialogClassName='a11y__modal modal-image'
+                dialogClassName='a11y__modal modal-image screenshot'
                 role='dialog'
                 aria-labelledby='screenshotUploadModalLabel'
-            >   
-            <Modal.Header>
-            <Modal.Title
-                                componentClass='h1'
-                                id='viewImageModalLabel'
-                                className='screenshot'
-                            >
-                                {this.props.imgURL}
-                            </Modal.Title>
-            </Modal.Header>
-             
-                <Modal.Body className="test">
-                    <div
-                        className={'modal-image__wrapper screenshot'}
-                    >
-                        
-                        {originalScreenshotDOMElement}
-                        
-                       
-                    </div>
-
+            >
+                <Modal.Body>
+                    {originalScreenshotDOMElement}
                 </Modal.Body>
-                <Modal.Footer componentClass='h1'
-                        id='fscreenshotUploadModalLabel'>
-                
-                        
-                    >
-                        <FormattedMessage
-                            id='channel_info.about'
-                            defaultMessage='About'
-                        />
-                        <strong>{this.props.imgName}</strong>
-                   
-                </Modal.Footer>
+
             </Modal>
 
         );

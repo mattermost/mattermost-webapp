@@ -13,3 +13,12 @@ export function loadImage(src, onLoad) {
 
     return image;
 }
+export function getImageDimensions(imageData) {
+    return new Promise((resolved) => {
+        var i = new Image();
+        i.onload = function() { //eslint-disable-line func-names
+            resolved({w: i.width, h: i.height});
+        };
+        i.src = imageData;
+    });
+}
