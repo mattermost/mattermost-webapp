@@ -3,16 +3,12 @@
 
 import React from 'react';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelNotifyProps} from 'mattermost-redux/types/channels';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
-
-import { UserProfile } from 'mattermost-redux/types/users';
-import { Channel, ChannelNotifyProps } from 'mattermost-redux/types/channels';
-
-import { ActionFunc } from 'mattermost-redux/types/actions';
-
-import { Constants, NotificationLevels } from 'utils/constants';
-import { localizeMessage } from 'utils/utils';
-
+import {Constants, NotificationLevels} from 'utils/constants';
+import {localizeMessage} from 'utils/utils';
 
 import Menu from 'components/widgets/menu/menu';
 
@@ -68,9 +64,8 @@ export default class MenuItemToggleMuteChannel extends React.PureComponent<Props
         const {
             id,
             isMuted,
-            channel
+            channel,
         } = this.props;
-
 
         let text;
         if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {

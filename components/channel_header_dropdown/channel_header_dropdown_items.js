@@ -134,7 +134,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         user={user}
                         channel={channel}
                         isMuted={isMuted}
-                        
                         isArchived={isArchived}
                     />
                 </Menu.Group>
