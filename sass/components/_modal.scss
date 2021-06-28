@@ -359,7 +359,7 @@
             table-layout: fixed;
             width: 100%;
             &.screenshot {
-                height:90%;
+                height:80%;
             }
         }
 
@@ -594,8 +594,10 @@
         &.screenshot{
             max-width: 90%;
             .container{
-                width: auto;
-                margin: 2% auto 0 auto;
+                width: auto;                
+            }
+            .modal-header{
+                margin: 2% 0 0 0;
             }
         }
     }

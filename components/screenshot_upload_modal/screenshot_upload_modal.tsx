@@ -3,9 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import Cropper from 'react-easy-crop';
-import 'react-image-crop/dist/ReactCrop.css';
 
 export default class ScreenshotUploadModal extends React.PureComponent<Props, State> {
     static propTypes = {
@@ -19,11 +18,6 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
          * Image url to show.
          */
         imgURL: PropTypes.string,
-
-        /**
-        *  Image title to show.
-        */
-        imgName: PropTypes.string,
 
         /**
         *  Aspect ratio (Think of a scenario where user pastes screenshot of 2 or more screen, he might want to crop it for one of his screens. In this case we want to provide a shortcut for him to save his time.).
@@ -45,7 +39,6 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
 
     constructor(props: Props) {
         super(props);
-
         this.cropperRef = React.createRef();
         this.state = {
             show: true,
@@ -55,35 +48,46 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
 
         };
     }
-    onCropChange = (crop) => {
+    onCropChange = (crop): void => {
         this.setState({crop});
     }
 
-    onCropComplete = (croppedArea,croppedAreaPixels) => {
+    onCropComplete = (croppedArea,croppedAreaPixels): void => {
         this.props.handleCroppedAreaPixels(croppedAreaPixels);
     }
 
-    onZoomChange = (zoom) => {
+    onZoomChange = (zoom: number): void => {
         this.setState({zoom});
     }
-    handleModalClose = () => {
-        console.log(2);
-    }
-    handleCancel = () => {
-        console.log(3);
+
+    handleButtonClick =(shouldCrop: boolean): void => {
+        this.props.handleFinalCrop(shouldCrop);
+        this.props.onHide();
     }
 
     render() {
-        const cancelButton = (
+        const fullyUploadButton = (
             <button
                 type='button'
                 className='btn btn-primary save-button'
-                onClick={() => this.props.handleFinalCrop(true)}
-                id='cancelModalButton'
+                onClick={() => this.handleButtonClick(false)}
+                id='fullyUploadButton'
             >
-                {'cancelText'}
+                {'Upload full'}
             </button>
         );
+        const cropButton = (
+            <button
+                type='button'
+                className='btn btn-primary save-button'
+                onClick={() => this.handleButtonClick(true)}
+                id='cropButton'
+            >
+                {'Crop'}
+            </button>
+        );
+
+        //React-easy-crop is chosen over react-cropper due to this https://github.com/react-cropper/react-cropper/issues/555
         const originalScreenshotDOMElement = (
             <Cropper
                 image={this.props.imgURL}
@@ -94,7 +98,7 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
                 onCropComplete={this.onCropComplete}
                 onZoomChange={this.onZoomChange}
                 showGrid={false}
-                classes={{ containerClassName:'container', mediaClassName: 'img screenshot'}}
+                classes={{containerClassName: 'container', mediaClassName: 'img screenshot'}}
             />
         );
         return (
@@ -105,24 +109,19 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
                 role='dialog'
                 aria-labelledby='screenshotUploadModalLabel'
             >
+                <Modal.Header
+                    closeButton={true}
+                >
+                    <div>{'Please crop...'}</div>
+                </Modal.Header>
                 <Modal.Body className='screenshot'>
                     <div>{originalScreenshotDOMElement}</div>
                 </Modal.Body>
-                <Modal.Footer style={{background: 'blue'}}>
-                    {cancelButton}
-                    <button
-                        autoFocus={true}
-                        type='button'
-                        color='white'
-                        className='btn btn-primary save-button'
-                        onClick={() => this.props.handleFinalCrop(false)}
-                        id='confirmModalButton'
-                    >
-                        {'Crop'}
-                    </button>
+                <Modal.Footer>
+                    {fullyUploadButton}
+                    {cropButton}
                 </Modal.Footer>
             </Modal>
-
         );
     }
 }
