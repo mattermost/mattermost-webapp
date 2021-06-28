@@ -78,7 +78,7 @@ export type Props = {
     intl: IntlShape;
     collapsedThreads: boolean;
     actions: {
-        openModal: ({modalId: string, dialogType: any}) => void;
+        openModal: (params: {modalId: string; dialogType: any}) => void;
         sendVerificationEmail: (email: string) => Promise<{
             data: StatusOK;
             error: {
