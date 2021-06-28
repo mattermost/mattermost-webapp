@@ -216,6 +216,11 @@
                     display: inherit;
                 }
             }
+            span {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
         }
         .SidebarChannelNavigator_divider {
             border-right: 1px solid var(--sidebar-text-16);
