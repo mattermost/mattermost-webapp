@@ -24,7 +24,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 import FlagIcon from 'components/widgets/icons/flag_icon';
-import FileSearchResultItem from 'components/file_search_results/file_search_result_item';
+import FileSearchResultItem from 'components/file_search_results';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
@@ -276,9 +276,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                         key={item.id}
                         compactDisplay={props.compactDisplay}
                         post={item}
-                        channelName={props.channels[item.channel_id] && props.channels[item.channel_id].display_name}
-                        channelType={props.channels[item.channel_id] && props.channels[item.channel_id].type}
-                        channelIsArchived={props.channels[item.channel_id] && props.channels[item.channel_id].delete_at !== 0}
                         matches={props.matches[item.id]}
                         term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={props.isMentionSearch}
@@ -291,10 +288,9 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             return (
                 <FileSearchResultItem
                     key={item.id}
+                    channelId={item.channel_id}
                     fileInfo={item as FileSearchResultItemType}
                     teamName={props.currentTeamName}
-                    channelType={props.channels[item.channel_id] && props.channels[item.channel_id].type}
-                    channelDisplayName={props.channels[item.channel_id] && props.channels[item.channel_id].display_name}
                     pluginMenuItems={filesDropdownPluginMenuItems}
                 />
             );
