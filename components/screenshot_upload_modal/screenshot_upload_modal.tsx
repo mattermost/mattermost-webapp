@@ -3,19 +3,9 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {Button, Modal} from 'react-bootstrap';
 import Cropper from 'react-easy-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import PopoverBar from 'components/view_image/popover_bar';
-// type Props = {
-//     onHide: () => void;
-//     imgName: string;
-//     imgURL: string;
-//     aspectRatio: number;
-// };
-
-
 
 export default class ScreenshotUploadModal extends React.PureComponent<Props, State> {
     static propTypes = {
@@ -40,6 +30,16 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
         */
         aspectRatio: PropTypes.number,
 
+        /**
+        *  React-easy-crop library returns cropped area pixels during crop operation, and we need to pass that to file upload component.
+        */
+        handleCroppedAreaPixels: PropTypes.func,
+
+        /**
+        *  Handle final crop state.
+        */
+        handleFinalCrop: PropTypes.func,
+
     };
     cropperRef: React.RefObject<unknown>;
 
@@ -49,25 +49,41 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
         this.cropperRef = React.createRef();
         this.state = {
             show: true,
-            crop: { x: 0, y: 0 },
+            crop: {x: 0, y: 0},
             zoom: 1,
             aspect: 16 / 9,
 
         };
     }
     onCropChange = (crop) => {
-        this.setState({ crop })
+        this.setState({crop});
     }
 
-    onCropComplete = (croppedArea, croppedAreaPixels) => {
-        console.log(croppedArea, croppedAreaPixels)
+    onCropComplete = (croppedArea,croppedAreaPixels) => {
+        this.props.handleCroppedAreaPixels(croppedAreaPixels);
     }
 
     onZoomChange = (zoom) => {
-        this.setState({ zoom })
+        this.setState({zoom});
+    }
+    handleModalClose = () => {
+        console.log(2);
+    }
+    handleCancel = () => {
+        console.log(3);
     }
 
     render() {
+        const cancelButton = (
+            <button
+                type='button'
+                className='btn btn-primary save-button'
+                onClick={() => this.props.handleFinalCrop(true)}
+                id='cancelModalButton'
+            >
+                {'cancelText'}
+            </button>
+        );
         const originalScreenshotDOMElement = (
             <Cropper
                 image={this.props.imgURL}
@@ -78,7 +94,7 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
                 onCropComplete={this.onCropComplete}
                 onZoomChange={this.onZoomChange}
                 showGrid={false}
-                classes={{ mediaClassName: 'img screenshot'}}
+                classes={{ containerClassName:'container', mediaClassName: 'img screenshot'}}
             />
         );
         return (
@@ -89,10 +105,22 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
                 role='dialog'
                 aria-labelledby='screenshotUploadModalLabel'
             >
-                <Modal.Body>
-                    {originalScreenshotDOMElement}
+                <Modal.Body className='screenshot'>
+                    <div>{originalScreenshotDOMElement}</div>
                 </Modal.Body>
-
+                <Modal.Footer style={{background: 'blue'}}>
+                    {cancelButton}
+                    <button
+                        autoFocus={true}
+                        type='button'
+                        color='white'
+                        className='btn btn-primary save-button'
+                        onClick={() => this.props.handleFinalCrop(false)}
+                        id='confirmModalButton'
+                    >
+                        {'Crop'}
+                    </button>
+                </Modal.Footer>
             </Modal>
 
         );

@@ -133,6 +133,9 @@
             margin: 10px;
             font-weight: bold;
         }
+        &.screenshot{
+            margin: 0 0 2% 0;
+        }
     }
 
     &.modal-image {
@@ -355,6 +358,9 @@
             max-height: 100%;
             table-layout: fixed;
             width: 100%;
+            &.screenshot {
+                height:90%;
+            }
         }
 
         // provides a background for the scrollbar
@@ -587,6 +593,10 @@
         }
         &.screenshot{
             max-width: 90%;
+            .container{
+                width: auto;
+                margin: 2% auto 0 auto;
+            }
         }
     }
 

@@ -30,7 +30,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import ScreenshotUploadModal from 'components/screenshot_upload_modal/screenshot_upload_modal';
-import { getImageDimensions } from 'utils/image_utils';
+import {getImageDimensions} from 'utils/image_utils';
 
 const holders = defineMessages({
     limited: {
@@ -169,10 +169,12 @@ class FileUpload extends PureComponent {
         this.state = {
             requests: {},
             menuOpen: false,
-            ScreenshotUploadImgTitle: '',
-            ScreenshotUploadImgURL: '',
-            ScreenshotUploadModalShow: false,
-            ScreenshotUploadAspectRatio: 16 / 9,
+            screenshotUploadImgTitle: '',
+            screenshotUploadImgURL: '',
+            screenshotUploadModalShow: false,
+            screenshotUploadAspectRatio: 4 / 3,
+            screenshotCroppedAreaPixels: {},
+            screenshotFile: {},
         };
         this.fileInput = React.createRef();
     }
@@ -480,15 +482,22 @@ class FileUpload extends PureComponent {
                 if (!file) {
                     continue;
                 }
-                var urlCreator = window.URL || window.webkitURL;
-                var imageURL = urlCreator.createObjectURL(file);
-                // eslint-disable-next-line no-await-in-loop
-                var dimensionsOfScreenshot = await getImageDimensions(imageURL);
 
-                // user might stack monitors vertically or horizontally
-                if (dimensionsOfScreenshot.w > window.screen.width || dimensionsOfScreenshot.h > window.screen.height) {
-                    this.setState({ScreenshotUploadModalShow: true, ScreenshotUploadImgURL: imageURL, ScreenshotUploadImgTitle: 'Please crop the picture'});
+                if (file.type === 'image/png') {
+                    var urlCreator = window.URL || window.webkitURL;
+                    var imageURL = urlCreator.createObjectURL(file);
+                    // eslint-disable-next-line no-await-in-loop
+                    var dimensionsOfScreenshot = await getImageDimensions(imageURL);
+                    const windowWidth = window.screen.width;
+                    const windowHeight = window.screen.height;
+                    
+                    // user might stacked monitors vertically or horizontally
+                    if (dimensionsOfScreenshot.w > windowWidth || dimensionsOfScreenshot.h > windowHeight) {
+                        this.setState({screenshotUploadModalShow: true, screenshotUploadImgURL: imageURL, screenshotUploadImgTitle: 'Please crop the picture', screenshotFile: file, screenshotUploadAspectRatio: windowWidth / windowHeight});
+                        return;
+                    }
                 }
+
                 var d = new Date();
                 let hour = d.getHours();
                 hour = hour < 10 ? `0${hour}` : `${hour}`;
@@ -519,7 +528,7 @@ class FileUpload extends PureComponent {
         }
     }
     closeScreenShotModal = () => {
-        this.setState({ScreenshotUploadModalShow: false});
+        this.setState({screenshotUploadModalShow: false});
     }
 
     keyUpload = (e) => {
@@ -582,6 +591,40 @@ class FileUpload extends PureComponent {
         e.preventDefault();
         e.stopPropagation();
         this.fileInput.current.click();
+    }
+
+    handleScreenshotCroppedAreaPixels = (croppedAreaPixels) => {
+        this.setState({screenshotCroppedAreaPixels: croppedAreaPixels});
+    }
+
+    waitForScreenshotCropUserInput = (cropWhole) => {
+        if (cropWhole) {
+            var d = new Date();
+            let hour = d.getHours();
+            hour = hour < 10 ? `0${hour}` : `${hour}`;
+
+            let minute = d.getMinutes();
+            minute = minute < 10 ? `0${minute}` : `${minute}`;
+
+            var ext = '';
+            if (this.state.screenshotFile.name) {
+                if (this.state.screenshotFile.name.includes('.')) {
+                    ext = this.state.screenshotFile.name.substr(this.state.screenshotFile.name.lastIndexOf('.'));
+                }
+            } else if (this.state.screenshotFile.type.includes('/')) {
+                ext = '.' + this.state.screenshotFile.type.type.split('/')[1].toLowerCase();
+            }
+            const {formatMessage} = this.props.intl;
+            const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
+
+            const newFile = new Blob([this.state.screenshotFile], {type: this.state.screenshotFile.type});
+            newFile.name = name;
+
+            const files = [];
+            files.push(newFile);
+            this.checkPluginHooksAndUploadFiles(files);
+            this.props.onFileUploadChange();
+        }
     }
 
     render() {
@@ -716,12 +759,15 @@ class FileUpload extends PureComponent {
                     {bodyAction}
                 </div>
                 <div>
-                    { this.state.ScreenshotUploadModalShow ? <ScreenshotUploadModal
-                        imgURL={this.state.ScreenshotUploadImgURL}
-                        imgName={this.state.ScreenshotUploadImgTitle}
-                        show={this.state.ScreenshotUploadModalShow}
+                    { this.state.screenshotUploadModalShow ? <ScreenshotUploadModal
+                        imgURL={this.state.screenshotUploadImgURL}
+                        imgName={this.state.screenshotUploadImgTitle}
+                        show={this.state.screenshotUploadModalShow}
                         onHide={this.closeScreenShotModal}
-                                                             /> : null}
+                        aspectRatio={this.state.screenshotUploadAspectRatio}
+                        handleCroppedAreaPixels={this.handleScreenshotCroppedAreaPixels}
+                        handleFinalCrop={this.waitForScreenshotCropUserInput}
+                    /> : null}
                 </div>
             </div>
         );
