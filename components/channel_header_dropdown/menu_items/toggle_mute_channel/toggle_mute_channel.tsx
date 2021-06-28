@@ -69,17 +69,11 @@ export default class MenuItemToggleMuteChannel extends React.PureComponent<Props
 
         let text;
         if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
-            if (isMuted) {
-                text = localizeMessage('channel_header.unmuteConversation', 'Unmute Conversation');
-            } else {
-                text = localizeMessage('channel_header.muteConversation', 'Mute Conversation');
-            }
+            text = isMuted ? localizeMessage('channel_header.unmuteConversation', 'Unmute Conversation') :
+                localizeMessage('channel_header.muteConversation', 'Mute Conversation');
         } else {
-            if (isMuted) {
-                text = localizeMessage('channel_header.unmute', 'Unmute Channel');
-            } else {
-                text = localizeMessage('channel_header.mute', 'Mute Channel');
-            }
+            text = isMuted ? localizeMessage('channel_header.unmute', 'Unmute Channel') :
+                localizeMessage('channel_header.mute', 'Mute Channel');
         }
 
         return (
