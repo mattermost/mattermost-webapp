@@ -657,6 +657,17 @@
             overflow: auto;
             min-width: 240px;
             margin: 4px 0 0 6px;
+
+            .Submenu {
+                margin: -4px 0 0 -4px;
+            }
+        }
+
+        .status-dropdown-menu {
+            .dropdown-menu {
+                overflow: visible;
+                min-width: 256px;
+            }
         }
 
         .sidebar-header-dropdown,

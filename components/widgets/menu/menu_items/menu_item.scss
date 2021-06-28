@@ -1,5 +1,5 @@
 @import 'compass/css3';
-@import 'utils/module';
+@import '../../../../sass/utils/module';
 
 .Menu {
     .MenuItem {
@@ -67,6 +67,7 @@
             white-space: nowrap;
 
             &.MenuItem__with-help {
+                display: block;
                 height: auto;
 
                 .MenuItem__primary-text {
@@ -169,6 +170,7 @@
     display: none;
     width: 0;
     font-size: 19px;
+    visibility: hidden;
 }
 
 .SubMenu__icon-right {
