@@ -128,8 +128,6 @@
                 padding: 7px 12px;
                 border: none !important;
                 border-bottom: 2px solid transparent !important;
-                border-bottom-width: 2px;
-                border-bottom-style: solid;
                 margin-right: 5px;
                 margin-left: 5px;
                 outline: none;
@@ -153,8 +151,7 @@
     }
 
     .tab-content {
-        border-color: rgba(61, 60, 64, 0.2);
-        border-top: 1px solid;
+        border-top: 1px solid rgba(61, 60, 64, 0.2);
     }
 }
 
@@ -539,8 +536,7 @@
 .emoji-picker__footer {
     display: flex;
     justify-content: space-between;
-    border-color: rgba(61, 60, 64, 0.2);
-    border-top: solid 1px;
+    border-top: solid 1px rgba(61, 60, 64, 0.2);
 }
 
 .emoji-picker__custom {

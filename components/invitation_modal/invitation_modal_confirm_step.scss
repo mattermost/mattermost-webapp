@@ -35,9 +35,8 @@
         .InvitationModalConfirmStepTable {
             .table-header {
                 height: 40px;
-                border-color: var(--center-channel-color-08);
-                border-top: 1px solid;
-                border-bottom: 1px solid;
+                border-top: 1px solid var(--center-channel-color-08);
+                border-bottom: 1px solid var(--center-channel-color-08);
                 background: rgba(238, 179, 0, 0.2);
                 color: var(--center-channel-color);
                 font-size: 14px;
@@ -55,9 +54,8 @@
         .InvitationModalConfirmStepTable {
             .table-header {
                 height: 40px;
-                border-color: var(--center-channel-color-08);
-                border-top: 1px solid;
-                border-bottom: 1px solid;
+                border-top: 1px solid var(--center-channel-color-08);
+                border-bottom: 1px solid var(--center-channel-color-08);
                 background: rgba(0, 131, 89, 0.2);
                 color: var(--center-channel-color);
                 font-size: 14px;

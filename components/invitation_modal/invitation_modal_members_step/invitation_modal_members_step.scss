@@ -43,8 +43,7 @@
             flex-grow: 0;
             align-items: center;
             justify-content: center;
-            border: 1px solid;
-            border-color: var(--button-bg);
+            border: 1px solid var(--button-bg);
             background: var(--center-channel-bg);
             border-radius: 0 4px 4px 0;
             color: var(--button-bg);
