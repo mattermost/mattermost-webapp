@@ -38,26 +38,32 @@ export default class EmailToLDAP extends React.PureComponent <Props, State> {
         this.emailPasswordInput = React.createRef();
         this.ldapIdInput = React.createRef();
         this.ldapPasswordInput = React.createRef();
-    }
-
-    getDefaultState() {
-        type State = {
-            passwordError: '';
-            ldapError: '';
-            ldapPasswordError: '';
-            serverError: '';
-            ldapId: '';
-            password: '';
-            ldapPassword: '';
-            showMfa: false;
+        this.state = {
+            passwordError: '',
+            ldapError: '',
+            ldapPasswordError: '',
+            serverError: '',
+            showMfa: false,
+            ldapId: '',
+            password: '',
+            ldapPassword: '',
         };
     }
 
     public preSubmit = (e: React.SyntheticEvent): void => {
         e.preventDefault();
 
-        const defaultState = this.getDefaultState();
+        const state = {
+            passwordError: '',
+            ldapError: '',
+            ldapPasswordError: '',
+            serverError: '',
+            password: '',
+            ldapId: '',
+            ldapPassword: '',
+        };
 
+        const defaultState = state;
         const password = this.emailPasswordInput.current && this.emailPasswordInput.current.value;
         if (!password) {
             defaultState.passwordError = Utils.localizeMessage('claim.email_to_ldap.pwdError', 'Please enter your password.');
@@ -88,7 +94,7 @@ export default class EmailToLDAP extends React.PureComponent <Props, State> {
     }
 
     public submit = (loginId: string, password: string, token: string, ldapId: string, ldapPassword: string): void => {
-        const defaultState = this.getDefaultState();
+        const defaultState = this.state;
         emailToLdap(
             loginId,
             password,
@@ -161,7 +167,7 @@ export default class EmailToLDAP extends React.PureComponent <Props, State> {
         }
 
         let content;
-        const defaultState = this.getDefaultState();
+        const defaultState = this.state;
         if (this.state.showMfa) {
             content = (
                 <LoginMfa

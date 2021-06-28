@@ -10,35 +10,44 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+interface PasswordConfig {
+    minimumLength: number;
+    requireLowercase: boolean;
+    requireUppercase: boolean;
+    requireNumber: boolean;
+    requireSymbol: boolean;
+}
+
 type Props = {
     currentType?: string;
     email?: string;
     siteName?: string;
-    passwordConfig?: string;
+    passwordConfig?: PasswordConfig;
 };
 
-export default class OAuthToEmail extends React.PureComponent<Props> {
+type State = {
+    error: React.ReactNode;
+}
+export default class OAuthToEmail extends React.PureComponent<Props, State> {
     private passwordInput: React.RefObject<HTMLInputElement>;
     private passwordConfirmInput: React.RefObject<HTMLInputElement>;
 
     constructor(props: Props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            error: '',
+        };
 
         this.passwordInput = React.createRef();
         this.passwordConfirmInput = React.createRef();
     }
 
-    getDefaultState() {
-        type State = {
-            error: null;
-        };
-    }
-
     submit = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        const state = this.getDefaultState();
+        const state = {
+            error: '',
+        };
 
         const password = this.passwordInput.current && this.passwordInput.current.value;
         if (!password) {
@@ -60,7 +69,7 @@ export default class OAuthToEmail extends React.PureComponent<Props> {
             return;
         }
 
-        state.error = null;
+        state.error = '';
         this.setState(state);
 
         oauthToEmail(
@@ -79,9 +88,9 @@ export default class OAuthToEmail extends React.PureComponent<Props> {
     }
     render() {
         let error = null;
-        const state = this.getDefaultState();
-        if (state.error) {
-            error = <div className='form-group has-error'><label className='control-label'>{state.error}</label></div>;
+
+        if (this.state.error) {
+            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
         }
 
         let formClass = 'form-group';

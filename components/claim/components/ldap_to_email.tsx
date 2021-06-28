@@ -9,11 +9,11 @@ import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-type Props = {
-    email?: string;
-    passwordConfig?: string;
-    switchLdapToEmail?: string;
-};
+interface Props {
+    email: string;
+    passwordConfig?: any;
+    switchLdapToEmail: any;
+}
 
 export type State = {
     passwordError?: React.ReactNode;
@@ -37,21 +37,15 @@ export default class LDAPToEmail extends React.PureComponent <Props, State> {
         this.passwordConfirmInput = React.createRef();
     }
 
-    getDefaultState() {
-        type State = {
-            passwordError: '';
-            ldapError: '';
-            ldapPasswordError: '';
-            serverError: '';
-            confirmError: '';
-            showMfa: '';
-        };
-    }
-
     preSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        const state = this.getDefaultState();
+        const state = {
+            passwordError: '',
+            confirmError: '',
+            ldapPasswordError: '',
+            serverError: '',
+        };
 
         const ldapPassword = this.ldapPasswordInput.current && this.ldapPasswordInput.current.value;
         if (!ldapPassword) {
@@ -82,8 +76,6 @@ export default class LDAPToEmail extends React.PureComponent <Props, State> {
             return;
         }
 
-        // state.password = password;
-        // state.ldapPassword = ldapPassword;
         this.setState(state);
 
         this.submit(this.props.email, password, '', ldapPassword);

@@ -31,16 +31,12 @@ export default class EmailToOAuth extends React.PureComponent <Props, State> {
         this.passwordInput = React.createRef();
     }
 
-    getDefaultState() {
-        type State = {
-            error: '';
-        };
-    }
-
     preSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        const state = this.getDefaultState();
+        const state = {
+            error: '',
+        };
 
         const password = this.passwordInput.current && this.passwordInput.current.value;
         if (!password) {
