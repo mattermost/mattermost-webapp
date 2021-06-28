@@ -133,9 +133,6 @@
             margin: 10px;
             font-weight: bold;
         }
-        &.screenshot{
-            margin: 0 0 2% 0;
-        }
     }
 
     &.modal-image {
@@ -593,11 +590,8 @@
         }
         &.screenshot{
             max-width: 90%;
-            .container{
-                width: auto;                
-            }
-            .modal-header{
-                margin: 2% 0 0 0;
+            .container {
+                width: auto;
             }
         }
     }

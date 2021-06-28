@@ -13,6 +13,8 @@ export function loadImage(src, onLoad) {
 
     return image;
 }
+
+//gets image dimensions for screenshot uploads
 export function getImageDimensions(imageData) {
     return new Promise((resolved) => {
         var i = new Image();

@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable max-lines */
+
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
@@ -28,10 +28,11 @@ import {
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
+
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
+
 import ScreenshotUploadModal from 'components/screenshot_upload_modal/screenshot_upload_modal';
 import {getImageDimensions} from 'utils/image_utils';
-import { resolve } from 'utils/resolvable';
 
 const holders = defineMessages({
     limited: {
@@ -170,12 +171,11 @@ class FileUpload extends PureComponent {
         this.state = {
             requests: {},
             menuOpen: false,
-            screenshotUploadImgTitle: '',
             screenshotUploadImgURL: '',
             screenshotUploadModalShow: false,
             screenshotUploadAspectRatio: 4 / 3,
-            screenshotCroppedAreaPixels: {},
-            screenshotFile: {},
+            screenshotUploadCroppedAreaPixels: {},
+            screenshotUploadFile: {},
         };
         this.fileInput = React.createRef();
     }
@@ -350,6 +350,7 @@ class FileUpload extends PureComponent {
             this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
             return;
         }
+
         this.props.onUploadError(null);
 
         const items = e.dataTransfer.items || [];
@@ -494,7 +495,7 @@ class FileUpload extends PureComponent {
 
                     // user might stacked monitors vertically or horizontally
                     if (dimensionsOfScreenshot.w > windowWidth || dimensionsOfScreenshot.h > windowHeight) {
-                        this.setState({screenshotUploadModalShow: true, screenshotUploadImgURL: imageURL, screenshotUploadImgTitle: 'Please crop the picture', screenshotFile: file, screenshotUploadAspectRatio: windowWidth / windowHeight});
+                        this.setState({screenshotUploadModalShow: true, screenshotUploadImgURL: imageURL, screenshotUploadImgTitle: 'Please crop the picture', screenshotUploadFile: file, screenshotUploadAspectRatio: windowWidth / windowHeight});
                         return;
                     }
                 }
@@ -527,9 +528,6 @@ class FileUpload extends PureComponent {
                 this.props.onFileUploadChange();
             }
         }
-    }
-    closeScreenShotModal = () => {
-        this.setState({screenshotUploadModalShow: false});
     }
 
     keyUpload = (e) => {
@@ -594,11 +592,15 @@ class FileUpload extends PureComponent {
         this.fileInput.current.click();
     }
 
-    handleScreenshotCroppedAreaPixels = (croppedAreaPixels) => {
-        this.setState({screenshotCroppedAreaPixels: croppedAreaPixels});
+    closeScreenShotUploadModal = () => {
+        this.setState({screenshotUploadModalShow: false});
     }
 
-    waitForScreenshotCropUserInput = async (shouldCrop) => {
+    setScreenshotUploadCroppedAreaPixels = (croppedAreaPixels) => {
+        this.setState({screenshotUploadCroppedAreaPixels: croppedAreaPixels});
+    }
+
+    cropScreenshotAccordingToUsersChoice = async (shouldCrop) => {
         var d = new Date();
         let hour = d.getHours();
         hour = hour < 10 ? `0${hour}` : `${hour}`;
@@ -608,12 +610,12 @@ class FileUpload extends PureComponent {
 
         var ext = '';
 
-        if (this.state.screenshotFile.name) {
-            if (this.state.screenshotFile.name.includes('.')) {
-                ext = this.state.screenshotFile.name.substr(this.state.screenshotFile.name.lastIndexOf('.'));
+        if (this.state.screenshotUploadFile.name) {
+            if (this.state.screenshotUploadFile.name.includes('.')) {
+                ext = this.state.screenshotUploadFile.name.substr(this.state.screenshotUploadFile.name.lastIndexOf('.'));
             }
-        } else if (this.state.screenshotFile.type.includes('/')) {
-            ext = '.' + this.state.screenshotFile.type.type.split('/')[1].toLowerCase();
+        } else if (this.state.screenshotUploadFile.type.includes('/')) {
+            ext = '.' + this.state.screenshotUploadFile.type.type.split('/')[1].toLowerCase();
         }
         const {formatMessage} = this.props.intl;
         const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
@@ -621,8 +623,8 @@ class FileUpload extends PureComponent {
 
         if (shouldCrop) {
             const canvas = document.createElement('canvas');
-            canvas.width = this.state.screenshotCroppedAreaPixels.width;
-            canvas.height = this.state.screenshotCroppedAreaPixels.height;
+            canvas.width = this.state.screenshotUploadCroppedAreaPixels.width;
+            canvas.height = this.state.screenshotUploadCroppedAreaPixels.height;
             const ctx = canvas.getContext('2d');
             var image = new Image();
 
@@ -630,22 +632,22 @@ class FileUpload extends PureComponent {
                 image.onload = () => {
                     ctx.drawImage(
                         image,
-                        this.state.screenshotCroppedAreaPixels.x,
-                        this.state.screenshotCroppedAreaPixels.y,
-                        this.state.screenshotCroppedAreaPixels.width,
-                        this.state.screenshotCroppedAreaPixels.height,
+                        this.state.screenshotUploadCroppedAreaPixels.x,
+                        this.state.screenshotUploadCroppedAreaPixels.y,
+                        this.state.screenshotUploadCroppedAreaPixels.width,
+                        this.state.screenshotUploadCroppedAreaPixels.height,
                         0,
                         0,
-                        this.state.screenshotCroppedAreaPixels.width,
-                        this.state.screenshotCroppedAreaPixels.height,
+                        this.state.screenshotUploadCroppedAreaPixels.width,
+                        this.state.screenshotUploadCroppedAreaPixels.height,
                     );
                     resolve();
                 };
-                image.src = URL.createObjectURL(this.state.screenshotFile);
+                image.src = URL.createObjectURL(this.state.screenshotUploadFile);
             });
-            newFile = await new Promise(resolve => canvas.toBlob(resolve));
+            newFile = await new Promise((resolve) => canvas.toBlob(resolve));
         } else {
-            newFile = new Blob([this.state.screenshotFile], {type: this.state.screenshotFile.type});
+            newFile = new Blob([this.state.screenshotUploadFile], {type: this.state.screenshotUploadFile.type});
         }
 
         newFile.name = name;
@@ -788,10 +790,10 @@ class FileUpload extends PureComponent {
                 <div>
                     { this.state.screenshotUploadModalShow ? <ScreenshotUploadModal
                         imgURL={this.state.screenshotUploadImgURL}
-                        onHide={this.closeScreenShotModal}
+                        onHide={this.closeScreenShotUploadModal}
                         aspectRatio={this.state.screenshotUploadAspectRatio}
-                        handleCroppedAreaPixels={this.handleScreenshotCroppedAreaPixels}
-                        handleFinalCrop={this.waitForScreenshotCropUserInput}
+                        setCroppedAreaPixels={this.setScreenshotUploadCroppedAreaPixels}
+                        handleFinalCrop={this.cropScreenshotAccordingToUsersChoice}
                     /> : null}
                 </div>
             </div>

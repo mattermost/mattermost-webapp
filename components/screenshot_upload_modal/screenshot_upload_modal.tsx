@@ -10,36 +10,34 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
     static propTypes = {
 
         /**
-         * Function that is called when modal is hidden
+         * Function that is called when modal is required to be hidden.
          */
         onHide: PropTypes.func.isRequired,
 
         /**
-         * Image url to show.
+         * Image url to provide into react-easy-cropper.
          */
         imgURL: PropTypes.string,
 
         /**
-        *  Aspect ratio (Think of a scenario where user pastes screenshot of 2 or more screen, he might want to crop it for one of his screens. In this case we want to provide a shortcut for him to save his time.).
+        *  Aspect ratio (Think of a scenario where user pastes screenshot of 2 or more screen, s/he might want to crop it according to one of his screens. In this case we want to provide a shortcut for him to save his time.).
         */
         aspectRatio: PropTypes.number,
 
         /**
-        *  React-easy-crop library returns cropped area pixels during crop operation, and we need to pass that to file upload component.
+        *  React-easy-crop library returns cropped area pixels during crop operation, and we need to pass that to file upload component to enable user to crop specified area.
         */
-        handleCroppedAreaPixels: PropTypes.func,
+        setCroppedAreaPixels: PropTypes.func,
 
         /**
-        *  Handle final crop state.
+        *  Handle final crop state after user presses one of two buttons.
         */
         handleFinalCrop: PropTypes.func,
 
     };
-    cropperRef: React.RefObject<unknown>;
 
     constructor(props: Props) {
         super(props);
-        this.cropperRef = React.createRef();
         this.state = {
             show: true,
             crop: {x: 0, y: 0},
@@ -53,7 +51,7 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
     }
 
     onCropComplete = (croppedArea,croppedAreaPixels): void => {
-        this.props.handleCroppedAreaPixels(croppedAreaPixels);
+        this.props.setCroppedAreaPixels(croppedAreaPixels);
     }
 
     onZoomChange = (zoom: number): void => {
