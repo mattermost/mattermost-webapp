@@ -10,11 +10,11 @@
 
         .DayPicker-Caption {
             border-bottom: 1px solid transparent;
-            margin: 0 0.5rem .7rem;
-            padding: 0 0.5rem .7rem;
+            margin: 0 0.5rem 0.7rem;
+            padding: 0 0.5rem 0.7rem;
             text-align: center;
 
-            >div {
+            > div {
                 font-size: inherit;
             }
         }
@@ -38,7 +38,7 @@
 
         .DayPicker-NavButton {
             top: 0;
-            right: .5rem;
+            right: 0.5rem;
             margin-top: 2px;
             outline: none;
         }
@@ -59,7 +59,7 @@
         border-radius: 4px;
         padding: 20px 24px;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-        box-shadow: 0 8px 24px 0 alpha-color(black, .12);
+        box-shadow: 0 8px 24px 0 alpha-color(black, 0.12);
 
         & .DayPicker {
             margin-top: 8px;

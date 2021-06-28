@@ -1,3 +1,44 @@
+#statusDropdownMenu-timedDND {
+    .icon {
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        display: inline-flex;
+        padding: 0;
+        margin: 0 8px 0 0;
+        position: relative;
+
+        span {
+            display: flex;
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    #status-menu-dnd-timed {
+        padding: 4px 16px;
+
+        .dropdown-menu {
+            margin: auto;
+
+            #dndSubMenu-header {
+                font-weight: bold;
+                pointer-events: none;
+            }
+        }
+
+        .icon {
+            top: 2px;
+        }
+
+        .SubMenu__icon-right {
+            padding-top: 5px;
+        }
+    }
+}
 .custom_status__row {
     font-size: inherit;
     height: auto;
@@ -33,7 +74,7 @@
         white-space: nowrap;
     }
 
-    &__expiry.MenuItem__help-text{
+    &__expiry.MenuItem__help-text {
         padding-left: 28px;
     }
 }
@@ -45,10 +86,9 @@
     top: 10px;
     right: 21px;
     padding: 0;
-    &:hover{
+    &:hover {
         background: transparent;
     }
-
 }
 
 .custom-status {
@@ -68,14 +108,17 @@
     margin-left: auto;
     position: relative;
 
-    &, &::before, &::after {
+    &,
+    &::before,
+    &::after {
         height: 12px;
         width: 12px;
         background-color: var(--online-indicator);
         border-radius: 50%;
     }
 
-    &::before, &::after {
+    &::before,
+    &::after {
         content: "";
         display: block;
         position: absolute;
