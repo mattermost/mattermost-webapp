@@ -20,6 +20,7 @@ import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
+import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
@@ -29,6 +30,8 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserCustomStatus, UserStatus, CustomStatusDuration} from 'mattermost-redux/types/users';
 
 import './status_dropdown.scss';
+import {toUTCUnix} from 'utils/datetime';
+import {getCurrentDateTimeForTimezone} from 'utils/timezone';
 
 type Props = {
     status?: string;
@@ -46,6 +49,7 @@ type Props = {
     isCustomStatusExpired: boolean;
     isStatusDropdownOpen: boolean;
     showCustomStatusPulsatingDot: boolean;
+    isTimedDNDEnabled: boolean;
     timezone?: string;
 }
 
@@ -62,15 +66,25 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         status: UserStatuses.OFFLINE,
     }
 
-    isUserOutOfOffice = (): boolean => {
-        return this.props.status === UserStatuses.OUT_OF_OFFICE;
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            openUp: false,
+            width: 0,
+        };
     }
 
-    setStatus = (status: string): void => {
+    setStatus = (status: string, dndEndTime?: number): void => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status,
+            dnd_end_time: dndEndTime,
         });
+    }
+
+    isUserOutOfOffice = (): boolean => {
+        return this.props.status === UserStatuses.OUT_OF_OFFICE;
     }
 
     setOnline = (event: Event): void => {
@@ -88,9 +102,50 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.setStatus(UserStatuses.AWAY);
     }
 
-    setDnd = (event: Event): void => {
+    setDndUntimed = (event: Event): void => {
         event.preventDefault();
         this.setStatus(UserStatuses.DND);
+    }
+
+    setDnd = (index: number): void => {
+        const currentDate = this.props.timezone ? getCurrentDateTimeForTimezone(this.props.timezone) : new Date();
+        const currentTime = currentDate.getTime();
+        let endTime = new Date(currentTime);
+        switch (index) {
+        case 0:
+            // add 30 minutes in current time
+            endTime = new Date(currentTime + (30 * 60 * 1000));
+            break;
+        case 1:
+            // add 1 hour in current time
+            endTime = new Date(currentTime + (1 * 60 * 60 * 1000));
+            break;
+        case 2:
+            // add 2 hours in current time
+            endTime = new Date(currentTime + (2 * 60 * 60 * 1000));
+            break;
+        case 3:
+            // add one day in current date and set hours to last minute of the day
+            endTime = new Date(currentDate);
+            endTime.setDate(currentDate.getDate() + 1);
+            endTime.setHours(23, 59, 59, 999);
+            break;
+        }
+
+        const dndEndTime = toUTCUnix(endTime);
+        this.setStatus(UserStatuses.DND, dndEndTime);
+    }
+
+    setCustomTimedDnd = (): void => {
+        const dndCustomTimePicker = {
+            modalId: ModalIdentifiers.DND_CUSTOM_TIME_PICKER,
+            dialogType: DndCustomTimePicker,
+            dialogProps: {
+                currentDate: this.props.timezone ? getCurrentDateTimeForTimezone(this.props.timezone) : new Date(),
+            },
+        };
+
+        this.props.actions.openModal(dndCustomTimePicker);
     }
 
     showStatusChangeConfirmation = (status: string): void => {
@@ -226,18 +281,35 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const profilePicture = this.renderProfilePicture();
         const dropdownIcon = this.renderDropdownIcon();
+        const {isTimedDNDEnabled} = this.props;
 
         const setOnline = needsConfirm ? () => this.showStatusChangeConfirmation('online') : this.setOnline;
         const setDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setDnd;
+        const setDndUntimed = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setDndUntimed;
         const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
+        const setCustomTimedDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setCustomTimedDnd;
+
+        const dndSubMenuItems = [{
+            id: 'dndSubMenu-header',
+            direction: 'right',
+            text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Disable notifications until:'),
+        } as any].concat(
+            this.dndTimes.map((time, index) => {
+                return {
+                    id: `dndTime-${time.split(' ').join('')}`,
+                    direction: 'right',
+                    text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
+                    action: index === 4 ? () => setCustomTimedDnd() : () => setDnd(index),
+                } as any;
+            }));
 
         const customStatusComponent = this.renderCustomStatus();
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
                 open={this.props.isStatusDropdownOpen}
-                className={'status-dropdown-menu'}
+                className='status-dropdown-menu'
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
@@ -256,7 +328,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 </div>
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
-                    id='statusDropdownMenu'
+                    id={isTimedDNDEnabled ? 'statusDropdownMenu-timedDND' : 'statusDropdownMenu'}
                 >
                     {!this.props.isCustomStatusEnabled && (
                         <Menu.Header>
@@ -291,13 +363,25 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             icon={<StatusAwayIcon className={'away--icon'}/>}
                             id={'status-menu-away'}
                         />
-                        <Menu.ItemAction
-                            onClick={setDnd}
-                            ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
-                            text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
-                            icon={<StatusDndIcon className={'dnd--icon'}/>}
-                            id={'status-menu-dnd'}
-                        />
+                        {isTimedDNDEnabled ?
+                            <Menu.ItemSubMenu
+                                subMenu={dndSubMenuItems}
+                                ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
+                                text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
+                                icon={<StatusDndIcon className={'dnd--icon'}/>}
+                                direction={'right'}
+                                openUp={this.state.openUp}
+                                id={'status-menu-dnd-timed'}
+                            /> :
+                            <Menu.ItemAction
+                                onClick={setDndUntimed}
+                                ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
+                                text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
+                                extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
+                                icon={<StatusDndIcon className={'dnd--icon'}/>}
+                                id={'status-menu-dnd'}
+                            />
+                        }
                         <Menu.ItemAction
                             onClick={setOffline}
                             ariaLabel={localizeMessage('status_dropdown.set_offline', 'Offline').toLowerCase()}
