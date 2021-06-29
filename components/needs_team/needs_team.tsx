@@ -24,6 +24,7 @@ import ChannelController from 'components/channel_layout/channel_controller';
 import Pluggable from 'plugins/pluggable';
 
 import LocalStorageStore from 'stores/local_storage_store';
+import GlobalHeader from 'components/global/global_header';
 
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
@@ -301,37 +302,40 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
 
         return (
-            <Switch>
-                <Route
-                    path={'/:team/integrations'}
-                    component={BackstageController}
-                />
-                <Route
-                    path={'/:team/emoji'}
-                    component={BackstageController}
-                />
-                {this.props.plugins?.map((plugin: any) => (
+            <>
+                <GlobalHeader/>
+                <Switch>
                     <Route
-                        key={plugin.id}
-                        path={'/:team/' + plugin.route}
-                        render={() => (
-                            <Pluggable
-                                pluggableName={'NeedsTeamComponent'}
-                                pluggableId={plugin.id}
+                        path={'/:team/integrations'}
+                        component={BackstageController}
+                    />
+                    <Route
+                        path={'/:team/emoji'}
+                        component={BackstageController}
+                    />
+                    {this.props.plugins?.map((plugin: any) => (
+                        <Route
+                            key={plugin.id}
+                            path={'/:team/' + plugin.route}
+                            render={() => (
+                                <Pluggable
+                                    pluggableName={'NeedsTeamComponent'}
+                                    pluggableId={plugin.id}
+                                />
+                            )}
+                        />
+                    ))}
+                    <Route
+                        render={(renderProps) => (
+                            <ChannelController
+                                pathName={renderProps.location.pathname}
+                                fetchingChannels={!this.state.finishedFetchingChannels}
+                                useLegacyLHS={this.props.useLegacyLHS}
                             />
                         )}
                     />
-                ))}
-                <Route
-                    render={(renderProps) => (
-                        <ChannelController
-                            pathName={renderProps.location.pathname}
-                            fetchingChannels={!this.state.finishedFetchingChannels}
-                            useLegacyLHS={this.props.useLegacyLHS}
-                        />
-                    )}
-                />
-            </Switch>
+                </Switch>
+            </>
         );
     }
 }

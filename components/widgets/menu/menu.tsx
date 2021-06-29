@@ -24,6 +24,7 @@ type Props = {
     id?: string;
     ariaLabel: string;
     customStyles?: CSSProperties;
+    className?: string;
 }
 
 export default class Menu extends React.PureComponent<Props> {
@@ -134,7 +135,7 @@ export default class Menu extends React.PureComponent<Props> {
                 <ul
                     ref={this.node}
                     style={styles}
-                    className='Menu__content dropdown-menu'
+                    className={'Menu__content dropdown-menu ' + this.props.className}
                     onClick={this.handleMenuClick}
                 >
                     {children}
