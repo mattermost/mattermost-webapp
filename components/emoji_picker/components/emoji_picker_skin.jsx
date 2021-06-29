@@ -27,7 +27,7 @@ const skinToneEmojis = new Map(skinsList.map((pair) => [pair[1], Emoji.Emojis[Em
 
 export class EmojiPickerSkin extends React.PureComponent {
     static propTypes = {
-        recentSkin: PropTypes.string.isRequired,
+        userSkinTone: PropTypes.string.isRequired,
         onSkinSelected: PropTypes.func.isRequired,
         intl: intlShape.isRequired,
     };
@@ -52,7 +52,7 @@ export class EmojiPickerSkin extends React.PureComponent {
 
     hideSkinTonePicker = (skin) => {
         this.setState({pickerExtended: false});
-        if (skin !== this.props.recentSkin) {
+        if (skin !== this.props.userSkinTone) {
             this.props.onSkinSelected(skin);
         }
     }
@@ -88,7 +88,7 @@ export class EmojiPickerSkin extends React.PureComponent {
                 <div className='skin-tones__close'>
                     <button
                         className='skin-tones__close-icon'
-                        onClick={() => this.hideSkinTonePicker(this.props.recentSkin)}
+                        onClick={() => this.hideSkinTonePicker(this.props.userSkinTone)}
                     >
                         <i className='icon-close icon--no-spacing icon-16'/>
                     </button>
@@ -105,7 +105,7 @@ export class EmojiPickerSkin extends React.PureComponent {
         );
     }
     collapsed() {
-        const emoji = skinToneEmojis.get(this.props.recentSkin);
+        const emoji = skinToneEmojis.get(this.props.userSkinTone);
         const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.image}`);
         const tooltip = (
             <Tooltip
@@ -129,11 +129,11 @@ export class EmojiPickerSkin extends React.PureComponent {
                 <div className='skin-tones__icon'>
                     <img
                         alt={'emoji skin tone picker'}
-                        data-testid={`skin-picked-${this.props.recentSkin}`}
+                        data-testid={`skin-picked-${this.props.userSkinTone}`}
                         src={imgTrans}
                         className={spriteClassName}
                         onClick={this.showSkinTonePicker}
-                        aria-label={this.ariaLabel(this.props.recentSkin)}
+                        aria-label={this.ariaLabel(this.props.userSkinTone)}
                         role='button'
                     />
                 </div>
