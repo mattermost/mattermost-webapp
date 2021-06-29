@@ -9,9 +9,10 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
-import {Constants} from 'utils/constants';
+import {Constants, Preferences} from 'utils/constants';
 import {getItemFromStorage} from 'selectors/storage';
 import EmojiMap from 'utils/emoji_map';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 export const getEmojiMap = createSelector(
     'getEmojiMap',
@@ -39,17 +40,8 @@ export const getRecentEmojis = createSelector(
     },
 );
 
-function getStateRecentSkin(state) {
-    return state.views.emoji?.recentSkin;
-}
-
-export function getRecentSkin(state) {
-    const stateSkin = getStateRecentSkin(state);
-    if (stateSkin) {
-        return stateSkin;
-    }
-    const recentSkin = LocalStorageStore.getRecentSkin(getCurrentUserId(state));
-    return recentSkin || 'default';
+export function getUserSkinTone(state) {
+    return get(state, Preferences.CATEGORY_EMOJI, Preferences.EMOJI_SKINTONE, 'default');
 }
 
 export function isCustomEmojiEnabled(state) {
