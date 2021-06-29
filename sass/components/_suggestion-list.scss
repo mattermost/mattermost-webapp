@@ -88,11 +88,12 @@
     -webkit-overflow-scrolling: touch;
     background-color: v(center-channel-bg);
     border: 1px solid v(center-channel-color-16);
-    max-height: 292px;
+    max-height: 296px;
     overflow-x: auto;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     overflow-y: auto;
     padding-bottom: 12px;
+    padding-top: 8px;
     max-width: 100%;
     width: 496px;
 
