@@ -28,48 +28,48 @@
     }
 
     .tooltip-inner {
-        background-color: var(--sys-center-channel-bg);
-        color: var(--sys-center-channel-color);
-        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
-        border-radius: 4px;
         position: relative;
-        text-align: left;
-        opacity: 1;
-        padding: 24px;
-        max-width: none;
         min-width: 337px;
-        box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.12);
+        max-width: none;
+        padding: 24px;
+        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+        background-color: var(--sys-center-channel-bg);
+        border-radius: 4px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        color: var(--sys-center-channel-color);
+        opacity: 1;
+        text-align: left;
     }
 
     .tooltip-arrow {
-        border-bottom-color: rgba(var(--sys-center-channel-color-rgb), 0.08);
         z-index: 2;
         border-width: 0 11px 11px;
+        border-bottom-color: rgba(var(--sys-center-channel-color-rgb), 0.08);
 
         &::before {
-            content: '';
-            display: block;
             position: relative;
+            top: -10px;
+            left: -11px;
+            display: block;
             width: 0;
             height: 0;
             border: 11px solid transparent;
-            top: -10px;
-            left: -11px;
             border-bottom-color: var(--sys-center-channel-bg);
+            content: '';
         }
     }
 }
 
 .BillingSubscriptions__tooltipTitle {
-    font-weight: 600;
     font-size: 16px;
+    font-weight: 600;
     line-height: 24px;
 }
 
 .BillingSubscriptions__tooltipMessage {
+    margin-top: 8px;
     font-size: 14px;
     line-height: 20px;
-    margin-top: 8px;
 }
 
 .UpgradeMattermostCloud {
@@ -83,31 +83,31 @@
 .UpgradeMattermostCloud__title {
     align-self: flex-start;
     margin-top: 32px;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 24px;
     color: var(--sys-center-channel-color);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
 }
 
 .UpgradeMattermostCloud__description {
     margin-top: 12px;
+    color: var(--sys-center-channel-color);
     font-size: 14px;
     line-height: 20px;
-    color: var(--sys-center-channel-color);
 }
 
 .UpgradeMattermostCloud__upgradeButton {
-    margin-top: 16px;
-    box-shadow: inset 0 0 0 1px var(--sys-button-bg);
-    border: none;
-    border-radius: 4px;
-    padding: 13px 0;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 14px;
-    background: var(--button-bg);
-    color: var(--button-color);
     width: 100%;
+    padding: 13px 0;
+    border: none;
+    margin-top: 16px;
+    background: var(--button-bg);
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px var(--sys-button-bg);
+    color: var(--button-color);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
 
     &:hover:not(.disabled) {
         background: linear-gradient(0deg, rgba(var(--center-channel-color-rgb), 0.16), rgba(var(--center-channel-color-rgb), 0.16)), var(--button-bg);
@@ -122,19 +122,19 @@
     }
 
     &.disabled {
-        color: rgba(var(--center-channel-color-rgb), 0.32);
         background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.32);
     }
 }
 
 .PrivateCloudCard {
-    margin-top: 20px;
-    padding: 32px 54px 18px 32px;
     display: flex;
-    background-color: var(--sys-center-channel-bg);
+    padding: 32px 54px 18px 32px;
     border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+    background-color: var(--sys-center-channel-bg);
     border-radius: 4px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
 
     .UpgradeMattermostCloud__upgradeButton {
         max-width: 200px;
@@ -147,8 +147,8 @@
 }
 
 .PrivateCloudCard__text-title {
-    font-weight: 600;
     font-size: 16px;
+    font-weight: 600;
     line-height: 24px;
 }
 
@@ -159,23 +159,23 @@
 }
 
 .PrivateCloudCard__image {
-    margin-left: 96px;
     flex: 0 0 234px;
+    margin-left: 96px;
 }
 
 .PrivateCloudCard__actionButton {
-    background: var(--sys-center-channel-bg);
+    display: block;
+    width: fit-content;
+    padding: 13px 20px;
     border: none;
+    margin-top: 16px;
+    background: var(--sys-center-channel-bg);
     border-radius: 4px;
     box-shadow: inset 0 0 0 1px var(--sys-button-bg);
     color: var(--sys-button-bg);
-    display: block;
-    font-weight: 600;
     font-size: 14px;
-    margin-top: 16px;
+    font-weight: 600;
     line-height: 14px;
-    padding: 13px 20px;
-    width: fit-content;
 
     &:hover:not(.disabled) {
         background: rgba(var(--sys-button-bg-rgb), 0.04);
@@ -194,9 +194,9 @@
 }
 
 .cancelSubscriptionSection {
-    margin-top: 20px;
-    padding: 12px 54px 18px 32px;
     display: flex;
+    padding: 12px 54px 18px 32px;
+    margin-top: 20px;
 }
 
 .cancelSubscriptionSection__text {
@@ -205,34 +205,34 @@
 }
 
 .cancelSubscriptionSection__text-title {
-    font-weight: 600;
     font-size: 12px;
+    font-weight: 600;
     line-height: 16px;
 }
 
 .cancelSubscriptionSection__text-description {
     margin-top: 12px;
-    font-weight: 400;
     font-size: 12px;
+    font-weight: 400;
     line-height: 16px;
 }
 
 .cancelSubscriptionSection__contactUs {
-    margin-top: 16px;
-    color: var(--sys-dnd-indicator);
-    box-shadow: inset 0 0 0 1px var(--sys-dnd-indicator);
-    border-radius: 4px;
-    padding: 13px 20px;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 9.5px;
     display: block;
     width: fit-content;
+    padding: 13px 20px;
+    margin-top: 16px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px var(--sys-dnd-indicator);
+    color: var(--sys-dnd-indicator);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 9.5px;
 
     &:hover:not(.disabled) {
         background: rgba(var(--sys-dnd-indicator-rgb), 0.04);
-        text-decoration: none;
         color: var(--sys-dnd-indicator);
+        text-decoration: none;
     }
 
     &:active {
@@ -241,8 +241,8 @@
     }
 
     &:focus {
-        color: var(--sys-dnd-indicator);
         box-shadow: inset 0 0 0 2px var(--sys-dnd-indicator);
+        color: var(--sys-dnd-indicator);
         text-decoration: none;
     }
 }

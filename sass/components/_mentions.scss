@@ -2,23 +2,24 @@
 
 .mention {
     @include border-radius(3px);
-    background: $primary-color;
-    color: $white;
-    padding-bottom: 2px;
+
     position: relative;
     z-index: 10;
+    padding-bottom: 2px;
+    background: $primary-color;
+    color: $white;
 }
 
 .badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
     background-color: #777;
     border-radius: 10px;
     color: #fff;
-    display: inline-block;
     font-size: 12px;
     font-weight: bold;
     line-height: 1;
-    min-width: 10px;
-    padding: 3px 7px;
     text-align: center;
     vertical-align: middle;
     white-space: nowrap;
@@ -26,8 +27,8 @@
 
 .mention--highlight {
     padding: 0 1px;
-    border-radius: 4px;
     background-color: $yellow;
+    border-radius: 4px;
 
     .mention--highlight {
         padding: 0;

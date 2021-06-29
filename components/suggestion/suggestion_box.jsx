@@ -454,10 +454,13 @@ export default class SuggestionBox extends React.PureComponent {
             fixedTerm = term.substring(0, term.length - EXECUTE_CURRENT_COMMAND_ITEM_ID.length);
             finish = true;
         }
-        if (this.props.replaceAllInputOnSelect) {
-            this.replaceText(fixedTerm);
-        } else {
-            this.addTextAtCaret(fixedTerm, matchedPretext);
+
+        if (!finish) {
+            if (this.props.replaceAllInputOnSelect) {
+                this.replaceText(fixedTerm);
+            } else {
+                this.addTextAtCaret(fixedTerm, matchedPretext);
+            }
         }
 
         if (this.props.onItemSelected) {
@@ -557,13 +560,14 @@ export default class SuggestionBox extends React.PureComponent {
 
     handleKeyDown = (e) => {
         if ((this.props.openWhenEmpty || this.props.value) && this.hasSuggestions()) {
+            const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
             if (Utils.isKeyPressed(e, KeyCodes.UP)) {
                 this.selectPrevious();
                 e.preventDefault();
             } else if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
                 this.selectNext();
                 e.preventDefault();
-            } else if (Utils.isKeyPressed(e, KeyCodes.ENTER) || (this.props.completeOnTab && Utils.isKeyPressed(e, KeyCodes.TAB))) {
+            } else if ((Utils.isKeyPressed(e, KeyCodes.ENTER) && !ctrlOrMetaKeyPressed) || (this.props.completeOnTab && Utils.isKeyPressed(e, KeyCodes.TAB))) {
                 let matchedPretext = '';
                 for (let i = 0; i < this.state.terms.length; i++) {
                     if (this.state.terms[i] === this.state.selection) {

@@ -552,4 +552,33 @@ describe('Reducers.RHS', () => {
 
         expect(nextState).toEqual(initialState);
     });
+
+    test('SUPPRESS_RHS', () => {
+        const state = {
+            filesSearchExtFilter: ['png'],
+            selectedPostId: 'post_id',
+            selectedPostFocussedAt: 400,
+            selectedPostCardId: 'post_card_id',
+            selectedChannelId: 'channel_id',
+            highlightedPostId: 'highlighted_post_id',
+            previousRhsState: 'search',
+            rhsState: 'flag',
+            searchTerms: 'user_id',
+            searchType: '',
+            searchResultsTerms: 'user id',
+            pluggableId: 'pluggable_id',
+            isSearchingFlaggedPost: true,
+            isSearchingPinnedPost: true,
+            isMenuOpen: true,
+            isSidebarOpen: true,
+            isSidebarExpanded: true,
+        };
+
+        const nextState = rhsReducer(state, {type: ActionTypes.SUPPRESS_RHS});
+
+        expect(nextState).toEqual({
+            ...state,
+            isSidebarExpanded: false,
+        });
+    });
 });

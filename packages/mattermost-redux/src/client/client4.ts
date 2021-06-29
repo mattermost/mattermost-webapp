@@ -2651,7 +2651,8 @@ export default class Client4 {
     };
 
     getSystemEmojiImageUrl = (filename: string) => {
-        return `${this.url}/static/emoji/${filename}.png`;
+        const extension = filename.endsWith('.png') ? '' : '.png';
+        return `${this.url}/static/emoji/${filename}${extension}`;
     };
 
     getCustomEmojiImageUrl = (id: string) => {
@@ -3143,6 +3144,13 @@ export default class Client4 {
             {method: 'delete'},
         );
     };
+
+    getPrevTrialLicense = () => {
+        return this.doFetch<ClientLicense>(
+            `${this.getBaseRoute()}/trial-license/prev`,
+            {method: 'get'},
+        );
+    }
 
     getAnalytics = (name = 'standard', teamId = '') => {
         return this.doFetch<AnalyticsRow[]>(

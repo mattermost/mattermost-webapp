@@ -4,8 +4,9 @@
 import React, {ReactNode, MouseEventHandler} from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 import CloseIcon from 'components/widgets/icons/close_icon';
 import Constants from 'utils/constants';
@@ -94,22 +95,22 @@ export default class Toast extends React.PureComponent<Props> {
                     {showActions && jumpSection()}
                     {this.props.children}
                 </div>
-                <div
-                    className='toast__dismiss'
-                    onClick={this.handleDismiss}
-                    data-testid={extraClasses ? `dismissToast-${extraClasses}` : 'dismissToast'}
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={closeTooltip}
                 >
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='bottom'
-                        overlay={closeTooltip}
+                    <div
+                        className='toast__dismiss'
+                        onClick={this.handleDismiss}
+                        data-testid={extraClasses ? `dismissToast-${extraClasses}` : 'dismissToast'}
                     >
                         <CloseIcon
                             className='close-btn'
                             id='dismissToast'
                         />
-                    </OverlayTrigger>
-                </div>
+                    </div>
+                </OverlayTrigger>
             </div>
         );
     }

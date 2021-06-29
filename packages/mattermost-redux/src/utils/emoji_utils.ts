@@ -17,7 +17,7 @@ export function getEmojiImageUrl(emoji: Emoji): string {
         return Client4.getEmojiRoute(emoji.id) + '/image';
     }
 
-    const filename = emoji.filename || emoji.aliases[0];
+    const filename = emoji.image || emoji.short_names[0];
     return Client4.getSystemEmojiImageUrl(filename);
 }
 

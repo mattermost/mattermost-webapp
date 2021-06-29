@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import * as reselect from 'reselect';
+
 import moment from 'moment-timezone';
+
+import * as reselect from 'reselect';
 
 import {Posts, Preferences} from '../constants';
 import {makeGetPostsForIds} from 'mattermost-redux/selectors/entities/posts';
@@ -47,6 +49,7 @@ export function makeFilterPostsAndAddSeparators() {
     const getPostsForIds = makeGetPostsForIds();
 
     return createIdsSelector(
+        'makeFilterPostsAndAddSeparators',
         (state: GlobalState, {postIds}: PostFilterOptions) => getPostsForIds(state, postIds),
         (state: GlobalState, {lastViewedAt}: PostFilterOptions) => lastViewedAt,
         (state: GlobalState, {indicateNewMessages}: PostFilterOptions) => indicateNewMessages,
@@ -121,6 +124,7 @@ export function makeFilterPostsAndAddSeparators() {
 
 export function makeCombineUserActivityPosts() {
     return createIdsSelector(
+        'makeCombineUserActivityPosts',
         (state: GlobalState, postIds: string[]) => postIds,
         (state) => state.entities.posts.posts,
         (postIds, posts) => {
@@ -262,6 +266,7 @@ export function makeGenerateCombinedPost() {
     const getPostIds = memoizeResult(getPostIdsForCombinedUserActivityPost);
 
     return reselect.createSelector(
+        'makeGenerateCombinedPost',
         (state: GlobalState, combinedId: string) => combinedId,
         (state: GlobalState, combinedId: string) => getPostsForIds(state, getPostIds(combinedId)),
         (combinedId, posts) => {
