@@ -90,9 +90,11 @@ body {
 
 img {
     max-width: 100%;
-    &.screenshot{
-        display:block;
-        margin-left: auto;
+
+    &.screenshot {
+        display: block;
         margin-right: auto;
+        margin-left: auto;
+        
     }
 }
