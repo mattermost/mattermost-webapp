@@ -112,6 +112,14 @@ export const Preferences = {
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
 };
 
+export const TrialPeriodDays = {
+    TRIAL_MAX_DAYS: 14,
+    TRIAL_WARNING_THRESHOLD: 3,
+    TRIAL_2_DAYS: 2,
+    TRIAL_1_DAY: 1,
+    TRIAL_0_DAYS: 0,
+};
+
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,

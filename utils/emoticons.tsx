@@ -20,11 +20,9 @@ export const emoticonPatterns: { [key: string]: RegExp } = {
     mask: /(^|\B)(:-x)($|\b)/gi, // :-x
     heart: /(^|\B)(<3|&lt;3)($|\b)/g, // <3
     broken_heart: /(^|\B)(<\/3|&lt;\/3)($|\b)/g, // </3
-    thumbsup: /(^|\B)(:\+1:)($|\B)/g, // :+1:
-    thumbsdown: /(^|\B)(:-1:)($|\B)/g, // :-1:
 };
 
-export const EMOJI_PATTERN = /(:([a-zA-Z0-9_-]+):)/g;
+export const EMOJI_PATTERN = /(:([a-zA-Z0-9_+-]+):)/g;
 
 export function matchEmoticons(text: string): RegExpMatchArray | null {
     let emojis = text.match(EMOJI_PATTERN);

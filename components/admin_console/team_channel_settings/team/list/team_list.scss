@@ -5,11 +5,10 @@
         }
 
         .DataGrid_cell {
-
             .TeamList_nameColumn {
                 display: flex;
-                align-items: center;
                 height: 80px;
+                align-items: center;
 
                 .TeamList_nameText {
                     overflow: hidden;
@@ -22,13 +21,13 @@
                 }
 
                 .TeamList_descriptionText {
-                    text-overflow: ellipsis;
                     overflow: hidden;
+                    text-overflow: ellipsis;
                 }
 
                 .TeamIcon {
-                    background: rgba(0, 0, 0, .12);
                     margin-right: 12px;
+                    background: rgba(0, 0, 0, 0.12);
                 }
             }
 

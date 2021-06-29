@@ -3,39 +3,39 @@
 @import 'sass/utils/variables';
 
 .nav-pills__unread-indicator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: absolute;
-    margin-left: 50%;
-    padding: 8px;
+    z-index: 2;
+    display: flex;
     width: 188px;
     height: auto;
-    font-size: 14px;
-    line-height: 16px;
-    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    margin-left: 50%;
+    background: var(--mention-bg);
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
-    font-weight: 700;
-    z-index: 2;
-    cursor: pointer;
-    transform: translateX(-50%);
-    opacity: 0;
-    visibility: hidden;
-    background: var(--mention-bg);
     color: var(--mention-color);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    opacity: 0;
+    text-align: center;
+    transform: translateX(-50%);
+    visibility: hidden;
 
     .icon {
         display: inline-flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         margin-right: 8px;
     }
 
     body.enable-animations & {
-        transition-property: opacity, visibility;
-        transition-duration: $transition-quick;
         transition-delay: 0s;
+        transition-duration: $transition-quick;
+        transition-property: opacity, visibility;
         transition-timing-function: ease-out, step-start;
     }
 
@@ -62,9 +62,9 @@
         visibility: visible;
 
         body.enable-animations & {
-            transition-property: opacity, visibility;
-            transition-duration: $transition-quick;
             transition-delay: 0s;
+            transition-duration: $transition-quick;
+            transition-property: opacity, visibility;
             transition-timing-function: ease-out, step-start;
         }
     }
@@ -83,4 +83,3 @@
         }
     }
 }
-
