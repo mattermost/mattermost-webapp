@@ -89,7 +89,7 @@ type Props = {
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
         getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
-        getStatusesByIds: (userIds: string[]) => void;
+        loadStatusesByIds: (userIds: string[]) => void;
         getTotalUsersStats: () => void;
         loadStatusesForProfilesList: (users: any) => {
             data: boolean;
@@ -201,7 +201,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             map((user) => user.id);
 
         if (missingStatusByIds.length > 0) {
-            this.props.actions.getStatusesByIds(missingStatusByIds);
+            this.props.actions.loadStatusesByIds(missingStatusByIds);
         }
     }
 

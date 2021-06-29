@@ -24,7 +24,9 @@ import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
 import {setSelectedThreadId} from 'actions/views/threads';
+import {unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
+import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
 import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
@@ -53,6 +55,7 @@ const GlobalThreads = () => {
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
+    const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id));
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id));
@@ -62,17 +65,35 @@ const GlobalThreads = () => {
     useEffect(() => {
         dispatch(selectChannel(''));
         loadProfilesForSidebar();
+
+        // unsuppresses RHS on navigating away (unmount)
+        return () => {
+            dispatch(unsuppressRHS);
+        };
     }, []);
+
+    useEffect(() => {
+        if (!selectedThreadId || selectedThreadId !== threadIdentifier) {
+            dispatch(setSelectedThreadId(currentTeamId, selectedThread?.id));
+        }
+    }, [currentTeamId, selectedThreadId, threadIdentifier]);
+
     useEffect(() => {
         dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 200}));
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
-        dispatch(setSelectedThreadId(currentTeamId, selectedThread?.id));
         if ((!selectedThread || !selectedPost) && !isLoading) {
             clear();
         }
     }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
+
+    // cleanup on unmount
+    useEffect(() => {
+        return () => {
+            dispatch(setSelectedThreadId(currentTeamId, ''));
+        };
+    }, []);
 
     return (
         <div

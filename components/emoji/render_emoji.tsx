@@ -42,6 +42,7 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
                 maxWidth: size,
                 minHeight: size,
                 minWidth: size,
+                overflow: 'hidden',
                 ...emojiStyle,
             }}
         />

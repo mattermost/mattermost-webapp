@@ -27,6 +27,8 @@ type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
     inputValue: string;
     inputType?: string;
     defaultValue: T;
+    dropdownClassNamePrefix?: string;
+    inputId?: string;
 };
 
 const baseStyles = {
@@ -91,6 +93,8 @@ const DropdownInputHybrid = <T extends OptionType = OptionType>(props: Props<T>)
         inputValue,
         inputType,
         defaultValue,
+        dropdownClassNamePrefix,
+        inputId,
         ...otherProps
     } = props;
 
@@ -201,6 +205,7 @@ const DropdownInputHybrid = <T extends OptionType = OptionType>(props: Props<T>)
                         required={false}
                         className={classNames('Input form-control')}
                         ref={inputRef}
+                        id={inputId}
                     />
                 </div>
                 <div
@@ -220,7 +225,7 @@ const DropdownInputHybrid = <T extends OptionType = OptionType>(props: Props<T>)
                             Control,
                         }}
                         className={classNames('Input', className, {Input__focus: showLegend})}
-                        classNamePrefix={'DropDown'}
+                        classNamePrefix={dropdownClassNamePrefix}
                         onChange={onValueChange as any}
                         styles={{...baseStyles, ...getMenuStyles()}}
                         value={value}

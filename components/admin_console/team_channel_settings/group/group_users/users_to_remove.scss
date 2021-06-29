@@ -1,16 +1,17 @@
 .UsersToRemove {
     .DataGrid {
         display: flex;
-        flex-direction: column;
-        height: calc(90vh - 190px);
         width: 100%;
+        height: calc(90vh - 190px);
+        flex-direction: column;
         padding: 0;
 
         .DataGrid_rows {
-            flex-grow: 500;
             height: 1px;
+            flex-grow: 500;
             overflow-y: scroll;
         }
+
         .DataGrid_empty {
             margin: auto;
         }
@@ -18,8 +19,8 @@
 
     .UsersToRemoveGroups {
         a {
-            text-decoration: none;
             color: var(--sys-center-channel-color);
+            text-decoration: none;
 
             &:hover {
                 text-decoration: underline;

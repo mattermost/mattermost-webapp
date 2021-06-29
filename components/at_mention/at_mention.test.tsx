@@ -4,7 +4,7 @@
 import React, {RefObject} from 'react';
 import {shallow} from 'enzyme';
 
-import AtMention from 'components/at_mention/at_mention.jsx';
+import AtMention from 'components/at_mention/at_mention';
 
 import {General} from 'mattermost-redux/constants';
 

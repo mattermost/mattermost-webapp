@@ -1,14 +1,14 @@
 .post-card--info {
-    border-top: $border-gray;
     position: fixed;
     bottom: 0;
-    width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    white-space: nowrap;
+    width: 100%;
     min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-top: $border-gray;
+    white-space: nowrap;
 
     .post-card--post-by {
         padding-right: 10px;
@@ -19,9 +19,9 @@
     }
 
     .more-modal__image {
-        height: 20px;
         width: 20px;
-        margin: 0px 2px 0px 4px
+        height: 20px;
+        margin: 0 2px 0 4px;
     }
 
     .user-popover {
