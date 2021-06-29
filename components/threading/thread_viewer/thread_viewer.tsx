@@ -346,9 +346,10 @@ export default class ThreadViewer extends React.Component<Props, State> {
         return Boolean(this.props.highlightedPostId || this.newMessagesRef.current);
     }
 
-    isInViewport = (element: HTMLDivElement|null): boolean => {
+    isInViewport = (element: HTMLDivElement): boolean => {
         const containerHeight = this.containerRef.current?.getBoundingClientRect().height;
-        if (!element || !containerHeight) {
+
+        if (!containerHeight) {
             return false;
         }
 
