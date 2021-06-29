@@ -3,14 +3,14 @@
 .compliance-panel__table,
 .audit-panel__table,
 .cluster-panel__table {
-    background-color: $white;
+    overflow: auto;
+    width: 100%;
+    min-height: 100px;
+    max-height: 70vh;
+    padding: 5px;
     border: 1px solid $border-gray;
     margin-top: 10px;
-    max-height: 70vh;
-    min-height: 100px;
-    overflow: auto;
-    padding: 5px;
-    width: 100%;
+    background-color: $white;
 }
 
 .compliance-panel,

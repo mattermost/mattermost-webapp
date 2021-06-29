@@ -1,10 +1,10 @@
 .channel-icon {
-    display: inline-block;
-    margin: 0 8px 0 0px;
     position: relative;
+    display: inline-block;
+    width: 15px;
+    margin: 0 8px 0 0;
     text-align: left;
     vertical-align: top;
-    width: 15px;
 }
 
 .channel-icon__lock,
@@ -14,6 +14,6 @@
 
 .channel-icon__archive,
 .channel-icon__unarchive {
-    left: -2px;
     top: 2px;
+    left: -2px;
 }
