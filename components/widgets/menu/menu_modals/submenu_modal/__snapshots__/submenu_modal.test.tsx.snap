@@ -50,6 +50,7 @@ exports[`components/submenu_modal should match snapshot 1`] = `
           key="A"
           root={false}
           show={true}
+          subMenuClass="pl-4"
           text="Text A"
         />
         <SubMenuItem
@@ -69,6 +70,7 @@ exports[`components/submenu_modal should match snapshot 1`] = `
               },
             ]
           }
+          subMenuClass="pl-4"
           text="Text B"
         />
       </Menu>

@@ -3,18 +3,18 @@
 
 .GlobalThreads___title {
     span {
+        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        overflow: hidden;
     }
 }
 
 .GlobalThreads {
-    --border: 1px solid rgba(var(--center-channel-color-rgb), .16);
+    --border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
 
     .GlobalThreads___header {
-        grid-area: header;
         border-bottom: var(--border);
+        grid-area: header;
     }
 
     .channel-header__icon,
@@ -23,8 +23,8 @@
     }
 
     .ThreadList {
-        grid-area: list;
         border-right: var(--border);
+        grid-area: list;
     }
 
     .ThreadPane,
@@ -34,6 +34,7 @@
 
     > .no-results__holder {
         grid-area: list/list/pane/pane;
+
         @media screen and (max-width: 1020px) {
             grid-area: main;
         }
@@ -42,6 +43,7 @@
     .no-results__wrapper svg {
         margin-bottom: 20px;
     }
+
     .no-results__subtitle {
         max-width: 378px;
     }
@@ -50,20 +52,19 @@
         overflow: hidden;
     }
 
-
     /* === Responsiveness === */
     --list: minmax(min-content, 300px);
     --pane: minmax(min-content, auto);
 
     display: grid;
     overflow: hidden;
+    grid-template-areas:
+        'header header'
+        'list pane';
 
     // 2-column
     grid-template-columns: var(--list) var(--pane);
     grid-template-rows: 63px 1fr;
-    grid-template-areas:
-        'header header'
-        'list pane';
 
     // single column
     @media screen and (max-width: 1020px) {
@@ -75,6 +76,7 @@
             .ThreadList {
                 grid-area: main;
             }
+
             .ThreadPane,
             .ThreadList + .no-results__holder {
                 display: none;
@@ -85,11 +87,14 @@
             .ThreadList {
                 display: none;
             }
+
             .ThreadPane {
                 grid-area: main;
+
                 .Header {
                     padding-left: 5px;
                 }
+
                 .back {
                     display: unset;
                 }
@@ -99,9 +104,11 @@
 
     @media screen and (max-width: 768px) {
         grid-template-rows: 0 1fr;
+
         > .Header {
             display: none;
         }
+
         .Header {
             border-top: var(--border);
         }
@@ -127,6 +134,7 @@
         @media screen and (min-width: 1267px) {
             --rhs-width: 400px;
         }
+
         @media screen and (min-width: 1680px) {
             --rhs-width: 500px;
         }

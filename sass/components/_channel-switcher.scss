@@ -25,23 +25,23 @@
         }
 
         .modal-header {
-            background: transparent;
-            border: none;
             min-height: 0;
             padding: 0;
+            border: none;
+            background: transparent;
 
             .close {
-                color: rgba(var(--center-channel-color-rgb), 0.56);
+                top: 6px;
+                right: 4px;
+                display: flex;
                 width: 4rem;
                 height: 4rem;
-                font-size: 32px;
-                font-weight: 400;
-                display: flex;
                 align-items: center;
                 justify-content: center;
-                right: 4px;
-                top: 6px;
                 border-radius: 4px;
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                font-size: 32px;
+                font-weight: 400;
 
                 &:hover {
                     background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -75,12 +75,12 @@
         }
 
         .react-select__multi-value__label {
-            color: inherit;
             display: flex;
             align-items: center;
+            padding: 4px;
+            color: inherit;
             font-size: 14px;
             font-weight: 600;
-            padding: 4px;
         }
 
         .react-select__value__name {
@@ -92,22 +92,22 @@
         }
 
         .multi-select__wrapper {
-            padding: 12px 0;
-            height: auto;
-            overflow: auto;
             position: absolute;
+            z-index: 5;
+            overflow: auto;
             width: calc(100% - 48px);
+            height: auto;
+            max-height: 272px;
+            padding: 12px 0;
+            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
             margin: -28px 0 0 24px;
             background: rgba(var(--sys-center-channel-bg-rgb), 1);
-            box-shadow: $elevation-4;
             border-radius: 4px;
-            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
-            max-height: 272px;
-            z-index: 5;
+            box-shadow: $elevation-4;
 
             .app__body & {
-                background: rgba(var(--center-channel-bg-rgb), 1);
                 border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                background: rgba(var(--center-channel-bg-rgb), 1);
             }
         }
 
@@ -117,11 +117,11 @@
         }
 
         .btn-primary {
+            height: 40px;
+            padding: 0 36px;
+            border-radius: 4px;
             font-size: 14px;
             font-weight: 600;
-            padding: 0 36px;
-            height: 40px;
-            border-radius: 4px;
         }
 
         .no-channel-message {
@@ -129,8 +129,8 @@
             font-size: 1.4rem;
 
             .primary-message {
-                font-size: inherit;
                 margin: 0;
+                font-size: inherit;
             }
         }
 
@@ -147,8 +147,8 @@
             height: auto;
 
             .more-modal__options {
-                min-height: auto;
                 overflow: visible;
+                min-height: auto;
             }
         }
 
@@ -167,10 +167,9 @@
         }
 
         .more-modal__row {
-            border: none;
             height: 40px;
             padding: 0 2.4rem;
-
+            border: none;
 
             .more-modal__name {
                 font-weight: 400;
@@ -183,32 +182,32 @@
     }
 
     .channel-switcher__suggestion-box {
-        height: 362px;
         position: relative;
+        height: 362px;
         padding: 0;
 
         .icon-magnify {
-            opacity: .48;
+            position: absolute;
+            top: 1.1rem;
+            left: 3.4rem;
+            display: flex;
             width: 2rem;
             height: 2rem;
-            display: flex;
             align-items: center;
-            top: 1.1rem;
-            position: absolute;
-            left: 3.4rem;
+            opacity: 0.48;
         }
 
         .badge {
-            right: 16px;
             top: 10px;
+            right: 16px;
         }
 
         .form-control {
-            padding: 0 34px;
-            height: 40px;
-            border-radius: 4px;
-            margin: 0 24px;
             width: calc(100% - 48px);
+            height: 40px;
+            padding: 0 34px;
+            margin: 0 24px;
+            border-radius: 4px;
 
             &:focus {
                 padding: 0 33px;
@@ -223,35 +222,35 @@
         }
 
         .suggestion-list__content {
-            height: auto;
-            width: 100%;
-            box-shadow: none;
-            border: none;
             overflow: auto;
+            width: 100%;
+            height: auto;
             padding: 0;
+            border: none;
+            box-shadow: none;
         }
 
         .status-wrapper {
-            height: 24px;
             overflow: visible;
+            height: 24px;
             margin-top: 4px;
             margin-right: 12px;
 
             .status {
-                bottom: -4px;
                 right: -2px;
+                bottom: -4px;
 
                 svg {
-                    max-width: 11px;
                     left: 2px;
+                    max-width: 11px;
                 }
             }
         }
 
         .Avatar {
             width: 24px;
-            height: 24px;
             min-width: auto;
+            height: 24px;
 
             &-sm {
                 margin: 0;
@@ -262,7 +261,7 @@
             &:first-child {
                 margin: 0;
 
-                &:before {
+                &::before {
                     display: none;
                 }
             }
@@ -282,8 +281,8 @@
     padding: 2.4rem 2.4rem 1.6rem;
 
     h1 {
-        font-weight: 600;
+        margin: 0 0 0.8rem;
         font-size: 2rem;
-        margin: 0 0 .8rem;
+        font-weight: 600;
     }
 }
