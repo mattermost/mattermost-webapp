@@ -18,6 +18,8 @@
     .announcement-bar__text {
         display: flex;
         overflow: hidden;
+        width: 100%;
+        justify-content: center;
         white-space: nowrap;
         align-items: center;
 
@@ -32,6 +34,15 @@
             font-weight: 600;
             font-size: 14px;
             line-height: 20px;
+        }
+
+        .annnouncementBar__purchaseNow,
+        .annnouncementBar__renewLicense {
+            margin-top: 0;
+        }
+
+        .annnouncementBar__renewLicense {
+            border-color: $white;
         }
     }
 
