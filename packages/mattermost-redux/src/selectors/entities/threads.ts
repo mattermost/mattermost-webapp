@@ -15,6 +15,7 @@ export function getThreadsInTeam(state: GlobalState): RelationOneToMany<Team, Us
 }
 
 export const getThreadsInCurrentTeam: (state: GlobalState) => Array<$ID<UserThread>> = createSelector(
+    'getThreadsInCurrentTeam',
     getCurrentTeamId,
     getThreadsInTeam,
     (
@@ -34,6 +35,7 @@ export function getTeamThreadCounts(state: GlobalState, teamId: $ID<Team>): Thre
 }
 
 export const getThreadCountsInCurrentTeam: (state: GlobalState) => ThreadsState['counts'][$ID<Team>] = createSelector(
+    'getThreadCountsInCurrentTeam',
     getCurrentTeamId,
     getThreadCounts,
     (
@@ -78,6 +80,7 @@ export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserTh
 }
 
 export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => Array<$ID<UserThread>> = createSelector(
+    'getThreadOrderInCurrentTeam',
     getThreadsInCurrentTeam,
     getThreads,
     (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => selectedThreadIdInTeam,
@@ -101,6 +104,7 @@ export const getUnreadThreadOrderInCurrentTeam: (
     state: GlobalState,
     selectedThreadIdInTeam?: $ID<UserThread>,
 ) => Array<$ID<UserThread>> = createSelector(
+    'getUnreadThreadOrderInCurrentTeam',
     getThreadsInCurrentTeam,
     getThreads,
     (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => selectedThreadIdInTeam,
@@ -125,3 +129,15 @@ export const getUnreadThreadOrderInCurrentTeam: (
 function sortByLastReply(ids: Array<$ID<UserThread>>, threads: ReturnType<typeof getThreads>) {
     return ids.sort((a, b) => threads[b].last_reply_at - threads[a].last_reply_at);
 }
+
+export const getThreadsInChannel: (
+    state: GlobalState,
+    channelID: string,
+) => Array<$ID<UserThread>> = createSelector(
+    'getThreadsInChannel',
+    getThreads,
+    (state: GlobalState, channelID: string) => channelID,
+    (allThreads: IDMappedObjects<UserThread>, channelID: string) => {
+        return Object.keys(allThreads).filter((id) => allThreads[id].post.channel_id === channelID);
+    },
+);

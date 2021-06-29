@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {uploadBrandImage, deleteBrandImage} from 'actions/admin_actions.jsx';
 
-import BrandImageSetting from './brand_image_setting.js';
+import BrandImageSetting from './brand_image_setting';
 
 jest.mock('actions/admin_actions.jsx', () => ({
     ...jest.requireActual('actions/admin_actions.jsx'),

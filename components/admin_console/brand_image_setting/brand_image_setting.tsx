@@ -275,7 +275,7 @@ State
                         <input
                             ref={this.fileInputRef}
                             type='file'
-                            accept='.jpg,.png,.bmp'
+                            accept={Constants.ACCEPT_STATIC_IMAGE}
                             disabled={this.props.disabled}
                             onChange={this.handleImageChange}
                         />

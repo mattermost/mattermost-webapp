@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {createSelector} from 'reselect';
 
 import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
@@ -13,6 +14,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import ChannelSelect from './channel_select';
 
 const getMyChannelsSorted = createSelector(
+    'getMyChannelsSorted',
     getMyChannels,
     getCurrentUserLocale,
     (channels, locale) => {

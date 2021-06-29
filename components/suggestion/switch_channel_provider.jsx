@@ -11,10 +11,10 @@ import {
     getChannelsInCurrentTeam,
     getDirectAndGroupChannels,
     getGroupChannels,
-    getSortedUnreadChannelIds,
-    makeGetChannel,
     getMyChannelMemberships,
     getChannelByName,
+    getCurrentChannel,
+    getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -30,7 +30,7 @@ import {
     getStatusForUserId,
     getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
-import {searchChannels} from 'mattermost-redux/actions/channels';
+import {getChannels, searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel} from 'mattermost-redux/utils/channel_utils';
@@ -44,6 +44,9 @@ import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+
+import {Preferences} from 'mattermost-redux/constants';
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -261,6 +264,18 @@ const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannel
 
 let prefix = '';
 
+function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB) {
+    if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
+        return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
+    } else if (wrappedA.last_viewed_at) {
+        return -1;
+    } else if (wrappedB.last_viewed_at) {
+        return 1;
+    }
+
+    return sortChannelsByTypeAndDisplayName('en', wrappedA.channel, wrappedB.channel);
+}
+
 export function quickSwitchSorter(wrappedA, wrappedB) {
     const aIsArchived = wrappedA.channel.delete_at ? wrappedA.channel.delete_at !== 0 : false;
     const bIsArchived = wrappedB.channel.delete_at ? wrappedB.channel.delete_at !== 0 : false;
@@ -389,7 +404,7 @@ export default class SwitchChannelProvider extends Provider {
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, resultsCallback);
         } else {
-            this.formatUnreadChannelsAndDispatch(resultsCallback);
+            this.fetchAndFormatRecentlyViewedChannels(resultsCallback);
         }
 
         return true;
@@ -584,16 +599,56 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatUnreadChannelsAndDispatch(resultsCallback) {
-        const getChannel = makeGetChannel();
+    fetchAndFormatRecentlyViewedChannels(resultsCallback) {
+        const state = getState();
+        const recentChannels = getAllRecentChannels(state);
+        const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
+        if (channels.length === 0) {
+            prefix = '';
+            this.startNewRequest('');
+            this.fetchChannels(resultsCallback);
+        }
+        const sortedChannels = channels.sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
+        const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
+        resultsCallback({
+            matchedPretext: '',
+            terms: channelNames,
+            items: sortedChannels,
+            component: ConnectedSwitchChannelSuggestion,
+        });
+    }
+    getTimestampFromPrefs(myPreferences, category, name) {
+        const pref = myPreferences[getPreferenceKey(category, name)];
+        const prefValue = pref ? pref.value : '0';
+        return parseInt(prefValue, 10);
+    }
+    getLastViewedAt(myMembers, myPreferences, channel) {
+        // The server only ever sets the last_viewed_at to the time of the last post in channel,
+        // So thought of using preferences but it seems that also not keeping track.
+        // TODO Update and remove comment once solution is finalized
+        return Math.max(
+            myMembers[channel.id]?.last_viewed_at,
+            this.getTimestampFromPrefs(myPreferences, Preferences.CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME, channel.id),
+            this.getTimestampFromPrefs(myPreferences, Preferences.CATEGORY_CHANNEL_OPEN_TIME, channel.id),
+        );
+    }
 
-        const unreadChannelIds = getSortedUnreadChannelIds(getState(), false);
+    wrapChannels(channels, channelType) {
+        const state = getState();
+        const currentChannel = getCurrentChannel(state);
+        const myMembers = getMyChannelMemberships(state);
+        const myPreferences = getMyPreferences(state);
 
-        const channels = [];
-        for (let i = 0; i < unreadChannelIds.length; i++) {
-            const channel = getChannel(getState(), {id: unreadChannelIds[i]}) || {};
-
+        const channelList = [];
+        for (let i = 0; i < channels.length; i++) {
+            const channel = channels[i];
+            if (channel.id === currentChannel.id) {
+                continue;
+            }
             let wrappedChannel = {channel, name: channel.name, deactivated: false};
+            if (myMembers[channel.id]) {
+                wrappedChannel.last_viewed_at = this.getLastViewedAt(myMembers, myPreferences, channel);
+            }
             if (channel.type === Constants.GM_CHANNEL) {
                 wrappedChannel.name = channel.display_name;
             } else if (channel.type === Constants.DM_CHANNEL) {
@@ -602,22 +657,44 @@ export default class SwitchChannelProvider extends Provider {
                 if (!user) {
                     continue;
                 }
-
-                wrappedChannel = this.userWrappedChannel(
+                const userWrappedChannel = this.userWrappedChannel(
                     user,
                     channel,
                 );
+                wrappedChannel = {...wrappedChannel, ...userWrappedChannel};
             }
-            wrappedChannel.type = Constants.MENTION_UNREAD_CHANNELS;
-            channels.push(wrappedChannel);
+            wrappedChannel.type = channelType;
+            channelList.push(wrappedChannel);
+        }
+        return channelList;
+    }
+
+    async fetchChannels(resultsCallback, size = 20) {
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
+        if (!teamId) {
+            return;
+        }
+        const channelsAsync = getChannels(teamId, 0, size)(store.dispatch, store.getState);
+        let channels;
+
+        try {
+            const {data} = await channelsAsync;
+            channels = data;
+        } catch (err) {
+            store.dispatch(logError(err));
         }
 
-        const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.id);
+        if (this.latestPrefix !== '') {
+            return;
+        }
+        const sortedChannels = this.wrapChannels(channels, Constants.MENTION_PUBLIC_CHANNELS).slice(0, 20);
+        const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
 
         resultsCallback({
             matchedPretext: '',
             terms: channelNames,
-            items: channels,
+            items: sortedChannels,
             component: ConnectedSwitchChannelSuggestion,
         });
     }

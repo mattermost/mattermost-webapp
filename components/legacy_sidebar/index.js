@@ -9,12 +9,11 @@ import {
     getCurrentChannel,
     getSortedUnreadChannelIds,
     getOrderedChannelIds,
-    getUnreads,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getBool as getBoolPreference, getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool as getBoolPreference, getSidebarPreferences, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -70,8 +69,8 @@ function mapStateToProps(state) {
         canCreatePublicChannel,
         canCreatePrivateChannel,
         isOpen: getIsLhsOpen(state),
-        unreads: getUnreads(state),
         viewArchivedChannels: config.ExperimentalViewArchivedChannels === 'true',
+        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
     };
 }
 

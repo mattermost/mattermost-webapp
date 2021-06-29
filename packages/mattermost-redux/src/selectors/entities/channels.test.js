@@ -596,6 +596,68 @@ describe('Selectors.Channels.getChannelsNameMapInCurrentTeam', () => {
         };
         assert.deepEqual(Selectors.getChannelsNameMapInCurrentTeam(testState), channelMap);
     });
+
+    describe('memoization', () => {
+        it('should return memoized result with no changes', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            expect(Selectors.getChannelsNameMapInCurrentTeam(testState)).toBe(originalResult);
+        });
+
+        it('should not return memoized result when channels on another team changes', () => {
+            // This is a known issue with the current implementation of the selector. Ideally, it would return the
+            // memoized result.
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            const state = deepFreezeAndThrowOnMutation(mergeObjects(testState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel3.id]: {...channel3, display_name: 'Some other name'},
+                        },
+                    },
+                },
+            }));
+
+            expect(Selectors.getChannelsNameMapInCurrentTeam(state)).not.toBe(originalResult);
+        });
+
+        it('should not return memozied result when a returned channel changes its display name', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            const state = deepFreezeAndThrowOnMutation(mergeObjects(testState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel4.id]: {...channel4, display_name: 'Some other name'},
+                        },
+                    },
+                },
+            }));
+
+            const result = Selectors.getChannelsNameMapInCurrentTeam(state);
+            expect(result).not.toBe(originalResult);
+            expect(result[channel4.name].display_name).toBe('Some other name');
+        });
+
+        it('should not return memozied result when a returned channel changes something else', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            const state = deepFreezeAndThrowOnMutation(mergeObjects(testState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel4.id]: {...channel4, last_post_at: 10000},
+                        },
+                    },
+                },
+            }));
+
+            const result = Selectors.getChannelsNameMapInCurrentTeam(state);
+            expect(result).not.toBe(originalResult);
+            expect(result[channel4.name].last_post_at).toBe(10000);
+        });
+    });
 });
 
 describe('Selectors.Channels.getChannelsNameMapInTeam', () => {
@@ -648,6 +710,170 @@ describe('Selectors.Channels.getChannelsNameMapInTeam', () => {
     });
     it('get empty map for non-existing team', () => {
         assert.deepEqual(Selectors.getChannelsNameMapInTeam(testState, 'junk'), {});
+    });
+});
+
+describe('Selectors.Channels.getChannelNameToDisplayNameMap', () => {
+    const team1 = TestHelper.fakeTeamWithId();
+    const team2 = TestHelper.fakeTeamWithId();
+
+    const channel1 = {
+        ...TestHelper.fakeChannelWithId(team1.id),
+        id: 'channel1',
+    };
+    const channel2 = {
+        ...TestHelper.fakeChannelWithId(team1.id),
+        id: 'channel2',
+    };
+    const channel3 = {
+        ...TestHelper.fakeChannelWithId(team1.id),
+        id: 'channel3',
+    };
+    const channel4 = {
+        ...TestHelper.fakeChannelWithId(team2.id),
+        id: 'channel4',
+    };
+
+    const baseState = {
+        entities: {
+            channels: {
+                channels: {
+                    channel1,
+                    channel2,
+                    channel3,
+                    channel4,
+                },
+                channelsInTeam: {
+                    [team1.id]: [channel1.id, channel2.id, channel3.id],
+                    [team2.id]: [channel4.id],
+                },
+            },
+            teams: {
+                currentTeamId: team1.id,
+            },
+        },
+    };
+
+    test('should return a map of channel names to display names for the current team', () => {
+        let state = baseState;
+
+        expect(Selectors.getChannelNameToDisplayNameMap(state)).toEqual({
+            [channel1.name]: channel1.display_name,
+            [channel2.name]: channel2.display_name,
+            [channel3.name]: channel3.display_name,
+        });
+
+        state = mergeObjects(baseState, {
+            entities: {
+                teams: {
+                    currentTeamId: team2.id,
+                },
+            },
+        });
+
+        expect(Selectors.getChannelNameToDisplayNameMap(state)).toEqual({
+            [channel4.name]: channel4.display_name,
+        });
+    });
+
+    describe('memoization', () => {
+        test('should return the same object when called twice with the same state', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            expect(Selectors.getChannelNameToDisplayNameMap(baseState)).toBe(originalResult);
+        });
+
+        test('should return the same object when a channel on another team changes', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            const state = mergeObjects(baseState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel4.id]: {
+                                ...channel4,
+                                display_name: 'something else entirely',
+                            },
+                        },
+                    },
+                },
+            });
+
+            expect(Selectors.getChannelNameToDisplayNameMap(state)).toBe(originalResult);
+        });
+
+        test('should return the same object when a channel receives a new post', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            const state = mergeObjects(baseState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel1.id]: {
+                                ...channel1,
+                                last_post_at: 1234,
+                            },
+                        },
+                    },
+                },
+            });
+
+            expect(Selectors.getChannelNameToDisplayNameMap(state)).toBe(originalResult);
+        });
+
+        test('should return a new object when a channel is renamed', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            const state = mergeObjects(baseState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel2.id]: {
+                                ...channel2,
+                                display_name: 'something else',
+                            },
+                        },
+                    },
+                },
+            });
+
+            const result = Selectors.getChannelNameToDisplayNameMap(state);
+            expect(result).not.toBe(originalResult);
+            expect(result).toEqual({
+                [channel1.name]: channel1.display_name,
+                [channel2.name]: 'something else',
+                [channel3.name]: channel3.display_name,
+            });
+        });
+
+        test('should return a new object when a new team is added', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            const newChannel = {
+                ...TestHelper.fakeChannelWithId(team1.id),
+                id: 'newChannel',
+            };
+
+            const state = mergeObjects(baseState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            newChannel,
+                        },
+                        channelsInTeam: {
+                            [team1.id]: [channel1.id, channel2.id, channel3.id, newChannel.id],
+                        },
+                    },
+                },
+            });
+
+            const result = Selectors.getChannelNameToDisplayNameMap(state);
+            expect(result).not.toBe(originalResult);
+            expect(result).toEqual({
+                ...originalResult,
+                [newChannel.name]: newChannel.display_name,
+            });
+        });
     });
 });
 
@@ -2667,6 +2893,12 @@ describe('Selectors.Channels.getUnreadChannelIds', () => {
 
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
+            general: {
+                config: {},
+            },
+            preferences: {
+                myPreferences: {},
+            },
             teams: {
                 currentTeamId: team1.id,
             },
@@ -2943,7 +3175,7 @@ describe('Selectors.Channels.getDirectChannelIds', () => {
     });
 });
 
-describe('Selectors.Channels.getUnreadsInCurrentTeam', () => {
+describe('Selectors.Channels.getUnreadStatusInCurrentTeam', () => {
     const team1 = TestHelper.fakeTeamWithId();
 
     const channel1 = {
@@ -2980,6 +3212,9 @@ describe('Selectors.Channels.getUnreadsInCurrentTeam', () => {
             teams: {
                 currentTeamId: team1.id,
             },
+            threads: {
+                counts: {},
+            },
             channels: {
                 currentChannelId: channel1.id,
                 channels,
@@ -2999,7 +3234,7 @@ describe('Selectors.Channels.getUnreadsInCurrentTeam', () => {
     });
 
     it('get unreads for current team', () => {
-        assert.deepEqual(Selectors.getUnreadsInCurrentTeam(testState), {mentionCount: 4, messageCount: 1});
+        expect(Selectors.getUnreadStatusInCurrentTeam(testState)).toEqual(4);
     });
 
     it('get unreads for current read channel', () => {
@@ -3010,11 +3245,11 @@ describe('Selectors.Channels.getUnreadsInCurrentTeam', () => {
                 },
             },
         };
-        assert.equal(Selectors.countCurrentChannelUnreadMessages(testState2), 0);
+        expect(Selectors.countCurrentChannelUnreadMessages(testState2)).toEqual(0);
     });
 
     it('get unreads for current unread channel', () => {
-        assert.equal(Selectors.countCurrentChannelUnreadMessages(testState), 2);
+        expect(Selectors.countCurrentChannelUnreadMessages(testState)).toEqual(2);
     });
 
     it('get unreads for channel not on members', () => {
@@ -3025,7 +3260,7 @@ describe('Selectors.Channels.getUnreadsInCurrentTeam', () => {
                 },
             },
         };
-        assert.equal(Selectors.countCurrentChannelUnreadMessages(testState2), 0);
+        expect(Selectors.countCurrentChannelUnreadMessages(testState2)).toEqual(0);
     });
 
     it('get unreads with a missing profile entity', () => {
@@ -3044,7 +3279,7 @@ describe('Selectors.Channels.getUnreadsInCurrentTeam', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getUnreadsInCurrentTeam(newState), {mentionCount: 4, messageCount: 1});
+        expect(Selectors.getUnreadStatusInCurrentTeam(newState)).toEqual(4);
     });
 
     it('get unreads with a deactivated user', () => {
@@ -3066,7 +3301,7 @@ describe('Selectors.Channels.getUnreadsInCurrentTeam', () => {
                 },
             },
         };
-        assert.deepEqual(Selectors.getUnreadsInCurrentTeam(newState), {mentionCount: 4, messageCount: 1});
+        expect(Selectors.getUnreadStatusInCurrentTeam(newState)).toEqual(4);
     });
 
     it('get unreads with a deactivated channel', () => {
@@ -3089,11 +3324,11 @@ describe('Selectors.Channels.getUnreadsInCurrentTeam', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getUnreadsInCurrentTeam(newState), {mentionCount: 0, messageCount: 0});
+        expect(Selectors.getUnreadStatusInCurrentTeam(newState)).toEqual(false);
     });
 });
 
-describe('Selectors.Channels.getUnreads', () => {
+describe('Selectors.Channels.getUnreadStatus', () => {
     const team1 = TestHelper.fakeTeamWithId();
     const team2 = TestHelper.fakeTeamWithId();
 
@@ -3151,7 +3386,7 @@ describe('Selectors.Channels.getUnreads', () => {
     });
 
     it('get unreads', () => {
-        assert.deepEqual(Selectors.getUnreads(testState), {mentionCount: 69, messageCount: 130});
+        expect(Selectors.getUnreadStatus(testState)).toBe(69);
     });
 
     it('get unreads with a missing profile entity', () => {
@@ -3170,7 +3405,7 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getUnreads(newState), {mentionCount: 69, messageCount: 130});
+        expect(Selectors.getUnreadStatus(newState)).toBe(69);
     });
 
     it('get unreads with a deactivated user', () => {
@@ -3192,7 +3427,7 @@ describe('Selectors.Channels.getUnreads', () => {
                 },
             },
         };
-        assert.deepEqual(Selectors.getUnreads(newState), {mentionCount: 69, messageCount: 130});
+        expect(Selectors.getUnreadStatus(newState)).toBe(69);
     });
 
     it('get unreads with a deactivated channel', () => {
@@ -3215,11 +3450,11 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getUnreads(newState), {mentionCount: 65, messageCount: 129});
+        expect(Selectors.getUnreadStatus(newState)).toBe(65);
     });
 });
 
-describe('Selectors.Channels.getUnreads', () => {
+describe('Selectors.Channels.getUnreadStatus', () => {
     const team1 = {id: 'team1', delete_at: 0};
     const team2 = {id: 'team2', delete_at: 0};
 
@@ -3267,10 +3502,11 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        const {messageCount, mentionCount} = Selectors.getUnreads(state);
+        const unreadStatus = Selectors.getUnreadStatus(state);
+        const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
 
-        expect(messageCount).toBe(2); // channelA and channelB are unread
-        expect(mentionCount).toBe(myMemberA.mention_count + myMemberB.mention_count);
+        expect(unreadMeta.isUnread).toBe(true); // channelA and channelB are unread
+        expect(unreadMeta.unreadMentionCount).toBe(myMemberA.mention_count + myMemberB.mention_count);
     });
 
     test('should not count messages from channel with mark_unread set to "mention"', () => {
@@ -3310,10 +3546,11 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        const {messageCount, mentionCount} = Selectors.getUnreads(state);
+        const unreadStatus = Selectors.getUnreadStatus(state);
+        const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
 
-        expect(messageCount).toBe(1); // channelA and channelB are unread, but only channelB is counted because of its mark_unread
-        expect(mentionCount).toBe(myMemberA.mention_count + myMemberB.mention_count);
+        expect(unreadMeta.isUnread).toBe(true); // channelA and channelB are unread, but only channelB is counted because of its mark_unread
+        expect(unreadStatus).toBe(myMemberA.mention_count + myMemberB.mention_count);
     });
 
     test('should count mentions from DM channels', () => {
@@ -3352,10 +3589,11 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        const {messageCount, mentionCount} = Selectors.getUnreads(state);
+        const unreadStatus = Selectors.getUnreadStatus(state);
+        const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
 
-        expect(messageCount).toBe(1); // dmChannel is unread
-        expect(mentionCount).toBe(dmMember.mention_count);
+        expect(unreadMeta.isUnread).toBe(true); // dmChannel is unread
+        expect(unreadMeta.unreadMentionCount).toBe(dmMember.mention_count);
     });
 
     test('should not count mentions from DM channel with archived user', () => {
@@ -3394,10 +3632,9 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        const {messageCount, mentionCount} = Selectors.getUnreads(state);
+        const unreadStatus = Selectors.getUnreadStatus(state);
 
-        expect(messageCount).toBe(0);
-        expect(mentionCount).toBe(0);
+        expect(unreadStatus).toBe(false);
     });
 
     test('should count mentions from GM channels', () => {
@@ -3434,10 +3671,11 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        const {messageCount, mentionCount} = Selectors.getUnreads(state);
+        const unreadStatus = Selectors.getUnreadStatus(state);
+        const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
 
-        expect(messageCount).toBe(1); // gmChannel is unread
-        expect(mentionCount).toBe(gmMember.mention_count);
+        expect(unreadMeta.isUnread).toBe(true); // gmChannel is unread
+        expect(unreadMeta.unreadMentionCount).toBe(gmMember.mention_count);
     });
 
     test('should count mentions and messages for other teams from team members', () => {
@@ -3484,10 +3722,11 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        const {messageCount, mentionCount} = Selectors.getUnreads(state);
+        const unreadStatus = Selectors.getUnreadStatus(state);
+        const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
 
-        expect(messageCount).toBe(4); // channelA and channelC are unread
-        expect(mentionCount).toBe(myMemberA.mention_count + teamMember2.mention_count);
+        expect(unreadMeta.isUnread).toBe(true); // channelA and channelC are unread
+        expect(unreadMeta.unreadMentionCount).toBe(myMemberA.mention_count + teamMember2.mention_count);
     });
 });
 

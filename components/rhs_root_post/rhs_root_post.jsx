@@ -70,6 +70,7 @@ class RhsRootPost extends React.PureComponent {
         }),
         emojiMap: PropTypes.object.isRequired,
         timestampProps: PropTypes.object,
+        isBot: PropTypes.bool,
         collapsedThreadsEnabled: PropTypes.bool,
     };
 
@@ -85,6 +86,7 @@ class RhsRootPost extends React.PureComponent {
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
+            fileDropdownOpened: false,
             currentAriaLabel: '',
         };
 
@@ -187,7 +189,7 @@ class RhsRootPost extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -207,6 +209,12 @@ class RhsRootPost extends React.PureComponent {
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened,
+        });
+    };
+
+    handleFileDropdownOpened = (isOpened) => {
+        this.setState({
+            fileDropdownOpened: isOpened,
         });
     };
 
@@ -230,7 +238,7 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -258,6 +266,7 @@ class RhsRootPost extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.handleFileDropdownOpened}
                 />
             );
         }
@@ -390,15 +399,14 @@ class RhsRootPost extends React.PureComponent {
         }
 
         let customStatus;
-        if (!isSystemMessage) {
+        if (!(isSystemMessage || post?.props?.from_webhook || isBot)) {
             customStatus = (
                 <CustomStatusEmoji
                     userID={post.user_id}
                     showTooltip={true}
-                    emojiSize={14}
                     emojiStyle={{
                         marginLeft: 4,
-                        marginTop: 1,
+                        marginTop: 2,
                     }}
                 />
             );

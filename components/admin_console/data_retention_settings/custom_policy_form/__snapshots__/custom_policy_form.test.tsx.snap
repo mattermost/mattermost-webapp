@@ -51,6 +51,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             className="CustomPolicy__fields"
           >
             <Input
+              aria-label="Policy name"
               error=""
               name="policyName"
               onChange={[Function]}
@@ -65,32 +66,44 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
                     <i
                       className="icon icon-infinity option-icon"
                     />
-                    <span>
+                    <span
+                      className="option_forever"
+                    >
                       Keep forever
                     </span>
                   </div>,
                   "value": "FOREVER",
                 }
               }
+              dropdownClassNamePrefix="message_retention"
               exceptionToInput={
                 Array [
                   "FOREVER",
                 ]
               }
+              inputId="message_retention_input"
               inputType="number"
               inputValue=""
               legend="Channel & direct message retention"
-              name="channel_message_retention"
+              name="message_retention"
               onDropdownChange={[Function]}
               onInputChange={[Function]}
               options={
                 Array [
                   Object {
-                    "label": "Days",
+                    "label": <span
+                      className="option_days"
+                    >
+                      Days
+                    </span>,
                     "value": "DAYS",
                   },
                   Object {
-                    "label": "Years",
+                    "label": <span
+                      className="option_years"
+                    >
+                      Years
+                    </span>,
                     "value": "YEARS",
                   },
                   Object {
@@ -98,7 +111,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
                       <i
                         className="icon icon-infinity option-icon"
                       />
-                      <span>
+                      <span
+                        className="option_forever"
+                      >
                         Keep forever
                       </span>
                     </div>,
@@ -113,7 +128,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
                     <i
                       className="icon icon-infinity option-icon"
                     />
-                    <span>
+                    <span
+                      className="option_forever"
+                    >
                       Keep forever
                     </span>
                   </div>,
@@ -289,6 +306,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             className="CustomPolicy__fields"
           >
             <Input
+              aria-label="Policy name"
               error=""
               name="policyName"
               onChange={[Function]}
@@ -303,32 +321,44 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
                     <i
                       className="icon icon-infinity option-icon"
                     />
-                    <span>
+                    <span
+                      className="option_forever"
+                    >
                       Keep forever
                     </span>
                   </div>,
                   "value": "FOREVER",
                 }
               }
+              dropdownClassNamePrefix="message_retention"
               exceptionToInput={
                 Array [
                   "FOREVER",
                 ]
               }
+              inputId="message_retention_input"
               inputType="number"
               inputValue="22"
               legend="Channel & direct message retention"
-              name="channel_message_retention"
+              name="message_retention"
               onDropdownChange={[Function]}
               onInputChange={[Function]}
               options={
                 Array [
                   Object {
-                    "label": "Days",
+                    "label": <span
+                      className="option_days"
+                    >
+                      Days
+                    </span>,
                     "value": "DAYS",
                   },
                   Object {
-                    "label": "Years",
+                    "label": <span
+                      className="option_years"
+                    >
+                      Years
+                    </span>,
                     "value": "YEARS",
                   },
                   Object {
@@ -336,7 +366,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
                       <i
                         className="icon icon-infinity option-icon"
                       />
-                      <span>
+                      <span
+                        className="option_forever"
+                      >
                         Keep forever
                       </span>
                     </div>,
@@ -347,7 +379,11 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
               placeholder="Channel & direct message retention"
               value={
                 Object {
-                  "label": "Days",
+                  "label": <span
+                    className="option_days"
+                  >
+                    Days
+                  </span>,
                   "value": "DAYS",
                 }
               }

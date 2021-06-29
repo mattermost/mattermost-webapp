@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -222,6 +221,11 @@ class CreateComment extends React.PureComponent {
          */
         shouldShowPreview: PropTypes.bool.isRequired,
 
+        /***
+         * Called when parent component should be scrolled to bottom
+         */
+        scrollToBottom: PropTypes.func,
+
         /*
             Group member mention
         */
@@ -309,8 +313,8 @@ class CreateComment extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.draft.uploadsInProgress.length < this.state.draft.uploadsInProgress.length) {
-            this.scrollToBottom();
+        if (prevState.draft.uploadsInProgress.length < this.state.draft.uploadsInProgress.length && this.props.scrollToBottom) {
+            this.props.scrollToBottom();
         }
 
         // Focus on textbox when emoji picker is closed
@@ -331,7 +335,9 @@ class CreateComment extends React.PureComponent {
         }
 
         if (this.doInitialScrollToBottom) {
-            this.scrollToBottom();
+            if (this.props.scrollToBottom) {
+                this.props.scrollToBottom();
+            }
             this.doInitialScrollToBottom = false;
         }
     }
@@ -424,7 +430,7 @@ class CreateComment extends React.PureComponent {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji.name || emoji.aliases[0];
+        const emojiAlias = emoji.short_name || emoji.name;
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
@@ -650,7 +656,9 @@ class CreateComment extends React.PureComponent {
         const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter, 0, 0, this.state.caretPosition);
 
         if (allowSending) {
-            e.persist();
+            if (e.persist) {
+                e.persist();
+            }
             if (this.textboxRef.current) {
                 this.textboxRef.current.blur();
             }
@@ -689,13 +697,6 @@ class CreateComment extends React.PureComponent {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
-    scrollToBottom = () => {
-        const $el = $('.post-right__scroll');
-        if ($el[0]) {
-            $el.parent().scrollTop($el[0].scrollHeight); // eslint-disable-line jquery/no-parent
-        }
-    }
-
     handleChange = (e) => {
         const message = e.target.value;
 
@@ -713,7 +714,9 @@ class CreateComment extends React.PureComponent {
         });
 
         this.setState({draft: updatedDraft, serverError}, () => {
-            this.scrollToBottom();
+            if (this.props.scrollToBottom) {
+                this.props.scrollToBottom();
+            }
         });
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
@@ -893,8 +896,8 @@ class CreateComment extends React.PureComponent {
         }
 
         this.setState({serverError}, () => {
-            if (serverError) {
-                this.scrollToBottom();
+            if (serverError && this.props.scrollToBottom) {
+                this.props.scrollToBottom();
             }
         });
     }

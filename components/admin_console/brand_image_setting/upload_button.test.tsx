@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import UploadButton from 'components/admin_console/brand_image_setting/upload_button.jsx';
+import UploadButton from 'components/admin_console/brand_image_setting/upload_button';
 
 import {UploadStatuses} from 'utils/constants';
 
