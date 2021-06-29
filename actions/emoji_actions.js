@@ -49,13 +49,13 @@ export function setUserSkinTone(skin) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
-        const teamOrderPreferences = [{
+        const skinTonePreference = [{
             user_id: currentUserId,
             name: Preferences.EMOJI_SKINTONE,
             category: Preferences.CATEGORY_EMOJI,
             value: skin,
         }];
-        dispatch(savePreferences(currentUserId, teamOrderPreferences));
+        dispatch(savePreferences(currentUserId, skinTonePreference));
     };
 }
 

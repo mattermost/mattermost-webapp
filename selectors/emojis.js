@@ -6,14 +6,13 @@ import {createSelector} from 'reselect';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {Constants, Preferences} from 'utils/constants';
 import {getItemFromStorage} from 'selectors/storage';
 import EmojiMap from 'utils/emoji_map';
-import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 export const getEmojiMap = createSelector(
     'getEmojiMap',
@@ -41,15 +40,9 @@ export const getRecentEmojis = createSelector(
     },
 );
 
-// todo rename to getEmojiSkin
-export const getUserSkinTone = createSelector(
-    'getUserSkinTone',
-    getMyPreferences,
-    (prefs) => {
-        const key = getPreferenceKey(Preferences.CATEGORY_EMOJI, Preferences.EMOJI_SKINTONE);
-        return prefs[key]?.value || 'default';
-    },
-);
+export function getUserSkinTone(state) {
+    return get(state, Preferences.CATEGORY_EMOJI, Preferences.EMOJI_SKINTONE, 'default');
+}
 
 export function isCustomEmojiEnabled(state) {
     const config = getConfig(state);
