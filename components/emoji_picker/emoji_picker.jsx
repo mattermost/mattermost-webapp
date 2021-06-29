@@ -99,7 +99,7 @@ export default class EmojiPicker extends React.PureComponent {
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
         recentEmojis: PropTypes.array.isRequired,
-        recentSkin: PropTypes.string.isRequired,
+        userSkinTone: PropTypes.string.isRequired,
         customEmojiPage: PropTypes.number.isRequired,
         visible: PropTypes.bool,
         currentTeamName: PropTypes.string.isRequired,
@@ -107,8 +107,7 @@ export default class EmojiPicker extends React.PureComponent {
             getCustomEmojis: PropTypes.func.isRequired,
             searchCustomEmojis: PropTypes.func.isRequired,
             incrementEmojiPickerPage: PropTypes.func.isRequired,
-            setRecentSkin: PropTypes.func.isRequired,
-            persistRecentSkin: PropTypes.func.isRequired,
+            setUserSkinTone: PropTypes.func.isRequired,
         }).isRequired,
         filter: PropTypes.string.isRequired,
         handleFilterChange: PropTypes.func.isRequired,
@@ -135,7 +134,7 @@ export default class EmojiPicker extends React.PureComponent {
                     return emojiMap.get(name);
                 });
             } else {
-                const indices = Emoji.EmojiIndicesByCategory.get(props.recentSkin).get(category) || [];
+                const indices = Emoji.EmojiIndicesByCategory.get(props.userSkinTone).get(category) || [];
                 categoryEmojis = indices.map((index) => Emoji.Emojis[index]);
                 if (category === 'custom') {
                     categoryEmojis = categoryEmojis.concat([...customEmojiMap.values()]);
@@ -166,8 +165,8 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        let updatedState = {emojiMap: props.emojiMap, recentSkin: props.recentSkin};
-        if (JSON.stringify(Object.keys(state.categories)) !== state.categoryKeys || props.emojiMap !== state.emojiMap || props.recentSkin !== state.recentSkin) {
+        let updatedState = {emojiMap: props.emojiMap, userSkinTone: props.userSkinTone};
+        if (JSON.stringify(Object.keys(state.categories)) !== state.categoryKeys || props.emojiMap !== state.emojiMap || props.userSkinTone !== state.userSkinTone) {
             const {categories, allEmojis} = EmojiPicker.getEmojis(props, state);
             updatedState = {...updatedState, categories, allEmojis, categoryKeys: JSON.stringify(Object.keys(categories))};
         }
@@ -486,8 +485,7 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     onSkinSelected = (skin) => {
-        this.props.actions.setRecentSkin(skin);
-        this.props.actions.persistRecentSkin(skin);
+        this.props.actions.setUserSkinTone(skin);
     }
 
     getCategoryByIndex = (index) => {
@@ -643,7 +641,7 @@ export default class EmojiPicker extends React.PureComponent {
                     </FormattedMessage>
                 </div>
                 <EmojiPickerSkin
-                    recentSkin={this.props.recentSkin}
+                    userSkinTone={this.props.userSkinTone}
                     onSkinSelected={this.onSkinSelected}
                 />
             </div>
