@@ -27,6 +27,7 @@
     }
   },
   "rules": {
+    "max-nested-callbacks": ["error", 10],
     "no-unused-expressions": 0,
     "babel/no-unused-expressions": 2,
     "eol-last": ["error", "always"],

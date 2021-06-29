@@ -44,7 +44,6 @@ import {searchForTerm} from 'actions/post_actions';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
 import down from 'sounds/down.mp3';
@@ -2022,30 +2021,6 @@ export function getClosestParent(elem, selector) {
         }
     }
     return null;
-}
-
-export function getSortedUsers(reactions, currentUserId, profiles, teammateNameDisplay) {
-    // Sort users by who reacted first with "you" being first if the current user reacted
-
-    let currentUserReacted = false;
-    const sortedReactions = reactions.sort((a, b) => a.create_at - b.create_at);
-    const users = sortedReactions.reduce((accumulator, current) => {
-        if (current.user_id === currentUserId) {
-            currentUserReacted = true;
-        } else {
-            const user = profiles.find((u) => u.id === current.user_id);
-            if (user) {
-                accumulator.push(displayUsername(user, teammateNameDisplay));
-            }
-        }
-        return accumulator;
-    }, []);
-
-    if (currentUserReacted) {
-        users.unshift(Utils.localizeMessage('reaction.you', 'You'));
-    }
-
-    return {currentUserReacted, users};
 }
 
 const BOLD_MD = '**';
