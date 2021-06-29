@@ -147,6 +147,8 @@ export type ClientConfig = {
     MaxNotificationsPerChannel: string;
     MinimumHashtagLength: string;
     NoAccounts: string;
+    GitLabButtonText: string;
+    GitLabButtonColor: string;
     OpenIdButtonText: string;
     OpenIdButtonColor: string;
     PasswordMinimumLength: string;
