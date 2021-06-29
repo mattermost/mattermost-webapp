@@ -8,9 +8,9 @@ $white: rgb(255, 255, 255);
 $black: rgb(0, 0, 0);
 $red: rgb(214, 73, 70);
 $yellow: rgb(255, 255, 0);
-$light-gray: rgba(0, 0, 0, .15);
-$gray: rgba(0, 0, 0, .3);
-$dark-gray: rgba(0, 0, 0, .5);
+$light-gray: rgba(0, 0, 0, 0.15);
+$gray: rgba(0, 0, 0, 0.3);
+$dark-gray: rgba(0, 0, 0, 0.5);
 $link-color: rgb(35, 137, 215);
 $transparent: rgba(0, 0, 0, 0);
 $highlight-color: #fcea8d;
@@ -31,9 +31,9 @@ $emoji-per-row: 9; // needs to match variable `EMOJI_PER_ROW` in emoji_picker.js
 $transition-quick: 0.12s;
 
 // Elevations
-$elevation-1: 0 2px 3px 0 alpha-color($black, .08);
-$elevation-2: 0 4px 6px 0 alpha-color($black, .12);
-$elevation-3: 0 6px 14px 0 alpha-color($black, .12);
-$elevation-4: 0 8px 24px 0 alpha-color($black, .12);
-$elevation-5: 0 12px 32px 0 alpha-color($black, .12);
-$elevation-6: 0 20px 32px 0 alpha-color($black, .12);
+$elevation-1: 0 2px 3px 0 alpha-color($black, 0.08);
+$elevation-2: 0 4px 6px 0 alpha-color($black, 0.12);
+$elevation-3: 0 6px 14px 0 alpha-color($black, 0.12);
+$elevation-4: 0 8px 24px 0 alpha-color($black, 0.12);
+$elevation-5: 0 12px 32px 0 alpha-color($black, 0.12);
+$elevation-6: 0 20px 32px 0 alpha-color($black, 0.12);

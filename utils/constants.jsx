@@ -112,6 +112,14 @@ export const Preferences = {
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
 };
 
+export const TrialPeriodDays = {
+    TRIAL_MAX_DAYS: 14,
+    TRIAL_WARNING_THRESHOLD: 3,
+    TRIAL_2_DAYS: 2,
+    TRIAL_1_DAY: 1,
+    TRIAL_0_DAYS: 0,
+};
+
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
@@ -300,10 +308,12 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
+    COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
 };
 
 export const UserStatuses = {
