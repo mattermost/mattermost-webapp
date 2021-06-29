@@ -305,6 +305,7 @@ export const ModalIdentifiers = {
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
+    COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
 };
 
 export const UserStatuses = {
