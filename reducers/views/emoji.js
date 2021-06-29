@@ -35,7 +35,7 @@ function shortcutReactToLastPostEmittedFrom(state = '', action) {
     }
 }
 
-function recentSkin(state = '', action) {
+function userSkinTone(state = '', action) {
     switch (action.type) {
     case ActionTypes.SET_RECENT_SKIN: {
         return action.data;
@@ -48,5 +48,5 @@ function recentSkin(state = '', action) {
 export default combineReducers({
     emojiPickerCustomPage,
     shortcutReactToLastPostEmittedFrom,
-    recentSkin,
+    userSkinTone,
 });

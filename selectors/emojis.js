@@ -6,12 +6,14 @@ import {createSelector} from 'reselect';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
-import {Constants} from 'utils/constants';
+import {Constants, Preferences} from 'utils/constants';
 import {getItemFromStorage} from 'selectors/storage';
 import EmojiMap from 'utils/emoji_map';
+import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 
 export const getEmojiMap = createSelector(
     'getEmojiMap',
@@ -39,18 +41,15 @@ export const getRecentEmojis = createSelector(
     },
 );
 
-function getStateRecentSkin(state) {
-    return state.views.emoji?.recentSkin;
-}
-
-export function getRecentSkin(state) {
-    const stateSkin = getStateRecentSkin(state);
-    if (stateSkin) {
-        return stateSkin;
-    }
-    const recentSkin = LocalStorageStore.getRecentSkin(getCurrentUserId(state));
-    return recentSkin || 'default';
-}
+// todo rename to getEmojiSkin
+export const getUserSkinTone = createSelector(
+    'getUserSkinTone',
+    getMyPreferences,
+    (prefs) => {
+        const key = getPreferenceKey(Preferences.CATEGORY_EMOJI, Preferences.EMOJI_SKINTONE);
+        return prefs[key]?.value || 'default';
+    },
+);
 
 export function isCustomEmojiEnabled(state) {
     const config = getConfig(state);
