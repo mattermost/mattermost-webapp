@@ -19,7 +19,7 @@ describe('components/post_view/Reaction', () => {
     };
     const currentUserId = 'user_id_1';
 
-    const baseProps = {
+    const baseProps: any = {
         canAddReaction: true,
         canRemoveReaction: true,
         currentUserId,
@@ -96,7 +96,7 @@ describe('components/post_view/Reaction', () => {
         const newActions = {...actions, getMissingProfilesByIds: jest.fn()};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow(<Reaction {...props}/>);
+        const wrapper: any = shallow(<Reaction {...props}/>);
         wrapper.instance().loadMissingProfiles();
 
         expect(newActions.getMissingProfilesByIds).toHaveBeenCalledTimes(1);
