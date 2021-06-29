@@ -5,37 +5,42 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import Cropper from 'react-easy-crop';
+import { Point } from 'react-easy-crop/types';
+type Props = {
 
+    /**
+             * Function that is called when modal is required to be hidden.
+             */
+    onHide: () => void;
+
+    /**
+     * Image url to provide into react-easy-cropper.
+     */
+    imgURL: string;
+
+    /**
+     *  Aspect ratio (Think of a scenario where user pastes screenshot of 2 or more screen, s/he might want to crop it according to one of his screens. In this case we want to provide a shortcut for him to save his time.).
+     */
+    aspectRatio: number;
+
+    /**
+     *  React-easy-crop library returns cropped area pixels during crop operation, and we need to pass that to file upload component to enable user to crop specified area.
+     */
+    setCroppedAreaPixels: (pixels: {[dimension: string]: number}) => void;
+
+    /**
+     *  Handle final crop state after user presses one of two buttons.
+     */
+    handleFinalCrop: (shouldCrop: boolean) => void;
+
+}
+type State = {
+    show: boolean;
+    crop: Point;
+    zoom: number;
+    aspect: number;
+};
 export default class ScreenshotUploadModal extends React.PureComponent<Props, State> {
-    static propTypes = {
-
-        /**
-         * Function that is called when modal is required to be hidden.
-         */
-        onHide: PropTypes.func.isRequired,
-
-        /**
-         * Image url to provide into react-easy-cropper.
-         */
-        imgURL: PropTypes.string,
-
-        /**
-        *  Aspect ratio (Think of a scenario where user pastes screenshot of 2 or more screen, s/he might want to crop it according to one of his screens. In this case we want to provide a shortcut for him to save his time.).
-        */
-        aspectRatio: PropTypes.number,
-
-        /**
-        *  React-easy-crop library returns cropped area pixels during crop operation, and we need to pass that to file upload component to enable user to crop specified area.
-        */
-        setCroppedAreaPixels: PropTypes.func,
-
-        /**
-        *  Handle final crop state after user presses one of two buttons.
-        */
-        handleFinalCrop: PropTypes.func,
-
-    };
-
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -46,11 +51,11 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
 
         };
     }
-    onCropChange = (crop): void => {
+    onCropChange = (crop: Point): void => {
         this.setState({crop});
     }
 
-    onCropComplete = (croppedArea, croppedAreaPixels): void => {
+    onCropComplete = (croppedArea: {[startPointsAndDimensions: string]: number}, croppedAreaPixels: {[startPointsAndDimensions: string]: number}): void => {
         this.props.setCroppedAreaPixels(croppedAreaPixels);
     }
 
