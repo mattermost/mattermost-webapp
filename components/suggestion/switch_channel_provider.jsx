@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -643,7 +644,7 @@ export default class SwitchChannelProvider extends Provider {
         const channelList = [];
         for (let i = 0; i < channels.length; i++) {
             const channel = channels[i];
-            if (channel.id === currentChannel.id) {
+            if (channel.id === currentChannel?.id) {
                 continue;
             }
             let wrappedChannel = {channel, name: channel.name, deactivated: false};
