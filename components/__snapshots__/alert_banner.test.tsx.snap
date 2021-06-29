@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components/AlertBanner should match snapshot 1`] = `
+<div
+  className="AlertBanner info AlertBanner--sys"
+>
+  <div
+    className="AlertBanner__icon"
+  >
+    <i
+      className="icon-alert-circle-outline"
+    />
+  </div>
+  <div
+    className="AlertBanner__body"
+  >
+    <div
+      className="AlertBanner__title"
+    >
+      title
+    </div>
+    <div
+      className="AlertBanner__message"
+    >
+      message
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Components/AlertBanner should match snapshot for app variant 1`] = `
+<div
+  className="AlertBanner info AlertBanner--app"
+>
+  <div
+    className="AlertBanner__icon"
+  >
+    <i
+      className="icon-alert-circle-outline"
+    />
+  </div>
+  <div
+    className="AlertBanner__body"
+  >
+    <div
+      className="AlertBanner__title"
+    >
+      title
+    </div>
+    <div
+      className="AlertBanner__message"
+    >
+      message
+    </div>
+  </div>
+</div>
+`;

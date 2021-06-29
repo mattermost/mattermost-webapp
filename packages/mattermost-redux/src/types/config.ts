@@ -57,6 +57,7 @@ export type ClientConfig = {
     EnableCustomBrand: string;
     EnableCustomEmoji: string;
     EnableCustomUserStatuses: string;
+    EnableTimedDND: string;
     EnableCustomTermsOfService: string;
     EnableDeveloper: string;
     EnableDiagnostics: string;
