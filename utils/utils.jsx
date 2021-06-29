@@ -1297,35 +1297,6 @@ export function isMobile() {
     return window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
 }
 
-export function getDirectTeammate(state, channelId) {
-    let teammate = {};
-
-    const channel = getChannel(state, channelId);
-    if (!channel) {
-        return teammate;
-    }
-
-    const userIds = channel.name.split('__');
-    const curUserId = getCurrentUserId(state);
-
-    if (userIds.length !== 2 || userIds.indexOf(curUserId) === -1) {
-        return teammate;
-    }
-
-    if (userIds[0] === userIds[1]) {
-        return getUser(state, userIds[0]);
-    }
-
-    for (var idx in userIds) {
-        if (userIds[idx] !== curUserId) {
-            teammate = getUser(state, userIds[idx]);
-            break;
-        }
-    }
-
-    return teammate;
-}
-
 export function loadImage(url, onLoad, onProgress) {
     const request = new XMLHttpRequest();
 
