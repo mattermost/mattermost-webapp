@@ -16,7 +16,6 @@ import {
 } from 'mattermost-redux/selectors/entities/threads';
 
 import {getThreads} from 'mattermost-redux/actions/threads';
-import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -27,6 +26,8 @@ import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
+import {selectItem} from 'actions/lhs';
+import {NonChannelLHSItem} from 'utils/lhs_utils';
 
 import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
@@ -64,7 +65,7 @@ const GlobalThreads = () => {
 
     useEffect(() => {
         dispatch(suppressRHS);
-        dispatch(selectChannel(''));
+        dispatch(selectItem(NonChannelLHSItem.GLOBAL_THREADS));
         loadProfilesForSidebar();
 
         // unsuppresses RHS on navigating away (unmount)

@@ -75,7 +75,7 @@ describe('SidebarChannelList', () => {
             scheme_id: 'test',
             group_constrained: false,
         }),
-        currentChannelId: currentChannel.id,
+        currentItem: currentChannel.id,
         categories: [
             {
                 id: 'category1',
@@ -136,7 +136,7 @@ describe('SidebarChannelList', () => {
             <SidebarChannelList {...baseProps}/>,
         );
 
-        wrapper.setProps({currentChannelId: 'new_channel_id'});
+        wrapper.setProps({currentItem: 'new_channel_id'});
         expect(baseProps.actions.close).toHaveBeenCalled();
     });
 

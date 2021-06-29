@@ -7,6 +7,8 @@ import {Dictionary, RelationOneToOne, $ID} from 'mattermost-redux/types/utilitie
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread} from 'mattermost-redux/types/threads';
 
+import {LHSItem} from 'utils/lhs_utils';
+
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
 
@@ -80,6 +82,7 @@ export type ViewsState = {
 
     lhs: {
         isOpen: boolean;
+        selectedItem: LHSItem;
     };
 
     search: {
