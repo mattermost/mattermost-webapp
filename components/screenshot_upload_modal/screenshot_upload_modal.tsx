@@ -50,7 +50,7 @@ export default class ScreenshotUploadModal extends React.PureComponent<Props, St
         this.setState({crop});
     }
 
-    onCropComplete = (croppedArea,croppedAreaPixels): void => {
+    onCropComplete = (croppedArea, croppedAreaPixels): void => {
         this.props.setCroppedAreaPixels(croppedAreaPixels);
     }
 

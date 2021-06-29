@@ -788,13 +788,14 @@ class FileUpload extends PureComponent {
                     {bodyAction}
                 </div>
                 <div>
-                    { this.state.screenshotUploadModalShow ? <ScreenshotUploadModal
-                        imgURL={this.state.screenshotUploadImgURL}
-                        onHide={this.closeScreenShotUploadModal}
-                        aspectRatio={this.state.screenshotUploadAspectRatio}
-                        setCroppedAreaPixels={this.setScreenshotUploadCroppedAreaPixels}
-                        handleFinalCrop={this.cropScreenshotAccordingToUsersChoice}
-                    /> : null}
+                    { this.state.screenshotUploadModalShow ?
+                        <ScreenshotUploadModal
+                            imgURL={this.state.screenshotUploadImgURL}
+                            onHide={this.closeScreenShotUploadModal}
+                            aspectRatio={this.state.screenshotUploadAspectRatio}
+                            setCroppedAreaPixels={this.setScreenshotUploadCroppedAreaPixels}
+                            handleFinalCrop={this.cropScreenshotAccordingToUsersChoice}
+                        /> : null}
                 </div>
             </div>
         );
