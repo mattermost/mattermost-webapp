@@ -9,7 +9,7 @@
     height: 100%;
     padding: 0 0 2em;
     border-right: $border-gray;
-    background: #fafafa;
+    background: var(--sidebar-bg);
     -webkit-overflow-scrolling: touch;
 
     .icon {

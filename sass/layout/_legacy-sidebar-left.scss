@@ -9,6 +9,7 @@
     height: 100%;
     flex-direction: column;
     border-right: $border-gray;
+    background: var(--sidebar-bg);
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -72,6 +73,7 @@
         flex: 0 0 45px;
         padding-bottom: 0;
         border-color: rgba(var(--sidebar-text-rgb), 0.2);
+        background: var(--sidebar-bg);
 
         button {
             display: block;
