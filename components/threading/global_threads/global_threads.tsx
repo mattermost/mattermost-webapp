@@ -198,7 +198,7 @@ const GlobalThreads = () => {
                                 link: (chunks) => (
                                     <Link
                                         key='single'
-                                        to={url + '/' + unreadThreadIds[0]}
+                                        to={`${url}/${unreadThreadIds[0]}`}
                                         onClick={handleSelectUnread}
                                     >
                                         {chunks}
