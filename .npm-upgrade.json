@@ -1,0 +1,100 @@
+{
+  "ignore": {
+    "@formatjs/intl-pluralrules": {
+      "versions": "",
+      "reason": "MM-34912"
+    },
+    "@formatjs/intl-relativetimeformat": {
+      "versions": "",
+      "reason": "MM-34912"
+    },
+    "@stripe/react-stripe-js": {
+      "versions": "",
+      "reason": "MM-34916"
+    },
+    "@stripe/stripe-js": {
+      "versions": "",
+      "reason": "MM-34916"
+    },
+    "bootstrap": {
+      "versions": "",
+      "reason": "MM-10786"
+    },
+    "@types/bootstrap": {
+      "versions": "",
+      "reason": "MM-10786"
+    },
+    "chart.js": {
+      "versions": "",
+      "reason": "MM-34915"
+    },
+    "emoji-datasource": {
+      "versions": "",
+      "reason": "MM-36772"
+    },
+    "emoji-datasource-apple": {
+      "versions": "",
+      "reason": "MM-36772"
+    },
+    "jasny-bootstrap": {
+      "versions": "",
+      "reason": "MM-18032"
+    },
+    "p-queue": {
+      "versions": "",
+      "reason": "MM-34914"
+    },
+    "pdfjs-dist": {
+      "versions": "",
+      "reason": "MM-32929"
+    },
+    "react": {
+      "versions": "",
+      "reason": "MM-34187"
+    },
+    "@types/react": {
+      "versions": "",
+      "reason": "MM-34187"
+    },
+    "react-dom": {
+      "versions": "",
+      "reason": "MM-34187"
+    },
+    "@types/react-dom": {
+      "versions": "",
+      "reason": "MM-34187"
+    },
+    "react-is": {
+      "versions": "",
+      "reason": "MM-34187"
+    },
+    "@types/react-is": {
+      "versions": "",
+      "reason": "MM-34187"
+    },
+    "react-overlays": {
+      "versions": "",
+      "reason": "MM-10786"
+    },
+    "redux-persist": {
+      "versions": "",
+      "reason": "MM-34911"
+    },
+    "serialize-error": {
+      "versions": "",
+      "reason": "MM-34914"
+    },
+    "@hot-loader/react-dom": {
+      "versions": "",
+      "reason": "MM-34187"
+    },
+    "@types/marked": {
+      "versions": "",
+      "reason": "Ignored since our forked version is wildly different from upstream"
+    },
+    "@types/react-bootstrap": {
+      "versions": "",
+      "reason": "MM-10786"
+    }
+  }
+}
