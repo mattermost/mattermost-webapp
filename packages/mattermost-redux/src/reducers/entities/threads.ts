@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import {PostTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team, TeamUnread} from 'mattermost-redux/types/teams';
 import {Post} from 'mattermost-redux/types/posts';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -189,6 +189,21 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
             },
         };
     }
+    case TeamTypes.RECEIVED_MY_TEAM_UNREADS: {
+        const members = action.data;
+        return {
+            ...state,
+            ...members.reduce((result: ThreadsState['counts'], member: TeamUnread) => {
+                result[member.team_id] = {
+                    ...state[member.team_id],
+                    total_unread_threads: member.thread_count,
+                    total_unread_mentions: member.thread_mention_count,
+                };
+
+                return result;
+            }, {}),
+        };
+    }
     case ThreadTypes.READ_CHANGED_THREAD: {
         const {
             teamId,
@@ -197,26 +212,36 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
             prevUnreadReplies = 0,
             newUnreadReplies = 0,
         } = action.data;
-        const counts = state[teamId] ? {
-            ...state[teamId],
-        } : {
-            total_unread_threads: 0,
+
+        // ThreadsState['counts'] unread totals contain DM/GM thread-unreads.
+        // If DM/GM (no threadId), apply decrement/increment to all team counts.
+        const countsByTeam = teamId ? {[teamId]: state[teamId] || {
             total: 0,
+            total_unread_threads: 0,
             total_unread_mentions: 0,
-        };
-        const unreadMentionDiff = newUnreadMentions - prevUnreadMentions;
+        }} : state;
 
-        counts.total_unread_mentions += unreadMentionDiff;
+        const changedCounts = Object.entries(countsByTeam).reduce((result: ThreadsState['counts'], [entryId, entryCounts]) => {
+            const counts = {...entryCounts};
 
-        if (newUnreadReplies > 0 && prevUnreadReplies === 0) {
-            counts.total_unread_threads += 1;
-        } else if (prevUnreadReplies > 0 && newUnreadReplies === 0) {
-            counts.total_unread_threads -= 1;
-        }
+            const unreadMentionDiff = newUnreadMentions - prevUnreadMentions;
+
+            counts.total_unread_mentions += unreadMentionDiff;
+
+            if (newUnreadReplies > 0 && prevUnreadReplies === 0) {
+                counts.total_unread_threads += 1;
+            } else if (prevUnreadReplies > 0 && newUnreadReplies === 0) {
+                counts.total_unread_threads -= 1;
+            }
+
+            result[entryId] = counts;
+
+            return result;
+        }, {});
 
         return {
             ...state,
-            [action.data.teamId]: counts,
+            ...changedCounts,
         };
     }
     case ThreadTypes.RECEIVED_THREADS: {

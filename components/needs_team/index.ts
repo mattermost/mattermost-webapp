@@ -9,7 +9,7 @@ import {loadProfilesForDirect} from 'mattermost-redux/actions/users';
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
@@ -43,6 +43,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
         license,
         theme: getTheme(state),
+        collapsedThreads: isCollapsedThreadsEnabled(state),
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
         currentUser,
         currentTeamId: getCurrentTeamId(state),

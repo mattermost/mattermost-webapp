@@ -11,7 +11,7 @@ import store from 'stores/redux_store.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 
-import CRTPostsChannelResetWatcher from 'components/threading/channel_threads/posts_channel_reset_watcher';
+import CrtToggleWatcher from 'components/threading/crt_toggle_watcher';
 const LazyRoot = React.lazy(() => import('components/root'));
 
 const Root = makeAsyncComponent(LazyRoot);
@@ -20,14 +20,15 @@ class App extends React.PureComponent {
     render() {
         return (
             <Provider store={store}>
-                <CRTPostsChannelResetWatcher/>
+                <CrtToggleWatcher/>
                 <Router history={browserHistory}>
                     <Route
                         path='/'
                         component={Root}
                     />
                 </Router>
-            </Provider>);
+            </Provider>
+        );
     }
 }
 

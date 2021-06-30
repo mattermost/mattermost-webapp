@@ -79,7 +79,7 @@ const GlobalThreads = () => {
     }, [currentTeamId, selectedThreadId, threadIdentifier]);
 
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 200}));
+        dispatch(getThreads(currentUserId, currentTeamId, {perPage: 200}));
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
