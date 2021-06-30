@@ -526,8 +526,10 @@
             }
 
             &:hover {
-                button {
-                    @include alpha-property(background-color, $black, 0.1);
+                button,
+                button:hover,
+                button:focus {
+                    background: var(--sidebar-text-hover-bg);
                 }
             }
 
@@ -550,11 +552,12 @@
                 button,
                 button:hover,
                 button:focus {
-                    @include alpha-property(background-color, $black, 0.1);
-
                     position: relative;
                     border-radius: 0;
                     font-weight: 400;
+                }
+                button {
+                    @include alpha-property(background-color, $black, .1);
                 }
             }
         }

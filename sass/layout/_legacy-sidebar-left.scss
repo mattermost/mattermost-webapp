@@ -211,6 +211,10 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
 
+                &:hover {
+                    background: var(--sidebar-text-hover-bg);
+                }
+
                 body.enable-animations & {
                     @include transition-property(color, background-color);
                     @include transition-duration($transition-quick);
@@ -302,6 +306,10 @@
 
                 &.muted {
                     opacity: 0.5;
+                }
+
+                &:hover {
+                    background: var(--sidebar-text-hover-bg);
                 }
             }
 
