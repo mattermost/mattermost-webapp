@@ -12,6 +12,7 @@ import {arePreviewsCollapsed} from 'selectors/preferences';
 import {Preferences, StoragePrefixes} from 'utils/constants';
 
 export const getEditingPost = createSelector(
+    'getEditingPost',
     (state) => {
         if (state.views.posts.editingPost && state.views.posts.editingPost.postId) {
             return getPost(state, state.views.posts.editingPost.postId);

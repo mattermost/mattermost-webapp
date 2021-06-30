@@ -10,6 +10,9 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {UserThread} from 'mattermost-redux/types/threads';
+import {Team} from 'mattermost-redux/types/teams';
+import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
@@ -34,7 +37,6 @@ type Props = {
     post: Post;
     teamId?: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
-    commentCount?: number;
     isFlagged?: boolean;
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
     handleDropdownOpened?: (open: boolean) => void;
@@ -72,7 +74,7 @@ type Props = {
         /**
          * Function to set the editing post
          */
-        setEditingPost: (postId?: string, commentCount?: number, refocusId?: string, title?: string, isRHS?: boolean) => void;
+        setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
          * Function to pin the post
@@ -104,10 +106,21 @@ type Props = {
          */
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 
+        /**
+         * Function to set the thread as followed/unfollowed
+         */
+        setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
+
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
     canDelete: boolean;
+    userId: string;
+    currentTeamId: $ID<Team>;
+    threadId: $ID<UserThread>;
+    isCollapsedThreadsEnabled: boolean;
+    isFollowingThread?: boolean;
+    threadReplyCount?: number;
 }
 
 type State = {
@@ -118,7 +131,6 @@ type State = {
 
 export class DotMenuClass extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
-        commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
         location: Locations.CENTER,
@@ -221,7 +233,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             dialogType: DeletePostModal,
             dialogProps: {
                 post: this.props.post,
-                commentCount: this.props.commentCount,
                 isRHS: this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
             },
         };
@@ -232,10 +243,19 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     handleEditMenuItemActivated = () => {
         this.props.actions.setEditingPost(
             this.props.post.id,
-            this.props.commentCount,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
             this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
             this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
+        );
+    }
+
+    handleSetThreadFollow = () => {
+        const {actions, currentTeamId, threadId, userId, isFollowingThread} = this.props;
+        actions.setThreadFollow(
+            userId,
+            currentTeamId,
+            threadId,
+            !isFollowingThread,
         );
     }
 
@@ -441,6 +461,26 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                             onClick={this.handleAddReactionMenuItemActivated}
                         />
                     </ChannelPermissionGate>
+                    <Menu.ItemAction
+                        id={`follow_post_thread_${this.props.post.id}`}
+                        onClick={this.handleSetThreadFollow}
+                        show={(
+                            !isSystemMessage &&
+                            this.props.isCollapsedThreadsEnabled &&
+                                (
+                                    this.props.location === Locations.CENTER ||
+                                    this.props.location === Locations.RHS_ROOT ||
+                                    this.props.location === Locations.RHS_COMMENT
+                                )
+                        )}
+                        {...this.props.isFollowingThread ? {
+                            text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
+                            extraText: Utils.localizeMessage('threading.threadMenu.unfollowExtra', 'You won’t be notified about replies'),
+                        } : {
+                            text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.follow', 'Follow thread') : Utils.localizeMessage('threading.threadMenu.followMessage', 'Follow message'),
+                            extraText: Utils.localizeMessage('threading.threadMenu.followExtra', 'You will be notified about replies'),
+                        }}
+                    />
                     <Menu.ItemAction
                         id={`unread_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH}

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import {batchActions} from 'redux-batched-actions';
 
@@ -31,13 +32,15 @@ import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actio
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getThread} from 'mattermost-redux/selectors/entities/threads';
+import {getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
     handleAllMarkedRead,
     handleReadChanged,
     handleFollowChanged,
     handleThreadArrived,
+    handleAllThreadsInChannelMarkedRead,
+    updateThreadRead,
 } from 'mattermost-redux/actions/threads';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -74,14 +77,17 @@ import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 
 import {getSelectedChannelId} from 'selectors/rhs';
+import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {syncPostsInChannel} from 'actions/views/channel';
+import {updateThreadLastOpened} from 'actions/views/threads';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
@@ -677,7 +683,9 @@ export function handlePostUnreadEvent(msg) {
                 lastViewedAt: msg.data.last_viewed_at,
                 channelId: msg.broadcast.channel_id,
                 msgCount: msg.data.msg_count,
+                msgCountRoot: msg.data.msg_count_root,
                 mentionCount: msg.data.mention_count,
+                mentionCountRoot: msg.data.mention_count_root,
             },
         },
     );
@@ -975,6 +983,10 @@ export async function handleUserUpdatedEvent(msg) {
     const state = getState();
     const currentUser = getCurrentUser(state);
     const user = msg.data.user;
+    if (user && user.props) {
+        const customStatus = user.props.customStatus ? JSON.parse(user.props.customStatus) : undefined;
+        dispatch(loadCustomEmojisIfNeeded([customStatus?.emoji]));
+    }
 
     const config = getConfig(state);
     const license = getLicense(state);
@@ -1411,8 +1423,14 @@ function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
 function handleThreadReadChanged(msg) {
     return (doDispatch, doGetState) => {
         if (msg.data.thread_id) {
-            const thread = doGetState().entities.threads.threads?.[msg.data.thread_id];
+            const state = doGetState();
+            const thread = getThreads(state)?.[msg.data.thread_id];
             if (thread) {
+                // skip marking the thread as read (when the user is viewing the thread)
+                if (!isThreadOpen(state, thread.id)) {
+                    doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
+                }
+
                 handleReadChanged(
                     doDispatch,
                     msg.data.thread_id,
@@ -1427,6 +1445,8 @@ function handleThreadReadChanged(msg) {
                     },
                 );
             }
+        } else if (msg.broadcast.channel_id) {
+            handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);
         } else {
             handleAllMarkedRead(doDispatch, msg.broadcast.team_id);
         }
@@ -1435,12 +1455,34 @@ function handleThreadReadChanged(msg) {
 
 function handleThreadUpdated(msg) {
     return (doDispatch, doGetState) => {
+        let threadData;
         try {
-            const threadData = JSON.parse(msg.data.thread);
-            handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
+            threadData = JSON.parse(msg.data.thread);
         } catch {
             // invalid JSON
+            return;
         }
+
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const currentTeamId = getCurrentTeamId(state);
+
+        let lastViewedAt;
+        if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
+            lastViewedAt = Date.now();
+
+            // prematurely update thread data as read
+            // so we won't flash the indicators when
+            // we mark the thread as read on the server
+            threadData.last_viewed_at = lastViewedAt;
+            threadData.unread_mentions = 0;
+            threadData.unread_replies = 0;
+
+            // mark thread as read on the server
+            dispatch(updateThreadRead(currentUserId, currentTeamId, threadData.id, lastViewedAt));
+        }
+
+        handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
     };
 }
 
@@ -1448,7 +1490,7 @@ function handleThreadFollowChanged(msg) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const thread = getThread(state, msg.data.thread_id);
-        if (!thread && msg.data.state) {
+        if (!thread && msg.data.state && msg.data.reply_count) {
             await doDispatch(fetchThread(getCurrentUserId(state), getCurrentTeamId(state), msg.data.thread_id, true));
         }
         handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);

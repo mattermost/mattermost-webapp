@@ -12,7 +12,7 @@
 
 import {beRead, beUnread} from '../../support/assertions';
 
-import {verifyPostNextToNewMessageSeparator, switchToChannel, showCursor, notShowCursor} from './helpers';
+import {verifyPostNextToNewMessageSeparator, verifyTopSpaceForNewMessage, verifyBottomSpaceForNewMessage, switchToChannel, showCursor, notShowCursor} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -123,7 +123,7 @@ describe('Mark as Unread', () => {
         cy.get('.NotificationSeparator').should('not.exist');
     });
 
-    it('Should be able to mark channel as unread by alt-clicking', () => {
+    it('MM-T260 Mark as Unread New Messages line extra space moves with it', () => {
         switchToChannel(channelA);
 
         markAsUnreadFromPost(post2);
@@ -131,15 +131,33 @@ describe('Mark as Unread', () => {
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post2');
 
+        // Top separator space should appear above the selected post
+        verifyTopSpaceForNewMessage('post2');
+
+        // Bottom separator space should appear below the post
+        verifyBottomSpaceForNewMessage('post1');
+
         markAsUnreadFromPost(post1);
 
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post1');
 
+        // Top separator space should appear above the selected post
+        verifyTopSpaceForNewMessage('post1');
+
+        // Bottom separator space should appear below the post by user
+        verifyBottomSpaceForNewMessage('System');
+
         markAsUnreadFromPost(post3);
 
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post3');
+
+        // Top separator space should appear above the selected post
+        verifyTopSpaceForNewMessage('post3');
+
+        // Bottom separator space should appear below the post
+        verifyBottomSpaceForNewMessage('post2');
     });
 
     it('Should be able to mark channel as unread from post menu', () => {

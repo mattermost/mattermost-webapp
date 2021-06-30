@@ -361,6 +361,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                     button={this.getItemButton()}
                     versionLabel={versionLabel}
                     updateDetails={updateDetails}
+                    iconSource={this.props.iconData}
                     {...this.props}
                 />
                 <UpdateConfirmationModal

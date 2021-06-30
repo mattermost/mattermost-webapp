@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 @function em($pixels, $context: 14px) {
-	@return ($pixels / $context * 1em)
+    @return ($pixels / $context * 1em);
 }
 
 @function v($var) {
@@ -9,24 +9,24 @@
 }
 
 @function alpha-color($color, $amount) {
-    @return rgba($color, $amount)
+    @return rgba($color, $amount);
 }
 
 %popover-box-shadow {
-    @include box-shadow(rgba(black, .175) 1px -3px 12px);
+    @include box-shadow(rgba(black, 0.175) 1px -3px 12px);
 }
 
 %box-shadow-1 {
-    @include box-shadow(rgba(black, .1) 0 1px 16px);
+    @include box-shadow(rgba(black, 0.1) 0 1px 16px);
 }
 
 %font-awesome {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
-    text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: auto;
     transform: translate(0, 0);
 }
 

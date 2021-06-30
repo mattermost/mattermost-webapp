@@ -176,10 +176,6 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
-        if (!this.props.currentChannelId) {
-            return null;
-        }
-
         return channelIds.find((channelId) => {
             return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
         });
@@ -504,47 +500,49 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         return (
 
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
-            <div
-                id='sidebar-left'
-                role='application'
-                aria-label={ariaLabel}
-                className={classNames('SidebarNavContainer a11y__region', {
-                    disabled: this.props.isUnreadFilterEnabled,
-                })}
-                data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
-                data-a11y-sort-order='7'
-                onTransitionEnd={this.onTransitionEnd}
-            >
-                <UnreadChannelIndicator
-                    name='Top'
-                    show={this.state.showTopUnread}
-                    onClick={this.scrollToFirstUnreadChannel}
-                    extraClass='nav-pills__unread-indicator-top'
-                    content={above}
-                />
-                <UnreadChannelIndicator
-                    name='Bottom'
-                    show={this.state.showBottomUnread}
-                    onClick={this.scrollToLastUnreadChannel}
-                    extraClass='nav-pills__unread-indicator-bottom'
-                    content={below}
-                />
-                <Scrollbars
-                    ref={this.scrollbar}
-                    autoHide={true}
-                    autoHideTimeout={500}
-                    autoHideDuration={500}
-                    renderThumbHorizontal={renderThumbHorizontal}
-                    renderThumbVertical={renderThumbVertical}
-                    renderTrackVertical={renderTrackVertical}
-                    renderView={renderView}
-                    onScroll={this.onScroll}
-                    style={{position: 'absolute'}}
+            <>
+                <GlobalThreadsLink/>
+                <div
+                    id='sidebar-left'
+                    role='application'
+                    aria-label={ariaLabel}
+                    className={classNames('SidebarNavContainer a11y__region', {
+                        disabled: this.props.isUnreadFilterEnabled,
+                    })}
+                    data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
+                    data-a11y-sort-order='7'
+                    onTransitionEnd={this.onTransitionEnd}
                 >
-                    <GlobalThreadsLink/>
-                    {channelList}
-                </Scrollbars>
-            </div>
+                    <UnreadChannelIndicator
+                        name='Top'
+                        show={this.state.showTopUnread}
+                        onClick={this.scrollToFirstUnreadChannel}
+                        extraClass='nav-pills__unread-indicator-top'
+                        content={above}
+                    />
+                    <UnreadChannelIndicator
+                        name='Bottom'
+                        show={this.state.showBottomUnread}
+                        onClick={this.scrollToLastUnreadChannel}
+                        extraClass='nav-pills__unread-indicator-bottom'
+                        content={below}
+                    />
+                    <Scrollbars
+                        ref={this.scrollbar}
+                        autoHide={true}
+                        autoHideTimeout={500}
+                        autoHideDuration={500}
+                        renderThumbHorizontal={renderThumbHorizontal}
+                        renderThumbVertical={renderThumbVertical}
+                        renderTrackVertical={renderTrackVertical}
+                        renderView={renderView}
+                        onScroll={this.onScroll}
+                        style={{position: 'absolute'}}
+                    >
+                        {channelList}
+                    </Scrollbars>
+                </div>
+            </>
         );
     }
 }

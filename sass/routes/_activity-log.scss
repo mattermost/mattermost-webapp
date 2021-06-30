@@ -1,28 +1,28 @@
 @charset 'UTF-8';
 
 .animation--highlight {
-    &:before {
-        animation: highlight 1.5s ease;
-        content: '';
-        height: 100%;
-        left: 0;
+    &::before {
         position: absolute;
         top: 0;
-        width: 100%;
+        left: 0;
         display: inline-block;
+        width: 100%;
+        height: 100%;
+        animation: highlight 1.5s ease;
+        content: '';
     }
 }
 
 .activity-log__table {
-    border-top: 1px solid $light-gray;
     display: table;
-    line-height: 1.8;
-    padding: 15px 0;
     width: 100%;
+    padding: 15px 0;
+    border-top: 1px solid $light-gray;
+    line-height: 1.8;
 
     &:first-child {
-        border: none;
         padding-top: 0;
+        border: none;
     }
 
     > div {
@@ -48,7 +48,7 @@
     }
 
     .report__info {
-        @include opacity(.8);
+        @include opacity(0.8);
     }
 }
 

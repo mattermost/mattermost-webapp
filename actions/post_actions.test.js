@@ -4,7 +4,7 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
-import {SearchTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, SearchTypes} from 'mattermost-redux/action_types';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
@@ -26,6 +26,10 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 
 jest.mock('actions/emoji_actions', () => ({
     addRecentEmoji: (...args) => ({type: 'MOCK_ADD_RECENT_EMOJI', args}),
+}));
+
+jest.mock('actions/notification_actions', () => ({
+    sendDesktopNotification: jest.fn().mockReturnValue({type: 'MOCK_SEND_DESKTOP_NOTIFICATION'}),
 }));
 
 jest.mock('actions/storage', () => {
@@ -92,6 +96,7 @@ describe('Actions.Posts', () => {
                 channels: {
                     current_channel_id: {team_a: 'team_a', id: 'current_channel_id'},
                 },
+                manuallyUnread: {},
             },
             preferences: {
                 myPreferences: {
@@ -174,11 +179,17 @@ describe('Actions.Posts', () => {
 
         await testStore.dispatch(Actions.handleNewPost(newPost, msg));
         expect(testStore.getActions()).toEqual([
-            INCREASED_POST_VISIBILITY,
             {
                 meta: {batch: true},
-                payload: [PostActions.receivedNewPost(newPost, false), STOP_TYPING],
+                payload: [
+                    INCREASED_POST_VISIBILITY,
+                    PostActions.receivedNewPost(newPost, false),
+                    STOP_TYPING,
+                ],
                 type: 'BATCHING_REDUCER.BATCH',
+            },
+            {
+                type: 'MOCK_SEND_DESKTOP_NOTIFICATION',
             },
         ]);
     });
@@ -199,10 +210,43 @@ describe('Actions.Posts', () => {
                         data: {
                             id: 'other_channel_idundefined',
                             now: POST_CREATED_TIME,
-                            userId: newPost.user_id},
+                            userId: newPost.user_id,
+                        },
+                    },
+                    {
+                        type: ChannelTypes.INCREMENT_UNREAD_MSG_COUNT,
+                        data: {
+                            amount: 1,
+                            amountRoot: 0,
+                            channelId: 'other_channel_id',
+                            fetchedChannelMember: false,
+                            onlyMentions: undefined,
+                            teamId: undefined,
+                        },
+                    },
+                    {
+                        type: ChannelTypes.INCREMENT_TOTAL_MSG_COUNT,
+                        data: {
+                            amount: 1,
+                            amountRoot: 0,
+                            channelId: 'other_channel_id',
+                        },
+                    },
+                    {
+                        type: ChannelTypes.INCREMENT_UNREAD_MENTION_COUNT,
+                        data: {
+                            amount: 1,
+                            amountRoot: 0,
+                            channelId: 'other_channel_id',
+                            fetchedChannelMember: false,
+                            teamId: undefined,
+                        },
                     },
                 ],
                 type: 'BATCHING_REDUCER.BATCH',
+            },
+            {
+                type: 'MOCK_SEND_DESKTOP_NOTIFICATION',
             },
         ]);
     });
@@ -210,11 +254,11 @@ describe('Actions.Posts', () => {
     test('setEditingPost', async () => {
         // should allow to edit and should fire an action
         let testStore = mockStore({...initialState});
-        const {data} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 0, 'test', 'title'));
+        const {data} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 'test', 'title'));
         expect(data).toEqual(true);
 
         expect(testStore.getActions()).toEqual(
-            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
+            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
         );
 
         const general = {
@@ -227,10 +271,10 @@ describe('Actions.Posts', () => {
 
         testStore = mockStore(withLicenseState);
 
-        const {data: withLicenseData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 0, 'test', 'title'));
+        const {data: withLicenseData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 'test', 'title'));
         expect(withLicenseData).toEqual(true);
         expect(testStore.getActions()).toEqual(
-            [{data: {commentCount: 0, isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
+            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
         );
 
         // should not allow edit for pending post
@@ -240,7 +284,7 @@ describe('Actions.Posts', () => {
 
         testStore = mockStore(withPendingPostState);
 
-        const {data: withPendingPostData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 0, 'test', 'title'));
+        const {data: withPendingPostData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 'test', 'title'));
         expect(withPendingPostData).toEqual(false);
         expect(testStore.getActions()).toEqual([]);
     });

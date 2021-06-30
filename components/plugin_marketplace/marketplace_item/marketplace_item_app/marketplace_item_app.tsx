@@ -17,6 +17,7 @@ export type MarketplaceItemAppProps = {
     name: string;
     description?: string;
     homepageUrl?: string;
+    iconURL?: string;
 
     installed: boolean;
     labels?: MarketplaceLabel[];
@@ -101,6 +102,7 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
                     button={this.getItemButton()}
                     updateDetails={null}
                     versionLabel={null}
+                    iconSource={this.props.iconURL}
                     {...this.props}
                 />
             </>

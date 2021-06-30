@@ -9,29 +9,41 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import {getChannel as getChannelAction, getChannelByNameAndTeamName, getChannelMember, joinChannel} from 'mattermost-redux/actions/channels';
+import {
+    getChannel as getChannelAction,
+    getChannelByNameAndTeamName,
+    getChannelMember,
+    joinChannel,
+} from 'mattermost-redux/actions/channels';
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getChannelsNameMapInTeam, getMyChannelMemberships, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannel,
+    getChannelsNameMapInTeam,
+    getMyChannelMemberships,
+    getRedirectChannelNameForTeam,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {
-    blendColors,
-    changeOpacity,
-} from 'mattermost-redux/utils/theme_utils';
+import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam, getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getCurrentRelativeTeamUrl,
+    getCurrentTeamId,
+    getTeam,
+    getTeamByName,
+    getTeamMemberships,
+} from 'mattermost-redux/selectors/entities/teams';
 
 import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
 import down from 'sounds/down.mp3';
@@ -42,6 +54,9 @@ import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -257,6 +272,14 @@ export function getRemainingDaysFromFutureTimestamp(timestamp) {
     const utcToday = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
 
     return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
+}
+
+export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = '') {
+    if (!timestamp) {
+        return moment.now();
+    }
+    const timezone = userTimezone ? ' ' + moment().tz(userTimezone).format('z') : '';
+    return moment.unix(timestamp).format(format) + timezone;
 }
 
 // Replaces all occurrences of a pattern
@@ -717,7 +740,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker__search-icon', 'color:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .emoji-picker__preview, .app__body .emoji-picker__items, .app__body .emoji-picker__search-container', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.emoji-picker__category .fa:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
-        changeCss('.app__body .emoji-picker__category--selected, .app__body .emoji-picker__category--selected:focus, .app__body .emoji-picker__category--selected:hover', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker__item-wrapper:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .icon__postcontent_picker:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .emoji-picker .nav-tabs li a', 'fill:' + theme.centerChannelColor);
@@ -1272,35 +1294,6 @@ export function isValidBotUsername(name) {
 
 export function isMobile() {
     return window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
-}
-
-export function getDirectTeammate(state, channelId) {
-    let teammate = {};
-
-    const channel = getChannel(state, channelId);
-    if (!channel) {
-        return teammate;
-    }
-
-    const userIds = channel.name.split('__');
-    const curUserId = getCurrentUserId(state);
-
-    if (userIds.length !== 2 || userIds.indexOf(curUserId) === -1) {
-        return teammate;
-    }
-
-    if (userIds[0] === userIds[1]) {
-        return getUser(state, userIds[0]);
-    }
-
-    for (var idx in userIds) {
-        if (userIds[idx] !== curUserId) {
-            teammate = getUser(state, userIds[idx]);
-            break;
-        }
-    }
-
-    return teammate;
 }
 
 export function loadImage(url, onLoad, onProgress) {
@@ -1875,6 +1868,7 @@ export async function handleFormattedTextClick(e, currentRelativeTeamUrl) {
                 }
             }
 
+            e.stopPropagation();
             browserHistory.push(linkAttribute.value);
         }
     } else if (channelMentionAttribute) {
@@ -2027,30 +2021,6 @@ export function getClosestParent(elem, selector) {
         }
     }
     return null;
-}
-
-export function getSortedUsers(reactions, currentUserId, profiles, teammateNameDisplay) {
-    // Sort users by who reacted first with "you" being first if the current user reacted
-
-    let currentUserReacted = false;
-    const sortedReactions = reactions.sort((a, b) => a.create_at - b.create_at);
-    const users = sortedReactions.reduce((accumulator, current) => {
-        if (current.user_id === currentUserId) {
-            currentUserReacted = true;
-        } else {
-            const user = profiles.find((u) => u.id === current.user_id);
-            if (user) {
-                accumulator.push(displayUsername(user, teammateNameDisplay));
-            }
-        }
-        return accumulator;
-    }, []);
-
-    if (currentUserReacted) {
-        users.unshift(Utils.localizeMessage('reaction.you', 'You'));
-    }
-
-    return {currentUserReacted, users};
 }
 
 const BOLD_MD = '**';
@@ -2253,4 +2223,30 @@ export function stringToNumber(s) {
     }
 
     return parseInt(s, 10);
+}
+
+export function renderPurchaseLicense() {
+    return (
+        <div className='purchase-card'>
+            <PurchaseLink
+                eventID='post_trial_purchase_license'
+                buttonTextElement={
+                    <FormattedMessage
+                        id='admin.license.trialCard.purchase_license'
+                        defaultMessage='Purchase a license'
+                    />
+                }
+            />
+            <ContactUsButton
+                eventID='post_trial_contact_sales'
+            />
+        </div>
+    );
+}
+
+export function deleteKeysFromObject(value, keys) {
+    for (const key of keys) {
+        delete value[key];
+    }
+    return value;
 }

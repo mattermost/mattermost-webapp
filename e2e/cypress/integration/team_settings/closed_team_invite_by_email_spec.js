@@ -9,33 +9,37 @@
 
 // Group: @team_settings
 
+import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {
-    getEmailUrl,
+    getJoinEmailTemplate,
     getRandomId,
     reUrl,
-    splitEmailBodyText,
+    verifyEmailBody,
 } from '../../utils';
 
 describe('Team Settings', () => {
-    let testTeam;
+    const sysadmin = getAdminAccount();
     const randomId = getRandomId();
     const username = `user${randomId}`;
     const email = `user${randomId}@sample.mattermost.com`;
     const password = 'passwd';
 
-    const baseUrl = Cypress.config('baseUrl');
-    const mailUrl = getEmailUrl(baseUrl);
+    let testTeam;
+    let siteName;
+    let isCloudLicensed;
     let isLicensed;
 
     before(() => {
         // # If the instance the test is running on is licensed, assign true to isLicensed variable
         cy.apiGetClientLicense().then((data) => {
-            ({isLicensed} = data);
+            ({isLicensed, isCloudLicensed} = data);
         });
 
         // # Disable LDAP and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
+        cy.apiUpdateConfig({LdapSettings: {Enable: false}}).then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
         cy.apiEmailTest();
 
         cy.apiInitSetup().then(({team}) => {
@@ -83,13 +87,18 @@ describe('Team Settings', () => {
         cy.apiLogout();
 
         // # Invite a new user (with the email declared in the parent scope)
-        cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            verifyEmailInvite(response, testTeam.name, testTeam.display_name, email);
+        cy.getRecentEmail({username, email}).then((data) => {
+            const {body: actualEmailBody, subject} = data;
 
-            const bodyText = splitEmailBodyText(response.data.body.text);
-            const permalink = bodyText[6].match(reUrl)[0];
+            // * Verify email subject
+            expect(subject).to.contain(`[${siteName}] ${sysadmin.username} invited you to join ${testTeam.display_name} Team`);
+
+            // * Verify email body
+            const expectedEmailBody = getJoinEmailTemplate(sysadmin.username, email, testTeam);
+            verifyEmailBody(expectedEmailBody, actualEmailBody);
 
             // # Visit permalink (e.g. click on email link)
+            const permalink = actualEmailBody[3].match(reUrl)[0];
             cy.visit(permalink);
         });
 
@@ -111,32 +120,15 @@ describe('Team Settings', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
+        if (isCloudLicensed) {
+            cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
+        } else {
+            cy.get('#tutorialIntroOne').should('be.visible').
+                and('contain', 'Welcome to:').
+                and('contain', 'Mattermost').
+                and('contain', 'Your team communication all in one place, instantly searchable and available anywhere.').
+                and('contain', 'Keep your team connected to help them achieve what matters most.');
+        }
     });
-
-    function verifyEmailInvite(response, teamName, teamDisplayName, invitedUserEmail) {
-        const isoDate = new Date().toISOString().substring(0, 10);
-        const {data, status} = response;
-
-        // * Should return success status
-        expect(status).to.equal(200);
-
-        // * Verify that email is addressed to the correct user
-        expect(data.to.length).to.equal(1);
-        expect(data.to[0]).to.contain(invitedUserEmail);
-
-        // * Verify that date is current
-        expect(data.date).to.contain(isoDate);
-
-        // * Verify that the email subject is correct
-        expect(data.subject).to.contain(`[Mattermost] sysadmin invited you to join ${teamDisplayName} Team`);
-
-        // * Verify that the email body is correct
-        const bodyText = splitEmailBodyText(data.body.text);
-        expect(bodyText.length).to.equal(17);
-        expect(bodyText[1]).to.equal('You\'ve been invited');
-        expect(bodyText[4]).to.equal(`*sysadmin* , has invited you to join *${teamDisplayName}*.`);
-        expect(bodyText[10]).to.contain(`${baseUrl}/${teamName}`);
-    }
 });
 

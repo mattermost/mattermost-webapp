@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getEmailUrl, getRandomId} from '../../utils';
+import {getRandomId} from '../../utils';
 
 describe('Authentication', () => {
     let testUser;
@@ -144,7 +144,7 @@ describe('Authentication', () => {
                 EnableUserCreation: true,
                 EnableOpenServer: true,
             },
-        }).then(() => {
+        }).then(({config}) => {
             cy.apiLogout();
 
             // # Go to front page
@@ -157,23 +157,22 @@ describe('Authentication', () => {
             cy.visit('/signup_email');
 
             const username = `Hossein${getRandomId()}`;
+            const email = `${username.toLowerCase()}@example.com`;
 
-            cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`${username}@example.com`);
+            cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(email);
 
             cy.get('#password').type('Test123456!');
 
-            cy.get('#name').clear().type(`${username}`);
+            cy.get('#name').clear().type(username);
 
             cy.findByText('Create Account').click();
 
             // * Make sure account was created successfully and we are on the team joining page
             cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
-            const mailUrl = getEmailUrl(Cypress.config('baseUrl'));
-
-            cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
+            cy.getRecentEmail({username, email}).then(({subject}) => {
                 // * Verify the subject
-                expect(response.data.subject).to.include('[Mattermost] You joined');
+                expect(subject).to.include(`[${config.TeamSettings.SiteName}] You joined`);
             });
         });
     });

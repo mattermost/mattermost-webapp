@@ -7,6 +7,8 @@ import $ from 'jquery';
 
 import '@testing-library/jest-dom';
 
+import './redux-persist_mock';
+
 global.$ = $;
 global.jQuery = $;
 global.performance = {};
@@ -37,11 +39,36 @@ Object.defineProperty(document, 'execCommand', {
 
 document.documentElement.style.fontSize = '12px';
 
+// isDependencyWarning returns true when the given console.warn message is coming from a dependency using deprecated
+// React lifecycle methods.
+function isDependencyWarning(params) {
+    function paramsHasComponent(name) {
+        return params.some((param) => param.includes(name));
+    }
+
+    return params[0].includes('Please update the following components:') && (
+
+        // React Bootstrap
+        paramsHasComponent('Modal') ||
+        paramsHasComponent('Portal') ||
+        paramsHasComponent('Overlay') ||
+        paramsHasComponent('Position') ||
+
+        // React-Select
+        paramsHasComponent('Select')
+    );
+}
+
 let warns;
 let errors;
 beforeAll(() => {
     console.originalWarn = console.warn;
     console.warn = jest.fn((...params) => {
+        // Ignore any deprecation warnings coming from dependencies
+        if (isDependencyWarning(params)) {
+            return;
+        }
+
         console.originalWarn(...params);
         warns.push(params);
     });
@@ -61,9 +88,6 @@ beforeEach(() => {
 afterEach(() => {
     if (warns.length > 0 || errors.length > 0) {
         const message = 'Unexpected console logs' + warns + errors;
-        if (message.includes('componentWillReceiveProps')) {
-            return;
-        }
         throw new Error(message);
     }
 });

@@ -11,26 +11,32 @@
         --offset: -4px;
         --border-width: 1px;
     }
+
     &.Avatars___xs {
         --offset: -5px;
         --border-width: 1px;
     }
+
     &.Avatars___sm {
         --offset: -5px;
         --border-width: 1px;
     }
+
     &.Avatars___md {
         --offset: -6px;
         --border-width: 1.5px;
     }
+
     &.Avatars___lg {
         --offset: -7px;
         --border-width: 2px;
     }
+
     &.Avatars___xl {
         --offset: -10px;
         --border-width: 2px;
     }
+
     &.Avatars___xxl {
         --offset: -26px;
         --border-width: 5px;
@@ -46,7 +52,7 @@
         &:hover,
         &:focus {
             z-index: 1;
-            filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.08))
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.08));
         }
 
         &.Avatar-plain {

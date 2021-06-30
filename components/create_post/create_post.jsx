@@ -118,11 +118,6 @@ class CreatePost extends React.PureComponent {
         }).isRequired,
 
         /**
-         *  Data used dispatching handleViewAction
-         */
-        commentCountForPost: PropTypes.number,
-
-        /**
          *  Data used dispatching handleViewAction ex: edit post
          */
         latestReplyablePostId: PropTypes.string,
@@ -477,6 +472,10 @@ class CreatePost extends React.PureComponent {
 
         this.setState({submitting: true, serverError: null});
 
+        const fasterThanHumanWillClick = 150;
+        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
+        this.focusTextbox(forceFocus);
+
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
         if (post.message.indexOf('/') === 0 && !ignoreSlash) {
             this.setState({message: '', postError: null});
@@ -536,11 +535,6 @@ class CreatePost extends React.PureComponent {
         cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
-
-        const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
-
-        this.focusTextbox(forceFocus);
     }
 
     handleNotifyAllConfirmation = (e) => {
@@ -1077,7 +1071,7 @@ class CreatePost extends React.PureComponent {
         if (this.textboxRef.current) {
             this.textboxRef.current.blur();
         }
-        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
+        this.props.actions.setEditingPost(lastPost.id, 'post_textbox', type);
     }
 
     replyToLastPost = (e) => {
@@ -1161,7 +1155,7 @@ class CreatePost extends React.PureComponent {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji.name || emoji.aliases[0];
+        const emojiAlias = (emoji.short_names && emoji.short_names[0]) || emoji.name;
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
