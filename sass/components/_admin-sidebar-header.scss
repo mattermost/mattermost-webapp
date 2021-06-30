@@ -3,45 +3,50 @@
 
     > div {
         &:first-child {
-            display: flex;
             position: relative;
+            display: flex;
+            align-items: center;
             padding: 10px;
             cursor: pointer;
-            align-items: center;
         }
 
         > img {
-            border-radius: 36px;
-            height: 36px;
             width: 36px;
+            height: 36px;
+            border-radius: 36px;
         }
 
         .header__info {
             @include clearfix;
             @include flex-grow(1);
-            color: $white;
-            padding: 3px 15px 0 8px;
+
             position: relative;
             width: 100%;
+            padding: 3px 15px 0 8px;
+            color: $white;
+
             .team__name {
+                overflow: hidden;
+                max-width: 100%;
                 font-size: 14px;
                 font-weight: 600;
-                max-width: 100%;
-                overflow: hidden;
                 text-decoration: none;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
+
             .user__name {
-                @include opacity(.8);
+                @include opacity(0.8);
+
                 font-weight: 400;
             }
         }
 
         .menu-icon {
-            @include opacity(.8);
-            fill: $white;
+            @include opacity(0.8);
+
             margin-right: 10px;
+            fill: $white;
         }
 
         &:hover {
@@ -49,8 +54,9 @@
             .menu-icon {
                 @include opacity(1);
             }
+
             > div > img {
-                @include opacity(.8);
+                @include opacity(0.8);
             }
         }
     }
@@ -58,5 +64,4 @@
     .Menu {
         margin-left: 16px;
     }
-
 }

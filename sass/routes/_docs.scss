@@ -1,19 +1,19 @@
 @charset 'UTF-8';
 
 .docs__page {
-    line-height: 1.7;
     padding-bottom: 20px;
+    line-height: 1.7;
 
     > div {
-        margin: 0 auto;
+        width: 1170px;
         max-width: 100%;
         padding: 0 15px;
-        width: 1170px;
+        margin: 0 auto;
     }
 
     h1.markdown__heading {
+        padding-bottom: 1rem;
         border-bottom: 1px solid #ddd;
         margin: 1em 0 1em;
-        padding-bottom: 1rem;
     }
 }

@@ -160,7 +160,7 @@ class RhsComment extends React.PureComponent {
 
     scrollIntoHighlight = () => {
         window.requestAnimationFrame(() => {
-            if (!this.props.isInViewport(this.postRef.current)) {
+            if (this.postRef.current && !this.props.isInViewport(this.postRef.current)) {
                 this.postRef.current.scrollIntoView();
             }
         });

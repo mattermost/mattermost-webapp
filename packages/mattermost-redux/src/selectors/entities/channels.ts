@@ -33,7 +33,13 @@ import {
     getMyTeams,
     getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
-import {isCurrentUserSystemAdmin, getCurrentUserId, getUserIdsInChannels, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {
+    getCurrentUserId,
+    getStatusForUserId,
+    getUser,
+    getUserIdsInChannels,
+    isCurrentUserSystemAdmin,
+} from 'mattermost-redux/selectors/entities/users';
 
 import {Channel, ChannelStats, ChannelMembership, ChannelModeration, ChannelMemberCountsByGroup, ChannelSearchOpts} from 'mattermost-redux/types/channels';
 import {ClientConfig} from 'mattermost-redux/types/config';
@@ -1565,4 +1571,30 @@ export function searchChannelsInPolicy(state: GlobalState, policyId: string, ter
     channels = filterChannelsMatchingTerm(channels, term);
 
     return channels;
+}
+
+export function getDirectTeammate(state: GlobalState, channelId: string): UserProfile | undefined {
+    const channel = getChannel(state, channelId);
+    if (!channel) {
+        return undefined;
+    }
+
+    const userIds = channel.name.split('__');
+    const currentUserId = getCurrentUserId(state);
+
+    if (userIds.length !== 2 || userIds.indexOf(currentUserId) === -1) {
+        return undefined;
+    }
+
+    if (userIds[0] === userIds[1]) {
+        return getUser(state, userIds[0]);
+    }
+
+    for (const id of userIds) {
+        if (id !== currentUserId) {
+            return getUser(state, id);
+        }
+    }
+
+    return undefined;
 }

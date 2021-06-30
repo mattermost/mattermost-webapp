@@ -4,12 +4,14 @@
 import * as EmojiActions from 'mattermost-redux/actions/emojis';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {setRecentEmojis} from 'actions/local_storage';
 import {getEmojiMap, getRecentEmojis, isCustomEmojiEnabled} from 'selectors/emojis';
 import {isCustomStatusEnabled, makeGetCustomStatus} from 'selectors/views/custom_status';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
-import {ActionTypes} from 'utils/constants';
+import {ActionTypes, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji';
 
 export function loadRecentlyUsedCustomEmojis() {
@@ -43,13 +45,17 @@ export function incrementEmojiPickerPage() {
     };
 }
 
-export function setRecentSkin(skin) {
-    return (dispatch) => {
-        dispatch({
-            type: ActionTypes.SET_RECENT_SKIN,
-            data: skin,
-        });
-        return {data: skin};
+export function setUserSkinTone(skin) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const skinTonePreference = [{
+            user_id: currentUserId,
+            name: Preferences.EMOJI_SKINTONE,
+            category: Preferences.CATEGORY_EMOJI,
+            value: skin,
+        }];
+        dispatch(savePreferences(currentUserId, skinTonePreference));
     };
 }
 

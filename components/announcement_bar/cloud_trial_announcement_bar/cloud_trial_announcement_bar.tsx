@@ -24,10 +24,12 @@ import {
     AnnouncementBarTypes,
     ModalIdentifiers,
     TELEMETRY_CATEGORIES,
+    TrialPeriodDays,
 } from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
 import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
+import {getLocaleDateFromUTC} from 'utils/utils';
 
 type Props = {
     userIsAdmin: boolean;
@@ -45,13 +47,6 @@ type Props = {
         openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
 };
-
-enum TrialPeriodDays {
-    TRIAL_14_DAYS = 14,
-    TRIAL_3_DAYS = 3,
-    TRIAL_2_DAYS = 2,
-    TRIAL_1_DAY = 1
-}
 
 class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     async componentDidMount() {
@@ -78,9 +73,9 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     handleClose = async () => {
         const {daysLeftOnTrial} = this.props;
         let dismissValue = '';
-        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) {
+        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_WARNING_THRESHOLD) {
             dismissValue = '14_days_banner';
-        } else if (daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial >= TrialPeriodDays.TRIAL_1_DAY) {
+        } else if (daysLeftOnTrial <= TrialPeriodDays.TRIAL_WARNING_THRESHOLD && daysLeftOnTrial >= TrialPeriodDays.TRIAL_1_DAY) {
             dismissValue = '3_days_banner';
         }
         trackEvent(
@@ -141,8 +136,8 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             return null;
         }
 
-        if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner') && daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) ||
-            ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial >= TrialPeriodDays.TRIAL_1_DAY) &&
+        if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner') && daysLeftOnTrial > TrialPeriodDays.TRIAL_WARNING_THRESHOLD) ||
+            ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_WARNING_THRESHOLD && daysLeftOnTrial >= TrialPeriodDays.TRIAL_1_DAY) &&
             preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner'))) {
             return null;
         }
@@ -163,15 +158,27 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             />
         );
 
+        const userEndTrialDate = getLocaleDateFromUTC((this.props.subscription?.trial_end_at as number / 1000), 'MMMM Do YYYY');
+        const userEndTrialHour = getLocaleDateFromUTC((this.props.subscription?.trial_end_at as number / 1000), 'HH:mm:ss', this.props.currentUser.timezone?.automaticTimezone as string);
+
+        const trialLastDaysMsg = (
+            <FormattedMessage
+                id='admin.billing.subscription.cloudTrial.lastDay'
+                defaultMessage='This is the last day of your free trial. Your access will expire on {userEndTrialDate} at {userEndTrialHour}.'
+                values={{userEndTrialHour, userEndTrialDate}}
+            />
+        );
+
         let bannerMessage;
         let icon;
         switch (daysLeftOnTrial) {
-        case TrialPeriodDays.TRIAL_3_DAYS:
+        case TrialPeriodDays.TRIAL_WARNING_THRESHOLD:
         case TrialPeriodDays.TRIAL_2_DAYS:
             bannerMessage = trialLessThan3DaysMsg;
             break;
         case TrialPeriodDays.TRIAL_1_DAY:
-            bannerMessage = t('admin.billing.subscription.cloudTrial.lastDay');
+        case TrialPeriodDays.TRIAL_0_DAYS:
+            bannerMessage = trialLastDaysMsg;
             break;
         default:
             bannerMessage = trialMoreThan3DaysMsg;
