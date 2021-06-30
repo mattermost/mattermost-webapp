@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -14,6 +15,7 @@ import {
     getMyChannelMemberships,
     getChannelByName,
     getCurrentChannel,
+    getDirectTeammate,
     getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
@@ -218,11 +220,11 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
     const user = channel && getUser(state, channel.userId);
     const userImageUrl = user && Utils.imageURLForUser(user.id, user.last_picture_update);
-    let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && Utils.getDirectTeammate(state, channel.id);
+    let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && getDirectTeammate(state, channel.id);
     const userItem = getUserByUsername(state, channel.name);
     const status = getStatusForUserId(state, channel.userId);
 
-    if (channel && Utils.isEmptyObject(dmChannelTeammate)) {
+    if (channel && !dmChannelTeammate) {
         dmChannelTeammate = getUser(state, channel.userId);
     }
 
@@ -618,7 +620,7 @@ export default class SwitchChannelProvider extends Provider {
         const channelList = [];
         for (let i = 0; i < channels.length; i++) {
             const channel = channels[i];
-            if (channel.id === currentChannel.id) {
+            if (channel.id === currentChannel?.id) {
                 continue;
             }
             let wrappedChannel = {channel, name: channel.name, deactivated: false};

@@ -9,7 +9,6 @@ const getPreviousTeamIdKey = (userId) => ['user_prev_team', userId].join(':');
 const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel', userId, teamId].join(':');
 export const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penultimate_channel', userId, teamId].join(':');
 const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
-const getRecentSkinKey = (userId) => ['recent_skin', userId].join(':');
 const getWasLoggedInKey = () => 'was_logged_in';
 const teamIdJoinedOnLoadKey = 'teamIdJoinedOnLoad';
 
@@ -96,16 +95,6 @@ class LocalStorageStoreClass {
         if (recentEmojis.length) {
             this.setItem(getRecentEmojisKey(userId), JSON.stringify(recentEmojis));
         }
-    }
-
-    getRecentSkin(userId) {
-        const recentSkin = this.getItem(getRecentSkinKey(userId));
-
-        return recentSkin || 'default';
-    }
-
-    setRecentSkin(userId, recentSkin = 'default') {
-        this.setItem(getRecentSkinKey(userId), recentSkin);
     }
 
     getTeamIdJoinedOnLoad() {

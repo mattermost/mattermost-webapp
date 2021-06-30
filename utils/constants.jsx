@@ -110,6 +110,16 @@ export const Preferences = {
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
+    CATEGORY_EMOJI: 'emoji',
+    EMOJI_SKINTONE: 'emoji_skintone',
+};
+
+export const TrialPeriodDays = {
+    TRIAL_MAX_DAYS: 14,
+    TRIAL_WARNING_THRESHOLD: 3,
+    TRIAL_2_DAYS: 2,
+    TRIAL_1_DAY: 1,
+    TRIAL_0_DAYS: 0,
 };
 
 export const ActionTypes = keyMirror({
@@ -1595,7 +1605,6 @@ export const Constants = {
     DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD: 365,
     EMOJI_PATH: '/static/emoji',
     RECENT_EMOJI_KEY: 'recentEmojis',
-    RECENT_SKIN_KEY: 'recentSkin',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
     MHPNS: 'https://push.mattermost.com',
     MTPNS: 'https://push-test.mattermost.com',
