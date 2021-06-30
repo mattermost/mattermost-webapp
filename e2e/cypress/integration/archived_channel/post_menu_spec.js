@@ -55,6 +55,9 @@ describe('Archived channels', () => {
             // # Archive the channel
             cy.uiArchiveChannel();
 
+            // # Wait until a system message is posted that the channel has been archived
+            cy.uiWaitUntilMessagePostedIncludes('archived the channel');
+
             // # Click on post dot menu
             cy.clickPostDotMenu(postId);
 
