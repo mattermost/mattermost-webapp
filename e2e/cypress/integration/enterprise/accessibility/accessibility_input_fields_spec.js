@@ -116,7 +116,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         verifySearchAutocomplete(0, 'channel');
     });
 
-    it.only('MM-T1455 Verify Accessibility Support in Message Autocomplete', () => {
+    it('MM-T1455 Verify Accessibility Support in Message Autocomplete', () => {
         // # Adding at least one other user in the channel
         cy.apiCreateUser().then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {

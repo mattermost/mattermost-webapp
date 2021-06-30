@@ -143,9 +143,9 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
     }
 
     public render = (): JSX.Element => {
-        let providers: SwitchChannelProvider[] = this.channelProviders;
+        const providers: SwitchChannelProvider[] = this.channelProviders;
 
-        let header = (
+        const header = (
             <h1>
                 <FormattedMessage
                     id='quick_switch_modal.switchChannels'
@@ -153,13 +153,6 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                 />
             </h1>
         );
-
-        let channelShortcut = t('quick_switch_modal.channelsShortcut.windows');
-        let defaultChannelShortcut = 'CTRL+K';
-        if (Utils.isMac()) {
-            channelShortcut = t('quick_switch_modal.channelsShortcut.mac');
-            defaultChannelShortcut = 'CMD+K';
-        }
 
         let help;
         if (Utils.isMobile()) {
