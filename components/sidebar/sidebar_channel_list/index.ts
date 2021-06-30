@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {moveCategory} from 'mattermost-redux/actions/channel_categories';
-import {getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
 import {shouldShowUnreadsCategory, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -27,7 +27,6 @@ import {
     getCategoriesForCurrentTeam,
     isUnreadFilterEnabled,
 } from 'selectors/views/channel_sidebar';
-import {getSelectedLHSItem} from 'selectors/lhs';
 import {GlobalState} from 'types/store';
 
 import SidebarChannelList from './sidebar_channel_list';
@@ -43,7 +42,7 @@ function mapStateToProps(state: GlobalState) {
 
     return {
         currentTeam,
-        currentItem: getSelectedLHSItem(state),
+        currentChannelId: getCurrentChannelId(state),
         categories: getCategoriesForCurrentTeam(state),
         isUnreadFilterEnabled: isUnreadFilterEnabled(state),
         unreadChannelIds: getUnreadChannelIds(state),

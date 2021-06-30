@@ -26,7 +26,6 @@ import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
-import {NonChannelLHSItem} from 'utils/lhs_utils';
 
 export function renderView(props: any) {
     return (
@@ -62,7 +61,7 @@ export function renderThumbVertical(props: any) {
 
 type Props = {
     currentTeam: Team;
-    currentItem: string;
+    currentChannelId: string;
     categories: ChannelCategory[];
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
@@ -139,7 +138,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (!this.props.currentItem || !prevProps.currentItem) {
+        if (!this.props.currentChannelId || !prevProps.currentChannelId) {
             return;
         }
 
@@ -149,14 +148,14 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         }
 
         // Scroll to selected channel so it's in view
-        if (this.props.currentItem !== prevProps.currentItem) {
+        if (this.props.currentChannelId !== prevProps.currentChannelId) {
             // This will be re-enabled when we can avoid animating the scroll on first load and team switch
-            // this.scrollToChannel(this.props.currentItem);
+            // this.scrollToChannel(this.props.currentChannelId);
         }
 
         // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
         // close the LHS on mobile when you change channels
-        if (this.props.currentItem !== prevProps.currentItem) {
+        if (this.props.currentChannelId !== prevProps.currentChannelId) {
             this.props.actions.close();
         }
 
@@ -181,7 +180,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
     getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
         return channelIds.find((channelId) => {
-            return channelId !== this.props.currentItem && this.props.unreadChannelIds.includes(channelId);
+            return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
         });
     }
 
@@ -293,7 +292,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     navigateByChannelId = (id: string) => {
-        if (this.props.collapsedThreads && id === NonChannelLHSItem.GLOBAL_THREADS) {
+        if (this.props.collapsedThreads && id === '') {
             this.props.actions.switchToGlobalThreads();
         } else {
             this.props.actions.switchToChannelById(id);
@@ -305,10 +304,12 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
-            const curChannelId = this.props.currentItem;
+            const curChannelId = this.props.currentChannelId;
 
             if (this.props.collapsedThreads) {
-                allChannelIds.unshift(NonChannelLHSItem.GLOBAL_THREADS);
+                // threads set channel id to ''
+                // add it to allChannelIds
+                allChannelIds.unshift('');
             }
 
             let curIndex = -1;
@@ -339,10 +340,10 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             const unreadChannelIds = [...this.props.unreadChannelIds];
 
             if (this.props.collapsedThreads) {
-                allChannelIds.unshift(NonChannelLHSItem.GLOBAL_THREADS);
+                allChannelIds.unshift('');
 
                 if (this.props.hasUnreadThreads) {
-                    unreadChannelIds.unshift(NonChannelLHSItem.GLOBAL_THREADS);
+                    unreadChannelIds.unshift('');
                 }
             }
 
@@ -354,7 +355,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             }
 
             const nextIndex = ChannelUtils.findNextUnreadChannelId(
-                this.props.currentItem,
+                this.props.currentChannelId,
                 allChannelIds,
                 unreadChannelIds,
                 direction,
