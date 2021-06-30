@@ -46,6 +46,7 @@
         }
 
         &.announcement-bar__close {
+            position: absolute;
             top: 5px;
             right: 0;
             padding: 0 10px;
@@ -53,9 +54,6 @@
             font-family: 'Open Sans', sans-serif;
             font-size: 20px;
             font-weight: 600;
-            padding: 0 10px;
-            position: absolute;
-            right: 0;
             text-decoration: none;
 
             &:hover {
