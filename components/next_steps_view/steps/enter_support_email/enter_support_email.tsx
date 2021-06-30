@@ -11,6 +11,8 @@ import {StepComponentProps} from 'components/next_steps_view/steps';
 import {AdminConfig} from 'mattermost-redux/types/config';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
+const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 type Props = StepComponentProps & {
     supportEmail: string;
     actions: {
@@ -20,18 +22,34 @@ type Props = StepComponentProps & {
 
 function EnterSupportEmail(props: Props): JSX.Element {
     const [supportEmail, setSupportEmail] = useState('');
+    const [validationError, setValidationError] = useState('');
+
+    useEffect(() => {
+        setSupportEmail(props.supportEmail);
+    }, [props.supportEmail]);
+
     const updateState = (setStateFunc: (value: string) => void) => {
         return (event: React.ChangeEvent<HTMLInputElement>) => {
             setStateFunc(event.target.value);
         };
     };
 
-    useEffect(() => {
-        setSupportEmail(props.supportEmail);
-    }, [props.supportEmail]);
+    const onKeyUp = () => {
+        validateEmail();
+    };
+
+    const validateEmail = (): boolean => {
+        setValidationError('');
+        if (!reg.test(supportEmail)) {
+            setValidationError('Invalid email format');
+            return false;
+        }
+        return true;
+    };
 
     const finishStep = async () => {
-        if (supportEmail !== '') {
+        const isValid = validateEmail();
+        if (supportEmail !== '' && isValid) {
             const config = JSON.parse(JSON.stringify({
                 SupportSettings: {
                     SupportEmail: supportEmail,
@@ -64,6 +82,8 @@ function EnterSupportEmail(props: Props): JSX.Element {
                         className='support_input'
                         value={supportEmail}
                         onChange={updateState(setSupportEmail)}
+                        onKeyUp={onKeyUp}
+                        error={validationError}
                     />
                 </div>
             </div>
