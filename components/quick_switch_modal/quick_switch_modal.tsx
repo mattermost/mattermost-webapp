@@ -14,7 +14,6 @@ import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
-import {t} from 'utils/i18n';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
