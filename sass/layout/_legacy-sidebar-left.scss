@@ -11,6 +11,10 @@
     border-right: $border-gray;
     background: var(--sidebar-bg);
 
+    .a11y--focused {
+        box-shadow: inset 0 0 1px 3px rgba(var(--sidebar-text-rgb), 0.5), inset 0 0 0 1px var(--sidebar-text);
+    }
+
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
     }
@@ -31,6 +35,7 @@
             margin: 0 7px 0 1px;
             text-align: left;
             vertical-align: top;
+            fill: var(--sidebar-text);
         }
 
         .icon__archive {
@@ -80,7 +85,7 @@
             width: 100%;
             height: 45px;
             padding: 0;
-            background: transparent;
+            background: rgba(var(--sidebar-text-rgb), 0.08);
             font-weight: 600;
             line-height: 40px;
             text-decoration: none;

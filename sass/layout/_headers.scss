@@ -187,6 +187,7 @@
         a {
             padding: 10px 16px;
             border-left: 3px solid transparent;
+            background: rgba(var(--sidebar-text-rgb), 0.08);
 
             &:hover {
                 .fa {
