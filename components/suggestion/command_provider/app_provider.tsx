@@ -50,7 +50,7 @@ export default class AppCommandProvider extends Provider {
     }
 
     setProps(props: Props) {
-        this.appCommandParser.setChannelContext(props.channelId, props.rootId);
+        this.appCommandParser.setChannelContext(props.channelId, props.teamId, props.rootId);
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
@@ -58,37 +58,41 @@ export default class AppCommandProvider extends Provider {
             return false;
         }
 
-        if (appsEnabled(this.store.getState()) && this.appCommandParser.isAppCommand(pretext)) {
-            this.appCommandParser.getSuggestions(pretext).then((suggestions) => {
-                let element = CommandSuggestion;
-                const matches = suggestions.map((suggestion) => {
-                    switch (suggestion.type) {
-                    case COMMAND_SUGGESTION_USER:
-                        element = AtMentionSuggestion;
-                        return suggestion.item! as UserProfile;
-                    case COMMAND_SUGGESTION_CHANNEL:
-                        element = ChannelMentionSuggestion;
-                        return {channel: suggestion.item! as Channel};
-                    default:
-                        return {
-                            ...suggestion,
-                            Complete: '/' + suggestion.Complete,
-                            Suggestion: '/' + suggestion.Suggestion,
-                        };
-                    }
-                });
-
-                const terms = suggestions.map((suggestion) => '/' + suggestion.Complete);
-                resultCallback({
-                    matchedPretext: pretext,
-                    terms,
-                    items: matches,
-                    component: element,
-                });
-            });
-            return true;
+        if (!appsEnabled(this.store.getState())) {
+            return false;
         }
 
-        return false;
+        if (!this.appCommandParser.isAppCommand(pretext)) {
+            return false;
+        }
+
+        this.appCommandParser.getSuggestions(pretext).then((suggestions) => {
+            let element = CommandSuggestion;
+            const matches = suggestions.map((suggestion) => {
+                switch (suggestion.type) {
+                case COMMAND_SUGGESTION_USER:
+                    element = AtMentionSuggestion;
+                    return suggestion.item! as UserProfile;
+                case COMMAND_SUGGESTION_CHANNEL:
+                    element = ChannelMentionSuggestion;
+                    return {channel: suggestion.item! as Channel};
+                default:
+                    return {
+                        ...suggestion,
+                        Complete: '/' + suggestion.Complete,
+                        Suggestion: '/' + suggestion.Suggestion,
+                    };
+                }
+            });
+
+            const terms = suggestions.map((suggestion) => '/' + suggestion.Complete);
+            resultCallback({
+                matchedPretext: pretext,
+                terms,
+                items: matches,
+                component: element,
+            });
+        });
+        return true;
     }
 }

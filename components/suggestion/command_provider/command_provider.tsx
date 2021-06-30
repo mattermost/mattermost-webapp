@@ -108,7 +108,7 @@ export default class CommandProvider extends Provider {
 
     setProps(props: Props) {
         this.props = props;
-        this.appCommandParser.setChannelContext(props.channelId, props.rootId);
+        this.appCommandParser.setChannelContext(props.channelId, props.teamId, props.rootId);
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {

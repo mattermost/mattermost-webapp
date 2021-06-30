@@ -854,12 +854,13 @@ export class AppCommandParser {
         return getChannel(state, this.channelID);
     }
 
-    public setChannelContext = (channelID: string, rootPostID?: string) => {
-        if (this.channelID !== channelID || this.rootPostID !== rootPostID) {
+    public setChannelContext = (channelID: string, teamID: string = '', rootPostID?: string) => {
+        if (this.channelID !== channelID || this.rootPostID !== rootPostID || this.teamID !== teamID) {
             this.forms = {};
         }
         this.channelID = channelID;
         this.rootPostID = rootPostID;
+        this.teamID = teamID;
     }
 
     // isAppCommand determines if subcommand/form suggestions need to be returned.
