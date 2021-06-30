@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
@@ -94,6 +94,10 @@ const GlobalThreads = () => {
         return () => {
             dispatch(setSelectedThreadId(currentTeamId, ''));
         };
+    }, []);
+
+    const handleSelectUnread = useCallback(() => {
+        setFilter(ThreadFilter.unread);
     }, []);
 
     return (
@@ -195,7 +199,8 @@ const GlobalThreads = () => {
                                 link: (chunks) => (
                                     <Link
                                         key='single'
-                                        to={url}
+                                        to={`${url}/${unreadThreadIds[0]}`}
+                                        onClick={handleSelectUnread}
                                     >
                                         {chunks}
                                     </Link>
