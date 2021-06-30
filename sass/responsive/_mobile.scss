@@ -573,6 +573,30 @@
     .sidebar--menu .team__header .Avatar {
         display: none;
     }
+    .emoji-picker__categories {
+        .emoji-picker__category {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    .emoji-picker__search-container {
+        height: 40px;
+    }
+
+    .emoji-picker__items {
+        flex-grow: 1;
+
+        .emoji-picker__category-header {
+            padding-top: 8px;
+            font-size: 14px;
+        }
+    }
+    
+    .emoji-picker__preview {
+        width: 100%;
+        height: 60px;
+    }
 
     .channel-intro {
         margin: 0 0 35px;
