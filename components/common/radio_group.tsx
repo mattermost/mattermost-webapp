@@ -10,6 +10,7 @@ type RadioGroupProps = {
     values: Array<{ key: string; value: string}>;
     value: string;
     badge?: {matchVal: string; text: ReactNode};
+    sideLegend?: {matchVal: string; text: ReactNode};
     isDisabled?: (id: string) => boolean | boolean;
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }
@@ -20,6 +21,7 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
     values,
     value,
     badge,
+    sideLegend,
 }: RadioGroupProps) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e);
@@ -43,6 +45,11 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
                         disabled={disabled}
                     />
                     {key}
+                    {(sideLegend && val === sideLegend?.matchVal) &&
+                        <span className='side-legend'>
+                            {sideLegend.text}
+                        </span>
+                    }
                 </label>
                 {(badge && val === badge?.matchVal) &&
                     <Badge className='radio-badge'>

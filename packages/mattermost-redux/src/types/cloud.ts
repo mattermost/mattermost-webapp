@@ -34,6 +34,8 @@ export type Product = {
     add_ons: AddOn[];
     product_family: string;
     sku: string;
+    billing_scheme: 'flat_fee' | 'per_seat';
+    recurring_interval: 'month' | 'year';
 };
 
 export type AddOn = {

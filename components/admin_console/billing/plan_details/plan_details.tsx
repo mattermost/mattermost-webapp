@@ -240,10 +240,17 @@ export const getPlanDetailElements = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails_paidTier__planName'>
                     {`$${product.price_per_seat.toFixed(2)}`}
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.perUserPerMonth'
-                        defaultMessage='/user/month. '
-                    />
+                    {product.billing_schema === 'flat_fee' ?
+                        <FormattedMessage
+                            id='admin.billing.subscription.planDetails.flatFeePerMonth'
+                            defaultMessage='/month (Unlimited Users) '
+                        /> :
+                        <FormattedMessage
+                            id='admin.billing.subscription.planDetails.perUserPerMonth'
+                            defaultMessage='/user/month. '
+                        />
+                    }
+
                     {howBillingWorksLink}
                 </div>
             </div>

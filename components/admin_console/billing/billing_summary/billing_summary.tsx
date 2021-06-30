@@ -201,17 +201,25 @@ export const lastInvoiceInfo = (invoice: any, product: any, fullCharges: any, pa
                     className='BillingSummary__lastInvoice-charge'
                 >
                     <div className='BillingSummary__lastInvoice-chargeDescription'>
-                        <FormattedNumber
-                            value={(charge.price_per_unit / 100.0)}
-                            // eslint-disable-next-line react/style-prop-object
-                            style='currency'
-                            currency='USD'
-                        />
-                        <FormattedMarkdownMessage
-                            id='admin.billing.subscriptions.billing_summary.lastInvoice.userCount'
-                            defaultMessage=' x {users} users'
-                            values={{users: charge.quantity}}
-                        />
+                        {product.billing_schema === 'flat_fee' ?
+                            <FormattedMessage
+                                id='admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee'
+                                defaultMessage='Monthly Flat Fee'
+                            /> :
+                            <>
+                                <FormattedNumber
+                                    value={(charge.price_per_unit / 100.0)}
+                                    // eslint-disable-next-line react/style-prop-object
+                                    style='currency'
+                                    currency='USD'
+                                />
+                                <FormattedMarkdownMessage
+                                    id='admin.billing.subscriptions.billing_summary.lastInvoice.userCount'
+                                    defaultMessage=' x {users} users'
+                                    values={{users: charge.quantity}}
+                                />
+                            </>
+                        }
                     </div>
                     <div className='BillingSummary__lastInvoice-chargeAmount'>
                         <FormattedNumber
