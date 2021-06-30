@@ -349,8 +349,8 @@
                 a:hover,
                 button:focus,
                 a:focus {
-                    @include alpha-property(background-color, $black, 0.1);
-
+                    color: var(--sidebar-text-active-color);
+                    background: rgba(var(--sidebar-text-active-color-rgb), 0.1);
                     border-radius: 0;
                     font-weight: 400;
 
