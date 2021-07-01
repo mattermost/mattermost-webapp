@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @autocomplete @search
+
 describe('Autocomplete in the search box - scrolling', () => {
     const usersCount = 15;
     const timestamp = Date.now();

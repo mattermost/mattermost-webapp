@@ -16,7 +16,7 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getAdminAccount} from '../../../support/env';
 
-describe('MM-18045 Verify Guest User Identification in different screens', () => {
+describe('Verify Guest User Identification in different screens', () => {
     const admin = getAdminAccount();
     let regularUser;
     let guest;
@@ -49,7 +49,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
                 });
             });
 
-            // # Login as regular user and go to town square
+            // # Login as regular user and visit test channel
             cy.apiLogin(regularUser);
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
         });
@@ -237,23 +237,5 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
         // # Close and Clear the Search Autocomplete
         cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
-    });
-
-    it('MM-T1419 Deactivating a Guest removes "This channel has guests" message from channel header', () => {
-        // Visit the channel which has guests
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-
-        // * Verify the text 'This channel has guests' is displayed in the header
-        cy.get('#channelHeaderDescription').within(($el) => {
-            cy.wrap($el).find('.has-guest-header').should('be.visible').and('have.text', 'This channel has guests');
-        });
-
-        // # Deactivate Guest user
-        cy.externalActivateUser(guest.id, false).wait(TIMEOUTS.FIVE_SEC);
-
-        // * Verify the text 'This channel has guests' is removed from the header
-        cy.get('#channelHeaderDescription').within(($el) => {
-            cy.wrap($el).find('.has-guest-header').should('not.exist');
-        });
     });
 });

@@ -90,6 +90,7 @@ export function createSelectorCreator(memoize, ...memoizeOptions) {
         const memoizedResultFunc = memoize(
             function() {
                 recomputations++;
+                trackedSelectors[id].recomputations++;
 
                 // apply arguments instead of spreading for performance.
                 return resultFunc?.apply(null, arguments);
@@ -113,18 +114,21 @@ export function createSelectorCreator(memoize, ...memoizeOptions) {
         },
         () => {
             calls++;
+            trackedSelectors[id].calls++;
         });
 
         selector.resultFunc = resultFunc;
         selector.dependencies = dependencies;
         selector.recomputations = () => recomputations;
         selector.resetRecomputations = () => recomputations = 0;
-        selector.calls = () => calls;
-        selector.resetCalls = () => calls = 0;
-        selector.effectiveness = () => 100 - ((recomputations / calls) * 100);
-        selector.selectorName = () => name;
-        selector.id = () => id;
-        trackedSelectors[id] = selector;
+
+        trackedSelectors[id] = {
+            id,
+            name,
+            calls: 0,
+            recomputations: 0,
+        };
+
         return selector;
     };
 }
@@ -153,8 +157,8 @@ export function createStructuredSelector(selectors, selectorCreator = createSele
 // resetTrackedSelectors resets all the measurements for memoization effectiveness.
 function resetTrackedSelectors() {
     Object.values(trackedSelectors).forEach((selector) => {
-        selector.resetCalls();
-        selector.resetRecomputations();
+        selector.calls = 0;
+        selector.recomputations = 0;
     });
 }
 
@@ -162,10 +166,14 @@ function resetTrackedSelectors() {
 function getSortedTrackedSelectors() {
     let selectors = Object.values(trackedSelectors);
     // Filter out any selector not called
-    selectors = selectors.filter(selector => selector.calls() > 0);
-    const selectorsData = selectors.map((selector) => ({name: selector.selectorName(), effectiveness: selector.effectiveness(), recomputations: selector.recomputations(), calls: selector.calls()}));
+    selectors = selectors.filter(selector => selector.calls > 0);
+    const selectorsData = selectors.map((selector) => ({name: selector.name, effectiveness: effectiveness(selector), recomputations: selector.recomputations, calls: selector.calls}));
     selectorsData.sort((a, b) => a.effectiveness - b.effectiveness);
     return selectorsData;
+}
+
+function effectiveness(selector) {
+    return 100 - ((selector.recomputations / selector.calls) * 100);
 }
 
 // dumpTrackedSelectorsStatistics prints to console a table containing the measurement data on all tracked selectors.
