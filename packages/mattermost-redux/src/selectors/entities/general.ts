@@ -9,6 +9,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {ClientConfig, FeatureFlags, ClientLicense} from 'mattermost-redux/types/config';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {OsColorSchemeName} from 'mattermost-redux/types/general';
 
 export function getConfig(state: GlobalState): Partial<ClientConfig> {
     return state.entities.general.config;
@@ -108,3 +109,11 @@ export const getServerVersion = (state: GlobalState): string => {
 export function getFirstAdminVisitMarketplaceStatus(state: GlobalState): boolean {
     return state.entities.general.firstAdminVisitMarketplaceStatus;
 }
+
+export const getOsColorScheme = (state: GlobalState): OsColorSchemeName => {
+    return state.entities.general.osColorScheme;
+};
+
+export const getAllowCustomThemes = (state: GlobalState): boolean => {
+    return state.entities.general.config.AllowCustomThemes === 'true';
+};

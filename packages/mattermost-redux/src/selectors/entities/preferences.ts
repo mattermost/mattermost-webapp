@@ -5,16 +5,22 @@ import {createSelector} from 'reselect';
 
 import {General, Preferences} from 'mattermost-redux/constants';
 
-import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {
+    getConfig,
+    getFeatureFlagValue,
+    getLicense,
+    getOsColorScheme,
+} from 'mattermost-redux/selectors/entities/general';
 
 import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Theme} from 'mattermost-redux/types/themes';
 
-import {createShallowSelector} from 'mattermost-redux/utils/helpers';
+import {createShallowSelector, isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
     return state.entities.preferences.myPreferences;
@@ -90,29 +96,29 @@ export const getTeammateNameDisplaySetting: (state: GlobalState) => string = cre
     },
 );
 
-const getThemePreference = createSelector(
-    'getThemePreference',
+export const isThemeSyncWithOsAvailable = (state: GlobalState): boolean => {
+    const version = state.entities.general.serverVersion;
+    return isMinimumServerVersion(version, 6, 0);
+};
+
+export const getEnableThemeSync = createSelector(
+    'getEnableThemeSync',
+    isThemeSyncWithOsAvailable,
+    getCurrentTeamId,
     getMyPreferences,
-    (state) => state.entities.teams.currentTeamId,
-    (myPreferences, currentTeamId) => {
-        // Prefer the user's current team-specific theme over the user's current global theme
-        let themePreference;
-
-        if (currentTeamId) {
-            themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, currentTeamId)];
+    (themeSyncWithOsAvailable, currentTeamId, preferences) => {
+        if (!themeSyncWithOsAvailable) {
+            return false;
         }
-
-        if (!themePreference) {
-            themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, '')];
-        }
-
-        return themePreference;
+        const preference = preferences[getPreferenceKey(Preferences.CATEGORY_ENABLE_THEME_SYNC, currentTeamId)] ||
+            preferences[getPreferenceKey(Preferences.CATEGORY_ENABLE_THEME_SYNC, '')];
+        return !preference || preference.value === 'true';
     },
 );
 
-const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): Theme => {
+export const getDefaultLightTheme = createSelector('getDefaultLightTheme', getConfig, (config) => {
     if (config.DefaultTheme && config.DefaultTheme in Preferences.THEMES) {
-        const theme: Theme = Preferences.THEMES[config.DefaultTheme];
+        const theme = Preferences.THEMES[config.DefaultTheme];
         if (theme) {
             return theme;
         }
@@ -122,20 +128,66 @@ const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): T
     return Preferences.THEMES.denim;
 });
 
-export const getTheme: (state: GlobalState) => Theme = createShallowSelector(
-    'getTheme',
-    getThemePreference,
-    getDefaultTheme,
-    (themePreference, defaultTheme): Theme => {
-        const themeValue: Theme | string = themePreference?.value ?? defaultTheme;
-
-        // A custom theme will be a JSON-serialized object stored in a preference
-        // At this point, the theme should be a plain object
-        const theme: Theme = typeof themeValue === 'string' ? JSON.parse(themeValue) : themeValue;
-
-        return setThemeDefaults(theme);
+const getLightThemePreference = createShallowSelector(
+    'getLightThemePreference',
+    getCurrentTeamId,
+    getMyPreferences,
+    (currentTeamId, myPreferences) => {
+        return myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, currentTeamId)] ||
+            myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, '')];
     },
 );
+
+export const getLightTheme = createShallowSelector(
+    'getLightTheme',
+    getDefaultLightTheme,
+    getLightThemePreference,
+    (defaultLightTheme, lightThemePreference) => {
+        return normalizeTheme(lightThemePreference ? lightThemePreference.value : defaultLightTheme);
+    },
+);
+
+const getDefaultDarkTheme = () => Preferences.THEMES.indigo;
+
+const getDarkThemePreference = createShallowSelector(
+    'getDarkThemePreference',
+    getCurrentTeamId,
+    getMyPreferences,
+    (currentTeamId, myPreferences) => {
+        return myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME_DARK, currentTeamId)] ||
+            myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME_DARK, '')];
+    },
+);
+
+export const getDarkTheme = createShallowSelector(
+    'getDarkTheme',
+    getDefaultDarkTheme,
+    getDarkThemePreference,
+    (defaultDarkTheme, darkThemePreference) => {
+        return normalizeTheme(darkThemePreference ? darkThemePreference.value : defaultDarkTheme);
+    },
+);
+
+export const getTheme = createShallowSelector(
+    'getTheme',
+    getLightThemePreference,
+    getDarkThemePreference,
+    getEnableThemeSync,
+    getOsColorScheme,
+    getDefaultDarkTheme,
+    getDefaultLightTheme,
+    (lightThemePreference, darkThemePreference, enableThemeSync, osColorScheme, defaultDarkTheme, defaultLightTheme) => {
+        const isDarkActive = enableThemeSync && osColorScheme === 'dark';
+        const themePreference = isDarkActive ? darkThemePreference : lightThemePreference;
+        const defaultTheme = isDarkActive ? defaultDarkTheme : defaultLightTheme;
+        return normalizeTheme(themePreference ? themePreference.value : defaultTheme);
+    },
+);
+
+const normalizeTheme = (themeValue: any) => {
+    const theme: Theme = typeof themeValue === 'string' ? JSON.parse(themeValue) : themeValue;
+    return setThemeDefaults(theme);
+};
 
 export function makeGetStyleFromTheme<Style>(): (state: GlobalState, getStyleFromTheme: (theme: Theme) => Style) => Style {
     return createSelector(

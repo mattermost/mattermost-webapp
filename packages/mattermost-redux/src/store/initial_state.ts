@@ -15,6 +15,7 @@ const state: GlobalState = {
             serverVersion: '',
             warnMetricsStatus: {},
             firstAdminVisitMarketplaceStatus: false,
+            osColorScheme: 'light',
         },
         users: {
             currentUserId: '',

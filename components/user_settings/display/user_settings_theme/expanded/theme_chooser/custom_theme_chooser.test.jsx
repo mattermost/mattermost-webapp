@@ -6,7 +6,7 @@ import React from 'react';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import CustomThemeChooser from 'components/user_settings/display/user_settings_theme/custom_theme_chooser.jsx';
+import CustomThemeChooser from './custom_theme_chooser';
 
 describe('components/user_settings/display/CustomThemeChooser', () => {
     const baseProps = {

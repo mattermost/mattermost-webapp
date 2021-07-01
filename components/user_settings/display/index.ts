@@ -29,7 +29,6 @@ function mapStateToProps(state: GlobalState) {
     const automaticTimezoneNotSet = userTimezone && userTimezone.useAutomaticTimezone && !userTimezone.automaticTimezone;
     const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
     const timezoneLabel = getTimezoneLabel(state, currentUserId);
-    const allowCustomThemes = config.AllowCustomThemes === 'true';
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
     const defaultClientLocale = config.DefaultClientLocale as string;
     const enableThemeSelection = config.EnableThemeSelection === 'true';
@@ -39,7 +38,6 @@ function mapStateToProps(state: GlobalState) {
 
     return {
         lockTeammateNameDisplay,
-        allowCustomThemes,
         configTeammateNameDisplay,
         enableLinkPreviews,
         defaultClientLocale,

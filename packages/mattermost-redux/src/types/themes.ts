@@ -12,6 +12,7 @@ export type ThemeType = 'Denim' | 'Sapphire' | 'Quartz' | 'Indigo' | 'Onyx';
 export type Theme = {
     [key: string]: string | undefined;
     type?: ThemeType | 'custom';
+    colorScheme?: 'light' | 'dark';
     sidebarBg: string;
     sidebarText: string;
     sidebarUnreadText: string;

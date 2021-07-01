@@ -44,4 +44,7 @@ export default keyMirror({
     WARN_METRIC_STATUS_REMOVED: null,
 
     FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: null,
+
+    OS_COLOR_SCHEME_INIT: null,
+    OS_COLOR_SCHEME_CHANGED: null,
 });

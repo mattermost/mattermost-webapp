@@ -15,6 +15,7 @@ export type GeneralState = {
     license: ClientLicense;
     serverVersion: string;
     warnMetricsStatus: Dictionary<WarnMetricStatus>;
+    osColorScheme: OsColorSchemeName;
 };
 
 export type SystemSetting = {
@@ -29,3 +30,5 @@ export enum LicenseSkus {
     Professional = 'professional',
     Enterprise = 'enterprise',
 }
+
+export type OsColorSchemeName = 'light' | 'dark';

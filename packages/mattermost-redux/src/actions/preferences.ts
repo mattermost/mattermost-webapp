@@ -163,7 +163,12 @@ export function deleteTeamSpecificThemes(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
-        const themePreferences: PreferenceType[] = makeGetCategory()(state, Preferences.CATEGORY_THEME);
+        const getCategory = makeGetCategory();
+        const themePreferences: PreferenceType[] = [
+            ...getCategory(state, Preferences.CATEGORY_THEME),
+            ...getCategory(state, Preferences.CATEGORY_THEME_DARK),
+            ...getCategory(state, Preferences.CATEGORY_ENABLE_THEME_SYNC),
+        ];
         const currentUserId = getCurrentUserId(state);
 
         const toDelete = themePreferences.filter((pref) => pref.name !== '');

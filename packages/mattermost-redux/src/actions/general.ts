@@ -6,7 +6,7 @@ import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
-import {GeneralState} from 'mattermost-redux/types/general';
+import {GeneralState, OsColorSchemeName} from 'mattermost-redux/types/general';
 import {LogLevel} from 'mattermost-redux/types/client4';
 import {GetStateFunc, DispatchFunc, ActionFunc, batchActions} from 'mattermost-redux/types/actions';
 
@@ -220,6 +220,20 @@ export function getFirstAdminVisitMarketplaceStatus(): ActionFunc {
     };
 }
 
+export function initOsColorScheme(colorScheme: OsColorSchemeName) {
+    return {
+        type: GeneralTypes.OS_COLOR_SCHEME_INIT,
+        data: colorScheme,
+    };
+}
+
+export function changeOsColorScheme(colorScheme: OsColorSchemeName) {
+    return {
+        type: GeneralTypes.OS_COLOR_SCHEME_CHANGED,
+        data: colorScheme,
+    };
+}
+
 export default {
     getPing,
     getClientConfig,
@@ -234,4 +248,6 @@ export default {
     getRedirectLocation,
     getWarnMetricsStatus,
     getFirstAdminVisitMarketplaceStatus,
+    initOsColorScheme,
+    changeOsColorScheme,
 };

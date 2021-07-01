@@ -8,6 +8,7 @@ import {Timezone} from 'timezones.json';
 import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ClientLicense, ClientConfig} from 'mattermost-redux/types/config';
+import {OsColorSchemeName} from 'mattermost-redux/types/general';
 
 function config(state: Partial<ClientConfig> = {}, action: GenericAction) {
     switch (action.type) {
@@ -137,6 +138,16 @@ function firstAdminVisitMarketplaceStatus(state = false, action: GenericAction) 
     }
 }
 
+function osColorScheme(state: OsColorSchemeName = 'light', action:GenericAction) {
+    switch (action.type) {
+    case GeneralTypes.OS_COLOR_SCHEME_INIT:
+    case GeneralTypes.OS_COLOR_SCHEME_CHANGED:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     appState,
     credentials,
@@ -148,4 +159,5 @@ export default combineReducers({
     timezones,
     warnMetricsStatus,
     firstAdminVisitMarketplaceStatus,
+    osColorScheme,
 });

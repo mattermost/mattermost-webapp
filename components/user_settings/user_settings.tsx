@@ -20,8 +20,8 @@ export type Props = {
     updateTab: (notifications: string) => void;
     closeModal: () => void;
     collapseModal: () => void;
-    setEnforceFocus: () => void;
-    setRequireConfirm: () => void;
+    setEnforceFocus: (enforceFocus?: boolean) => void;
+    setRequireConfirm: (requireConfirm?: boolean) => void;
 };
 
 export default class UserSettings extends React.PureComponent<Props> {

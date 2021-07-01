@@ -100,6 +100,8 @@ export default class Root extends React.PureComponent {
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
+            initOsColorScheme: PropTypes.func.isRequired,
+            changeOsColorScheme: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -142,6 +144,13 @@ export default class Root extends React.PureComponent {
         // Keyboard navigation for accessibility
         if (!UserAgent.isInternetExplorer()) {
             this.a11yController = new A11yController();
+        }
+
+        if (window.matchMedia) {
+            this.props.actions.initOsColorScheme(
+                window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+            );
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.handleOsColorSchemeChange);
         }
     }
 
@@ -253,6 +262,9 @@ export default class Root extends React.PureComponent {
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.handleOsColorSchemeChange);
+        }
     }
 
     handleLogoutLoginSignal = (e) => {
@@ -278,6 +290,10 @@ export default class Root extends React.PureComponent {
             }
             document.addEventListener('visibilitychange', onVisibilityChange, false);
         }
+    }
+
+    handleOsColorSchemeChange = (e) => {
+        this.props.actions.changeOsColorScheme(e.matches ? 'dark' : 'light');
     }
 
     render() {

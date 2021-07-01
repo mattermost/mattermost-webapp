@@ -123,6 +123,7 @@ export default class CustomThemeChooser extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object.isRequired,
         updateTheme: PropTypes.func.isRequired,
+        onImportBtnClick: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -225,6 +226,13 @@ export default class CustomThemeChooser extends React.PureComponent {
 
         this.refs.linkAndButtonStylesHeader.classList.toggle('open');
         this.toggleSection(this.refs.linkAndButtonStyles);
+    }
+
+    toggleAdvancedThemeEditing = (e) => {
+        e.preventDefault();
+
+        this.refs.advancedThemeEditingHeader.classList.toggle('open');
+        this.toggleSection(this.refs.advancedThemeEditing);
     }
 
     toggleSection(node) {
@@ -392,13 +400,7 @@ export default class CustomThemeChooser extends React.PureComponent {
         });
 
         const pasteBox = (
-            <div className='col-sm-12'>
-                <label className='custom-label'>
-                    <FormattedMessage
-                        id='user.settings.custom_theme.copyPaste'
-                        defaultMessage='Copy to share or paste theme colors here:'
-                    />
-                </label>
+            <>
                 <textarea
                     ref='textarea'
                     className='form-control'
@@ -430,11 +432,37 @@ export default class CustomThemeChooser extends React.PureComponent {
                         />
                     </span>
                 </div>
-            </div>
+                <div>
+                    <br/>
+                    <a
+                        id='otherThemes'
+                        href='http://docs.mattermost.com/help/settings/theme-colors.html#custom-theme-examples'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        <FormattedMessage
+                            id='user.settings.display.theme.otherThemes'
+                            defaultMessage='See other themes'
+                        />
+                    </a>
+                </div>
+                <div className='pt-2'>
+                    <button
+                        id='slackImportTheme'
+                        className='theme style--none color--link'
+                        onClick={this.props.onImportBtnClick}
+                    >
+                        <FormattedMessage
+                            id='user.settings.display.theme.import'
+                            defaultMessage='Import theme colors from Slack'
+                        />
+                    </button>
+                </div>
+            </>
         );
 
         return (
-            <div className='appearance-section pt-2'>
+            <div className='appearance-section'>
                 <div className='theme-elements row'>
                     <div
                         ref='sidebarStylesHeader'
@@ -523,8 +551,34 @@ export default class CustomThemeChooser extends React.PureComponent {
                         {linkAndButtonElements}
                     </div>
                 </div>
-                <div className='row mt-3'>
-                    {pasteBox}
+                <div className='theme-elements row'>
+                    <div
+                        ref='advancedThemeEditingHeader'
+                        id='advancedThemeEditing'
+                        className='theme-elements__header'
+                        onClick={this.toggleAdvancedThemeEditing}
+                    >
+                        <FormattedMessage
+                            id='user.settings.custom_theme.advancedThemeEditing'
+                            defaultMessage='Advanced Theme Editing'
+                        />
+                        <div className='header__icon'>
+                            <LocalizedIcon
+                                className='fa fa-plus'
+                                title={{id: t('generic_icons.expand'), defaultMessage: 'Expand Icon'}}
+                            />
+                            <LocalizedIcon
+                                className='fa fa-minus'
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
+                            />
+                        </div>
+                    </div>
+                    <div
+                        ref='advancedThemeEditing'
+                        className='theme-elements__body-advanced-theme'
+                    >
+                        {pasteBox}
+                    </div>
                 </div>
             </div>
         );

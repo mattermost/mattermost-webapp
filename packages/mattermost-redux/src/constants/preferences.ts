@@ -52,9 +52,12 @@ const Preferences = {
     CATEGORY_WHATS_NEW_MODAL: 'whats_new_modal',
     HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL: 'has_seen_sidebar_whats_new_modal',
     CATEGORY_THEME: 'theme',
+    CATEGORY_THEME_DARK: 'theme_dark',
+    CATEGORY_ENABLE_THEME_SYNC: 'enable_theme_sync',
     THEMES: {
         denim: {
             type: 'Denim',
+            colorScheme: 'light',
             sidebarBg: '#1e325c',
             sidebarText: '#ffffff',
             sidebarUnreadText: '#ffffff',
@@ -83,6 +86,7 @@ const Preferences = {
         },
         sapphire: {
             type: 'Sapphire',
+            colorScheme: 'light',
             sidebarBg: '#174ab5',
             sidebarText: '#ffffff',
             sidebarUnreadText: '#ffffff',
@@ -111,6 +115,7 @@ const Preferences = {
         },
         quartz: {
             type: 'Quartz',
+            colorScheme: 'light',
             sidebarBg: '#f4f4f6',
             sidebarText: '#090a0b',
             sidebarUnreadText: '#2d3039',
@@ -139,6 +144,7 @@ const Preferences = {
         },
         indigo: {
             type: 'Indigo',
+            colorScheme: 'dark',
             sidebarBg: '#0f1a2e',
             sidebarText: '#ffffff',
             sidebarUnreadText: '#ffffff',
@@ -167,6 +173,7 @@ const Preferences = {
         },
         onyx: {
             type: 'Onyx',
+            colorScheme: 'dark',
             sidebarBg: '#121317',
             sidebarText: '#ffffff',
             sidebarUnreadText: '#ffffff',

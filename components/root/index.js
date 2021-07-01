@@ -12,6 +12,8 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {loadMeAndConfig} from 'actions/views/root';
 import LocalStorageStore from 'stores/local_storage_store';
 
+import {changeOsColorScheme, initOsColorScheme} from 'mattermost-redux/actions/general';
+
 import Root from './root.jsx';
 
 function mapStateToProps(state) {
@@ -39,6 +41,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadMeAndConfig,
+            initOsColorScheme,
+            changeOsColorScheme,
         }, dispatch),
     };
 }

@@ -79,11 +79,10 @@ type Props = {
     activeSection?: string;
     closeModal?: () => void;
     collapseModal?: () => void;
-    setRequireConfirm?: () => void;
-    setEnforceFocus?: () => void;
+    setRequireConfirm: (requireConfirm?: boolean) => void;
+    setEnforceFocus: (enforceFocus?: boolean) => void;
     timezones: Timezone[];
     userTimezone: UserTimezone;
-    allowCustomThemes: boolean;
     enableLinkPreviews: boolean;
     defaultClientLocale: string;
     enableThemeSelection: boolean;
@@ -862,7 +861,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                         updateSection={this.updateSection}
                         setRequireConfirm={this.props.setRequireConfirm}
                         setEnforceFocus={this.props.setEnforceFocus}
-                        allowCustomThemes={this.props.allowCustomThemes}
                     />
                     <div className='divider-dark'/>
                 </div>

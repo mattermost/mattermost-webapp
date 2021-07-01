@@ -256,7 +256,72 @@
                     width: 100%;
                 }
 
+                .theme-sync-with-os-explanation {
+                    font-size: 12px;
+                    margin: 4px 0 4px 20px;
+                }
+
+                .theme-chooser-header {
+                    font-weight: 600;
+                    line-height: 20px;
+                    margin: 12px 0;
+                }
+
+                .themes-grid {
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    .themes-grid__item {
+                        margin: 0 12px 12px 0;
+                    }
+
+                    .themes-grid__thumbnail {
+                        cursor: pointer;
+                        width: 94px;
+                        height: 70px;
+                        border-radius: 4px;
+                        border: 1px solid rgba(var(--center-channel-color-rgb), .16);
+                        background: rgba(var(--center-channel-color-rgb), .08);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 18px;
+                        position: relative;
+                        overflow: hidden;
+
+                        svg {
+                            width: 100%;
+                            height: auto;
+                            border-radius: 3px;
+                        }
+                    }
+
+                    .themes-grid__thumbnail_active {
+                        border-color: var(--sidebar-text-active-border);
+                        border-width: 2px;
+                    }
+
+                    .themes-grid__thumbnail-active-check {
+                        color: var(--sidebar-text-active-border);
+                        position: absolute;
+                        bottom: 2px;
+                        right: 2px;
+                        font-size: 20px;
+                    }
+
+                    .themes-grid__label {
+                        overflow: hidden;
+                        margin-top: 5px;
+                        font-weight: 400;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        font-size: 12px;
+                    }
+                }
+
                 .appearance-section {
+                    margin-bottom: 16px;
+
                     .theme-group {
                         .input-group-addon {
                             width: 40px;
@@ -292,40 +357,6 @@
 
                             .browser--ie & {
                                 display: none;
-                            }
-                        }
-                    }
-
-                    .premade-themes {
-                        margin-bottom: 10px;
-
-                        .theme-label {
-                            overflow: hidden;
-                            margin-top: 5px;
-                            font-weight: 400;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                        }
-
-                        label {
-                            width: 100%;
-                        }
-
-                        svg {
-                            &:hover {
-                                cursor: pointer;
-                            }
-
-                            overflow: hidden;
-                            width: 100%;
-                            height: auto;
-                            border: solid 2px rgba(var(--center-channel-color-rgb), 0.16);
-                            border-radius: 4px;
-                        }
-
-                        .active {
-                            svg {
-                                border-color: var(--sidebar-text-active-border);
                             }
                         }
                     }
@@ -371,7 +402,7 @@
                         }
                     }
 
-                    .theme-elements__body {
+                    .theme-elements__body, .theme-elements__body-advanced-theme {
                         @include border-radius(0 0 3px 3px);
                         @include legacy-pie-clearfix;
                         @include alpha-property(background-color, $white, 0.05);
@@ -384,8 +415,19 @@
 
                         &.open {
                             max-height: 1200px;
-                            padding: 24px 0 0 24px;
                             margin: 0 20px 0 0;
+                        }
+                    }
+                    .theme-elements__body {
+                        padding: 0 0 0 24px;
+                        &.open {
+                            padding: 24px 0 0 24px;
+                        }
+                    }
+                    .theme-elements__body-advanced-theme {
+                        padding: 0 12px;
+                        &.open {
+                            padding: 12px;
                         }
                     }
 
@@ -659,8 +701,7 @@
 }
 
 .user-settings__submit-checkbox {
-    padding-top: 0;
-    padding-bottom: 20px;
+    padding-top: 20px !important;
 }
 
 .section-min {
