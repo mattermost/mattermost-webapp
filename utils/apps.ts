@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
-import {AppCall, AppCallRequest, AppCallValues, AppContext, AppExpand} from 'mattermost-redux/types/apps';
+import {AppCall, AppCallRequest, AppCallValues, AppContext, AppExpand, AppSelectOption} from 'mattermost-redux/types/apps';
 
 export const appsPluginID = 'com.mattermost.apps';
 
@@ -53,3 +53,5 @@ export const makeCallErrorResponse = (errMessage: string) => {
         error: errMessage,
     };
 };
+
+export const filterEmptyOptions = (option: AppSelectOption) => option.value && !option.value.match(/^[ \t]+$/);

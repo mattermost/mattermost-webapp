@@ -20,6 +20,8 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+import {filterEmptyOptions} from 'utils/apps';
+
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
 
@@ -218,7 +220,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         switch (callResp.type) {
         case AppCallResponseTypes.OK: {
             let items = callResp.data?.items || [];
-            items = items?.filter((option) => option.value && !option.value.match(/^[ \t]+$/));
+            items = items?.filter(filterEmptyOptions);
             return items;
         }
         case AppCallResponseTypes.FORM:

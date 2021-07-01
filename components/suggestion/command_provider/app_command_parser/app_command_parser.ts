@@ -38,6 +38,7 @@ import {
     getCurrentTeam,
     selectChannelByName,
     errorMessage as parserErrorMessage,
+    filterEmptyOptions,
 } from './app_command_parser_dependencies';
 
 export interface Store {
@@ -1184,7 +1185,7 @@ export class AppCommandParser {
         }
 
         let items = callResponse?.data?.items;
-        items = items?.filter((option) => option.value && !option.value.match(/^[ \t]+$/));
+        items = items?.filter(filterEmptyOptions);
         if (!items?.length) {
             return [{
                 Complete: '',
