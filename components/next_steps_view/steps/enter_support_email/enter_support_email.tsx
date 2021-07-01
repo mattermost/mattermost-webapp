@@ -104,7 +104,7 @@ function EnterSupportEmail(props: StepComponentProps): JSX.Element {
             </div>
             <div className='NextStepsView__wizardButtons'>
                 <button
-                    data-testid='InviteMembersStep__finishButton'
+                    data-testid='EnterSupportEmailStep__finishButton'
                     className={'NextStepsView__button NextStepsView__finishButton primary'}
                     onClick={finishStep}
                 >
