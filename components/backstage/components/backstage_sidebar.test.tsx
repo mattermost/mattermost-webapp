@@ -4,8 +4,8 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import BackstageSidebar from './backstage_sidebar.jsx';
-import BackstageCategory from './backstage_category.jsx';
+import BackstageSidebar from './backstage_sidebar';
+import BackstageCategory from './backstage_category';
 
 describe('components/backstage/components/BackstageSidebar', () => {
     const defaultProps = {

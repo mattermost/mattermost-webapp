@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
@@ -9,25 +8,29 @@ import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
 import SearchIcon from 'components/widgets/icons/fa_search_icon';
 
-export default class BackstageList extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-        header: PropTypes.node.isRequired,
-        addLink: PropTypes.string,
-        addText: PropTypes.node,
-        addButtonId: PropTypes.string,
-        emptyText: PropTypes.node,
-        emptyTextSearch: PropTypes.node,
-        helpText: PropTypes.node,
-        loading: PropTypes.bool.isRequired,
-        searchPlaceholder: PropTypes.string,
-    }
+type Props = {
+    children?: React.ReactNode | ((arg: string) => void);
+    header: React.ReactNode;
+    addLink?: string;
+    addText?: React.ReactNode;
+    addButtonId?: string;
+    emptyText?: React.ReactNode;
+    emptyTextSearch: React.ReactElement;
+    helpText?: React.ReactNode;
+    loading: boolean;
+    searchPlaceholder?: string;
+};
 
-    static defaultProps = {
+type State = {
+    filter: string;
+};
+
+export default class BackstageList extends React.PureComponent<Props, State> {
+    static defaultProps: Partial<Props> = {
         searchPlaceholder: Utils.localizeMessage('backstage_list.search', 'Search'),
     }
 
-    constructor(props) {
+    constructor(props: Readonly<Props>) {
         super(props);
 
         this.state = {
@@ -35,13 +38,13 @@ export default class BackstageList extends React.PureComponent {
         };
     }
 
-    updateFilter = (e) => {
+    updateFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({
             filter: e.target.value,
         });
     }
 
-    render() {
+    render(): React.ReactNode {
         const filter = this.state.filter.toLowerCase();
 
         let children;

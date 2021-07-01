@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Route, Switch} from 'react-router-dom';
 
 import Bots from 'components/integrations/bots';
@@ -26,7 +25,11 @@ import EditOauthApp from 'components/integrations/edit_oauth_app';
 import CommandsContainer from 'components/integrations/commands_container';
 import ConfirmIntegration from 'components/integrations/confirm_integration';
 
-import BackstageSidebar from './components/backstage_sidebar.jsx';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {Team} from 'mattermost-redux/types/teams';
+
+import BackstageSidebar from './components/backstage_sidebar';
 import BackstageNavbar from './components/backstage_navbar';
 
 const BackstageRoute = ({component: Component, extraProps, ...rest}) => ( //eslint-disable-line react/prop-types
@@ -41,55 +44,59 @@ const BackstageRoute = ({component: Component, extraProps, ...rest}) => ( //esli
     />
 );
 
-export default class BackstageController extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-         * Current user.
-         */
-        user: PropTypes.object,
+    /**
+     * Current user.
+     */
+    user: UserProfile;
 
-        /**
-         * Current team.
-         */
-        team: PropTypes.object,
+    /**
+     * Current team.
+     */
+    team: Team;
 
-        /**
-         * Object from react-router
-         */
-        match: PropTypes.shape({
-            url: PropTypes.string.isRequired,
-        }).isRequired,
+    /**
+     * Object from react-router
+     */
+    match: {
+        url: string;
+    };
 
-        siteName: PropTypes.string,
-        enableCustomEmoji: PropTypes.bool.isRequired,
-        enableIncomingWebhooks: PropTypes.bool.isRequired,
-        enableOutgoingWebhooks: PropTypes.bool.isRequired,
-        enableCommands: PropTypes.bool.isRequired,
-        enableOAuthServiceProvider: PropTypes.bool.isRequired,
-        canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
-        canManageIntegrations: PropTypes.bool.isRequired,
-    }
+    siteName?: string;
+    enableCustomEmoji: boolean;
+    enableIncomingWebhooks: boolean;
+    enableOutgoingWebhooks: boolean;
+    enableCommands: boolean;
+    enableOAuthServiceProvider: boolean;
+    canCreateOrDeleteCustomEmoji: boolean;
+    canManageIntegrations: boolean;
+};
 
-    scrollToTop = () => {
+export default class BackstageController extends React.PureComponent<Props> {
+    listRef: any;
+
+    scrollToTop = (): void => {
         if (this.listRef) {
             this.listRef.scrollTop = 0;
         }
     }
 
-    setListRef = (ref) => {
+    setListRef = (ref: any): void => {
         this.listRef = ref;
     }
 
-    render() {
+    render(): React.ReactNode {
         if (this.props.team == null || this.props.user == null) {
             return <div/>;
         }
+
         const extraProps = {
             team: this.props.team,
             user: this.props.user,
             scrollToTop: this.scrollToTop,
         };
+
         return (
             <div className='backstage'>
                 <AnnouncementBar/>

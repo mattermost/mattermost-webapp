@@ -1,35 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-export default class BackstageSection extends React.PureComponent {
-    static get propTypes() {
-        return {
-            name: PropTypes.string.isRequired,
-            title: PropTypes.node.isRequired,
-            parentLink: PropTypes.string,
-            subsection: PropTypes.bool,
-            children: PropTypes.arrayOf(PropTypes.element),
-            id: PropTypes.string,
-        };
+type Props = {
+    name: string;
+    title: React.ReactNode;
+    parentLink?: string;
+    subsection?: boolean;
+    children: React.ReactElement[];
+    id?: string;
+};
+
+export default class BackstageSection extends React.PureComponent<Props> {
+    static defaultProps: Partial<Props> = {
+        parentLink: '',
+        subsection: false,
+        children: [],
     }
 
-    static get defaultProps() {
-        return {
-            parentLink: '',
-            subsection: false,
-            children: [],
-        };
-    }
-
-    getLink() {
+    getLink(): string {
         return this.props.parentLink + '/' + this.props.name;
     }
 
-    render() {
+    render(): React.ReactNode {
         const {title, subsection, children} = this.props;
 
         const link = this.getLink();

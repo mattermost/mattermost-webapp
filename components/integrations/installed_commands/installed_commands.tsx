@@ -11,7 +11,7 @@ import {Command} from 'mattermost-redux/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils.jsx';
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
+import BackstageList from 'components/backstage/components/backstage_list';
 import InstalledCommand, {matchesFilter} from '../installed_command.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 

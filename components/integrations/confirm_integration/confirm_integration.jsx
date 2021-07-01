@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
 import CopyText from 'components/copy_text';
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import {getSiteURL} from 'utils/url';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
