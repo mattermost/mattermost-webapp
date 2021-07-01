@@ -594,7 +594,7 @@
 
         &:hover {
             &::before {
-                background: var(--sidebar-text-08);
+                background: rgba(var(--sidebar-text-rgb), 0.08);
             }
 
             .user__name {

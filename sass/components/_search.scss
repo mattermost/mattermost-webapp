@@ -32,7 +32,7 @@
     display: flex;
     height: 100%;
     align-items: center;
-    color: var(--center-channel-color-56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     pointer-events: none;
 }
 
@@ -294,7 +294,7 @@
 
 .search-hint__title {
     padding: 22px 24px;
-    border-bottom: 1px solid var(--center-channel-color-16);
+    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     margin: 0;
     font-weight: bold;
 }

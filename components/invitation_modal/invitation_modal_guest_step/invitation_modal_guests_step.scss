@@ -17,7 +17,7 @@
     input {
         width: 100%;
         padding: 12px 14px;
-        border: 1px solid var(--center-channel-color-64);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.64);
         background: var(--center-channel-bg);
         border-radius: 4px;
     }
@@ -26,7 +26,7 @@
         width: 100%;
         height: 90px;
         padding: 12px;
-        border: 1px solid var(--center-channel-color-64);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.64);
         margin-top: 4px;
         background: var(--center-channel-bg);
         border-radius: 4px;
@@ -39,7 +39,7 @@
 
     .help-text {
         margin-top: 8px;
-        color: var(--center-channel-color-64);
+        color: rgba(var(--center-channel-color-rgb), 0.64);
     }
 
     .add-people,
@@ -72,8 +72,8 @@
             }
 
             &.btn-inactive {
-                background: var(--center-channel-color-08);
-                color: var(--center-channel-color-56);
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
             }
         }
     }
@@ -82,7 +82,7 @@
         position: relative;
 
         a {
-            color: var(--button-bg-88);
+            color: rgba(var(--button-bg-rgb), 0.88);
             font-weight: 600;
         }
 
@@ -92,7 +92,7 @@
 
         svg {
             &:hover {
-                fill: var(--center-channel-color-80);
+                fill: rgba(var(--center-channel-color-rgb), 0.80);
             }
 
             position: absolute;
@@ -101,7 +101,7 @@
             width: 19.2px;
             height: 19.2px;
             cursor: pointer;
-            fill: var(--center-channel-color-64);
+            fill: rgba(var(--center-channel-color-rgb), 0.64);
         }
 
         .help-text {
