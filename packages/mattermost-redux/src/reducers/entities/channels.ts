@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import {combineReducers} from 'redux';
+import shallowEquals from 'shallow-equals';
 
 import {AdminTypes, ChannelTypes, UserTypes, SchemeTypes, GroupTypes, PostTypes} from 'mattermost-redux/action_types';
 
@@ -24,7 +27,7 @@ import {
 } from 'mattermost-redux/types/utilities';
 
 import {Team} from 'mattermost-redux/types/teams';
-import {channelListToMap} from 'mattermost-redux/utils/channel_utils';
+import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils';
 
 function removeMemberFromChannels(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};
@@ -815,6 +818,68 @@ export function channelMemberCountsByGroup(state: any = {}, action: GenericActio
     }
 }
 
+function roles(state: RelationOneToOne<Channel, Set<string>> = {}, action: GenericAction) {
+    switch (action.type) {
+    case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER: {
+        const channelMember = action.data;
+        const oldRoles = state[channelMember.channel_id];
+        const newRoles = splitRoles(channelMember.roles);
+
+        // If roles didn't change no need to update state
+        if (shallowEquals(oldRoles, newRoles)) {
+            return state;
+        }
+
+        return {
+            ...state,
+            [channelMember.channel_id]: newRoles,
+        };
+    }
+    case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS: {
+        const nextState = {...state};
+        const remove = action.remove as string[];
+        let stateChanged = false;
+        if (remove && remove.length) {
+            remove.forEach((id: string) => {
+                Reflect.deleteProperty(nextState, id);
+            });
+            stateChanged = true;
+        }
+
+        for (const cm of action.data) {
+            const oldRoles = nextState[cm.channel_id];
+            const newRoles = splitRoles(cm.roles);
+
+            // If roles didn't change no need to update state
+            if (!shallowEquals(oldRoles, newRoles)) {
+                nextState[cm.channel_id] = splitRoles(cm.roles);
+                stateChanged = true;
+            }
+        }
+
+        if (stateChanged) {
+            return nextState;
+        }
+
+        return state;
+    }
+    case ChannelTypes.LEAVE_CHANNEL: {
+        const nextState = {...state};
+        if (action.data) {
+            Reflect.deleteProperty(nextState, action.data.id);
+            return nextState;
+        }
+
+        return state;
+    }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // the current selected channel
@@ -828,6 +893,9 @@ export default combineReducers({
 
     // object where every key is the channel id and has an object with the channel members detail
     myMembers,
+
+    // object where every key is the channel id and has an object with the channel roles
+    roles,
 
     // object where every key is the channel id with an object where key is a user id and has an object with the channel members detail
     membersInChannel,
