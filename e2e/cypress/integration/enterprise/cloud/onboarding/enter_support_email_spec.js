@@ -9,7 +9,7 @@
 
 // Group: @enterprise @onboarding @cloud_only
 
-describe('Cloud Onboarding - Sysadmin invite members by email', () => {
+describe('Cloud Onboarding - Sysadmin enter support email', () => {
     let townSquarePage;
     let sysadmin;
 
