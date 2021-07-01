@@ -4,7 +4,7 @@
 import {AppBinding, AppField, AppForm} from '../types/apps';
 import {AppBindingLocations, AppFieldTypes} from '../constants/apps';
 
-export function cleanBinding(binding: AppBinding, topLocation: string) {
+export function cleanBinding(binding: AppBinding, topLocation: string, depth: number) {
     if (!binding) {
         return;
     }
@@ -53,7 +53,8 @@ export function cleanBinding(binding: AppBinding, topLocation: string) {
             break;
         }
         case AppBindingLocations.CHANNEL_HEADER_ICON: {
-            if (!b.icon) {
+            // First level of channel header icons must have an icon to show as the icon
+            if (!b.icon && depth === 0) {
                 toRemove.unshift(i);
                 return;
             }
@@ -62,7 +63,7 @@ export function cleanBinding(binding: AppBinding, topLocation: string) {
         }
 
         if (b.bindings?.length) {
-            cleanBinding(b, topLocation);
+            cleanBinding(b, topLocation, depth + 1);
 
             // Remove invalid branches
             if (!b.bindings?.length) {
@@ -96,9 +97,9 @@ export function validateBindings(bindings: AppBinding[] = []): AppBinding[] {
     const postMenuBindings = bindings?.filter((v) => v.location === AppBindingLocations.POST_MENU_ITEM);
     const commandBindings = bindings?.filter((v) => v.location === AppBindingLocations.COMMAND);
 
-    channelHeaderBindings.forEach((v) => cleanBinding(v, AppBindingLocations.CHANNEL_HEADER_ICON));
-    postMenuBindings.forEach((v) => cleanBinding(v, AppBindingLocations.POST_MENU_ITEM));
-    commandBindings.forEach((v) => cleanBinding(v, AppBindingLocations.COMMAND));
+    channelHeaderBindings.forEach((v) => cleanBinding(v, AppBindingLocations.CHANNEL_HEADER_ICON, 0));
+    postMenuBindings.forEach((v) => cleanBinding(v, AppBindingLocations.POST_MENU_ITEM, 0));
+    commandBindings.forEach((v) => cleanBinding(v, AppBindingLocations.COMMAND, 0));
 
     const hasBindings = (v: AppBinding) => v.bindings?.length;
     return postMenuBindings.filter(hasBindings).concat(channelHeaderBindings.filter(hasBindings), commandBindings.filter(hasBindings));
