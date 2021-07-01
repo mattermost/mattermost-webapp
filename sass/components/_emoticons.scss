@@ -171,7 +171,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 4px;
-        color: v(center-channel-color-48);
+        color: rgba(var(--center-channel-color-rgb), 0.48);
         text-decoration: none;
 
         &:hover {
