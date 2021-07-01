@@ -103,7 +103,7 @@ function checkReactionAction(
     user: UserProfile,
     permission: string,
 ) {
-    if (!haveIChannelPermission(state, {team: teamId, channel: channelId, permission})) {
+    if (!haveIChannelPermission(state, teamId, channelId, permission)) {
         return false;
     }
 
