@@ -17,7 +17,7 @@ import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferenc
 import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
-import EnterSupportEmail from './steps/enter_support_email';
+import EnterSupportEmail from './steps/enter_support_email/enter_support_email';
 
 import {isStepForUser} from './step_helpers';
 

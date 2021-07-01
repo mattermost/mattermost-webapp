@@ -2,52 +2,56 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
 
+import {GlobalState} from 'types/store';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {patchConfig} from 'mattermost-redux/actions/admin';
 import Input from 'components/input';
+import {StepComponentProps} from 'components/next_steps_view/steps';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import './enter_support_email.scss';
-import {StepComponentProps} from 'components/next_steps_view/steps';
-import {AdminConfig} from 'mattermost-redux/types/config';
-import {ActionFunc} from 'mattermost-redux/types/actions';
 
-const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-type Props = StepComponentProps & {
-    supportEmail: string;
-    actions: {
-        patchConfig: (config: AdminConfig) => ActionFunc;
-    };
-};
-
-function EnterSupportEmail(props: Props): JSX.Element {
+function EnterSupportEmail(props: StepComponentProps): JSX.Element {
     const [supportEmail, setSupportEmail] = useState('');
     const [validationError, setValidationError] = useState('');
+    const [updateError, setUpdateError] = useState('');
+    const {formatMessage} = useIntl();
+    const dispatch: DispatchFunc = useDispatch();
+
+    const sEmail = useSelector((state: GlobalState) => {
+        const config = getConfig(state);
+        return config.SupportEmail ? config.SupportEmail : '';
+    });
 
     useEffect(() => {
-        setSupportEmail(props.supportEmail);
-    }, [props.supportEmail]);
+        setSupportEmail(sEmail);
+    }, [sEmail]);
 
-    const updateState = (setStateFunc: (value: string) => void) => {
-        return (event: React.ChangeEvent<HTMLInputElement>) => {
-            setStateFunc(event.target.value);
-        };
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSupportEmail(event.target.value);
     };
 
     const onKeyUp = () => {
+        setUpdateError('');
         validateEmail();
     };
 
     const validateEmail = (): boolean => {
         setValidationError('');
-        if (!reg.test(supportEmail)) {
-            setValidationError('Invalid email format');
-            return false;
+        const valid = isEmail(supportEmail);
+        if (!valid) {
+            setValidationError(formatMessage({id: 'next_steps_view.enter_support_email_step.invalidEmail', defaultMessage: 'Please enter a valid email.'}));
+            return valid;
         }
-        return true;
+        return valid;
     };
 
     const finishStep = async () => {
+        setUpdateError('');
         const isValid = validateEmail();
         if (supportEmail !== '' && isValid) {
             const config = JSON.parse(JSON.stringify({
@@ -56,8 +60,13 @@ function EnterSupportEmail(props: Props): JSX.Element {
                 },
             }));
 
-            await props.actions.patchConfig(config);
+            const {error} = await dispatch(patchConfig(config));
+            if (error) {
+                setUpdateError(formatMessage({id: 'next_steps_view.enter_support_email_step.error', defaultMessage: 'Something went wrong while setting the support email. Try again.'}));
+                return;
+            }
         }
+
         props.onFinish(props.id);
     };
 
@@ -73,7 +82,7 @@ function EnterSupportEmail(props: Props): JSX.Element {
                     </h3>
                     <FormattedMessage
                         id='next_steps_view.enter_support_email_step.enterTheEmail'
-                        defaultMessage='Enter a support email that we can use to contact you in the future.'
+                        defaultMessage="Enter your organization's Support Email address for end user feedback, email notifications, and support requests."
                     />
                 </div>
                 <div className='EnterSupportEmailStep__body'>
@@ -81,10 +90,16 @@ function EnterSupportEmail(props: Props): JSX.Element {
                         placeholder='Email'
                         className='support_input'
                         value={supportEmail}
-                        onChange={updateState(setSupportEmail)}
+                        onChange={onChange}
                         onKeyUp={onKeyUp}
                         error={validationError}
                     />
+                    {updateError && (
+                        <div className='EnterSupportEmailStep__body--error'>
+                            <i className='icon icon-alert-outline'/>
+                            <span><FormattedMessage id='next_steps_view.enter_support_email_step.error'/></span>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className='NextStepsView__wizardButtons'>

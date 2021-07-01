@@ -26,3 +26,18 @@
         width: 70%;
     }
 }
+
+.EnterSupportEmailStep__body--error {
+    display: flex;
+    color: var(--error-text);
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: left;
+}
+
+.EnterSupportEmailStep__body--error i {
+    height: 16px;
+    align-self: baseline;
+    margin-right: 8px;
+}
