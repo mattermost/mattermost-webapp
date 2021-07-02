@@ -80,9 +80,9 @@ export function canDeletePost(state, post, channel) {
     }
 
     if (isPostOwner(state, post)) {
-        return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
+        return haveIChannelPermission(state, channel && channel.team_id, post.channel_id, Permissions.DELETE_POST);
     }
-    return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
+    return haveIChannelPermission(state, channel && channel.team_id, post.channel_id, Permissions.DELETE_OTHERS_POSTS);
 }
 
 export function canEditPost(state, post, license, config, channel, userId) {

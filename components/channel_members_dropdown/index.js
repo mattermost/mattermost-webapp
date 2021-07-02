@@ -18,11 +18,9 @@ function mapStateToProps(state, ownProps) {
     const {channel} = ownProps;
     const canChangeMemberRoles = haveIChannelPermission(
         state,
-        {
-            channel: channel.id,
-            team: channel.team_id,
-            permission: Permissions.MANAGE_CHANNEL_ROLES,
-        },
+        channel.team_id,
+        channel.id,
+        Permissions.MANAGE_CHANNEL_ROLES,
     ) && canManageMembers(state, channel);
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';

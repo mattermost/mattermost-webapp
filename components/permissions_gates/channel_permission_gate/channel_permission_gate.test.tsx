@@ -17,6 +17,9 @@ describe('components/permissions_gates', () => {
                 myMembers: {
                     channel_id: {channel_id: 'channel_id', roles: 'channel_role'},
                 },
+                roles: {
+                    channel_id: ['channel_role'],
+                },
             },
             teams: {
                 myMembers: {

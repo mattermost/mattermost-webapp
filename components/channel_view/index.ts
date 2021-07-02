@@ -5,10 +5,8 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
-import {createSelector} from 'reselect';
-
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -17,8 +15,6 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getProfiles} from 'mattermost-redux/actions/users';
 
 import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-
-import {getDirectTeammate} from 'utils/utils.jsx';
 
 import {TutorialSteps, Preferences} from 'utils/constants';
 
@@ -37,16 +33,11 @@ type Actions = {
     getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
 }
 
-// Temporary selector until getDirectTeammate is converted to be redux-friendly
-const getDeactivatedChannel = createSelector(
-    'getDeactivatedChannel',
-    (state: GlobalState, channelId: string) => {
-        return getDirectTeammate(state, channelId);
-    },
-    (teammate: Record<string, any>) => {
-        return Boolean(teammate && teammate.delete_at);
-    },
-);
+function isDeactivatedChannel(state: GlobalState, channelId: string) {
+    const teammate = getDirectTeammate(state, channelId);
+
+    return Boolean(teammate && teammate.delete_at);
+}
 
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
@@ -74,7 +65,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         channelId: channel ? channel.id : '',
         channelRolesLoading,
-        deactivatedChannel: channel ? getDeactivatedChannel(state, channel.id) : false,
+        deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
         focusedPostId: state.views.channel.focusedPostId,
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
         showNextSteps: showNextSteps(state),
