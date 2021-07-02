@@ -341,7 +341,7 @@
         display: inline-block;
         padding: 0 8px;
         border: 1px solid;
-        background: $primary-color;
+        background: var(--sidebar-header-bg);
         color: $white;
         font-size: 12px;
         line-height: 25px;

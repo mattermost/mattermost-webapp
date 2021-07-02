@@ -55,7 +55,7 @@
         position: absolute;
         min-height: 50px;
         border: none;
-        background: $primary-color;
+        background: var(--sidebar-teambar-bg);
 
         .navbar-nav {
             > li {
