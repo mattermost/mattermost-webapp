@@ -18,6 +18,7 @@
     #SidebarContainer {
         .active .badge,
         .badge {
+            color: var(--mention-color);
             background: var(--mention-bg);
         }
     }
@@ -29,7 +30,6 @@
             height: auto;
             padding: 0 6px;
             border-radius: 8px;
-            color: var(--mention-color);
             font-size: 11px;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: grayscale;
