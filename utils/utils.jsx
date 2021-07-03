@@ -546,13 +546,6 @@ export function toRgbValues(hexStr) {
 }
 
 export function applyTheme(theme) {
-    // Including 'mentionBj' for backwards compatability (old typo)
-    const mentionBg = theme.mentionBg || theme.mentionBj;
-    if (mentionBg) {
-        changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
-        changeCss('.multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
-    }
-
     if (theme.mentionColor) {
         changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
         changeCss('.app__body .multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
@@ -812,7 +805,7 @@ export function applyTheme(theme) {
             'dnd-indicator-rgb': toRgbValues(dndIndicator),
             'error-text-color-rgb': toRgbValues(theme.errorTextColor),
             'link-color-rgb': toRgbValues(theme.linkColor),
-            'mention-bg-rgb': toRgbValues(theme.mentionBg),
+            'mention-bg-rgb': toRgbValues(theme.mentionBg || theme.mentionBj), // backwards compatibility
             'mention-color-rgb': toRgbValues(theme.mentionColor),
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
@@ -844,7 +837,7 @@ export function applyTheme(theme) {
             'online-indicator': theme.onlineIndicator,
             'away-indicator': theme.awayIndicator,
             'dnd-indicator': dndIndicator,
-            'mention-bg': theme.mentionBg,
+            'mention-bg': theme.mentionBg || theme.mentionBj, // backwards compatibility
             'mention-color': theme.mentionColor,
             'center-channel-bg': theme.centerChannelBg,
             'center-channel-color': theme.centerChannelColor,
