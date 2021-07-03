@@ -598,7 +598,7 @@
             }
 
             .user__name {
-                color: $white;
+                color: var(--sidebar-header-text-color);
             }
 
             .sidebar-header-dropdown {
@@ -738,7 +738,7 @@
             position: relative;
             width: 100%;
             padding: 2px 16px 0 0;
-            color: $white;
+            color: var(--sidebar-header-text-color);
 
             .sidebar-header-dropdown__icon {
                 @include single-transition(opacity, $transition-quick, ease-in-out);
@@ -750,7 +750,7 @@
                 width: 36px;
                 height: 36px;
                 border-radius: 36px;
-                fill: $white;
+                fill: var(--sidebar-header-text-color);
                 line-height: 36px;
                 text-align: center;
             }
@@ -779,13 +779,13 @@
 
         .user__name {
             @include single-transition(all, $transition-quick, ease-in-out);
-            @include alpha-property(color, $white, 0.8);
 
             position: relative;
             top: -3px;
             padding-right: 4px;
             font-size: 14px;
             font-weight: 400;
+            color: rgba(var(--sidebar-header-text-color-rgb), 0.8)
         }
 
         .custom-status {
