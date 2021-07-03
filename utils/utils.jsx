@@ -546,28 +546,6 @@ export function toRgbValues(hexStr) {
 }
 
 export function applyTheme(theme) {
-    let dndIndicator;
-    if (theme.dndIndicator) {
-        dndIndicator = theme.dndIndicator;
-    } else {
-        switch (theme.type) {
-        case 'Organization':
-            dndIndicator = Constants.THEMES.organization.dndIndicator;
-            break;
-        case 'Mattermost Dark':
-            dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
-            break;
-        case 'Windows Dark':
-            dndIndicator = Constants.THEMES.windows10.dndIndicator;
-            break;
-        default:
-            dndIndicator = Constants.THEMES.default.dndIndicator;
-            break;
-        }
-    }
-    changeCss('.app__body .status.status--dnd', 'color:' + dndIndicator);
-    changeCss('.app__body .status .dnd--icon', 'fill:' + dndIndicator);
-
     // Including 'mentionBj' for backwards compatability (old typo)
     const mentionBg = theme.mentionBg || theme.mentionBj;
     if (mentionBg) {
@@ -799,6 +777,28 @@ export function applyTheme(theme) {
         theme.codeTheme = Constants.DEFAULT_CODE_THEME;
     }
     updateCodeTheme(theme.codeTheme);
+
+    // TODO: determine if this is still necessary
+    let dndIndicator;
+    if (theme.dndIndicator) {
+        dndIndicator = theme.dndIndicator;
+    } else {
+        switch (theme.type) {
+        case 'Organization':
+            dndIndicator = Constants.THEMES.organization.dndIndicator;
+            break;
+        case 'Mattermost Dark':
+            dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
+            break;
+        case 'Windows Dark':
+            dndIndicator = Constants.THEMES.windows10.dndIndicator;
+            break;
+        default:
+            dndIndicator = Constants.THEMES.default.dndIndicator;
+            break;
+        }
+    }
+
     cssVars({
         variables: {
 
@@ -809,7 +809,7 @@ export function applyTheme(theme) {
             'button-color-rgb': toRgbValues(theme.buttonColor),
             'center-channel-bg-rgb': toRgbValues(theme.centerChannelBg),
             'center-channel-color-rgb': toRgbValues(theme.centerChannelColor),
-            'dnd-indicator-rgb': toRgbValues(theme.dndIndicator),
+            'dnd-indicator-rgb': toRgbValues(dndIndicator),
             'error-text-color-rgb': toRgbValues(theme.errorTextColor),
             'link-color-rgb': toRgbValues(theme.linkColor),
             'mention-bg-rgb': toRgbValues(theme.mentionBg),
@@ -843,7 +843,7 @@ export function applyTheme(theme) {
             'sidebar-header-text-color': theme.sidebarHeaderTextColor,
             'online-indicator': theme.onlineIndicator,
             'away-indicator': theme.awayIndicator,
-            'dnd-indicator': theme.dndIndicator,
+            'dnd-indicator': dndIndicator,
             'mention-bg': theme.mentionBg,
             'mention-color': theme.mentionColor,
             'center-channel-bg': theme.centerChannelBg,
