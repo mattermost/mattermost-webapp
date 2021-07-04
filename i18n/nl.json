@@ -817,7 +817,6 @@
   "admin.experimental.closeUnusedDirectMessages.desc": "Als dit ingeschakeld is, worden directe berichten met geen activiteit in de voorbije zeven dagen verborgen in de zijbalk. Als dit uitgeschakeld is, blijven conversaties in de zijbalk tot ze handmatig worden gesloten. Deze instellingen zijn enkel beschikbaar als \"Verouderde zijbalk inschakelen\" waar is.",
   "admin.experimental.closeUnusedDirectMessages.title": "Automatische directe berichten in zijbalk:",
   "admin.experimental.collapsedThreads.default_off": "Ingeschakeld (standaard uitgeschakeld)",
-  "admin.experimental.collapsedThreads.default_on": "Ingeschakeld (Standaard ingeschakeld)",
   "admin.experimental.collapsedThreads.desc": "Indien ingeschakeld (standaard ingeschakeld), schakelt deze instelling samengevouwen antwoorddraadjesin voor alle gebruikers op deze server. Gebruikers kunnen de functie uitschakelen onder Accountinstellingen > Weergave > Ingeklapte antwoorddraadjes (Beta). Wanneer deze functie is ingeschakeld (standaard uitgeschakeld), moeten gebruikers ingeklapte antwoorddraadjes inschakelen in Accountinstellingen. Wanneer deze functie is uitgeschakeld, hebben gebruikers geen toegang tot ingeklapte antwoorddraadjes. Meer informatie over ingeklapte antwoorddraadjes](!https://about.mattermost.com/default-threads).",
   "admin.experimental.collapsedThreads.off": "Uitgeschakeld",
   "admin.experimental.collapsedThreads.title": "Ingeklapte antwoorddraadjes",

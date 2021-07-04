@@ -803,7 +803,6 @@
   "admin.experimental.closeUnusedDirectMessages.desc": "当设为是时，7 天内没有活动的私信对话将从侧栏隐藏。当设为否时，对话将一直保留直到手动关闭。仅当**启用旧侧栏**为**启用**时，这些设置才可用。",
   "admin.experimental.closeUnusedDirectMessages.title": "自动从侧栏关闭私信：",
   "admin.experimental.collapsedThreads.default_off": "已开启（默认关）",
-  "admin.experimental.collapsedThreads.default_on": "已开启（默认开）",
   "admin.experimental.collapsedThreads.off": "已禁用",
   "admin.experimental.collapsedThreads.title": "折叠的回复主题",
   "admin.experimental.defaultTheme.desc": "设定新用户的默认风格。",

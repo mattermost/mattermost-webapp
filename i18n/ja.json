@@ -817,7 +817,6 @@
   "admin.experimental.closeUnusedDirectMessages.desc": "有効な場合、7日間活動のないダイレクトメッセージはサイドバーに表示されなくなります。無効な場合、手動でクローズされるまでサイドバーに残り続けます。これらの設定は \"レガシーサイドバーを有効にする\" が \"有効\" な場合のみ利用可能です。",
   "admin.experimental.closeUnusedDirectMessages.title": "サイドバーのダイレクトメッセージの自動クローズ:",
   "admin.experimental.collapsedThreads.default_off": "有効 (デフォルトOff)",
-  "admin.experimental.collapsedThreads.default_on": "有効 (デフォルトOn)",
   "admin.experimental.collapsedThreads.desc": "この設定が有効 (デフォルトon) の場合、このサーバー上のすべてのユーザーに対して折りたたまれた返信用スレッドが有効になります。ユーザーは、**アカウント設定 > 表示 > 返信スレッドの折りたたみ（ベータ版）**でこの機能を無効にできます。有効 (デフォルトOff) の場合、ユーザーはアカウント設定で返信スレッドの折りたたみを有効にする必要があります。無効にすると、ユーザーは返信スレッドの折りたたみにアクセスできなくなります。詳しくは、[返信スレッドの折りたたみについて](!https://about.mattermost.com/default-threads)を参照してください。",
   "admin.experimental.collapsedThreads.off": "無効",
   "admin.experimental.collapsedThreads.title": "返信スレッドの折りたたみ",

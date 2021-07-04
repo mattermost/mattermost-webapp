@@ -324,7 +324,6 @@
   "admin.billing.subscription.planDetails.numberOfSeatsRegistered": "({userCount} aktuell registriert)",
   "admin.billing.subscription.planDetails.perUserPerMonth": "/Benutzer/Monat.",
   "admin.billing.subscription.planDetails.planDetailsName.freeForXOrMoreUsers": "/Benutzer/Monat für {aboveUserLimit} oder mehr Benutzer.",
-  "admin.billing.subscription.planDetails.productName.cloudEnterprise": "",
   "admin.billing.subscription.planDetails.prolongedOverages": "Längere Überschreitungen können zu zusätzlichen Gebühren führen.",
   "admin.billing.subscription.planDetails.seatCountOverages": "Überzählige Benutzer",
   "admin.billing.subscription.planDetails.startDate": "Startdatum ",

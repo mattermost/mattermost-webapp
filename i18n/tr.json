@@ -817,7 +817,6 @@
   "admin.experimental.closeUnusedDirectMessages.desc": "Bu seçenek etkinleştirildiğinde, 7 günden uzun süredir herhangi bir etkinlik olmayan görüşmeler yan çubukta gizlenir. Devre dışı bırakıldığında, el ile kapatılana kadar görüşmeler görüntülenir. Bu ayarlar yalnız **Eski Yan Çubuk Kullanılsın** seçeneği **Etkinleştirilmiş** ise geçerlidir.",
   "admin.experimental.closeUnusedDirectMessages.title": "Yan Çubuktaki Doğrudan İletiler Otomatik Kapatılsın:",
   "admin.experimental.collapsedThreads.default_off": "Etkin (Varsayılan Kapalı)",
-  "admin.experimental.collapsedThreads.default_on": "Etkin (Varsayılan Açık)",
   "admin.experimental.collapsedThreads.desc": "Bu seçenek etkinleştirildiğinde (varsayılan olarak açık), bu sunucudaki tüm kullanıcıların yanıt başlıkları daraltılarak görüntülenir. Kullanıcılar Hesap Ayarları > Görünüm > Daraltılmış Yanıt Başlıkları (Beta) bölümünden bu özelliği devre dışı bırakabilir. Devre dışı bırakıldığında, kullanıcılar daraltılmış yanıt başlıkları seçeneğini göremez. [Daraltılmış yanıt başlıkları hakkında ayrıntılı bilgi almak için buraya tıklayın](!https://about.mattermost.com/default-threads).",
   "admin.experimental.collapsedThreads.off": "Devre dışı",
   "admin.experimental.collapsedThreads.title": "Daraltılmış Yanıt Başlıkları",

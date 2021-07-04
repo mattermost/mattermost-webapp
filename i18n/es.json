@@ -817,7 +817,6 @@
   "admin.experimental.closeUnusedDirectMessages.desc": "Cuando es verdadero, las conversaciones en mensajes directos que no tienen actividad en un período de 7 días serán escondidas de la barra lateral. Cuando es falso, las conversaciones permanecerán en la barra lateral hasta que se cierren de forma manual. Esta configuración solo esta disponible si **Habilitar Barra Lateral Antigua** esta **Habilitada**.",
   "admin.experimental.closeUnusedDirectMessages.title": "Cerrar mensajes directos en la barra lateral de forma automática:",
   "admin.experimental.collapsedThreads.default_off": "Activado (Apagado como predeterminado)",
-  "admin.experimental.collapsedThreads.default_on": "Activado (Encendido como predeterminado)",
   "admin.experimental.collapsedThreads.desc": "Cuando está activada (por defecto), esta opción permite colapsar los hilos de respuesta para todos los usuarios de este servidor. Los usuarios pueden desactivar esta función en Configuración de la cuenta > Visualización > Hilos de respuesta contraídos (Beta). Si está activada (desactivada por defecto), los usuarios deben habilitar los hilos de respuesta contraídos en la Configuración de la cuenta. Si se desactiva, los usuarios no pueden acceder a los hilos de respuesta contraídos. Más información sobre los hilos de respuesta contraídos](!https://about.mattermost.com/default-threads).",
   "admin.experimental.collapsedThreads.off": "Desactivado",
   "admin.experimental.collapsedThreads.title": "Hilos de respuesta colapsados",

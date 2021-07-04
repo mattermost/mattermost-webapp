@@ -817,7 +817,6 @@
   "admin.experimental.closeUnusedDirectMessages.desc": "When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.",
   "admin.experimental.closeUnusedDirectMessages.title": "Autoclose Direct Messages in Sidebar:",
   "admin.experimental.collapsedThreads.default_off": "Enabled (Default Off)",
-  "admin.experimental.collapsedThreads.default_on": "Enabled (Default On)",
   "admin.experimental.collapsedThreads.desc": "When enabled (default on), this setting enables collapsed reply threads for all users on this server. Users can disable the feature in Account Settings > Display > Collapsed Reply Threads (Beta). When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access collapsed reply threads. [Learn more about collapsed reply threads](!https://about.mattermost.com/default-threads).",
   "admin.experimental.collapsedThreads.off": "Disabled",
   "admin.experimental.collapsedThreads.title": "Collapsed Reply Threads",

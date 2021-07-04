@@ -817,7 +817,6 @@
   "admin.experimental.closeUnusedDirectMessages.desc": "När satt till sant kommer direkt-meddelanden utan aktivitet de senaste 7 dagarna vara dolda i sidofältet. När satt till falskt kommer meddelandena vara synliga i sidofältet tills de stängs manuellt. Denna inställning är endast tillgänglig om **Använd äldre sidomeny** är **aktiverad**.",
   "admin.experimental.closeUnusedDirectMessages.title": "Stäng meddelanden i sidopanelen automatiskt:",
   "admin.experimental.collapsedThreads.default_off": "Aktiverad (Av som standard)",
-  "admin.experimental.collapsedThreads.default_on": "Aktiverad (På som standard)",
   "admin.experimental.collapsedThreads.desc": "När inställningen är aktiverad (standard är på) är utfällbara svarstrådar aktiverad för alla användare på den här servern. Användare kan inaktivera funktionen i Kontoinställningar > Visning > Utfällbara svarstrådar (Beta). När den är aktiverad (standardinställningen är avstängd) måste användarna aktivera utfällbara svarstrådar i Kontoinställningar. När den är inaktiverad kan användarna inte få tillgång till utfällbara svarstrådar. [Läs mer om utfällbara svarstrådar](!https://about.mattermost.com/default-threads).",
   "admin.experimental.collapsedThreads.off": "Avaktiverad",
   "admin.experimental.collapsedThreads.title": "Utfällbara svarstrådar",

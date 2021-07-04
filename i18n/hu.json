@@ -817,7 +817,6 @@
   "admin.experimental.closeUnusedDirectMessages.desc": "Ha igaz, akkor a közvetlen üzenetbeszélgetések, amelyek 7 napig nincsenek tevékenységek, rejtve maradnak az oldalsávon. Ha hamis, a beszélgetések addig maradnak az oldalsávon, amíg manuálisan nem záródnak le. Ezek a beállítások csak akkor érhetőek el, ha a **Régi oldalsáv engedélyezése** mező értéke **Engedélyezve**.",
   "admin.experimental.closeUnusedDirectMessages.title": "Közvetlen üzenetek automatikus bezárása az oldalsávon:",
   "admin.experimental.collapsedThreads.default_off": "Engedélyezve (Alapértelmezetten Ki)",
-  "admin.experimental.collapsedThreads.default_on": "Engedélyezve (Alapértelmezetten Be)",
   "admin.experimental.collapsedThreads.desc": "Ha engedélyezve van (alapértelmezetten be), ez a beállítás engedélyezi az összecsukott válaszszálakat a kiszolgáló összes felhasználója számára. A felhasználók letilthatják a szolgáltatást a Fiókbeállítások > Megjelenítés > Összecsukott válaszszálak (Béta) menüpontban. Ha engedélyezve van (alapértelmezett ki), a felhasználóknak engedélyezniük kell az összecsukott válaszszálakat a Fiókbeállításokban. Letiltáskor a felhasználók nem férhetnek hozzá az összecsukott válaszszálakhoz. [További információ az összecsukott válaszszálakról](!https://about.mattermost.com/default-threads).",
   "admin.experimental.collapsedThreads.off": "Letiltva",
   "admin.experimental.collapsedThreads.title": "Összecsukott válaszszálak",
