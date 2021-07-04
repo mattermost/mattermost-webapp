@@ -14,8 +14,8 @@ import ActivityLog from 'components/activity_log_modal/components/activity_log';
 export type Props = {
 
     /**
- * The current user id
- */
+     * The current user id
+     */
     currentUserId: string;
 
     /**
@@ -47,7 +47,7 @@ export type Props = {
     };
 }
 
-type State ={
+type State = {
     show: boolean;
 }
 
