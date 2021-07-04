@@ -3,52 +3,53 @@
 .team_statistics {
     .total-count {
         @include border-radius(3px);
-        background: $white;
+
+        width: 100%;
         border: 1px solid $light-gray;
         margin: 1em 0;
+        background: $white;
         text-align: center;
-        width: 100%;
 
         .title {
+            padding: 7px 10px;
             border-bottom: 1px solid $light-gray;
             font-size: 13px;
             font-weight: 400;
-            padding: 7px 10px;
             text-align: left;
 
             span {
                 display: inline-block;
                 overflow: hidden;
+                width: calc(100% - 20px);
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                width: calc(100% - 20px);
             }
 
             .fa {
-                color: #555555;
+                margin: 0;
+                color: #555;
                 float: right;
                 font-size: 16px;
-                margin: 0;
             }
         }
 
         .content {
-            color: #555555;
+            overflow: auto;
+            padding: 0.3em 0 0.35em;
+            color: #555;
             font-size: 30px;
             font-weight: 600;
-            overflow: auto;
-            padding: .3em 0 .35em;
         }
     }
 
     .total-count--day {
-        background: $white;
-        border: 1px solid $light-gray;
-        clear: both;
-        height: 275px;
-        margin: 10px;
-        padding: 5px 10px 10px;
         width: 760px;
+        height: 275px;
+        padding: 5px 10px 10px;
+        border: 1px solid $light-gray;
+        margin: 10px;
+        background: $white;
+        clear: both;
 
         > div {
             font-size: 18px;
@@ -58,13 +59,13 @@
 
     .recent-active-users {
         table {
-            table-layout: fixed;
             width: 100%;
+            table-layout: fixed;
         }
 
         .content {
-            max-height: 400px;
             overflow: auto;
+            max-height: 400px;
             padding: 0;
         }
 
@@ -77,11 +78,12 @@
 
             td {
                 @include clearfix;
-                border-left: 1px solid $light-gray;
+
+                padding: 5px 5px 6px;
                 border-top: 1px solid $light-gray;
+                border-left: 1px solid $light-gray;
                 font-size: 13px;
                 font-weight: 400;
-                padding: 5px 5px 6px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
 

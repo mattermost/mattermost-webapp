@@ -9,7 +9,7 @@ const without = require('lodash.without');
 const shell = require('shelljs');
 const argv = require('yargs').argv;
 
-const TEST_DIR = 'cypress/integration';
+const TEST_DIR = 'cypress';
 
 const grepCommand = (word = '') => {
     // -r, recursive search on subdirectories
