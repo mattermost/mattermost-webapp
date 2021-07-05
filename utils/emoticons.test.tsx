@@ -25,8 +25,6 @@ describe('Emoticons', () => {
             mask: [':-x'],
             heart: ['<3', '&lt;3'],
             broken_heart: ['</3', '&lt;/3'],
-            thumbsup: [':+1:'],
-            thumbsdown: [':-1:'],
         };
         Array.prototype.concat(...Object.values(emoticonPatterns)).forEach((emoticon) => {
             test(`text sequence '${emoticon}' should be recognized as an emoticon`, () => {
@@ -117,7 +115,7 @@ describe('Emoticons', () => {
         describe('multiple', () => {
             test('shorthand forms', () => {
                 expect(Emoticons.matchEmoticons(':+1: :D')).
-                    toEqual([':D', ':+1:']);
+                    toEqual([':+1:', ':D']);
             });
 
             test('named emoticons forms', () => {
@@ -127,7 +125,7 @@ describe('Emoticons', () => {
 
             test('mixed', () => {
                 expect(Emoticons.matchEmoticons(':thumbs_up: :smile: :+1: :D')).
-                    toEqual([':thumbs_up:', ':smile:', ':D', ':+1:']);
+                    toEqual([':thumbs_up:', ':smile:', ':+1:', ':D']);
             });
         });
 

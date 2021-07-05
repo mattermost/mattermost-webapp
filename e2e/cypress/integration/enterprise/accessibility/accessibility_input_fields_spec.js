@@ -174,7 +174,7 @@ describe('Verify Accessibility Support in different input fields', () => {
             cy.get('#fileUploadButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'attachment').tab();
 
             // * Verify if the focus is on the emoji picker
-            cy.get('.emoji-picker__container').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'emoji picker').tab();
+            cy.get('.emoji-picker__container').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'select an emoji').tab();
         });
 
         // * Verify if the focus is on the help link
@@ -201,7 +201,7 @@ describe('Verify Accessibility Support in different input fields', () => {
             cy.get('#fileUploadButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'attachment').tab();
 
             // * Verify if the focus is on the emoji picker
-            cy.get('.emoji-picker__container').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'emoji picker').tab();
+            cy.get('.emoji-picker__container').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'select an emoji').tab();
 
             // * Verify if the focus is on the help link
             cy.get('.textbox-help-link').should('have.class', 'a11y--active a11y--focused').tab();

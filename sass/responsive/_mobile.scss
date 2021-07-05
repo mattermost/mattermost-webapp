@@ -525,14 +525,14 @@
         .emoji-picker__category {
             width: 30px;
             height: 30px;
-            padding-top: 4px;
         }
     }
 
+    .emoji-picker__search-container {
+        height: 40px;
+    }
+
     .emoji-picker__items {
-        // !important is used to overide inline styles
-        // used on larger screens
-        height: auto !important;
         flex-grow: 1;
 
         .emoji-picker__category-header {
@@ -564,7 +564,6 @@
     .emoji-picker__preview {
         width: 100%;
         height: 60px;
-        padding: 10px 10px 0;
     }
 
     .MenuWrapper {

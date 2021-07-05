@@ -43,8 +43,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         getCustomEmojis: jest.fn(),
         incrementEmojiPickerPage: jest.fn(),
         searchCustomEmojis: jest.fn(),
-        setRecentSkin: jest.fn(),
-        persistRecentSkin: jest.fn(),
+        setUserSkinTone: jest.fn(),
     };
 
     const customEmojis = new Map();
@@ -70,7 +69,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         actions,
         filter: '',
         handleFilterChange: jest.fn(),
-        recentSkin: 'default',
+        userSkinTone: 'default',
         currentTeamName: 'testTeam',
     };
 
