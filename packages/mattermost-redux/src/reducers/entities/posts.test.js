@@ -8,6 +8,7 @@ import {
     ChannelTypes,
     GeneralTypes,
     PostTypes,
+    ThreadTypes,
 } from 'mattermost-redux/action_types';
 import {Posts} from 'mattermost-redux/constants';
 import * as reducers from 'mattermost-redux/reducers/entities/posts';
@@ -70,6 +71,36 @@ describe('posts', () => {
                 expect(nextState).toEqual({
                     post1: {id: 'post1', message: 'abc'},
                 });
+            });
+
+            it('should add a newer post', () => {
+                const state = deepFreeze({
+                    post1: {id: 'post1', message: '123', update_at: 100},
+                });
+
+                const nextState = reducers.handlePosts(state, {
+                    type: actionType,
+                    data: {id: 'post1', message: 'abc', update_at: 400},
+                });
+
+                expect(nextState).not.toBe(state);
+                expect(nextState.post1).not.toBe(state.post1);
+                expect(nextState).toEqual({
+                    post1: {id: 'post1', message: 'abc', update_at: 400},
+                });
+            });
+
+            it('should not add an older post', () => {
+                const state = deepFreeze({
+                    post1: {id: 'post1', message: '123', update_at: 400},
+                });
+
+                const nextState = reducers.handlePosts(state, {
+                    type: actionType,
+                    data: {id: 'post1', message: 'abc', update_at: 100},
+                });
+
+                expect(nextState.post1).toBe(state.post1);
             });
 
             it('should remove any pending posts when receiving the actual post', () => {
@@ -422,6 +453,36 @@ describe('posts', () => {
             });
         });
     }
+
+    describe(`follow a post/thread (${ThreadTypes.FOLLOW_CHANGED_THREAD})`, () => {
+        test.each([[true], [false]])('should set is_following to %s', (following) => {
+            const state = deepFreeze({
+                post1: {id: 'post1', channel_id: 'channel1'},
+                post2: {id: 'post2', channel_id: 'channel1'},
+                post3: {id: 'post3', channel_id: 'channel2'},
+            });
+
+            const nextState = reducers.handlePosts(state, {
+                type: ThreadTypes.FOLLOW_CHANGED_THREAD,
+                data: {
+                    id: 'post1',
+                    following,
+                },
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState.post3).toBe(state.post3);
+            expect(nextState.post2).toBe(state.post2);
+            expect(nextState.post1).toEqual({
+                id: 'post1', channel_id: 'channel1', is_following: following,
+            });
+            expect(nextState).toEqual({
+                post1: {id: 'post1', channel_id: 'channel1', is_following: following},
+                post2: {id: 'post2', channel_id: 'channel1'},
+                post3: {id: 'post3', channel_id: 'channel2'},
+            });
+        });
+    });
 });
 
 describe('pendingPostIds', () => {
@@ -557,6 +618,36 @@ describe('postsInChannel', () => {
             }, {}, {});
 
             expect(nextState).toBe(state);
+            expect(nextState).toEqual({});
+        });
+
+        it('should do nothing when a reply-post comes and CRT is ON', () => {
+            const state = deepFreeze({
+                channel1: [],
+            });
+
+            const nextState = reducers.postsInChannel(state, {
+                type: PostTypes.RECEIVED_NEW_POST,
+                data: {id: 'post1', channel_id: 'channel1', root_id: 'parent1'},
+                features: {crtEnabled: true},
+            }, {}, {});
+
+            expect(nextState).toBe(state);
+            expect(nextState).toEqual({
+                channel1: [],
+            });
+        });
+
+        it('should reset when called for (e.g. when CRT is TOGGLED)', () => {
+            const state = deepFreeze({
+                channel1: [],
+            });
+
+            const nextState = reducers.postsInChannel(state, {
+                type: PostTypes.RESET_POSTS_IN_CHANNEL,
+            }, {}, {});
+
+            expect(nextState).not.toBe(state);
             expect(nextState).toEqual({});
         });
 

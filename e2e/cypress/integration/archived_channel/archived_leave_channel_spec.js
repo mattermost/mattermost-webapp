@@ -144,7 +144,7 @@ describe('Leave an archived channel', () => {
                 cy.findByRole('textbox', {name: 'quick switch input'}).type(commonName);
 
                 // * Suggestion list should be visible
-                cy.get('#suggestionList').should('be.visible').children().should('have.length', 2);
+                cy.get('#suggestionList').should('be.visible').find('.mentions__name').should('have.length', 2);
 
                 // * Both active and archived public channels should be visible
                 cy.findByTestId(channel.name).should('be.visible').find('.icon-globe').should('be.visible');
@@ -167,7 +167,7 @@ describe('Leave an archived channel', () => {
                 cy.findByRole('textbox', {name: 'quick switch input'}).type(commonName);
 
                 // * Suggestion list should be visible
-                cy.get('#suggestionList').should('be.visible').children().should('have.length', 2);
+                cy.get('#suggestionList').should('be.visible').find('.mentions__name').should('have.length', 2);
 
                 // * Both active public and archived private channels should be visible
                 cy.findByTestId(channel.name).should('be.visible').find('.icon-globe').should('be.visible');

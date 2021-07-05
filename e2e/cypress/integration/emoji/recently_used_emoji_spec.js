@@ -23,9 +23,6 @@ describe('Recent Emoji', () => {
     });
 
     it('MM-T155 Recently used emoji reactions are shown first', () => {
-        // # Before test delete all recent emoji on local storage
-        cy.clearLocalStorage(/recent_emojis/);
-
         const firstEmoji = 5;
         const secondEmoji = 10;
 

@@ -187,7 +187,7 @@ class MainMenu extends React.PureComponent {
             >
                 {isCloud && isFreeTrial &&
                     <Menu.Group>
-                        <SystemPermissionGate permissions={Permissions.SYSCONSOLE_WRITE_BILLING}>
+                        <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
                             <Menu.TopNotification
                                 show={true}
                                 id='topNotification'

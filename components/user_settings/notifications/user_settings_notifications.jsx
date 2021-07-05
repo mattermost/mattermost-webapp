@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -129,6 +130,7 @@ export default class NotificationsTab extends React.PureComponent {
         actions: PropTypes.shape({
             updateMe: PropTypes.func.isRequired,
         }).isRequired,
+        isCollapsedThreadsEnabled: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -955,8 +957,12 @@ export default class NotificationsTab extends React.PureComponent {
                     <div className='divider-light'/>
                     {keysSection}
                     <div className='divider-light'/>
-                    {commentsSection}
-                    <div className='divider-light'/>
+                    {!this.props.isCollapsedThreadsEnabled && (
+                        <>
+                            {commentsSection}
+                            <div className='divider-light'/>
+                        </>
+                    )}
                     {autoResponderSection}
                     <div className='divider-light'/>
                     <NotificationScheduleSetting

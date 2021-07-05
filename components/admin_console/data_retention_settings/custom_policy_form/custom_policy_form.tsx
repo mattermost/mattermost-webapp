@@ -33,6 +33,7 @@ import './custom_policy_form.scss';
 type Props = {
     policyId?: string;
     policy?: DataRetentionCustomPolicy | null;
+    teams?: Team[];
     actions: {
         fetchPolicy: (id: string) => Promise<{ data: DataRetentionCustomPolicy; error?: Error }>;
         fetchPolicyTeams: (id: string, page: number, perPage: number) => Promise<{ data: Team[]; error?: Error }>;
@@ -191,6 +192,23 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
         this.setState({removedChannels: {...removedChannels}, newChannels: {...newChannels}, removedChannelsCount, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
+
+    getTeamsToExclude = () => {
+        const {teams} = this.props;
+        const {newTeams, removedTeams} = this.state;
+
+        let teamsToDisplay = teams?.map((team) => {
+            return team.id;
+        });
+        const includeTeamsList = Object.keys(newTeams);
+
+        // Remove teams to remove and add teams to add
+        if (teamsToDisplay) {
+            teamsToDisplay = teamsToDisplay?.filter((id) => !removedTeams[id]);
+            teamsToDisplay = [...includeTeamsList, ...teamsToDisplay];
+        }
+        return teamsToDisplay;
+    }
     handleSubmit = async () => {
         const {policyName, messageRetentionInputValue, messageRetentionDropdownValue, newTeams, removedTeams, newChannels, removedChannels} = this.state;
         const {policyId, policy} = this.props;
@@ -330,6 +348,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                 >
                                     <Input
                                         name='policyName'
+                                        aria-label='Policy name'
                                         type='text'
                                         value={this.state.policyName}
                                         onChange={(e) => {
@@ -358,8 +377,10 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                         options={[daysOption(), yearsOption(), keepForeverOption()]}
                                         legend={Utils.localizeMessage('admin.data_retention.form.channelAndDirectMessageRetention', 'Channel & direct message retention')}
                                         placeholder={Utils.localizeMessage('admin.data_retention.form.channelAndDirectMessageRetention', 'Channel & direct message retention')}
-                                        name={'channel_message_retention'}
                                         inputType={'number'}
+                                        name={'message_retention'}
+                                        dropdownClassNamePrefix={'message_retention'}
+                                        inputId={'message_retention_input'}
                                     />
                                 </div>
 
@@ -424,6 +445,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                 groupID={''}
                                 alreadySelected={Object.keys(this.state.newChannels)}
                                 excludePolicyConstrained={true}
+                                excludeTeamIds={this.getTeamsToExclude()}
                             />
                         }
                         <Card
