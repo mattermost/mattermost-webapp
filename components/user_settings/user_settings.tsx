@@ -24,6 +24,8 @@ export type Props = {
     setRequireConfirm: () => void;
 };
 
+
+
 export default class UserSettings extends React.PureComponent<Props> {
     render() {
         if (this.props.activeTab === 'general') {

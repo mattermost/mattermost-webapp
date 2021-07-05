@@ -7,6 +7,9 @@ import {FormattedMessage} from 'react-intl';
 
 import {Tooltip} from 'react-bootstrap';
 
+import store from 'stores/redux_store.jsx';
+import {openModal} from 'actions/views/modals';
+import UserSettingsModal from 'components/user_settings/modal';
 import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -28,6 +31,8 @@ import CustomStatusText from 'components/custom_status/custom_status_text';
 
 import './status_dropdown.scss';
 import {toUTCUnix} from 'utils/datetime';
+
+const dispatch = store.dispatch;
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -78,7 +83,7 @@ export default class StatusDropdown extends React.PureComponent {
         return currentDate;
     }
 
-    dndTimes = ['30 mins', '1 hour', '2 hours', 'Tomorrow', 'Custom']
+    dndTimes = ['30 mins', '1 hour', '2 hours', 'Tomorrow', 'Custom', 'Notifications Schedule...']
 
     isUserOutOfOffice = () => {
         return this.props.status === UserStatuses.OUT_OF_OFFICE;
@@ -109,7 +114,6 @@ export default class StatusDropdown extends React.PureComponent {
 
     setDnd = (event, index) => {
         event.preventDefault();
-
         const currentDate = this.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled);
         const currentTime = currentDate.getTime();
         let endTime;
@@ -131,6 +135,12 @@ export default class StatusDropdown extends React.PureComponent {
             // add one day in current date and set hours to last minute of the day
             endTime = new Date(currentDate.getDate() + 1);
             endTime.setHours(23, 59, 59, 999);
+            break;
+        case 5:
+            dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogProps: {
+                active_tab: 'notifications',
+                active_section: 'schedule'
+            }, dialogType: UserSettingsModal}));
             break;
         }
 
@@ -295,7 +305,7 @@ export default class StatusDropdown extends React.PureComponent {
                 return {
                     id: `dndTime-${time.split(' ').join('')}`,
                     direction: 'right',
-                    text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
+                    text: index === 5 ? localizeMessage('status_dropdown.dnd_sub_menu_set_schedule', 'Notifications Schedule...') : localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
                     action: index === 4 ? () => setCustomTimedDnd() : () => setDnd(event, index),
                 };
             }));
