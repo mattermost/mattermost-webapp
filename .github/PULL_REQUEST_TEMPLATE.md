@@ -24,7 +24,6 @@ Otherwise, link the JIRA ticket.
 List all PRs related to resolving a ticket. For instance, if you submitted a PR to `mattermost/mattermost-server`, please include it here.
 -->
 - Has server changes (please link here)
-- Has redux changes (please link here)
 - Has mobile changes (please link here)
 
 #### Screenshots
@@ -49,17 +48,18 @@ If no release notes are required write NONE. Use past-tense. Newlines are stripp
 
 Examples:
 
-```release-note
+```
 Added new API endpoints POST /api/v4/foo, GET api/v4/foo, and GET api/v4/foo/:foo_id.
 ```
 
-```release-note
+```
 Added a new config setting ServiceSettings.FooBar. Added a new column Foo to the Users table.
 ```
 
-```release-note
+```
 NONE
 ```
 -->
 ```release-note
+
 ```

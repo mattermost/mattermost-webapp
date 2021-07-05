@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
@@ -24,7 +24,9 @@ import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
 import {setSelectedThreadId} from 'actions/views/threads';
+import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
+import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
 import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
@@ -53,6 +55,7 @@ const GlobalThreads = () => {
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
+    const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id));
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id));
@@ -60,19 +63,42 @@ const GlobalThreads = () => {
     const isLoading = counts?.total == null;
 
     useEffect(() => {
+        dispatch(suppressRHS);
         dispatch(selectChannel(''));
         loadProfilesForSidebar();
+
+        // unsuppresses RHS on navigating away (unmount)
+        return () => {
+            dispatch(unsuppressRHS);
+        };
     }, []);
+
+    useEffect(() => {
+        if (!selectedThreadId || selectedThreadId !== threadIdentifier) {
+            dispatch(setSelectedThreadId(currentTeamId, selectedThread?.id));
+        }
+    }, [currentTeamId, selectedThreadId, threadIdentifier]);
+
     useEffect(() => {
         dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 200}));
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
-        dispatch(setSelectedThreadId(currentTeamId, selectedThread?.id));
         if ((!selectedThread || !selectedPost) && !isLoading) {
             clear();
         }
     }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
+
+    // cleanup on unmount
+    useEffect(() => {
+        return () => {
+            dispatch(setSelectedThreadId(currentTeamId, ''));
+        };
+    }, []);
+
+    const handleSelectUnread = useCallback(() => {
+        setFilter(ThreadFilter.unread);
+    }, []);
 
     return (
         <div
@@ -173,7 +199,8 @@ const GlobalThreads = () => {
                                 link: (chunks) => (
                                     <Link
                                         key='single'
-                                        to={url}
+                                        to={`${url}/${unreadThreadIds[0]}`}
+                                        onClick={handleSelectUnread}
                                     >
                                         {chunks}
                                     </Link>

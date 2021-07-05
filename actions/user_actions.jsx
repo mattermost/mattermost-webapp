@@ -17,12 +17,13 @@ import {
     getDirectChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import {legacyMakeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
+import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -327,9 +328,14 @@ export async function loadProfilesForGM() {
     const newPreferences = [];
     const userIdsInChannels = Selectors.getUserIdsInChannels(state);
     const currentUserId = Selectors.getCurrentUserId(state);
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
+    const userIdsForLoadingCustomEmojis = new Set();
     for (const channel of getGMsForLoading(state)) {
         const userIds = userIdsInChannels[channel.id] || new Set();
+
+        userIds.forEach((userId) => userIdsForLoadingCustomEmojis.add(userId));
+
         if (userIds.size >= Constants.MIN_USERS_IN_GM) {
             continue;
         }
@@ -338,7 +344,12 @@ export async function loadProfilesForGM() {
 
         if (!isVisible) {
             const member = getMyChannelMember(state, channel.id);
-            if (!member || (member.mention_count === 0 && member.msg_count >= channel.total_msg_count)) {
+
+            const noUnreads = collapsedThreads ?
+                (member.mention_count_root === 0 && member.msg_count_root >= channel.total_msg_count_root) :
+                (member.mention_count === 0 && member.msg_count >= channel.total_msg_count);
+
+            if (!member || noUnreads) {
                 continue;
             }
 
@@ -355,6 +366,10 @@ export async function loadProfilesForGM() {
     }
 
     await queue.onEmpty();
+
+    if (userIdsForLoadingCustomEmojis.size > 0) {
+        dispatch(loadCustomEmojisForCustomStatusesByUserIds(userIdsForLoadingCustomEmojis));
+    }
     if (newPreferences.length > 0) {
         dispatch(savePreferences(currentUserId, newPreferences));
     }
@@ -367,6 +382,7 @@ export async function loadProfilesForDM() {
     const profilesToLoad = [];
     const profileIds = [];
     const currentUserId = Selectors.getCurrentUserId(state);
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
     for (let i = 0; i < channels.length; i++) {
         const channel = channels[i];
@@ -379,7 +395,12 @@ export async function loadProfilesForDM() {
 
         if (!isVisible) {
             const member = getMyChannelMember(state, channel.id);
-            if (!member || member.mention_count === 0) {
+
+            const noUnreads = collapsedThreads ?
+                (member.mention_count_root === 0 && member.msg_count_root >= channel.total_msg_count_root) :
+                (member.mention_count === 0 && member.msg_count >= channel.total_msg_count);
+
+            if (!member || noUnreads) {
                 continue;
             }
 
@@ -404,6 +425,7 @@ export async function loadProfilesForDM() {
     if (profilesToLoad.length > 0) {
         await UserActions.getProfilesByIds(profilesToLoad)(dispatch, getState);
     }
+    await loadCustomEmojisForCustomStatusesByUserIds(profileIds)(dispatch, getState);
 }
 
 export function autocompleteUsersInTeam(username) {

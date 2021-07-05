@@ -40,6 +40,11 @@ export default class PostBody extends React.PureComponent {
         parentPostUser: PropTypes.object,
 
         /**
+         * Callback func for file menu open
+         */
+        handleFileDropdownOpened: PropTypes.func,
+
+        /**
          * The function called when the comment icon is clicked
          */
         handleCommentClick: PropTypes.func.isRequired,
@@ -162,6 +167,7 @@ export default class PostBody extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                 />
             );
         }

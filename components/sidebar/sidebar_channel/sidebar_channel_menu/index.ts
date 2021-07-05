@@ -43,8 +43,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let currentCategory;
 
     if (currentTeam) {
-        managePublicChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
-        managePrivateChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
+        managePublicChannelMembers = haveIChannelPermission(state, currentTeam.id, ownProps.channel.id, Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
+        managePrivateChannelMembers = haveIChannelPermission(state, currentTeam.id, ownProps.channel.id, Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS);
         categories = getCategoriesForCurrentTeam(state);
         currentCategory = getCategoryInTeamWithChannel(state, currentTeam.id, ownProps.channel.id);
     }

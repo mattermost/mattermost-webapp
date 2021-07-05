@@ -14,15 +14,24 @@ import * as MESSAGES from '../../../fixtures/messages';
 
 describe('System Console > User Management > Deactivation', () => {
     let team1;
+    let otherAdmin;
 
     before(() => {
         // # Do initial setup
         cy.apiInitSetup().then(({team}) => {
             team1 = team;
         });
+
+        // # Create other sysadmin
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            otherAdmin = sysadmin;
+        });
     });
 
     beforeEach(() => {
+        // # Login as other admin.
+        cy.apiLogin(otherAdmin);
+
         // # Visit town-square
         cy.visit(`/${team1.name}`);
     });

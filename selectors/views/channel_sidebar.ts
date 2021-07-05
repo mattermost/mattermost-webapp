@@ -14,7 +14,7 @@ import {
 import {
     makeGetCategoriesForTeam,
     makeGetChannelsByCategory,
-    makeGetChannelsForCategory,
+    makeGetChannelIdsForCategory,
 } from 'mattermost-redux/selectors/entities/channel_categories';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
@@ -41,6 +41,7 @@ export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategor
 })();
 
 export const getAutoSortedCategoryIds: (state: GlobalState) => Set<string> = (() => createSelector(
+    'getAutoSortedCategoryIds',
     (state: GlobalState) => getCategoriesForCurrentTeam(state),
     (categories) => {
         return new Set(categories.filter((category) =>
@@ -59,6 +60,7 @@ export const getChannelsByCategoryForCurrentTeam: (state: GlobalState) => Relati
 })();
 
 const getUnreadChannelIdsSet = createSelector(
+    'getUnreadChannelIdsSet',
     (state: GlobalState) => getUnreadChannelIds(state, state.views.channel.lastUnreadChannel),
     (unreadChannelIds) => {
         return new Set(unreadChannelIds);
@@ -69,6 +71,7 @@ const getUnreadChannelIdsSet = createSelector(
 // Channels are returned in the same order as in the sidebar. Channels in the Unreads category are not included.
 export const getChannelsInCategoryOrder = (() => {
     return createSelector(
+        'getChannelsInCategoryOrder',
         getCategoriesForCurrentTeam,
         getChannelsByCategoryForCurrentTeam,
         getCurrentChannelId,
@@ -106,6 +109,7 @@ export const getChannelsInCategoryOrder = (() => {
 // enabled. Channels are sorted by recency with channels containing a mention grouped first.
 export const getUnreadChannels = (() => {
     const getUnsortedUnreadChannels = createSelector(
+        'getUnreadChannels',
         getAllChannels,
         getUnreadChannelIdsSet,
         getCurrentChannelId,
@@ -138,6 +142,7 @@ export const getUnreadChannels = (() => {
     );
 
     const sortChannels = createSelector(
+        'sortChannels',
         (state: GlobalState, channels: Channel[]) => channels,
         getMyChannelMemberships,
         getLastPostPerChannel,
@@ -216,23 +221,24 @@ export const getDisplayedChannels = (() => {
     };
 })();
 
-// Returns a selector that, given a category, returns the channels visible in that category. The returned channels do not
+// Returns a selector that, given a category, returns the ids of channels visible in that category. The returned channels do not
 // include unread channels when the Unreads category is enabled.
-export function makeGetFilteredChannelsForCategory() {
-    const getChannelsForCategory = makeGetChannelsForCategory();
+export function makeGetFilteredChannelIdsForCategory() {
+    const getChannelIdsForCategory = makeGetChannelIdsForCategory();
 
     return createSelector(
-        getChannelsForCategory,
+        'makeGetFilteredChannelIdsForCategory',
+        getChannelIdsForCategory,
         getUnreadChannelIdsSet,
         shouldShowUnreadsCategory,
-        (channels, unreadChannelIdsSet, showUnreadsCategory) => {
+        (channelIds, unreadChannelIdsSet, showUnreadsCategory) => {
             if (!showUnreadsCategory) {
-                return channels;
+                return channelIds;
             }
 
-            const filtered = channels.filter((channel) => !unreadChannelIdsSet.has(channel.id));
+            const filtered = channelIds.filter((id) => !unreadChannelIdsSet.has(id));
 
-            return filtered.length === channels.length ? channels : filtered;
+            return filtered.length === channelIds.length ? channelIds : filtered;
         },
     );
 }

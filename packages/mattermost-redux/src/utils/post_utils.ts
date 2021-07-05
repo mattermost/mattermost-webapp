@@ -66,9 +66,9 @@ export function canDeletePost(state: GlobalState, config: any, license: any, tea
     const isOwner = isPostOwner(userId, post);
 
     if (hasNewPermissions(state)) {
-        const canDelete = haveIChannelPermission(state, {team: teamId, channel: channelId, permission: Permissions.DELETE_POST});
+        const canDelete = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
         if (!isOwner) {
-            return canDelete && haveIChannelPermission(state, {team: teamId, channel: channelId, permission: Permissions.DELETE_OTHERS_POSTS});
+            return canDelete && haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
         }
         return canDelete;
     }
@@ -92,7 +92,7 @@ export function canEditPost(state: GlobalState, config: any, license: any, teamI
 
     if (hasNewPermissions(state)) {
         const permission = isOwner ? Permissions.EDIT_POST : Permissions.EDIT_OTHERS_POSTS;
-        canEdit = haveIChannelPermission(state, {team: teamId, channel: channelId, permission});
+        canEdit = haveIChannelPermission(state, teamId, channelId, permission);
         if (license.IsLicensed === 'true' && config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
             const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Date.now();
             if (timeLeft <= 0) {
@@ -227,4 +227,37 @@ export function getEmbedFromMetadata(metadata: PostMetadata): PostEmbed | null {
     }
 
     return metadata.embeds[0];
+}
+
+export function shouldUpdatePost(receivedPost: Post, storedPost?: Post): boolean {
+    if (!storedPost) {
+        return true;
+    }
+
+    if (storedPost.update_at > receivedPost.update_at) {
+        // The stored post is newer than the one we've received
+        return false;
+    }
+
+    if (
+        storedPost.update_at && receivedPost.update_at &&
+        storedPost.update_at === receivedPost.update_at
+    ) {
+        // The stored post has the same update at with the one we've received
+        if (
+            storedPost.is_following !== receivedPost.is_following ||
+            storedPost.reply_count !== receivedPost.reply_count ||
+            storedPost.participants?.length !== receivedPost.participants?.length
+        ) {
+            // CRT properties are not the same between posts
+            // e.g: in the case of toggling CRT on/off
+            return true;
+        }
+
+        // The stored post is the same as the one we've received
+        return false;
+    }
+
+    // The stored post is older than the one we've received
+    return true;
 }

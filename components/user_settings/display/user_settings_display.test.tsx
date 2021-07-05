@@ -57,6 +57,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         collapsedReplyThreads: '',
         collapsedReplyThreadsAllowUserPreference: true,
         allowCustomThemes: true,
+        availabilityStatusOnPosts: '',
         militaryTime: '',
         teammateNameDisplay: '',
         channelDisplayMode: '',

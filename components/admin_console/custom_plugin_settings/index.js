@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {createSelector} from 'reselect';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
@@ -21,6 +22,7 @@ import getEnablePluginSetting from './enable_plugin_setting';
 
 function makeGetPluginSchema() {
     return createSelector(
+        'makeGetPluginSchema',
         (state, pluginId) => state.entities.admin.plugins[pluginId],
         (state, pluginId) => getAdminConsoleCustomComponents(state, pluginId),
         (state) => appsEnabled(state),

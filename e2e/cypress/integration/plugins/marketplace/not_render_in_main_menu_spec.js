@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @plugin_marketplace
+// Stage: @prod
+// Group: @plugin_marketplace @not_cloud
 
 import {verifyPluginMarketplaceVisibility} from './helpers';
 

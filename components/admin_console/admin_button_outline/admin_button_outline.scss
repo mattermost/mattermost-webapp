@@ -1,9 +1,13 @@
-.AdminButtonOutline.btn.btn-primary {
-    background-color: transparent !important;
-    border: solid 1px #165DBA !important;
-    color: #165DBA;
-    &:hover, &:active, &:focus, &:active:focus {
-        color: #165DBA;
-    }
+.AdminButtonOutline.btn.admin-btn-default {
+    border: solid 1px #165dba !important;
     margin-right: 8px;
+    background-color: transparent !important;
+    color: #165dba;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:focus {
+        color: #165dba;
+    }
 }
