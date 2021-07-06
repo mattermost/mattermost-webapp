@@ -12,35 +12,87 @@ import QuickInput from 'components/quick_input';
 import UserList from 'components/user_list.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
+
 import {t} from 'utils/i18n';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
-class SearchableUserList extends React.PureComponent {
-    static propTypes = {
-        users: PropTypes.arrayOf(PropTypes.object),
-        usersPerPage: PropTypes.number,
-        total: PropTypes.number,
-        extraInfo: PropTypes.object,
-        nextPage: PropTypes.func.isRequired,
-        previousPage: PropTypes.func.isRequired,
-        search: PropTypes.func.isRequired,
-        actions: PropTypes.arrayOf(PropTypes.func),
-        actionProps: PropTypes.object,
-        actionUserProps: PropTypes.object,
-        focusOnMount: PropTypes.bool,
-        renderCount: PropTypes.func,
-        filter: PropTypes.string,
-        renderFilterRow: PropTypes.func,
-        page: PropTypes.number.isRequired,
-        term: PropTypes.string.isRequired,
-        onTermChange: PropTypes.func.isRequired,
-        intl: PropTypes.any,
-        isDisabled: PropTypes.bool,
-
-        // the type of user list row to render
-        rowComponentType: PropTypes.func,
+type Props = {
+    users: object[];
+    usersPerPage: number;
+    total: number;
+    extraInfo?: object;
+    nextPage: () => void;
+    previousPage: () => void;
+    search: (term: string) => void ;
+    actions?: Function[];
+    actionProps?: {
+        mfaEnabled: boolean;
+        enableUserAccessTokens: boolean;
+        experimentalEnableAuthenticationTransfer: boolean;
+        doPasswordReset: (user: UserProfile) => void;
+        doEmailReset: (user: UserProfile) => void;
+        doManageTeams: (user: UserProfile) => void;
+        doManageRoles: (user: UserProfile) => void;
+        doManageTokens: (user: UserProfile) => void;
+        isDisabled: boolean | undefined;
     };
+    actionUserProps?: {
+        [userId: string]: {
+            channel: Channel;
+            teamMember: any;
+            channelMember: ChannelMembership;
+        };
+    };
+    focusOnMount?: boolean;
+    renderCount?: (
+        count: number,
+        total: number,
+        startCount: number,
+        endCount: number,
+        isSearch: boolean
+    ) => FormattedMessage;
+    filter?: string;
+    renderFilterRow?: (handleInput: ((event: React.FormEvent<HTMLInputElement>) => void) | undefined) => JSX.Element; // follow up on this one
+    page: number;
+    term: string;
+    onTermChange: (term: string) => void;
+    intl?: any;
+    isDisabled?: boolean;
+    rowComponentType?: object; // follow up on this one
+}
+
+type State = {
+    nextDisabled: boolean;
+};
+
+export class SearchableUserList extends React.PureComponent<Props, State> {
+    // static propTypes = {
+    //     users: PropTypes.arrayOf(PropTypes.object),
+    //     usersPerPage: PropTypes.number,
+    //     total: PropTypes.number,
+    //     extraInfo: PropTypes.object,
+    //     nextPage: PropTypes.func.isRequired,
+    //     previousPage: PropTypes.func.isRequired,
+    //     search: PropTypes.func.isRequired,
+    //     actions: PropTypes.arrayOf(PropTypes.func),
+    //     actionProps: PropTypes.object,
+    //     actionUserProps: PropTypes.object,
+    //     focusOnMount: PropTypes.bool,
+    //     renderCount: PropTypes.func,
+    //     filter: PropTypes.string,
+    //     renderFilterRow: PropTypes.func,
+    //     page: PropTypes.number.isRequired,
+    //     term: PropTypes.string.isRequired,
+    //     onTermChange: PropTypes.func.isRequired,
+    //     intl: PropTypes.any,
+    //     isDisabled: PropTypes.bool,
+
+    //     // the type of user list row to render
+    //     rowComponentType: PropTypes.func,
+    // };
 
     static defaultProps = {
         users: [],
@@ -53,21 +105,21 @@ class SearchableUserList extends React.PureComponent {
         focusOnMount: false,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
-
-        this.nextTimeoutId = 0;
 
         this.state = {
             nextDisabled: false,
         };
     }
 
+    private nextTimeoutId!: NodeJS.Timeout;
+
     componentDidMount() {
         this.focusSearchBar();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.page !== prevProps.page || this.props.term !== prevProps.term) {
             this.refs.userList.scrollToTop();
         }
@@ -77,7 +129,7 @@ class SearchableUserList extends React.PureComponent {
         clearTimeout(this.nextTimeoutId);
     }
 
-    nextPage = (e) => {
+    nextPage = (e: React.MouseEvent) => {
         e.preventDefault();
 
         this.setState({nextDisabled: true});
@@ -87,7 +139,7 @@ class SearchableUserList extends React.PureComponent {
         $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
     }
 
-    previousPage = (e) => {
+    previousPage = (e: React.MouseEvent) => {
         e.preventDefault();
 
         this.props.previousPage();
@@ -100,12 +152,12 @@ class SearchableUserList extends React.PureComponent {
         }
     }
 
-    handleInput = (e) => {
-        this.props.onTermChange(e.target.value);
-        this.props.search(e.target.value);
+    handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+        this.props.onTermChange(e.currentTarget.value);
+        this.props.search(e.currentTarget.value);
     }
 
-    renderCount = (users) => {
+    renderCount = (users: object[] | undefined) => {
         if (!users) {
             return null;
         }
@@ -280,5 +332,5 @@ class SearchableUserList extends React.PureComponent {
     }
 }
 
-export default injectIntl(SearchableUserList);
+// export default injectIntl(SearchableUserList);
 /* eslint-enable react/no-string-refs */
