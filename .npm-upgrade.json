@@ -95,6 +95,14 @@
     "@types/react-bootstrap": {
       "versions": "",
       "reason": "MM-10786"
+    },
+    "react-select": {
+      "versions": "",
+      "reason": "MM-18031"
+    },
+    "@types/react-select": {
+      "versions": "",
+      "reason": "MM-18031"
     }
   }
 }
