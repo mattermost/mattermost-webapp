@@ -42,6 +42,10 @@ export function completeDirectChannelInfo(usersState: UsersState, teammateNameDi
     return channel;
 }
 
+export function splitRoles(roles: string): Set<string> {
+    return roles ? new Set<string>(roles.split(' ')) : new Set<string>([]);
+}
+
 // newCompleteDirectChannelInfo is a variant of completeDirectChannelInfo that accepts the minimal
 // data required instead of depending on the entirety of state.entities.users. This allows the
 // calling selector to have fewer dependencies, reducing its need to recompute when memoized.
@@ -246,12 +250,24 @@ export function isGroupOrDirectChannelVisible(
     currentUserId: string,
     users: IDMappedObjects<UserProfile>,
     lastPosts: RelationOneToOne<Channel, Post>,
+    collapsedThreads: boolean,
     currentChannelId?: string,
     now?: number,
 ): boolean {
     const lastPost = lastPosts[channel.id];
+    const unreadChannel = isUnreadChannel(memberships, channel, collapsedThreads);
 
-    if (isGroupChannel(channel) && isGroupChannelVisible(config, myPreferences, channel, lastPost, isUnreadChannel(memberships, channel), now)) {
+    if (
+        isGroupChannel(channel) &&
+        isGroupChannelVisible(
+            config,
+            myPreferences,
+            channel,
+            lastPost,
+            unreadChannel,
+            now,
+        )
+    ) {
         return true;
     }
 
@@ -267,7 +283,7 @@ export function isGroupOrDirectChannelVisible(
         myPreferences,
         channel,
         lastPost,
-        isUnreadChannel(memberships, channel),
+        unreadChannel,
         currentChannelId,
         now,
     );
@@ -276,9 +292,9 @@ export function isGroupOrDirectChannelVisible(
 export function showCreateOption(state: GlobalState, config: any, license: any, teamId: string, channelType: ChannelType, isAdmin: boolean, isSystemAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channelType === General.OPEN_CHANNEL) {
-            return haveITeamPermission(state, {team: teamId, permission: Permissions.CREATE_PUBLIC_CHANNEL});
+            return haveITeamPermission(state, teamId, Permissions.CREATE_PUBLIC_CHANNEL);
         } else if (channelType === General.PRIVATE_CHANNEL) {
-            return haveITeamPermission(state, {team: teamId, permission: Permissions.CREATE_PRIVATE_CHANNEL});
+            return haveITeamPermission(state, teamId, Permissions.CREATE_PRIVATE_CHANNEL);
         }
         return true;
     }
@@ -308,9 +324,9 @@ export function showCreateOption(state: GlobalState, config: any, license: any, 
 export function showManagementOptions(state: GlobalState, config: any, license: any, channel: Channel, isAdmin: boolean, isSystemAdmin: boolean, isChannelAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channel.type === General.OPEN_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
         } else if (channel.type === General.PRIVATE_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES);
         }
         return true;
     }
@@ -348,9 +364,9 @@ export function showManagementOptions(state: GlobalState, config: any, license: 
 export function showDeleteOption(state: GlobalState, config: any, license: any, channel: Channel, isAdmin: boolean, isSystemAdmin: boolean, isChannelAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channel.type === General.OPEN_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.DELETE_PUBLIC_CHANNEL});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.DELETE_PUBLIC_CHANNEL);
         } else if (channel.type === General.PRIVATE_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.DELETE_PRIVATE_CHANNEL});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.DELETE_PRIVATE_CHANNEL);
         }
         return true;
     }
@@ -429,10 +445,10 @@ export function getChannelsIdForTeam(state: GlobalState, teamId: string): string
     }, [] as string[]);
 }
 
-export function getGroupDisplayNameFromUserIds(userIds: string[], profiles: IDMappedObjects<UserProfile>, currentUserId: string, teammateNameDisplay: string): string {
+export function getGroupDisplayNameFromUserIds(userIds: string[], profiles: IDMappedObjects<UserProfile>, currentUserId: string, teammateNameDisplay: string, omitCurrentUser = true): string {
     const names: string[] = [];
     userIds.forEach((id) => {
-        if (id !== currentUserId) {
+        if (!(id === currentUserId && omitCurrentUser)) {
             names.push(displayUsername(profiles[id], teammateNameDisplay));
         }
     });
@@ -456,13 +472,13 @@ export function isDefault(channel: Channel): boolean {
     return channel.name === General.DEFAULT_CHANNEL;
 }
 
-function completeDirectGroupInfo(usersState: UsersState, teammateNameDisplay: string, channel: Channel) {
+export function completeDirectGroupInfo(usersState: UsersState, teammateNameDisplay: string, channel: Channel, omitCurrentUser = true) {
     const {currentUserId, profiles, profilesInChannel} = usersState;
     const profilesIds = profilesInChannel[channel.id];
     const gm = {...channel};
 
     if (profilesIds) {
-        gm.display_name = getGroupDisplayNameFromUserIds(profilesIds, profiles, currentUserId, teammateNameDisplay);
+        gm.display_name = getGroupDisplayNameFromUserIds(profilesIds, profiles, currentUserId, teammateNameDisplay, omitCurrentUser);
         return gm;
     }
 
@@ -514,12 +530,15 @@ function newCompleteDirectGroupInfo(currentUserId: string, profiles: IDMappedObj
     return channel;
 }
 
-export function isUnreadChannel(members: RelationOneToOne<Channel, ChannelMembership>, channel: Channel): boolean {
+export function isUnreadChannel(members: RelationOneToOne<Channel, ChannelMembership>, channel: Channel, collapsedThreads: boolean): boolean {
     const member = members[channel.id];
     if (member) {
-        const msgCount = channel.total_msg_count - member.msg_count;
+        const unreadMessageCount = getMsgCountInChannel(collapsedThreads, channel, member);
         const onlyMentions = member.notify_props && member.notify_props.mark_unread === MarkUnread.MENTION;
-        return (member.mention_count > 0 || (Boolean(msgCount) && !onlyMentions));
+        return (
+            (collapsedThreads ? member.mention_count_root : member.mention_count) > 0 ||
+            (Boolean(unreadMessageCount) && !onlyMentions)
+        );
     }
 
     return false;

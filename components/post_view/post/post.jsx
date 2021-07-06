@@ -82,9 +82,9 @@ class Post extends React.PureComponent {
         isCommentMention: PropTypes.bool,
 
         /**
-         * The number of replies in the same thread as this post
+         * If the post has replies
          */
-        replyCount: PropTypes.number,
+        hasReplies: PropTypes.bool,
 
         /**
          * To Check if the current post is last in the list
@@ -122,6 +122,7 @@ class Post extends React.PureComponent {
 
         this.state = {
             dropdownOpened: false,
+            fileDropdownOpened: false,
             hover: false,
             alt: false,
             a11yActive: false,
@@ -212,6 +213,12 @@ class Post extends React.PureComponent {
         });
     }
 
+    handleFileDropdownOpened = (opened) => {
+        this.setState({
+            fileDropdownOpened: opened,
+        });
+    }
+
     hasSameRoot = (props) => {
         const post = props.post;
 
@@ -264,7 +271,7 @@ class Post extends React.PureComponent {
         let postType = '';
         if (post.root_id && post.root_id.length > 0) {
             postType = 'post--comment';
-        } else if (this.props.replyCount > 0) {
+        } else if (this.props.hasReplies) {
             postType = 'post--root';
             sameUserClass = '';
             rootUser = '';
@@ -287,7 +294,7 @@ class Post extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.a11yActive) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.a11yActive) {
             className += ' post--hovered';
         }
 
@@ -341,7 +348,7 @@ class Post extends React.PureComponent {
     render() {
         const {
             post,
-            replyCount,
+            hasReplies,
             isCollapsedThreadsEnabled,
         } = this.props;
         if (!post.id) {
@@ -355,7 +362,7 @@ class Post extends React.PureComponent {
         const fromBot = post && post.props && post.props.from_bot === 'true';
 
         let profilePic;
-        const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;
+        const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && !hasReplies) && !fromBot;
         if (!hideProfilePicture) {
             profilePic = (
                 <PostProfilePicture
@@ -419,9 +426,8 @@ class Post extends React.PureComponent {
                                 handleDropdownOpened={this.handleDropdownOpened}
                                 compactDisplay={this.props.compactDisplay}
                                 isFirstReply={this.props.isFirstReply}
-                                replyCount={this.props.replyCount}
                                 showTimeWithoutHover={!hideProfilePicture}
-                                hover={this.state.hover || this.state.a11yActive}
+                                hover={this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened}
                                 isLastPost={this.props.isLastPost}
                             />
                             <PostBody
@@ -430,8 +436,9 @@ class Post extends React.PureComponent {
                                 compactDisplay={this.props.compactDisplay}
                                 isCommentMention={this.props.isCommentMention}
                                 isFirstReply={this.props.isFirstReply}
+                                handleFileDropdownOpened={this.handleFileDropdownOpened}
                             />
-                            {isCollapsedThreadsEnabled && !post.root_id && replyCount ? (
+                            {isCollapsedThreadsEnabled && !post.root_id && (hasReplies || post.is_following) ? (
                                 <ThreadFooter threadId={post.id}/>
                             ) : null}
 

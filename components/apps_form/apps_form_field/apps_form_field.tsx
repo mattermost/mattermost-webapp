@@ -125,7 +125,8 @@ export default class AppsFormField extends React.PureComponent<Props> {
             );
         }
 
-        if (field.type === 'text') {
+        switch (field.type) {
+        case AppFieldTypes.TEXT: {
             const subtype = field.subtype || 'text';
 
             let maxLength = field.max_length;
@@ -158,7 +159,9 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     resizable={false}
                 />
             );
-        } else if (field.type === AppFieldTypes.CHANNEL || field.type === AppFieldTypes.USER) {
+        }
+        case AppFieldTypes.CHANNEL:
+        case AppFieldTypes.USER: {
             let selectedValue: string | undefined;
             if (this.props.value) {
                 selectedValue = (this.props.value as AppSelectOption).label;
@@ -176,7 +179,9 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     listComponent={listComponent}
                 />
             );
-        } else if (field.type === AppFieldTypes.STATIC_SELECT || field.type === AppFieldTypes.DYNAMIC_SELECT) {
+        }
+        case AppFieldTypes.STATIC_SELECT:
+        case AppFieldTypes.DYNAMIC_SELECT: {
             return (
                 <AppsFormSelectField
                     {...this.props}
@@ -187,7 +192,8 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     value={this.props.value as AppSelectOption | null}
                 />
             );
-        } else if (field.type === AppFieldTypes.BOOL) {
+        }
+        case AppFieldTypes.BOOL: {
             const boolValue = value as boolean;
             return (
                 <BoolSetting
@@ -201,6 +207,14 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     onChange={onChange}
                 />
             );
+        }
+        case AppFieldTypes.MARKDOWN: {
+            return (
+                <Markdown
+                    message={field.description}
+                />
+            );
+        }
         }
 
         return null;

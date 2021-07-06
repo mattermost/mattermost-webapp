@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel_sidebar
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -97,7 +98,7 @@ describe('Category sorting', () => {
             cy.get('li[id^="moveTo-"]').trigger('mouseover');
 
             // # Click on move to new category
-            cy.get('div.SubMenuItemContainer:nth-child(1) li').click();
+            cy.findByText(/favorites/i).click();
         });
 
         // * Verify the channel is now in Favourites
@@ -150,8 +151,8 @@ describe('Category sorting', () => {
         cy.get('#editCategoryModal .MaxLengthInput').should('be.visible').type('{backspace}{backspace}{backspace}{backspace}');
 
         // * Verify error state and negative character count at the end of the textbox are no longer displaying
-        cy.get('#editCategoryModal .MaxLengthInput.has-error').should('not.be.visible');
-        cy.get('#editCategoryModal .MaxLengthInput__validation').should('not.be.visible');
+        cy.get('#editCategoryModal .MaxLengthInput.has-error').should('not.exist');
+        cy.get('#editCategoryModal .MaxLengthInput__validation').should('not.exist');
 
         // * Verify Create button is enabled
         cy.get('#editCategoryModal .GenericModal__button.confirm').should('be.visible').should('not.be.disabled');
