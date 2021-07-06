@@ -8,10 +8,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {GlobalState} from 'types/store';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {patchConfig} from 'mattermost-redux/actions/admin';
-import Input from 'components/input';
-import {StepComponentProps} from 'components/next_steps_view/steps';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {isEmail} from 'mattermost-redux/utils/helpers';
+
+import Input from 'components/input';
+import {StepComponentProps} from 'components/next_steps_view/steps';
 
 import './enter_support_email.scss';
 
@@ -22,37 +23,41 @@ function EnterSupportEmail(props: StepComponentProps): JSX.Element {
     const {formatMessage} = useIntl();
     const dispatch: DispatchFunc = useDispatch();
 
-    const sEmail = useSelector((state: GlobalState) => {
+    const currentSupportEmail = useSelector((state: GlobalState) => {
         const config = getConfig(state);
         return config.SupportEmail ? config.SupportEmail : '';
     });
 
     useEffect(() => {
-        setSupportEmail(sEmail);
-    }, [sEmail]);
+        setSupportEmail(currentSupportEmail);
+    }, [currentSupportEmail]);
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSupportEmail(event.target.value);
     };
 
-    const onKeyUp = () => {
+    const onBlur = () => {
         setUpdateError('');
         validateEmail();
     };
 
-    const validateEmail = (): boolean => {
+    const onKeyDown = () => {
+        setUpdateError('');
+        setValidationError('');
+    };
+
+    const validateEmail = () => {
         setValidationError('');
         const valid = isEmail(supportEmail);
         if (!valid) {
             setValidationError(formatMessage({id: 'next_steps_view.enter_support_email_step.invalidEmail', defaultMessage: 'Please enter a valid email.'}));
-            return valid;
         }
-        return valid;
     };
 
     const finishStep = async () => {
         setUpdateError('');
-        const isValid = validateEmail();
+        validateEmail();
+        const isValid = !validationError;
         if (supportEmail !== '' && isValid) {
             const config = JSON.parse(JSON.stringify({
                 SupportSettings: {
@@ -65,9 +70,9 @@ function EnterSupportEmail(props: StepComponentProps): JSX.Element {
                 setUpdateError(formatMessage({id: 'next_steps_view.enter_support_email_step.error', defaultMessage: 'Something went wrong while setting the support email. Try again.'}));
                 return;
             }
-        }
 
-        props.onFinish(props.id);
+            props.onFinish(props.id);
+        }
     };
 
     return (
@@ -88,10 +93,12 @@ function EnterSupportEmail(props: StepComponentProps): JSX.Element {
                 <div className='EnterSupportEmailStep__body'>
                     <Input
                         placeholder='Email'
+                        name='enter_support_email'
                         className='support_input'
                         value={supportEmail}
                         onChange={onChange}
-                        onKeyUp={onKeyUp}
+                        onKeyDown={onKeyDown}
+                        onBlur={onBlur}
                         error={validationError}
                     />
                     {updateError && (
