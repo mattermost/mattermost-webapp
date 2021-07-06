@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 //TODO: Publish to https://github.com/DefinitelyTyped type repository
-// type definitions for dynamic-virtualized-list 
+// type definitions for dynamic-virtualized-list
 // Url: https://github.com/mattermost/dynamic-virtualized-list.git
 // also see the repo github: https://github.com/naftalimurgor/dynamic-virtualized-list-ts
 
 declare module 'dynamic-virtualized-list' {
-    
+
     import * as React from 'react';
 
     /**
