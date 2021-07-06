@@ -70,6 +70,8 @@ type Props = {
     draggingState: DraggingState;
     multiSelectedChannelIds: string[];
     showUnreadsCategory: boolean;
+    collapsedThreads: boolean;
+    hasUnreadThreads: boolean;
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -79,6 +81,7 @@ type Props = {
         moveChannelsInSidebar: (categoryId: string, targetIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
+        switchToGlobalThreads: () => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
@@ -288,12 +291,27 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannelIds().reverse());
     }
 
+    navigateByChannelId = (id: string) => {
+        if (this.props.collapsedThreads && id === '') {
+            this.props.actions.switchToGlobalThreads();
+        } else {
+            this.props.actions.switchToChannelById(id);
+        }
+    }
+
     navigateChannelShortcut = (e: KeyboardEvent) => {
         if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
             const curChannelId = this.props.currentChannelId;
+
+            if (this.props.collapsedThreads) {
+                // threads set channel id to ''
+                // add it to allChannelIds
+                allChannelIds.unshift('');
+            }
+
             let curIndex = -1;
             for (let i = 0; i < allChannelIds.length; i++) {
                 if (allChannelIds[i] === curChannelId) {
@@ -307,7 +325,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                 nextIndex = curIndex - 1;
             }
             const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
-            this.props.actions.switchToChannelById(nextChannelId);
+            this.navigateByChannelId(nextChannelId);
             this.scrollToChannel(nextChannelId);
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             this.props.handleOpenMoreDirectChannelsModal(e);
@@ -319,6 +337,15 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
+            const unreadChannelIds = [...this.props.unreadChannelIds];
+
+            if (this.props.collapsedThreads) {
+                allChannelIds.unshift('');
+
+                if (this.props.hasUnreadThreads) {
+                    unreadChannelIds.unshift('');
+                }
+            }
 
             let direction = 0;
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
@@ -330,13 +357,13 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             const nextIndex = ChannelUtils.findNextUnreadChannelId(
                 this.props.currentChannelId,
                 allChannelIds,
-                this.props.unreadChannelIds,
+                unreadChannelIds,
                 direction,
             );
 
             if (nextIndex !== -1) {
                 const nextChannelId = allChannelIds[nextIndex];
-                this.props.actions.switchToChannelById(nextChannelId);
+                this.navigateByChannelId(nextChannelId);
                 this.scrollToChannel(nextChannelId);
             }
         }

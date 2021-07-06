@@ -4,16 +4,20 @@
         width: 80px;
         margin: -10px 8px -10px;
     }
+
     span.JobSelectedtime {
-        margin: 0px 8px;
+        margin: 0 8px;
     }
+
     .datagrid-menuwrapper {
         z-index: 999999;
     }
+
     a.EditJobTime {
-        opacity: 1;
         font-weight: 600;
+        opacity: 1;
     }
+
     .actionIcon {
         flex-grow: 0.15;
     }

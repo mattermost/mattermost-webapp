@@ -15,9 +15,9 @@ class SearchUserSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
 
-        let className = 'search-autocomplete__item';
+        let className = 'suggestion-list__item';
         if (isSelection) {
-            className += ' selected a11y--focused';
+            className += ' suggestion--selected';
         }
 
         const username = item.username;
@@ -56,15 +56,15 @@ class SearchUserSuggestion extends Suggestion {
                     username={username}
                     url={Utils.imageURLForUser(item.id, item.last_picture_update)}
                 />
-                <div className='mention--align ml-3'>
-                    <span>
+                <div className='suggestion-list__ellipsis'>
+                    <span className='suggestion-list__main'>
                         {'@'}{username}
                     </span>
                     <BotBadge
                         show={Boolean(item.is_bot)}
                         className='badge-autocomplete'
                     />
-                    <span className='ml-2 mention__fullname'>
+                    <span className='ml-2'>
                         {description}
                     </span>
                 </div>
