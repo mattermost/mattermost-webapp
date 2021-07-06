@@ -154,7 +154,7 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
         cy.get('#post_textbox').should('be.visible').type(`/message @${currentUser.username}`);
 
         // * Autocomplete shows the user along with the custom status emoji
-        cy.get('#suggestionList').find('.mentions__name').eq(0).contains(`@${currentUser.username}`).get('span.emoticon').should('exist').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.get('#suggestionList').find('.suggestion-list__item').eq(0).contains(`@${currentUser.username}`).get('span.emoticon').should('exist').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
 
         cy.get('#post_textbox').type('{enter}');
     });

@@ -55,25 +55,10 @@ function makeMapStateToProps() {
         const enableGifPicker = config.EnableGifPicker === 'true';
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-        const canPost = haveIChannelPermission(
-            state,
-            {
-                channel: channel.id,
-                team: channel.team_id,
-                permission: Permissions.CREATE_POST,
-            },
-        );
-        const useChannelMentions = haveIChannelPermission(state, {
-            channel: channel.id,
-            team: channel.team_id,
-            permission: Permissions.USE_CHANNEL_MENTIONS,
-        });
+        const canPost = haveIChannelPermission(state, channel.team_id, channel.id, Permissions.CREATE_POST);
+        const useChannelMentions = haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_CHANNEL_MENTIONS);
         const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
-        const useGroupMentions = isLDAPEnabled && haveIChannelPermission(state, {
-            channel: channel.id,
-            team: channel.team_id,
-            permission: Permissions.USE_GROUP_MENTIONS,
-        });
+        const useGroupMentions = isLDAPEnabled && haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_GROUP_MENTIONS);
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
         const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : null;
 
