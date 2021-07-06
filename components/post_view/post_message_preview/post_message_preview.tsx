@@ -3,16 +3,19 @@
 
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
 import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
 import UserProfileComponent from 'components/user_profile';
 import {UserProfile} from 'mattermost-redux/types/users';
 import Avatar from 'components/widgets/users/avatar';
 import * as Utils from 'utils/utils';
 import PostMessageView from 'components/post_view/post_message_view';
+import FileAttachmentListContainer from 'components/file_attachment_list';
 
 import Timestamp from 'components/timestamp';
 import PostAttachmentContainer from '../post_attachment_container/post_attachment_container';
-import {FormattedMessage} from 'react-intl';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 
 export type Props = {
     user?: UserProfile;
@@ -23,6 +26,15 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
     render() {
         const {user, metadata, post} = this.props;
         if (post && user) {
+            let fileAttachmentHolder = null;
+            if (((post.file_ids && post.file_ids.length > 0) || (post.filenames && post.filenames.length > 0))) {
+                fileAttachmentHolder = (
+                    <FileAttachmentListContainer
+                        post={post}
+                        compactDisplay={false}
+                    />
+                );
+            }
             return (
                 <PostAttachmentContainer
                     className='permalink'
@@ -64,10 +76,16 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
                                 />
                             </div>
                         </div>
-                        <PostMessageView
+                        <PostBodyAdditionalContent
                             post={post}
-                            attachmentTextOverflowType='ellipsis'
-                        />
+                            appsEnabled={true}
+                        >
+                            <PostMessageView
+                                post={post}
+                                attachmentTextOverflowType='ellipsis'
+                            />
+                        </PostBodyAdditionalContent>
+                        {fileAttachmentHolder}
 
                         <div className='post__preview-footer'>
                             <p>
