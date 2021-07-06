@@ -430,7 +430,7 @@ class CreateComment extends React.PureComponent {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji.name || emoji.aliases[0];
+        const emojiAlias = emoji.short_name || emoji.name;
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
@@ -656,7 +656,9 @@ class CreateComment extends React.PureComponent {
         const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter, 0, 0, this.state.caretPosition);
 
         if (allowSending) {
-            e.persist();
+            if (e.persist) {
+                e.persist();
+            }
             if (this.textboxRef.current) {
                 this.textboxRef.current.blur();
             }

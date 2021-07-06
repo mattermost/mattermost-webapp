@@ -149,7 +149,7 @@ describe('Demo plugin - Webhook events', () => {
             // # Choose "slightly_frowning_face" emoji
             // delaying 500ms in case of lag
             // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click();
+            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click({force: true});
 
             // # Open demo plugin channel
             cy.visit(`/${team1.name}/channels/demo_plugin`);

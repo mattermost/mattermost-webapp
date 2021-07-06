@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
@@ -19,15 +19,14 @@ import {
     setRhsExpanded,
 } from 'actions/views/rhs';
 
-import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
-import {getDirectTeammate, getDisplayNameByUser} from 'utils/utils.jsx';
+import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils.jsx';
 
 import SearchResultsItem from './search_results_item.jsx';
 
 function mapStateToProps() {
-    const getReplyCount = makeGetReplyCount();
     const createAriaLabelForPost = makeCreateAriaLabelForPost();
-    const getCommentCountForPost = makeGetCommentCountForPost();
+    const getReplyCount = makeGetCommentCountForPost();
 
     return (state, ownProps) => {
         const {post} = ownProps;
@@ -45,11 +44,9 @@ function mapStateToProps() {
             channelName: channel.display_name,
             channelType: channel.type,
             channelIsArchived: channel.delete_at !== 0,
-            commentCountForPost: getCommentCountForPost(state, {post}),
             enablePostUsernameOverride,
             isFlagged: isPostFlagged(post.id, preferences),
             isBot: user ? user.is_bot : false,
-            directTeammate,
             displayName: getDisplayNameByUser(state, directTeammate),
             replyCount: getReplyCount(state, post),
         };

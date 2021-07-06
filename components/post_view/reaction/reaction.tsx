@@ -3,16 +3,15 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
-import {UserProfile} from 'mattermost-redux/types/users';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
 import * as Utils from 'utils/utils';
 
+import ReactionTooltip from './reaction_tooltip';
 import './reaction.scss';
 
 type State = {
@@ -49,16 +48,6 @@ type Props = {
     reactionCount: number;
 
     /*
-     * Array of users who reacted to this post
-     */
-    profiles: UserProfile[];
-
-    /*
-     * The number of users not in the profile list who have reacted with this emoji
-     */
-    otherUsersCount: number;
-
-    /*
      * Array of reactions by user
      */
     reactions: ReactionType[];
@@ -78,6 +67,11 @@ type Props = {
      */
     emojiImageUrl: string;
 
+    /*
+     * Whether or not the current user has used this reaction
+     */
+    currentUserReacted: boolean;
+
     actions: {
 
         /*
@@ -95,11 +89,6 @@ type Props = {
          */
         removeReaction: (postId: string, emojiName: string) => void;
     };
-
-    sortedUsers: {
-        currentUserReacted: boolean;
-        users: string[];
-    };
 }
 
 export default class Reaction extends React.PureComponent<Props, State> {
@@ -110,8 +99,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        const {reactionCount} = this.props;
-        const {currentUserReacted} = this.props.sortedUsers;
+        const {currentUserReacted, reactionCount} = this.props;
 
         if (currentUserReacted) {
             this.state = {
@@ -128,7 +116,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
 
     componentDidUpdate(prevProps: Props): void {
         if (prevProps.reactionCount !== this.props.reactionCount) {
-            const {currentUserReacted} = this.props.sortedUsers;
+            const {currentUserReacted} = this.props;
             const reactedClass = currentUserReacted ? 'Reaction--reacted' : 'Reaction--unreacted';
 
             this.animating = false;
@@ -149,7 +137,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
             return;
         }
 
-        const {currentUserReacted} = this.props.sortedUsers;
+        const {currentUserReacted} = this.props;
 
         this.animating = true;
         this.setState((state) => {
@@ -168,8 +156,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
     }
 
     handleAnimationEnded = (): void => {
-        const {actions, post, emojiName} = this.props;
-        const {currentUserReacted} = this.props.sortedUsers;
+        const {actions, currentUserReacted, post, emojiName} = this.props;
 
         this.animating = false;
         this.setState<'reactedClass'>((state) => {
@@ -201,8 +188,14 @@ export default class Reaction extends React.PureComponent<Props, State> {
         if (!this.props.emojiImageUrl) {
             return null;
         }
-        const {currentUserReacted, users} = this.props.sortedUsers;
-        const {reactionCount, otherUsersCount, canAddReaction, canRemoveReaction} = this.props;
+        const {
+            canAddReaction,
+            canRemoveReaction,
+            currentUserReacted,
+            emojiName,
+            reactionCount,
+            reactions,
+        } = this.props;
         const {displayNumber} = this.state;
         const reactedNumber = currentUserReacted ? reactionCount : reactionCount + 1;
         const unreactedNumber = currentUserReacted ? reactionCount - 1 : reactionCount;
@@ -211,108 +204,10 @@ export default class Reaction extends React.PureComponent<Props, State> {
         const display = (displayNumber > 0) ? displayNumber : '';
         const readOnlyClass = (canAddReaction && canRemoveReaction) ? '' : 'Reaction--read-only';
 
-        let names: React.ReactNode;
-        if (otherUsersCount > 0) {
-            if (users.length > 0) {
-                names = (
-                    <FormattedMessage
-                        id='reaction.usersAndOthersReacted'
-                        defaultMessage='{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}'
-                        values={{
-                            users: users.join(', '),
-                            otherUsers: otherUsersCount,
-                        }}
-                    />
-                );
-            } else {
-                names = (
-                    <FormattedMessage
-                        id='reaction.othersReacted'
-                        defaultMessage='{otherUsers, number} {otherUsers, plural, one {user} other {users}}'
-                        values={{
-                            otherUsers: otherUsersCount,
-                        }}
-                    />
-                );
-            }
-        } else if (users.length > 1) {
-            names = (
-                <FormattedMessage
-                    id='reaction.usersReacted'
-                    defaultMessage='{users} and {lastUser}'
-                    values={{
-                        users: users.slice(0, -1).join(', '),
-                        lastUser: users[users.length - 1],
-                    }}
-                />
-            );
-        } else {
-            names = users[0];
-        }
-
-        let reactionVerb: React.ReactNode;
-        if (users.length + otherUsersCount > 1) {
-            if (currentUserReacted) {
-                reactionVerb = (
-                    <FormattedMessage
-                        id='reaction.reactionVerb.youAndUsers'
-                        defaultMessage='reacted'
-                    />
-                );
-            } else {
-                reactionVerb = (
-                    <FormattedMessage
-                        id='reaction.reactionVerb.users'
-                        defaultMessage='reacted'
-                    />
-                );
-            }
-        } else if (currentUserReacted) {
-            reactionVerb = (
-                <FormattedMessage
-                    id='reaction.reactionVerb.you'
-                    defaultMessage='reacted'
-                />
-            );
-        } else {
-            reactionVerb = (
-                <FormattedMessage
-                    id='reaction.reactionVerb.user'
-                    defaultMessage='reacted'
-                />
-            );
-        }
-
-        const tooltip = (
-            <FormattedMessage
-                id='reaction.reacted'
-                defaultMessage='{users} {reactionVerb} with {emoji}'
-                values={{
-                    users: <b>{names}</b>,
-                    reactionVerb,
-                    emoji: <b>{':' + this.props.emojiName + ':'}</b>,
-                }}
-            />
-        );
-
-        let clickTooltip: React.ReactNode;
         const emojiNameWithSpaces = this.props.emojiName.replace(/_/g, ' ');
         let ariaLabelEmoji = `${Utils.localizeMessage('reaction.reactWidth.ariaLabel', 'react with')} ${emojiNameWithSpaces}`;
         if (currentUserReacted && canRemoveReaction) {
             ariaLabelEmoji = `${Utils.localizeMessage('reaction.removeReact.ariaLabel', 'remove reaction')} ${emojiNameWithSpaces}`;
-            clickTooltip = (
-                <FormattedMessage
-                    id='reaction.clickToRemove'
-                    defaultMessage='(click to remove)'
-                />
-            );
-        } else if (!currentUserReacted && canAddReaction) {
-            clickTooltip = (
-                <FormattedMessage
-                    id='reaction.clickToAdd'
-                    defaultMessage='(click to add)'
-                />
-            );
         }
 
         return (
@@ -322,9 +217,13 @@ export default class Reaction extends React.PureComponent<Props, State> {
                 shouldUpdatePosition={true}
                 overlay={
                     <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
-                        {tooltip}
-                        <br/>
-                        {clickTooltip}
+                        <ReactionTooltip
+                            canAddReaction={canAddReaction}
+                            canRemoveReaction={canRemoveReaction}
+                            currentUserReacted={currentUserReacted}
+                            emojiName={emojiName}
+                            reactions={reactions}
+                        />
                     </Tooltip>
                 }
                 onEnter={this.loadMissingProfiles}

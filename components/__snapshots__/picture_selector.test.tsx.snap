@@ -5,7 +5,7 @@ exports[`components/picture_selector should match snapshot, default picture prov
   className="PictureSelector"
 >
   <input
-    accept=".jpg,.png,.bmp"
+    accept=".jpeg,.jpg,.png,.bmp"
     aria-hidden={true}
     className="PictureSelector__input hidden"
     data-testid="PictureSelector__input-picture_selector_test"
@@ -45,7 +45,7 @@ exports[`components/picture_selector should match snapshot, existing picture pro
   className="PictureSelector"
 >
   <input
-    accept=".jpg,.png,.bmp"
+    accept=".jpeg,.jpg,.png,.bmp"
     aria-hidden={true}
     className="PictureSelector__input hidden"
     data-testid="PictureSelector__input-picture_selector_test"
@@ -85,7 +85,7 @@ exports[`components/picture_selector should match snapshot, no picture selected 
   className="PictureSelector"
 >
   <input
-    accept=".jpg,.png,.bmp"
+    accept=".jpeg,.jpg,.png,.bmp"
     aria-hidden={true}
     className="PictureSelector__input hidden"
     data-testid="PictureSelector__input-picture_selector_test"

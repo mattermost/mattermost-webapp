@@ -45,8 +45,13 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         enableGifPicker: false,
     };
 
-    emojiPickerPosition = memoize((emojiTrigger) => {
+    emojiPickerPosition = memoize((emojiTrigger, show) => {
         let calculatedRightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
+
+        if (!show) {
+            return calculatedRightOffset;
+        }
+
         if (emojiTrigger) {
             calculatedRightOffset = window.innerWidth - emojiTrigger.getBoundingClientRect().left - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
 
@@ -58,7 +63,11 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         return calculatedRightOffset;
     });
 
-    getPlacement = memoize((target, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition) => {
+    getPlacement = memoize((target, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition, show) => {
+        if (!show) {
+            return 'top';
+        }
+
         if (target) {
             const targetBounds = target.getBoundingClientRect();
             return popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition);
@@ -68,14 +77,14 @@ export default class EmojiPickerOverlay extends React.PureComponent {
     });
 
     render() {
-        const {target, rightOffset, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition} = this.props;
+        const {target, rightOffset, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition, show} = this.props;
 
-        const calculatedRightOffset = typeof rightOffset === 'undefined' ? this.emojiPickerPosition(target()) : rightOffset;
-        const placement = this.getPlacement(target(), spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition);
+        const calculatedRightOffset = typeof rightOffset === 'undefined' ? this.emojiPickerPosition(target(), show) : rightOffset;
+        const placement = this.getPlacement(target(), spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition, show);
 
         return (
             <Overlay
-                show={this.props.show}
+                show={show}
                 placement={placement}
                 rootClose={true}
                 container={this.props.container}

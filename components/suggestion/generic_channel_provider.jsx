@@ -14,7 +14,12 @@ class ChannelSuggestion extends Suggestion {
         const channelName = item.display_name;
         const purpose = item.purpose;
 
-        let className = 'mentions__name no-flex';
+        const icon = (
+            <span className='suggestion-list__icon suggestion-list__icon--large'>
+                <i className='icon icon--standard icon--no-spacing icon-globe'/>
+            </span>
+        );
+        let className = 'suggestion-list__item';
         if (isSelection) {
             className += ' suggestion--selected';
         }
@@ -28,17 +33,19 @@ class ChannelSuggestion extends Suggestion {
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
-                <div className='mention__align'>
-                    <span>
+                {icon}
+                <div className='suggestion-list__ellipsis'>
+                    <span className='suggestion-list__main'>
                         {channelName}
                     </span>
-                    <span className='mention__channelname'>
+                    <span className='ml-2'>
                         {' '}
                         {description}
                     </span>
-                </div>
-                <div className='mention__purpose'>
-                    {purpose}
+                    <span className='ml-2'>
+                        {' '}
+                        {purpose}
+                    </span>
                 </div>
             </div>
         );

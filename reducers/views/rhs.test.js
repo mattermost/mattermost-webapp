@@ -13,6 +13,7 @@ describe('Reducers.RHS', () => {
         selectedPostFocussedAt: 0,
         selectedPostCardId: '',
         selectedChannelId: '',
+        highlightedPostId: '',
         previousRhsState: null,
         rhsState: null,
         searchTerms: '',
@@ -122,6 +123,25 @@ describe('Reducers.RHS', () => {
         expect(nextState).toEqual({
             ...initialState,
             selectedPostCardId: '',
+            rhsState: RHSStates.SEARCH,
+            isSidebarOpen: true,
+        });
+    });
+
+    test(`should wipe highlightedPostId on ${ActionTypes.UPDATE_RHS_STATE}`, () => {
+        const nextState = rhsReducer(
+            {
+                highlightedPostId: '123',
+            },
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.SEARCH,
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            selectedPostId: '',
             rhsState: RHSStates.SEARCH,
             isSidebarOpen: true,
         });
@@ -504,6 +524,61 @@ describe('Reducers.RHS', () => {
         expect(nextState).toEqual({
             ...initialState,
             searchType: 'files',
+        });
+    });
+
+    test('should mark a reply as highlighted', () => {
+        const nextState = rhsReducer(
+            {},
+            {
+                type: ActionTypes.HIGHLIGHT_REPLY,
+                postId: '42',
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            highlightedPostId: '42',
+        });
+    });
+
+    test('should clear highlighted reply', () => {
+        const nextState = rhsReducer(
+            {highlightedPostId: '42'},
+            {
+                type: ActionTypes.CLEAR_HIGHLIGHT_REPLY,
+            },
+        );
+
+        expect(nextState).toEqual(initialState);
+    });
+
+    test('SUPPRESS_RHS', () => {
+        const state = {
+            filesSearchExtFilter: ['png'],
+            selectedPostId: 'post_id',
+            selectedPostFocussedAt: 400,
+            selectedPostCardId: 'post_card_id',
+            selectedChannelId: 'channel_id',
+            highlightedPostId: 'highlighted_post_id',
+            previousRhsState: 'search',
+            rhsState: 'flag',
+            searchTerms: 'user_id',
+            searchType: '',
+            searchResultsTerms: 'user id',
+            pluggableId: 'pluggable_id',
+            isSearchingFlaggedPost: true,
+            isSearchingPinnedPost: true,
+            isMenuOpen: true,
+            isSidebarOpen: true,
+            isSidebarExpanded: true,
+        };
+
+        const nextState = rhsReducer(state, {type: ActionTypes.SUPPRESS_RHS});
+
+        expect(nextState).toEqual({
+            ...state,
+            isSidebarExpanded: false,
         });
     });
 });

@@ -16,6 +16,7 @@ import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {browserHistory} from 'utils/browser_history';
 import {localizeMessage} from 'utils/utils.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -352,7 +353,7 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
                                         <input
                                             id='select-emoji'
                                             type='file'
-                                            accept='.jpg,.png,.gif'
+                                            accept={Constants.ACCEPT_EMOJI_IMAGE}
                                             multiple={false}
                                             onChange={this.updateImage}
                                         />
