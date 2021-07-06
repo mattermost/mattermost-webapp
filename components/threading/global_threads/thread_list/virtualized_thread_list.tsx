@@ -41,30 +41,30 @@ function VirtualizedThreadList({
         );
     };
 
-    const canLoadMorePosts = useCallback(() => true, []);
+    const canLoadMorePosts = useCallback(() => {}, []);
 
     // dynamic-virtualized-list renders items in reverse order
     // so we need to reverse the ids before feeding the list
     // so that we get the correct order afterwards.
     //
-    // TODO: have dynamic-virtualized-list to accept a direction prop
+    // TODO: have dynamic-virtualized-list to maybe accept a direction prop
     const revIds = useMemo(() => [...ids].reverse(), [ids]);
 
-    // the last id is the top one
+    // the last index is the top item
     const initScrollToIndex = useCallback(() => ({
         index: ids.length - 1,
         position: 'start',
-    }), []);
+    }), [ids]);
 
-    // the last ids are the top ones.
+    // the last indexes are the items at top.
     const initRangeToRender = useMemo(() => {
-        const lastIndex = revIds.length - 1;
+        const lastIndex = ids.length - 1;
 
         return [
             lastIndex - ITEMS_ON_SCREEN,
             lastIndex,
         ];
-    }, [revIds]);
+    }, [ids]);
 
     return (
         <AutoSizer>
