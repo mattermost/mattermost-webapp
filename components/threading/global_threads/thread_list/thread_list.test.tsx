@@ -52,6 +52,8 @@ describe('components/threading/global_threads/thread_list', () => {
         props = {
             currentFilter: ThreadFilter.none,
             someUnread: true,
+            ids: ['1', '2', '3'],
+            unreadIds: ['2'],
             setFilter: jest.fn(),
         };
 
