@@ -317,11 +317,10 @@ class Post extends React.PureComponent {
             className += ' post--pinned-or-flagged';
         }
 
-        if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
-            className += ' cursor--pointer';
-        }
-
-        if (this.props.isCollapsedThreadsEnabled && (fromAutoResponder || !isSystemMessage)) {
+        if (
+            (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) ||
+            (this.props.isCollapsedThreadsEnabled && (fromAutoResponder || !isSystemMessage))
+        ) {
             className += ' cursor--pointer';
         }
 
