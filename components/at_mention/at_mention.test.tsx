@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {RefObject} from 'react';
 import {shallow} from 'enzyme';
+
+import AtMention from 'components/at_mention/at_mention';
 
 import {General} from 'mattermost-redux/constants';
 
-import AtMention from 'components/at_mention/at_mention.jsx';
+import {TestHelper} from 'utils/test_helper';
 
 /* eslint-disable global-require */
 
@@ -15,19 +17,21 @@ describe('components/AtMention', () => {
         currentUserId: 'abc1',
         teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME,
         usersByUsername: {
-            currentuser: {id: 'abc1', username: 'currentuser', first_name: 'First', last_name: 'Last'},
-            user1: {id: 'abc2', username: 'user1', first_name: 'Other', last_name: 'User', nickname: 'Nick'},
-            'userdot.': {id: 'abc3', username: 'userdot.', first_name: 'Dot', last_name: 'Matrix'},
+            currentuser: TestHelper.getUserMock(
+                {id: 'abc1', username: 'currentuser', first_name: 'First', last_name: 'Last'},
+            ),
+            user1: TestHelper.getUserMock({id: 'abc2', username: 'user1', first_name: 'Other', last_name: 'User', nickname: 'Nick'}),
+            'userdot.': TestHelper.getUserMock({id: 'abc3', username: 'userdot.', first_name: 'Dot', last_name: 'Matrix'}),
         },
         groupsByName: {
-            developers: {id: 'qwerty1', name: 'developers', allow_reference: true},
-            marketing: {id: 'qwerty2', name: 'marketing', allow_reference: false},
-            accounting: {id: 'qwerty3', name: 'accounting', allow_reference: true},
+            developers: TestHelper.getGroupMock({id: 'qwerty1', name: 'developers', allow_reference: true}),
+            marketing: TestHelper.getGroupMock({id: 'qwerty2', name: 'marketing', allow_reference: false}),
+            accounting: TestHelper.getGroupMock({id: 'qwerty3', name: 'accounting', allow_reference: true}),
         },
     };
 
     test('should match snapshot when mentioning user', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='user1'
@@ -40,7 +44,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning user with different teammate name display setting', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='user1'
@@ -54,7 +58,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning user followed by punctuation', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='user1...'
@@ -67,7 +71,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning user containing punctuation', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='userdot.'
@@ -80,7 +84,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning user containing and followed by punctuation', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='userdot..'
@@ -93,7 +97,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning user with mixed case', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='USeR1'
@@ -106,7 +110,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning current user', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='currentUser'
@@ -119,7 +123,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning all', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='all'
@@ -132,7 +136,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning all with mixed case', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='aLL'
@@ -145,7 +149,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when not mentioning a user', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='notauser'
@@ -158,7 +162,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when not mentioning a user with mixed case', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='NOTAuser'
@@ -171,7 +175,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning a group that is allowed reference', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='developers'
@@ -184,7 +188,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning a group that is allowed reference with group highlight disabled', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='developers'
@@ -198,7 +202,7 @@ describe('components/AtMention', () => {
     });
 
     test('should match snapshot when mentioning a group that is not allowed reference', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName='marketing'
@@ -211,7 +215,7 @@ describe('components/AtMention', () => {
     });
 
     test('should have placement state based on ref position of click handler', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AtMention>(
             <AtMention
                 {...baseProps}
                 mentionName={'user1'}
@@ -228,9 +232,9 @@ describe('components/AtMention', () => {
                     top: 400,
                 }),
             },
-        };
+        }as RefObject<HTMLAnchorElement>;
 
-        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention});
+        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('top');
 
         instance.overlayRef = {
@@ -240,9 +244,9 @@ describe('components/AtMention', () => {
                     bottom: 400,
                 }),
             },
-        };
+        }as RefObject<HTMLAnchorElement>;
 
-        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention});
+        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('bottom');
 
         instance.overlayRef = {
@@ -252,9 +256,9 @@ describe('components/AtMention', () => {
                     bottom: 1000,
                 }),
             },
-        };
+        } as RefObject<HTMLAnchorElement>;
 
-        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention});
+        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('left');
     });
 });
