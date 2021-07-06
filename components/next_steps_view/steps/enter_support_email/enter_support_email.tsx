@@ -58,12 +58,12 @@ function EnterSupportEmail(props: StepComponentProps): JSX.Element {
         setUpdateError('');
         validateEmail();
         const isValid = !validationError;
-        if (supportEmail !== '' && isValid) {
-            const config = JSON.parse(JSON.stringify({
+        if (isValid) {
+            const config = {
                 SupportSettings: {
                     SupportEmail: supportEmail,
                 },
-            }));
+            };
 
             const {error} = await dispatch(patchConfig(config));
             if (error) {
