@@ -20,6 +20,8 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+import Markdown from 'components/markdown';
+
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
 
@@ -100,7 +102,10 @@ export class AppsForm extends React.PureComponent<Props, State> {
             checkIfErrorsMatchElements(fieldErrors as any, elements)
         ) {
             hasErrors = true;
-            state.fieldErrors = fieldErrors;
+            state.fieldErrors = {};
+            for (const [key, value] of Object.entries(fieldErrors)) {
+                state.fieldErrors[key] = (<Markdown message={value}/>);
+            }
         }
 
         if (hasErrors) {
@@ -151,6 +156,8 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         const res = await this.props.actions.submit(submission);
 
+        this.setState({submitting: false});
+
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error;
@@ -162,7 +169,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
         }
 
         const callResponse = res.data as AppCallResponse<FormResponseData>;
-        this.setState({submitting: false});
 
         let hasErrors = false;
         let updatedForm = false;
@@ -506,7 +512,9 @@ export class AppsForm extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 {this.state.formError && (
-                    <div className='error-text'>{this.state.formError}</div>
+                    <div className='error-text'>
+                        <Markdown message={this.state.formError}/>
+                    </div>
                 )}
                 <button
                     id='appsModalCancel'
