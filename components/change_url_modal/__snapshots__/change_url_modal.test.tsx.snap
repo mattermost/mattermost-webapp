@@ -56,7 +56,7 @@ exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] 
         <label
           className="col-sm-3 form__label control-label"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel URL"
             id="change_url.urlLabel"
           />
@@ -105,7 +105,7 @@ exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] 
           <p
             className="input__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="You can use lowercase letters, numbers, dashes, and underscores."
               id="change_url.helpText"
             />
@@ -122,7 +122,7 @@ exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] 
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Close"
           id="change_url.close"
         />
@@ -195,7 +195,7 @@ exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
         <label
           className="col-sm-3 form__label control-label"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel URL"
             id="change_url.urlLabel"
           />
@@ -244,7 +244,7 @@ exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
           <p
             className="input__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="You can use lowercase letters, numbers, dashes, and underscores."
               id="change_url.helpText"
             />
@@ -261,7 +261,7 @@ exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Close"
           id="change_url.close"
         />
@@ -334,7 +334,7 @@ exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
         <label
           className="col-sm-3 form__label control-label"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel URL"
             id="change_url.urlLabel"
           />
@@ -401,7 +401,7 @@ exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Close"
           id="change_url.close"
         />
@@ -474,7 +474,7 @@ exports[`components/ChangeURLModal should match snapshot, on urlErrors 1`] = `
         <label
           className="col-sm-3 form__label control-label"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel URL"
             id="change_url.urlLabel"
           />
@@ -541,7 +541,7 @@ exports[`components/ChangeURLModal should match snapshot, on urlErrors 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Close"
           id="change_url.close"
         />
@@ -614,7 +614,7 @@ exports[`components/ChangeURLModal should match snapshot, with a input 1`] = `
         <label
           className="col-sm-3 form__label control-label"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel URL"
             id="change_url.urlLabel"
           />
@@ -663,7 +663,7 @@ exports[`components/ChangeURLModal should match snapshot, with a input 1`] = `
           <p
             className="input__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="You can use lowercase letters, numbers, dashes, and underscores."
               id="change_url.helpText"
             />
@@ -680,7 +680,7 @@ exports[`components/ChangeURLModal should match snapshot, with a input 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Close"
           id="change_url.close"
         />

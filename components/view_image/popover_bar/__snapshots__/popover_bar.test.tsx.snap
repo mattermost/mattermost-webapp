@@ -11,7 +11,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
     <span
       className="modal-bar-file-count"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="File {count, number} of {total, number}"
         id="view_image_popover.file"
         values={
@@ -36,7 +36,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
         rel="noopener noreferrer"
         target="_blank"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Download"
           id="view_image_popover.download"
         />
@@ -57,7 +57,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
     <span
       className="modal-bar-file-count"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="File {count, number} of {total, number}"
         id="view_image_popover.file"
         values={
@@ -81,7 +81,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
           data-title="Public Image"
           href="#"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Get a public link"
             id="view_image_popover.publicLink"
           />
@@ -99,7 +99,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
         rel="noopener noreferrer"
         target="_blank"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Download"
           id="view_image_popover.download"
         />
@@ -120,7 +120,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
     <span
       className="modal-bar-file-count"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="File {count, number} of {total, number}"
         id="view_image_popover.file"
         values={
@@ -145,7 +145,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
           id="zoom-out-icon-tooltip"
           placement="right"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Zoom Out"
             id="view_image.zoom_out"
           />
@@ -177,7 +177,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
           id="zoom-reset-icon-tooltip"
           placement="right"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Reset Zoom"
             id="view_image.zoom_reset"
           />
@@ -209,7 +209,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
           id="zoom-in-icon-tooltip"
           placement="right"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Zoom In"
             id="view_image.zoom_in"
           />
@@ -245,7 +245,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
         rel="noopener noreferrer"
         target="_blank"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Download"
           id="view_image_popover.download"
         />

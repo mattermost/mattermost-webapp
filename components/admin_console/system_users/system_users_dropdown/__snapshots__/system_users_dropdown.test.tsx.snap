@@ -75,7 +75,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
       />
@@ -107,7 +107,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate {username}"
         id="deactivate_member_modal.title"
         values={
@@ -121,13 +121,13 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Revoke"
         id="revoke_user_sessions_modal.revoke"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="This action revokes all sessions for {username}. They will be logged out from all devices. Are you sure you want to revoke all sessions for {username}?"
         id="revoke_user_sessions_modal.desc"
         values={
@@ -142,7 +142,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Revoke Sessions for {username}"
         id="revoke_user_sessions_modal.title"
         values={
@@ -156,13 +156,13 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Promote"
         id="promote_to_user_modal.promote"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to member?"
         id="promote_to_user_modal.desc"
         values={
@@ -177,7 +177,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Promote guest {username} to member"
         id="promote_to_user_modal.title"
         values={
@@ -191,13 +191,13 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Demote"
         id="demote_to_user_modal.demote"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="This action demotes the user {username} to a guest. It will restrict the user's ability to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to demote user {username} to guest?"
         id="demote_to_user_modal.desc"
         values={
@@ -212,7 +212,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Demote User {username} to Guest"
         id="demote_to_user_modal.title"
         values={
@@ -233,7 +233,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     >
       <a>
         <span>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Member"
             id="admin.user_item.member"
           />
@@ -329,7 +329,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
       />
@@ -361,7 +361,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate {username}"
         id="deactivate_member_modal.title"
         values={
@@ -375,13 +375,13 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Revoke"
         id="revoke_user_sessions_modal.revoke"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="This action revokes all sessions for {username}. They will be logged out from all devices. Are you sure you want to revoke all sessions for {username}?"
         id="revoke_user_sessions_modal.desc"
         values={
@@ -396,7 +396,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Revoke Sessions for {username}"
         id="revoke_user_sessions_modal.title"
         values={
@@ -410,13 +410,13 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Promote"
         id="promote_to_user_modal.promote"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to member?"
         id="promote_to_user_modal.desc"
         values={
@@ -431,7 +431,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Promote guest {username} to member"
         id="promote_to_user_modal.title"
         values={
@@ -445,13 +445,13 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Demote"
         id="demote_to_user_modal.demote"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="This action demotes the user {username} to a guest. It will restrict the user's ability to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to demote user {username} to guest?"
         id="demote_to_user_modal.desc"
         values={
@@ -466,7 +466,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Demote User {username} to Guest"
         id="demote_to_user_modal.title"
         values={
@@ -487,7 +487,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     >
       <a>
         <span>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Member"
             id="admin.user_item.member"
           />

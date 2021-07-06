@@ -16,7 +16,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
           loading={false}
           text="Deleting..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Yes, Delete"
             id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
           />
@@ -25,7 +25,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       message={
         <div>
           <p>
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="The permissions in the teams using this scheme will reset to the defaults in the System Scheme. Are you sure you want to delete the {schemeName} scheme?"
               id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
               values={
@@ -42,7 +42,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       onConfirm={[Function]}
       show={false}
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Delete {scheme} scheme?"
           id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
           values={
@@ -70,7 +70,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit"
           id="admin.permissions.permissionsSchemeSummary.edit"
         />
@@ -81,7 +81,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         data-testid="Test-delete"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Delete"
           id="admin.permissions.permissionsSchemeSummary.delete"
         />
@@ -134,7 +134,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
           loading={false}
           text="Deleting..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Yes, Delete"
             id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
           />
@@ -143,7 +143,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       message={
         <div>
           <p>
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="The permissions in the teams using this scheme will reset to the defaults in the System Scheme. Are you sure you want to delete the {schemeName} scheme?"
               id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
               values={
@@ -160,7 +160,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       onConfirm={[Function]}
       show={false}
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Delete {scheme} scheme?"
           id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
           values={
@@ -188,7 +188,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit"
           id="admin.permissions.permissionsSchemeSummary.edit"
         />
@@ -199,7 +199,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         data-testid="Test-delete"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Delete"
           id="admin.permissions.permissionsSchemeSummary.delete"
         />
@@ -296,7 +296,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         className="team"
         key="extra-teams"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="+{number} more"
           id="admin.permissions.permissionsSchemeSummary.moreTeams"
           values={
@@ -327,7 +327,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
           loading={false}
           text="Deleting..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Yes, Delete"
             id="admin.permissions.permissionsSchemeSummary.deleteConfirmButton"
           />
@@ -336,7 +336,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       message={
         <div>
           <p>
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="The permissions in the teams using this scheme will reset to the defaults in the System Scheme. Are you sure you want to delete the {schemeName} scheme?"
               id="admin.permissions.permissionsSchemeSummary.deleteConfirmQuestion"
               values={
@@ -353,7 +353,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       onConfirm={[Function]}
       show={false}
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Delete {scheme} scheme?"
           id="admin.permissions.permissionsSchemeSummary.deleteSchemeTitle"
           values={
@@ -381,7 +381,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         data-testid="Test-edit"
         to="/admin_console/user_management/permissions/team_override_scheme/id"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit"
           id="admin.permissions.permissionsSchemeSummary.edit"
         />
@@ -392,7 +392,7 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
         data-testid="Test-delete"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Delete"
           id="admin.permissions.permissionsSchemeSummary.delete"
         />
