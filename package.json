@@ -63,7 +63,7 @@
     "react-dom": "16.13.1",
     "react-hot-loader": "4.13.0",
     "react-inlinesvg": "2.3.0",
-    "react-intl": "5.3.2",
+    "react-intl": "5.20.4",
     "react-is": "16.13.1",
     "react-overlays": "1.2.0",
     "react-redux": "7.2.4",
