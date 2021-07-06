@@ -113,11 +113,11 @@ export default class AppsFormField extends React.PureComponent<Props> {
         }
 
         const helpText = field.description;
-        let helpTextContent: React.ReactNode = helpText;
+        let helpTextContent: React.ReactNode = <Markdown message={helpText}/>;
         if (errorText) {
             helpTextContent = (
                 <React.Fragment>
-                    {helpText}
+                    <Markdown message={helpText}/>
                     <div className='error-text mt-3'>
                         {errorText}
                     </div>
