@@ -588,6 +588,10 @@ export class AppCommandParser {
     }
 
     private async addDefaultAndReadOnlyValues(parsed: ParsedCommand) {
+        if (!parsed.form?.fields) {
+            return;
+        }
+
         await Promise.all(parsed.form?.fields.map(async (f) => {
             if (!f.value) {
                 return;
