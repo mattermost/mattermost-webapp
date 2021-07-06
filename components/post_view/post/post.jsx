@@ -197,9 +197,13 @@ class Post extends React.PureComponent {
             return;
         }
 
+        const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
+
         if (
             !e.altKey &&
             isCollapsedThreadsEnabled &&
+            (fromAutoResponder || !isSystemMessage) &&
             isEligibleForClick(e)
         ) {
             this.props.actions.selectPost(post);
@@ -313,10 +317,11 @@ class Post extends React.PureComponent {
             className += ' post--pinned-or-flagged';
         }
 
-        if (
-            (this.props.isCollapsedThreadsEnabled || this.state.alt) &&
-            !(this.props.channelIsArchived || post.system_post_ids)
-        ) {
+        if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
+            className += ' cursor--pointer';
+        }
+
+        if (this.props.isCollapsedThreadsEnabled && (fromAutoResponder || !isSystemMessage)) {
             className += ' cursor--pointer';
         }
 

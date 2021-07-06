@@ -2265,8 +2265,9 @@ export function isSelection() {
     return selection.type === 'Range';
 }
 
-// Returns whether or not the element
-// clicked is may have a 'potential event attached'.
+// Returns false when the element clicked or its ancestors
+// is a potential click target (link, button, image, etc..)
+// and true in any other case.
 export function isEligibleForClick(event) {
     const currentTarget = event.currentTarget;
     let node = event.target;
@@ -2297,4 +2298,3 @@ export function isEligibleForClick(event) {
 
     return true;
 }
-
