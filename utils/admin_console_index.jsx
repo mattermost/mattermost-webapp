@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import FlexSearch from 'flexsearch/dist/flexsearch.es5';
+import {Index} from 'flexsearch';
 
 import {getPluginEntries} from './admin_console_plugin_index';
 
@@ -82,7 +82,7 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
 }
 
 export function generateIndex(AdminDefinition, plugins, intl) {
-    const idx = new FlexSearch();
+    const idx = new Index();
 
     addToIndex(adminDefinitionsToUrlsAndTexts(AdminDefinition, intl), idx);
 
