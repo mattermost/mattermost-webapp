@@ -35,13 +35,11 @@ import NoResultsIndicator from 'components/no_results_indicator';
 
 import {useThreadRouting} from '../hooks';
 import ChatIllustration from '../common/chat_illustration';
-import BalloonIllustration from '../common/balloon_illustration';
 
 import ThreadViewer from '../thread_viewer';
 
 import ThreadList, {ThreadFilter, FILTER_STORAGE_KEY} from './thread_list';
 import ThreadPane from './thread_pane';
-import ThreadItem from './thread_item';
 
 import './global_threads.scss';
 
@@ -144,25 +142,10 @@ const GlobalThreads = () => {
                         currentFilter={filter}
                         setFilter={setFilter}
                         someUnread={Boolean(numUnread)}
-                    >
-                        {(filter === 'unread' ? unreadThreadIds : threadIds).map((id) => (
-                            <ThreadItem
-                                key={id}
-                                threadId={id}
-                                isSelected={threadIdentifier === id}
-                            />
-                        ))}
-                        {filter === 'unread' && !numUnread && isEmpty(unreadThreadIds) ? (
-                            <NoResultsIndicator
-                                expanded={true}
-                                iconGraphic={BalloonIllustration}
-                                title={formatMessage({
-                                    id: 'globalThreads.threadList.noUnreadThreads',
-                                    defaultMessage: 'No unread threads',
-                                })}
-                            />
-                        ) : null}
-                    </ThreadList>
+                        selectedThreadId={threadIdentifier}
+                        ids={threadIds}
+                        unreadIds={unreadThreadIds}
+                    />
                     {selectedThread && selectedPost ? (
                         <ThreadPane
                             thread={selectedThread}
