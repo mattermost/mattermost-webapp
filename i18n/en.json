@@ -3997,7 +3997,7 @@
   "setting_item_max.cancel": "Cancel",
   "setting_item_min.edit": "Edit",
   "setting_picture.cancel": "Cancel",
-  "setting_picture.help.profile": "Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}",
+  "setting_picture.help.profile": "Upload a picture in BMP, JPG, JPEG, or PNG format. Maximum file size: {max}",
   "setting_picture.help.team": "Upload a team icon in BMP, JPG or PNG format.\nSquare images with a solid background color are recommended.",
   "setting_picture.remove": "Remove This Icon",
   "setting_picture.remove_profile_picture": "Remove Profile Picture",
