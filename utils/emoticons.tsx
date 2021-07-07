@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 export const emoticonPatterns: { [key: string]: RegExp } = {
     slightly_smiling_face: /(^|\B)(:-?\))($|\B)/g, // :)
@@ -85,6 +86,25 @@ export function handleEmoticons(
     return output;
 }
 
-export function renderEmoji(name: string, matchText: string) {
+export function renderEmoji(name: string, matchText: string): string {
     return `<span data-emoticon="${name}">${matchText}</span>`;
+}
+
+// if an emoji
+// - has `skin_variations` then it uses the default skin (yellow)
+// - has `skins` it's first value is considered the skin version (it can contain more values)
+// - any other case it doesn't have variations or is a custom emoji.
+function getSkin(emoji: Emoji) {
+    if ('skin_variations' in emoji) {
+        return 'default';
+    }
+    if ('skins' in emoji) {
+        return emoji.skins && emoji.skins[0];
+    }
+    return null;
+}
+
+export function emojiMatchesSkin(emoji: Emoji, skin: string): boolean {
+    const emojiSkin = getSkin(emoji);
+    return !emojiSkin || emojiSkin === skin;
 }
