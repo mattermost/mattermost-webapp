@@ -273,7 +273,6 @@ exports[`components/DatabaseSettings should match snapshot 1`] = `
             }
           />
         }
-        id={null}
         includeDetailedError={true}
         requestAction={[MockFunction]}
         saveNeeded={false}

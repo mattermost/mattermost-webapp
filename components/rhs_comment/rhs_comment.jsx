@@ -57,7 +57,7 @@ class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
-        containerHeight: PropTypes.number,
+        isInViewport: PropTypes.func.isRequired,
 
         /**
          * If the user that made the post is a bot.
@@ -101,6 +101,7 @@ class RhsComment extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
             dropdownOpened: false,
+            fileDropdownOpened: false,
             alt: false,
             hover: false,
             a11yActive: false,
@@ -159,21 +160,10 @@ class RhsComment extends React.PureComponent {
 
     scrollIntoHighlight = () => {
         window.requestAnimationFrame(() => {
-            if (!this.isInViewport()) {
+            if (this.postRef.current && !this.props.isInViewport(this.postRef.current)) {
                 this.postRef.current.scrollIntoView();
             }
         });
-    }
-
-    isInViewport = () => {
-        const rect = this.postRef.current.getBoundingClientRect();
-        const {containerHeight} = this.props;
-        const height = window.innerHeight || document.documentElement.clientHeight;
-
-        return (
-            rect.top > height - containerHeight &&
-            rect.bottom < (window.innerHeight || document.documentElement.clientHeight)
-        );
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -264,7 +254,7 @@ class RhsComment extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -288,6 +278,12 @@ class RhsComment extends React.PureComponent {
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened,
+        });
+    };
+
+    handleFileDropdownOpened = (isOpened) => {
+        this.setState({
+            fileDropdownOpened: isOpened,
         });
     };
 
@@ -482,6 +478,7 @@ class RhsComment extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.handleFileDropdownOpened}
                 />
             );
         }

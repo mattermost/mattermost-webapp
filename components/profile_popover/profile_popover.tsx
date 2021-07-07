@@ -24,7 +24,8 @@ import SharedUserIndicator from 'components/shared_user_indicator';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
-import {UserCustomStatus, UserProfile, UserTimezone} from 'mattermost-redux/types/users';
+import ExpiryTime from 'components/custom_status/expiry_time';
+import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ServerError} from 'mattermost-redux/types/errors';
 
@@ -85,6 +86,8 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     currentUserId: string;
     customStatus?: UserCustomStatus | null;
     isCustomStatusEnabled: boolean;
+    isCustomStatusExpired: boolean;
+    currentUserTimezone?: string;
 
     /**
      * @internal
@@ -261,18 +264,19 @@ ProfilePopoverState
             user,
             currentUserId,
             hideStatus,
+            isCustomStatusExpired,
         } = this.props;
-        const customStatusSet = customStatus?.text || customStatus?.emoji;
+        const customStatusSet = (customStatus?.text || customStatus?.emoji) && !isCustomStatusExpired;
         const canSetCustomStatus = user?.id === currentUserId;
         const shouldShowCustomStatus =
       isCustomStatusEnabled &&
       !hideStatus &&
-      customStatus &&
       (customStatusSet || canSetCustomStatus);
         if (!shouldShowCustomStatus) {
             return null;
         }
         let customStatusContent;
+        let expiryContent;
         if (customStatusSet) {
             const customStatusEmoji = (
                 <span className='d-flex'>
@@ -296,6 +300,15 @@ ProfilePopoverState
                     />
                 </div>
             );
+
+            expiryContent = customStatusSet && customStatus?.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR && (
+                <ExpiryTime
+                    time={customStatus.expires_at}
+                    timezone={this.props.currentUserTimezone}
+                    className='ml-1'
+                    withinBrackets={true}
+                />
+            );
         } else if (canSetCustomStatus) {
             customStatusContent = (
                 <div>
@@ -311,7 +324,8 @@ ProfilePopoverState
                 </div>
             );
         }
-        return customStatusContent;
+
+        return {customStatusContent, expiryContent};
     }
     render() {
         if (!this.props.user) {
@@ -472,8 +486,10 @@ ProfilePopoverState
                 </div>,
             );
         }
-        const customStatusContent = !haveOverrideProp && this.renderCustomStatus();
-        if (customStatusContent) {
+
+        const customStatusAndExpiryContent = !haveOverrideProp && this.renderCustomStatus();
+        if (customStatusAndExpiryContent) {
+            const {customStatusContent, expiryContent} = customStatusAndExpiryContent;
             dataContent.push(
                 <div
                     key='user-popover-status'
@@ -485,6 +501,7 @@ ProfilePopoverState
                             id='user_profile.custom_status'
                             defaultMessage='Status'
                         />
+                        {expiryContent}
                     </span>
                     {customStatusContent}
                 </div>,

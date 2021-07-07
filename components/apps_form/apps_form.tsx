@@ -20,6 +20,8 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+import Markdown from 'components/markdown';
+
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
 
@@ -98,12 +100,15 @@ export class AppsForm extends React.PureComponent<Props, State> {
         if (fieldErrors && Object.keys(fieldErrors).length >= 0) {
             hasErrors = true;
             if (checkIfErrorsMatchElements(fieldErrors as any, elements)) {
-                state.fieldErrors = fieldErrors;
+                state.fieldErrors = {};
+                for (const [key, value] of Object.entries(fieldErrors)) {
+                    state.fieldErrors[key] = (<Markdown message={value}/>);
+                }
             } else if (!state.formError) {
                 const field = Object.keys(fieldErrors)[0];
                 state.formError = this.props.intl.formatMessage({
                     id: 'apps.error.responses.unknown_field_error',
-                    defaultMessage: 'Received an error for an unknown field. Field name: `{field}`. Error: `{error}`.',
+                    defaultMessage: 'Received an error for an unknown field. Field name: `{field}`. Error:\n{error}',
                 }, {
                     field,
                     error: fieldErrors[field],
@@ -159,6 +164,8 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         const res = await this.props.actions.submit(submission);
 
+        this.setState({submitting: false});
+
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error;
@@ -170,7 +177,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
         }
 
         const callResponse = res.data as AppCallResponse<FormResponseData>;
-        this.setState({submitting: false});
 
         let hasErrors = false;
         let updatedForm = false;
@@ -514,7 +520,9 @@ export class AppsForm extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 {this.state.formError && (
-                    <div className='error-text'>{this.state.formError}</div>
+                    <div className='error-text'>
+                        <Markdown message={this.state.formError}/>
+                    </div>
                 )}
                 <button
                     id='appsModalCancel'
