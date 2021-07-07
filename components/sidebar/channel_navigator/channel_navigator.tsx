@@ -66,10 +66,12 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.channelSwitcherLabel', 'Channel Switcher')}
             >
                 <i className='icon icon-magnify'/>
-                <FormattedMessage
-                    id='sidebar_left.channel_navigator.jumpTo'
-                    defaultMessage='Find channel'
-                />
+                <span className={'SidebarChannelNavigator_jumpToText'}>
+                    <FormattedMessage
+                        id='sidebar_left.channel_navigator.jumpTo'
+                        defaultMessage='Find channel'
+                    />
+                </span>
                 <div className={'SidebarChannelNavigator_shortcutText'}>
                     {channelSwitchTextShortcutDefault}
                 </div>

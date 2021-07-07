@@ -206,6 +206,12 @@
                 font-size: 18px;
             }
 
+            .SidebarChannelNavigator_jumpToText {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
             .SidebarChannelNavigator_shortcutText {
                 display: none;
                 padding-right: 3px;
