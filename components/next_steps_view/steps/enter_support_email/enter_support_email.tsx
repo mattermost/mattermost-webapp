@@ -116,7 +116,7 @@ function EnterSupportEmail(props: StepComponentProps): JSX.Element {
                     onClick={finishStep}
                 >
                     <FormattedMessage
-                        id='next_steps_view.invite_members_step.finish'
+                        id='next_steps_view.enter_support_email_step.finish'
                         defaultMessage='Finish'
                     />
                 </button>
