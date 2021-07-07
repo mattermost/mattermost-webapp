@@ -11,7 +11,6 @@
 // Skip:  @electron @chrome @firefox
 
 describe('Billing', () => {
-
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
@@ -20,30 +19,30 @@ describe('Billing', () => {
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
     });
 
-    beforeEach(()=>{
+    beforeEach(() => {
         cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`)
+            cy.visit(`/${team.name}/channels/town-square`);
         });
-    })
+    });
 
     it('Billing - Going back to Company Information home screen from Add Company Information screen', () => {
-        gotoSystemConsole()
+        gotoSystemConsole();
         cy.findByText('Company Information').should('be.visible').click();
-        cy.contains('span','Add Company Information').parent().click();
-        
-        //check for back functionality using back button of edit company information screen
-        cy.contains('span','Edit Company Information').prev().click();
-        cy.contains('span','Add Company Information').should("be.visible")
+        cy.contains('span', 'Add Company Information').parent().click();
 
-        cy.contains('span','Add Company Information').parent().click();
+        //check for back functionality using back button of edit company information screen
+        cy.contains('span', 'Edit Company Information').prev().click();
+        cy.contains('span', 'Add Company Information').should('be.visible');
+
+        cy.contains('span', 'Add Company Information').parent().click();
 
         //check for back functionality using Cancel button
-        cy.contains('span','Cancel').parent().click();
-        cy.contains('span','Add Company Information').should("be.visible")
+        cy.contains('span', 'Cancel').parent().click();
+        cy.contains('span', 'Add Company Information').should('be.visible');
     });
 });
 
-const gotoSystemConsole =()=>{
+const gotoSystemConsole = () => {
     cy.get('.sidebar-header-dropdown__icon').click();
     cy.findByText('System Console').should('be.visible').click();
-}
+};

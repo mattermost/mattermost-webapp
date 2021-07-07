@@ -11,7 +11,6 @@
 // Skip:  @electron @chrome @firefox
 
 describe('Billing', () => {
-  
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
@@ -20,25 +19,25 @@ describe('Billing', () => {
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
     });
 
-    beforeEach(()=>{
+    beforeEach(() => {
         cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`)
+            cy.visit(`/${team.name}/channels/town-square`);
         });
-    })
+    });
 
     it('Billing -Contacting sales from Subscription screen', () => {
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.findByText('System Console').should('be.visible').click();
         cy.findByText('Subscription').should('be.visible').click();
+
         //check the navigation of contact sales link and its href property
-        cy.contains('span','Contact Sales').parent().then(link=>{
-             const getHref = () => link.prop('href')
-             cy.wrap({href:getHref}).invoke('href').should('contains','/contact-us')
-             cy.wrap(link).should("have.attr","target","_blank")
-             cy.wrap(link).should("have.attr","rel","noopener noreferrer")
-             cy.request(link.prop('href')).its('status').should('eq',200)
-         })
-       
+        cy.contains('span', 'Contact Sales').parent().then((link) => {
+            const getHref = () => link.prop('href');
+            cy.wrap({href: getHref}).invoke('href').should('contains', '/contact-us');
+            cy.wrap(link).should('have.attr', 'target', '_blank');
+            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
+            cy.request(link.prop('href')).its('status').should('eq', 200);
+        });
     });
 
     it('Billing -Closing the Upgrade subscription screen', () => {
@@ -46,11 +45,10 @@ describe('Billing', () => {
         cy.findByText('System Console').should('be.visible').click();
         cy.findByText('Subscription').should('be.visible').click();
 
-        //check the closing of upgrade subscription window 
-        cy.contains('span','Upgrade Mattermost Cloud').parent().click()
-        cy.get('#closeIcon').parent().should("exist").click()
-        cy.contains('span','Upgrade Mattermost Cloud').parent().should("be.enabled")
+        //check the closing of upgrade subscription window
+        cy.contains('span', 'Upgrade Mattermost Cloud').parent().click();
+        cy.get('#closeIcon').parent().should('exist').click();
+        cy.contains('span', 'Upgrade Mattermost Cloud').parent().should('be.enabled');
     });
 });
-
 
