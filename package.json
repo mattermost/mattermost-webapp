@@ -104,6 +104,7 @@
     "@storybook/addon-notes": "5.3.21",
     "@storybook/addons": "6.3.2",
     "@storybook/builder-webpack5": "6.3.2",
+    "@storybook/manager-webpack5": "6.3.2",
     "@storybook/react": "6.3.2",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.0.0",
@@ -267,8 +268,8 @@
     "outputName": "test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --cache && npx stylelint \"**/*.{css,scss}\"",
-    "fix": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --fix --cache && npx stylelint \"**/*.{css,scss}\" --fix",
+    "check": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --cache && stylelint \"**/*.{css,scss}\"",
+    "fix": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --fix --cache && stylelint \"**/*.{css,scss}\" --fix",
     "build": "cross-env NODE_ENV=production webpack",
     "run": "webpack --progress --watch",
     "dev-server": "webpack serve --mode development",
