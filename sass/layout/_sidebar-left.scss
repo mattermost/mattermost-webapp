@@ -220,6 +220,11 @@
                     display: inherit;
                 }
             }
+            span {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
         }
 
         .SidebarChannelNavigator_divider {
