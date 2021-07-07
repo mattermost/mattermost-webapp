@@ -10,6 +10,8 @@ import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
@@ -167,6 +169,17 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         }
     }
 
+    trackChangeIfNecessary(preference: PreferenceType, oldValue: any): void {
+        const props = {
+            field: 'display.' + preference.name,
+            value: preference.value,
+        };
+
+        if (preference.value !== oldValue) {
+            trackEvent('settings', 'user_settings_update', props);
+        }
+    }
+
     handleSubmit = async () => {
         const userId = this.props.user.id;
 
@@ -231,6 +244,8 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             teammateNameDisplayPreference,
             availabilityStatusOnPostsPreference,
         ];
+
+        this.trackChangeIfNecessary(collapsedReplyThreadsPreference, this.props.collapsedReplyThreads);
 
         await this.props.actions.savePreferences(userId, preferences);
 
