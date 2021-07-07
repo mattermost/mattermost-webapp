@@ -124,7 +124,7 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(4);
+        expect(getSteps(state as any)).toHaveLength(5);
     });
 
     test('should only show the complete_profile_step to guest users', () => {
