@@ -9,8 +9,8 @@
     }
 
     .CollapsedReplyThreadsModal__img {
-        margin-top: 40px;
         border: 1px solid var(--center-channel-color-16);
+        margin-top: 40px;
         border-radius: 4px;
     }
 
@@ -21,7 +21,7 @@
 
 // Styles to override global styles
 .modal {
-   .GenericModal.CollapsedReplyThreadsModal.modal-dialog {
+    .GenericModal.CollapsedReplyThreadsModal.modal-dialog {
         height: unset;
         margin-top: calc(50vh - 307px);
     }

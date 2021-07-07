@@ -38,7 +38,7 @@ type Props = {
     isReadOnly?: boolean;
     teamIsGroupConstrained?: boolean;
     creatorName: string;
-    teammate: UserProfileRedux;
+    teammate?: UserProfileRedux;
     teammateName?: string;
     stats: any;
     theme: any;
@@ -145,9 +145,11 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
     );
 }
 
-function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate: UserProfileRedux, teammateName?: string) {
+function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?: UserProfileRedux, teammateName?: string) {
     const channelIntroId = 'channelIntro';
     if (teammate) {
+        const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
+
         return (
             <div
                 id={channelIntroId}
@@ -155,16 +157,16 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate:
             >
                 <div className='post-profile-img__container channel-intro-img'>
                     <ProfilePicture
-                        src={Utils.imageURLForUser(teammate.id, teammate.last_picture_update)}
+                        src={src}
                         size='xl'
-                        userId={teammate.id}
-                        username={teammate.username}
+                        userId={teammate?.id}
+                        username={teammate?.username}
                         hasMention={true}
                     />
                 </div>
                 <div className='channel-intro-profile d-flex'>
                     <UserProfile
-                        userId={teammate.id}
+                        userId={teammate?.id}
                         disablePopover={false}
                         hasMention={true}
                     />
@@ -178,7 +180,7 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate:
                         }}
                     />
                 </p>
-                {teammate.is_bot ? null : createSetHeaderButton(channel)}
+                {teammate?.is_bot ? null : createSetHeaderButton(channel)}
             </div>
         );
     }

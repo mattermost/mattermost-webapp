@@ -253,12 +253,11 @@ Cypress.Commands.add('apiCreateUser', ({
 
 Cypress.Commands.add('apiCreateGuestUser', ({
     prefix = 'guest',
+    bypassTutorial = true,
     hideCloudOnboarding = true,
-    activate = true,
 } = {}) => {
-    return cy.apiCreateUser({prefix, hideCloudOnboarding}).then(({user}) => {
+    return cy.apiCreateUser({prefix, bypassTutorial, hideCloudOnboarding}).then(({user}) => {
         cy.apiDemoteUserToGuest(user.id);
-        cy.externalActivateUser(user.id, activate);
 
         return cy.wrap({guest: user});
     });

@@ -101,6 +101,7 @@ class RhsComment extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
             dropdownOpened: false,
+            fileDropdownOpened: false,
             alt: false,
             hover: false,
             a11yActive: false,
@@ -253,7 +254,7 @@ class RhsComment extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -277,6 +278,12 @@ class RhsComment extends React.PureComponent {
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened,
+        });
+    };
+
+    handleFileDropdownOpened = (isOpened) => {
+        this.setState({
+            fileDropdownOpened: isOpened,
         });
     };
 
@@ -471,6 +478,7 @@ class RhsComment extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.handleFileDropdownOpened}
                 />
             );
         }

@@ -44,7 +44,6 @@ import {searchForTerm} from 'actions/post_actions';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
 import down from 'sounds/down.mp3';
@@ -273,6 +272,14 @@ export function getRemainingDaysFromFutureTimestamp(timestamp) {
     const utcToday = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
 
     return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
+}
+
+export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = '') {
+    if (!timestamp) {
+        return moment.now();
+    }
+    const timezone = userTimezone ? ' ' + moment().tz(userTimezone).format('z') : '';
+    return moment.unix(timestamp).format(format) + timezone;
 }
 
 // Replaces all occurrences of a pattern
@@ -656,7 +663,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .bg-text-200', 'background:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .user-popover__role', 'background:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .svg-text-color', 'fill:' + theme.centerChannelColor);
-        changeCss('.app__body .mentions__name .status.status--group, .app__body .multi-select__note', 'background:' + changeOpacity(theme.centerChannelColor, 0.12));
+        changeCss('.app__body .suggestion-list__icon .status.status--group, .app__body .multi-select__note', 'background:' + changeOpacity(theme.centerChannelColor, 0.12));
         changeCss('.app__body .modal-tabs .nav-tabs > li, .app__body .system-notice, .app__body .file-view--single .file__image .image-loaded, .app__body .post .MenuWrapper .dropdown-menu button, .app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
         changeCss('.app__body .post-list__arrows', 'fill:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .post .card-icon__container', 'color:' + changeOpacity(theme.centerChannelColor, 0.3));
@@ -665,7 +672,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .post-menu, .app__body .post.post--hovered .post__header .post-menu, .app__body .post.a11y--active .post__header .post-menu', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .help-text, .app__body .post .post-waiting, .app__body .post.post--system .post__body', 'color:' + changeOpacity(theme.centerChannelColor, 0.6));
-        changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a, pp__body .input-group-addon, .app__body .app__content, .app__body .post-create__container .post-create-body .btn-file, .app__body .post-create__container .post-create-footer .msg-typing, .app__body .dropdown-menu, .app__body .popover, .app__body .mentions__name, .app__body .tip-overlay, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'color:' + theme.centerChannelColor);
+        changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a, pp__body .input-group-addon, .app__body .app__content, .app__body .post-create__container .post-create-body .btn-file, .app__body .post-create__container .post-create-footer .msg-typing, .app__body .dropdown-menu, .app__body .popover, .app__body .suggestion-list__item .suggestion-list__ellipsis .suggestion-list__main, .app__body .tip-overlay, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .post .post__link', 'color:' + changeOpacity(theme.centerChannelColor, 0.65));
         changeCss('.app__body #archive-link-home, .video-div .video-thumbnail__error', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
         changeCss('.app__body #post-create', 'color:' + theme.centerChannelColor);
@@ -779,7 +786,7 @@ export function applyTheme(theme) {
     if (theme.linkColor) {
         changeCss('.app__body .more-modal__list .a11y--focused, .app__body .post.a11y--focused, .app__body .channel-header.a11y--focused, .app__body .post-create.a11y--focused, .app__body .user-popover.a11y--focused, .app__body .post-message__text.a11y--focused, #archive-link-home>a.a11y--focused', 'box-shadow: inset 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', inset 0 0 0 1px ' + theme.linkColor);
         changeCss('.app__body .a11y--focused', 'box-shadow: 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', 0 0 0 1px ' + theme.linkColor);
-        changeCss('.app__body .DayPicker-Day--today, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
+        changeCss('.app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
         changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + changeOpacity(theme.linkColor, 0.5));
         changeCss('.app__body .channel-header .channel-header_plugin-dropdown a:hover, .app__body .member-list__popover .more-modal__list .more-modal__row:hover', 'background:' + changeOpacity(theme.linkColor, 0.08));
         changeCss('.app__body .channel-header__links .icon:hover, .app__body .channel-header__links > a.active .icon, .app__body .post .post__reply', 'fill:' + theme.linkColor);
@@ -1203,7 +1210,7 @@ export function getSuggestionBoxWidth(textArea) {
 export function getPxToSubstract(char = '@') {
     // depending on the triggering character different values must be substracted
     if (char === '@') {
-    // mention name padding-left 2.4rem as stated in suggestion-list__content .mentions__name
+    // mention name padding-left 2.4rem as stated in suggestion-list__content .suggestion-list__item
         const mentionNamePaddingLft = convertEmToPixels(document.documentElement, Constants.MENTION_NAME_PADDING_LEFT);
 
         // half of width of avatar stated in .Avatar.Avatar-sm (24px)
@@ -1287,35 +1294,6 @@ export function isValidBotUsername(name) {
 
 export function isMobile() {
     return window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
-}
-
-export function getDirectTeammate(state, channelId) {
-    let teammate = {};
-
-    const channel = getChannel(state, channelId);
-    if (!channel) {
-        return teammate;
-    }
-
-    const userIds = channel.name.split('__');
-    const curUserId = getCurrentUserId(state);
-
-    if (userIds.length !== 2 || userIds.indexOf(curUserId) === -1) {
-        return teammate;
-    }
-
-    if (userIds[0] === userIds[1]) {
-        return getUser(state, userIds[0]);
-    }
-
-    for (var idx in userIds) {
-        if (userIds[idx] !== curUserId) {
-            teammate = getUser(state, userIds[idx]);
-            break;
-        }
-    }
-
-    return teammate;
 }
 
 export function loadImage(url, onLoad, onProgress) {
@@ -2043,30 +2021,6 @@ export function getClosestParent(elem, selector) {
         }
     }
     return null;
-}
-
-export function getSortedUsers(reactions, currentUserId, profiles, teammateNameDisplay) {
-    // Sort users by who reacted first with "you" being first if the current user reacted
-
-    let currentUserReacted = false;
-    const sortedReactions = reactions.sort((a, b) => a.create_at - b.create_at);
-    const users = sortedReactions.reduce((accumulator, current) => {
-        if (current.user_id === currentUserId) {
-            currentUserReacted = true;
-        } else {
-            const user = profiles.find((u) => u.id === current.user_id);
-            if (user) {
-                accumulator.push(displayUsername(user, teammateNameDisplay));
-            }
-        }
-        return accumulator;
-    }, []);
-
-    if (currentUserReacted) {
-        users.unshift(Utils.localizeMessage('reaction.you', 'You'));
-    }
-
-    return {currentUserReacted, users};
 }
 
 const BOLD_MD = '**';

@@ -1,21 +1,24 @@
 @charset 'UTF-8';
 
 span.greyed-out {
-    @include opacity(.4)
+    @include opacity(0.4);
 }
 
 .row-content {
-    @include opacity(.8)
+    @include opacity(0.8);
 }
+
 .groups-list-no-padding {
     div.group-row {
         height: 40px;
         padding-left: 20px;
     }
+
     div.groups-list--header {
         div.group-name.adjusted {
             margin-left: 20px;
         }
+
         div.group-description.adjusted {
             margin-right: 22px;
         }
@@ -28,34 +31,39 @@ span.greyed-out {
             margin-left: 22px;
         }
     }
-
 }
 
 .help-text-small.help-text-no-padding {
     margin-top: 0;
 }
+
 .help-text-small.help-text-single-line {
     height: 17px;
 }
+
 .team-descr-list-column {
     max-width: 440px;
 }
+
 .large-team-image-col {
     max-width: 129px;
     padding-right: 20px;
 
     .TeamIcon {
-        background: rgba(0, 0, 0, .12);
         margin-right: 12px;
+        background: rgba(0, 0, 0, 0.12);
     }
 }
-.team-desc-col, .channel-desc-col {
+
+.team-desc-col,
+.channel-desc-col {
     line-height: 20px;
 }
+
 .center-row > div {
     display: inline-block;
-    vertical-align: middle;
     float: none;
+    vertical-align: middle;
 }
 
 .row-bottom-padding {
@@ -64,6 +72,7 @@ span.greyed-out {
 
 .csvDomains {
     padding-bottom: 4px;
+
     span {
         font-size: 12px;
         font-weight: 600;
@@ -73,11 +82,14 @@ span.greyed-out {
 
 .help-text-small {
     max-width: 668px;
-    opacity: 0.6;
     font-size: 12px;
     line-height: 17px;
+    opacity: 0.6;
 }
 
-#teams, #team_profile, #channels, #channel_profile {
-    margin-top: 0px;
+#teams,
+#team_profile,
+#channels,
+#channel_profile {
+    margin-top: 0;
 }

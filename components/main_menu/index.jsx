@@ -20,7 +20,7 @@ import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} 
 import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
 
-import {RHSStates} from 'utils/constants';
+import {RHSStates, TrialPeriodDays} from 'utils/constants';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
 
 import {unhideNextSteps} from 'actions/views/next_steps';
@@ -74,7 +74,10 @@ function mapStateToProps(state) {
     const isCloud = getLicense(state).Cloud === 'true';
     const subscription = state.entities.cloud.subscription;
     const isFreeTrial = subscription?.is_free_trial === 'true';
-    const daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
+    let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
+    if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
+        daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+    }
 
     return {
         appDownloadLink,
