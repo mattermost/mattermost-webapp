@@ -48,6 +48,7 @@
  */
 
 const os = require('os');
+
 const chalk = require('chalk');
 
 const {createAndStartCycle} = require('./utils/dashboard');
