@@ -132,9 +132,8 @@ exports[`PostBodyAdditionalContent with a permalinklink Render permalink preview
     metadata={
       Object {
         "channel_display_name": "channel1",
-        "id": "post_id123",
+        "post_id": "post_id123",
         "team_name": "core",
-        "user_id": "user_id123",
       }
     }
   />
@@ -173,7 +172,6 @@ exports[`PostBodyAdditionalContent with an image preview should render correctly
         "metadata": Object {
           "embeds": Array [
             Object {
-              "data": Object {},
               "type": "image",
               "url": "https://example.com/image.png",
             },
@@ -216,7 +214,6 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
         "metadata": Object {
           "embeds": Array [
             Object {
-              "data": Object {},
               "type": "image",
               "url": "https://example.com/image.png",
             },

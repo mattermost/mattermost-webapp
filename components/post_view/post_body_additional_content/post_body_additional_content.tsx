@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Post, PostEmbed, PostPreviewMetadata} from 'mattermost-redux/types/posts';
+import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
 import {AppBinding} from 'mattermost-redux/types/apps';
@@ -114,10 +114,10 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 />
             );
         case 'permalink':
-            if (embed.data) {
+            if (embed.data && 'post_id' in embed.data) {
                 return (
                     <PostMessagePreview
-                        metadata={embed.data as PostPreviewMetadata}
+                        metadata={embed.data}
                     />
                 );
             }

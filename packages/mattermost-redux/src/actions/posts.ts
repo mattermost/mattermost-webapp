@@ -20,7 +20,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {Post, PostList} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary, IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -965,16 +965,11 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     }
 
     const state = getState();
-    let posts: IDMappedObjects<Post> = {};
-    if (state.entities.posts?.posts) {
-        posts = state.entities.posts.posts;
-    }
     const {currentUserId, profiles, statuses} = state.entities.users;
 
     // Statuses and profiles of the users who made the posts
     const userIdsToLoad = new Set<string>();
     const statusesToLoad = new Set<string>();
-    const postsToLoad = new Set<string>();
 
     postsArray.forEach((post) => {
         const userId = post.user_id;
@@ -982,14 +977,11 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         if (post.metadata && post.metadata.embeds) {
             post.metadata.embeds.forEach((embed: any) => {
                 if (embed.type === 'permalink' && embed.data) {
-                    if (embed.data.user_id && !profiles[embed.data.user_id] && embed.data.user_id !== currentUserId) {
-                        userIdsToLoad.add(embed.data.user_id);
+                    if (embed.data.post.user_id && !profiles[embed.data.post.user_id] && embed.data.post.user_id !== currentUserId) {
+                        userIdsToLoad.add(embed.data.post.user_id);
                     }
-                    if (embed.data.id && posts && !posts[embed.data.id] && !postsDictionary[embed.data.id]) {
-                        postsToLoad.add(embed.data.id);
-                    }
-                    if (embed.data.user_id && !statuses[embed.data.user_id]) {
-                        statusesToLoad.add(embed.data.user_id);
+                    if (embed.data.post.user_id && !statuses[embed.data.post.user_id]) {
+                        statusesToLoad.add(embed.data.post.user_id);
                     }
                 }
             });
@@ -1029,10 +1021,6 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
 
     if (emojisToLoad && emojisToLoad.size > 0) {
         promises.push(getCustomEmojisByName(Array.from(emojisToLoad))(dispatch, getState));
-    }
-
-    if (postsToLoad.size > 0) {
-        promises.push(getPostsByIds(Array.from(postsToLoad))(dispatch, getState));
     }
 
     return Promise.all(promises);

@@ -25,8 +25,7 @@ describe('PostMessagePreview', () => {
         metadata: {
             channel_display_name: 'channel name',
             team_name: 'team1',
-            id: 'post_id',
-            user_id: 'user_1',
+            post_id: 'post_id',
         },
         post,
         user,

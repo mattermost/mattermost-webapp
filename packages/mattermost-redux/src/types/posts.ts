@@ -29,12 +29,10 @@ export type PostType = 'system_add_remove' |
 
 export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph' | 'permalink';
 
-export type AttachmentTextOverflowType = 'ellipsis';
-
 export type PostEmbed = {
     type: PostEmbedType;
     url: string;
-    data?: Record<string, OpenGraphMetadata> | PostPreviewMetadata;
+    data?: OpenGraphMetadata | PostPreviewMetadata;
 };
 
 export type PostImage = {
@@ -149,8 +147,8 @@ export declare type OpenGraphMetadata = {
 };
 
 export declare type PostPreviewMetadata = {
-    id: string;
-    user_id: string;
+    post_id: string;
+    post?: Post;
     channel_display_name: string;
     team_name: string;
 };

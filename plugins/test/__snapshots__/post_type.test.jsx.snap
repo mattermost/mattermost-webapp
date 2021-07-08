@@ -2,7 +2,6 @@
 
 exports[`plugins/PostMessageView should match snapshot with extended post type 1`] = `
 <PostMessageView
-  attachmentTextOverflowType=""
   currentRelativeTeamUrl="team_url"
   currentUser={
     Object {
@@ -68,7 +67,6 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
 
 exports[`plugins/PostMessageView should match snapshot with no extended post type 1`] = `
 <Connect(ShowMore)
-  attachmentTextOverflowType=""
   checkOverflow={0}
   text="this is some text"
 >

@@ -4,11 +4,11 @@
 
 import React from 'react';
 
-import {AttachmentTextOverflowType} from 'mattermost-redux/types/posts';
 import {localizeMessage} from 'utils/utils.jsx';
 
+export type AttachmentTextOverflowType = 'ellipsis';
+
 const MAX_POST_HEIGHT = 600;
-const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 const MARGIN_CHANGE_FOR_COMPACT_POST = 22;
 
 type Props = {
@@ -19,7 +19,8 @@ type Props = {
     isRHSOpen: boolean;
     text?: string;
     compactDisplay: boolean;
-    attachmentTextOverflowType?: AttachmentTextOverflowType;
+    overflowType?: AttachmentTextOverflowType;
+    maxHeight?: number;
 }
 
 type State = {
@@ -34,12 +35,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.maxHeight = MAX_POST_HEIGHT;
-        if (this.props.attachmentTextOverflowType === 'ellipsis') {
-            this.maxHeight = 100;
-        } else if (this.props.isAttachmentText) {
-            this.maxHeight = MAX_ATTACHMENT_TEXT_HEIGHT;
-        }
+        this.maxHeight = this.props.maxHeight || MAX_POST_HEIGHT;
         this.textContainer = React.createRef();
         this.state = {
             isCollapsed: true,
@@ -114,7 +110,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
             children,
             isAttachmentText,
             compactDisplay,
-            attachmentTextOverflowType,
+            overflowType,
         } = this.props;
 
         let className = 'post-message';
@@ -143,7 +139,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
                 showIcon = 'fa fa-angle-down';
                 showText = localizeMessage('post_info.message.show_more', 'Show more');
             }
-            switch (attachmentTextOverflowType) {
+            switch (overflowType) {
             case 'ellipsis':
                 attachmentTextOverflow = (
                     <button

@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
-import {AttachmentTextOverflowType, Post} from 'mattermost-redux/types/posts';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {Theme} from 'mattermost-redux/types/preferences';
 
@@ -16,6 +16,7 @@ import PostMarkdown from 'components/post_markdown';
 import Pluggable from 'plugins/pluggable';
 import ShowMore from 'components/post_view/show_more';
 import {TextFormattingOptions} from 'utils/text_formatting';
+import {AttachmentTextOverflowType} from 'components/post_view/show_more/show_more';
 
 type Props = {
     post: Post; /* The post to render the message for */
@@ -28,7 +29,8 @@ type Props = {
     theme: Theme; /* Logged in user's theme */
     pluginPostTypes?: any; /* Post type components from plugins */
     currentRelativeTeamUrl: string;
-    attachmentTextOverflowType?: AttachmentTextOverflowType;
+    overflowType?: AttachmentTextOverflowType;
+    maxHeight?: number; /* The max height used by the show more component */
 }
 
 type State = {
@@ -44,7 +46,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
         options: {},
         isRHS: false,
         pluginPostTypes: {},
-        attachmentTextOverflowType: undefined,
+        overflowType: undefined,
     };
 
     constructor(props: Props) {
@@ -118,7 +120,8 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
             compactDisplay,
             isRHS,
             theme,
-            attachmentTextOverflowType,
+            overflowType,
+            maxHeight,
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {
@@ -156,7 +159,8 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
             <ShowMore
                 checkOverflow={this.state.checkOverflow}
                 text={message}
-                attachmentTextOverflowType={attachmentTextOverflowType}
+                overflowType={overflowType}
+                maxHeight={maxHeight}
             >
                 <div
                     aria-readonly='true'

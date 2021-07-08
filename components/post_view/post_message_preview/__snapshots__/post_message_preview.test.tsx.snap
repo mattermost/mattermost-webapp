@@ -3,7 +3,7 @@
 exports[`PostMessagePreview should render correctly 1`] = `
 <PostAttachmentContainer
   className="permalink"
-  link="/team1/pl/post_id"
+  link="http://localhost:8065/team1/pl/post_id"
 >
   <div
     className="post-preview"
@@ -57,7 +57,8 @@ exports[`PostMessagePreview should render correctly 1`] = `
       </div>
     </div>
     <Connect(PostMessageView)
-      attachmentTextOverflowType="ellipsis"
+      maxHeight={100}
+      overflowType="ellipsis"
       post={
         Object {
           "id": "post_id",
@@ -69,7 +70,15 @@ exports[`PostMessagePreview should render correctly 1`] = `
       className="post__preview-footer"
     >
       <p>
-        Originally posted in ~channel name
+        <FormattedMessage
+          defaultMessage="Originally posted in ~{channel}"
+          id="post_message_preview.channel"
+          values={
+            Object {
+              "channel": "channel name",
+            }
+          }
+        />
       </p>
     </div>
   </div>

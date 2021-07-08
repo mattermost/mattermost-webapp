@@ -60,7 +60,6 @@ describe('PostBodyAdditionalContent', () => {
                     embeds: [{
                         type: 'image',
                         url: imageUrl,
-                        data: {},
                     }],
                     images: {
                         [imageUrl]: imageMetadata,
@@ -384,13 +383,17 @@ describe('PostBodyAdditionalContent', () => {
                 metadata: {
                     embeds: [{
                         type: 'permalink',
+                        url: '',
                         data: {
-                            id: 'post_id123',
-                            user_id: 'user_id123',
+                            post_id: 'post_id123',
                             channel_display_name: 'channel1',
                             team_name: 'core',
                         },
                     }],
+                    images: {},
+                    emojis: [],
+                    files: [],
+                    reactions: [],
                 } as PostMetadata,
             },
         };
@@ -401,13 +404,18 @@ describe('PostBodyAdditionalContent', () => {
         });
 
         test('Render permalink preview with no data', () => {
+            const metadata = {
+                embeds: [{
+                    type: 'permalink',
+                    url: '',
+                }],
+            } as PostMetadata;
             const props = {
                 ...permalinkBaseProps,
-            };
-
-            props.post.metadata.embeds[0] = {
-                type: 'permalink',
-                url: '',
+                post: {
+                    ...permalinkBaseProps.post,
+                    metadata,
+                },
             };
 
             const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
