@@ -19,11 +19,10 @@ export type Props = {
     user?: UserProfile;
     post?: Post;
     metadata: PostPreviewMetadata;
-    siteURL?: string;
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {user, metadata, post, siteURL} = props;
+    const {user, metadata, post} = props;
     if (!post || !user) {
         return null;
     }
