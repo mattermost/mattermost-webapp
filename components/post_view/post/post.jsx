@@ -8,7 +8,7 @@ import {injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
-import {isEligibleForClick} from 'utils/utils';
+import {makeIsEligibleForClick} from 'utils/utils';
 import * as PostUtils from 'utils/post_utils.jsx';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
@@ -18,6 +18,9 @@ import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+
+// When adding clickable targets within a root post, please add to/maintain the selector below
+const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment');
 
 class Post extends React.PureComponent {
     static propTypes = {

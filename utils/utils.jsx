@@ -2265,36 +2265,51 @@ export function isSelection() {
     return selection.type === 'Range';
 }
 
-// Returns false when the element clicked or its ancestors
-// is a potential click target (link, button, image, etc..)
-// and true in any other case.
-export function isEligibleForClick(event) {
-    const currentTarget = event.currentTarget;
-    let node = event.target;
+/*
+ * Returns false when the element clicked or its ancestors
+ * is a potential click target (link, button, image, etc..)
+ * but not the events currentTarget
+ * and true in any other case.
+ *
+ * @param {string} selector - CSS selector of elements not eligible for click
+ * @returns {boolean}
+ */
+export function makeIsEligibleForClick(selector) {
+    return (event) => {
+        const currentTarget = event.currentTarget;
+        let node = event.target;
 
-    if (isSelection()) {
-        return false;
-    }
-
-    if (node === currentTarget) {
-        return true;
-    }
-
-    // traverses the targets parents up to currentTarget to see
-    // if any of them is a potentially clickable element
-    while (node) {
-        if (node === currentTarget) {
-            break;
-        }
-
-        if (
-            CLICKABLE_ELEMENTS.includes(node.tagName.toLowerCase()) ||
-            node.getAttribute('role') === 'button'
-        ) {
+        if (isSelection()) {
             return false;
         }
-        node = node.parentNode;
-    }
 
-    return true;
+        if (node === currentTarget) {
+            return true;
+        }
+
+        // in the case of a react Portal
+        if (!currentTarget.contains(node)) {
+            return false;
+        }
+
+        // traverses the targets parents up to currentTarget to see
+        // if any of them is a potentially clickable element
+        while (node) {
+            if (!node || node === currentTarget) {
+                break;
+            }
+
+            if (
+                CLICKABLE_ELEMENTS.includes(node.tagName.toLowerCase()) ||
+                node.getAttribute('role') === 'button' ||
+                node.matches(selector)
+            ) {
+                return false;
+            }
+
+            node = node.parentNode;
+        }
+
+        return true;
+    };
 }
