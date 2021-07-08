@@ -142,10 +142,9 @@ export const showOnboarding = createSelector(
     'getCategory',
     (state: GlobalState) => showNextSteps(state),
     (state: GlobalState) => showNextStepsTips(state),
-    (state: GlobalState) => getLicense(state),
     (state: GlobalState) => state.views.nextSteps.show,
-    (showNextSteps, showNextStepsTips, license, showNextStepsEphemeral) => {
-        return !showNextStepsEphemeral && license.Cloud === 'true' && (showNextSteps || showNextStepsTips);
+    (showNextSteps, showNextStepsTips, showNextStepsEphemeral) => {
+        return !showNextStepsEphemeral && (showNextSteps || showNextStepsTips);
     });
 
 export const isOnboardingHidden = createSelector(
@@ -160,14 +159,9 @@ export const isOnboardingHidden = createSelector(
 export const showNextSteps = createSelector(
     'showNextSteps',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
-    (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
-    (stepPreferences, license, nextStepsNotFinished) => {
+    (stepPreferences, nextStepsNotFinished) => {
         if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
-            return false;
-        }
-
-        if (license.Cloud !== 'true') {
             return false;
         }
 
@@ -179,15 +173,10 @@ export const showNextSteps = createSelector(
 export const showNextStepsTips = createSelector(
     'showNextStepsTips',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
-    (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
-    (stepPreferences, license, nextStepsNotFinished) => {
+    (stepPreferences, nextStepsNotFinished) => {
         if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
             return true;
-        }
-
-        if (license.Cloud !== 'true') {
-            return false;
         }
 
         return !nextStepsNotFinished;
