@@ -14,6 +14,7 @@ const PostAttachmentContainer = (props: Props) => {
     const history = useHistory();
     const handleOnClick = useCallback((e) => {
         const {tagName} = e.target;
+        e.stopPropagation();
         const elements = ['A', 'IMG', 'BUTTON'];
         if (!elements.includes(tagName) && (e.target.getAttribute('role') !== 'button' && e.target.className !== `attachment attachment--${className}`)) {
             history.push(link);

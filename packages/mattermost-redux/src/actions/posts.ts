@@ -977,10 +977,10 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         if (post.metadata && post.metadata.embeds) {
             post.metadata.embeds.forEach((embed: any) => {
                 if (embed.type === 'permalink' && embed.data) {
-                    if (embed.data.post.user_id && !profiles[embed.data.post.user_id] && embed.data.post.user_id !== currentUserId) {
+                    if (embed.data.post?.user_id && !profiles[embed.data.post.user_id] && embed.data.post.user_id !== currentUserId) {
                         userIdsToLoad.add(embed.data.post.user_id);
                     }
-                    if (embed.data.post.user_id && !statuses[embed.data.post.user_id]) {
+                    if (embed.data.post?.user_id && !statuses[embed.data.post.user_id]) {
                         statusesToLoad.add(embed.data.post.user_id);
                     }
                 }
