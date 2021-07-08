@@ -4,7 +4,11 @@
 import {AppBinding, AppField, AppForm} from '../types/apps';
 import {AppBindingLocations, AppFieldTypes} from '../constants/apps';
 
-export function cleanBinding(binding: AppBinding, topLocation: string, depth: number) {
+export function cleanBinding(binding: AppBinding, topLocation: string) {
+    cleanBindingRec(binding, topLocation, 0);
+}
+
+function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number) {
     if (!binding) {
         return;
     }
@@ -63,7 +67,7 @@ export function cleanBinding(binding: AppBinding, topLocation: string, depth: nu
         }
 
         if (b.bindings?.length) {
-            cleanBinding(b, topLocation, depth + 1);
+            cleanBindingRec(b, topLocation, depth + 1);
 
             // Remove invalid branches
             if (!b.bindings?.length) {
@@ -93,15 +97,15 @@ export function cleanBinding(binding: AppBinding, topLocation: string, depth: nu
 }
 
 export function validateBindings(bindings: AppBinding[] = []): AppBinding[] {
-    const channelHeaderBindings = bindings?.filter((v) => v.location === AppBindingLocations.CHANNEL_HEADER_ICON);
-    const postMenuBindings = bindings?.filter((v) => v.location === AppBindingLocations.POST_MENU_ITEM);
-    const commandBindings = bindings?.filter((v) => v.location === AppBindingLocations.COMMAND);
+    const channelHeaderBindings = bindings?.filter((b) => b.location === AppBindingLocations.CHANNEL_HEADER_ICON);
+    const postMenuBindings = bindings?.filter((b) => b.location === AppBindingLocations.POST_MENU_ITEM);
+    const commandBindings = bindings?.filter((b) => b.location === AppBindingLocations.COMMAND);
 
-    channelHeaderBindings.forEach((v) => cleanBinding(v, AppBindingLocations.CHANNEL_HEADER_ICON, 0));
-    postMenuBindings.forEach((v) => cleanBinding(v, AppBindingLocations.POST_MENU_ITEM, 0));
-    commandBindings.forEach((v) => cleanBinding(v, AppBindingLocations.COMMAND, 0));
+    channelHeaderBindings.forEach((b) => cleanBinding(b, AppBindingLocations.CHANNEL_HEADER_ICON));
+    postMenuBindings.forEach((b) => cleanBinding(b, AppBindingLocations.POST_MENU_ITEM));
+    commandBindings.forEach((b) => cleanBinding(b, AppBindingLocations.COMMAND));
 
-    const hasBindings = (v: AppBinding) => v.bindings?.length;
+    const hasBindings = (b: AppBinding) => b.bindings?.length;
     return postMenuBindings.filter(hasBindings).concat(channelHeaderBindings.filter(hasBindings), commandBindings.filter(hasBindings));
 }
 
