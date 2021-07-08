@@ -2272,7 +2272,7 @@ export function isSelection() {
  * and true in any other case.
  *
  * @param {string} selector - CSS selector of elements not eligible for click
- * @returns {boolean}
+ * @returns {function}
  */
 export function makeIsEligibleForClick(selector) {
     return (event) => {
