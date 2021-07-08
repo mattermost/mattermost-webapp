@@ -752,6 +752,16 @@ export const CloudLinks = {
     CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
 };
 
+export const BillingSchemes = {
+    FLAT_FEE: 'flat_fee',
+    PER_SEAT: 'per_seat',
+};
+
+export const RecurringIntervals = {
+    YEAR: 'year',
+    MONTH: 'month',
+};
+
 export const PermissionsScope = {
     [Permissions.INVITE_USER]: 'team_scope',
     [Permissions.INVITE_GUEST]: 'team_scope',
