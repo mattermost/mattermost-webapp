@@ -226,6 +226,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     displayDecimals = () => {
         const price = this.state.selectedProduct?.price_per_seat.toFixed(2);
+        if (!price) {
+            return null;
+        }
         let decimals = null;
         const [, decimalPart] = price?.toString().split('.') as string[];
         if (this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE && decimalPart) {
