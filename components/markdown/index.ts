@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {createSelector} from 'reselect';
 
 import {Preferences} from 'mattermost-redux/constants';
@@ -29,6 +30,7 @@ type Props = {
 
 function makeGetChannelNamesMap() {
     return createSelector(
+        'makeGetChannelNamesMap',
         getChannelNameToDisplayNameMap,
         (state: GlobalState, props: Props) => props && props.channelNamesMap,
         (channelNamesMap, channelMentions) => {

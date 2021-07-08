@@ -40,11 +40,11 @@ const makeMapStateToProps = () => {
     return (state: GlobalState, ownProps: Props) => {
         const teamId = getCurrentTeamId(state);
         const license = getLicense(state);
-        const useGroupMentions = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && haveIChannelPermission(state, {
-            channel: ownProps.channelId,
-            team: teamId,
-            permission: Permissions.USE_GROUP_MENTIONS,
-        });
+        const useGroupMentions = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && haveIChannelPermission(state,
+            teamId,
+            ownProps.channelId,
+            Permissions.USE_GROUP_MENTIONS,
+        );
         const autocompleteGroups = useGroupMentions ? getAssociatedGroupsForReference(state, teamId, ownProps.channelId) : null;
         const profilesInChannel = getProfilesInChannel(state, ownProps.channelId, getProfilesInChannelOptions);
         const profilesWithLastViewAtInChannel = addLastViewAtToProfiles(state, profilesInChannel);

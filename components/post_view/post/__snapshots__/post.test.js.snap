@@ -59,12 +59,12 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -139,12 +139,12 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -219,12 +219,12 @@ exports[`Post should not remove post--highlight class after timeout so the class
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -299,12 +299,12 @@ exports[`Post should not remove post--highlight class after timeout so the class
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={

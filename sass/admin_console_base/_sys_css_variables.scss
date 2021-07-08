@@ -2,28 +2,28 @@
     // Cloned default hex values from base/css_variables to be used in the system console
     --sys-away-indicator: #ffbc42;
     --sys-button-bg: #166de0;
-    --sys-button-color: #ffffff;
-    --sys-center-channel-bg: #ffffff;
+    --sys-button-color: #fff;
+    --sys-center-channel-bg: #fff;
     --sys-center-channel-color: #3d3c40;
     --sys-dnd-indicator: #f74343;
     --sys-error-text: #fd5960;
     --sys-link-color: #2389d7;
-    --sys-mention-bg: #ffffff;
+    --sys-mention-bg: #fff;
     --sys-mention-color: #145dbf;
     --sys-mention-highlight-bg: #ffe577;
     --sys-mention-highlight-link: #166de0;
-    --sys-new-message-separator: #ff8800;
+    --sys-new-message-separator: #f80;
     --sys-online-indicator: #06d6a0;
     --sys-sidebar-bg: #145dbf;
     --sys-sidebar-header-bg: #1153ab;
-    --sys-sidebar-header-text-color: #ffffff;
-    --sys-sidebar-text: #ffffff;
-    --sys-sidebar-text-60: #ffffff99;
-    --sys-sidebar-text-80: #ffffffcc;
+    --sys-sidebar-header-text-color: #fff;
+    --sys-sidebar-text: #fff;
+    --sys-sidebar-text-60: #fff9;
+    --sys-sidebar-text-80: #fffc;
     --sys-sidebar-text-active-border: #579eff;
-    --sys-sidebar-text-active-color: #ffffff;
+    --sys-sidebar-text-active-color: #fff;
     --sys-sidebar-text-hover-bg: #4578bf;
-    --sys-sidebar-unread-text: #ffffff;
+    --sys-sidebar-unread-text: #fff;
 
     // Cloned RGB values from base/css_variables, to be used as rgba(var(--sys-color), opacity_here) to apply opacity to base colors
     --sys-away-indicator-rgb: 255, 188, 66;

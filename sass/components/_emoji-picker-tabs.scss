@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+.emoji-picker {
+    li.custom-emoji-tab:not(.active) {
+        a {
+            width: max-content;
+            padding-top: 7px !important;
+
+            svg,
+            div {
+                color: var(--center-channel-color-56);
+                fill: var(--center-channel-color-56);
+            }
+
+            &:hover {
+                svg,
+                div {
+                    color: var(--center-channel-color-72);
+                    fill: var(--center-channel-color-72);
+                }
+            }
+        }
+    }
+
+    li.custom-emoji-tab.active {
+        a {
+            width: max-content;
+            padding-top: 7px !important;
+
+            svg,
+            div {
+                color: var(--button-bg);
+                fill: var(--mention-bg-rgb);
+            }
+
+            &:hover {
+                svg,
+                div {
+                    color: var(--button-bg);
+                    fill: var(--mention-bg-rgb);
+                }
+            }
+        }
+    }
+
+    .nav.nav-tabs {
+        width: fit-content;
+        width: -moz-fit-content;
+    }
+}
+
+.custom-emoji-tab__icon__text {
+    display: flex;
+    flex-direction: row;
+}
+
+.custom-emoji-tab {
+    display: flex;
+}
+
+.custom-emoji-tab__icon {
+    margin-right: 7px;
+}

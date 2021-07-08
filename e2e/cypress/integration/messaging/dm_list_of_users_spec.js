@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @messaging
+// Group: @messaging @not_cloud
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -17,6 +17,8 @@ describe('Messaging', () => {
     let testUser;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;

@@ -14,6 +14,7 @@ export type {
     AutocompleteUserSelect,
     AutocompleteChannelSelect,
     AppLookupResponse,
+    AppSelectOption,
 } from 'mattermost-redux/types/apps';
 
 export type {
@@ -47,12 +48,12 @@ export {
 export {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 
 export {getPost} from 'mattermost-redux/selectors/entities/posts';
-export {getChannel, getCurrentChannel, getChannelByName as selectChannelByName} from 'mattermost-redux/selectors/entities/channels';
+export {getChannel as selectChannel, getCurrentChannel, getChannelByName as selectChannelByName} from 'mattermost-redux/selectors/entities/channels';
 export {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-export {getUserByUsername as selectUserByUsername} from 'mattermost-redux/selectors/entities/users';
+export {getUserByUsername as selectUserByUsername, getUser as selectUser} from 'mattermost-redux/selectors/entities/users';
 
-export {getUserByUsername} from 'mattermost-redux/actions/users';
-export {getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
+export {getUserByUsername, getUser} from 'mattermost-redux/actions/users';
+export {getChannelByNameAndTeamName, getChannel} from 'mattermost-redux/actions/channels';
 
 export {doAppCall} from 'actions/apps';
 import {sendEphemeralPost} from 'actions/global_actions';

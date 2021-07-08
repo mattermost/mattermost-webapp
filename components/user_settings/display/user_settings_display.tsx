@@ -10,6 +10,8 @@ import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
@@ -17,6 +19,7 @@ import {getBrowserTimezone} from 'utils/timezone.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
@@ -166,6 +169,17 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         }
     }
 
+    trackChangeIfNecessary(preference: PreferenceType, oldValue: any): void {
+        const props = {
+            field: 'display.' + preference.name,
+            value: preference.value,
+        };
+
+        if (preference.value !== oldValue) {
+            trackEvent('settings', 'user_settings_update', props);
+        }
+    }
+
     handleSubmit = async () => {
         const userId = this.props.user.id;
 
@@ -230,6 +244,8 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             teammateNameDisplayPreference,
             availabilityStatusOnPostsPreference,
         ];
+
+        this.trackChangeIfNecessary(collapsedReplyThreadsPreference, this.props.collapsedReplyThreads);
 
         await this.props.actions.savePreferences(userId, preferences);
 
@@ -359,7 +375,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         );
 
         const messageDesc = (
-            <FormattedMessage
+            <FormattedMarkdownMessage
                 id={description.id}
                 defaultMessage={description.message}
             />
@@ -760,7 +776,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 },
                 description: {
                     id: t('user.settings.display.collapsedReplyThreadsDescription'),
-                    message: 'When enabled, reply messages are not shown in the channel view. You can still read and reply to threads in the right-hand sidebar. You\'ll be notified about threads you\'re following in a new "Threads" item in the channel sidebar.',
+                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.\nPlease review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
                 },
             });
         }
