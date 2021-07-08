@@ -980,15 +980,14 @@ export class AppCommandParser {
                 if (f.multiselect && Array.isArray(values[f.name])) {
                     const options: AppSelectOption[] = [];
                     const commandValues = values[f.name] as string[];
-                    for (let i = 0; i < commandValues.length; i++) {
-                        const option = {label: '', value: commandValues[i]};
-                        if (options.find((o) => o.value === option.value)) {
+                    for (const value of commandValues) {
+                        if (options.find((o) => o.value === value)) {
                             errors[f.name] = this.intl.formatMessage({
                                 id: 'apps.error.command.same_option',
                                 defaultMessage: 'Option repeated for field `{fieldName}`: `{option}`.',
                             }, {
                                 fieldName: f.name,
-                                option: option.value,
+                                option: value,
                             });
                         }
                     }
@@ -1016,10 +1015,10 @@ export class AppCommandParser {
                 if (f.multiselect && Array.isArray(values[f.name])) {
                     const options: AppSelectOption[] = [];
                     const commandValues = values[f.name] as string[];
-                    for (let i = 0; i < commandValues.length; i++) {
-                        const option = getOption(commandValues[i]);
+                    for (const value of commandValues) {
+                        const option = getOption(value);
                         if (!option) {
-                            setOptionError(commandValues[i]);
+                            setOptionError(value);
                             return;
                         }
                         if (options.find((o) => o.value === option.value)) {
@@ -1028,7 +1027,7 @@ export class AppCommandParser {
                                 defaultMessage: 'Option repeated for field `{fieldName}`: `{option}`.',
                             }, {
                                 fieldName: f.name,
-                                option: commandValues[i],
+                                option: value,
                             });
                         }
                         options.push(option);
@@ -1072,8 +1071,8 @@ export class AppCommandParser {
                     const options: AppSelectOption[] = [];
                     const commandValues = values[f.name] as string[];
                     /* eslint-disable no-await-in-loop */
-                    for (let i = 0; i < commandValues.length; i++) {
-                        let userName = commandValues[i];
+                    for (const value of commandValues) {
+                        let userName = value;
                         if (userName[0] === '@') {
                             userName = userName.substr(1);
                         }
@@ -1138,8 +1137,8 @@ export class AppCommandParser {
                     const options: AppSelectOption[] = [];
                     const commandValues = values[f.name] as string[];
                     /* eslint-disable no-await-in-loop */
-                    for (let i = 0; i < commandValues.length; i++) {
-                        let channelName = commandValues[i];
+                    for (const value of commandValues) {
+                        let channelName = value;
                         if (channelName[0] === '~') {
                             channelName = channelName.substr(1);
                         }
