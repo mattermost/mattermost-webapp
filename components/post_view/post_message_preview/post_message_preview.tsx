@@ -14,23 +14,23 @@ import PostMessageView from 'components/post_view/post_message_view';
 
 import Timestamp from 'components/timestamp';
 import PostAttachmentContainer from '../post_attachment_container/post_attachment_container';
-import {getSiteURL} from 'utils/url';
 
 export type Props = {
     user?: UserProfile;
     post?: Post;
     metadata: PostPreviewMetadata;
+    siteURL?: string;
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {user, metadata, post} = props;
+    const {user, metadata, post, siteURL} = props;
     if (!post || !user) {
         return null;
     }
     return (
         <PostAttachmentContainer
             className='permalink'
-            link={`${getSiteURL()}/${metadata.team_name}/pl/${metadata.post_id}`}
+            link={`/${metadata.team_name}/pl/${metadata.post_id}`}
         >
             <div className='post-preview'>
                 <div className='post-preview__header'>
