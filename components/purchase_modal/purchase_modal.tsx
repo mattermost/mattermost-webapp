@@ -18,7 +18,7 @@ import blueDots from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES, CloudLinks, CloudProducts} from 'utils/constants';
+import {TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -196,7 +196,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         const userBasedProducts: any = [];
         Object.keys(products).forEach((key: string) => {
             const tempEl = {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
-            if (products[key].billing_scheme === 'flat_fee') {
+            if (products[key].billing_scheme === BillingSchemes.FLAT_FEE) {
                 flatFeeProducts.push(tempEl);
             } else {
                 userBasedProducts.push(tempEl);
@@ -227,8 +227,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     displayDecimals = () => {
         const price = this.state.selectedProduct?.price_per_seat.toFixed(2);
         let decimals = null;
-        if (this.state.selectedProduct?.billing_scheme === 'flat_fee') {
-            decimals = (price || 1 % 1).toString().substring(2);
+        const [, decimalPart] = price?.toString().split('.') as string[];
+        if (this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE && decimalPart) {
+            decimals = decimalPart;
         }
         if (decimals === null) {
             return null;
@@ -408,7 +409,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         <div className='bold-text'>
                             {this.state.selectedProduct?.name || ''}
                         </div>
-                        {this.state.selectedProduct?.billing_scheme === 'flat_fee' &&
+                        {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
                             <Badge className='unlimited-users-badge'>
                                 <FormattedMessage
                                     defaultMessage={'Unlimited Users'}
@@ -420,7 +421,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
                             {this.displayDecimals()}
                             <span className='monthly-text'>
-                                {this.state.selectedProduct?.billing_scheme === 'flat_fee' ?
+                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ?
                                     <FormattedMessage
                                         defaultMessage={' /month'}
                                         id={'admin.billing.subscription.perMonth'}
@@ -432,7 +433,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 }
                             </span>
                         </div>
-                        {this.state.selectedProduct?.billing_scheme === 'flat_fee' &&
+                        {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
                             <div className='payment-note'>
                                 <FormattedMessage
                                     defaultMessage={'If your Mattermost Cloud trial started on or before September 15, please '}

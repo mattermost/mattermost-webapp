@@ -143,7 +143,7 @@
                         margin-top: 16px;
 
                         label {
-                            color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+                            color: var(--sys-center-channel-color-rgb);
                             font-family: Open Sans;
                             font-size: 12px;
                             font-style: normal;
@@ -217,6 +217,14 @@
                                 margin-top: -5px;
                                 margin-left: 5px;
                                 color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+
+                                &::before {
+                                    content: "(";
+                                }
+
+                                &::after {
+                                    content: ")";
+                                }
                             }
                         }
                     }
@@ -267,7 +275,7 @@
             .payment-note {
                 margin-top: 5px;
                 margin-bottom: 10px;
-                color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+                color: rgba(var(--sys-center-channel-color-rgb), 0.72);
                 font-size: 14px;
                 font-weight: 400;
                 line-height: 20px;

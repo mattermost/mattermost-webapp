@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
-import {CloudLinks, TrialPeriodDays} from 'utils/constants';
+import {BillingSchemes, CloudLinks, TrialPeriodDays} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -201,7 +201,7 @@ export const lastInvoiceInfo = (invoice: any, product: any, fullCharges: any, pa
                     className='BillingSummary__lastInvoice-charge'
                 >
                     <div className='BillingSummary__lastInvoice-chargeDescription'>
-                        {product.billing_schema === 'flat_fee' ?
+                        {product.billing_schema === BillingSchemes.FLAT_FEE ?
                             <FormattedMessage
                                 id='admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee'
                                 defaultMessage='Monthly Flat Fee'
