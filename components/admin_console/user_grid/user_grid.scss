@@ -1,9 +1,9 @@
 .NewUserBadge {
-    background: #1156b2;
-    color: #FFF;
-    text-transform: uppercase;
     padding: 2px 4px;
+    background: #1156b2;
     border-radius: 3px;
+    color: #fff;
+    text-transform: uppercase;
 }
 
 .UserGrid_nameRow {
@@ -12,13 +12,12 @@
 
     .UserGrid_name {
         display: flex;
+        overflow: hidden;
+        flex-direction: column;
         flex-grow: 1;
         flex-shrink: 1;
-        flex-direction: column;
         align-self: center;
         padding-left: 10px;
-
-        overflow: hidden;
         text-overflow: ellipsis;
 
         span {

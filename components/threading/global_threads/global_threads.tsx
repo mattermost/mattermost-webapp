@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
@@ -24,6 +24,7 @@ import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
 import {setSelectedThreadId} from 'actions/views/threads';
+import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
@@ -62,8 +63,14 @@ const GlobalThreads = () => {
     const isLoading = counts?.total == null;
 
     useEffect(() => {
+        dispatch(suppressRHS);
         dispatch(selectChannel(''));
         loadProfilesForSidebar();
+
+        // unsuppresses RHS on navigating away (unmount)
+        return () => {
+            dispatch(unsuppressRHS);
+        };
     }, []);
 
     useEffect(() => {
@@ -81,6 +88,17 @@ const GlobalThreads = () => {
             clear();
         }
     }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
+
+    // cleanup on unmount
+    useEffect(() => {
+        return () => {
+            dispatch(setSelectedThreadId(currentTeamId, ''));
+        };
+    }, []);
+
+    const handleSelectUnread = useCallback(() => {
+        setFilter(ThreadFilter.unread);
+    }, []);
 
     return (
         <div
@@ -181,7 +199,8 @@ const GlobalThreads = () => {
                                 link: (chunks) => (
                                     <Link
                                         key='single'
-                                        to={url}
+                                        to={`${url}/${unreadThreadIds[0]}`}
+                                        onClick={handleSelectUnread}
                                     >
                                         {chunks}
                                     </Link>

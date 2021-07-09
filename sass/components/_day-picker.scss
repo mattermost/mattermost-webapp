@@ -1,25 +1,35 @@
 .app__body {
     .DayPicker {
-        font-size: inherit;
         width: 100%;
         margin-top: 0.3rem;
+        font-size: inherit;
 
         .DayPicker-NavBar {
             position: relative;
         }
 
         .DayPicker-Caption {
+            padding: 0 0.5rem 0.7rem;
             border-bottom: 1px solid transparent;
-            margin: 0 0.5rem .7rem;
-            padding: 0 0.5rem .7rem;
+            margin: 0 0.5rem 0.7rem;
+            text-align: center;
 
-            >div {
+            > div {
                 font-size: inherit;
             }
         }
 
         .DayPicker-Day {
-            border-radius: $border-rad * 2;
+            min-width: 32px;
+            height: 32px;
+            padding: 0;
+            border-radius: 100%;
+            font-weight: 600;
+        }
+
+        .DayPicker-Day--today {
+            background: rgba(var(--button-bg-rgb), 0.08);
+            color: var(--button-bg);
         }
 
         .DayPicker-wrapper {
@@ -28,19 +38,35 @@
 
         .DayPicker-NavButton {
             top: 0;
-            right: .5rem;
+            right: 0.5rem;
             margin-top: 2px;
             outline: none;
         }
 
         .DayPicker-Weekday {
-            font-weight: bold;
             color: inherit;
+            font-weight: bold;
         }
 
         .DayPicker-Month {
             width: 100%;
             margin: 0;
         }
+    }
+
+    .DayPickerInput-Overlay {
+        padding: 20px 24px;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+        background: rgba(var(--center-channel-bg-rgb), 1);
+        border-radius: 4px;
+        box-shadow: 0 8px 24px 0 alpha-color(black, 0.12);
+
+        & .DayPicker {
+            margin-top: 8px;
+        }
+    }
+
+    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+        background-color: var(--button-bg);
     }
 }

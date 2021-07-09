@@ -73,6 +73,36 @@ describe('posts', () => {
                 });
             });
 
+            it('should add a newer post', () => {
+                const state = deepFreeze({
+                    post1: {id: 'post1', message: '123', update_at: 100},
+                });
+
+                const nextState = reducers.handlePosts(state, {
+                    type: actionType,
+                    data: {id: 'post1', message: 'abc', update_at: 400},
+                });
+
+                expect(nextState).not.toBe(state);
+                expect(nextState.post1).not.toBe(state.post1);
+                expect(nextState).toEqual({
+                    post1: {id: 'post1', message: 'abc', update_at: 400},
+                });
+            });
+
+            it('should not add an older post', () => {
+                const state = deepFreeze({
+                    post1: {id: 'post1', message: '123', update_at: 400},
+                });
+
+                const nextState = reducers.handlePosts(state, {
+                    type: actionType,
+                    data: {id: 'post1', message: 'abc', update_at: 100},
+                });
+
+                expect(nextState.post1).toBe(state.post1);
+            });
+
             it('should remove any pending posts when receiving the actual post', () => {
                 const state = deepFreeze({
                     pending: {id: 'pending'},

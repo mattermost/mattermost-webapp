@@ -2,15 +2,15 @@
 
 .multi-select__container {
     display: table;
-    padding: 0 15px;
     width: 100%;
+    padding: 0 15px;
 
     .btn {
         display: table-cell;
-        height: 36px;
         min-width: 60px;
-        vertical-align: top;
+        height: 36px;
         margin-left: 16px;
+        vertical-align: top;
     }
 }
 
@@ -26,9 +26,9 @@
 }
 
 .multi-select__help {
-    padding: 10px 15px 0;
     display: flex;
     justify-content: space-between;
+    padding: 10px 15px 0;
 
     &:empty {
         display: none;
@@ -36,15 +36,16 @@
 
     > div:not(.multi-select__note),
     > span {
-        @include opacity(.6);
+        @include opacity(0.6);
     }
 }
 
 .multi-select__note {
     @include border-radius(3px);
+
     display: table;
-    padding: 8px 13px;
     width: 100%;
+    padding: 8px 13px;
 
     > div {
         display: table-cell;

@@ -32,6 +32,8 @@ import {
     closeMenu,
     openAtPrevious,
     updateSearchType,
+    suppressRHS,
+    unsuppressRHS,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
@@ -827,6 +829,24 @@ describe('rhs view actions', () => {
                 ...batchedActions('44', 2000),
                 {type: ActionTypes.CLEAR_HIGHLIGHT_REPLY},
             ]);
+        });
+    });
+
+    describe('rsh suppress actions', () => {
+        it('should suppress rhs', () => {
+            const store = mockStore(initialState);
+            store.dispatch(suppressRHS);
+
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.SUPPRESS_RHS,
+            }]);
+        });
+
+        it('should unsuppresses rhs', () => {
+            store.dispatch(unsuppressRHS);
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.UNSUPPRESS_RHS,
+            }]);
         });
     });
 });

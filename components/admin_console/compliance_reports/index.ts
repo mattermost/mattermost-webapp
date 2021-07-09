@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {createSelector} from 'reselect';
 
 import {createComplianceReport, getComplianceReports} from 'mattermost-redux/actions/admin';
@@ -23,6 +24,7 @@ type Actions = {
 }
 
 const getUsersForReports = createSelector(
+    'getUsersForReports',
     (state: GlobalState) => state.entities.users.profiles,
     (state: GlobalState) => state.entities.admin.complianceReports,
     (users, reports) => {
