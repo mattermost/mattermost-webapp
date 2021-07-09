@@ -192,7 +192,9 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
                     />
                 </div>
-                <Pluggable pluggableName='LeftSidebarHeader'/>
+                <div className='sidebar--left__icons'>
+                    <Pluggable pluggableName='LeftSidebarHeader'/>
+                </div>
                 <SidebarChannelList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     onDragStart={this.onDragStart}

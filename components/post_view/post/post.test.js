@@ -23,7 +23,7 @@ describe('Post', () => {
         previousPostIsComment: false,
         togglePostMenu: jest.fn(),
         isCommentMention: false,
-        replyCount: 0,
+        hasReplies: false,
         channelIsArchived: false,
         actions: {
             selectPost: jest.fn(),
@@ -185,11 +185,15 @@ describe('Post', () => {
         }
     });
 
-    test('should show the thread footer for root posts', () => {
+    test.each([
+        {hasReplies: false, post: {...baseProps.post, is_following: true}},
+        {hasReplies: true, post: {...baseProps.post, is_following: true}},
+        {hasReplies: true, post: {...baseProps.post, is_following: false}},
+    ])('should show the thread footer for root posts', (testCaseProps) => {
         const props = {
             ...baseProps,
+            ...testCaseProps,
             isCollapsedThreadsEnabled: true,
-            replyCount: 22,
         };
 
         const wrapper = shallowWithIntl(
@@ -203,7 +207,7 @@ describe('Post', () => {
     test.each([
         {isCollapsedThreadsEnabled: false},
         {isCollapsedThreadsEnabled: true, post: {...baseProps.post, root_id: 'parentpostid'}},
-        {isCollapsedThreadsEnabled: true, replyCount: 0},
+        {isCollapsedThreadsEnabled: true, hasReplies: false},
     ])('should not show thread footer', (testCaseProps) => {
         const props = {
             ...baseProps,

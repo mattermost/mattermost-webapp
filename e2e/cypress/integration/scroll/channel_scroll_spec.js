@@ -10,6 +10,9 @@
 // Stage: @prod
 // Group: @scroll
 
+import * as MESSAGES from '../../fixtures/messages';
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Scroll', () => {
     let testTeam;
     let testChannel;
@@ -71,6 +74,71 @@ describe('Scroll', () => {
         Cypress._.times(3, (postIndex) => {
             postMessageAndcheckIfTopMessagesAreScrolled(postIndex + 1, otherUser, testChannel.id);
         });
+    });
+
+    // https://automation-test-cases.vercel.app/test/MM-T2374
+    it('MM-T2374 System Messages', () => {
+        const firstPost = '<< This is the first post><';
+        const lastPost = '<< This is the last post><';
+
+        // # Make an opening first post
+        cy.postMessage(firstPost);
+
+        // # Make enough post so the channel can scroll sufficiently
+        Cypress._.times(6, () => {
+            cy.uiPostMessageQuickly(MESSAGES.LARGE);
+            cy.uiPostMessageQuickly(MESSAGES.MEDIUM);
+        });
+
+        // # Make a final post
+        cy.postMessage(lastPost);
+
+        // # Scroll to top
+        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('top', {duration: TIMEOUTS.ONE_SEC}).wait(TIMEOUTS.ONE_SEC);
+
+        // * Verify we are on the top of the channel
+        cy.findByText(firstPost).should('exist').and('be.visible');
+        cy.findByText(lastPost).should('exist').and('not.be.visible');
+
+        // # Add few users to the same channel
+        cy.apiCreateUser().then(({user: userAddRemove1}) => {
+            cy.apiAddUserToTeam(testTeam.id, userAddRemove1.id).then(() => {
+                cy.apiAddUserToChannel(testChannel.id, userAddRemove1.id);
+
+                cy.wait(TIMEOUTS.THREE_SEC);
+
+                cy.apiCreateUser().then(({user: userAddRemove2}) => {
+                    cy.apiAddUserToTeam(testTeam.id, userAddRemove2.id).then(() => {
+                        cy.apiAddUserToChannel(testChannel.id, userAddRemove2.id);
+
+                        cy.wait(TIMEOUTS.THREE_SEC);
+
+                        cy.apiCreateUser().then(({user: userAddRemove3}) => {
+                            cy.apiAddUserToTeam(testTeam.id, userAddRemove3.id).then(() => {
+                                cy.apiAddUserToChannel(testChannel.id, userAddRemove3.id);
+
+                                // # Wait a little before we can start removing
+                                cy.wait(TIMEOUTS.FIVE_SEC);
+
+                                // # Remove few users from the same channel
+                                cy.removeUserFromChannel(testChannel.id, userAddRemove1.id);
+
+                                cy.wait(TIMEOUTS.THREE_SEC);
+
+                                cy.removeUserFromChannel(testChannel.id, userAddRemove2.id);
+
+                                // # Wait a little after we removed the users
+                                cy.wait(TIMEOUTS.FIVE_SEC);
+                            });
+                        });
+                    });
+                });
+            });
+        });
+
+        // * Verify we are still on the top of the channel and no scrolling occured
+        cy.findByText(firstPost).should('exist').and('be.visible');
+        cy.findByText(lastPost).should('exist').and('not.be.visible');
     });
 });
 

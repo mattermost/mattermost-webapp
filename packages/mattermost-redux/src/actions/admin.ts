@@ -67,6 +67,18 @@ export function updateConfig(config: Record<string, any>): ActionFunc {
     });
 }
 
+export function patchConfig(config: Record<string, any>): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.patchConfig,
+        onRequest: AdminTypes.PATCH_CONFIG_REQUEST,
+        onSuccess: [AdminTypes.RECEIVED_CONFIG, AdminTypes.PATCH_CONFIG_SUCCESS],
+        onFailure: AdminTypes.PATCH_CONFIG_FAILURE,
+        params: [
+            config,
+        ],
+    });
+}
+
 export function reloadConfig(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.reloadConfig,
@@ -443,6 +455,21 @@ export function removeLicense(): ActionFunc {
     });
 }
 
+export function getPrevTrialLicense(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getPrevTrialLicense();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch({type: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS, data});
+        return {data};
+    };
+}
+
 export function getAnalytics(name: string, teamId = ''): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: AdminTypes.GET_ANALYTICS_REQUEST, data: null});
@@ -734,11 +761,11 @@ export function deleteDataRetentionCustomPolicy(id: string): ActionFunc {
     };
 }
 
-export function getDataRetentionCustomPolicyTeams(id: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, includeTotalCount = false): ActionFunc {
+export function getDataRetentionCustomPolicyTeams(id: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let data;
         try {
-            data = await Client4.getDataRetentionCustomPolicyTeams(id, page, perPage, includeTotalCount);
+            data = await Client4.getDataRetentionCustomPolicyTeams(id, page, perPage);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(
@@ -831,24 +858,39 @@ export function searchDataRetentionCustomPolicyChannels(id: string, term: string
 }
 
 export function createDataRetentionCustomPolicy(policy: CreateDataRetentionCustomPolicy): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.createDataRetentionPolicy,
-        onSuccess: AdminTypes.CREATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS,
-        params: [
-            policy,
-        ],
-    });
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.createDataRetentionPolicy(policy);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {type: AdminTypes.CREATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS, data},
+        );
+
+        return {data};
+    };
 }
 
 export function updateDataRetentionCustomPolicy(id: string, policy: CreateDataRetentionCustomPolicy): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.updateDataRetentionPolicy,
-        onSuccess: AdminTypes.UPDATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS,
-        params: [
-            id,
-            policy,
-        ],
-    });
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.updateDataRetentionPolicy(id, policy);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {type: AdminTypes.UPDATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS, data},
+        );
+
+        return {data};
+    };
 }
 
 export function addDataRetentionCustomPolicyTeams(id: string, teams: string[]): ActionFunc {

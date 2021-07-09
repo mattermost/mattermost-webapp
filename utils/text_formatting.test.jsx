@@ -175,18 +175,18 @@ describe('handleUnicodeEmoji', () => {
         },
         {
             description: 'should not replace unsupported emojis with an image',
-            text: '🤟', // Note, this test will fail as soon as this emoji gets a corresponding image
-            output: '<span class="emoticon emoticon--unicode">🤟</span>',
+            text: '😮‍💨', // Note, this test will fail as soon as this emoji gets a corresponding image
+            output: '<span class="emoticon emoticon--unicode">😮‍💨</span>',
         },
         {
             description: 'should correctly match gendered emojis',
             text: '🙅‍♀️🙅‍♂️',
-            output: '<span data-emoticon="no_good_woman">🙅‍♀️</span><span data-emoticon="no_good_man">🙅‍♂️</span>',
+            output: '<span data-emoticon="woman-gesturing-no">🙅‍♀️</span><span data-emoticon="man-gesturing-no">🙅‍♂️</span>',
         },
         {
             description: 'should correctly match flags',
             text: '🏳️🇨🇦🇫🇮',
-            output: '<span data-emoticon="white_flag">🏳️</span><span data-emoticon="canada">🇨🇦</span><span data-emoticon="finland">🇫🇮</span>',
+            output: '<span data-emoticon="waving_white_flag">🏳️</span><span data-emoticon="flag-ca">🇨🇦</span><span data-emoticon="flag-fi">🇫🇮</span>',
         },
         {
             description: 'should correctly match emojis with skin tones',
@@ -196,12 +196,12 @@ describe('handleUnicodeEmoji', () => {
         {
             description: 'should correctly match more emojis with skin tones',
             text: '✊🏻✊🏿',
-            output: '<span data-emoticon="fist_raised_light_skin_tone">✊🏻</span><span data-emoticon="fist_raised_dark_skin_tone">✊🏿</span>',
+            output: '<span data-emoticon="fist_light_skin_tone">✊🏻</span><span data-emoticon="fist_dark_skin_tone">✊🏿</span>',
         },
         {
             description: 'should correctly match combined emojis',
             text: '👨‍👩‍👧‍👦👨‍❤️‍👨',
-            output: '<span data-emoticon="family_man_woman_girl_boy">👨‍👩‍👧‍👦</span><span data-emoticon="couple_with_heart_man_man">👨‍❤️‍👨</span>',
+            output: '<span data-emoticon="man-woman-girl-boy">👨‍👩‍👧‍👦</span><span data-emoticon="man-heart-man">👨‍❤️‍👨</span>',
         },
     ];
 

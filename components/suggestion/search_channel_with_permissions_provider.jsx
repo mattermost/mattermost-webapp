@@ -33,7 +33,7 @@ class SearchChannelWithPermissionsSuggestion extends Suggestion {
         const channel = item.channel;
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
-        let className = 'mentions__name';
+        let className = 'suggestion-list__item';
         if (isSelection) {
             className += ' suggestion--selected';
         }
@@ -65,7 +65,9 @@ class SearchChannelWithPermissionsSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <span className='suggestion-list__icon suggestion-list__icon--large'>{icon}</span>
-                {displayName}
+                <div className='suggestion-list__ellipsis'>
+                    <span className='suggestion-list__main'>{displayName}</span>
+                </div>
             </div>
         );
     }
@@ -120,10 +122,10 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
             const searchString = channel.display_name;
 
             if (channel.type === Constants.OPEN_CHANNEL &&
-                haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS})) {
+                haveIChannelPermission(state, teamId, channelId, Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS)) {
                 return searchString.toLowerCase().includes(channelPrefixLower);
             } else if (channel.type === Constants.PRIVATE_CHANNEL &&
-                haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS})) {
+                haveIChannelPermission(state, teamId, channelId, Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS)) {
                 return searchString.toLowerCase().includes(channelPrefixLower);
             }
 

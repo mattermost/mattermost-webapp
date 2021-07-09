@@ -78,6 +78,7 @@ export type Post = {
     participants?: any; //Array<UserProfile | $ID<UserProfile>>;
     message_source?: string;
     is_following?: boolean;
+    exists?: boolean;
 };
 
 export type PostList = {

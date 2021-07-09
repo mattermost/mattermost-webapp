@@ -76,6 +76,7 @@ type Props = {
     teamsList: Team[];
     theme: any;
     plugins?: any;
+    selectedThreadId: string | null;
 }
 
 type State = {
@@ -191,6 +192,9 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     handleFocus = () => {
+        if (this.props.selectedThreadId) {
+            window.isActive = true;
+        }
         if (this.props.currentChannelId) {
             this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
             window.isActive = true;

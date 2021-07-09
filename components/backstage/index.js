@@ -28,14 +28,14 @@ function mapStateToProps(state) {
     let canCreateOrDeleteCustomEmoji = (haveISystemPermission(state, {permission: Permissions.CREATE_EMOJIS}) || haveISystemPermission(state, {permission: Permissions.DELETE_EMOJIS}));
     if (!canCreateOrDeleteCustomEmoji) {
         for (const t of getMyTeams(state)) {
-            if (haveITeamPermission(state, {team: t.id, permission: Permissions.CREATE_EMOJIS}) || haveITeamPermission(state, {team: t.id, permission: Permissions.DELETE_EMOJIS})) {
+            if (haveITeamPermission(state, t.id, Permissions.CREATE_EMOJIS) || haveITeamPermission(state, t.id, Permissions.DELETE_EMOJIS)) {
                 canCreateOrDeleteCustomEmoji = true;
                 break;
             }
         }
     }
 
-    const canManageTeamIntegrations = (haveITeamPermission(state, {permission: Permissions.MANAGE_SLASH_COMMANDS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OAUTH}) || haveITeamPermission(state, {permission: Permissions.MANAGE_INCOMING_WEBHOOKS}) || haveITeamPermission(state, {permission: Permissions.MANAGE_OUTGOING_WEBHOOKS}));
+    const canManageTeamIntegrations = (haveITeamPermission(state, '', Permissions.MANAGE_SLASH_COMMANDS) || haveITeamPermission(state, '', Permissions.MANAGE_OAUTH) || haveITeamPermission(state, '', Permissions.MANAGE_INCOMING_WEBHOOKS) || haveITeamPermission(state, '', Permissions.MANAGE_OUTGOING_WEBHOOKS));
     const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
     const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
 
