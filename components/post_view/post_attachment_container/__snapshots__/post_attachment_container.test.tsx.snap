@@ -3,6 +3,8 @@
 exports[`PostAttachmentContainer should render correctly 1`] = `
 <div
   className="attachment attachment--permalink"
+  onClick={[Function]}
+  role="button"
 >
   <div
     className="attachment__content attachment__content--permalink"
