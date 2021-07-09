@@ -13,7 +13,7 @@
  *   BRANCH=[branch]            : Branch identifier from CI
  *   BUILD_ID=[build_id]        : Build identifier from CI
  *   BUILD_TAG=[build_tag]      : Docker image used to run the test
- * 
+ *
  *   For saving artifacts to AWS S3
  *      - AWS_S3_BUCKET, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
  *   For saving test cases to Test Management
