@@ -1643,6 +1643,7 @@
     .post__time,
     .post-preview__time {
         @include opacity(0.6);
+
         margin-right: 4px;
         font-size: 0.9em;
     }
@@ -1833,40 +1834,40 @@
 
     .post-preview {
         .post__img {
-            text-align: left;
             width: 24px;
             padding: 0;
+            text-align: left;
 
             img.avatar-post-preview {
                 display: block;
             }
         }
-        
 
         .user-popover {
             padding-left: 8px;
         }
+
         .post-message__text-container {
             overflow: hidden;
         }
 
         .post-message--collapsed.post-message-preview--overflow .post-message__text {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
             display: -webkit-box;
+            overflow: hidden;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 5;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .post-preview-collapse__show-more-button {
-            background: none;
-            border: none;
             padding: 0;
+            border: none;
             margin-top: 10px;
-            color: #2389D7;
+            background: none;
+            color: #2389d7;
         }
-        
+
         .post-preview__time {
             margin-left: 6px;
         }
@@ -1879,11 +1880,12 @@
                 display: inline-block;
                 width: auto;
                 margin-right: 8px;
-                line-height: 16px;
+                color: rgba(var(--center-channel-color-rgb), 0.56);
                 font-size: 12px;
+                line-height: 16px;
                 opacity: 0.6;
-                color: rgba(var(--center-channel-color-rgb), .56);
             }
+
             a {
                 display: inline-block;
                 font-size: 12px;
