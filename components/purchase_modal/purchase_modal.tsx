@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
@@ -18,13 +18,14 @@ import blueDots from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES, CloudLinks, CloudProducts} from 'utils/constants';
+import {TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RadioButtonGroup from 'components/common/radio_group';
+import Badge from 'components/widgets/badges/badge';
 
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
@@ -191,12 +192,21 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     listPlans = () => {
         const products = this.props.products!;
-        const options = Object.keys(products).map((key: string) => {
-            return {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
-        }).sort((a, b) => a.price - b.price);
-        const badgeTitle = (
+        const flatFeeProducts: any = [];
+        const userBasedProducts: any = [];
+        Object.keys(products).forEach((key: string) => {
+            const tempEl = {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
+            if (products[key].billing_scheme === BillingSchemes.FLAT_FEE) {
+                flatFeeProducts.push(tempEl);
+            } else {
+                userBasedProducts.push(tempEl);
+            }
+        });
+
+        const options = [...flatFeeProducts.sort((a: any, b: any) => a.price - b.price), ...userBasedProducts.sort((a: any, b: any) => a.price - b.price)];
+        const sideLegendTitle = (
             <FormattedMessage
-                defaultMessage={'Current Plan'}
+                defaultMessage={'(Current Plan)'}
                 id={'admin.billing.subscription.purchaseModal.currentPlan'}
             />
         );
@@ -207,10 +217,49 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     id='list-plans-radio-buttons'
                     values={options!}
                     value={this.state.selectedProduct?.id as string}
-                    badge={{matchVal: this.state.currentProduct?.id as string, text: badgeTitle}}
+                    sideLegend={{matchVal: this.state.currentProduct?.id as string, text: sideLegendTitle}}
                     onChange={(e: any) => this.onPlanSelected(e)}
                 />
             </div>
+        );
+    }
+
+    displayDecimals = () => {
+        const price = this.state.selectedProduct?.price_per_seat.toFixed(2);
+        if (!price) {
+            return null;
+        }
+        let decimals = null;
+        const [, decimalPart] = price?.toString().split('.') as string[];
+        if (this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE && decimalPart) {
+            decimals = decimalPart;
+        }
+        if (decimals === null) {
+            return null;
+        }
+        return (
+            <span className='price-decimals'>
+                {decimals}
+            </span>
+        );
+    }
+
+    contactSalesLink = (text: ReactNode) => {
+        return (
+            <a
+                className='footer-text'
+                onClick={() => {
+                    trackEvent(
+                        TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                        'click_contact_sales',
+                    );
+                }}
+                href={this.props.contactSalesLink}
+                target='_new'
+                rel='noopener noreferrer'
+            >
+                {text}
+            </a>
         );
     }
 
@@ -363,15 +412,50 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         <div className='bold-text'>
                             {this.state.selectedProduct?.name || ''}
                         </div>
-                        <div className='price-text'>
-                            {`$${this.state.selectedProduct?.price_per_seat || 0}`}
-                            <span className='monthly-text'>
+                        {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
+                            <Badge className='unlimited-users-badge'>
                                 <FormattedMessage
-                                    defaultMessage={' /user/month'}
-                                    id={'admin.billing.subscription.perUserPerMonth'}
+                                    defaultMessage={'Unlimited Users'}
+                                    id={'admin.billing.subscription.unlimitedUsers'}
                                 />
+                            </Badge>
+                        }
+                        <div className='price-text'>
+                            {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
+                            {this.displayDecimals()}
+                            <span className='monthly-text'>
+                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ?
+                                    <FormattedMessage
+                                        defaultMessage={' /month'}
+                                        id={'admin.billing.subscription.perMonth'}
+                                    /> :
+                                    <FormattedMessage
+                                        defaultMessage={' /user/month'}
+                                        id={'admin.billing.subscription.perUserPerMonth'}
+                                    />
+                                }
                             </span>
                         </div>
+                        {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
+                            <div className='payment-note'>
+                                <FormattedMessage
+                                    defaultMessage={'If your Mattermost Cloud trial started on or before September 15, please '}
+                                    id={'admin.billing.subscription.paymentNoteStart'}
+                                />
+                                {this.contactSalesLink(
+                                    <FormattedMessage
+                                        defaultMessage={'contact our Sales team'}
+                                        id={
+                                            'admin.billing.subscription.privateCloudCard.contactOurSalesTeam'
+                                        }
+                                    />,
+                                )}
+                                <FormattedMessage
+                                    defaultMessage={' for assistance'}
+                                    id={'admin.billing.subscription.paymentNoteEnd'}
+                                />
+                            </div>
+                        }
                         <div className='footer-text'>
                             <FormattedMessage
                                 defaultMessage={'Payment begins: {beginDate}'}
@@ -410,26 +494,14 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             id={'admin.billing.subscription.otherBillingOption'}
                         />
                     </div>
-                    <a
-                        className='footer-text'
-                        onClick={() => {
-                            trackEvent(
-                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                                'click_contact_sales',
-                            );
-                        }}
-                        href={this.props.contactSalesLink}
-                        target='_new'
-                        rel='noopener noreferrer'
-                    >
+                    {this.contactSalesLink(
                         <FormattedMessage
                             defaultMessage={'Contact Sales'}
                             id={
                                 'admin.billing.subscription.privateCloudCard.contactSales'
                             }
-                        />
-                    </a>
-
+                        />,
+                    )}
                     <div className='logo'>
                         <img src={cloudLogo}/>
                     </div>

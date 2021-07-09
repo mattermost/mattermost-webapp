@@ -1,41 +1,52 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
 
 import {Client4} from 'mattermost-redux/client';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import {NameMappedObjects, UsernameMappedObjects} from 'mattermost-redux/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Group} from 'mattermost-redux/types/groups';
 
 import ProfilePopover from 'components/profile_popover';
 
-import {popOverOverlayPosition} from 'utils/position_utils.tsx';
+import {popOverOverlayPosition} from 'utils/position_utils';
+
 const spaceRequiredForPopOver = 300;
 
-export default class AtMention extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.node,
-        currentUserId: PropTypes.string.isRequired,
-        channelId: PropTypes.string,
-        hasMention: PropTypes.bool,
-        disableHighlight: PropTypes.bool,
-        disableGroupHighlight: PropTypes.bool,
-        isRHS: PropTypes.bool,
-        mentionName: PropTypes.string.isRequired,
-        teammateNameDisplay: PropTypes.string.isRequired,
-        usersByUsername: PropTypes.object.isRequired,
-        groupsByName: PropTypes.object.isRequired,
-    };
+type Props = {
+    currentUserId: string;
+    mentionName: string;
+    teammateNameDisplay: string;
+    usersByUsername: UsernameMappedObjects<UserProfile>;
+    groupsByName: NameMappedObjects<Group>;
+    children?: React.ReactNode;
+    channelId?: string;
+    hasMention?: boolean;
+    disableHighlight?: boolean;
+    disableGroupHighlight?: boolean;
+    isRHS?: boolean;
+}
 
-    static defaultProps = {
+type State = {
+    show: boolean;
+    target?: HTMLAnchorElement;
+    placement?: string;
+}
+
+export default class AtMention extends React.PureComponent<Props, State> {
+    overlayRef: React.RefObject<HTMLAnchorElement>;
+
+    static defaultProps: Partial<Props> = {
         isRHS: false,
         hasMention: false,
         disableHighlight: false,
         disableGroupHighlight: false,
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -45,11 +56,13 @@ export default class AtMention extends React.PureComponent {
         this.overlayRef = React.createRef();
     }
 
-    handleClick = (e) => {
-        const targetBounds = this.overlayRef.current.getBoundingClientRect();
-        const placement = popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredForPopOver);
+    handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        const targetBounds = this.overlayRef.current?.getBoundingClientRect();
 
-        this.setState({target: e.target, show: !this.state.show, placement});
+        if (targetBounds) {
+            const placement = popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredForPopOver);
+            this.setState({target: e.target as HTMLAnchorElement, show: !this.state.show, placement});
+        }
     }
 
     hideOverlay = () => {
