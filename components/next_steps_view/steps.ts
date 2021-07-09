@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
