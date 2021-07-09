@@ -3,7 +3,7 @@
 exports[`PostMessagePreview should render correctly 1`] = `
 <PostAttachmentContainer
   className="permalink"
-  link="http://localhost:8065/team1/pl/post_id"
+  link="/team1/pl/post_id"
 >
   <div
     className="post-preview"
