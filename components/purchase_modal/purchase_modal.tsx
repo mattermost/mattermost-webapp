@@ -529,7 +529,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     render() {
-        console.log("current", this.state.currentProduct);
         if (!stripePromise) {
             stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
         }
