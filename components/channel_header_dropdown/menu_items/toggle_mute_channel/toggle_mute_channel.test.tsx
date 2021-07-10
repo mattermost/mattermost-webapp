@@ -97,7 +97,6 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
         [
             Constants.DM_CHANNEL,
             Constants.GM_CHANNEL,
-           
         ].forEach((channelType) => {
             const channel = {
                 id: 'channel_id',
