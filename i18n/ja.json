@@ -4336,7 +4336,7 @@
   "threading.threadMenu.unfollowMessage": "メッセージを購読しない",
   "threading.threadMenu.unsave": "保存を取り消す",
   "time_dropdown.choose_time": "時刻を選択する",
-  "timestamp.datetime": "{time} の {relativeOrDate}",
+  "timestamp.datetime": "{relativeOrDate} の {time}",
   "tutorial_intro.allSet": "準備ができました",
   "tutorial_intro.end": "「次へ」をクリックして{channel}へ移動しましょう。このチャンネルはチームメイトが利用登録をした際に最初に入るチャンネルです。全員が知っておくべきことを投稿してください。",
   "tutorial_intro.invite": "チームメイトを招待する",
