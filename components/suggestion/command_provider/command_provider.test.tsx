@@ -9,6 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 
 import CommandProvider, {CommandSuggestion, Results} from './command_provider';
+import {AppCommandParser} from './app_command_parser/app_command_parser';
 
 describe('CommandSuggestion', () => {
     const suggestion: AutocompleteSuggestion = {
@@ -54,6 +55,7 @@ describe('CommandProvider', () => {
                 teamId: 'current_team',
                 channelId: 'current_channel',
                 rootId: 'current_root',
+                appCommandParser: new AppCommandParser(null, null as any, [], 'current_channel', 'curent_team', 'current_root'),
             });
 
             const callback = jest.fn();
@@ -93,6 +95,7 @@ describe('CommandProvider', () => {
                 teamId: 'current_team',
                 channelId: 'current_channel',
                 rootId: 'current_root',
+                appCommandParser: new AppCommandParser(null, null as any, [], 'current_channel', 'curent_team', 'current_root'),
             });
 
             const callback = jest.fn();

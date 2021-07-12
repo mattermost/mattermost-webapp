@@ -9,6 +9,8 @@ import {ClientConfig} from 'mattermost-redux/types/config';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {getCurrentChannelId} from './common';
+
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
@@ -28,6 +30,32 @@ export const makeAppBindingsSelector = (location: string) => {
         (state: GlobalState) => appsEnabled(state),
         (bindings: AppBinding[], areAppsEnabled: boolean) => {
             if (!areAppsEnabled || !bindings) {
+                return [];
+            }
+
+            const headerBindings = bindings.filter((b) => b.location === location);
+            return headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
+        },
+    );
+};
+
+export const makeRHSAppBindingSelector = (location: string) => {
+    return createSelector(
+        'makeRHSAppBindingSelector',
+        (state: GlobalState) => state.entities.apps.bindings,
+        (state: GlobalState) => appsEnabled(state),
+        (state: GlobalState) => getCurrentChannelId(state),
+        (state: GlobalState, channelID: string) => channelID,
+        (bindings: AppBinding[], areAppsEnabled: boolean, currentChannelID: string, channelID: string) => {
+            if (!areAppsEnabled) {
+                return [];
+            }
+
+            if (currentChannelID !== channelID) {
+                return null;
+            }
+
+            if (!bindings) {
                 return [];
             }
 

@@ -55,8 +55,6 @@ export {
 
 export {autocompleteUsersInChannel} from 'actions/views/channel';
 
-export {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
-
 export {getPost} from 'mattermost-redux/selectors/entities/posts';
 export {getChannel as selectChannel, getCurrentChannel, getChannelByName as selectChannelByName} from 'mattermost-redux/selectors/entities/channels';
 export {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
