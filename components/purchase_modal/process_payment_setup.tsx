@@ -149,7 +149,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             const formattedButonText = (
                 <FormattedMessage
                     defaultMessage={'Return to {team}'}
-                    id={'admin.billing.subscription.proratedPayment.buttonText3'}
+                    id={'admin.billing.subscription.proratedPayment.buttonText'}
                     values={{team: this.props.teamName}}
                 />
             );
