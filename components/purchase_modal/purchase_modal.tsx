@@ -7,9 +7,13 @@ import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
+import {Tooltip} from 'react-bootstrap';
+
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
+import {Team} from 'mattermost-redux/types/teams';
+
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import upgradeImage from 'images/cloud/upgrade.svg';
@@ -18,7 +22,7 @@ import blueDots from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
+import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -26,6 +30,7 @@ import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RadioButtonGroup from 'components/common/radio_group';
 import Badge from 'components/widgets/badges/badge';
+import OverlayTrigger from 'components/overlay_trigger';
 
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
@@ -49,6 +54,8 @@ type Props = {
     contactSalesLink: string;
     isFreeTrial: boolean;
     productId: string | undefined;
+    team: Team;
+    siteName: string;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -263,6 +270,28 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         );
     }
 
+    learnMoreLink = () => {
+        return (
+            <a
+                className='footer-text'
+                onClick={() => {
+                    trackEvent(
+                        TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                        'click_contact_sales',
+                    );
+                }}
+                href={this.props.contactSalesLink}
+                target='_new'
+                rel='noopener noreferrer'
+            >
+                <FormattedMessage
+                    defaultMessage={'Learn more'}
+                    id={'admin.billing.subscription.LearnMore'}
+                />
+            </a>
+        );
+    }
+
     editPaymentInfoHandler = () => {
         this.setState((prevState: State) => {
             return {
@@ -270,6 +299,68 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 editPaymentInfo: !prevState.editPaymentInfo,
             };
         });
+    }
+
+    paymentFooterText = () => {
+        const normalPaymentText = (
+            <FormattedMessage
+                defaultMessage={'Payment begins: {beginDate}'}
+                id={'admin.billing.subscription.paymentBegins'}
+                values={{
+                    beginDate: getNextBillingDate(),
+                }}
+            />
+        );
+
+        let payment = normalPaymentText;
+        if ((!this.props.isFreeTrial && this.state.currentProduct?.name.toLowerCase().includes('starter')) &&
+                !this.state.selectedProduct?.name.toLowerCase().includes('starter')) {
+                const announcementTooltip = (
+                    <Tooltip id='proratedPayment__tooltip' className='proratedTooltip'>
+                        <div className='tooltipTitle'>
+                            <FormattedMessage 
+                                defaultMessage={'Prorated Payments'}
+                                id={'admin.billing.subscription.proratedPayment.tooltipTitle'}
+                            />
+                        </div>
+                        <div className='tooltipText'>
+                            <FormattedMessage
+                                defaultMessage={'\ If you upgrade to Cloud Professional from Cloud Starter mid-month, you will be charged a prorated amount for both plans.'}
+                                id={'admin.billing.subscription.proratedPayment.tooltipText'}
+                                values={{
+                                    beginDate: getNextBillingDate(),
+                                }}
+                            />
+                        </div>
+                    </Tooltip>
+                );
+        
+                const announcementIcon = (
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={announcementTooltip}
+                    >
+                        <div className='content__icon'>{'\uF5D6'}</div>
+                    </OverlayTrigger>
+
+                );
+                const prorratedPaymentText = (
+                    <div className='prorrated-payment-text'>
+                        {announcementIcon}
+                        <FormattedMessage
+                            defaultMessage={'Prorated payment begins: {beginDate}. '}
+                            id={'admin.billing.subscription.proratedPaymentBegins'}
+                            values={{
+                                beginDate: getNextBillingDate(),
+                            }}
+                        />
+                        {this.learnMoreLink()}
+                    </div>
+                );
+            payment = prorratedPaymentText;
+        }
+        return payment;
     }
 
     purchaseScreen = () => {
@@ -457,13 +548,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             </div>
                         }
                         <div className='footer-text'>
-                            <FormattedMessage
-                                defaultMessage={'Payment begins: {beginDate}'}
-                                id={'admin.billing.subscription.payamentBegins'}
-                                values={{
-                                    beginDate: getNextBillingDate(),
-                                }}
-                            />
+                            {this.paymentFooterText()}
                         </div>
                         <button
                             disabled={!this.state.paymentInfoIsValid}
@@ -555,6 +640,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
                                         selectedProduct={this.state.selectedProduct}
+                                        teamName={this.props.team?.name ? this.props.team?.name : this.props.siteName}
+                                        isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.name.toLowerCase().includes('starter')) &&
+                                        !this.state.selectedProduct?.name.toLowerCase().includes('starter')}
                                     />
                                 </div>
                             ) : null}

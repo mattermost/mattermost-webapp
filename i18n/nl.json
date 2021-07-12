@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Je meest recente betaling is niet gelukt",
   "admin.billing.subscription.nextBillingDate": "Vanaf {date} wordt je gefactureerd op basis van het aantal ingeschakelde gebruikers",
   "admin.billing.subscription.otherBillingOption": "Heb je andere factureringsopties nodig?",
-  "admin.billing.subscription.payamentBegins": "Betaling begint: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "Betaling begint: {beginDate}",
   "admin.billing.subscription.paymentFailed": "De betaling is mislukt. Probeer opnieuw of neem contact met de helpdesk.",
   "admin.billing.subscription.paymentVerificationFailed": "Sorry, de betalingsverificatie is mislukt",
   "admin.billing.subscription.perUserPerMonth": " /gebruiker/maand",

@@ -14,6 +14,7 @@ type Props = {
     date?: string;
     error?: boolean;
     buttonText?: string;
+    formattedButonText?: JSX.Element;
     buttonHandler?: () => void;
     linkText?: string;
     linkURL?: string;
@@ -29,6 +30,7 @@ export default function IconMessage(props: Props) {
         date,
         error,
         buttonText,
+        formattedButonText,
         buttonHandler,
         linkText,
         linkURL,
@@ -37,7 +39,7 @@ export default function IconMessage(props: Props) {
     } = props;
 
     let button = null;
-    if (buttonText && buttonHandler) {
+    if ((buttonText || formattedButonText) && buttonHandler) {
         button = (
             <div className={classNames('IconMessage-button', error ? 'error' : '')}>
                 <button
@@ -45,9 +47,9 @@ export default function IconMessage(props: Props) {
                     className='btn btn-primary Form-btn'
                     onClick={buttonHandler}
                 >
-                    <FormattedMessage
+                    {formattedButonText ? formattedButonText : <FormattedMessage
                         id={buttonText}
-                    />
+                    />}
                 </button>
             </div>
         );

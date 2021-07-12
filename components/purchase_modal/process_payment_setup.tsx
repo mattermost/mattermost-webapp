@@ -20,6 +20,7 @@ import './process_payment.css';
 import {Product} from 'mattermost-redux/types/cloud';
 
 import IconMessage from './icon_message';
+import { FormattedMessage } from 'react-intl';
 
 type Props = {
     billingDetails: BillingDetails | null;
@@ -31,6 +32,8 @@ type Props = {
     onBack: () => void;
     onClose: () => void;
     selectedProduct?: Product | null | undefined;
+    isProratedPayment?: boolean;
+    teamName?: string;
 }
 
 type State = {
@@ -139,6 +142,45 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         this.props.onBack();
     }
 
+    private sucessPage = () => {
+        const {error} = this.state;
+        if (this.props.isProratedPayment) {
+            const formattedButonText = (
+                <FormattedMessage
+                    defaultMessage={'Return to {team}'}
+                    id={'admin.billing.subscription.proratedPayment.buttonText3'}
+                    values={{team: this.props.teamName}}
+                />
+            );
+            return (
+                <>
+                    <IconMessage
+                        title={t('admin.billing.subscription.proratedPayment.title')}
+                        subtitle={t('admin.billing.subscription.proratedPayment.substitle')}
+                        date={getNextBillingDate()}
+                        error={error}
+                        icon={successSvg}
+                        formattedButonText={formattedButonText}
+                        buttonHandler={this.props.onClose}
+                        className={'success'}
+                    />
+                </>
+            );
+        }
+        return (
+            <IconMessage
+                title={t('admin.billing.subscription.upgradedSuccess')}
+                subtitle={t('admin.billing.subscription.nextBillingDate')}
+                date={getNextBillingDate()}
+                error={error}
+                icon={successSvg}
+                buttonText={t('admin.billing.subscription.letsGo')}
+                buttonHandler={this.props.onClose}
+                className={'success'}
+            />
+        );
+    }
+
     public render() {
         const {state, progress, error} = this.state;
 
@@ -166,18 +208,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
                 'pageview_payment_success',
             );
-            return (
-                <IconMessage
-                    title={t('admin.billing.subscription.upgradedSuccess')}
-                    subtitle={t('admin.billing.subscription.nextBillingDate')}
-                    date={getNextBillingDate()}
-                    error={error}
-                    icon={successSvg}
-                    buttonText={t('admin.billing.subscription.letsGo')}
-                    buttonHandler={this.props.onClose}
-                    className={'success'}
-                />
-            );
+            return this.sucessPage();
         case ProcessState.FAILED:
             pageVisited(
                 TELEMETRY_CATEGORIES.CLOUD_PURCHASING,

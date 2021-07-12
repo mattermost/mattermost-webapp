@@ -9,6 +9,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getClientConfig} from 'mattermost-redux/actions/general';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';
@@ -25,6 +26,9 @@ import PurchaseModal from './purchase_modal';
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
+    const config = getConfig(state);
+    const siteName = config?.SiteName;
+
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
         products: state.entities.cloud!.products,
@@ -34,6 +38,8 @@ function mapStateToProps(state: GlobalState) {
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
         productId: subscription?.product_id,
         customer: state.entities.cloud.customer,
+        team: getCurrentTeam(state),
+        siteName: siteName,
     };
 }
 type Actions = {

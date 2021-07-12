@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Ihre kürzlichste Zahlung ist fehlgeschlagen",
   "admin.billing.subscription.nextBillingDate": "Ab dem {date} fallen für Sie Gebühren an, je nach Anzahl aktivierter Nutzer",
   "admin.billing.subscription.otherBillingOption": "Benötigen Sie andere Zahlungsoptionen?",
-  "admin.billing.subscription.payamentBegins": "Die Zahlung beginnt ab: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "Die Zahlung beginnt ab: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Die Zahlung ist fehlgeschlagen. Bitte versuchen Sie es erneut oder kontaktieren Sie unseren Support.",
   "admin.billing.subscription.paymentVerificationFailed": "Sorry, die Zahlungsüberprüfung ist fehlgeschlagen",
   "admin.billing.subscription.perUserPerMonth": " pro Monat und Benutzer",

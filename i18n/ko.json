@@ -284,7 +284,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "최근 결제 실패",
   "admin.billing.subscription.nextBillingDate": "{date}부터 활성화 된 사용자 수에 따라 요금이 청구됩니다.",
   "admin.billing.subscription.otherBillingOption": "다른 결제 옵션이 필요하십니까?",
-  "admin.billing.subscription.payamentBegins": "결제 시작 : {beginDate}",
+  "admin.billing.subscription.paymentBegins": "결제 시작 : {beginDate}",
   "admin.billing.subscription.paymentFailed": "결제 실패. 다시 시도하거나 지원팀에 문의하십시오.",
   "admin.billing.subscription.paymentVerificationFailed": "죄송합니다. 결제 확인에 실패했습니다",
   "admin.billing.subscription.perUserPerMonth": " /user/month",

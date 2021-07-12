@@ -284,7 +284,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Последний платеж не прошел",
   "admin.billing.subscription.nextBillingDate": "Начиная с {date}, с вас будет взиматься плата в зависимости от количества включенных пользователей",
   "admin.billing.subscription.otherBillingOption": "Нужны другие варианты выставления счетов?",
-  "admin.billing.subscription.payamentBegins": "Оплата начинается: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "Оплата начинается: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Платеж не прошел. Пожалуйста, попробуйте еще раз или обратитесь в службу поддержки.",
   "admin.billing.subscription.paymentVerificationFailed": "Извините, проверка платежа не прошла",
   "admin.billing.subscription.perUserPerMonth": " /пользователь/месяц",
