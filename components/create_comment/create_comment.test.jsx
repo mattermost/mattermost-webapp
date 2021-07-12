@@ -374,7 +374,7 @@ describe('components/CreateComment', () => {
         wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
         expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
 
-        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId',percent: 10, name: 'name', type: 'type'}});
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
     });
 
     test('set showPostDeletedModal true when createPostErrorId === api.post.create_post.root_id.app_error', () => {
@@ -916,7 +916,6 @@ describe('components/CreateComment', () => {
             const wrapper = shallowWithIntl(
                 <CreateComment {...props}/>,
             );
-
 
             await wrapper.instance().handleSubmit({preventDefault});
 
