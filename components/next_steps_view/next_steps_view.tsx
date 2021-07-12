@@ -23,6 +23,7 @@ import NextStepsTips from './next_steps_tips';
 import OnboardingBgSvg from './images/onboarding-bg-svg';
 import GettingStartedSvg from './images/getting-started-svg';
 import CloudLogoSvg from './images/cloud-logo-svg';
+import LogoSvg from './images/logo-svg';
 import OnboardingSuccessSvg from './images/onboarding-success-svg';
 
 const TRANSITION_SCREEN_TIMEOUT = 3000;
@@ -33,6 +34,7 @@ type Props = {
     isFirstAdmin: boolean;
     steps: StepType[];
     team: Team;
+    isCloud: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
@@ -264,6 +266,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     renderMainBody = () => {
         const renderedSteps = this.props.steps.map(this.renderStep);
+        const logo = this.props.isCloud ? <CloudLogoSvg/> : <LogoSvg/>;
 
         return (
             <div
@@ -288,7 +291,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         </h2>
                     </div>
                     <div className='NextStepsView__header-logo'>
-                        <CloudLogoSvg/>
+                        {logo}
                     </div>
                 </header>
                 <div className='NextStepsView__body'>
@@ -342,6 +345,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUserId={this.props.currentUser.id}
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
                         team={this.props.team}
+                        isCloud={this.props.isCloud}
                     />
                 </>}
             </section>
