@@ -27,7 +27,7 @@ type Props = {
     channelId: string;
     rootId?: string;
     value: string;
-    onChange: (e: ChangeEvent) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (e: KeyboardEvent) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
@@ -38,7 +38,7 @@ type Props = {
     onKeyUp?: (e: KeyboardEvent) => void;
     onBlur?: (e: FocusEvent) => void;
     supportsCommands: boolean;
-    handlePostError?: (message: JSX.Element | null) => void;
+    handlePostError?: (message: React.ReactNode) => void;
     suggestionListStyle?: string;
     emojiEnabled?: boolean;
     isRHS?: boolean;

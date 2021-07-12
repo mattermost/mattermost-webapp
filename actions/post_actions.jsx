@@ -134,6 +134,7 @@ export function addReaction(postId, emojiName) {
     return (dispatch) => {
         dispatch(PostActions.addReaction(postId, emojiName));
         dispatch(addRecentEmoji(emojiName));
+        return {data: true};
     };
 }
 
