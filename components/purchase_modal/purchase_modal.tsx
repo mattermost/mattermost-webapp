@@ -55,7 +55,6 @@ type Props = {
     isFreeTrial: boolean;
     productId: string | undefined;
     team: Team;
-    siteName: string;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -643,7 +642,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
                                         selectedProduct={this.state.selectedProduct}
-                                        teamName={this.props.team?.name ? this.props.team?.name : this.props.siteName}
+                                        teamName={this.props.team?.name}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.name.toLowerCase().includes('starter')) &&
                                         !this.state.selectedProduct?.name.toLowerCase().includes('starter')}
                                     />
