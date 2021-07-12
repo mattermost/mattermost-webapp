@@ -21,8 +21,9 @@
         font-weight: 600;
 
         .footer-text {
-            font-size: 14px;
             color: rgba(var(--center-channel-color-rgb), 0.72);
+            font-size: 14px;
+
             .prorrated-payment-text {
                 div {
                     display: inline-block;
@@ -292,6 +293,7 @@
                 font-size: 14px;
                 font-weight: 400;
                 line-height: 20px;
+
                 a {
                     color: var(--button-bg);
                 }

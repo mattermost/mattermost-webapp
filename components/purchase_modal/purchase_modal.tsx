@@ -277,10 +277,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 onClick={() => {
                     trackEvent(
                         TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                        'click_contact_sales',
+                        'learn_more_prorated_payment',
                     );
                 }}
-                href={this.props.contactSalesLink}
+                href={CloudLinks.PRORATED_PAYMENT}
                 target='_new'
                 rel='noopener noreferrer'
             >
@@ -315,49 +315,52 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         let payment = normalPaymentText;
         if ((!this.props.isFreeTrial && this.state.currentProduct?.name.toLowerCase().includes('starter')) &&
                 !this.state.selectedProduct?.name.toLowerCase().includes('starter')) {
-                const announcementTooltip = (
-                    <Tooltip id='proratedPayment__tooltip' className='proratedTooltip'>
-                        <div className='tooltipTitle'>
-                            <FormattedMessage 
-                                defaultMessage={'Prorated Payments'}
-                                id={'admin.billing.subscription.proratedPayment.tooltipTitle'}
-                            />
-                        </div>
-                        <div className='tooltipText'>
-                            <FormattedMessage
-                                defaultMessage={'\ If you upgrade to Cloud Professional from Cloud Starter mid-month, you will be charged a prorated amount for both plans.'}
-                                id={'admin.billing.subscription.proratedPayment.tooltipText'}
-                                values={{
-                                    beginDate: getNextBillingDate(),
-                                }}
-                            />
-                        </div>
-                    </Tooltip>
-                );
-        
-                const announcementIcon = (
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
-                        overlay={announcementTooltip}
-                    >
-                        <div className='content__icon'>{'\uF5D6'}</div>
-                    </OverlayTrigger>
-
-                );
-                const prorratedPaymentText = (
-                    <div className='prorrated-payment-text'>
-                        {announcementIcon}
+            const announcementTooltip = (
+                <Tooltip
+                    id='proratedPayment__tooltip'
+                    className='proratedTooltip'
+                >
+                    <div className='tooltipTitle'>
                         <FormattedMessage
-                            defaultMessage={'Prorated payment begins: {beginDate}. '}
-                            id={'admin.billing.subscription.proratedPaymentBegins'}
+                            defaultMessage={'Prorated Payments'}
+                            id={'admin.billing.subscription.proratedPayment.tooltipTitle'}
+                        />
+                    </div>
+                    <div className='tooltipText'>
+                        <FormattedMessage
+                            defaultMessage={'If you upgrade to Cloud Professional from Cloud Starter mid-month, you will be charged a prorated amount for both plans.'}
+                            id={'admin.billing.subscription.proratedPayment.tooltipText'}
                             values={{
                                 beginDate: getNextBillingDate(),
                             }}
                         />
-                        {this.learnMoreLink()}
                     </div>
-                );
+                </Tooltip>
+            );
+
+            const announcementIcon = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={announcementTooltip}
+                >
+                    <div className='content__icon'>{'\uF5D6'}</div>
+                </OverlayTrigger>
+
+            );
+            const prorratedPaymentText = (
+                <div className='prorrated-payment-text'>
+                    {announcementIcon}
+                    <FormattedMessage
+                        defaultMessage={'Prorated payment begins: {beginDate}. '}
+                        id={'admin.billing.subscription.proratedPaymentBegins'}
+                        values={{
+                            beginDate: getNextBillingDate(),
+                        }}
+                    />
+                    {this.learnMoreLink()}
+                </div>
+            );
             payment = prorratedPaymentText;
         }
         return payment;

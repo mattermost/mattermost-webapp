@@ -39,7 +39,7 @@ function mapStateToProps(state: GlobalState) {
         productId: subscription?.product_id,
         customer: state.entities.cloud.customer,
         team: getCurrentTeam(state),
-        siteName: siteName,
+        siteName,
     };
 }
 type Actions = {

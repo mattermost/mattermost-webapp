@@ -4,6 +4,8 @@
 import React from 'react';
 import {Stripe} from '@stripe/stripe-js';
 
+import {FormattedMessage} from 'react-intl';
+
 import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited} from 'actions/telemetry_actions';
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
@@ -20,7 +22,6 @@ import './process_payment.css';
 import {Product} from 'mattermost-redux/types/cloud';
 
 import IconMessage from './icon_message';
-import { FormattedMessage } from 'react-intl';
 
 type Props = {
     billingDetails: BillingDetails | null;

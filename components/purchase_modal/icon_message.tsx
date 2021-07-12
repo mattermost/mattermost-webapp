@@ -47,9 +47,7 @@ export default function IconMessage(props: Props) {
                     className='btn btn-primary Form-btn'
                     onClick={buttonHandler}
                 >
-                    {formattedButonText ? formattedButonText : <FormattedMessage
-                        id={buttonText}
-                    />}
+                    {formattedButonText || <FormattedMessage id={buttonText}/>}
                 </button>
             </div>
         );
