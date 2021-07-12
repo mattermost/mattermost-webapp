@@ -81,6 +81,7 @@ body {
     @include clearfix;
 
     position: relative;
+    height: 100%;
 
     #root {
         display: flex;
