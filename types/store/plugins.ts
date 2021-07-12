@@ -74,3 +74,11 @@ export type PostWillRenderEmbedPluginComponent = {
     match: (arg: PostEmbed) => boolean;
     toggleable: boolean;
 }
+
+export type GlobalHeaderSwitcherPluginComponent = {
+    id: string;
+    pluginId: string;
+    icon?: React.ReactNode;
+    text?: React.ReactNode;
+    linkURL?: string;
+};

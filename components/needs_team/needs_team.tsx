@@ -24,7 +24,6 @@ import ChannelController from 'components/channel_layout/channel_controller';
 import Pluggable from 'plugins/pluggable';
 
 import LocalStorageStore from 'stores/local_storage_store';
-import GlobalHeader from 'components/global/global_header';
 
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
@@ -143,7 +142,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         // Set up tracking for whether the window is active
         window.isActive = true;
-        Utils.applyTheme(this.props.theme);
 
         if (UserAgent.isIosSafari()) {
             // Use iNoBounce to prevent scrolling past the boundaries of the page
@@ -302,40 +300,37 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
 
         return (
-            <>
-                <GlobalHeader/>
-                <Switch>
+            <Switch>
+                <Route
+                    path={'/:team/integrations'}
+                    component={BackstageController}
+                />
+                <Route
+                    path={'/:team/emoji'}
+                    component={BackstageController}
+                />
+                {this.props.plugins?.map((plugin: any) => (
                     <Route
-                        path={'/:team/integrations'}
-                        component={BackstageController}
-                    />
-                    <Route
-                        path={'/:team/emoji'}
-                        component={BackstageController}
-                    />
-                    {this.props.plugins?.map((plugin: any) => (
-                        <Route
-                            key={plugin.id}
-                            path={'/:team/' + plugin.route}
-                            render={() => (
-                                <Pluggable
-                                    pluggableName={'NeedsTeamComponent'}
-                                    pluggableId={plugin.id}
-                                />
-                            )}
-                        />
-                    ))}
-                    <Route
-                        render={(renderProps) => (
-                            <ChannelController
-                                pathName={renderProps.location.pathname}
-                                fetchingChannels={!this.state.finishedFetchingChannels}
-                                useLegacyLHS={this.props.useLegacyLHS}
+                        key={plugin.id}
+                        path={'/:team/' + plugin.route}
+                        render={() => (
+                            <Pluggable
+                                pluggableName={'NeedsTeamComponent'}
+                                pluggableId={plugin.id}
                             />
                         )}
                     />
-                </Switch>
-            </>
+                ))}
+                <Route
+                    render={(renderProps) => (
+                        <ChannelController
+                            pathName={renderProps.location.pathname}
+                            fetchingChannels={!this.state.finishedFetchingChannels}
+                            useLegacyLHS={this.props.useLegacyLHS}
+                        />
+                    )}
+                />
+            </Switch>
         );
     }
 }

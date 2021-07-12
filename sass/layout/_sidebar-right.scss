@@ -2,9 +2,9 @@
 
 .sidebar--right {
     @include translateX(100%);
-
+    height: 100%;
+    padding: 0;
     position: fixed;
-    z-index: 11;
     right: 0;
     width: 400px;
     height: 100%;

@@ -27,6 +27,8 @@ import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_rout
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import {makeAsyncComponent} from 'components/async_load';
+import GlobalHeader from 'components/global/global_header';
+import * as Utils from 'utils/utils.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
 const LazyLoginController = React.lazy(() => import('components/login/login_controller'));
@@ -85,6 +87,7 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
 
 export default class Root extends React.PureComponent {
     static propTypes = {
+        theme: PropTypes.object,
         telemetryEnabled: PropTypes.bool,
         telemetryId: PropTypes.string,
         noAccounts: PropTypes.bool,
@@ -214,6 +217,8 @@ export default class Root extends React.PureComponent {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
+
+        Utils.applyTheme(this.props.theme);
     }
 
     componentDidUpdate(prevProps) {
@@ -351,28 +356,33 @@ export default class Root extends React.PureComponent {
                         from={'/_redirect/pl/:postid'}
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
-                    {this.props.plugins?.map((plugin) => (
-                        <Route
-                            key={plugin.id}
-                            path={'/plug/' + plugin.route}
-                            render={() => (
-                                <Pluggable
-                                    pluggableName={'CustomRouteComponent'}
-                                    pluggableId={plugin.id}
+                    <>
+                        <GlobalHeader/>
+                        <Switch>
+                            {this.props.plugins?.map((plugin) => (
+                                <Route
+                                    key={plugin.id}
+                                    path={'/plug/' + plugin.route}
+                                    render={() => (
+                                        <Pluggable
+                                            pluggableName={'CustomRouteComponent'}
+                                            pluggableId={plugin.id}
+                                        />
+                                    )}
                                 />
-                            )}
-                        />
-                    ))}
-                    <LoggedInRoute
-                        path={'/:team'}
-                        component={NeedsTeam}
-                    />
-                    <Redirect
-                        to={{
-                            ...this.props.location,
-                            pathname: '/login',
-                        }}
-                    />
+                            ))}
+                            <LoggedInRoute
+                                path={'/:team'}
+                                component={NeedsTeam}
+                            />
+                            <Redirect
+                                to={{
+                                    ...this.props.location,
+                                    pathname: '/login',
+                                }}
+                            />
+                        </Switch>
+                    </>
                 </Switch>
             </IntlProvider>
         );

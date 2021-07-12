@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint max-lines: 0 */
+
 import React from 'react';
 
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
@@ -696,6 +698,32 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 component,
                 route: fixedRoute,
+            },
+        });
+
+        return id;
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a global header menu item
+    // Accepts the following:
+    // - icon - A react element to display as the icon
+    // - text - A string or React element to display in the menu
+    // - destinationAction - A function to trigger when component is clicked on,
+    //                       should return the URL to redirect to.
+    // Returns a unique identifier.
+    registerGlobalHeaderSwitcherItem(icon, text, linkURL) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'GlobalHeaderSwitcherItem',
+            data: {
+                id,
+                pluginId: this.id,
+                icon: resolveReactElement(icon),
+                text: resolveReactElement(text),
+                linkURL,
             },
         });
 

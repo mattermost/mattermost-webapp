@@ -1,20 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
 import {useSelector} from 'react-redux';
 
-import {Link} from 'react-router-dom';
+import {Link, useRouteMatch} from 'react-router-dom';
 
-import * as Utils from 'utils/utils.jsx';
+import {FormattedMessage} from 'react-intl';
 
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import Menu from 'components/widgets/menu/menu';
+import {GlobalState} from 'types/store';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
+import {GlobalHeaderSwitcherPluginComponent} from 'types/store/plugins';
 
 const HeaderContainer = styled.div`
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -22,14 +23,22 @@ const HeaderContainer = styled.div`
     background: var(--sidebar-teambar-bg);
 `;
 
-const SwitcherButton = styled.button`
+interface SwitcherButtonProps {
+    open: boolean;
+}
+
+const SwitcherButton = styled.button<SwitcherButtonProps>`
     margin-left: 17px;
-    background-color: transparent;
+    background: ${(props) => (props.open ? 'var(--sidebar-text)' : 'transparent')};
+    fill: ${(props) => (props.open ? 'var(--button-bg)' : 'rgba(var(--sidebar-header-text-color-rgb), 0.64)')};
     border: none;
+    border-radius: 4px;
     outline: none;
+    width: 28px;
+    height: 28px;
 `;
 
-const SwitchTo = styled.div`
+const Open = styled.div`
     height: 32px;
     padding-left: 20px;
     font-weight: 600;
@@ -37,8 +46,26 @@ const SwitchTo = styled.div`
     line-height: 20px;
 `;
 
-const StyledMenu = styled(Menu)`
+interface SwitcherMenuProps {
+    open: boolean;
+}
+
+const SwitcherMenu = styled.div<SwitcherMenuProps>`
+    visibility: ${(props) => (props.open ? 'visible' : 'hidden')};
+    position: absolute;
+    top: 35px;
+    left: 5px;
     margin-left: 12px;
+    z-index: 1000;
+    background: var(--center-channel-bg);
+    display: flex;
+    flex-direction: column;
+    width: 273px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    padding-top: 14px;
+    padding-bottom: 5px;
 `;
 
 const MenuItem = styled(Link)`
@@ -80,37 +107,81 @@ const AppSpectificContent = styled.div`
     flex-grow: 1;
 `;
 
+const selectSwitcherItems = (state: GlobalState) => state.plugins.components.GlobalHeaderSwitcherItem;
+
 const GlobalHeader = () => {
+    const switcherItems = useSelector<GlobalState, GlobalHeaderSwitcherPluginComponent[]>(selectSwitcherItems);
     const enabled = useSelector(getGlobalHeaderEnabled);
+    const [switcherOpen, setSwitcherOpen] = useState(false);
 
     if (!enabled) {
         return null;
     }
 
+    const items = switcherItems?.map((item) => {
+        if (!item || !item.linkURL || !item.icon || !item.text) {
+            return null;
+        }
+        return (
+            <SwitcherNavEntry
+                key={item.id}
+                destination={item.linkURL}
+                icon={item.icon}
+                text={item.text}
+            />
+        );
+    });
     return (
         <HeaderContainer>
-            <MenuWrapper>
-                <SwitcherButton>
-                    <SwitcherIcon/>
-                </SwitcherButton>
-                <StyledMenu
-                    id={'globalSwitcher'}
-                    ariaLabel={Utils.localizeMessage('global_header.global_switcher', 'Global Switcher')}
-                >
-                    <SwitchTo>{'Switch to...'}</SwitchTo>
-                    <MenuItem
-                        to={'/'}
-                    >
-                        <ChannelsIcon/>
-                        <MenuItemTextContainer>
-                            {'Channels'}
-                        </MenuItemTextContainer>
-                        <LinkIcon className='fa fa-external-link'/>
-                    </MenuItem>
-                </StyledMenu>
-            </MenuWrapper>
+            <SwitcherButton
+                open={switcherOpen}
+                onClick={() => setSwitcherOpen(!switcherOpen)}
+            >
+                <SwitcherIcon/>
+            </SwitcherButton>
+            <SwitcherMenu open={switcherOpen}>
+                <Open>
+                    <FormattedMessage
+                        defaultMessage='Open...'
+                        id='global_header.open'
+                    />
+                </Open>
+                <SwitcherNavEntry
+                    destination={'/'}
+                    icon={<ChannelsIcon/>}
+                    text={'Channels'}
+                />
+                {items}
+            </SwitcherMenu>
             <AppSpectificContent/>
         </HeaderContainer>
+    );
+};
+
+interface SwitcherNavEntryProps {
+    destination: string;
+    icon: React.ReactNode;
+    text: React.ReactNode;
+}
+
+const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
+    const match = useRouteMatch(props.destination);
+    const isPlug = useRouteMatch('/plug/');
+    let active = Boolean(match);
+    if (props.destination === '/') {
+        active = active && !isPlug;
+    }
+    return (
+        <MenuItem
+            to={props.destination}
+            target='_blank'
+        >
+            {props.icon}
+            <MenuItemTextContainer>
+                {props.text}
+            </MenuItemTextContainer>
+            <LinkIcon className={'fa ' + (active ? 'fa-check' : 'fa-external-link')}/>
+        </MenuItem>
     );
 };
 
@@ -139,13 +210,12 @@ const SwitcherIcon = () => {
             width='14'
             height='13'
             viewBox='0 0 14 13'
-            fill='none'
+            fill='inherit'
             xmlns='http://www.w3.org/2000/svg'
         >
             <path
                 d='M9.98828 12.5618H13.0117V9.53833H9.98828V12.5618ZM9.98828 8.06177H13.0117V5.03833H9.98828V8.06177ZM5.48828 3.56177H8.51172V0.53833H5.48828V3.56177ZM9.98828 3.56177H13.0117V0.53833H9.98828V3.56177ZM5.48828 8.06177H8.51172V5.03833H5.48828V8.06177ZM0.988281 8.06177H4.01172V5.03833H0.988281V8.06177ZM0.988281 12.5618H4.01172V9.53833H0.988281V12.5618ZM5.48828 12.5618H8.51172V9.53833H5.48828V12.5618ZM0.988281 3.56177H4.01172V0.53833H0.988281V3.56177Z'
-                fill='white'
-                fillOpacity='0.64'
+                fill='inherit'
             />
         </svg>
     );
