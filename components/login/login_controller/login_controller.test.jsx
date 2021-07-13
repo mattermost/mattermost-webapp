@@ -31,6 +31,10 @@ describe('components/login/LoginController', () => {
         experimentalPrimaryTeam: '',
         ldapLoginFieldName: '',
         samlLoginButtonText: '',
+        gitlabButtonText: '',
+        gitlabButtonColor: '',
+        openidButtonText: '',
+        openidButtonColor: '',
         siteName: '',
         defaultChannel: 'default-channel',
         actions: {
@@ -123,4 +127,33 @@ describe('components/login/LoginController', () => {
 
         expect(wrapper.state('sessionExpired')).toBe(false);
     });
+
+    it('should match gitlab text and color props', () => {
+        const props = {
+            ...baseProps,
+            enableSignUpWithGitLab: true,
+            gitlabButtonText: 'GitLab 2',
+            gitlabButtonColor: '#00ff00',
+        };
+
+        const wrapper = shallowWithIntl(
+            <LoginController {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match openid text and color props', () => {
+        const props = {
+            ...baseProps,
+            enableSignUpWithOpenId: true,
+            openidButtonText: 'OpenID 2',
+            openidButtonColor: '#87ceeb',
+        };
+        const wrapper = shallowWithIntl(
+            <LoginController {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    })
 });
