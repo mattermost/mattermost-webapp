@@ -1,5 +1,5 @@
-@import 'compass/utilities';
-@import 'compass/css3';
+@import "compass/utilities";
+@import "compass/css3";
 
 .modal .StatusModal.GenericModal .StatusModal__clear-container.input-clear {
     position: absolute;
@@ -40,6 +40,15 @@
 
         &__body {
             padding: 0;
+        }
+
+        &__button {
+            &.btn:disabled,
+            &.btn:disabled:hover {
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.32);
+                opacity: 1;
+            }
         }
     }
 

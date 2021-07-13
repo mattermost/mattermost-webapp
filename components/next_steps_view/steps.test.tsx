@@ -5,8 +5,8 @@ import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from 
 
 //
 describe('components/next_steps_view/steps', () => {
-    test('should not show next steps if not cloud', () => {
-        const goodState = {
+    test('should show next steps', () => {
+        const cloudState = {
             entities: {
                 general: {
                     license: {
@@ -25,13 +25,13 @@ describe('components/next_steps_view/steps', () => {
             },
         };
 
-        expect(showNextSteps(goodState as any)).toBe(true);
+        expect(showNextSteps(cloudState as any)).toBe(true);
 
-        const badState = {
-            ...goodState,
+        const nonCloudState = {
+            ...cloudState,
 
             entities: {
-                ...goodState.entities,
+                ...cloudState.entities,
                 general: {
                     license: {
                         Cloud: 'false',
@@ -40,7 +40,7 @@ describe('components/next_steps_view/steps', () => {
             },
         };
 
-        expect(showNextSteps(badState as any)).toBe(false);
+        expect(showNextSteps(nonCloudState as any)).toBe(true);
     });
 
     test('should not show the view if hide preference exists', () => {
@@ -124,7 +124,7 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(4);
+        expect(getSteps(state as any)).toHaveLength(5);
     });
 
     test('should only show the complete_profile_step to guest users', () => {

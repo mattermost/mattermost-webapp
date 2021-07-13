@@ -7,9 +7,11 @@ import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities
 import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getAllGroupsForReferenceByName} from 'mattermost-redux/selectors/entities/groups';
 
-import AtMention from './at_mention.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import AtMention from './at_mention';
+
+function mapStateToProps(state: GlobalState) {
     return {
         currentUserId: getCurrentUserId(state),
         teammateNameDisplay: getTeammateNameDisplaySetting(state),
