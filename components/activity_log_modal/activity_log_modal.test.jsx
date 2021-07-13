@@ -8,8 +8,6 @@ import ActivityLogModal from 'components/activity_log_modal/activity_log_modal';
 
 import {General} from 'mattermost-redux/constants';
 
-import LoadingScreen from 'components/loading_screen';
-
 describe('components/ActivityLogModal', () => {
     const baseProps = {
         sessions: [],
@@ -27,11 +25,6 @@ describe('components/ActivityLogModal', () => {
             <ActivityLogModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(LoadingScreen).exists()).toBe(false);
-
-        wrapper.setProps({sessions: {loading: true}});
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(LoadingScreen).exists()).toBe(true);
     });
 
     test('should match snapshot when submitRevoke is called', () => {
