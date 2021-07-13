@@ -69,7 +69,10 @@ export default class BrandImageSetting extends React.PureComponent {
                     this.setState({brandImageExists: false});
                 }
             },
-        ).catch(() => this.setState({brandImageExists: false}));
+        ).catch(() => {
+            console.log('unable to retrieve brand image'); //eslint-disable-line no-console
+            this.setState({brandImageExists: false});
+        });
 
         this.props.registerSaveAction(this.handleSave);
     }
