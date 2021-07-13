@@ -69,7 +69,7 @@ export default class BrandImageSetting extends React.PureComponent {
                     this.setState({brandImageExists: false});
                 }
             },
-        );
+        ).catch(() => this.setState({brandImageExists: false}));
 
         this.props.registerSaveAction(this.handleSave);
     }
