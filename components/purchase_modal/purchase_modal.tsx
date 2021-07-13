@@ -331,7 +331,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             id={'admin.billing.subscription.proratedPayment.tooltipText'}
                             values={{
                                 beginDate: getNextBillingDate(),
-                                selectedProductName: this.state.selectedProduct?.name
+                                selectedProductName: this.state.selectedProduct?.name,
                             }}
                         />
                     </div>
