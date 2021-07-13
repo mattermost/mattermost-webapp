@@ -38,6 +38,8 @@ import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
 
+const CreateCommentDraftTimeoutMilliseconds = 500;
+
 class CreateComment extends React.PureComponent {
     static propTypes = {
 
@@ -306,7 +308,7 @@ class CreateComment extends React.PureComponent {
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
 
         if (this.saveDraftFrame) {
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
 
             this.props.onUpdateCommentDraft(this.state.draft);
         }
@@ -708,10 +710,10 @@ class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
 
-        cancelAnimationFrame(this.saveDraftFrame);
-        this.saveDraftFrame = requestAnimationFrame(() => {
+        clearTimeout(this.saveDraftFrame);
+        this.saveDraftFrame = setTimeout(() => {
             this.props.onUpdateCommentDraft(updatedDraft);
-        });
+        }, CreateCommentDraftTimeoutMilliseconds);
 
         this.setState({draft: updatedDraft, serverError}, () => {
             if (this.props.scrollToBottom) {
