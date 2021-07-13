@@ -51,6 +51,21 @@ const ThreadList = ({
     const dispatch = useDispatch();
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
+    const handleRead = useCallback(() => {
+        setFilter(ThreadFilter.none);
+    }, [setFilter]);
+
+    const handleUnread = useCallback(() => {
+        setFilter(ThreadFilter.unread);
+    }, [setFilter]);
+
+    const handleAllMarkedRead = useCallback(() => {
+        dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
+        if (currentFilter === ThreadFilter.unread) {
+            clear();
+        }
+    }, [currentTeamId, currentUserId, currentFilter]);
+
     return (
         <div className={'ThreadList'}>
             <Header
@@ -59,7 +74,7 @@ const ThreadList = ({
                         <Button
                             className={'Button___large Margined'}
                             isActive={currentFilter === ThreadFilter.none}
-                            onClick={useCallback(() => setFilter(ThreadFilter.none), [])}
+                            onClick={handleRead}
                         >
                             <FormattedMessage
                                 id='threading.filters.allThreads'
@@ -70,9 +85,7 @@ const ThreadList = ({
                             className={'Button___large Margined'}
                             isActive={currentFilter === ThreadFilter.unread}
                             hasDot={someUnread}
-                            onClick={useCallback(() => {
-                                setFilter(ThreadFilter.unread);
-                            }, [setFilter])}
+                            onClick={handleUnread}
                         >
                             <FormattedMessage
                                 id='threading.filters.unreads'
@@ -94,12 +107,7 @@ const ThreadList = ({
                             <Button
                                 className={'Button___large Button___icon'}
                                 disabled={!someUnread}
-                                onClick={useCallback(() => {
-                                    dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
-                                    if (currentFilter === ThreadFilter.unread) {
-                                        clear();
-                                    }
-                                }, [currentTeamId, currentUserId])}
+                                onClick={handleAllMarkedRead}
                             >
                                 <span className='Icon'>
                                     <i className='icon-playlist-check'/>

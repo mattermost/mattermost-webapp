@@ -5,7 +5,7 @@ import React, {memo, useCallback, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import classNames from 'classnames';
 
 import {
@@ -51,12 +51,12 @@ const GlobalThreads = () => {
     const [filter, setFilter] = useGlobalState(ThreadFilter.none, FILTER_STORAGE_KEY);
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
-    const counts = useSelector(getThreadCountsInCurrentTeam);
-    const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
+    const counts = useSelector(getThreadCountsInCurrentTeam, shallowEqual);
+    const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier), shallowEqual);
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
-    const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
-    const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id));
-    const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id));
+    const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!), shallowEqual);
+    const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
+    const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null;
 
