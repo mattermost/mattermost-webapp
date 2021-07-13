@@ -51,10 +51,7 @@ type State = {
     error: string;
 };
 
-export default class BrandImageSetting extends React.PureComponent<
-Props,
-State
-> {
+export default class BrandImageSetting extends React.PureComponent<Props, State> {
     private imageRef: React.RefObject<HTMLImageElement>;
     private fileInputRef: React.RefObject<HTMLInputElement>;
 
