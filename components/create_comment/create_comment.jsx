@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -76,11 +78,6 @@ class CreateComment extends React.PureComponent {
             uploadsInProgress: PropTypes.array.isRequired,
             fileInfos: PropTypes.array.isRequired,
         }).isRequired,
-
-        /**
-         * Whether the submit button is enabled
-         */
-        enableAddButton: PropTypes.bool.isRequired,
 
         /**
          * Force message submission on CTRL/CMD + ENTER
@@ -631,7 +628,7 @@ class CreateComment extends React.PureComponent {
         const options = {ignoreSlash};
 
         try {
-            await this.props.onSubmit(options);
+            await this.props.onSubmit(draft, options);
 
             this.setState({
                 postError: null,
@@ -646,7 +643,9 @@ class CreateComment extends React.PureComponent {
             return;
         }
 
+        clearTimeout(this.saveDraftFrame);
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
+        this.draftsForPost[this.props.rootId] = null;
     }
 
     commentMsgKeyPress = (e) => {
@@ -966,8 +965,13 @@ class CreateComment extends React.PureComponent {
     }
 
     shouldEnableAddButton = () => {
-        if (this.props.enableAddButton) {
-            return true;
+        const {draft} = this.state;
+        if (draft) {
+            const message = draft.message ? draft.message.trim() : '';
+            const fileInfos = draft.fileInfos ? draft.fileInfos : [];
+            if (message.trim().length !== 0 || fileInfos.length !== 0) {
+                return true;
+            }
         }
 
         return isErrorInvalidSlashCommand(this.state.serverError);
