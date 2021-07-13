@@ -7,15 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding @cloud_only
+// Group: @onboarding
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
-import {generateRandomUser} from '../../../../support/api/user';
+import * as TIMEOUTS from '../../fixtures/timeouts';
+import {generateRandomUser} from '../../support/api/user';
 import {
     getWelcomeEmailTemplate,
     reUrl,
     verifyEmailBody,
-} from '../../../../utils';
+} from '../../utils';
 
 describe('Onboarding', () => {
     let siteName;
