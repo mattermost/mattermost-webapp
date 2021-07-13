@@ -16,8 +16,8 @@
 
         .status-wrapper {
             .status {
-                color: var(--sidebar-header-text-color);
                 background: var(--sidebar-header-bg);
+                color: var(--sidebar-header-text-color);
             }
         }
     }
@@ -44,9 +44,9 @@
             display: inline-flex;
             width: 15px;
             margin: 0 7px 0 1px;
+            fill: var(--sidebar-text);
             text-align: left;
             vertical-align: top;
-            fill: var(--sidebar-text);
         }
 
         .icon__archive {
@@ -360,9 +360,9 @@
                 a:hover,
                 button:focus,
                 a:focus {
-                    color: var(--sidebar-text-active-color);
                     background: rgba(var(--sidebar-text-active-color-rgb), 0.1);
                     border-radius: 0;
+                    color: var(--sidebar-text-active-color);
                     font-weight: 400;
 
                     &.unread-title {

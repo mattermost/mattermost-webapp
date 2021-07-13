@@ -128,7 +128,7 @@
         }
 
         &:hover {
-            border: 1px solid rgba(var(--center-channel-color-rgb), 0.40);
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.4);
         }
 
         &--focused,
@@ -271,7 +271,7 @@
 
         position: relative;
         padding: 5px 4px 0;
-        color: rgba(var(--center-channel-color-rgb), 0.40);
+        color: rgba(var(--center-channel-color-rgb), 0.4);
         font-size: 12px;
         font-weight: 600;
         text-decoration: none;

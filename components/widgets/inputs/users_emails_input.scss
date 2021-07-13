@@ -41,7 +41,7 @@
     .users-emails-input__control {
         min-height: 48px;
         padding: 3px;
-        border-color: rgba(var(--center-channel-color-rgb), 0.20);
+        border-color: rgba(var(--center-channel-color-rgb), 0.2);
         background: var(--center-channel-bg);
         box-shadow: none;
         color: rgba(var(--center-channel-color-rgb), 0.64);
@@ -274,7 +274,7 @@
             opacity: 0.6;
 
             &:hover {
-                fill: rgba(var(--center-channel-color-rgb), 0.80);
+                fill: rgba(var(--center-channel-color-rgb), 0.8);
             }
         }
     }

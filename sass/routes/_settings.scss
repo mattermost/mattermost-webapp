@@ -225,8 +225,8 @@
             }
 
             .settings-links {
-                background: var(--sidebar-bg);
                 width: 180px;
+                background: var(--sidebar-bg);
             }
 
             .settings-content {
@@ -556,8 +556,9 @@
                     border-radius: 0;
                     font-weight: 400;
                 }
+
                 button {
-                    @include alpha-property(background-color, $black, .1);
+                    @include alpha-property(background-color, $black, 0.1);
                 }
             }
         }

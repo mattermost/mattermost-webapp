@@ -27,13 +27,13 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 
         .user-profile-popover {
-            border: 1px solid rgba(var(--center-channel-color-rgb), 0.20);
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
             background: transparent !important;
             box-shadow: none !important;
 
             .popover-title {
                 position: relative;
-                border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.20);
+                border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
                 background: v(center-channel-bg);
                 border-radius: $border-rad $border-rad 0 0;
 
@@ -316,7 +316,7 @@
     justify-content: flex-start;
     padding: 0 0 0 2.4rem;
     margin: 1.2rem 0 0;
-    color: rgba(var(--center-channel-color-rgb), 0.60);
+    color: rgba(var(--center-channel-color-rgb), 0.6);
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;

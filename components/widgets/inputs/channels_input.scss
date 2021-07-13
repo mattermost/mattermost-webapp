@@ -12,14 +12,14 @@
     .channels-input__control {
         min-height: 48px;
         padding: 3px;
-        border-color: rgba(var(--center-channel-color-rgb), 0.20);
+        border-color: rgba(var(--center-channel-color-rgb), 0.2);
         background: var(--center-channel-bg);
         box-shadow: none;
         color: rgba(var(--center-channel-color-rgb), 0.64);
         transition: none;
 
         &:hover {
-            border-color: rgba(var(--center-channel-color-rgb), 0.20);
+            border-color: rgba(var(--center-channel-color-rgb), 0.2);
             cursor: text;
         }
 
@@ -201,7 +201,7 @@
             svg {
                 width: 16px;
                 height: 16px;
-                fill: rgba(var(--button-color-rgb), 0.80);
+                fill: rgba(var(--button-color-rgb), 0.8);
             }
         }
 
@@ -210,7 +210,7 @@
                 width: 14px;
                 height: 14px;
                 margin: 0 1px;
-                fill: rgba(var(--button-color-rgb), 0.80);
+                fill: rgba(var(--button-color-rgb), 0.8);
             }
         }
 
@@ -240,7 +240,7 @@
             opacity: 0.6;
 
             &:hover {
-                fill: rgba(var(--center-channel-color-rgb), 0.80);
+                fill: rgba(var(--center-channel-color-rgb), 0.8);
             }
         }
     }

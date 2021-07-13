@@ -783,9 +783,9 @@
             position: relative;
             top: -3px;
             padding-right: 4px;
+            color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
             font-size: 14px;
             font-weight: 400;
-            color: rgba(var(--sidebar-header-text-color-rgb), 0.8)
         }
 
         .custom-status {
