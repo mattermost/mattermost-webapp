@@ -327,10 +327,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </div>
                     <div className='tooltipText'>
                         <FormattedMessage
-                            defaultMessage={'If you upgrade to Cloud Professional from Cloud Starter mid-month, you will be charged a prorated amount for both plans.'}
+                            defaultMessage={'If you upgrade to {selectedProductName} from Cloud Starter mid-month, you will be charged a prorated amount for both plans.'}
                             id={'admin.billing.subscription.proratedPayment.tooltipText'}
                             values={{
                                 beginDate: getNextBillingDate(),
+                                selectedProductName: this.state.selectedProduct?.name
                             }}
                         />
                     </div>
