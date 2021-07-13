@@ -687,9 +687,9 @@ class LoginController extends React.PureComponent {
             }
             let buttonText = (
                 <FormattedMessage
-                id='login.gitlab'
-                defaultMessage='GitLab'
-            />
+                    id='login.gitlab'
+                    defaultMessage='GitLab'
+                />
             );
             if (this.props.gitlabButtonText) {
                 buttonText = this.props.gitlabButtonText;
