@@ -8,7 +8,7 @@ export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
         return false;
     }
 
-    const expiryYear = customer.payment_method?.exp_year;
+    const expiryYear = customer.payment_method.exp_year;
 
     // If not expiry year, or its 0, it's not expired (because it probably isn't set)
     if (!expiryYear) {
