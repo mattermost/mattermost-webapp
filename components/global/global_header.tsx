@@ -13,6 +13,7 @@ import {FormattedMessage} from 'react-intl';
 import {GlobalState} from 'types/store';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {GlobalHeaderSwitcherPluginComponent} from 'types/store/plugins';
+import StatusDropdown from 'components/status_dropdown';
 
 const HeaderContainer = styled.div`
     position: relative;
@@ -109,6 +110,10 @@ const AppSpectificContent = styled.div`
 
 const selectSwitcherItems = (state: GlobalState) => state.plugins.components.GlobalHeaderSwitcherItem;
 
+const ProfileWrapper = styled.div`
+    margin-right: 20px;
+`;
+
 const GlobalHeader = () => {
     const switcherItems = useSelector<GlobalState, GlobalHeaderSwitcherPluginComponent[]>(selectSwitcherItems);
     const enabled = useSelector(getGlobalHeaderEnabled);
@@ -154,6 +159,11 @@ const GlobalHeader = () => {
                 {items}
             </SwitcherMenu>
             <AppSpectificContent/>
+            <ProfileWrapper>
+                <StatusDropdown
+                    globalHeader={true}
+                />
+            </ProfileWrapper>
         </HeaderContainer>
     );
 };
