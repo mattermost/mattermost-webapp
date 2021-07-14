@@ -155,5 +155,5 @@ describe('components/login/LoginController', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-    })
+    });
 });
