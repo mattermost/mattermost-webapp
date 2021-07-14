@@ -9,7 +9,7 @@ const without = require('lodash.without');
 const shell = require('shelljs');
 const argv = require('yargs').argv;
 
-const TEST_DIR = 'cypress/integration';
+const TEST_DIR = 'cypress';
 
 const grepCommand = (word = '') => {
     // -r, recursive search on subdirectories
@@ -48,46 +48,43 @@ function getTestFiles() {
         excludeGroupFiles.push(...grepFiles(egc));
     }
 
-    const finalGroupFiles = without(groupFiles, ...excludeGroupFiles);
-    const withGroup = group || excludeGroup;
-
     if (invert) {
         // Return no test file if no stage and withGroup, but inverted
-        if (!stage && !withGroup) {
+        if (!stage && !group) {
             return [];
         }
 
         // Return all excluding stage files
-        if (stage && !withGroup) {
+        if (stage && !group) {
             return without(allFiles, ...stageFiles);
         }
 
         // Return all excluding group files
-        if (!stage && withGroup) {
-            return without(allFiles, ...finalGroupFiles);
+        if (!stage && group) {
+            return without(allFiles, ...groupFiles);
         }
 
         // Return all excluding group and stage files
-        return without(allFiles, ...intersection(stageFiles, finalGroupFiles));
+        return without(allFiles, ...intersection(stageFiles, groupFiles));
     }
 
     // Return all files if no stage and group flags
-    if (!stage && !withGroup) {
+    if (!stage && !group) {
         return allFiles;
     }
 
     // Return stage files if no group flag
-    if (stage && !withGroup) {
+    if (stage && !group) {
         return stageFiles;
     }
 
     // Return group files if no stage flag
-    if (!stage && withGroup) {
-        return finalGroupFiles;
+    if (!stage && group) {
+        return groupFiles;
     }
 
-    // Return files if both in stage and withGroup
-    return intersection(stageFiles, finalGroupFiles);
+    // Return files if both in stage and group
+    return intersection(stageFiles, groupFiles);
 }
 
 function getWeightedFiles(metadata, sortFirst = true) {
@@ -142,12 +139,24 @@ function getSortedTestFiles(platform, browser, headless) {
 
     // Remove skipped files
     const initialSkippedFiles = getSkippedFiles(platform, browser, headless);
-    const testFiles = Object.keys(testFilesObject).map((file) => file);
-    const skippedFiles = intersection(testFiles, initialSkippedFiles);
+    const skippedFiles = intersection(Object.keys(testFilesObject), initialSkippedFiles);
     if (skippedFiles.length) {
         printSkippedFiles(skippedFiles, platform, browser, headless);
 
         skippedFiles.forEach((file) => {
+            if (testFilesObject.hasOwnProperty(file)) {
+                delete testFilesObject[file];
+            }
+        });
+    }
+
+    // Remove excluded files
+    const initialExcludedFiles = getExcludedFiles(argv.excludeGroup);
+    const excludedFiles = intersection(Object.keys(testFilesObject), initialExcludedFiles);
+    if (excludedFiles.length) {
+        printExcludedFiles(excludedFiles, argv.excludeGroup);
+
+        excludedFiles.forEach((file) => {
             if (testFilesObject.hasOwnProperty(file)) {
                 delete testFilesObject[file];
             }
@@ -167,6 +176,24 @@ function getSortedTestFiles(platform, browser, headless) {
         map((sortedObj) => sortedObj.file);
 
     return {sortedFiles, skippedFiles, weightedTestFiles: Object.values(testFilesObject)};
+}
+
+function getExcludedFiles(excludeGroup) {
+    if (!excludeGroup) {
+        return [];
+    }
+
+    const egc = grepCommand(excludeGroup.split(',').join('\\|'));
+    return grepFiles(egc);
+}
+
+function printExcludedFiles(excludedFiles = [], excludeGroup) {
+    console.log(chalk.cyan(`\nExcluded test files due to "${excludeGroup}":`));
+
+    excludedFiles.forEach((file, index) => {
+        console.log(chalk.cyan(`- [${index + 1}] ${file}`));
+    });
+    console.log('');
 }
 
 function getSkippedFiles(platform, browser, headless) {

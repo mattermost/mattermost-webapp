@@ -7,12 +7,11 @@ import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import * as CustomStatusSelectors from 'selectors/views/custom_status';
-import * as EmojiSelectors from 'selectors/emojis';
 
 import CustomStatusEmoji from './custom_status_emoji';
 
 jest.mock('selectors/views/custom_status');
-jest.mock('selectors/emojis');
+jest.mock('selectors/general');
 
 describe('components/custom_status/custom_status_emoji', () => {
     const mockStore = configureStore();
@@ -22,7 +21,7 @@ describe('components/custom_status/custom_status_emoji', () => {
         return null;
     };
     (CustomStatusSelectors.makeGetCustomStatus as jest.Mock).mockReturnValue(getCustomStatus);
-    (EmojiSelectors.isCustomEmojiEnabled as jest.Mock).mockReturnValue(false);
+    (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(true);
     it('should match snapshot', () => {
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
         expect(wrapper).toMatchSnapshot();
@@ -48,8 +47,9 @@ describe('components/custom_status/custom_status_emoji', () => {
         expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
-    it('should not render when getCustomStatus returns null', () => {
+    it('should not render when custom status is expired', () => {
         (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(true);
+        (CustomStatusSelectors.isCustomStatusExpired as jest.Mock).mockReturnValue(true);
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
 
         expect(wrapper.isEmptyRender()).toBeTruthy();

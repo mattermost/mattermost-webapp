@@ -20,12 +20,13 @@
     }
 
     .productNotices__img {
-        border: 1px solid var(--center-channel-color-16);
-        border-radius: 4px;
-        max-height: 347px;
-        margin: 20px auto 0;
         display: block;
+        max-height: 347px;
+        border: 1px solid var(--center-channel-color-16);
+        margin: 20px auto 0;
+        border-radius: 4px;
     }
+
     .productNotices__imageDiv {
         margin: 0 auto;
     }
@@ -36,20 +37,20 @@
 
     .productNotices__info {
         position: fixed;
-        bottom: 45px;
         z-index: 1;
+        bottom: 45px;
     }
 
     .circle {
-        height: 6px;
         width: 6px;
+        height: 6px;
         margin: 0 3px;
         vertical-align: middle;
     }
 
     svg {
-        margin-left: 23px;
         margin-right: 5px;
+        margin-left: 23px;
         vertical-align: middle;
     }
 
@@ -62,11 +63,12 @@
         position: relative;
         padding: 0;
     }
+
     .GenericModal__button {
         display: inline-flex;
         align-items: center;
-        border: none;
         padding: 13px 20px;
+        border: none;
         font-size: 14px;
         line-height: 14px;
 
@@ -75,7 +77,8 @@
             color: var(--button-color);
 
             &:hover:not(.disabled) {
-                background: linear-gradient(
+                background:
+                    linear-gradient(
                         0deg,
                         rgba(var(--center-channel-color-rgb), 0.16),
                         rgba(var(--center-channel-color-rgb), 0.16)
@@ -84,7 +87,8 @@
             }
 
             &:active {
-                background: linear-gradient(
+                background:
+                    linear-gradient(
                         0deg,
                         rgba(var(--center-channel-color-rgb), 0.32),
                         rgba(var(--center-channel-color-rgb), 0.32)
@@ -99,11 +103,11 @@
 
         &.cancel,
         &.actionButton {
-            border-radius: 4px;
             display: inline-flex;
             align-items: center;
-            color: var(--button-bg);
             background: var(--center-channel-bg);
+            border-radius: 4px;
+            color: var(--button-bg);
             text-decoration: none;
 
             &:hover {

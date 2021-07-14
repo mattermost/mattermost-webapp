@@ -33,13 +33,13 @@ export type StateProps = {
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
     isChannelFiles: boolean;
-    filesSearchEnabled: boolean;
     currentChannel?: Channel;
 }
 
 export type DispatchProps = {
     actions: {
         updateSearchTerms: (term: string) => Action;
+        updateSearchTermsForShortcut: () => void;
         updateSearchType: (searchType: string) => Action;
         showSearchResults: (isMentionSearch: boolean) => Record<string, any>;
         showChannelFiles: (channelId: string) => void;

@@ -58,6 +58,7 @@ export function hasNewPermissions(state: GlobalState): boolean {
 }
 
 export const canUploadFilesOnMobile: (a: GlobalState) => boolean = createSelector(
+    'canUploadFilesOnMobile',
     getConfig,
     getLicense,
     (config: Partial<ClientConfig>, license: any): boolean => {
@@ -68,6 +69,7 @@ export const canUploadFilesOnMobile: (a: GlobalState) => boolean = createSelecto
 );
 
 export const canDownloadFilesOnMobile: (a: GlobalState) => boolean = createSelector(
+    'canDownloadFilesOnMobile',
     getConfig,
     getLicense,
     (config: Partial<ClientConfig>, license: any): boolean => {
@@ -77,6 +79,7 @@ export const canDownloadFilesOnMobile: (a: GlobalState) => boolean = createSelec
 );
 
 export const getAutolinkedUrlSchemes: (a: GlobalState) => string[] = createSelector(
+    'getAutolinkedUrlSchemes',
     getConfig,
     (config: Partial<ClientConfig>): string[] => {
         if (!config.CustomUrlSchemes) {
@@ -91,6 +94,7 @@ export const getAutolinkedUrlSchemes: (a: GlobalState) => string[] = createSelec
 );
 
 export const getManagedResourcePaths: (state: GlobalState) => string[] = createSelector(
+    'getManagedResourcePaths',
     getConfig,
     (config) => {
         if (!config.ManagedResourcePaths) {

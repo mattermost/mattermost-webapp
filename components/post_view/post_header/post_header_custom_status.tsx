@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -19,8 +19,8 @@ interface ComponentProps {
 }
 
 const PostHeaderCustomStatus = (props: ComponentProps) => {
+    const getCustomStatus = useMemo(makeGetCustomStatus, []);
     const {userId, isSystemMessage, isBot} = props;
-    const getCustomStatus = makeGetCustomStatus();
     const dispatch = useDispatch();
     const userCustomStatus = useSelector((state: GlobalState) => getCustomStatus(state, userId));
     const showUpdateStatusButton = useSelector(showPostHeaderUpdateStatusButton);

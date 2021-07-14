@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
-import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
+import {isDesktopApp, getDesktopVersion, isMacApp} from 'utils/user_agent';
 import Constants, {searchHintOptions, RHSStates, searchFilesHintOptions} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
@@ -68,7 +68,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, filesSearchEnabled, currentChannel, hideSearchBar, enableFindShortcut} = props;
+    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut} = props;
 
     const intl = useIntl();
 
@@ -96,17 +96,22 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.F)) {
-                if (isDesktop || (!isDesktop && e.shiftKey)) {
-                    e.preventDefault();
-                    if (hideSearchBar) {
-                        actions.openRHSSearch();
-                        setKeepInputFocused(true);
-                    }
-                    if (currentChannel) {
-                        handleUpdateSearchTerms(`in:${currentChannel.name} `);
-                    }
-                    handleFocus();
+                if (!isDesktop && !e.shiftKey) {
+                    return;
                 }
+
+                // Special case for Mac Desktop xApp where Ctrl+Cmd+F triggers full screen view
+                if (isMacApp() && e.ctrlKey) {
+                    return;
+                }
+
+                e.preventDefault();
+                if (hideSearchBar) {
+                    actions.openRHSSearch();
+                    setKeepInputFocused(true);
+                }
+                actions.updateSearchTermsForShortcut();
+                handleFocus();
             }
         };
 
@@ -114,7 +119,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [currentChannel, hideSearchBar]);
+    }, [hideSearchBar]);
 
     useEffect((): void => {
         if (!Utils.isMobile()) {
@@ -217,7 +222,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         // only prevent default-behaviour, when one of the conditions is true
         // when both are false just submit the form (default behaviour) with
         // `handleSubmit` function called from the `form`
-        if (indexChangedViaKeyPress && !searchType && !searchTerms && filesSearchEnabled) {
+        if (indexChangedViaKeyPress && !searchType && !searchTerms) {
             e.preventDefault();
             setKeepInputFocused(true);
             actions.updateSearchType(highlightedSearchHintIndex === 0 ? 'messages' : 'files');
@@ -410,7 +415,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     onOptionHover={setHoverHintIndex}
                     onSearchTypeSelected={(searchType || searchTerms) ? undefined : (value: SearchType) => actions.updateSearchType(value)}
                     searchType={searchType}
-                    filesSearchEnabled={filesSearchEnabled}
                 />
             </Popover>
         );
@@ -449,7 +453,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 searchTerms={searchTerms}
                 searchType={searchType}
                 clearSearchType={() => actions.updateSearchType('')}
-                filesSearchEnabled={filesSearchEnabled}
             >
                 {!Utils.isMobile() && renderHintPopover()}
             </SearchBar>
@@ -515,7 +518,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     searchFilterType={searchFilterType}
                     setSearchType={(value: SearchType) => actions.updateSearchType(value)}
                     searchType={searchType || 'messages'}
-                    filesSearchEnabled={filesSearchEnabled}
                 />
             ) : props.children}
         </div>

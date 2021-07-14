@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -97,40 +96,44 @@ export default class SuggestionList extends React.PureComponent {
     }
 
     getContent = () => {
-        return $(this.contentRef.current);
+        return this.contentRef.current;
     }
 
     scrollToItem = (term) => {
         const content = this.getContent();
-        if (!content || content.length === 0) {
+        if (!content) {
             return;
         }
 
-        const visibleContentHeight = content[0].clientHeight;
-        const actualContentHeight = content[0].scrollHeight;
+        const visibleContentHeight = content.clientHeight;
+        const actualContentHeight = content.scrollHeight;
 
         if (visibleContentHeight < actualContentHeight) {
-            const contentTop = content.scrollTop();
-            const contentTopPadding = parseInt(content.css('padding-top'), 10);
-            const contentBottomPadding = parseInt(content.css('padding-top'), 10);
+            const contentTop = content.scrollTop;
+            const contentTopPadding = this.getComputedCssProperty(content, 'paddingTop');
+            const contentBottomPadding = this.getComputedCssProperty(content, 'paddingTop');
 
-            const item = $(ReactDOM.findDOMNode(this.itemRefs.get(term)));
-            if (item.length === 0) {
+            const item = ReactDOM.findDOMNode(this.itemRefs.get(term));
+            if (!item) {
                 return;
             }
 
-            const itemTop = item[0].offsetTop - parseInt(item.css('margin-top'), 10);
-            const itemBottomMargin = parseInt(item.css('margin-bottom'), 10) + parseInt(item.css('padding-bottom'), 10);
-            const itemBottom = item[0].offsetTop + item.height() + itemBottomMargin;
+            const itemTop = item.offsetTop - this.getComputedCssProperty(item, 'marginTop');
+            const itemBottomMargin = this.getComputedCssProperty(item, 'marginBottom') + this.getComputedCssProperty(item, 'paddingBottom');
+            const itemBottom = item.offsetTop + this.getComputedCssProperty(item, 'height') + itemBottomMargin;
 
             if (itemTop - contentTopPadding < contentTop) {
                 // the item is off the top of the visible space
-                content.scrollTop(itemTop - contentTopPadding);
+                content.scrollTop = itemTop - contentTopPadding;
             } else if (itemBottom + contentTopPadding + contentBottomPadding > contentTop + visibleContentHeight) {
                 // the item has gone off the bottom of the visible space
-                content.scrollTop((itemBottom - visibleContentHeight) + contentTopPadding + contentBottomPadding);
+                content.scrollTop = (itemBottom - visibleContentHeight) + contentTopPadding + contentBottomPadding;
             }
         }
+    }
+
+    getComputedCssProperty(element, property) {
+        return parseInt(getComputedStyle(element)[property], 10);
     }
 
     renderDivider(type) {
@@ -225,8 +228,7 @@ export default class SuggestionList extends React.PureComponent {
 
         const contentStyle = {maxHeight};
         const {pixelsToMoveX, pixelsToMoveY} = this.props.suggestionBoxAlgn;
-        const boxAlignment = pixelsToMoveX !== undefined && pixelsToMoveY !== undefined ?
-            {transform: `translate(${pixelsToMoveX}px, ${pixelsToMoveY}px)`} : {};
+        const boxAlignment = pixelsToMoveX !== undefined && pixelsToMoveY !== undefined ? {transform: `translate(${pixelsToMoveX}px, ${pixelsToMoveY}px)`} : {};
 
         return (<div className={mainClass}>
             <div

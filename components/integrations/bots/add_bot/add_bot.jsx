@@ -510,7 +510,7 @@ export default class AddBot extends React.PureComponent {
                                         defaultMessage='Upload Image'
                                     />
                                     <input
-                                        accept='.jpg,.png,.bmp'
+                                        accept={Constants.ACCEPT_STATIC_IMAGE}
                                         type='file'
                                         onChange={this.updatePicture}
                                     />

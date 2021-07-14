@@ -5,11 +5,11 @@ import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
 import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
-import {getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {
     updateSearchTerms,
+    updateSearchTermsForShortcut,
     showSearchResults,
     showChannelFiles,
     showMentions,
@@ -32,7 +32,6 @@ import type {StateProps, DispatchProps, OwnProps} from './types';
 
 function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
-    const filesSearchEnabled = getFeatureFlagValue(state, 'FilesSearch') === 'true';
     const currentChannel = getCurrentChannel(state);
 
     return {
@@ -47,7 +46,6 @@ function mapStateToProps(state: GlobalState) {
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
-        filesSearchEnabled,
     };
 }
 
@@ -55,6 +53,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     return {
         actions: bindActionCreators({
             updateSearchTerms,
+            updateSearchTermsForShortcut,
             updateSearchType,
             showSearchResults,
             showChannelFiles,

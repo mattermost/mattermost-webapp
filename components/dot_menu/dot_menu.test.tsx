@@ -41,6 +41,7 @@ describe('components/dot_menu/DotMenu', () => {
             markPostAsUnread: jest.fn(),
             doAppCall: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
+            setThreadFollow: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
@@ -48,6 +49,12 @@ describe('components/dot_menu/DotMenu', () => {
         pluginMenuItems: [],
         appsEnabled: false,
         isReadOnly: false,
+        currentTeamId: 'team_id_1',
+        isFollowingThread: false,
+        isCollapsedThreadsEnabled: false,
+        threadId: 'post_id_1',
+        threadReplyCount: 0,
+        userId: 'user_id_1',
     };
 
     test('should match snapshot, on Center', () => {
@@ -175,5 +182,79 @@ describe('components/dot_menu/DotMenu', () => {
         );
 
         expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(false);
+    });
+
+    describe('RHS', () => {
+        test.each([
+            [true, {location: Locations.RHS_ROOT, isCollapsedThreadsEnabled: true}],
+            [true, {location: Locations.RHS_COMMENT, isCollapsedThreadsEnabled: true}],
+            [true, {location: Locations.CENTER, isCollapsedThreadsEnabled: true}],
+
+            [false, {location: Locations.RHS_ROOT, isCollapsedThreadsEnabled: false}],
+            [false, {location: Locations.RHS_COMMENT, isCollapsedThreadsEnabled: false}],
+            [false, {location: Locations.CENTER, isCollapsedThreadsEnabled: false}],
+            [false, {location: Locations.SEARCH, isCollapsedThreadsEnabled: true}],
+            [false, {location: Locations.NO_WHERE, isCollapsedThreadsEnabled: true}],
+        ])('follow message/thread menu item should be shown only in RHS and center channel when CRT is enabled', (showing, caseProps) => {
+            const props = {
+                ...baseProps,
+                ...caseProps,
+            };
+
+            const wrapper = shallowWithIntl(
+                <DotMenu {...props}/>,
+            );
+
+            expect(wrapper.find(`#follow_post_thread_${baseProps.post.id}`).prop('show')).toBe(showing);
+        });
+
+        test.each([
+            ['Follow message', {isFollowingThread: false, threadReplyCount: 0}],
+            ['Unfollow message', {isFollowingThread: true, threadReplyCount: 0}],
+            ['Follow thread', {isFollowingThread: false, threadReplyCount: 1}],
+            ['Unfollow thread', {isFollowingThread: true, threadReplyCount: 1}],
+        ])('should show correct text', (text, caseProps) => {
+            const props = {
+                ...baseProps,
+                ...caseProps,
+                location: Locations.RHS_ROOT,
+            };
+
+            const wrapper = shallowWithIntl(
+                <DotMenu {...props}/>,
+            );
+
+            expect(wrapper.find(`#follow_post_thread_${baseProps.post.id}`).prop('text')).toBe(text);
+        });
+
+        test.each([
+            [false, {isFollowingThread: true}],
+            [true, {isFollowingThread: false}],
+        ])('should call setThreadFollow with following as %s', (following, caseProps) => {
+            const spySetThreadFollow = jest.fn();
+
+            const props = {
+                ...baseProps,
+                ...caseProps,
+                location: Locations.RHS_ROOT,
+                actions: {
+                    ...baseProps.actions,
+                    setThreadFollow: spySetThreadFollow,
+                },
+            };
+
+            const wrapper = shallowWithIntl(
+                <DotMenu {...props}/>,
+            );
+
+            wrapper.find(`#follow_post_thread_${baseProps.post.id}`).simulate('click');
+
+            expect(spySetThreadFollow).toHaveBeenCalledWith(
+                'user_id_1',
+                'team_id_1',
+                'post_id_1',
+                following,
+            );
+        });
     });
 });

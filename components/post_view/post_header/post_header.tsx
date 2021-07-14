@@ -44,11 +44,6 @@ export type Props = {
      */
     compactDisplay?: boolean;
 
-    /*
-     * The number of replies in the same thread as this post
-     */
-    replyCount?: number;
-
     /**
      * Set to indicate that this is previous post was not a reply to the same thread
      */
@@ -195,7 +190,6 @@ export default class PostHeader extends React.PureComponent<Props> {
                         handleCardClick={this.props.handleCardClick}
                         handleDropdownOpened={this.props.handleDropdownOpened}
                         compactDisplay={this.props.compactDisplay}
-                        replyCount={this.props.replyCount}
                         isFirstReply={this.props.isFirstReply}
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
                         hover={this.props.hover}

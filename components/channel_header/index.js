@@ -39,7 +39,7 @@ import {
     showMentions,
     closeRightHandSide,
 } from 'actions/views/rhs';
-import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
@@ -70,8 +70,6 @@ function makeMapStateToProps() {
         }
         const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
 
-        const showChannelFilesButton = config.FeatureFlagFilesSearch === 'true';
-
         return {
             teamId: getCurrentTeamId(state),
             channel,
@@ -94,7 +92,7 @@ function makeMapStateToProps() {
             announcementBarCount: getAnnouncementBarCount(state),
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
-            showChannelFilesButton,
+            isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
         };
     };
 }

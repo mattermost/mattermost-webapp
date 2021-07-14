@@ -1,20 +1,20 @@
 @charset 'UTF-8';
 
 .remove-image {
-    display: inline-block;
     position: relative;
+    display: inline-block;
 }
 
 .remove-image__img {
-    border: 1px solid alpha-color($black, .15);
-    overflow: hidden;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: $white;
-    border-radius: 4px;
+    overflow: hidden;
     width: 128px;
     height: 128px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid alpha-color($black, 0.15);
+    background: $white;
+    border-radius: 4px;
 
     img {
         max-width: 100%;
@@ -23,26 +23,26 @@
 }
 
 .remove-image__btn {
-    background: alpha-color($black, .8);
-    color: white;
     position: absolute;
     top: -8px;
     right: -9px;
-    border: none;
+    display: flex;
     width: 24px;
     height: 24px;
-    display: flex;
     align-items: center;
-    border-radius: 40px;
-    font-size: 20px;
     justify-content: center;
+    border: none;
+    background: alpha-color($black, 0.8);
+    border-radius: 40px;
+    color: white;
+    font-size: 20px;
 
     &:hover {
         background: $black;
     }
 
     span {
-        line-height: 0;
         margin-left: 1px;
+        line-height: 0;
     }
 }

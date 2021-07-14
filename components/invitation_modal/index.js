@@ -8,7 +8,7 @@ import {isEmpty} from 'lodash';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -46,19 +46,19 @@ export function mapStateToProps(state) {
             return false;
         }
         if (channel.type === Constants.PRIVATE_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
+            return haveIChannelPermission(state, currentTeam.id, channel.id, Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS);
         }
-        return haveIChannelPermission(state, {channel: channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
+        return haveIChannelPermission(state, currentTeam.id, channel.id, Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
     });
     const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
     const emailInvitationsEnabled = config.EnableEmailInvitations === 'true';
     const isLicensed = license && license.IsLicensed === 'true';
     const isGroupConstrained = Boolean(currentTeam.group_constrained);
-    const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.INVITE_GUEST});
+    const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveICurrentTeamPermission(state, Permissions.INVITE_GUEST);
     const isCloud = license.Cloud === 'true';
     const isFreeTierWithNoFreeSeats = isCloud && !isEmpty(subscriptionStats) && subscriptionStats.is_paid_tier === 'false' && subscriptionStats.remaining_seats <= 0;
 
-    const canAddUsers = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.ADD_USER_TO_TEAM});
+    const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
     return {
         invitableChannels,
         currentTeam,

@@ -2,10 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
+
+import {Permissions} from 'mattermost-redux/constants';
 
 import MainMenu from './main_menu.jsx';
 
@@ -16,6 +20,8 @@ describe('components/Menu', () => {
         const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         return wrapper.find('MainMenu').shallow();
     };
+
+    const mockStore = configureStore();
 
     const defaultProps = {
         mobile: false,
@@ -55,6 +61,43 @@ describe('components/Menu', () => {
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
+    };
+
+    const defaultState = {
+        entities: {
+            channels: {
+                myMembers: [],
+            },
+            teams: {
+                currentTeamId: 'team-id',
+                myMembers: {
+                    'team-id': {
+                        team_id: 'team-id',
+                        user_id: 'test-user-id',
+                        roles: 'team_user',
+                        scheme_user: 'true',
+                    },
+                },
+            },
+            users: {
+                currentUserId: 'test-user-id',
+                profiles: {
+                    'test-user-id': {
+                        id: 'test-user-id',
+                        roles: 'system_user system_manager',
+                    },
+                },
+            },
+            roles: {
+                roles: {
+                    system_manager: {
+                        permissions: [
+                            Permissions.SYSCONSOLE_WRITE_PLUGINS,
+                        ],
+                    },
+                },
+            },
+        },
     };
 
     test('should match snapshot with id', () => {
@@ -144,6 +187,22 @@ describe('components/Menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should show Marketplace modal', () => {
+        const store = mockStore(defaultState);
+
+        const props = {
+            ...defaultProps,
+            enablePluginMarketplace: true,
+        };
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <MainMenu {...props}/>
+            </Provider>,
+        );
+
+        expect(wrapper.find('#marketplaceModal').at(0).props().show).toEqual(true);
+    });
+
     test('should show leave team option when primary team is set', () => {
         const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
         const wrapper = getMainMenuWrapper(props);
@@ -180,6 +239,20 @@ describe('components/Menu', () => {
     test('should hide the subscribe now button when is NOT cloud', () => {
         const props = {...defaultProps, isCloud: false, isFreeTrial: false};
         const wrapper = getMainMenuWrapper(props);
+
+        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
+    });
+
+    test('should hide the subscribe now button when does not have permissions', () => {
+        const noPermissionsState = {...defaultState};
+        noPermissionsState.entities.roles.roles.system_manager.permissions = [];
+        const store = mockStore(noPermissionsState);
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <MainMenu {...defaultProps}/>
+            </Provider>,
+        );
 
         expect(wrapper.find('UpgradeLink')).toHaveLength(0);
     });

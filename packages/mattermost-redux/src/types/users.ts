@@ -97,14 +97,28 @@ export type UserActivity = {
 export type UserStatus = {
     user_id: string;
     status: string;
-    manual: boolean;
-    last_activity_at: number;
+    manual?: boolean;
+    last_activity_at?: number;
     active_channel?: string;
+    dnd_end_time?: number;
 };
+
+export enum CustomStatusDuration {
+    DONT_CLEAR = '',
+    THIRTY_MINUTES = 'thirty_minutes',
+    ONE_HOUR = 'one_hour',
+    FOUR_HOURS = 'four_hours',
+    TODAY = 'today',
+    THIS_WEEK = 'this_week',
+    DATE_AND_TIME = 'date_and_time',
+    CUSTOM_DATE_TIME = 'custom_date_time',
+}
 
 export type UserCustomStatus = {
     emoji: string;
     text: string;
+    duration: CustomStatusDuration;
+    expires_at?: string;
 };
 
 export type UserAccessToken = {

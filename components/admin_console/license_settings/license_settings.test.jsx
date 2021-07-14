@@ -3,12 +3,25 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import expect from 'expect';
+
+import {fakeDate} from 'tests/helpers/date';
 
 import LicenseSettings from './license_settings.jsx';
 
 const flushPromises = () => new Promise(setImmediate);
 
 describe('components/admin_console/license_settings/LicenseSettings', () => {
+    let resetFakeDate;
+
+    beforeAll(() => {
+        resetFakeDate = fakeDate(new Date('2021-04-14T12:00:00Z'));
+    });
+
+    afterAll(() => {
+        resetFakeDate();
+    });
+
     const defaultProps = {
         isDisabled: false,
         license: {
@@ -21,6 +34,9 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             Company: 'Mattermost Inc.',
             Users: '100',
         },
+        prevTrialLicense: {
+            IsLicensed: 'false',
+        },
         upgradedFromTE: false,
         enterpriseReady: true,
         actions: {
@@ -31,6 +47,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             ping: jest.fn(),
             requestTrialLicense: jest.fn(),
             restartServer: jest.fn(),
+            getPrevTrialLicense: jest.fn(),
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
         },
         stats: {
@@ -133,6 +150,40 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
     test('should match snapshot enterprise build with trial license', () => {
         const props = {...defaultProps, license: {IsLicensed: 'true', StartsAt: '1617714643650', IssuedAt: '1617714643650', ExpiresAt: '1620335443650'}};
         const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot team edition with expired trial in the past', () => {
+        const props = {...defaultProps, license: {IsLicensed: 'false'}, prevTrialLicense: {IsLicensed: 'true'}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot after starting trial and removing license', async () => {
+        const actions = {
+            ...defaultProps.actions,
+            getLicenseConfig: jest.fn(),
+            upgradeToE0: jest.fn(),
+            upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
+        };
+        const props = {...defaultProps, license: {IsLicensed: 'false'}, prevTrialLicense: {IsLicensed: 'false'}, actions};
+
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+
+        const instance = wrapper.instance();
+
+        // First start trial
+        actions.requestTrialLicense = jest.fn().mockImplementation(() => Promise.resolve({percentage: 1, error: null}));
+        actions.getLicenseConfig = jest.fn().mockImplementation(() => Promise.resolve({}));
+        await instance.requestLicense({preventDefault: jest.fn()});
+        expect(wrapper.state('gettingTrial')).toBe(false);
+
+        // Then remove license
+        actions.removeLicense = jest.fn().mockImplementation(() => Promise.resolve({percentage: 1, error: null}));
+        actions.getPrevTrialLicense = jest.fn().mockImplementation(() => Promise.resolve({}));
+        await instance.handleRemove({preventDefault: jest.fn()});
+        expect(wrapper.state('removing')).toBe(false);
+
         expect(wrapper).toMatchSnapshot();
     });
 });

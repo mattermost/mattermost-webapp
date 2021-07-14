@@ -33,7 +33,6 @@ describe('CommandSuggestion', () => {
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.slash-command__title').first().text()).toEqual('invite @[username] ~[channel]');
-        expect(wrapper.find('.slash-command__desc').first().text()).toEqual('Invite a user to a channel');
     });
 });
 
@@ -51,7 +50,11 @@ describe('CommandProvider', () => {
             }]);
             Client4.getCommandAutocompleteSuggestionsList = mockFunc;
 
-            const provider = new CommandProvider({isInRHS: false});
+            const provider = new CommandProvider({
+                teamId: 'current_team',
+                channelId: 'current_channel',
+                rootId: 'current_root',
+            });
 
             const callback = jest.fn();
             provider.handlePretextChanged('/jira issue', callback);
@@ -86,7 +89,11 @@ describe('CommandProvider', () => {
             }]);
             Client4.getCommandAutocompleteSuggestionsList = mockFunc;
 
-            const provider = new CommandProvider({isInRHS: false});
+            const provider = new CommandProvider({
+                teamId: 'current_team',
+                channelId: 'current_channel',
+                rootId: 'current_root',
+            });
 
             const callback = jest.fn();
             provider.handlePretextChanged('/jira issue', callback);

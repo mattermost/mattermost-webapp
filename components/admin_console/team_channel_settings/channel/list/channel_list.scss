@@ -2,8 +2,8 @@
     .DataGrid {
         .DataGrid_row {
             min-height: 40px;
-            cursor: pointer;
             padding-left: 16px;
+            cursor: pointer;
         }
 
         .DataGrid_cell {
@@ -12,18 +12,18 @@
             }
 
             .TeamList_channelDisplayName {
+                color: #333;
                 font-weight: 600;
-                color: #333333;
                 opacity: 0.8;
             }
 
             .channel-icon {
                 display: inline-flex;
+                width: 16px;
                 justify-content: center;
                 margin-right: 10px;
-                opacity: 0.8;
-                width: 16px;
                 font-size: 120%;
+                opacity: 0.8;
             }
 
             .shared-channel-icon {

@@ -60,7 +60,11 @@ exports[`components/threading/global_threads/thread_item should report total num
     </Memo(ThreadMenu)>
   </span>
   <div
+    aria-readonly="true"
     className="preview"
+    dir="auto"
+    onClick={[Function]}
+    tabIndex={0}
   >
     <Connect(Markdown)
       message="test msg"
@@ -167,7 +171,11 @@ exports[`components/threading/global_threads/thread_item should report unread me
     </Memo(ThreadMenu)>
   </span>
   <div
+    aria-readonly="true"
     className="preview"
+    dir="auto"
+    onClick={[Function]}
+    tabIndex={0}
   >
     <Connect(Markdown)
       message="test msg"
@@ -272,7 +280,11 @@ exports[`components/threading/global_threads/thread_item should report unread me
     </Memo(ThreadMenu)>
   </span>
   <div
+    aria-readonly="true"
     className="preview"
+    dir="auto"
+    onClick={[Function]}
+    tabIndex={0}
   >
     <Connect(Markdown)
       message="test msg"

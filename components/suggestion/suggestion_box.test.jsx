@@ -10,6 +10,18 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+jest.mock('mattermost-redux/client', () => {
+    const actual = jest.requireActual('mattermost-redux/client');
+
+    return {
+        ...actual,
+        Client4: {
+            ...actual.Client4,
+            getCommandAutocompleteSuggestionsList: jest.fn().mockResolvedValue([]),
+        },
+    };
+});
+
 jest.mock('utils/user_agent', () => {
     const original = jest.requireActual('utils/user_agent');
     return {
@@ -177,7 +189,11 @@ describe('components/SuggestionBox', () => {
     });
 
     test('Test for suggestionBoxAlgn when slash command at beginning and when slash command in middle of text', () => {
-        const provider = new CommandProvider({isInRHS: true});
+        const provider = new CommandProvider({
+            teamId: 'current_team',
+            channelId: 'current_channel',
+            rootId: 'current_root',
+        });
         const props = {
             ...baseProps,
             providers: [provider],

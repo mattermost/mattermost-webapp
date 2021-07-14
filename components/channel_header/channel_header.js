@@ -67,7 +67,6 @@ class ChannelHeader extends React.PureComponent {
         intl: intlShape.isRequired,
         pinnedPostsCount: PropTypes.number,
         hasMoreThanOneTeam: PropTypes.bool,
-        showChannelFilesButton: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -88,6 +87,7 @@ class ChannelHeader extends React.PureComponent {
         announcementBarCount: PropTypes.number,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -221,9 +221,9 @@ class ChannelHeader extends React.PureComponent {
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     renderCustomStatus = () => {
-        const {customStatus} = this.props;
-        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
-        if (!(this.props.isCustomStatusEnabled && isStatusSet)) {
+        const {customStatus, isCustomStatusEnabled, isCustomStatusExpired} = this.props;
+        const isStatusSet = !isCustomStatusExpired && (customStatus?.text || customStatus?.emoji);
+        if (!(isCustomStatusEnabled && isStatusSet)) {
             return null;
         }
 
@@ -231,6 +231,8 @@ class ChannelHeader extends React.PureComponent {
             <>
                 <CustomStatusEmoji
                     userID={this.props.dmUser.id}
+                    showTooltip={true}
+                    tooltipDirection='bottom'
                     emojiStyle={{
                         verticalAlign: 'top',
                         margin: '0 4px 1px',
@@ -258,7 +260,6 @@ class ChannelHeader extends React.PureComponent {
             hasGuests,
             teammateNameDisplaySetting,
             isLegacySidebar,
-            showChannelFilesButton,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -480,15 +481,14 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    {showChannelFilesButton &&
-                        <HeaderIconWrapper
-                            iconComponent={channelFilesIcon}
-                            ariaLabel={true}
-                            buttonClass={channelFilesIconClass}
-                            buttonId={'channelHeaderFilesButton'}
-                            onClick={this.showChannelFiles}
-                            tooltipKey={'channelFiles'}
-                        />}
+                    <HeaderIconWrapper
+                        iconComponent={channelFilesIcon}
+                        ariaLabel={true}
+                        buttonClass={channelFilesIconClass}
+                        buttonId={'channelHeaderFilesButton'}
+                        onClick={this.showChannelFiles}
+                        tooltipKey={'channelFiles'}
+                    />
                     {hasGuestsText}
                     <div
                         className='header-popover-text-measurer'
@@ -598,15 +598,14 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    {showChannelFilesButton &&
-                        <HeaderIconWrapper
-                            iconComponent={channelFilesIcon}
-                            ariaLabel={true}
-                            buttonClass={channelFilesIconClass}
-                            buttonId={'channelHeaderFilesButton'}
-                            onClick={this.showChannelFiles}
-                            tooltipKey={'channelFiles'}
-                        />}
+                    <HeaderIconWrapper
+                        iconComponent={channelFilesIcon}
+                        ariaLabel={true}
+                        buttonClass={channelFilesIconClass}
+                        buttonId={'channelHeaderFilesButton'}
+                        onClick={this.showChannelFiles}
+                        tooltipKey={'channelFiles'}
+                    />
                     {hasGuestsText}
                     {editMessage}
                 </div>

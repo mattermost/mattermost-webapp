@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 import type {MarketplaceLabel} from 'mattermost-redux/types/marketplace';
 
 import OverlayTrigger from 'components/overlay_trigger';
-import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
+import PluginIcon from 'components/widgets/icons/plugin_icon';
 
 import {Constants} from 'utils/constants';
 
@@ -64,7 +64,7 @@ export type MarketplaceItemProps = {
     id: string;
     name: string;
     description?: string;
-    iconData?: string;
+    iconSource?: string;
     labels?: MarketplaceLabel[];
     homepageUrl?: string;
 
@@ -77,15 +77,15 @@ export type MarketplaceItemProps = {
 
 export default class MarketplaceItem extends React.PureComponent <MarketplaceItemProps> {
     render(): JSX.Element {
-        let pluginIcon;
-        if (this.props.iconData) {
-            pluginIcon = (
+        let icon;
+        if (this.props.iconSource) {
+            icon = (
                 <div className='icon__plugin icon__plugin--background'>
-                    <img src={this.props.iconData}/>
+                    <img src={this.props.iconSource}/>
                 </div>
             );
         } else {
-            pluginIcon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
+            icon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
         }
 
         let labels;
@@ -167,7 +167,7 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
                     key={this.props.id}
                     id={'marketplace-plugin-' + this.props.id}
                 >
-                    {pluginIcon}
+                    {icon}
                     <div className='more-modal__details'>
                         {pluginDetails}
                         {this.props.updateDetails}

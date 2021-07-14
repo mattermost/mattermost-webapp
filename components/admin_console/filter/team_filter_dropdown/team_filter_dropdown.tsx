@@ -44,12 +44,14 @@ type State = {
 }
 
 const getSelectedTeams = createSelector(
+    'getSelectedTeams',
     (selectedTeamIds: string[]) => selectedTeamIds,
     (selectedTeamIds: string[], teams: Team[]) => teams,
     (selectedTeamIds, teams) => teams.filter((team) => selectedTeamIds.includes(team.id)),
 );
 
 const getFilteredTeams = createSelector(
+    'getFilteredTeams',
     (term: string) => term.trim().toLowerCase(),
     (term: string, teams: Team[]) => teams,
     (term: string, teams: Team[]) => {

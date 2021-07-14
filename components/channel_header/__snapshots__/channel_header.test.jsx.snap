@@ -299,6 +299,18 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
             permissions={
@@ -466,6 +478,18 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
@@ -635,6 +659,18 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
             permissions={
@@ -770,6 +806,18 @@ exports[`components/ChannelHeader should render archived view 1`] = `
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
         </div>
       </div>
@@ -947,6 +995,18 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
@@ -1177,6 +1237,217 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
 </div>
 `;
 
+exports[`components/ChannelHeader should render properly when custom status is expired 1`] = `
+<div
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="8"
+  data-channelid="undefined"
+  id="channel-header"
+  role="banner"
+  tabIndex="-1"
+>
+  <div
+    className="flex-parent"
+  >
+    <div
+      className="flex-child"
+    >
+      <div
+        className="channel-header__info"
+        id="channelHeaderInfo"
+      >
+        <div
+          className="channel-header__title dropdown"
+        >
+          <div>
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+              onToggle={[Function]}
+            >
+              <div
+                className="channel-header__top"
+                id="channelHeaderDropdownButton"
+              >
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none "
+                >
+                  <strong
+                    aria-level="2"
+                    className="heading"
+                    id="channelHeaderTitle"
+                    role="heading"
+                  >
+                    <span>
+                      <ArchiveIcon
+                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                      />
+                      <FormattedMessage
+                        defaultMessage="{displayname} (you) "
+                        id="channel_header.directchannel.you"
+                        values={
+                          Object {
+                            "displayname": undefined,
+                          }
+                        }
+                      />
+                      <GuestBadge
+                        className=""
+                        show={false}
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="icon icon-chevron-down header-dropdown-chevron-icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
+          </div>
+        </div>
+        <div
+          className="channel-header__description"
+          dir="auto"
+          id="channelHeaderDescription"
+        >
+          <StatusIcon
+            button={false}
+            className=""
+            status="offline"
+          />
+          <span
+            className="header-status__text"
+          >
+            <FormattedMessage
+              defaultMessage="Offline"
+              id="status_dropdown.set_offline"
+            />
+          </span>
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderPinButton"
+            iconComponent={
+              <i
+                aria-hidden="true"
+                className="icon icon-pin-outline channel-header__pin"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
+          <div
+            className="header-popover-text-measurer"
+          >
+            <Connect(Markdown)
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
+            >
+              <Popover
+                className="channel-header__popover chanel-header__popover--new_sidebar"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="not the bot description"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+    <Connect(injectIntl(ChannelHeaderPlug))
+      channel={
+        Object {
+          "header": "not the bot description",
+          "status": "offline",
+          "type": "D",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(RHSSearchNav) />
+  </div>
+</div>
+`;
+
 exports[`components/ChannelHeader should render properly when custom status is set 1`] = `
 <div
   aria-label="channel header region"
@@ -1275,9 +1546,9 @@ exports[`components/ChannelHeader should render properly when custom status is s
                   "verticalAlign": "top",
                 }
               }
-              showTooltip={false}
+              showTooltip={true}
               spanStyle={Object {}}
-              tooltipDirection="top"
+              tooltipDirection="bottom"
               userID="user_id"
             />
             <CustomStatusText
@@ -1298,6 +1569,18 @@ exports[`components/ChannelHeader should render properly when custom status is s
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
           <div
             className="header-popover-text-measurer"
@@ -1519,6 +1802,18 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
             permissions={
@@ -1662,6 +1957,18 @@ exports[`components/ChannelHeader should render properly when populated with cha
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
           <div
             className="header-popover-text-measurer"
@@ -1905,6 +2212,18 @@ exports[`components/ChannelHeader should render shared view 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
             permissions={
@@ -2082,6 +2401,18 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
