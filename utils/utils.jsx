@@ -2274,7 +2274,7 @@ export function isSelection() {
  * @param {string} selector - CSS selector of elements not eligible for click
  * @returns {function}
  */
-export function makeIsEligibleForClick(selector) {
+export function makeIsEligibleForClick(selector = '') {
     return (event) => {
         const currentTarget = event.currentTarget;
         let node = event.target;
@@ -2302,7 +2302,7 @@ export function makeIsEligibleForClick(selector) {
             if (
                 CLICKABLE_ELEMENTS.includes(node.tagName.toLowerCase()) ||
                 node.getAttribute('role') === 'button' ||
-                node.matches(selector)
+                (selector && node.matches(selector))
             ) {
                 return false;
             }
