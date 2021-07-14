@@ -170,46 +170,4 @@ describe('System Console > User Management > Deactivation', () => {
                 find('.icon-archive-outline').should('be.visible');
         });
     });
-
-    it('MM-T947 When deactivating users in the System Console, email address should not disappear', () => {
-        // # Visit the system console.
-        cy.visit('/admin_console');
-
-        // # Go to User management / Users tab
-        cy.findByTestId('user_management.system_users').should('be.visible').click();
-
-        // # Create a new user
-        cy.apiCreateUser().then(({user: user1}) => {
-            // # Search the newly created user in the search box
-            cy.findByPlaceholderText('Search users').should('be.visible').clear().type(user1.email).wait(TIMEOUTS.HALF_SEC);
-
-            // * Verify that user is listed
-            cy.findByText(`@${user1.username}`).should('be.visible');
-
-            // # Scan on the first item's row in the list
-            cy.findByTestId('userListRow').should('be.visible').within(() => {
-                // * Verify before deactivation email is visible
-                cy.findByText(user1.email).should('be.visible');
-
-                // # Open the actions menu.
-                cy.findByText('Member').click().wait(TIMEOUTS.HALF_SEC);
-
-                // # Click on deactivate menu button
-                cy.findByLabelText('User Actions Menu').findByText('Deactivate').click();
-            });
-
-            // # Click confirm deactivate in the modal
-            cy.get('.a11y__modal').should('exist').and('be.visible').within(() => {
-                cy.findByText('Deactivate').should('be.visible').click();
-            });
-
-            cy.findByTestId('userListRow').should('be.visible').within(() => {
-                // * Verify that the user is now inactive
-                cy.findByText('Inactive').should('be.visible');
-
-                // * Verify once again if email is visible
-                cy.findByText(user1.email).should('be.visible');
-            });
-        });
-    });
 });

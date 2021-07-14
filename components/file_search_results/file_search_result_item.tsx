@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {FileInfo} from 'mattermost-redux/types/files';
 
+import {FileDropdownPluginComponent} from 'types/store/plugins';
+
 import {fileSizeToString, copyToClipboard, localizeMessage} from 'utils/utils';
 import {browserHistory} from 'utils/browser_history';
 import {getSiteURL} from 'utils/url';
@@ -27,6 +29,7 @@ type Props = {
     channelDisplayName: string;
     channelType: string;
     teamName: string;
+    pluginMenuItems?: FileDropdownPluginComponent[];
 };
 
 type State = {
@@ -60,6 +63,35 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
 
     private keepOpen = (open: boolean) => {
         this.setState({keepOpen: open});
+    }
+
+    private renderPluginItems = () => {
+        const {fileInfo} = this.props;
+        const pluginItems = this.props.pluginMenuItems?.filter((item) => item?.match(fileInfo)).map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={() => item.action?.(fileInfo)}
+                    text={item.text}
+                />
+            );
+        });
+
+        if (!pluginItems?.length) {
+            return null;
+        }
+
+        return (
+            <>
+                <li
+                    id={`divider_file_${this.props.fileInfo.id}_plugins`}
+                    className='MenuItem__divider'
+                    role='menuitem'
+                />
+                {pluginItems}
+            </>
+        );
     }
 
     public render(): React.ReactNode {
@@ -136,6 +168,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
                                     ariaLabel={localizeMessage('file_search_result_item.copy_link', 'Copy link')}
                                     text={localizeMessage('file_search_result_item.copy_link', 'Copy link')}
                                 />
+                                {this.renderPluginItems()}
                             </Menu>
                         </MenuWrapper>
                     </OverlayTrigger>

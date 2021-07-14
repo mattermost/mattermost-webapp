@@ -49,6 +49,7 @@ const state: GlobalState = {
             myMembers: {},
             membersInChannel: {},
             stats: {},
+            roles: {},
             groupsAssociatedToChannel: {},
             totalCount: 0,
             manuallyUnread: {},
@@ -98,6 +99,7 @@ const state: GlobalState = {
             analytics: {},
             dataRetentionCustomPolicies: {},
             dataRetentionCustomPoliciesCount: 0,
+            prevTrialLicense: {},
         },
         jobs: {
             jobs: {},

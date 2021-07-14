@@ -73,6 +73,7 @@ describe('components/RhsComment', () => {
         emojiMap: new EmojiMap(new Map()),
         isBot: false,
         collapsedThreadsEnabled: false,
+        isInViewport: jest.fn(),
     };
 
     test('should match snapshot', () => {

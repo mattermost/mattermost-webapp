@@ -41,6 +41,7 @@ export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategor
 })();
 
 export const getAutoSortedCategoryIds: (state: GlobalState) => Set<string> = (() => createSelector(
+    'getAutoSortedCategoryIds',
     (state: GlobalState) => getCategoriesForCurrentTeam(state),
     (categories) => {
         return new Set(categories.filter((category) =>
@@ -59,6 +60,7 @@ export const getChannelsByCategoryForCurrentTeam: (state: GlobalState) => Relati
 })();
 
 const getUnreadChannelIdsSet = createSelector(
+    'getUnreadChannelIdsSet',
     (state: GlobalState) => getUnreadChannelIds(state, state.views.channel.lastUnreadChannel),
     (unreadChannelIds) => {
         return new Set(unreadChannelIds);
@@ -69,6 +71,7 @@ const getUnreadChannelIdsSet = createSelector(
 // Channels are returned in the same order as in the sidebar. Channels in the Unreads category are not included.
 export const getChannelsInCategoryOrder = (() => {
     return createSelector(
+        'getChannelsInCategoryOrder',
         getCategoriesForCurrentTeam,
         getChannelsByCategoryForCurrentTeam,
         getCurrentChannelId,
@@ -106,6 +109,7 @@ export const getChannelsInCategoryOrder = (() => {
 // enabled. Channels are sorted by recency with channels containing a mention grouped first.
 export const getUnreadChannels = (() => {
     const getUnsortedUnreadChannels = createSelector(
+        'getUnreadChannels',
         getAllChannels,
         getUnreadChannelIdsSet,
         getCurrentChannelId,
@@ -138,6 +142,7 @@ export const getUnreadChannels = (() => {
     );
 
     const sortChannels = createSelector(
+        'sortChannels',
         (state: GlobalState, channels: Channel[]) => channels,
         getMyChannelMemberships,
         getLastPostPerChannel,
@@ -222,6 +227,7 @@ export function makeGetFilteredChannelIdsForCategory() {
     const getChannelIdsForCategory = makeGetChannelIdsForCategory();
 
     return createSelector(
+        'makeGetFilteredChannelIdsForCategory',
         getChannelIdsForCategory,
         getUnreadChannelIdsSet,
         shouldShowUnreadsCategory,

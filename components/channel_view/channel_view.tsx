@@ -159,7 +159,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
             );
         }
 
-        if (this.props.showNextStepsEphemeral && this.props.isCloud) {
+        if (this.props.showNextStepsEphemeral) {
             return (
                 <NextStepsView/>
             );

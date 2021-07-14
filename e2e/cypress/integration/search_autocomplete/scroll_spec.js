@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @autocomplete @search
+
 describe('Autocomplete in the search box - scrolling', () => {
     const usersCount = 15;
     const timestamp = Date.now();
@@ -31,8 +34,8 @@ describe('Autocomplete in the search box - scrolling', () => {
         // # Type into the searchBox to show list of users
         cy.get('#searchBox').type('from:');
 
-        cy.get('#search-autocomplete__popover .search-autocomplete__item').first().as('firstItem');
-        cy.get('#search-autocomplete__popover .search-autocomplete__item').last().as('lastItem');
+        cy.get('#search-autocomplete__popover .suggestion-list__item').first().as('firstItem');
+        cy.get('#search-autocomplete__popover .suggestion-list__item').last().as('lastItem');
 
         // * Check that list is scrolled to top
         cy.get('@firstItem').should('be.visible');

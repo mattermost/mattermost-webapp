@@ -29,9 +29,11 @@ import {
     TELEMETRY_CATEGORIES,
     ModalIdentifiers,
     CloudProducts,
+    TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {useQuery} from 'utils/http_utils';
 
 import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
@@ -68,6 +70,9 @@ const BillingSubscriptions: React.FC = () => {
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
+    const query = useQuery();
+    const actionQueryParam = query.get('action');
+
     const product = useSelector((state: GlobalState) => {
         const products = state.entities.cloud.products!;
         if (!products) {
@@ -91,6 +96,15 @@ const BillingSubscriptions: React.FC = () => {
         return products[keys[0]];
     });
 
+    // show the upgrade section when is a free tier customer
+    const onUpgradeMattermostCloud = () => {
+        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
+        dispatch(openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        }));
+    };
+
     const subscriptionPlan = product?.sku || CloudProducts.PROFESSIONAL;
 
     let isFreeTrial = false;
@@ -98,6 +112,9 @@ const BillingSubscriptions: React.FC = () => {
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
+        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
+            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+        }
     }
 
     useEffect(() => {
@@ -115,6 +132,10 @@ const BillingSubscriptions: React.FC = () => {
 
         if (analytics && shouldShowInfoBanner()) {
             trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'bannerview_user_limit_warning');
+        }
+
+        if (actionQueryParam === 'show_purchase_modal') {
+            onUpgradeMattermostCloud();
         }
     }, []);
 
@@ -147,15 +168,6 @@ const BillingSubscriptions: React.FC = () => {
                 value: 'true',
             },
         ]));
-    };
-
-    // show the upgrade section when is a free tier customer
-    const onUpgradeMattermostCloud = () => {
-        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        }));
     };
 
     if (!subscription || !products) {

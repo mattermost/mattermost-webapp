@@ -79,7 +79,7 @@ const rootId = 'fc234c34c23';
 const currentUserId = '34jrnfj43';
 const teamId = '4j5nmn4j3';
 const channelId = '4j5j4k3k34j4';
-const latestPostId = rootId;
+const latestPostId = 'latestPostId';
 
 describe('rhs view actions', () => {
     const initialState = {
@@ -91,6 +91,16 @@ describe('rhs view actions', () => {
                         user_id: currentUserId,
                         message: 'test msg',
                         channel_id: channelId,
+                        root_id: rootId,
+                        create_at: 42,
+                    },
+                    [rootId]: {
+                        id: rootId,
+                        user_id: currentUserId,
+                        message: 'root msg',
+                        channel_id: channelId,
+                        root_id: '',
+                        create_at: 2,
                     },
                 },
                 postsInChannel: {
@@ -98,7 +108,9 @@ describe('rhs view actions', () => {
                         {order: [latestPostId], recent: true},
                     ],
                 },
-                postsInThread: {},
+                postsInThread: {
+                    [rootId]: [latestPostId],
+                },
                 messagesHistory: {
                     index: {
                         [Posts.MESSAGE_TYPES.COMMENT]: 0,
@@ -129,7 +141,7 @@ describe('rhs view actions', () => {
         },
         storage: {
             storage: {
-                [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                [`${StoragePrefixes.COMMENT_DRAFT}${rootId}`]: {
                     value: {
                         message: '',
                         fileInfos: [],
@@ -348,7 +360,7 @@ describe('rhs view actions', () => {
                 ...initialState,
                 storage: {
                     storage: {
-                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                        [`${StoragePrefixes.COMMENT_DRAFT}${rootId}`]: {
                             value: {
                                 message: '+:smile:',
                                 fileInfos: [],
@@ -457,7 +469,7 @@ describe('rhs view actions', () => {
     });
 
     describe('makeOnEditLatestPost', () => {
-        const onEditLatestPost = makeOnEditLatestPost(channelId, rootId);
+        const onEditLatestPost = makeOnEditLatestPost(rootId);
 
         test('it dispatches the correct actions', () => {
             store.dispatch(onEditLatestPost());
@@ -465,7 +477,6 @@ describe('rhs view actions', () => {
             expect(store.getActions()).toEqual([
                 PostActions.setEditingPost(
                     latestPostId,
-                    0,
                     'reply_textbox',
                     'Comment',
                     true,

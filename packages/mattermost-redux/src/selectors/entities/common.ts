@@ -20,6 +20,7 @@ export function getMyChannelMemberships(state: GlobalState): RelationOneToOne<Ch
 }
 
 export const getMyCurrentChannelMembership: (a: GlobalState) => ChannelMembership | undefined = createSelector(
+    'getMyCurrentChannelMembership',
     getCurrentChannelId,
     getMyChannelMemberships,
     (currentChannelId, channelMemberships) => {

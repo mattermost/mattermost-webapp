@@ -23,7 +23,7 @@ import {
     RelationOneToMany,
 } from 'mattermost-redux/types/utilities';
 
-import {comparePosts} from 'mattermost-redux/utils/post_utils';
+import {comparePosts, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 
 export function removeUnneededMetadata(post: Post) {
     if (!post.metadata) {
@@ -262,9 +262,13 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
 }
 
 function handlePostReceived(nextState: any, post: Post) {
-    if (nextState[post.id] && nextState[post.id].update_at >= post.update_at) {
-        // The stored post is newer than the one we've received
+    if (!shouldUpdatePost(post, nextState[post.id])) {
         return nextState;
+    }
+
+    // Edited posts that don't have 'is_following' specified should maintain 'is_following' state
+    if (post.update_at > 0 && post.is_following == null && nextState[post.id]) {
+        post.is_following = nextState[post.id].is_following;
     }
 
     if (post.delete_at > 0) {
