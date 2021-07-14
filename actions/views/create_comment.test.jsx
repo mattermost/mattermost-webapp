@@ -325,7 +325,7 @@ describe('rhs view actions', () => {
 
             await store.dispatch(remockedSubmitCommand(channelId, rootId, draft));
 
-            const expectedActions = [{args: ['/test msg', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
+            const expectedActions = [{args: ['/test msg', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}, undefined], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
             expect(store.getActions()).toEqual(expectedActions);
         });
     });

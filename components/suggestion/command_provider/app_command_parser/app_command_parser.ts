@@ -25,7 +25,6 @@ import {
     AppCallResponseTypes,
     AppCallTypes,
     AppFieldTypes,
-    makeAppBindingsSelector,
     selectChannel,
     getChannel,
     getCurrentTeamId,
@@ -86,8 +85,6 @@ type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
     type?: string;
     item?: UserProfile | Channel;
 }
-
-const getCommandBindings = makeAppBindingsSelector(AppBindingLocations.COMMAND);
 
 export class ParsedCommand {
     state = ParseState.Start;
@@ -565,22 +562,24 @@ export class AppCommandParser {
     private teamID: string;
     private rootPostID?: string;
     private intl: Intl;
+    private bindings: AppBinding[];
 
     forms: {[location: string]: AppForm} = {};
 
-    constructor(store: Store|null, intl: Intl, channelID: string, teamID = '', rootPostID = '') {
+    constructor(store: Store|null, intl: Intl, bindings: AppBinding[], channelID: string, teamID = '', rootPostID = '') {
         this.store = store || getStore();
         this.channelID = channelID;
         this.rootPostID = rootPostID;
         this.teamID = teamID;
         this.intl = intl;
+        this.bindings = bindings;
     }
 
     // composeCallFromCommand creates the form submission call
     public composeCallFromCommand = async (command: string): Promise<{call: AppCallRequest | null; errorMessage?: string}> => {
         let parsed = new ParsedCommand(command, this, this.intl);
 
-        const commandBindings = this.getCommandBindings();
+        const commandBindings = this.bindings;
         if (!commandBindings) {
             return {call: null,
                 errorMessage: this.intl.formatMessage({
@@ -675,7 +674,7 @@ export class AppCommandParser {
         const command = pretext.toLowerCase();
         const result: AutocompleteSuggestion[] = [];
 
-        const bindings = this.getCommandBindings();
+        const bindings = this.bindings;
 
         for (const binding of bindings) {
             let base = binding.label;
@@ -706,7 +705,7 @@ export class AppCommandParser {
         let parsed = new ParsedCommand(pretext, this, this.intl);
         let suggestions: ExtendedAutocompleteSuggestion[] = [];
 
-        const commandBindings = this.getCommandBindings();
+        const commandBindings = this.bindings;
         if (!commandBindings) {
             return [];
         }
@@ -919,13 +918,6 @@ export class AppCommandParser {
         };
     }
 
-    // getCommandBindings returns the commands in the redux store.
-    // They are grouped by app id since each app has one base command
-    private getCommandBindings = (): AppBinding[] => {
-        const bindings = getCommandBindings(this.store.getState());
-        return bindings;
-    }
-
     // getChannel gets the channel in which the user is typing the command
     private getChannel = (): Channel | null => {
         const state = this.store.getState();
@@ -941,12 +933,16 @@ export class AppCommandParser {
         this.teamID = teamID;
     }
 
+    public setBindings = (bindings: AppBinding[]) => {
+        this.bindings = bindings;
+    }
+
     // isAppCommand determines if subcommand/form suggestions need to be returned.
     // When this returns true, the caller knows that the parser should handle all suggestions for the current command string.
     // When it returns false, the caller should call getSuggestionsBase() to check if there are any base commands that match the command string.
     public isAppCommand = (pretext: string): boolean => {
         const command = pretext.toLowerCase();
-        for (const binding of this.getCommandBindings()) {
+        for (const binding of this.bindings) {
             let base = binding.label;
             if (!base) {
                 continue;

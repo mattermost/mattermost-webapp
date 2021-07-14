@@ -21,6 +21,7 @@ import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
+import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 
 type Props = {
     id: string;
@@ -60,6 +61,7 @@ type Props = {
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
+    appCommandParser: AppCommandParser;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -82,9 +84,7 @@ export default class Textbox extends React.PureComponent<Props> {
 
         if (props.supportsCommands) {
             this.suggestionProviders.push(new AppCommandProvider({
-                teamId: this.props.currentTeamId,
-                channelId: this.props.channelId,
-                rootId: this.props.rootId,
+                appCommandParser: this.props.appCommandParser,
             }));
         }
 
@@ -107,6 +107,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 teamId: this.props.currentTeamId,
                 channelId: this.props.channelId,
                 rootId: this.props.rootId,
+                appCommandParser: this.props.appCommandParser,
             }));
         }
 
@@ -144,6 +145,7 @@ export default class Textbox extends React.PureComponent<Props> {
                         teamId: this.props.currentTeamId,
                         channelId: this.props.channelId,
                         rootId: this.props.rootId,
+                        appCommandParser: this.props.appCommandParser,
                     });
                 }
             }

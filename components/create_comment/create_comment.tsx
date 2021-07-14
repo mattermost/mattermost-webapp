@@ -43,6 +43,10 @@ import {Emoji} from 'mattermost-redux/types/emojis';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {FileInfo} from 'mattermost-redux/types/files';
+import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
+import {Client4} from 'mattermost-redux/client';
+import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -124,7 +128,7 @@ type Props = {
     /**
       * Called when submitting the comment
       */
-    onSubmit: (options: {ignoreSlash: boolean}) => void;
+    onSubmit: (options: {ignoreSlash: boolean}, appCommandParser: AppCommandParser) => void;
 
     /**
       * Called when resetting comment message history index
@@ -236,6 +240,9 @@ type Props = {
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     onHeightChange?: () => void;
+    commandBindings: AppBinding[] | null;
+    currentTeamId: string;
+    currentUserID: string;
 }
 
 type State = {
@@ -268,6 +275,9 @@ class CreateComment extends React.PureComponent<Props, State> {
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
     private createCommentControlsRef: React.RefObject<HTMLSpanElement>;
+
+    private appCommandParser: AppCommandParser;
+    private fetchedBindingsInfo: {channelId: string; teamId: string} = {channelId: '', teamId: ''};
 
     static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {
@@ -310,6 +320,11 @@ class CreateComment extends React.PureComponent<Props, State> {
         this.textboxRef = React.createRef();
         this.fileUploadRef = React.createRef();
         this.createCommentControlsRef = React.createRef();
+
+        this.appCommandParser = new AppCommandParser(null, props.intl, props.commandBindings || [], props.channelId, props.currentTeamId, props.rootId);
+        if (props.commandBindings !== null) {
+            this.fetchedBindingsInfo = {channelId: props.channelId, teamId: props.currentTeamId};
+        }
     }
 
     componentDidMount() {
@@ -330,6 +345,10 @@ class CreateComment extends React.PureComponent<Props, State> {
         // This is made so that the this.scrollToBottom() will be called only once.
         if (draft.message !== '') {
             this.doInitialScrollToBottom = true;
+        }
+
+        if (this.props.commandBindings === null) {
+            this.fetchBindings(this.props.channelId, this.props.currentTeamId);
         }
     }
 
@@ -373,6 +392,47 @@ class CreateComment extends React.PureComponent<Props, State> {
             }
             this.doInitialScrollToBottom = false;
         }
+
+        if (
+            this.props.currentTeamId !== prevProps.currentTeamId ||
+            this.props.channelId !== prevProps.channelId ||
+            this.props.rootId !== prevProps.rootId
+        ) {
+            this.appCommandParser.setChannelContext(this.props.channelId, this.props.currentTeamId, this.props.rootId);
+        }
+
+        if (this.props.commandBindings !== prevProps.commandBindings) {
+            if (this.props.commandBindings !== null) {
+                this.fetchedBindingsInfo = {channelId: this.props.channelId, teamId: this.props.currentTeamId};
+                this.appCommandParser.setBindings(this.props.commandBindings);
+            } else if (
+                this.fetchedBindingsInfo.channelId !== this.props.channelId ||
+                this.fetchedBindingsInfo.teamId !== this.props.currentTeamId
+            ) {
+                this.fetchBindings(this.props.channelId, this.props.currentTeamId);
+            }
+        }
+    }
+
+    fetchBindings = (channelId: string, teamId: string) => {
+        Client4.getAppsBindings(this.props.currentUserID, channelId, teamId).then(
+            (bindings) => {
+                if (this.props.channelId !== channelId) {
+                    return;
+                }
+                const headerBindings = bindings.filter((b) => b.location === AppBindingLocations.COMMAND);
+                const commandBindings = headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
+                this.fetchedBindingsInfo = {channelId, teamId};
+                this.appCommandParser.setBindings(commandBindings);
+            },
+            () => {
+                this.appCommandParser.setBindings([]);
+                this.fetchedBindingsInfo = {channelId: '', teamId: ''};
+            },
+        ).catch(() => {
+            this.appCommandParser.setBindings([]);
+            this.fetchedBindingsInfo = {channelId: '', teamId: ''};
+        });
     }
 
     setShowPreview = (newPreviewValue: boolean) => {
@@ -664,7 +724,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         const options = {ignoreSlash};
 
         try {
-            await this.props.onSubmit(options);
+            await this.props.onSubmit(options, this.appCommandParser);
 
             this.setState({
                 postError: null,
@@ -1323,6 +1383,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}
+                                appCommandParser={this.appCommandParser}
                             />
                             <span
                                 ref={this.createCommentControlsRef}

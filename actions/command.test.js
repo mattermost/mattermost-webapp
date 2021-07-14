@@ -18,6 +18,8 @@ import * as GlobalActions from 'actions/global_actions';
 import * as Utils from 'utils/utils.jsx';
 import UserSettingsModal from 'components/user_settings/modal';
 
+import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
+
 import {executeCommand} from './command';
 const mockStore = configureStore([thunk]);
 
@@ -67,46 +69,6 @@ const initialState = {
                     },
                 },
             },
-        },
-        apps: {
-            bindings: [{
-                location: '/command',
-                bindings: [{
-                    app_id: 'appid',
-                    label: 'appid',
-                    bindings: [
-                        {
-                            app_id: 'appid',
-                            label: 'custom',
-                            description: 'Run the command.',
-                            call: {
-                                path: 'https://someserver.com/command',
-                            },
-                            form: {
-                                fields: [
-                                    {
-                                        name: 'key1',
-                                        label: 'key1',
-                                        type: 'text',
-                                        position: 1,
-                                    },
-                                    {
-                                        name: 'key2',
-                                        label: 'key2',
-                                        type: 'static_select',
-                                        options: [
-                                            {
-                                                label: 'Value 2',
-                                                value: 'value2',
-                                            },
-                                        ],
-                                    },
-                                ],
-                            },
-                        },
-                    ],
-                }],
-            }],
         },
     },
     views: {
@@ -259,7 +221,43 @@ describe('executeCommand', () => {
             }));
             Client4.executeAppCall = mocked;
 
-            const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123', root_id: 'root_id'}));
+            const bindings = [{
+                app_id: 'appid',
+                label: 'appid',
+                bindings: [
+                    {
+                        app_id: 'appid',
+                        label: 'custom',
+                        description: 'Run the command.',
+                        call: {
+                            path: 'https://someserver.com/command',
+                        },
+                        form: {
+                            fields: [
+                                {
+                                    name: 'key1',
+                                    label: 'key1',
+                                    type: 'text',
+                                    position: 1,
+                                },
+                                {
+                                    name: 'key2',
+                                    label: 'key2',
+                                    type: 'static_select',
+                                    options: [
+                                        {
+                                            label: 'Value 2',
+                                            value: 'value2',
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            }];
+            const appParser = new AppCommandParser(store, null, bindings, '123', '321', 'root_id');
+            const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123', root_id: 'root_id'}, appParser));
             Client4.executeAppCall = f;
 
             expect(mocked).toHaveBeenCalledWith({
