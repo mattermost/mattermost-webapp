@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {MutableRefObject, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 
 import {useSelector} from 'react-redux';
@@ -114,10 +114,35 @@ const ProfileWrapper = styled.div`
     margin-right: 20px;
 `;
 
+/**
+ * Hook that alerts clicks outside of the passed ref.
+ */
+function useClickOutsideRef(ref: MutableRefObject<HTMLElement | null>, handler: () => void) {
+    useEffect(() => {
+        function onMouseDown(event: MouseEvent) {
+            const target = event.target as any;
+            if (ref.current && target instanceof Node && !ref.current.contains(target)) {
+                handler();
+            }
+        }
+
+        // Bind the event listener
+        document.addEventListener('mousedown', onMouseDown);
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener('mousedown', onMouseDown);
+        };
+    }, [ref, handler]);
+}
+
 const GlobalHeader = () => {
     const switcherItems = useSelector<GlobalState, GlobalHeaderSwitcherPluginComponent[]>(selectSwitcherItems);
     const enabled = useSelector(getGlobalHeaderEnabled);
     const [switcherOpen, setSwitcherOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+    useClickOutsideRef(menuRef, () => {
+        setSwitcherOpen(false);
+    });
 
     if (!enabled) {
         return null;
@@ -138,26 +163,30 @@ const GlobalHeader = () => {
     });
     return (
         <HeaderContainer>
-            <SwitcherButton
-                open={switcherOpen}
-                onClick={() => setSwitcherOpen(!switcherOpen)}
-            >
-                <SwitcherIcon/>
-            </SwitcherButton>
-            <SwitcherMenu open={switcherOpen}>
-                <Open>
-                    <FormattedMessage
-                        defaultMessage='Open...'
-                        id='global_header.open'
+            <div ref={menuRef}>
+                <SwitcherButton
+                    open={switcherOpen}
+                    onClick={() => setSwitcherOpen(!switcherOpen)}
+                >
+                    <SwitcherIcon/>
+                </SwitcherButton>
+                <SwitcherMenu
+                    open={switcherOpen}
+                >
+                    <Open>
+                        <FormattedMessage
+                            defaultMessage='Open...'
+                            id='global_header.open'
+                        />
+                    </Open>
+                    <SwitcherNavEntry
+                        destination={'/'}
+                        icon={<ChannelsIcon/>}
+                        text={'Channels'}
                     />
-                </Open>
-                <SwitcherNavEntry
-                    destination={'/'}
-                    icon={<ChannelsIcon/>}
-                    text={'Channels'}
-                />
-                {items}
-            </SwitcherMenu>
+                    {items}
+                </SwitcherMenu>
+            </div>
             <AppSpectificContent/>
             <ProfileWrapper>
                 <StatusDropdown
