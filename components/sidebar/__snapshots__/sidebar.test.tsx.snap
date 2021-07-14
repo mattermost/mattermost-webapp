@@ -38,6 +38,7 @@ exports[`components/sidebar should match snapshot 1`] = `
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
+  <Connect(SidebarNextSteps) />
 </div>
 `;
 
@@ -77,6 +78,7 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
+  <Connect(SidebarNextSteps) />
   <Connect(MoreDirectChannels)
     isExistingChannel={false}
     onModalDismissed={[Function]}
@@ -120,5 +122,6 @@ exports[`components/sidebar should match snapshot when more channels modal is op
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
+  <Connect(SidebarNextSteps) />
 </div>
 `;

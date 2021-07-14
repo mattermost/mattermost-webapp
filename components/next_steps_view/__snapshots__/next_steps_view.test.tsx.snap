@@ -35,7 +35,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
       <div
         className="NextStepsView__header-logo"
       >
-        <CloudLogoSvg />
+        <Logo />
       </div>
     </header>
     <div
@@ -102,6 +102,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
   <NextStepsTips
     animating={false}
     currentUserId="user_id"
+    isCloud={false}
     isFirstAdmin={true}
     savePreferences={[MockFunction]}
     setShowNextStepsView={[MockFunction]}
