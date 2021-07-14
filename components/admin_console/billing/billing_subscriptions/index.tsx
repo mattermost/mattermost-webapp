@@ -116,7 +116,7 @@ const BillingSubscriptions: React.FC = () => {
                 return;
             }
         }
-        setProduct(products[keys[0]])
+        setProduct(products[keys[0]]);
     }, [products]);
 
     useEffect(() => {

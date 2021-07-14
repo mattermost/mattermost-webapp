@@ -229,8 +229,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             });
         }
 
-        let options = [...flatFeeProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price), ...userBasedProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price)];
-
+        const options = [...flatFeeProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price), ...userBasedProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price)];
 
         const sideLegendTitle = (
             <FormattedMessage
