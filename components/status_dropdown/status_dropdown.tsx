@@ -6,6 +6,9 @@ import {FormattedMessage} from 'react-intl';
 
 import {Tooltip} from 'react-bootstrap';
 
+import store from 'stores/redux_store.jsx';
+import {openModal} from 'actions/views/modals';
+import UserSettingsModal from 'components/user_settings/modal';
 import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -33,6 +36,8 @@ import './status_dropdown.scss';
 import {toUTCUnix} from 'utils/datetime';
 import {getCurrentDateTimeForTimezone} from 'utils/timezone';
 
+
+
 type Props = {
     status?: string;
     userId: string;
@@ -59,7 +64,7 @@ type State = {
 };
 
 export default class StatusDropdown extends React.PureComponent <Props, State> {
-    dndTimes = ['30 mins', '1 hour', '2 hours', 'Tomorrow', 'Custom']
+    dndTimes = ['30 mins', '1 hour', '2 hours', 'Tomorrow', 'Custom', 'Notifications Schedule...']
     static defaultProps = {
         userId: '',
         profilePicture: '',
@@ -129,6 +134,12 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             endTime = new Date(currentDate);
             endTime.setDate(currentDate.getDate() + 1);
             endTime.setHours(23, 59, 59, 999);
+            break;
+        case 5:
+            dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogProps: {
+                active_tab: 'notifications',
+                active_section: 'schedule'
+            }, dialogType: UserSettingsModal}));
             break;
         }
 
@@ -299,7 +310,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 return {
                     id: `dndTime-${time.split(' ').join('')}`,
                     direction: 'right',
-                    text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
+                    text: index === 5 ? localizeMessage('status_dropdown.dnd_sub_menu_set_schedule', 'Notifications Schedule...') : localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
                     action: index === 4 ? () => setCustomTimedDnd() : () => setDnd(index),
                 } as any;
             }));
