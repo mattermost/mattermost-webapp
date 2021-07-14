@@ -45,13 +45,13 @@ import 'components/payment_form/payment_form.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
-type Option = {
+type RadioGroupOption = {
     key: string;
     value: string;
     price: number;
 };
 
-type ProductOptions = Option[];
+type ProductOptions = RadioGroupOption[];
 
 type Props = {
     customer: CloudCustomer | undefined;
@@ -206,10 +206,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     listPlans = (): JSX.Element => {
         const products = this.props.products!;
-        const flatFeeProducts: ProductOptions = [];
-        const userBasedProducts: ProductOptions = [];
+        let flatFeeProducts: ProductOptions = [];
+        let userBasedProducts: ProductOptions = [];
         Object.keys(products).forEach((key: string) => {
-            const tempEl: Option = {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
+            const tempEl: RadioGroupOption = {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
             if (products[key].billing_scheme === BillingSchemes.FLAT_FEE) {
                 flatFeeProducts.push(tempEl);
             } else {
@@ -217,16 +217,20 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             }
         });
 
-        let options = [...flatFeeProducts.sort((a: Option, b: Option) => a.price - b.price), ...userBasedProducts.sort((a: Option, b: Option) => a.price - b.price)];
-
-        const currentPrice = this.state.currentProduct?.price_per_seat;
+        const currentProduct = this.state.currentProduct!;
 
         // if not on trial, only show current plan and those higher than it in terms of price
-        if (!this.props.isFreeTrial && currentPrice) {
-            options = options.filter((option: Option) => {
-                return option.price >= currentPrice;
+        if (!this.props.isFreeTrial && currentProduct.price_per_seat) {
+            userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
+                return option.price >= currentProduct.price_per_seat;
+            });
+            flatFeeProducts = flatFeeProducts.filter((option: RadioGroupOption) => {
+                return option.price >= currentProduct.price_per_seat;
             });
         }
+
+        let options = [...flatFeeProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price), ...userBasedProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price)];
+
 
         const sideLegendTitle = (
             <FormattedMessage
@@ -241,7 +245,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     id='list-plans-radio-buttons'
                     values={options!}
                     value={this.state.selectedProduct?.id as string}
-                    sideLegend={{matchVal: this.state.currentProduct?.id as string, text: sideLegendTitle}}
+                    sideLegend={{matchVal: currentProduct.id as string, text: sideLegendTitle}}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
                 />
             </div>

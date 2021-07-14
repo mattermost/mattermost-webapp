@@ -60,6 +60,7 @@ const BillingSubscriptions: React.FC = () => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
 
     const products = useSelector((state: GlobalState) => state.entities.cloud.products);
+    const [product, setProduct] = useState<Product | null>(null);
     const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
@@ -72,29 +73,6 @@ const BillingSubscriptions: React.FC = () => {
 
     const query = useQuery();
     const actionQueryParam = query.get('action');
-
-    const product = useSelector((state: GlobalState) => {
-        const products = state.entities.cloud.products!;
-        if (!products) {
-            return null;
-        }
-        const keys = Object.keys(products);
-        let product: Product;
-        if (products && subscription) {
-            product = products[subscription?.product_id];
-            if (!product) {
-                keys.forEach((key) => {
-                    if (products[key].name.toLowerCase().includes('professional')) {
-                        product = products[key];
-                    }
-                });
-            }
-            if (product) {
-                return product;
-            }
-        }
-        return products[keys[0]];
-    });
 
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
@@ -116,6 +94,30 @@ const BillingSubscriptions: React.FC = () => {
             daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
         }
     }
+
+    useEffect(() => {
+        if (!products || products.length === null) {
+            setProduct(null);
+            return;
+        }
+        const keys = Object.keys(products);
+        let product: Product;
+        if (products && subscription) {
+            product = products[subscription?.product_id];
+            if (!product) {
+                keys.forEach((key) => {
+                    if (products[key].name.toLowerCase().includes('professional')) {
+                        product = products[key];
+                    }
+                });
+            }
+            if (product) {
+                setProduct(product);
+                return;
+            }
+        }
+        setProduct(products[keys[0]])
+    }, [products]);
 
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
