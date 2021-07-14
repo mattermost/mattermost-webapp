@@ -154,7 +154,7 @@ type Props = {
     /**
       * Reset state of createPost request
       */
-    resetCreatePostRequest?: () => void;
+    resetCreatePostRequest: () => void;
 
     /**
       * Set if channel is read only
@@ -334,7 +334,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
-        this.props.resetCreatePostRequest?.();
+        this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
 
@@ -1033,7 +1033,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             showPostDeletedModal: false,
         });
 
-        this.props.resetCreatePostRequest?.();
+        this.props.resetCreatePostRequest();
     }
 
     handleBlur = () => {
