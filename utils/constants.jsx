@@ -451,6 +451,7 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
+    ENTER_SUPPORT_EMAIL: 'enter_support_email',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -749,6 +750,16 @@ export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
     COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
     CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
+};
+
+export const BillingSchemes = {
+    FLAT_FEE: 'flat_fee',
+    PER_SEAT: 'per_seat',
+};
+
+export const RecurringIntervals = {
+    YEAR: 'year',
+    MONTH: 'month',
 };
 
 export const PermissionsScope = {
@@ -1569,6 +1580,8 @@ export const Constants = {
         BOT: 'bots',
         EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
         COMMAND_SUGGESTION_ERROR: 'error',
+        COMMAND_SUGGESTION_CHANNEL: 'channel',
+        COMMAND_SUGGESTION_USER: 'user',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {

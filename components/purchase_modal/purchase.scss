@@ -123,7 +123,7 @@
                 .select-plan {
                     box-sizing: border-box;
                     border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-                    margin-bottom: 20px;
+                    margin-bottom: 16px;
 
                     .title {
                         display: flex;
@@ -143,7 +143,7 @@
                         margin-top: 16px;
 
                         label {
-                            color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+                            color: var(--sys-center-channel-color-rgb);
                             font-family: Open Sans;
                             font-size: 12px;
                             font-style: normal;
@@ -213,18 +213,18 @@
                             margin-top: 10px !important;
                             margin-bottom: 10px;
 
-                            .Badge {
+                            .side-legend {
                                 margin-top: -5px;
-                            }
+                                margin-left: 5px;
+                                color: rgba(var(--sys-center-channel-color-rgb), 0.64);
 
-                            .radio-badge {
-                                background-color: var(--sidebar-team-background);
-                                border-radius: 4px;
-                                color: var(--button-color);
-                                font-size: 10px;
-                                font-weight: 600;
-                                line-height: 16px;
-                                text-transform: uppercase;
+                                &::before {
+                                    content: "(";
+                                }
+
+                                &::after {
+                                    content: ")";
+                                }
                             }
                         }
                     }
@@ -240,14 +240,50 @@
                 }
             }
 
+            .Badge {
+                margin: 0 !important;
+
+                .unlimited-users-badge {
+                    background-color: var(--sidebar-text-active-border);
+                    border-radius: 4px;
+                    color: var(--button-color);
+                    font-size: 10px;
+                    font-weight: 600;
+                    line-height: 16px;
+                    text-transform: uppercase;
+                }
+            }
+
             .price-text {
-                padding: 16px 0;
+                display: flex;
+                align-items: baseline;
+                padding: 8px 0;
                 font-size: 32px;
                 font-weight: 600;
                 line-height: 1;
+
+                .price-decimals {
+                    align-self: end;
+                    font-size: 16px;
+
+                    &::before {
+                        content: '.';
+                    }
+                }
+            }
+
+            .payment-note {
+                margin-top: 5px;
+                margin-bottom: 10px;
+                color: rgba(var(--sys-center-channel-color-rgb), 0.72);
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 20px;
             }
 
             .monthly-text {
+                align-self: center;
+                margin-left: 5px;
                 font-size: 14px;
                 font-weight: normal;
             }

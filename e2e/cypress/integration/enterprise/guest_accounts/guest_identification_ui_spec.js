@@ -231,7 +231,7 @@ describe('Verify Guest User Identification in different screens', () => {
 
         // * Verify Guest Badge is not displayed at Search auto-complete
         cy.get('#search-autocomplete__popover').should('be.visible');
-        cy.contains('.search-autocomplete__item', guest.username).scrollIntoView().should('be.visible').within(($el) => {
+        cy.contains('.suggestion-list__item', guest.username).scrollIntoView().should('be.visible').within(($el) => {
             cy.wrap($el).find('.Badge').should('not.exist');
         });
 
