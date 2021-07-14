@@ -9,14 +9,13 @@ import {
     getCurrentChannel,
     getSortedUnreadChannelIds,
     getOrderedChannelIds,
-    getUnreads,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getBool as getBoolPreference, getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool as getBoolPreference, getSidebarPreferences, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {switchToChannelById} from 'actions/views/channel';
@@ -36,8 +35,8 @@ function mapStateToProps(state) {
     let canCreatePrivateChannel = false;
 
     if (currentTeam) {
-        canCreatePublicChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PUBLIC_CHANNEL});
-        canCreatePrivateChannel = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.CREATE_PRIVATE_CHANNEL});
+        canCreatePublicChannel = haveICurrentTeamPermission(state, Permissions.CREATE_PUBLIC_CHANNEL);
+        canCreatePrivateChannel = haveICurrentTeamPermission(state, Permissions.CREATE_PRIVATE_CHANNEL);
     }
 
     const sidebarPrefs = getSidebarPreferences(state);
@@ -70,8 +69,8 @@ function mapStateToProps(state) {
         canCreatePublicChannel,
         canCreatePrivateChannel,
         isOpen: getIsLhsOpen(state),
-        unreads: getUnreads(state),
         viewArchivedChannels: config.ExperimentalViewArchivedChannels === 'true',
+        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
     };
 }
 

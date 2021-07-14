@@ -75,21 +75,19 @@ describe('components/integrations/InstalledOAuthApp', () => {
     });
 
     test('should call onRegenerateSecret function', () => {
-        const newOnRegenerateSecret = jest.fn().mockImplementation(
-            () => {
-                return new Promise<void>((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            },
-        );
-        const props = {...baseProps, onRegenerateSecret: newOnRegenerateSecret, team};
+        const props = {
+            ...baseProps,
+            team,
+        };
+        baseProps.onRegenerateSecret.mockResolvedValue({});
+
         const wrapper = shallow(
             <InstalledOAuthApp {...props}/>,
         );
         wrapper.find('#regenerateSecretButton').simulate('click', {preventDefault: jest.fn()});
 
-        expect(newOnRegenerateSecret).toBeCalled();
-        expect(newOnRegenerateSecret).toHaveBeenCalledWith(oauthApp.id);
+        expect(baseProps.onRegenerateSecret).toBeCalled();
+        expect(baseProps.onRegenerateSecret).toHaveBeenCalledWith(oauthApp.id);
     });
 
     test('should filter out OAuthApp', () => {
@@ -121,22 +119,20 @@ describe('components/integrations/InstalledOAuthApp', () => {
     });
 
     test('should match on handleRegenerate', () => {
-        const newOnRegenerateSecret = jest.fn().mockImplementation(
-            () => {
-                return new Promise<void>((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            },
-        );
-        const props = {...baseProps, onRegenerateSecret: newOnRegenerateSecret, team};
+        const props = {
+            ...baseProps,
+            team,
+        };
+        baseProps.onRegenerateSecret.mockResolvedValue({});
+
         const wrapper = shallow(
             <InstalledOAuthApp {...props}/>,
         );
 
         expect(wrapper.find('#regenerateSecretButton').exists()).toBe(true);
         wrapper.find('#regenerateSecretButton').simulate('click', {preventDefault: jest.fn()});
-        expect(newOnRegenerateSecret).toBeCalled();
-        expect(newOnRegenerateSecret).toHaveBeenCalledWith(oauthApp.id);
+        expect(baseProps.onRegenerateSecret).toBeCalled();
+        expect(baseProps.onRegenerateSecret).toHaveBeenCalledWith(oauthApp.id);
     });
 
     test('should have called props.onDelete on handleDelete ', () => {

@@ -23,7 +23,6 @@ import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
 import warningIcon from 'images/icons/warning-icon.svg';
 
-import UserProfile from 'components/user_profile/user_profile';
 import RenewalLink from '../renewal_link/';
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 
@@ -31,9 +30,7 @@ type Props = {
     config?: Partial<ClientConfig>;
     intl: IntlShape;
     license?: any;
-    user?: UserProfile;
     canViewSystemErrors: boolean;
-    totalUsers?: number;
     dismissedExpiringTrialLicense?: boolean;
     dismissedExpiringLicense?: boolean;
     dismissedNumberOfActiveUsersWarnMetricStatus?: boolean;
@@ -41,9 +38,7 @@ type Props = {
     dismissedNumberOfPostsWarnMetricStatus?: boolean;
     dismissedNumberOfPostsWarnMetricStatusAck?: boolean;
     siteURL: string;
-    warnMetricsStatus?: {
-        [key: string]: Dictionary<WarnMetricStatus>;
-    };
+    warnMetricsStatus?: Dictionary<WarnMetricStatus>;
     actions: {
         dismissNotice: (notice: string) => void;
     };

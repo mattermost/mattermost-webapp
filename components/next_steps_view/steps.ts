@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -17,6 +16,8 @@ import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferenc
 import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
+import EnterSupportEmail from './steps/enter_support_email/enter_support_email';
+
 import {isStepForUser} from './step_helpers';
 
 export type StepComponentProps = {
@@ -91,9 +92,20 @@ export const Steps: StepType[] = [
         component: InviteMembersStep,
         visible: true,
     },
+    {
+        id: RecommendedNextSteps.ENTER_SUPPORT_EMAIL,
+        title: localizeMessage(
+            'next_steps_view.titles.enterSupportEmail',
+            'Enter support email',
+        ),
+        roles: ['first_admin'],
+        component: EnterSupportEmail,
+        visible: true,
+    },
 ];
 
 export const isFirstAdmin = createSelector(
+    'isFirstAdmin',
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     (currentUser, users) => {
@@ -113,6 +125,7 @@ export const isFirstAdmin = createSelector(
 );
 
 export const getSteps = createSelector(
+    'getSteps',
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (currentUser, firstAdmin) => {
@@ -125,15 +138,16 @@ export const getSteps = createSelector(
 
 const getCategory = makeGetCategory();
 export const showOnboarding = createSelector(
+    'getCategory',
     (state: GlobalState) => showNextSteps(state),
     (state: GlobalState) => showNextStepsTips(state),
-    (state: GlobalState) => getLicense(state),
     (state: GlobalState) => state.views.nextSteps.show,
-    (showNextSteps, showNextStepsTips, license, showNextStepsEphemeral) => {
-        return !showNextStepsEphemeral && license.Cloud === 'true' && (showNextSteps || showNextStepsTips);
+    (showNextSteps, showNextStepsTips, showNextStepsEphemeral) => {
+        return !showNextStepsEphemeral && (showNextSteps || showNextStepsTips);
     });
 
 export const isOnboardingHidden = createSelector(
+    'isOnboardingHidden',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (stepPreferences) => {
         return stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'));
@@ -142,15 +156,11 @@ export const isOnboardingHidden = createSelector(
 
 // Only show next steps if they haven't been skipped and there are steps unfinished
 export const showNextSteps = createSelector(
+    'showNextSteps',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
-    (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
-    (stepPreferences, license, nextStepsNotFinished) => {
+    (stepPreferences, nextStepsNotFinished) => {
         if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
-            return false;
-        }
-
-        if (license.Cloud !== 'true') {
             return false;
         }
 
@@ -160,16 +170,12 @@ export const showNextSteps = createSelector(
 
 // Only show tips if they have been skipped, or there are no unfinished steps
 export const showNextStepsTips = createSelector(
+    'showNextStepsTips',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
-    (state: GlobalState) => getLicense(state),
     (state: GlobalState) => nextStepsNotFinished(state),
-    (stepPreferences, license, nextStepsNotFinished) => {
+    (stepPreferences, nextStepsNotFinished) => {
         if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
             return true;
-        }
-
-        if (license.Cloud !== 'true') {
-            return false;
         }
 
         return !nextStepsNotFinished;
@@ -178,6 +184,7 @@ export const showNextStepsTips = createSelector(
 
 // Loop through all Steps. For each step, check that
 export const nextStepsNotFinished = createSelector(
+    'nextStepsNotFinished',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),

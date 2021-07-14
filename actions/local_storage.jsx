@@ -28,3 +28,4 @@ export function setRecentEmojis(recentEmojis = []) {
         return {data: true};
     };
 }
+
