@@ -709,8 +709,8 @@ export default class PluginRegistry {
     // Accepts the following:
     // - icon - A react element to display as the icon
     // - text - A string or React element to display in the menu
-    // - destinationAction - A function to trigger when component is clicked on,
-    //                       should return the URL to redirect to.
+    // - linkURL - A string specifying the URL the switcher item should point to
+    //             any subpath of this URL will be considered part of that item.
     // Returns a unique identifier.
     registerGlobalHeaderSwitcherItem(icon, text, linkURL) {
         const id = generateId();
@@ -724,6 +724,34 @@ export default class PluginRegistry {
                 icon: resolveReactElement(icon),
                 text: resolveReactElement(text),
                 linkURL,
+            },
+        });
+
+        return id;
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // DANGER: Interferes with historic routes.
+    // Register a component to be displayed at a custom route at /
+    // Accepts the following:
+    // - route - The route to be displayed at.
+    // - component - A react component to display.
+    // Returns a unique identifier
+    registerProductRoute(route, component) {
+        const id = generateId();
+        let fixedRoute = route.trim();
+        if (fixedRoute[0] === '/') {
+            fixedRoute = fixedRoute.substring(1);
+        }
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'ProductRouteComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                route: fixedRoute,
             },
         });
 

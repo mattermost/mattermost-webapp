@@ -97,6 +97,7 @@ export default class Root extends React.PureComponent {
             loadMeAndConfig: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
+        products: PropTypes.array,
     }
 
     constructor(props) {
@@ -359,6 +360,18 @@ export default class Root extends React.PureComponent {
                     <>
                         <GlobalHeader/>
                         <Switch>
+                            {this.props.products?.map((product) => (
+                                <Route
+                                    key={product.id}
+                                    path={'/' + product.route}
+                                    render={() => (
+                                        <Pluggable
+                                            pluggableName={'ProductRouteComponent'}
+                                            pluggableId={product.id}
+                                        />
+                                    )}
+                                />
+                            ))}
                             {this.props.plugins?.map((plugin) => (
                                 <Route
                                     key={plugin.id}

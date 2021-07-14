@@ -18,6 +18,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const showTermsOfService = shouldShowTermsOfService(state);
     const plugins = state.plugins.components.CustomRouteComponent;
+    const products = state.plugins.components.ProductRouteComponent;
 
     const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
     const permalinkRedirectTeam = getTeam(state, teamId);
@@ -30,6 +31,7 @@ function mapStateToProps(state) {
         permalinkRedirectTeamName: permalinkRedirectTeam ? permalinkRedirectTeam.name : '',
         showTermsOfService,
         plugins,
+        products,
     };
 }
 
