@@ -92,7 +92,7 @@ export default class ModalSuggestionList extends React.PureComponent {
             return 0;
         }
 
-        const listElement = this.suggestionList.current.getContent()[0];
+        const listElement = this.suggestionList.current?.getContent()?.[0];
         if (!listElement) {
             return 0;
         }
