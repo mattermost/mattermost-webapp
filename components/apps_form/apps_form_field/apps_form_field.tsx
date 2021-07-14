@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
+import {AppField, AppFormValue, AppSelectOption} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -32,8 +32,8 @@ export type Props = {
     errorText?: React.ReactNode;
     teammateNameDisplay?: string;
 
-    value: AppSelectOption | string | boolean | number | null;
-    onChange: (name: string, value: any) => void;
+    value: AppFormValue;
+    onChange: (name: string, value: AppFormValue) => void;
     autoFocus?: boolean;
     listComponent?: React.ComponentClass;
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
@@ -55,8 +55,13 @@ export default class AppsFormField extends React.PureComponent<Props> {
         this.setProviders();
     }
 
-    handleSelected = (selected: AppSelectOption | UserProfile | Channel) => {
+    handleSelected = (selected: AppSelectOption | AppSelectOption[] | UserProfile | Channel | null) => {
         const {name, field, onChange} = this.props;
+
+        if (!selected) {
+            onChange(name, selected);
+            return;
+        }
 
         if (field.type === AppFieldTypes.USER) {
             const user = selected as UserProfile;
@@ -87,6 +92,17 @@ export default class AppsFormField extends React.PureComponent<Props> {
         }
 
         this.providers = providers;
+    }
+
+    onClear = () => {
+        const {field, onChange} = this.props;
+
+        let newValue: AppFormValue = null;
+        if (field.multiselect) {
+            newValue = [];
+        }
+
+        onChange(field.name, newValue);
     }
 
     render() {
@@ -169,6 +185,8 @@ export default class AppsFormField extends React.PureComponent<Props> {
             return (
                 <AutocompleteSelector
                     id={name}
+                    clearable={!field.readonly}
+                    onClear={this.onClear}
                     disabled={field.readonly}
                     providers={this.providers}
                     onSelected={this.handleSelected}
@@ -185,6 +203,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
             return (
                 <AppsFormSelectField
                     {...this.props}
+                    onClear={this.onClear}
                     field={field}
                     label={displayNameContent}
                     helpText={helpTextContent}
