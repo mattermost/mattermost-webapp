@@ -103,6 +103,10 @@
     "@types/react-select": {
       "versions": "",
       "reason": "MM-18031 - Breaking changes."
+    },
+    "flexsearch": {
+      "versions": "",
+      "reason": "MM-37116 - Breaking changes in API"
     }
   }
 }
