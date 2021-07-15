@@ -104,6 +104,7 @@ type Props = {
     currentUserId: string;
     isFirstAdmin: boolean;
     team: Team;
+    isCloud: boolean;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     setShowNextStepsView: (show: boolean) => void;
@@ -180,32 +181,34 @@ export default function NextStepsTips(props: Props) {
                         </button>
                     </div>
                 </Card>
-                <Card expanded={true}>
-                    <div className='Card__body'>
-                        <div className='Card__image'>
-                            <IncidentsSvg/>
+                {props.isCloud && (
+                    <Card expanded={true}>
+                        <div className='Card__body'>
+                            <div className='Card__image'>
+                                <IncidentsSvg/>
+                            </div>
+                            <h3>
+                                <FormattedMessage
+                                    id='next_steps_view.tips.resolveIncidents'
+                                    defaultMessage='Resolve incidents faster'
+                                />
+                            </h3>
+                            <FormattedMessage
+                                id='next_steps_view.tips.resolveIncidents.text'
+                                defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
+                            />
+                            <button
+                                className='NextStepsView__button NextStepsView__finishButton primary'
+                                onClick={() => openIncidentsPlugin(props.isFirstAdmin, props.team)}
+                            >
+                                <FormattedMessage
+                                    id='next_steps_view.tips.resolveIncidents.button'
+                                    defaultMessage='Open playbooks'
+                                />
+                            </button>
                         </div>
-                        <h3>
-                            <FormattedMessage
-                                id='next_steps_view.tips.resolveIncidents'
-                                defaultMessage='Resolve incidents faster'
-                            />
-                        </h3>
-                        <FormattedMessage
-                            id='next_steps_view.tips.resolveIncidents.text'
-                            defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
-                        />
-                        <button
-                            className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={() => openIncidentsPlugin(props.isFirstAdmin, props.team)}
-                        >
-                            <FormattedMessage
-                                id='next_steps_view.tips.resolveIncidents.button'
-                                defaultMessage='Open playbooks'
-                            />
-                        </button>
-                    </div>
-                </Card>
+                    </Card>
+                )}
             </>
         );
     } else if (!Utils.isMobile() && !props.isFirstAdmin) {

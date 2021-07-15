@@ -38,7 +38,7 @@ import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
-import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
+import BrandImageSetting from './brand_image_setting/brand_image_setting';
 import GroupSettings from './group_settings/group_settings.jsx';
 import GroupDetails from './group_settings/group_details';
 import TeamSettings from './team_channel_settings/team';

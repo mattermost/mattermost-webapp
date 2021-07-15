@@ -10,7 +10,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import {getMonthLong} from 'utils/i18n';
-import {CloudLinks, CloudProducts} from 'utils/constants';
+import {BillingSchemes, CloudLinks, CloudProducts} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import Badge from 'components/widgets/badges/badge';
@@ -240,10 +240,17 @@ export const getPlanDetailElements = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails_paidTier__planName'>
                     {`$${product.price_per_seat.toFixed(2)}`}
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.perUserPerMonth'
-                        defaultMessage='/user/month. '
-                    />
+                    {product.billing_schema === BillingSchemes.FLAT_FEE ?
+                        <FormattedMessage
+                            id='admin.billing.subscription.planDetails.flatFeePerMonth'
+                            defaultMessage='/month (Unlimited Users). '
+                        /> :
+                        <FormattedMessage
+                            id='admin.billing.subscription.planDetails.perUserPerMonth'
+                            defaultMessage='/user/month. '
+                        />
+                    }
+
                     {howBillingWorksLink}
                 </div>
             </div>
