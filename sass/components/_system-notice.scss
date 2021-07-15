@@ -11,7 +11,7 @@
     width: 280px;
     padding: 18px 20px 0;
     border: 1px solid alpha-color($black, 0.15);
-    background-color: $white;
+    background-color: var(--center-channel-bg);
 }
 
 .system-notice__header {
