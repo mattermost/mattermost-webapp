@@ -117,7 +117,7 @@ const BillingSubscriptions: React.FC = () => {
             }
         }
         setProduct(products[keys[0]]);
-    }, [products]);
+    }, [products, subscription]);
 
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());

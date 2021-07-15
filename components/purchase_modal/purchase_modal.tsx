@@ -229,6 +229,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             });
         }
 
+        //if current product is user based, do not allow downgrade to flat_fees
+        // if (currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
+        //     flatFeeProducts = [];
+        // }
+
         const options = [...flatFeeProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price), ...userBasedProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price)];
 
         const sideLegendTitle = (
