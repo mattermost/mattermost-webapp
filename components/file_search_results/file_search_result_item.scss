@@ -3,113 +3,136 @@
 @import 'utils/variables';
 
 .FileSearchResultItem {
-    @include single-transition(box-shadow, .15s, ease);
+    @include single-transition(box-shadow, 0.15s, ease);
     @include border-radius(4px);
+
     display: flex;
-    flex-direction: row;
-    padding: 11px;
-    color: var(--center-channel-color);
-    background: transparent;
-    flex-grow: 1;
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-    align-items: center;
-    margin: 0 14px 8px 14px;
-    cursor: pointer;
-    max-width: 600px;
     overflow: hidden;
+    max-width: 600px;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    padding: 11px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    margin: 0 14px 8px 14px;
+    background: transparent;
+    color: var(--center-channel-color);
+    cursor: pointer;
+
     .Menu__content {
-        background-color: var(--center-channel-bg);
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        background-color: var(--center-channel-bg);
     }
+
     .Badge {
         margin: 0 8px 0 0;
+
         .file-search-channel-name {
-            max-width: 100px;
             overflow: hidden;
-            text-overflow: ellipsis;
+            max-width: 100px;
             color: rgba(var(--center-channel-color-rgb), 0.72);
+            text-overflow: ellipsis;
         }
     }
-    &:hover, &:focus-within, &.keep-open {
+
+    &:hover,
+    &:focus-within,
+    &.keep-open {
         @include box-shadow(0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1));
+
         overflow: visible;
+
         .action-icon {
-            opacity: 1;
             display: flex;
-        }
-        .MenuWrapper {
             opacity: 1;
-            display: block;
         }
+
+        .MenuWrapper {
+            display: block;
+            opacity: 1;
+        }
+
         .fileData {
             overflow: hidden;
         }
     }
+
     .file-icon {
-        min-width: 4rem;
         width: 4rem;
+        min-width: 4rem;
         height: 4rem;
     }
+
     .fileData {
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
         flex-grow: 1;
         padding: 0 11px;
-        display: flex;
-        flex-direction: column;
-        font-weight: 600;
         font-size: 12px;
-        min-width: 0;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
         .fileDataName {
             overflow: hidden;
-            text-overflow: ellipsis;
             margin-bottom: 3px;
             text-align: left;
+            text-overflow: ellipsis;
         }
+
         .fileMetadata {
-            font-weight: 400;
             display: flex;
             flex-direction: row;
+            font-weight: 400;
+
             >span {
                 margin-right: 6px;
             }
+
             > :not(.Badge) {
                 opacity: 0.56;
             }
         }
     }
+
     .post-image {
         min-width: 4rem;
     }
+
     .action-icon {
-        @include single-transition(opacity, .15s, ease);
+        @include single-transition(opacity, 0.15s, ease);
         @include border-radius(4px);
-        height: 32px;
+
+        display: flex;
         width: 32px;
         min-width: 32px;
-        background-color: var(--center-channel-bg);
-        color: rgba(var(--center-channel-color-rgb), 0.72);
-        fill: rgba(var(--center-channel-color-rgb), 0.72);
-        display: flex;
-        align-items: center;
+        height: 32px;
         justify-content: center;
         margin-left: 8px;
+        background-color: var(--center-channel-bg);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
         cursor: pointer;
-        text-decoration: none;
+        fill: rgba(var(--center-channel-color-rgb), 0.72);
         opacity: 0;
+        text-decoration: none;
+
         &.download-icon {
             margin-right: 6px;
         }
+
         svg {
-            display: flex
+            display: flex;
         }
+
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
             color: rgba(var(--center-channel-color-rgb), 0.72);
         }
     }
+
     .MenuWrapper {
-        opacity: 0;
         display: flex;
+        opacity: 0;
     }
 }

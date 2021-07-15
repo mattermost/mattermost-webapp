@@ -1,6 +1,5 @@
 @import 'compass/utilities';
 @import 'compass/css3';
-
 @import 'utils/module';
 
 .MenuWrapper {
@@ -12,8 +11,8 @@
 }
 
 div[disabled] {
-  pointer-events: none;
-  opacity: 0.7;
+    opacity: 0.7;
+    pointer-events: none;
 }
 
 .MenuWrapperAnimation {

@@ -4,9 +4,9 @@
     }
 
     .Input_wrapper {
+        padding: 0;
         font-size: 14px;
         line-height: 20px;
-        padding: 0;
     }
 
     .Input {
@@ -21,7 +21,7 @@
         &.Input___focus .a11y--focused {
             box-shadow: none;
         }
-    } 
+    }
 
     .Input_legend {
         margin-left: 12px;
@@ -37,8 +37,8 @@
         padding: 0 4px;
 
         &:hover {
-            color: unset;
             background-color: unset;
+            color: unset;
             cursor: pointer;
 
             i {
@@ -60,19 +60,19 @@
 
 .MultiInput__multiValueContainer {
     > div {
-        border-radius: 12px;
-        background-color: rgba(var(--center-channel-color-rgb), 0.08);
         display: flex;
         align-items: center;
         padding: 2px 0 2px 8px;
         margin: 4px;
-        
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        border-radius: 12px;
+
         > div {
-            font-size: 12px;
-            line-height: 18px;
-            font-weight: 600;
-            color: var(--center-channel-color);
             padding: 0;
+            color: var(--center-channel-color);
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 18px;
         }
     }
 
@@ -86,8 +86,8 @@
 }
 
 .MultiInput__placeholder {
-    opacity: 0.64;
     padding-left: 8px;
+    opacity: 0.64;
 
     > div {
         margin: 0;

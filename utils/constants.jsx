@@ -110,6 +110,16 @@ export const Preferences = {
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
+    CATEGORY_EMOJI: 'emoji',
+    EMOJI_SKINTONE: 'emoji_skintone',
+};
+
+export const TrialPeriodDays = {
+    TRIAL_MAX_DAYS: 14,
+    TRIAL_WARNING_THRESHOLD: 3,
+    TRIAL_2_DAYS: 2,
+    TRIAL_1_DAY: 1,
+    TRIAL_0_DAYS: 0,
 };
 
 export const ActionTypes = keyMirror({
@@ -300,10 +310,12 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
+    COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
 };
 
 export const UserStatuses = {
@@ -439,6 +451,7 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
+    ENTER_SUPPORT_EMAIL: 'enter_support_email',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -737,6 +750,16 @@ export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
     COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
     CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
+};
+
+export const BillingSchemes = {
+    FLAT_FEE: 'flat_fee',
+    PER_SEAT: 'per_seat',
+};
+
+export const RecurringIntervals = {
+    YEAR: 'year',
+    MONTH: 'month',
 };
 
 export const PermissionsScope = {
@@ -1557,6 +1580,8 @@ export const Constants = {
         BOT: 'bots',
         EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
         COMMAND_SUGGESTION_ERROR: 'error',
+        COMMAND_SUGGESTION_CHANNEL: 'channel',
+        COMMAND_SUGGESTION_USER: 'user',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
@@ -1593,7 +1618,6 @@ export const Constants = {
     DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD: 365,
     EMOJI_PATH: '/static/emoji',
     RECENT_EMOJI_KEY: 'recentEmojis',
-    RECENT_SKIN_KEY: 'recentSkin',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
     MHPNS: 'https://push.mattermost.com',
     MTPNS: 'https://push-test.mattermost.com',

@@ -29,6 +29,7 @@ import {
     TELEMETRY_CATEGORIES,
     ModalIdentifiers,
     CloudProducts,
+    TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
@@ -111,6 +112,9 @@ const BillingSubscriptions: React.FC = () => {
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
+        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
+            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+        }
     }
 
     useEffect(() => {

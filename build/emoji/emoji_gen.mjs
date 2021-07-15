@@ -40,6 +40,7 @@ readDirPromise.then((images) => {
         ).catch((err) => console.log(`[ERROR] Failed to copy ${imageFile}: ${err}`)));
     }
 });
+Fs.copyFile('images/icon64x64.png', 'images/emoji/mattermost.png');
 
 // copy sheet image
 const sheetSource = `node_modules/emoji-datasource-apple/img/apple/sheets/${EMOJI_SIZE}.png`;
@@ -141,11 +142,24 @@ fullEmoji.forEach((emoji) => {
     }
 });
 
+// add built-in custom emojis
+fullEmoji.push({
+    name: 'Mattermost',
+    unified: '',
+    image: 'mattermost.png',
+    short_name: 'mattermost',
+    short_names: ['mattermost'],
+    category: 'custom',
+});
+
 fullEmoji.sort((emojiA, emojiB) => emojiA.sort_order - emojiB.sort_order);
 
 const skinset = new Set();
 fullEmoji.forEach((emoji, index) => {
-    emojiIndicesByUnicode.push([emoji.unified.toLowerCase(), index]);
+    if (emoji.unified) {
+        emojiIndicesByUnicode.push([emoji.unified.toLowerCase(), index]);
+    }
+
     const safeCat = convertCategory(emoji.category);
     categoryDefaultTranslation.set(safeCat, emoji.category);
     emoji.category = safeCat;
@@ -164,7 +178,11 @@ fullEmoji.forEach((emoji, index) => {
     const file = filename(emoji);
     emoji.fileName = emoji.image;
     emoji.image = file;
-    emojiFilePositions.set(file, `-${emoji.sheet_x * EMOJI_SIZE_PADDED}px -${emoji.sheet_y * EMOJI_SIZE_PADDED}px;`);
+
+    if (emoji.category !== 'custom') {
+        emojiFilePositions.set(file, `-${emoji.sheet_x * EMOJI_SIZE_PADDED}px -${emoji.sheet_y * EMOJI_SIZE_PADDED}px;`);
+    }
+
     emojiImagesByAlias.push(...emoji.short_names.map((alias) => `"${alias}": "${file}"`));
 });
 

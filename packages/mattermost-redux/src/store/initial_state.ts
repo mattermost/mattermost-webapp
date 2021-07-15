@@ -49,6 +49,7 @@ const state: GlobalState = {
             myMembers: {},
             membersInChannel: {},
             stats: {},
+            roles: {},
             groupsAssociatedToChannel: {},
             totalCount: 0,
             manuallyUnread: {},

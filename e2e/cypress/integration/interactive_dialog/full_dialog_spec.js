@@ -16,35 +16,29 @@
 
 const webhookUtils = require('../../../utils/webhook_utils');
 
-let createdCommand;
-let fullDialog;
-const inputTypes = {
-    realname: 'input',
-    someemail: 'email',
-    somenumber: 'number',
-    somepassword: 'password',
-};
-
-const optionsLength = {
-    someuserselector: 25, // default number of users in autocomplete
-    somechannelselector: 2, // town-square and off-topic for new team
-    someoptionselector: 3, // number of defined basic options
-    someradiooptions: 2, // number of defined basic options
-};
-
 describe('Interactive Dialog', () => {
-    let config;
+    const inputTypes = {
+        realname: 'input',
+        someemail: 'email',
+        somenumber: 'number',
+        somepassword: 'password',
+    };
+
+    const optionsLength = {
+        someuserselector: 25, // default number of users in autocomplete
+        somechannelselector: 2, // town-square and off-topic for new team
+        someoptionselector: 3, // number of defined basic options
+        someradiooptions: 2, // number of defined basic options
+    };
+
+    let createdCommand;
+    let fullDialog;
 
     before(() => {
         cy.requireWebhookServer();
 
         // # Ensure that teammate name display setting is set to default 'username'
         cy.apiSaveTeammateNameDisplayPreference('username');
-
-        // # Get config
-        cy.apiGetConfig().then((data) => {
-            ({config} = data);
-        });
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then(({team}) => {
@@ -104,13 +98,7 @@ describe('Interactive Dialog', () => {
                     // * Verify that the suggestion list or autocomplete open up on click of input element
                     cy.wrap($elForm).find('#suggestionList').should('not.exist');
                     cy.wrap($elForm).find('input').click();
-                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().then((el) => {
-                        if (element.name === 'someuserselector' && config.ElasticsearchSettings && config.ElasticsearchSettings.EnableIndexing) {
-                            return;
-                        }
-
-                        cy.wrap(el).should('have.length', optionsLength[element.name]);
-                    });
+                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible');
 
                     // # Click field label to close any opened drop-downs
                     cy.wrap($elForm).find('label.control-label').scrollIntoView().click();

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -14,6 +15,7 @@ import {
     getMyChannelMemberships,
     getChannelByName,
     getCurrentChannel,
+    getDirectTeammate,
     getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
@@ -80,60 +82,51 @@ class SwitchChannelSuggestion extends Suggestion {
             }
         }
 
-        let className = 'mentions__name';
+        let className = 'suggestion-list__item';
         if (isSelection) {
             className += ' suggestion--selected';
         }
 
-        let displayName = (
-            <React.Fragment>
-                {channel.display_name}
-                <div className='mentions__fullname'>
-                    {`~${channel.name}`}
-                </div>
-            </React.Fragment>
-        );
-
+        let name = channel.display_name;
+        let description = '~' + channel.name;
         let icon;
         if (channelIsArchived) {
             icon = (
-                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
                     <i className='icon icon-archive-outline'/>
-                </div>
+                </span>
             );
         } else if (this.props.hasDraft) {
             icon = (
-                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
                     <i className='icon icon-pencil-outline'/>
-                </div>
+                </span>
             );
         } else if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
-                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
                     <i className='icon icon-globe'/>
-                </div>
+                </span>
             );
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
                     <i className='icon icon-lock-outline'/>
-                </div>
+                </span>
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
             icon = (
-                <div className='suggestion-list__icon suggestion-list__icon--large'>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
                     <div className='status status--group'>{'G'}</div>
-                </div>
+                </span>
             );
         } else {
             icon = (
-                <div className='pull-left'>
-                    <ProfilePicture
-                        src={userImageUrl}
-                        status={teammate && teammate.is_bot ? null : status}
-                        size='sm'
-                    />
-                </div>
+                <ProfilePicture
+                    src={userImageUrl}
+                    status={teammate && teammate.is_bot ? null : status}
+                    size='sm'
+                />
             );
         }
 
@@ -164,39 +157,21 @@ class SwitchChannelSuggestion extends Suggestion {
                 />
             );
 
-            let deactivated;
+            let deactivated = '';
             if (userItem.delete_at) {
                 deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
             }
 
-            if (teammate && teammate.is_bot) {
-                displayName = (
-                    <React.Fragment>
-                        {userItem.username}
-                        {deactivated}
-                    </React.Fragment>
-                );
-            } else if (channel.display_name) {
-                displayName = (
-                    <React.Fragment>
-                        {channel.display_name}
-                        <div className='mentions__fullname'>
-                            {`@${userItem.username}`}
-                            {deactivated}
-                        </div>
-                    </React.Fragment>
-                );
+            if (channel.display_name && !(teammate && teammate.is_bot)) {
+                description = '@' + userItem.username + deactivated;
             } else {
-                displayName = (
-                    <React.Fragment>
-                        {userItem.username}
-                        {deactivated}
-                    </React.Fragment>
-                );
+                name = userItem.username;
+                description = deactivated;
             }
         } else if (channel.type === Constants.GM_CHANNEL) {
             // remove the slug from the option
-            displayName = channel.display_name;
+            name = channel.display_name;
+            description = '';
         }
 
         let sharedIcon = null;
@@ -220,13 +195,16 @@ class SwitchChannelSuggestion extends Suggestion {
                 }}
                 id={`switchChannel_${channel.name}`}
                 data-testid={channel.name}
-                aria-label={displayName || channel.name}
+                aria-label={name}
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span className='suggestion-list__info_user'>
-                    {displayName}
-                </span>
+                <div className='suggestion-list__ellipsis'>
+                    <span className='suggestion-list__main'>
+                        {name}
+                    </span>
+                    <span className='ml-2'>{description}</span>
+                </div>
                 {customStatus}
                 {sharedIcon}
                 {tag}
@@ -242,11 +220,11 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
     const user = channel && getUser(state, channel.userId);
     const userImageUrl = user && Utils.imageURLForUser(user.id, user.last_picture_update);
-    let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && Utils.getDirectTeammate(state, channel.id);
+    let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && getDirectTeammate(state, channel.id);
     const userItem = getUserByUsername(state, channel.name);
     const status = getStatusForUserId(state, channel.userId);
 
-    if (channel && Utils.isEmptyObject(dmChannelTeammate)) {
+    if (channel && !dmChannelTeammate) {
         dmChannelTeammate = getUser(state, channel.userId);
     }
 
@@ -642,7 +620,7 @@ export default class SwitchChannelProvider extends Provider {
         const channelList = [];
         for (let i = 0; i < channels.length; i++) {
             const channel = channels[i];
-            if (channel.id === currentChannel.id) {
+            if (channel.id === currentChannel?.id) {
                 continue;
             }
             let wrappedChannel = {channel, name: channel.name, deactivated: false};
