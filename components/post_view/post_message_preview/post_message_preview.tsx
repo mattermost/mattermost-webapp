@@ -17,13 +17,13 @@ import PostAttachmentContainer from '../post_attachment_container/post_attachmen
 
 export type Props = {
     user?: UserProfile;
-    post?: Post;
+    previewPost?: Post;
     metadata: PostPreviewMetadata;
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {user, metadata, post} = props;
-    if (!post || !user) {
+    const {user, metadata, previewPost} = props;
+    if (!previewPost || !user) {
         return null;
     }
     return (
@@ -37,9 +37,9 @@ const PostMessagePreview = (props: Props) => {
                         <div className='post__img'>
                             <span className='profile-icon'>
                                 <Avatar
-                                    username={user?.username}
+                                    username={user.username}
                                     size={'sm'}
-                                    url={Utils.imageURLForUser(user?.id)}
+                                    url={Utils.imageURLForUser(user.id)}
                                     className={'avatar-post-preview'}
                                 />
                             </span>
@@ -47,14 +47,14 @@ const PostMessagePreview = (props: Props) => {
                     </div>
                     <div className='col col__name'>
                         <UserProfileComponent
-                            userId={user?.id}
+                            userId={user.id}
                             hasMention={true}
                             disablePopover={true}
                         />
                     </div>
                     <div className='col'>
                         <Timestamp
-                            value={post?.create_at}
+                            value={previewPost.create_at}
                             units={[
                                 'now',
                                 'minute',
@@ -68,7 +68,7 @@ const PostMessagePreview = (props: Props) => {
                     </div>
                 </div>
                 <PostMessageView
-                    post={post}
+                    post={previewPost}
                     overflowType='ellipsis'
                     maxHeight={100}
                 />
@@ -79,7 +79,7 @@ const PostMessagePreview = (props: Props) => {
                             id='post_message_preview.channel'
                             defaultMessage='Originally posted in ~{channel}'
                             values={{
-                                channel: metadata?.channel_display_name,
+                                channel: metadata.channel_display_name,
                             }}
                         />
                     </p>

@@ -13,21 +13,21 @@ import PostMessagePreview from './post_message_preview';
 
 type Props = {
     metadata: PostPreviewMetadata;
-    post?: Post;
+    previewPost?: Post;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     let user = null;
-    let post = ownProps.post;
-    if (ownProps.metadata.post_id && !post) {
-        post = getPost(state, ownProps.metadata.post_id);
+    let previewPost = ownProps.previewPost;
+    if (ownProps.metadata.post_id && !previewPost) {
+        previewPost = getPost(state, ownProps.metadata.post_id);
     }
-    if (post && post.user_id) {
-        user = getUser(state, post.user_id);
+    if (previewPost && previewPost.user_id) {
+        user = getUser(state, previewPost.user_id);
     }
 
     return {
-        post,
+        previewPost,
         user,
     };
 }

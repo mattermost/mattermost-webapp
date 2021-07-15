@@ -425,29 +425,6 @@ export function editPost(post: Post) {
         ],
     });
 }
-export function getPostsByIds(ids: string[]) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let posts;
-
-        try {
-            posts = await Client4.getPostsByIds(ids);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.GET_POSTS_FAILURE, error},
-                logError(error),
-            ]));
-            return {error};
-        }
-
-        dispatch({
-            type: PostTypes.RECEIVED_POSTS,
-            data: {posts},
-        });
-
-        return {data: {posts}};
-    };
-}
 
 function getUnreadPostData(unreadChan: ChannelUnread, state: GlobalState) {
     const member = getMyChannelMemberSelector(state, unreadChan.channel_id);

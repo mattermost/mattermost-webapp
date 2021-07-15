@@ -11,7 +11,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import PostMessagePreview, {Props} from './post_message_preview';
 
 describe('PostMessagePreview', () => {
-    const post = {
+    const previewPost = {
         id: 'post_id',
         message: 'post message',
     } as Post;
@@ -27,7 +27,7 @@ describe('PostMessagePreview', () => {
             team_name: 'team1',
             post_id: 'post_id',
         },
-        post,
+        previewPost,
         user,
     };
 
@@ -41,7 +41,7 @@ describe('PostMessagePreview', () => {
         const wrapper = shallow(
             <PostMessagePreview
                 {...baseProps}
-                post={undefined}
+                previewPost={undefined}
             />,
         );
 
