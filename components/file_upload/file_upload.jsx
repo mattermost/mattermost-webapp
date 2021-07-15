@@ -71,7 +71,7 @@ const customStyles = {
     top: 'auto',
 };
 
-class FileUpload extends PureComponent {
+export class FileUpload extends PureComponent {
     static propTypes = {
         channelId: PropTypes.string.isRequired,
 

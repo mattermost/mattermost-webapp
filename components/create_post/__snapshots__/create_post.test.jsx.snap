@@ -18,7 +18,7 @@ exports[`components/create_post Show tutorial 1`] = `
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -88,7 +88,7 @@ exports[`components/create_post Show tutorial 1`] = `
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -103,7 +103,6 @@ exports[`components/create_post Show tutorial 1`] = `
         </span>
       </div>
       <Connect(TutorialTip)
-        id="postTextboxTipMessage"
         overlayClass="tip-overlay--chat"
         placement="top"
         screens={
@@ -195,7 +194,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -265,7 +264,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -342,7 +341,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -375,7 +374,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -452,7 +451,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -522,7 +521,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -599,7 +598,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -669,7 +668,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -746,7 +745,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -816,7 +815,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
