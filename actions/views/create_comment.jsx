@@ -146,8 +146,7 @@ export function submitCommand(channelId, rootId, draft) {
 }
 
 export function makeOnSubmit(channelId, rootId, latestPostId) {
-    return (options = {}) => async (dispatch, getState) => {
-        const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
+    return (draft, options = {}) => async (dispatch, getState) => {
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));
