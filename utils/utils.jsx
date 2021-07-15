@@ -766,27 +766,6 @@ export function applyTheme(theme) {
     }
     updateCodeTheme(theme.codeTheme);
 
-    // TODO: determine if this is still necessary
-    let dndIndicator;
-    if (theme.dndIndicator) {
-        dndIndicator = theme.dndIndicator;
-    } else {
-        switch (theme.type) {
-        case 'Organization':
-            dndIndicator = Constants.THEMES.organization.dndIndicator;
-            break;
-        case 'Mattermost Dark':
-            dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
-            break;
-        case 'Windows Dark':
-            dndIndicator = Constants.THEMES.windows10.dndIndicator;
-            break;
-        default:
-            dndIndicator = Constants.THEMES.default.dndIndicator;
-            break;
-        }
-    }
-
     cssVars({
         variables: {
 
@@ -797,10 +776,10 @@ export function applyTheme(theme) {
             'button-color-rgb': toRgbValues(theme.buttonColor),
             'center-channel-bg-rgb': toRgbValues(theme.centerChannelBg),
             'center-channel-color-rgb': toRgbValues(theme.centerChannelColor),
-            'dnd-indicator-rgb': toRgbValues(dndIndicator),
+            'dnd-indicator-rgb': toRgbValues(theme.dndIndicator),
             'error-text-color-rgb': toRgbValues(theme.errorTextColor),
             'link-color-rgb': toRgbValues(theme.linkColor),
-            'mention-bg-rgb': toRgbValues(theme.mentionBg || theme.mentionBj), // backwards compatibility
+            'mention-bg-rgb': toRgbValues(theme.mentionBg),
             'mention-color-rgb': toRgbValues(theme.mentionColor),
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
@@ -831,8 +810,8 @@ export function applyTheme(theme) {
             'sidebar-header-text-color': theme.sidebarHeaderTextColor,
             'online-indicator': theme.onlineIndicator,
             'away-indicator': theme.awayIndicator,
-            'dnd-indicator': dndIndicator,
-            'mention-bg': theme.mentionBg || theme.mentionBj, // backwards compatibility
+            'dnd-indicator': theme.dndIndicator,
+            'mention-bg': theme.mentionBg,
             'mention-color': theme.mentionColor,
             'center-channel-bg': theme.centerChannelBg,
             'center-channel-color': theme.centerChannelColor,
