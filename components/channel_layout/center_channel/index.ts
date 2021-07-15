@@ -3,6 +3,8 @@
 
 import {connect} from 'react-redux';
 
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -13,13 +15,13 @@ import {getLastViewedChannelNameByTeamName} from 'selectors/local_storage';
 
 import {GlobalState} from 'types/store';
 
+import {isOnboardingHidden, showNextSteps, showNextStepsTips, userExistedForSomeTime} from 'components/next_steps_view/steps';
+import {setShowNextStepsView} from 'actions/views/next_steps';
+import {getProfiles, getUser} from 'mattermost-redux/actions/users';
+import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
 import CenterChannel from './center_channel';
-import { isOnboardingHidden, showNextSteps, showNextStepsTips, userExistedForSomeTime } from 'components/next_steps_view/steps';
-import { setShowNextStepsView } from 'actions/views/next_steps';
-import { getProfiles, getUser } from 'mattermost-redux/actions/users';
-import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from 'redux';
-import { Action, ActionFunc, GenericAction } from 'mattermost-redux/types/actions';
-import { getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
 
 type Props = {
     match: {
@@ -38,7 +40,6 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
     }
     const lastChannelPath = `${ownProps.match.url}/channels/${channelName}`;
     const currentUserId = getCurrentUserId(state);
-
 
     return {
         lastChannelPath,

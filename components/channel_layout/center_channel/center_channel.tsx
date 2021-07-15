@@ -11,7 +11,7 @@ import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 import {makeAsyncComponent} from 'components/async_load';
-import { Action, ActionFunc } from 'mattermost-redux/types/actions';
+import {Action, ActionFunc} from 'mattermost-redux/types/actions';
 const LazyGlobalThreads = makeAsyncComponent(
     React.lazy(() => import('components/threading/global_threads')),
     (
@@ -33,7 +33,7 @@ type Props = {
     rhsOpen: boolean;
     rhsMenuOpen: boolean;
     isCollapsedThreadsEnabled: boolean;
-    currentUserId: string,
+    currentUserId: string;
     showNextSteps: boolean;
     showNextStepsTips: boolean;
     isOnboardingHidden: boolean;

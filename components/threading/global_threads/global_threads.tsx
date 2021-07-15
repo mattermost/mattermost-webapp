@@ -103,7 +103,7 @@ const GlobalThreads = () => {
     }, []);
 
     if (showNextStepsEphemeral) {
-        return <NextStepsView />
+        return <NextStepsView/>;
     }
 
     return (

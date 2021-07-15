@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {createSelector} from 'reselect';
 import moment from 'moment';
+
+import {createSelector} from 'reselect';
 
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -196,7 +197,6 @@ export const nextStepsNotFinished = createSelector(
     },
 );
 
-
 export const userExistedForSomeTime = createSelector(
     'userExistedForSomeTime',
     (state: GlobalState) => getCurrentUser(state),
@@ -206,5 +206,5 @@ export const userExistedForSomeTime = createSelector(
         const d = today.diff(created, 'days');
         const existedForSomeTime = d > NUMBER_OF_DAYS_AFTER_WHICH_TO_CONSIDER_AS_NON_NEW_USER;
         return existedForSomeTime;
-    }
+    },
 );

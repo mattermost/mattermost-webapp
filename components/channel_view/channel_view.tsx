@@ -5,8 +5,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Action, ActionFunc} from 'mattermost-redux/types/actions';
-
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
