@@ -385,6 +385,7 @@
 .post-create__container {
     @include flex(0 0 auto);
 
+    background: var(--center-channel-bg);
     z-index: 12;
     width: 100%;
 
