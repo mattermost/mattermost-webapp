@@ -4,15 +4,16 @@
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
 import {browserHistory} from 'utils/browser_history';
-import Textbox from 'components/textbox';
 
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
-import PurchaseModal from 'components/purchase_modal';
+
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-
+import PurchaseModal from 'components/purchase_modal';
 import Timestamp from 'components/timestamp';
+
+import Textbox from './textbox';
 
 // The following import has intentional side effects. Do not remove without research.
 import {openInteractiveDialog} from './interactive_dialog';
