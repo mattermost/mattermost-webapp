@@ -108,7 +108,7 @@ function makeOnUpdateCommentDraft(rootId: string) {
 
 type Actions = {
     clearCommentDraftUploads: () => void;
-    onUpdateCommentDraft: (draft?: PostDraft & {props?: any}) => void;
+    onUpdateCommentDraft: (draft?: PostDraft) => void;
     updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
     onSubmit: (options: {ignoreSlash: boolean}) => void;
     onResetHistoryIndex: () => void;
