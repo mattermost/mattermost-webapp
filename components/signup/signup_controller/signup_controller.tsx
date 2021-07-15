@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {isEmpty} from 'lodash';
 
+import {SubscriptionStats} from 'mattermost-redux/types/cloud';
+
+import {ServerError} from 'mattermost-redux/types/errors';
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
@@ -22,44 +24,59 @@ import LoadingScreen from 'components/loading_screen';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-export default class SignupController extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.object,
-        loggedIn: PropTypes.bool.isRequired,
-        isLicensed: PropTypes.bool.isRequired,
-        enableOpenServer: PropTypes.bool.isRequired,
-        noAccounts: PropTypes.bool.isRequired,
-        enableSignUpWithEmail: PropTypes.bool.isRequired,
-        enableSignUpWithGitLab: PropTypes.bool.isRequired,
-        enableSignUpWithGoogle: PropTypes.bool.isRequired,
-        enableSignUpWithOffice365: PropTypes.bool.isRequired,
-        enableSignUpWithOpenId: PropTypes.bool.isRequired,
-        enableLDAP: PropTypes.bool.isRequired,
-        enableSAML: PropTypes.bool.isRequired,
-        samlLoginButtonText: PropTypes.string,
-        siteName: PropTypes.string,
-        usedBefore: PropTypes.string,
-        ldapLoginFieldName: PropTypes.string.isRequired,
-        openidButtonText: PropTypes.string,
-        openidButtonColor: PropTypes.string,
-        subscriptionStats: PropTypes.object,
-        isCloud: PropTypes.bool,
-        actions: PropTypes.shape({
-            removeGlobalItem: PropTypes.func.isRequired,
-            getTeamInviteInfo: PropTypes.func.isRequired,
-            addUserToTeamFromInvite: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+export type Props = {
+    location?: {
+        search: string;
+    };
+    isLicensed?: boolean;
+    enableOpenServer?: boolean;
+    noAccounts?: boolean;
+    enableSignUpWithEmail?: boolean;
+    enableSignUpWithGitLab?: boolean;
+    enableSignUpWithGoogle?: boolean;
+    enableSignUpWithOffice365?: boolean;
+    enableSignUpWithOpenId?: boolean;
+    enableLDAP?: boolean;
+    enableSAML?: boolean;
+    samlLoginButtonText?: string;
+    siteName?: string;
+    usedBefore?: boolean;
+    ldapLoginFieldName?: string;
+    openidButtonText?: string;
+    openidButtonColor?: string;
+    subscriptionStats?: SubscriptionStats;
+    isCloud?: boolean;
+    loggedIn?: boolean;
+    actions?: {
+        removeGlobalItem: (name: string) => void;
+        getTeamInviteInfo: (inviteId: string) => {
+            data: unknown;
+            error: ServerError;
+        };
+        addUserToTeamFromInvite: (token: string, inviteId: string) => {
+            data: unknown;
+            error: ServerError;
+        };
+    };
+}
 
-    constructor(props) {
+export type State = {
+    loading: boolean;
+    serverError: React.ReactNode;
+    noOpenServerError: boolean;
+    usedBefore: boolean;
+}
+
+export default class SignupController extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         let loading = false;
-        let serverError = '';
+        let serverError: React.ReactNode = '';
         let noOpenServerError = false;
         let usedBefore = false;
 
-        if (this.props.location.search) {
+        if (this.props?.location?.search) {
             const params = new URLSearchParams(this.props.location.search);
             let token = params.get('t');
             if (token == null) {
@@ -73,7 +90,7 @@ export default class SignupController extends React.PureComponent {
             if (inviteId) {
                 loading = true;
             } else if (!this.props.loggedIn) {
-                usedBefore = props.usedBefore;
+                usedBefore = props?.usedBefore ?? usedBefore;
             } else if (!inviteId && !this.props.enableOpenServer && !this.props.noAccounts) {
                 noOpenServerError = true;
                 serverError = (
@@ -93,17 +110,18 @@ export default class SignupController extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
-        this.props.actions.removeGlobalItem('team');
+    public componentDidMount(): void {
+        this.props?.actions?.removeGlobalItem('team');
         let isFreeTierWithNoFreeSeats = false;
-        if (!isEmpty(this.props.subscriptionStats)) {
-            const {is_paid_tier: isPaidTier, remaining_seats: remainingSeats} = this.props.subscriptionStats;
-            isFreeTierWithNoFreeSeats = isPaidTier === 'false' && remainingSeats <= 0;
+        if (this.props?.subscriptionStats && !isEmpty(this.props.subscriptionStats)) {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            const {is_paid_tier, remaining_seats} = this.props.subscriptionStats;
+            isFreeTierWithNoFreeSeats = is_paid_tier === 'false' && remaining_seats <= 0;
         }
 
         if (this.props.isCloud && isFreeTierWithNoFreeSeats) {
             browserHistory.push('/error?type=max_free_users_reached');
-        } else if (this.props.location.search) {
+        } else if (this.props?.location?.search) {
             const params = new URLSearchParams(this.props.location.search);
             const token = params.get('t') || '';
             const inviteId = params.get('id') || '';
@@ -120,28 +138,32 @@ export default class SignupController extends React.PureComponent {
         }
     }
 
-    addUserToTeamFromInvite = async (token, inviteId) => {
-        const {data: team, error} = await this.props.actions.addUserToTeamFromInvite(token, inviteId);
-        if (team) {
-            browserHistory.push('/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
-        } else if (error) {
-            this.handleInvalidInvite(error);
+    addUserToTeamFromInvite = async (token: string, inviteId: string): Promise<void> => {
+        if (this.props?.actions) {
+            const {data, error} = await this.props.actions.addUserToTeamFromInvite(token, inviteId);
+            if (data) {
+                browserHistory.push('/' + data.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
+            } else if (error) {
+                this.handleInvalidInvite(error);
+            }
         }
     }
 
-    getInviteInfo = async (inviteId) => {
-        const {data, error} = await this.props.actions.getTeamInviteInfo(inviteId);
-        if (data) {
-            this.setState({
-                serverError: '',
-                loading: false,
-            });
-        } else if (error) {
-            this.handleInvalidInvite(error);
+    getInviteInfo = async (inviteId: string): Promise<void> => {
+        if (this.props?.actions) {
+            const {data, error} = await this.props.actions.getTeamInviteInfo(inviteId);
+            if (data) {
+                this.setState({
+                    serverError: '',
+                    loading: false,
+                });
+            } else if (error) {
+                this.handleInvalidInvite(error);
+            }
         }
     }
 
-    handleInvalidInvite = (err) => {
+    handleInvalidInvite = (err: ServerError): void => {
         let serverError;
         if (err.server_error_id === 'store.sql_user.save.max_accounts.app_error') {
             serverError = err.message;
@@ -163,8 +185,8 @@ export default class SignupController extends React.PureComponent {
         });
     }
 
-    renderSignupControls = () => {
-        let signupControls = [];
+    renderSignupControls = (): React.ReactNode[] => {
+        let signupControls: React.ReactNode[] = [];
 
         if (this.props.enableSignUpWithEmail) {
             signupControls.push(
@@ -249,11 +271,13 @@ export default class SignupController extends React.PureComponent {
         }
 
         if (this.props.isLicensed && this.props.enableSignUpWithOpenId) {
-            const buttonStyle = {};
+            const buttonStyle = {
+                backgroundColor: '',
+            };
             if (this.props.openidButtonColor) {
                 buttonStyle.backgroundColor = this.props.openidButtonColor;
             }
-            let buttonText = (
+            let buttonText: React.ReactNode = (
                 <FormattedMessage
                     id='login.openid'
                     defaultMessage='Open Id'
@@ -280,11 +304,11 @@ export default class SignupController extends React.PureComponent {
         }
 
         if (this.props.isLicensed && this.props.enableLDAP) {
-            const params = new URLSearchParams(this.props.location.search);
+            const params = new URLSearchParams(this.props?.location?.search);
             params.append('extra', 'create_ldap');
             const query = '?' + params.toString();
 
-            let LDAPText = (
+            let LDAPText: React.ReactNode = (
                 <FormattedMessage
                     id='signup.ldap'
                     defaultMessage='AD/LDAP Credentials'
@@ -365,7 +389,7 @@ export default class SignupController extends React.PureComponent {
         return signupControls;
     }
 
-    render() {
+    public render(): JSX.Element {
         if (this.state.loading) {
             return (<LoadingScreen/>);
         }
@@ -385,7 +409,7 @@ export default class SignupController extends React.PureComponent {
         if (this.state.serverError) {
             serverError = (
                 <div className={'form-group has-error'}>
-                    <label className='control-label'>{this.state.serverError}</label>
+                    <label className='control-label'>{this.state.serverError as Element}</label>
                 </div>
             );
         }
@@ -433,13 +457,14 @@ export default class SignupController extends React.PureComponent {
                             />
                             {' '}
                             <Link
-                                to={'/login' + this.props.location.search}
+                                to={'/login' + this.props?.location?.search ?? ''}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'
                                     defaultMessage='Click here to sign in.'
                                 />
                             </Link>
+
                         </span>
                     </div>
                 </div>
