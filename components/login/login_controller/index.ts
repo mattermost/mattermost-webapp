@@ -2,20 +2,29 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTeamMember, getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
-import {addUserToTeamFromInvite} from 'actions/team_actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {Team} from 'mattermost-redux/types/teams';
 
+import {GlobalState} from 'types/store';
+
+import {addUserToTeamFromInvite} from 'actions/team_actions';
 import {login} from 'actions/views/login';
 
-import LoginController from './login_controller.jsx';
+import LoginController from './login_controller';
 
-function mapStateToProps(state) {
+type Actions = {
+    login: (loginId: string, password: string, mfaToken: string) => Promise<{ data: boolean; error: ServerError }>;
+    addUserToTeamFromInvite: (token: string, inviteId: string) => Promise<{ data: Team; error: ServerError }>;
+}
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const license = getLicense(state);
 
@@ -49,10 +58,10 @@ function mapStateToProps(state) {
         if (team) {
             const member = getMyTeamMember(state, team.id);
             if (!member || !member.team_id) {
-                experimentalPrimaryTeam = null;
+                experimentalPrimaryTeam = undefined;
             }
         } else {
-            experimentalPrimaryTeam = null;
+            experimentalPrimaryTeam = undefined;
         }
     }
 
@@ -82,9 +91,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             login,
             addUserToTeamFromInvite,
         }, dispatch),

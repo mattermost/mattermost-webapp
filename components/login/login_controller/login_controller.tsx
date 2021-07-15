@@ -1,25 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
-import {Link} from 'react-router-dom';
-
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {Link, RouteProps} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {Team} from 'mattermost-redux/types/teams';
 
 import * as GlobalActions from 'actions/global_actions';
 import LocalStorageStore from 'stores/local_storage_store';
-
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
-import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n.jsx';
-
 import logoImage from 'images/logo.png';
-
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error';
@@ -31,48 +28,63 @@ import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 import Markdown from 'components/markdown';
-
 import LoginMfa from '../login_mfa.jsx';
 
-class LoginController extends React.PureComponent {
-    static propTypes = {
-        intl: intlShape.isRequired,
+interface Props extends RouteProps {
+    intl: IntlShape;
+    isLicensed: boolean;
+    currentUser?: UserProfile;
+    customBrandText?: string;
+    customDescriptionText?: string;
+    enableCustomBrand: boolean;
+    enableLdap: boolean;
+    enableOpenServer: boolean;
+    enableSaml: boolean;
+    enableSignInWithEmail: boolean;
+    enableSignInWithUsername: boolean;
+    enableSignUpWithEmail: boolean;
+    enableSignUpWithGitLab: boolean;
+    enableSignUpWithGoogle: boolean;
+    enableSignUpWithOffice365: boolean;
+    enableSignUpWithOpenId: boolean;
+    experimentalPrimaryTeam?: string;
+    ldapLoginFieldName?: string;
+    samlLoginButtonText?: string;
+    openidButtonText?: string;
+    openidButtonColor?: string;
+    siteName?: string;
+    initializing?: boolean;
+    actions: {
+        login: (loginId: string, password: string, mfaToken: string) => Promise<{ data: boolean; error: ServerError }>;
+        addUserToTeamFromInvite: (token: string, inviteId: string) => Promise<{ data: Team; error: ServerError }>;
+    };
+}
 
-        location: PropTypes.object.isRequired,
-        isLicensed: PropTypes.bool.isRequired,
-        currentUser: PropTypes.object,
-        customBrandText: PropTypes.string,
-        customDescriptionText: PropTypes.string,
-        enableCustomBrand: PropTypes.bool.isRequired,
-        enableLdap: PropTypes.bool.isRequired,
-        enableOpenServer: PropTypes.bool.isRequired,
-        enableSaml: PropTypes.bool.isRequired,
-        enableSignInWithEmail: PropTypes.bool.isRequired,
-        enableSignInWithUsername: PropTypes.bool.isRequired,
-        enableSignUpWithEmail: PropTypes.bool.isRequired,
-        enableSignUpWithGitLab: PropTypes.bool.isRequired,
-        enableSignUpWithGoogle: PropTypes.bool.isRequired,
-        enableSignUpWithOffice365: PropTypes.bool.isRequired,
-        enableSignUpWithOpenId: PropTypes.bool.isRequired,
-        experimentalPrimaryTeam: PropTypes.string,
-        ldapLoginFieldName: PropTypes.string,
-        samlLoginButtonText: PropTypes.string,
-        openidButtonText: PropTypes.string,
-        openidButtonColor: PropTypes.string,
-        siteName: PropTypes.string,
-        initializing: PropTypes.bool,
-        actions: PropTypes.shape({
-            login: PropTypes.func.isRequired,
-            addUserToTeamFromInvite: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type State = {
+    ldapEnabled: boolean;
+    usernameSigninEnabled: boolean;
+    emailSigninEnabled: boolean;
+    samlEnabled: boolean;
+    loginId?: string;
+    password: string;
+    showMfa: boolean;
+    loading: boolean;
+    sessionExpired: boolean;
+    brandImageError: boolean;
+    serverError: React.ReactNode;
+}
 
-    constructor(props) {
+export class LoginController extends React.PureComponent<Props, State> {
+    private readonly loginIdInput: React.RefObject<HTMLInputElement>;
+    private readonly passwordInput: React.RefObject<HTMLInputElement>;
+    private closeSessionExpiredNotification: (() => void) | undefined;
+
+    constructor(props: Props) {
         super(props);
 
         let loginId = '';
-        if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
-            loginId = (new URLSearchParams(this.props.location.search)).get('email');
+        if ((new URLSearchParams(this.props.location?.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location?.search)).get('email')) {
+            loginId = (new URLSearchParams(this.props.location?.search)).get('email')!;
         }
 
         this.state = {
@@ -86,13 +98,14 @@ class LoginController extends React.PureComponent {
             loading: false,
             sessionExpired: false,
             brandImageError: false,
+            serverError: null,
         };
 
         this.loginIdInput = React.createRef();
         this.passwordInput = React.createRef();
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.configureTitle();
 
         if (this.props.currentUser) {
@@ -100,7 +113,7 @@ class LoginController extends React.PureComponent {
             return;
         }
 
-        const search = new URLSearchParams(this.props.location.search);
+        const search = new URLSearchParams(this.props.location?.search);
         const extra = search.get('extra');
         const email = search.get('email');
 
@@ -122,26 +135,26 @@ class LoginController extends React.PureComponent {
                 // eslint-disable-next-line react/no-did-mount-set-state
                 this.setState({sessionExpired: true});
                 search.set('extra', Constants.SESSION_EXPIRED);
-                browserHistory.replace(`${this.props.location.pathname}?${search}`);
+                browserHistory.replace(`${this.props.location?.pathname}?${search}`);
             }
         }
 
         this.showSessionExpiredNotificationIfNeeded();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(): void {
         this.configureTitle();
         this.showSessionExpiredNotificationIfNeeded();
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         if (this.closeSessionExpiredNotification) {
             this.closeSessionExpiredNotification();
-            this.closeSessionExpiredNotification = null;
+            this.closeSessionExpiredNotification = undefined;
         }
     }
 
-    configureTitle = () => {
+    configureTitle = (): void => {
         if (this.state.sessionExpired) {
             document.title = this.props.intl.formatMessage({
                 id: 'login.session_expired.title',
@@ -150,14 +163,14 @@ class LoginController extends React.PureComponent {
                 siteName: this.props.siteName,
             });
         } else {
-            document.title = this.props.siteName;
+            document.title = this.props.siteName!;
         }
     }
 
-    showSessionExpiredNotificationIfNeeded = () => {
+    showSessionExpiredNotificationIfNeeded = (): void => {
         if (this.state.sessionExpired && !this.closeSessionExpiredNotification) {
             showNotification({
-                title: this.props.siteName,
+                title: this.props.siteName!,
                 body: Utils.localizeMessage(
                     'login.session_expired.notification',
                     'Session Expired: Please sign in to continue receiving notifications.',
@@ -166,9 +179,9 @@ class LoginController extends React.PureComponent {
                 silent: false,
                 onClick: () => {
                     window.focus();
-                    if (this.closeSessionExpiredNotification()) {
+                    if (this.closeSessionExpiredNotification) {
                         this.closeSessionExpiredNotification();
-                        this.closeSessionExpiredNotification = null;
+                        this.closeSessionExpiredNotification = undefined;
                     }
                 },
             }).then((closeNotification) => {
@@ -178,20 +191,20 @@ class LoginController extends React.PureComponent {
             });
         } else if (!this.state.sessionExpired && this.closeSessionExpiredNotification) {
             this.closeSessionExpiredNotification();
-            this.closeSessionExpiredNotification = null;
+            this.closeSessionExpiredNotification = undefined;
         }
     }
 
-    preSubmit = (e) => {
+    preSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
 
         // Discard any session expiry notice once the user interacts with the login page.
         this.onDismissSessionExpired();
 
         const {location} = this.props;
-        const newQuery = location.search.replace(/(extra=password_change)&?/i, '');
-        if (newQuery !== location.search) {
-            browserHistory.replace(`${location.pathname}${newQuery}${location.hash}`);
+        const newQuery = location?.search.replace(/(extra=password_change)&?/i, '');
+        if (newQuery !== location?.search) {
+            browserHistory.replace(`${location?.pathname}${newQuery}${location?.hash}`);
         }
 
         // password managers don't always call onInput handlers for form fields so it's possible
@@ -213,7 +226,7 @@ class LoginController extends React.PureComponent {
         }
 
         // don't trim the password since we support spaces in passwords
-        loginId = loginId.trim().toLowerCase();
+        loginId = loginId?.trim().toLowerCase();
 
         if (!loginId) {
             t('login.noEmail');
@@ -264,10 +277,10 @@ class LoginController extends React.PureComponent {
         this.submit(loginId, password, '');
     }
 
-    submit = (loginId, password, token) => {
-        this.setState({serverError: null, loading: true});
+    submit = (loginId: string, password: string, token: string): void => {
+        this.setState({serverError: undefined, loading: true});
 
-        this.props.actions.login(loginId, password, token).then(async ({error}) => {
+        this.props.actions.login(loginId, password, token).then(async ({error}: { error: ServerError }) => {
             if (error) {
                 if (error.server_error_id === 'api.user.login.not_verified.app_error') {
                     browserHistory.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
@@ -297,19 +310,23 @@ class LoginController extends React.PureComponent {
                 } else if (!this.state.showMfa && error.server_error_id === 'mfa.validate_token.authenticate.app_error') {
                     this.setState({showMfa: true});
                 } else {
-                    this.setState({showMfa: false, serverError: error.message, loading: false});
+                    this.setState({
+                        showMfa: false,
+                        serverError: <FormattedMessage defaultMessage={error.message}/>,
+                        loading: false,
+                    });
                 }
 
                 return;
             }
 
             // check for query params brought over from signup_user_complete
-            const params = new URLSearchParams(this.props.location.search);
+            const params = new URLSearchParams(this.props.location?.search);
             const inviteToken = params.get('t') || '';
             const inviteId = params.get('id') || '';
 
             if (inviteId || inviteToken) {
-                const {data: team} = await this.props.actions.addUserToTeamFromInvite(inviteToken, inviteId);
+                const {data: team}: { data: Team } = await this.props.actions.addUserToTeamFromInvite(inviteToken, inviteId);
                 if (team) {
                     this.finishSignin(team);
                 } else {
@@ -322,9 +339,9 @@ class LoginController extends React.PureComponent {
         });
     }
 
-    finishSignin = (team) => {
+    finishSignin = (team?: Team): void => {
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
-        const query = new URLSearchParams(this.props.location.search);
+        const query = new URLSearchParams(this.props.location?.search);
         const redirectTo = query.get('redirect_to');
 
         Utils.setCSRFFromCookie();
@@ -343,26 +360,26 @@ class LoginController extends React.PureComponent {
         }
     }
 
-    handleLoginIdChange = (e) => {
+    handleLoginIdChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({
             loginId: e.target.value,
         });
     }
 
-    handlePasswordChange = (e) => {
+    handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({
             password: e.target.value,
         });
     }
 
-    handleBrandImageError = () => {
+    handleBrandImageError = (): void => {
         this.setState({brandImageError: true});
     }
 
-    createCustomLogin = () => {
+    createCustomLogin = (): JSX.Element | null => {
         if (this.props.enableCustomBrand) {
             const text = this.props.customBrandText || '';
-            const brandImageUrl = Client4.getBrandImageUrl(0);
+            const brandImageUrl = Client4.getBrandImageUrl('0');
             const brandImageStyle = this.state.brandImageError ? {display: 'none'} : {};
 
             return (
@@ -376,10 +393,7 @@ class LoginController extends React.PureComponent {
                     <div>
                         <Markdown
                             message={text}
-                            options={
-                                {mentions: false,
-                                    imagesMetadata: null}
-                            }
+                            options={{atMentions: false}}
                         />
                     </div>
                 </div>
@@ -389,7 +403,7 @@ class LoginController extends React.PureComponent {
         return null;
     }
 
-    createLoginPlaceholder = () => {
+    createLoginPlaceholder = (): string => {
         const ldapEnabled = this.state.ldapEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
@@ -422,7 +436,7 @@ class LoginController extends React.PureComponent {
         return '';
     }
 
-    checkSignUpEnabled = () => {
+    checkSignUpEnabled = (): boolean => {
         return this.props.enableSignUpWithEmail ||
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
@@ -432,13 +446,13 @@ class LoginController extends React.PureComponent {
             this.props.enableSaml;
     }
 
-    onDismissSessionExpired = () => {
+    onDismissSessionExpired = (): void => {
         LocalStorageStore.setWasLoggedIn(false);
         this.setState({sessionExpired: false});
     }
 
-    createExtraText = () => {
-        const extraParam = (new URLSearchParams(this.props.location.search)).get('extra');
+    createExtraText = (): JSX.Element | null => {
+        const extraParam = (new URLSearchParams(this.props.location?.search)).get('extra');
 
         if (this.state.sessionExpired) {
             return (
@@ -534,7 +548,7 @@ class LoginController extends React.PureComponent {
         return null;
     }
 
-    createLoginOptions = () => {
+    createLoginOptions = (): JSX.Element => {
         const loginControls = [];
 
         const ldapEnabled = this.state.ldapEnabled;
@@ -596,7 +610,6 @@ class LoginController extends React.PureComponent {
                                 className='btn btn-primary'
                             >
                                 <LoadingWrapper
-                                    id='login_button_signing'
                                     loading={this.state.loading}
                                     text={Utils.localizeMessage('login.signInLoading', 'Signing in...')}
                                 >
@@ -625,7 +638,7 @@ class LoginController extends React.PureComponent {
                         />
                         <Link
                             id='signup'
-                            to={'/signup_user_complete' + this.props.location.search}
+                            to={'/signup_user_complete' + this.props.location?.search}
                             className='signup-team-login'
                         >
                             <FormattedMessage
@@ -684,7 +697,7 @@ class LoginController extends React.PureComponent {
                     id='GitLabButton'
                     className='btn btn-custom-login gitlab'
                     key='gitlab'
-                    href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location.search}
+                    href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location?.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -705,7 +718,7 @@ class LoginController extends React.PureComponent {
                     id='GoogleButton'
                     className='btn btn-custom-login google'
                     key='google'
-                    href={Client4.getOAuthRoute() + '/google/login' + this.props.location.search}
+                    href={Client4.getOAuthRoute() + '/google/login' + this.props.location?.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -726,7 +739,7 @@ class LoginController extends React.PureComponent {
                     id='Office365Button'
                     className='btn btn-custom-login office365'
                     key='office365'
-                    href={Client4.getOAuthRoute() + '/office365/login' + this.props.location.search}
+                    href={Client4.getOAuthRoute() + '/office365/login' + this.props.location?.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -742,11 +755,11 @@ class LoginController extends React.PureComponent {
         }
 
         if (openIdSigninEnabled) {
-            const buttonStyle = {};
+            const buttonStyle: {backgroundColor?: string} = {};
             if (this.props.openidButtonColor) {
                 buttonStyle.backgroundColor = this.props.openidButtonColor;
             }
-            let buttonText = (
+            let buttonText: React.ReactNode = (
                 <FormattedMessage
                     id='login.openid'
                     defaultMessage='Open ID'
@@ -761,7 +774,7 @@ class LoginController extends React.PureComponent {
                     className='btn btn-custom-login openid'
                     style={buttonStyle}
                     key='openid'
-                    href={Client4.getOAuthRoute() + '/openid/login' + this.props.location.search}
+                    href={Client4.getOAuthRoute() + '/openid/login' + this.props.location?.search}
                 >
                     <span>
                         <span>
@@ -777,7 +790,7 @@ class LoginController extends React.PureComponent {
                 <a
                     className='btn btn-custom-login saml'
                     key='saml'
-                    href={Client4.getUrl() + '/login/sso/saml' + this.props.location.search}
+                    href={Client4.getUrl() + '/login/sso/saml' + this.props.location?.search}
                 >
                     <span>
                         <span
@@ -815,11 +828,11 @@ class LoginController extends React.PureComponent {
         );
     }
 
-    hideMfa = () => {
+    hideMfa = (): void => {
         this.setState({showMfa: false});
     }
 
-    render() {
+    render(): JSX.Element {
         const {
             customDescriptionText,
             siteName,
