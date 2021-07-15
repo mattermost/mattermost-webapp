@@ -19,10 +19,10 @@ describe('AdminConsoleIndex.generateIndex', () => {
         const idx = generateIndex(AdminDefinition, {}, intl);
         expect(idx.search('ldap')).toEqual([
             'environment/session_lengths',
+            'authentication/mfa',
             'authentication/ldap',
             'authentication/saml',
             'experimental/features',
-            'authentication/mfa',
             'authentication/email',
             'authentication/guest_access',
         ]);
@@ -36,8 +36,8 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'environment/rate_limiting',
         ]);
         expect(idx.search('characters')).toEqual([
-            'site_config/customization',
             'authentication/password',
+            'site_config/customization',
         ]);
         expect(idx.search('caracteres')).toEqual([]);
         expect(idx.search('notexistingword')).toEqual([]);
@@ -78,7 +78,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
 
         const idx = generateIndex(AdminDefinition, {[samplePlugin1.id]: samplePlugin1, [samplePlugin2.id]: samplePlugin2}, intl);
 
-        expect(idx.search('random')).toEqual(['plugin_Some-random-plugin']);
+        expect(idx.search('random')).toEqual(['plugin_Some-random-plugin', 'site_config/public_links']);
         expect(idx.search('autolink')).toEqual(['plugin_mattermost-autolink']);
     });
 });
