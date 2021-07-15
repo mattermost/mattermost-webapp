@@ -41,7 +41,7 @@ exports[`components/ActivityLogModal should match snapshot 1`] = `
       componentClass="h1"
       id="activityLogModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Active Sessions"
         id="activity_log.activeSessions"
       />
@@ -54,7 +54,7 @@ exports[`components/ActivityLogModal should match snapshot 1`] = `
     <p
       className="session-help-text"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Sessions are created when you log in through a new browser on a device. Sessions let you use Mattermost without having to log in again for a time period specified by the system administrator. To end the session sooner, use the 'Log Out' button."
         id="activity_log.sessionsDescription"
       />
@@ -73,7 +73,7 @@ exports[`components/ActivityLogModal should match snapshot 1`] = `
       id="closeModalButton"
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="general_button.close"
       />
@@ -123,7 +123,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
       componentClass="h1"
       id="activityLogModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Active Sessions"
         id="activity_log.activeSessions"
       />
@@ -136,7 +136,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
     <p
       className="session-help-text"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Sessions are created when you log in through a new browser on a device. Sessions let you use Mattermost without having to log in again for a time period specified by the system administrator. To end the session sooner, use the 'Log Out' button."
         id="activity_log.sessionsDescription"
       />
@@ -156,7 +156,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
       id="closeModalButton"
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="general_button.close"
       />
@@ -206,7 +206,7 @@ exports[`components/ActivityLogModal should match snapshot when submitRevoke is 
       componentClass="h1"
       id="activityLogModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Active Sessions"
         id="activity_log.activeSessions"
       />
@@ -219,7 +219,7 @@ exports[`components/ActivityLogModal should match snapshot when submitRevoke is 
     <p
       className="session-help-text"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Sessions are created when you log in through a new browser on a device. Sessions let you use Mattermost without having to log in again for a time period specified by the system administrator. To end the session sooner, use the 'Log Out' button."
         id="activity_log.sessionsDescription"
       />
@@ -238,7 +238,7 @@ exports[`components/ActivityLogModal should match snapshot when submitRevoke is 
       id="closeModalButton"
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="general_button.close"
       />

@@ -38,13 +38,13 @@ exports[`admin_console/add_users_to_role_modal should match snapshot 1`] = `
       bsClass="modal-title"
       componentClass="h1"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Add users to {roleName}"
         id="add_users_to_role.title"
         values={
           Object {
             "roleName": <strong>
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="role_name"
                 id="admin.permissions.roles.role_name.name"
               />
@@ -74,7 +74,7 @@ exports[`admin_console/add_users_to_role_modal should match snapshot 1`] = `
         <div
           id="numPeopleRemaining"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
             id="multiselect.numPeopleRemaining"
             values={

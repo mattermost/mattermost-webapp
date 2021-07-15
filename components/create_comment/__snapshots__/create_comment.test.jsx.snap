@@ -97,7 +97,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -209,7 +209,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -357,7 +357,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -493,7 +493,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -641,7 +641,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -774,7 +774,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <span
           className="post-right-comments-upload-in-progress"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="File uploading"
             id="create_comment.file"
           />
@@ -813,7 +813,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />

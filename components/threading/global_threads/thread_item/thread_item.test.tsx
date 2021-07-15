@@ -131,8 +131,8 @@ describe('components/threading/global_threads/thread_item', () => {
             />,
         );
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('id', 'threading.numReplies');
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('values.totalReplies', 9);
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('id', 'threading.numReplies');
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('values.totalReplies', 9);
     });
 
     test('should report unread messages', () => {
@@ -146,8 +146,8 @@ describe('components/threading/global_threads/thread_item', () => {
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.exists('.dot-unreads')).toBe(true);
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('id', 'threading.numNewReplies');
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('values.newReplies', 2);
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('id', 'threading.numNewReplies');
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('values.newReplies', 2);
     });
 
     test('should report unread mentions', () => {
@@ -162,8 +162,8 @@ describe('components/threading/global_threads/thread_item', () => {
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.dot-mentions').text()).toBe('2');
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('id', 'threading.numNewReplies');
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('values.newReplies', 5);
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('id', 'threading.numNewReplies');
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('values.newReplies', 5);
     });
 
     test('should show channel name', () => {

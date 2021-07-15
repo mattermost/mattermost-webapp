@@ -129,7 +129,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               href="#"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Jump"
                 id="search_item.jump"
               />
@@ -231,7 +231,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
         <ArchiveIcon
           className="icon icon__archive channel-header-archived-icon svg-text-color"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Archived"
           id="search_item.channelArchived"
         />
@@ -347,7 +347,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               href="#"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Jump"
                 id="search_item.jump"
               />
@@ -554,7 +554,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               href="#"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Jump"
                 id="search_item.jump"
               />
@@ -731,7 +731,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             className=" post--edited"
           >
             <p>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(message deleted)"
                 id="post_body.deleted"
               />
@@ -874,7 +874,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             className=" post--edited"
           >
             <p>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(message deleted)"
                 id="post_body.deleted"
               />
