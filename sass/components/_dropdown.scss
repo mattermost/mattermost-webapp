@@ -3,6 +3,8 @@
 .dropdown-menu {
     @include border-radius(4px);
 
+    background: var(--center-channel-bg);
+
     &.colorpicker {
         z-index: 2500;
         min-width: 125px;
