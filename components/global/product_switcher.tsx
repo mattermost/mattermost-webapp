@@ -1,16 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MutableRefObject, useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useSelector} from 'react-redux';
 import {Link, useRouteMatch} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {GlobalState} from 'types/store';
-import {GlobalHeaderSwitcherPluginComponent} from 'types/store/plugins';
-
 import {ChannelsIcon, SwitcherIcon} from './assets';
+import {useClickOutsideRef, useSwitcherItems} from './hooks';
 
 interface SwitcherButtonProps {
     open: boolean;
@@ -18,6 +15,7 @@ interface SwitcherButtonProps {
 
 const SwitcherButton = styled.button<SwitcherButtonProps>`
     margin-left: 17px;
+    margin-right: 17px;
     background: ${(props) => (props.open ? 'var(--sidebar-text)' : 'transparent')};
     fill: ${(props) => (props.open ? 'var(--button-bg)' : 'rgba(var(--sidebar-header-text-color-rgb), 0.64)')};
     border: none;
@@ -92,31 +90,8 @@ const LinkIcon = styled.i`
     color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
-/**
- * Hook that alerts clicks outside of the passed ref.
- */
-function useClickOutsideRef(ref: MutableRefObject<HTMLElement | null>, handler: () => void) {
-    useEffect(() => {
-        function onMouseDown(event: MouseEvent) {
-            const target = event.target as any;
-            if (ref.current && target instanceof Node && !ref.current.contains(target)) {
-                handler();
-            }
-        }
-
-        // Bind the event listener
-        document.addEventListener('mousedown', onMouseDown);
-        return () => {
-            // Unbind the event listener on clean up
-            document.removeEventListener('mousedown', onMouseDown);
-        };
-    }, [ref, handler]);
-}
-
-const selectSwitcherItems = (state: GlobalState) => state.plugins.components.GlobalHeaderSwitcherItem;
-
 const ProductSwitcher = () => {
-    const switcherItems = useSelector<GlobalState, GlobalHeaderSwitcherPluginComponent[]>(selectSwitcherItems);
+    const switcherItems = useSwitcherItems();
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     useClickOutsideRef(menuRef, () => {
@@ -155,7 +130,7 @@ const ProductSwitcher = () => {
                     />
                 </Open>
                 <SwitcherNavEntry
-                    destination={'/'}
+                    destination={'/channels'}
                     icon={<ChannelsIcon/>}
                     text={'Channels'}
                 />
@@ -170,13 +145,9 @@ interface SwitcherNavEntryProps {
     icon: React.ReactNode;
     text: React.ReactNode;
 }
+
 const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
     const match = useRouteMatch(props.destination);
-    const isPlug = useRouteMatch('/plug/');
-    let active = Boolean(match);
-    if (props.destination === '/') {
-        active = active && !isPlug;
-    }
     return (
         <MenuItem
             to={props.destination}
@@ -186,7 +157,7 @@ const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
             <MenuItemTextContainer>
                 {props.text}
             </MenuItemTextContainer>
-            <LinkIcon className={'fa ' + (active ? 'fa-check' : 'fa-external-link')}/>
+            <LinkIcon className={'fa ' + (match ? 'fa-check' : 'fa-external-link')}/>
         </MenuItem>
     );
 };

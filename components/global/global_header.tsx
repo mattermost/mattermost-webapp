@@ -9,7 +9,10 @@ import styled from 'styled-components';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import StatusDropdown from 'components/status_dropdown';
 
+import Pluggable from 'plugins/pluggable';
+
 import ProductSwitcher from './product_switcher';
+import {useCurrentProductId} from './hooks';
 
 const HeaderContainer = styled.div`
     position: relative;
@@ -30,6 +33,7 @@ const ProfileWrapper = styled.div`
 
 const GlobalHeader = () => {
     const enabled = useSelector(getGlobalHeaderEnabled);
+    const currentProductID = useCurrentProductId();
 
     if (!enabled) {
         return null;
@@ -38,7 +42,17 @@ const GlobalHeader = () => {
     return (
         <HeaderContainer>
             <ProductSwitcher/>
-            <AppSpectificContent/>
+            <AppSpectificContent>
+                {currentProductID !== null &&
+                    <Pluggable
+                        pluggableName={'GlobalHeaderCenter'}
+                        pluggableId={currentProductID}
+                    />
+                }
+                {/*currentProductID === null &&
+                   This is where the header content for the webapp will go
+                */}
+            </AppSpectificContent>
             <ProfileWrapper>
                 <StatusDropdown
                     globalHeader={true}

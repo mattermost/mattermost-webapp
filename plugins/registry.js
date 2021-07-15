@@ -711,8 +711,10 @@ export default class PluginRegistry {
     // - text - A string or React element to display in the menu
     // - linkURL - A string specifying the URL the switcher item should point to
     //             any subpath of this URL will be considered part of that item.
+    // - centerComponent - A component to fill the generic area in the center of
+    //                     the global header when your route is active.
     // Returns a unique identifier.
-    registerGlobalHeaderSwitcherItem(icon, text, linkURL) {
+    registerGlobalHeaderSwitcherItem(icon, text, linkURL, centerComponent) {
         const id = generateId();
 
         store.dispatch({
@@ -726,6 +728,8 @@ export default class PluginRegistry {
                 linkURL,
             },
         });
+
+        dispatchPluginComponentAction('GlobalHeaderCenter', this.id, centerComponent, id);
 
         return id;
     }
