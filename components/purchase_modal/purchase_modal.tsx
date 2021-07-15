@@ -40,6 +40,14 @@ import 'components/payment_form/payment_form.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
+type Option = {
+    key: string;
+    value: string;
+    price: number;
+};
+
+type ProductOptions = Option[];
+
 type Props = {
     customer: CloudCustomer | undefined;
     show: boolean;
@@ -184,18 +192,18 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         </a>
     );
 
-    onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const selectedPlan = findProductInDictionary(this.props.products, e.target.value);
 
         this.setState({selectedProduct: selectedPlan});
     }
 
-    listPlans = () => {
+    listPlans = (): JSX.Element => {
         const products = this.props.products!;
-        const flatFeeProducts: any = [];
-        const userBasedProducts: any = [];
+        const flatFeeProducts: ProductOptions = [];
+        const userBasedProducts: ProductOptions = [];
         Object.keys(products).forEach((key: string) => {
-            const tempEl = {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
+            const tempEl: Option = {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
             if (products[key].billing_scheme === BillingSchemes.FLAT_FEE) {
                 flatFeeProducts.push(tempEl);
             } else {
@@ -203,7 +211,17 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             }
         });
 
-        const options = [...flatFeeProducts.sort((a: any, b: any) => a.price - b.price), ...userBasedProducts.sort((a: any, b: any) => a.price - b.price)];
+        let options = [...flatFeeProducts.sort((a: Option, b: Option) => a.price - b.price), ...userBasedProducts.sort((a: Option, b: Option) => a.price - b.price)];
+
+        const currentPrice = this.state.currentProduct?.price_per_seat;
+
+        // if not on trial, only show current plan and those higher than it in terms of price
+        if (!this.props.isFreeTrial && currentPrice) {
+            options = options.filter((option: Option) => {
+                return option.price >= currentPrice;
+            });
+        }
+
         const sideLegendTitle = (
             <FormattedMessage
                 defaultMessage={'(Current Plan)'}
@@ -218,7 +236,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     values={options!}
                     value={this.state.selectedProduct?.id as string}
                     sideLegend={{matchVal: this.state.currentProduct?.id as string, text: sideLegendTitle}}
-                    onChange={(e: any) => this.onPlanSelected(e)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
                 />
             </div>
         );
@@ -397,7 +415,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
-                        {(this.props.isFreeTrial && this.props.products && Object.keys(this.props.products).length > 1) &&
+                        {(this.props.products && Object.keys(this.props.products).length > 1) &&
                             <div className='select-plan'>
                                 <div className='title'>
                                     <FormattedMessage

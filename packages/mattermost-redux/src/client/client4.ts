@@ -3657,7 +3657,7 @@ export default class Client4 {
 
     subscribeCloudProduct = (productId: string) => {
         return this.doFetch<CloudCustomer>(
-            `${this.getCloudRoute()}/cloud/subscription`,
+            `${this.getCloudRoute()}/subscription`,
             {method: 'put', body: JSON.stringify({product_id: productId})},
         );
     }

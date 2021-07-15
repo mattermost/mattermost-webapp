@@ -22,6 +22,9 @@ describe('Messaging', () => {
         // # Wrap websocket to be able to connect and close connections on demand
         cy.mockWebsockets();
 
+        // # Update config to enable "EnableReliableWebSockets"
+        cy.apiUpdateConfig({ServiceSettings: {EnableReliableWebSockets: true}});
+
         // # Login as test user and go to town-square
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
@@ -37,6 +40,11 @@ describe('Messaging', () => {
 
             cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            // # Post several messages to establish websocket connection
+            Cypress._.times(5, (i) => {
+                cy.postMessage(i);
+            });
         });
     });
 
