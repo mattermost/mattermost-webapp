@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -45,6 +47,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
+
+const CreatePostDraftTimeoutMilliseconds = 500;
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str) {
@@ -375,7 +379,7 @@ class CreatePost extends React.PureComponent {
         if (this.saveDraftFrame) {
             const channelId = this.props.currentChannel.id;
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
         }
     }
 
@@ -532,7 +536,7 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
-        cancelAnimationFrame(this.saveDraftFrame);
+        clearTimeout(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
     }
@@ -802,10 +806,10 @@ class CreatePost extends React.PureComponent {
             ...this.props.draft,
             message,
         };
-        cancelAnimationFrame(this.saveDraftFrame);
-        this.saveDraftFrame = requestAnimationFrame(() => {
+        clearTimeout(this.saveDraftFrame);
+        this.saveDraftFrame = setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        });
+        }, CreatePostDraftTimeoutMilliseconds);
         this.draftsForChannel[channelId] = draft;
     }
 
