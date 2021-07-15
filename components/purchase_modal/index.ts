@@ -41,7 +41,7 @@ function mapStateToProps(state: GlobalState) {
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
         productId: subscription?.product_id,
         customer: state.entities.cloud.customer,
-        team: team,
+        team,
     };
 }
 type Actions = {
