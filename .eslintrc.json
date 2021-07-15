@@ -3,7 +3,8 @@
   "extends": [
     "plugin:mattermost/react",
     "plugin:cypress/recommended",
-    "plugin:jquery/deprecated"
+    "plugin:jquery/deprecated",
+    "prettier"
   ],
   "plugins": [
     "babel",
@@ -12,7 +13,8 @@
     "cypress",
     "jquery",
     "no-only-tests",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
@@ -65,7 +67,8 @@
     "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}],
     "react/style-prop-object": [2, {
       "allow": ["Timestamp"]
-    }]
+    }],
+    "prettier/prettier": "warn"
   },
   "overrides": [
     {
@@ -109,13 +112,6 @@
         "@typescript-eslint/no-empty-function": 0,
         "@typescript-eslint/prefer-interface": 0,
         "@typescript-eslint/explicit-function-return-type": 0,
-        "@typescript-eslint/indent": [
-          2,
-          4,
-          {
-            "SwitchCase": 0
-          }
-        ],
         "@typescript-eslint/no-use-before-define": [
           2,
           {
