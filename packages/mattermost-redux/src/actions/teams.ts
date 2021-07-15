@@ -17,6 +17,8 @@ import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWith
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
+
 import {selectChannel} from './channels';
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
@@ -74,10 +76,13 @@ export function getMyTeams(): ActionFunc {
     });
 }
 
-export function getMyTeamUnreads(): ActionFunc {
+export function getMyTeamUnreads(collapsedThreads: boolean): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getMyTeamUnreads,
         onSuccess: TeamTypes.RECEIVED_MY_TEAM_UNREADS,
+        params: [
+            collapsedThreads,
+        ],
     });
 }
 
@@ -667,7 +672,7 @@ export function joinTeam(inviteId: string, teamId: string): ActionFunc {
             return {error};
         }
 
-        getMyTeamUnreads()(dispatch, getState);
+        getMyTeamUnreads(isCollapsedThreadsEnabled(state))(dispatch, getState);
 
         await Promise.all([
             getTeam(teamId)(dispatch, getState),
