@@ -196,8 +196,8 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
             ...members.reduce((result: ThreadsState['counts'], member: TeamUnread) => {
                 result[member.team_id] = {
                     ...state[member.team_id],
-                    total_unread_threads: member.thread_count,
-                    total_unread_mentions: member.thread_mention_count,
+                    total_unread_threads: member.thread_count || 0,
+                    total_unread_mentions: member.thread_mention_count || 0,
                 };
 
                 return result;
