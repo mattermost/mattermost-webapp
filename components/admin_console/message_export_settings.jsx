@@ -100,7 +100,7 @@ export default class MessageExportSettings extends AdminSettings {
         return (
             <FormattedMessage
                 id='admin.complianceExport.title'
-                defaultMessage='Compliance Export (Beta)'
+                defaultMessage='Compliance Export'
             />
         );
     }
