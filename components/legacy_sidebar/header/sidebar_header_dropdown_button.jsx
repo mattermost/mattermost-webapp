@@ -34,6 +34,7 @@ const TeamName = styled.h1`
     line-height: 24px;
     margin: 0;
     margin-left: 6px;
+    color: var(--sidebar-text);
 `;
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {

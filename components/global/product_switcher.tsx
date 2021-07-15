@@ -45,6 +45,7 @@ const SwitcherMenu = styled.div<SwitcherMenuProps>`
     border-radius: 4px;
     padding-top: 14px;
     padding-bottom: 5px;
+    color: var(--center-channel-color);
 `;
 
 const Open = styled.div`
