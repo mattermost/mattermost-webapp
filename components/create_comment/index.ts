@@ -115,6 +115,7 @@ type Actions = {
     onMoveHistoryIndexBack: () => void;
     onMoveHistoryIndexForward: () => void;
     onEditLatestPost: () => ActionResult;
+    resetCreatePostRequest: () => void;
     getChannelTimezones: (channelId: string) => Promise<ActionResult>;
     emitShortcutReactToLastPostFrom: (location: string) => void;
     setShowPreview: (showPreview: boolean) => void;
@@ -122,7 +123,7 @@ type Actions = {
 }
 
 function makeMapDispatchToProps() {
-    let onUpdateCommentDraft: (draft?: PostDraft & {props?: any}) => void;
+    let onUpdateCommentDraft: (draft?: PostDraft) => void;
     let onSubmit: (options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;

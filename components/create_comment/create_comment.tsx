@@ -114,7 +114,7 @@ type Props = {
     /**
       * Called when comment draft needs to be updated
       */
-    onUpdateCommentDraft: (draft?: PostDraft & {props?: any}) => void;
+    onUpdateCommentDraft: (draft?: PostDraft) => void;
 
     /**
       * Called when comment draft needs to be updated for an specific root ID
@@ -248,7 +248,7 @@ type State = {
     scrollbarWidth: number;
     mentions: string[];
     memberNotifyCount: number;
-    draft?: PostDraft & {caretPosition?: number; props?: any};
+    draft?: PostDraft;
     rootId?: string;
     messageInHistory?: string;
     createPostErrorId?: string;

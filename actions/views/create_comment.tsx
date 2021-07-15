@@ -68,7 +68,7 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
     };
 }
 
-export function submitPost(channelId: string, rootId: string, draft: PostDraft & {props?: any}) {
+export function submitPost(channelId: string, rootId: string, draft: PostDraft) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
