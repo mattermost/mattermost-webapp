@@ -32,6 +32,7 @@ import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
+import NextStepsView from 'components/next_steps_view';
 
 import {useThreadRouting} from '../hooks';
 import ChatIllustration from '../common/chat_illustration';
@@ -58,6 +59,7 @@ const GlobalThreads = () => {
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id));
+    const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id));
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null;
@@ -99,6 +101,10 @@ const GlobalThreads = () => {
     const handleSelectUnread = useCallback(() => {
         setFilter(ThreadFilter.unread);
     }, []);
+
+    if (showNextStepsEphemeral) {
+        return <NextStepsView />
+    }
 
     return (
         <div

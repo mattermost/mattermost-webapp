@@ -28,17 +28,12 @@ type Props = {
         };
     };
     showTutorial: boolean;
-    showNextSteps: boolean;
-    showNextStepsTips: boolean;
-    isOnboardingHidden: boolean;
     showNextStepsEphemeral: boolean;
     channelIsArchived: boolean;
     viewArchivedChannels: boolean;
     isCloud: boolean;
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
-        setShowNextStepsView: (show: boolean) => Action;
-        getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
     };
 };
 
@@ -47,7 +42,6 @@ type State = {
     url: string;
     focusedPostId?: string;
     deferredPostView: any;
-    showNextSteps: boolean;
 };
 
 export default class ChannelView extends React.PureComponent<Props, State> {
@@ -80,10 +74,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
             updatedState = {...updatedState, focusedPostId};
         }
 
-        if (props.showNextSteps !== state.showNextSteps) {
-            updatedState = {...updatedState, showNextSteps: props.showNextSteps};
-        }
-
         if (Object.keys(updatedState).length) {
             return updatedState;
         }
@@ -99,7 +89,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
             channelId: props.channelId,
             focusedPostId: props.match.params.postid,
             deferredPostView: ChannelView.createDeferredPostView(),
-            showNextSteps: props.showNextSteps,
         };
 
         this.channelViewRef = React.createRef();
@@ -111,13 +100,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     onClickCloseChannel = () => {
         this.props.actions.goToLastViewedChannel();
-    }
-
-    async componentDidMount() {
-        await this.props.actions.getProfiles();
-        if ((this.props.showNextSteps || this.props.showNextStepsTips) && !this.props.isOnboardingHidden) {
-            this.props.actions.setShowNextStepsView(true);
-        }
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -142,10 +124,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
                 this.props.actions.goToLastViewedChannel();
             }
-        }
-
-        if (this.props.match.url !== prevProps.match.url && this.props.showNextStepsEphemeral) {
-            this.props.actions.setShowNextStepsView(false);
         }
     }
 

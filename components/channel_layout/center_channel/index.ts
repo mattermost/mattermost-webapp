@@ -14,6 +14,12 @@ import {getLastViewedChannelNameByTeamName} from 'selectors/local_storage';
 import {GlobalState} from 'types/store';
 
 import CenterChannel from './center_channel';
+import { isOnboardingHidden, showNextSteps, showNextStepsTips, userExistedForSomeTime } from 'components/next_steps_view/steps';
+import { setShowNextStepsView } from 'actions/views/next_steps';
+import { getProfiles, getUser } from 'mattermost-redux/actions/users';
+import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from 'redux';
+import { Action, ActionFunc, GenericAction } from 'mattermost-redux/types/actions';
+import { getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
 
 type Props = {
     match: {
@@ -31,13 +37,38 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         channelName = getRedirectChannelNameForTeam(state, team!.id);
     }
     const lastChannelPath = `${ownProps.match.url}/channels/${channelName}`;
+    const currentUserId = getCurrentUserId(state);
+
+
     return {
         lastChannelPath,
         lhsOpen: getIsLhsOpen(state),
         rhsOpen: getIsRhsOpen(state),
         rhsMenuOpen: getIsRhsMenuOpen(state),
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+        currentUserId,
+        showNextSteps: showNextSteps(state),
+        showNextStepsTips: showNextStepsTips(state),
+        isOnboardingHidden: isOnboardingHidden(state),
+        showNextStepsEphemeral: state.views.nextSteps.show,
+        userExistedForSomeTime: userExistedForSomeTime(state),
     };
 };
 
-export default connect(mapStateToProps)(CenterChannel);
+type Actions = {
+    setShowNextStepsView: (show: boolean) => Action;
+    getUser: (id: string) => ActionFunc;
+    getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
+}
+
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    return {
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
+            setShowNextStepsView,
+            getProfiles,
+            getUser,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CenterChannel);

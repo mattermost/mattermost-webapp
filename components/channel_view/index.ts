@@ -11,26 +11,18 @@ import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-
-import {getProfiles} from 'mattermost-redux/actions/users';
-
 import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 
-import {setShowNextStepsView} from 'actions/views/next_steps';
-
-import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
 import {GlobalState} from 'types/store';
 
 import ChannelView from './channel_view';
 
 type Actions = {
     goToLastViewedChannel: () => Promise<{data: boolean}>;
-    setShowNextStepsView: (show: boolean) => Action;
-    getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
 }
 
 function isDeactivatedChannel(state: GlobalState, channelId: string) {
@@ -68,9 +60,6 @@ function mapStateToProps(state: GlobalState) {
         deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
         focusedPostId: state.views.channel.focusedPostId,
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
-        showNextSteps: showNextSteps(state),
-        showNextStepsTips: showNextStepsTips(state),
-        isOnboardingHidden: isOnboardingHidden(state),
         showNextStepsEphemeral: state.views.nextSteps.show,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
@@ -81,9 +70,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
-            setShowNextStepsView,
             goToLastViewedChannel,
-            getProfiles,
         }, dispatch),
     };
 }
