@@ -208,9 +208,9 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                             value={this.state.text}
                             onItemSelected={this.handleSubmit}
                             listComponent={SuggestionList}
+                            listPosition='bottom'
                             maxLength='64'
                             providers={providers}
-                            listStyle='bottom'
                             completeOnTab={false}
                             spellCheck='false'
                             delayInputUpdate={true}

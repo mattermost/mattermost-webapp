@@ -24,7 +24,7 @@ import * as Utils from 'utils/utils.jsx';
 type Props = {
     id: string;
     channelId: string;
-    rootId?: string;
+    rootId: string;
     value: string;
     onChange: (e: ChangeEvent) => void;
     onKeyPress: (e: KeyboardEvent) => void;
@@ -39,7 +39,7 @@ type Props = {
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     suggestionList?: React.Component<React.ComponentProps<typeof SuggestionList>>;
-    suggestionListStyle?: string;
+    suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
     emojiEnabled?: boolean;
     isRHS?: boolean;
     characterLimit: number;
@@ -289,7 +289,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={this.props.inputComponent}
                     listComponent={this.props.suggestionList}
-                    listStyle={this.props.suggestionListStyle}
+                    listPosition={this.props.suggestionListPosition}
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
                     value={this.props.value}

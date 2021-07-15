@@ -17,7 +17,7 @@ export default class SuggestionList extends React.PureComponent {
     static propTypes = {
         ariaLiveRef: PropTypes.object,
         open: PropTypes.bool.isRequired,
-        location: PropTypes.oneOf(['top', 'bottom']),
+        position: PropTypes.oneOf(['top', 'bottom']),
         renderDividers: PropTypes.bool,
         renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
@@ -146,7 +146,7 @@ export default class SuggestionList extends React.PureComponent {
         const {lineHeight, pixelsToMoveX} = this.props.suggestionBoxAlgn;
         let pixelsToMoveY = this.props.suggestionBoxAlgn.pixelsToMoveY;
 
-        if (this.props.location === 'bottom') {
+        if (this.props.position === 'bottom') {
             // Add the line height and 4 extra px so it looks less tight
             pixelsToMoveY += this.props.suggestionBoxAlgn.lineHeight + 4;
         }
@@ -239,8 +239,8 @@ export default class SuggestionList extends React.PureComponent {
                 />,
             );
         }
-        const mainClass = 'suggestion-list suggestion-list--' + this.props.location;
-        const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.location;
+        const mainClass = 'suggestion-list suggestion-list--' + this.props.position;
+        const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.position;
         let maxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
         if (this.props.wrapperHeight) {
             maxHeight = Math.min(

@@ -495,7 +495,7 @@ class EditPostModal extends React.PureComponent {
                                 emojiEnabled={this.props.config.EnableEmojiPicker === 'true'}
                                 createMessage={Utils.localizeMessage('edit_post.editPost', 'Edit the post...')}
                                 supportsCommands={false}
-                                suggestionListStyle='bottom'
+                                suggestionListPosition='bottom'
                                 id='edit_textbox'
                                 ref={this.setEditboxRef}
                                 characterLimit={this.props.maxPostSize}

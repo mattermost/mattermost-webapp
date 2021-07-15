@@ -245,7 +245,7 @@ export default class AddUserToChannelModal extends React.PureComponent {
                 listComponent={ModalSuggestionList}
                 maxLength='64'
                 providers={this.suggestionProviders}
-                listStyle='bottom'
+                listPosition='bottom'
                 completeOnTab={false}
                 renderDividers={false}
                 delayInputUpdate={true}

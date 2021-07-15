@@ -171,7 +171,7 @@ export default class DialogElement extends React.PureComponent {
                     placeholder={placeholder}
                     value={this.state.value}
                     listComponent={ModalSuggestionList}
-                    listStyle='bottom'
+                    listPosition='bottom'
                 />
             );
         } else if (type === 'bool') {
