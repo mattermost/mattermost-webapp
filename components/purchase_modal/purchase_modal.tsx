@@ -657,7 +657,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.props.actions.completeStripeAddPaymentMethod
                                         }
                                         subscribeCloudSubscription={
-                                            this.props.isFreeTrial ? this.props.actions.subscribeCloudSubscription : null
+                                            this.props.actions.subscribeCloudSubscription
                                         }
                                         isDevMode={this.props.isDevMode}
                                         onClose={() => {
