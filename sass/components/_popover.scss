@@ -147,6 +147,22 @@
         }
     }
 
+    &.right {
+        > .arrow {
+            &::after {
+                border-right-color: var(--center-channel-bg);
+            }
+        }
+    }
+
+    &.top {
+        > .arrow {
+            &::after {
+                border-top-color: var(--center-channel-bg);
+            }
+        }
+    }
+
     ul + p,
     ol + p {
         margin-top: 0.6em;
