@@ -1470,6 +1470,9 @@ function handleThreadUpdated(msg) {
         let lastViewedAt;
         if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
             lastViewedAt = Date.now();
+            if (lastViewedAt < threadData.last_reply_at) {
+                lastViewedAt = threadData.last_reply_at + 1;
+            }
 
             // prematurely update thread data as read
             // so we won't flash the indicators when
