@@ -1471,6 +1471,14 @@ function handleThreadUpdated(msg) {
         if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
             lastViewedAt = Date.now();
 
+            // Sometimes `Date.now()` was generating a timestamp before the
+            // last_reply_at of the thread, thus marking the thread as unread
+            // instead of read. Here we set the timestamp to after the
+            // last_reply_at if this happens.
+            if (lastViewedAt < threadData.last_reply_at) {
+                lastViewedAt = threadData.last_reply_at + 1;
+            }
+
             // prematurely update thread data as read
             // so we won't flash the indicators when
             // we mark the thread as read on the server
