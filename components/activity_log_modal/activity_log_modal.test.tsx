@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import {shallow} from 'enzyme';
 
 import ActivityLogModal from 'components/activity_log_modal/activity_log_modal';
@@ -21,7 +21,7 @@ describe('components/ActivityLogModal', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<ActivityLogModal>(
             <ActivityLogModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -30,7 +30,7 @@ describe('components/ActivityLogModal', () => {
     test('should match snapshot when submitRevoke is called', () => {
         const revokeSession = jest.fn().mockImplementation(
             () => {
-                return new Promise((resolve) => {
+                return new Promise<void>((resolve) => {
                     process.nextTick(() => resolve());
                 });
             },
@@ -41,11 +41,11 @@ describe('components/ActivityLogModal', () => {
         };
 
         const props = {...baseProps, actions};
-        const wrapper = shallow(
+        const wrapper = shallow<ActivityLogModal>(
             <ActivityLogModal {...props}/>,
         );
 
-        wrapper.instance().submitRevoke('altId', {preventDefault: jest.fn()});
+        wrapper.instance().submitRevoke('altId', {preventDefault: jest.fn()} as unknown as React.MouseEvent);
         expect(wrapper).toMatchSnapshot();
         expect(revokeSession).toHaveBeenCalledTimes(1);
         expect(revokeSession).toHaveBeenCalledWith('', 'altId');
@@ -57,7 +57,7 @@ describe('components/ActivityLogModal', () => {
             revokeSession: jest.fn(),
         };
         const props = {...baseProps, actions};
-        const wrapper = shallow(
+        const wrapper = shallow<ActivityLogModal>(
             <ActivityLogModal {...props}/>,
         );
 
@@ -66,7 +66,7 @@ describe('components/ActivityLogModal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<ActivityLogModal>(
             <ActivityLogModal {...baseProps}/>,
         );
 
