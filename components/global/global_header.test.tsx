@@ -8,10 +8,14 @@ import * as redux from 'react-redux';
 
 import GlobalHeader from 'components/global/global_header';
 
+import * as hooks from './hooks';
+
 describe('components/global/global_header', () => {
     test('should be disabled when global header is disabled', () => {
         const spy = jest.spyOn(redux, 'useSelector');
         spy.mockReturnValue(false);
+        const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
+        spyProduct.mockReturnValue(null);
 
         const wrapper = shallow(
             <GlobalHeader/>,
@@ -23,6 +27,8 @@ describe('components/global/global_header', () => {
     test('should be enabled when global header is enabled', () => {
         const spy = jest.spyOn(redux, 'useSelector');
         spy.mockReturnValue(true);
+        const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
+        spyProduct.mockReturnValue(null);
 
         const wrapper = shallow(
             <GlobalHeader/>,

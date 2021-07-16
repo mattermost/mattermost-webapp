@@ -135,7 +135,7 @@ export default class Menu extends React.PureComponent<Props> {
                 <ul
                     ref={this.node}
                     style={styles}
-                    className={'Menu__content dropdown-menu ' + this.props.className}
+                    className={'Menu__content dropdown-menu ' + (this.props.className || '')}
                     onClick={this.handleMenuClick}
                 >
                     {children}

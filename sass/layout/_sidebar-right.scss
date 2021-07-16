@@ -2,6 +2,7 @@
 
 .sidebar--right {
     @include translateX(100%);
+
     position: absolute;
     z-index: 11;
     right: 0;

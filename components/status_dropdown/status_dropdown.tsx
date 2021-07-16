@@ -306,6 +306,32 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             }));
 
         const customStatusComponent = this.renderCustomStatus();
+
+        let timedDND = (
+            <Menu.ItemSubMenu
+                subMenu={dndSubMenuItems}
+                ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
+                text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
+                icon={<StatusDndIcon className={'dnd--icon'}/>}
+                direction={'right'}
+                openUp={this.state.openUp}
+                id={'status-menu-dnd-timed'}
+            />
+        );
+
+        if (isTimedDNDEnabled) {
+            timedDND = (
+                <Menu.ItemAction
+                    onClick={setDndUntimed}
+                    ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
+                    text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
+                    extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
+                    icon={<StatusDndIcon className={'dnd--icon'}/>}
+                    id={'status-menu-dnd'}
+                />
+            );
+        }
+
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
@@ -364,23 +390,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             icon={<StatusAwayIcon className={'away--icon'}/>}
                             id={'status-menu-away'}
                         />
-                        {isTimedDNDEnabled ? <Menu.ItemSubMenu
-                            subMenu={dndSubMenuItems}
-                            ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
-                            text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
-                            icon={<StatusDndIcon className={'dnd--icon'}/>}
-                            direction={'right'}
-                            openUp={this.state.openUp}
-                            id={'status-menu-dnd-timed'}
-                                             /> : <Menu.ItemAction
-                            onClick={setDndUntimed}
-                            ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
-                            text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
-                            extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
-                            icon={<StatusDndIcon className={'dnd--icon'}/>}
-                            id={'status-menu-dnd'}
-                             />
-                        }
+                        {timedDND}
                         <Menu.ItemAction
                             onClick={setOffline}
                             ariaLabel={localizeMessage('status_dropdown.set_offline', 'Offline').toLowerCase()}
