@@ -18,7 +18,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const showTermsOfService = shouldShowTermsOfService(state);
     const plugins = state.plugins.components.CustomRouteComponent;
-    const products = state.plugins.components.ProductRouteComponent;
+    const products = state.plugins.components.Product;
 
     const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
     const permalinkRedirectTeam = getTeam(state, teamId);

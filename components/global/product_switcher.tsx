@@ -7,7 +7,7 @@ import {Link, useRouteMatch} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {ChannelsIcon, SwitcherIcon} from './assets';
-import {useClickOutsideRef, useSwitcherItems} from './hooks';
+import {useClickOutsideRef, useProducts} from './hooks';
 
 interface SwitcherButtonProps {
     open: boolean;
@@ -92,23 +92,20 @@ const LinkIcon = styled.i`
 `;
 
 const ProductSwitcher = () => {
-    const switcherItems = useSwitcherItems();
+    const products = useProducts();
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     useClickOutsideRef(menuRef, () => {
         setSwitcherOpen(false);
     });
 
-    const items = switcherItems?.map((item) => {
-        if (!item || !item.linkURL || !item.icon || !item.text) {
-            return null;
-        }
+    const items = products?.map((product) => {
         return (
             <SwitcherNavEntry
-                key={item.id}
-                destination={item.linkURL}
-                icon={item.icon}
-                text={item.text}
+                key={product.id}
+                destination={product.switcherLinkURL}
+                icon={product.switcherIcon}
+                text={product.switcherText}
             />
         );
     });

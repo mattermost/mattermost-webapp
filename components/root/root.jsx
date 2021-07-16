@@ -363,10 +363,11 @@ export default class Root extends React.PureComponent {
                             {this.props.products?.map((product) => (
                                 <Route
                                     key={product.id}
-                                    path={'/' + product.route}
+                                    path={product.baseURL}
                                     render={() => (
                                         <Pluggable
-                                            pluggableName={'ProductRouteComponent'}
+                                            pluggableName={'Product'}
+                                            subComponentName={'mainComponent'}
                                             pluggableId={product.id}
                                         />
                                     )}

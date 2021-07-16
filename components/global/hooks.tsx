@@ -6,12 +6,12 @@ import {useSelector} from 'react-redux';
 import {useLocation} from 'react-router';
 
 import {GlobalState} from 'types/store';
-import {GlobalHeaderSwitcherPluginComponent} from 'types/store/plugins';
+import {ProductComponent} from 'types/store/plugins';
 
-const selectSwitcherItems = (state: GlobalState) => state.plugins.components.GlobalHeaderSwitcherItem;
+const selectProducts = (state: GlobalState) => state.plugins.components.Product;
 
-export const useSwitcherItems = (): GlobalHeaderSwitcherPluginComponent[] => {
-    return useSelector<GlobalState, GlobalHeaderSwitcherPluginComponent[]>(selectSwitcherItems);
+export const useProducts = (): ProductComponent[] | undefined => {
+    return useSelector<GlobalState, ProductComponent[]>(selectProducts);
 };
 
 /**
@@ -35,15 +35,16 @@ export function useClickOutsideRef(ref: MutableRefObject<HTMLElement | null>, ha
     }, [ref, handler]);
 }
 
-export const useCurrentProductId = () => {
-    const switcherItems = useSwitcherItems();
+export const useCurrentProductId = (products?: ProductComponent[]): string | null => {
+    if (!products) {
+        return null;
+    }
+
     const location = useLocation();
-    for (let i = 0; i < switcherItems.length; i++) {
-        const product = switcherItems[i];
-        if (product.linkURL) {
-            if (location.pathname.startsWith(product.linkURL)) {
-                return product.id;
-            }
+    for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+        if (location.pathname.startsWith(product.baseURL)) {
+            return product.id;
         }
     }
 

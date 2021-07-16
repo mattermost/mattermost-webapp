@@ -12,7 +12,7 @@ import StatusDropdown from 'components/status_dropdown';
 import Pluggable from 'plugins/pluggable';
 
 import ProductSwitcher from './product_switcher';
-import {useCurrentProductId} from './hooks';
+import {useCurrentProductId, useProducts} from './hooks';
 
 const HeaderContainer = styled.div`
     position: relative;
@@ -34,7 +34,8 @@ const ProfileWrapper = styled.div`
 
 const GlobalHeader = () => {
     const enabled = useSelector(getGlobalHeaderEnabled);
-    const currentProductID = useCurrentProductId();
+    const products = useProducts();
+    const currentProductID = useCurrentProductId(products);
 
     if (!enabled) {
         return null;
@@ -46,7 +47,8 @@ const GlobalHeader = () => {
             <AppSpectificContent>
                 {currentProductID !== null &&
                     <Pluggable
-                        pluggableName={'GlobalHeaderCenter'}
+                        pluggableName={'Product'}
+                        subComponentName={'headerComponent'}
                         pluggableId={currentProductID}
                     />
                 }

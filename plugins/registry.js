@@ -53,6 +53,14 @@ const resolveReactElement = (element) => {
     return element;
 };
 
+const standardizeRoute = (route) => {
+    let fixedRoute = route.trim();
+    if (fixedRoute[0] === '/') {
+        fixedRoute = fixedRoute.substring(1);
+    }
+    return fixedRoute;
+};
+
 export default class PluginRegistry {
     constructor(id) {
         this.id = id;
@@ -656,10 +664,7 @@ export default class PluginRegistry {
     // - id: a unique identifier
     registerNeedsTeamRoute(route, component) {
         const id = generateId();
-        let fixedRoute = route.trim();
-        if (fixedRoute[0] === '/') {
-            fixedRoute = fixedRoute.substring(1);
-        }
+        let fixedRoute = standardizeRoute(route);
         fixedRoute = this.id + '/' + fixedRoute;
 
         store.dispatch({
@@ -684,10 +689,7 @@ export default class PluginRegistry {
     // - id: a unique identifier
     registerCustomRoute(route, component) {
         const id = generateId();
-        let fixedRoute = route.trim();
-        if (fixedRoute[0] === '/') {
-            fixedRoute = fixedRoute.substring(1);
-        }
+        let fixedRoute = standardizeRoute(route);
         fixedRoute = this.id + '/' + fixedRoute;
 
         store.dispatch({
@@ -705,57 +707,34 @@ export default class PluginRegistry {
     }
 
     // INTERNAL: Subject to change without notice.
+    // DANGER: Interferes with historic routes.
     // Register a global header menu item
     // Accepts the following:
-    // - icon - A react element to display as the icon
-    // - text - A string or React element to display in the menu
-    // - linkURL - A string specifying the URL the switcher item should point to
-    //             any subpath of this URL will be considered part of that item.
-    // - centerComponent - A component to fill the generic area in the center of
+    // - baseURL - The route to be displayed at starting from the siteURL
+    // - switcherIcon - A react element to display as the icon in the product switcher
+    // - switcherText - A string or React element to display in the product switcher
+    // - switcherLinkURL - A string specifying the URL the switcher item should point to.
+    // - mainComponent - The component to be displayed below the global header when your route is active.
+    // - headerComponent - A component to fill the generic area in the center of
     //                     the global header when your route is active.
+    // All parameters are required.
     // Returns a unique identifier.
-    registerGlobalHeaderSwitcherItem(icon, text, linkURL, centerComponent) {
+    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerComponent) {
         const id = generateId();
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'GlobalHeaderSwitcherItem',
+            name: 'Product',
             data: {
                 id,
                 pluginId: this.id,
-                icon: resolveReactElement(icon),
-                text: resolveReactElement(text),
-                linkURL,
-            },
-        });
+                switcherIcon: resolveReactElement(switcherIcon),
+                switcherText: resolveReactElement(switcherText),
+                baseURL: '/' + standardizeRoute(baseURL),
+                switcherLinkURL: '/' + standardizeRoute(switcherLinkURL),
+                mainComponent,
+                headerComponent,
 
-        dispatchPluginComponentAction('GlobalHeaderCenter', this.id, centerComponent, id);
-
-        return id;
-    }
-
-    // INTERNAL: Subject to change without notice.
-    // DANGER: Interferes with historic routes.
-    // Register a component to be displayed at a custom route at /
-    // Accepts the following:
-    // - route - The route to be displayed at.
-    // - component - A react component to display.
-    // Returns a unique identifier
-    registerProductRoute(route, component) {
-        const id = generateId();
-        let fixedRoute = route.trim();
-        if (fixedRoute[0] === '/') {
-            fixedRoute = fixedRoute.substring(1);
-        }
-
-        store.dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'ProductRouteComponent',
-            data: {
-                id,
-                pluginId: this.id,
-                component,
-                route: fixedRoute,
             },
         });
 
