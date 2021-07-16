@@ -262,7 +262,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -539,7 +539,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -816,7 +816,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -1036,7 +1036,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -1236,7 +1236,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -1513,7 +1513,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -1808,7 +1808,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -2023,7 +2023,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -2238,7 +2238,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -2453,7 +2453,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -2680,7 +2680,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
@@ -2895,7 +2895,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       <SettingItemMin
         section="global_header_display"
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Global Header"
             id="user.settings.display.global_header_display"
           />
