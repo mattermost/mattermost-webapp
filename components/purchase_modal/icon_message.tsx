@@ -9,12 +9,14 @@ import './icon_message.scss';
 
 type Props = {
     icon: string;
-    title: string;
+    title?: string;
     subtitle?: string;
     date?: string;
     error?: boolean;
     buttonText?: string;
     formattedButonText?: JSX.Element;
+    formattedTitle?: JSX.Element;
+    formattedSubtitle?: JSX.Element;
     buttonHandler?: () => void;
     linkText?: string;
     linkURL?: string;
@@ -31,6 +33,8 @@ export default function IconMessage(props: Props) {
         error,
         buttonText,
         formattedButonText,
+        formattedTitle,
+        formattedSubtitle,
         buttonHandler,
         linkText,
         linkURL,
@@ -81,7 +85,8 @@ export default function IconMessage(props: Props) {
                     alt='Payment icon'
                 />
                 <h3 className='IconMessage-h3'>
-                    <FormattedMessage id={title}/>
+                    {title ? <FormattedMessage id={title}/> : null}
+                    {formattedTitle || null}
                 </h3>
                 <div className={classNames('IconMessage-sub', error || '')}>
                     {subtitle ? (
@@ -90,6 +95,7 @@ export default function IconMessage(props: Props) {
                             values={{date}}
                         />
                     ) : null}
+                    {formattedSubtitle || null}
                 </div>
                 {button}
                 {link}

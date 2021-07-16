@@ -220,17 +220,20 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         const currentProduct = this.state.currentProduct!;
 
         // if not on trial, only show current plan and those higher than it in terms of price
-        if (!this.props.isFreeTrial && currentProduct.price_per_seat) {
-            userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
-                return option.price >= currentProduct.price_per_seat;
-            });
-            flatFeeProducts = flatFeeProducts.filter((option: RadioGroupOption) => {
-                return option.price >= currentProduct.price_per_seat;
-            });
+        if (!this.props.isFreeTrial) {
+            if (currentProduct.price_per_seat) {
+                userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
+                    return option.price >= currentProduct.price_per_seat;
+                });
+            } else {
+                flatFeeProducts = flatFeeProducts.filter((option: RadioGroupOption) => {
+                    return option.price >= currentProduct.price_per_seat;
+                });
+            }
         }
 
-        //if current product is user based, do not allow downgrade to flat_fees
-        // if (currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
+        // temp commented if current product is user based, do not allow downgrade to flat_fees
+        // if (!this.props.isFreeTrial && currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
         //     flatFeeProducts = [];
         // }
 
@@ -338,8 +341,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         );
 
         let payment = normalPaymentText;
-        if ((!this.props.isFreeTrial && this.state.currentProduct?.name.toLowerCase().includes('starter')) &&
-                !this.state.selectedProduct?.name.toLowerCase().includes('starter')) {
+        if ((!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
+                this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT) {
             const announcementTooltip = (
                 <Tooltip
                     id='proratedPayment__tooltip'
@@ -353,11 +356,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </div>
                     <div className='tooltipText'>
                         <FormattedMessage
-                            defaultMessage={'If you upgrade to {selectedProductName} from Cloud Starter mid-month, you will be charged a prorated amount for both plans.'}
+                            defaultMessage={'If you upgrade to {selectedProductName} from {currentProductName} mid-month, you will be charged a prorated amount for both plans.'}
                             id={'admin.billing.subscription.proratedPayment.tooltipText'}
                             values={{
                                 beginDate: getNextBillingDate(),
                                 selectedProductName: this.state.selectedProduct?.name,
+                                currentProductName: this.state.currentProduct?.name,
                             }}
                         />
                     </div>
@@ -669,9 +673,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
                                         selectedProduct={this.state.selectedProduct}
+                                        currentProduct={this.state.currentProduct}
                                         teamName={this.props.team?.name}
-                                        isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.name.toLowerCase().includes('starter')) &&
-                                        !this.state.selectedProduct?.name.toLowerCase().includes('starter')}
+                                        isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
+                                        this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                     />
                                 </div>
                             ) : null}

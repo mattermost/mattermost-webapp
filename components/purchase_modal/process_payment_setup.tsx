@@ -33,6 +33,7 @@ type Props = {
     onBack: () => void;
     onClose: () => void;
     selectedProduct?: Product | null | undefined;
+    currentProduct?: Product | null | undefined;
     isProratedPayment?: boolean;
     teamName?: string;
 }
@@ -153,11 +154,25 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     values={{team: this.props.teamName}}
                 />
             );
+            const formattedTitle = (
+                <FormattedMessage
+                    defaultMessage={'You are now subscribed to {selectedProductName}'}
+                    id={'admin.billing.subscription.proratedPayment.title'}
+                    values={{selectedProductName: this.props.selectedProduct?.name}}
+                />
+            );
+            const formattedSubtitle = (
+                <FormattedMessage
+                    defaultMessage={'Thank you for upgrading to {selectedProductName}. You will be charged a prorated amount for your {currentProductName} plan and {selectedProductName} plan based on the number of days and number of users.'}
+                    id={'admin.billing.subscription.proratedPayment.substitle'}
+                    values={{selectedProduct: this.props.selectedProduct?.name, currentProductName: this.props.currentProduct?.name}}
+                />
+            );
             return (
                 <>
                     <IconMessage
-                        title={t('admin.billing.subscription.proratedPayment.title')}
-                        subtitle={t('admin.billing.subscription.proratedPayment.substitle')}
+                        formattedTitle={formattedTitle}
+                        formattedSubtitle={formattedSubtitle}
                         date={getNextBillingDate()}
                         error={error}
                         icon={successSvg}
