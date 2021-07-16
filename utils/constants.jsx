@@ -42,7 +42,7 @@ import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!
 // eslint-disable-line import/order
 import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
 
-export const NUMBER_OF_DAYS_AFTER_WHICH_TO_CONSIDER_AS_NON_NEW_USER = 5;
+export const NUMBER_OF_DAYS_CONSIDERED_NEW_USER = 5;
 
 export const SettingsTypes = {
     TYPE_TEXT: 'text',

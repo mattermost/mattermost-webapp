@@ -38,7 +38,7 @@ type Props = {
     showNextStepsTips: boolean;
     isOnboardingHidden: boolean;
     showNextStepsEphemeral: boolean;
-    userExistedForSomeTime: boolean;
+    isCurrentUserNewAccount: boolean;
     actions: {
         setShowNextStepsView: (show: boolean) => Action;
         getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
@@ -71,12 +71,12 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
-        const {actions, showNextSteps, showNextStepsTips, isOnboardingHidden, userExistedForSomeTime, currentUserId} = this.props;
+        const {actions, showNextSteps, showNextStepsTips, isOnboardingHidden, isCurrentUserNewAccount, currentUserId} = this.props;
         await actions.getProfiles();
 
         // We call getUser want to make sure we have the current user's profile into the profiles state
         await actions.getUser(currentUserId);
-        if ((showNextSteps || showNextStepsTips) && !isOnboardingHidden && !userExistedForSomeTime) {
+        if ((showNextSteps || showNextStepsTips) && !isOnboardingHidden && !isCurrentUserNewAccount) {
             actions.setShowNextStepsView(true);
         }
     }

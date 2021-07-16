@@ -1,7 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import moment from 'moment';
-
 import {createSelector} from 'reselect';
 
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
@@ -10,7 +8,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
-import {RecommendedNextSteps, Preferences, NUMBER_OF_DAYS_AFTER_WHICH_TO_CONSIDER_AS_NON_NEW_USER} from 'utils/constants';
+import {RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import CompleteProfileStep from './steps/complete_profile_step';
@@ -194,17 +192,5 @@ export const nextStepsNotFinished = createSelector(
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !Steps.every(checkPref);
-    },
-);
-
-export const userExistedForSomeTime = createSelector(
-    'userExistedForSomeTime',
-    (state: GlobalState) => getCurrentUser(state),
-    (currentUser): boolean => {
-        const today = moment(Date.now());
-        const created = moment(new Date(currentUser.create_at));
-        const d = today.diff(created, 'days');
-        const existedForSomeTime = d > NUMBER_OF_DAYS_AFTER_WHICH_TO_CONSIDER_AS_NON_NEW_USER;
-        return existedForSomeTime;
     },
 );

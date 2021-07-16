@@ -8,6 +8,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId, isCurrentUserNewAccount} from 'mattermost-redux/selectors/entities/users';
 
 import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
 import {getIsLhsOpen} from 'selectors/lhs';
@@ -15,11 +16,10 @@ import {getLastViewedChannelNameByTeamName} from 'selectors/local_storage';
 
 import {GlobalState} from 'types/store';
 
-import {isOnboardingHidden, showNextSteps, showNextStepsTips, userExistedForSomeTime} from 'components/next_steps_view/steps';
+import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {getProfiles, getUser} from 'mattermost-redux/actions/users';
 import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import CenterChannel from './center_channel';
 
@@ -52,7 +52,7 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         showNextStepsTips: showNextStepsTips(state),
         isOnboardingHidden: isOnboardingHidden(state),
         showNextStepsEphemeral: state.views.nextSteps.show,
-        userExistedForSomeTime: userExistedForSomeTime(state),
+        isCurrentUserNewAccount: isCurrentUserNewAccount(state),
     };
 };
 

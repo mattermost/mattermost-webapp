@@ -3,6 +3,8 @@
 
 /* eslint-disable max-lines */
 
+import moment from 'moment';
+
 import {createSelector} from 'reselect';
 
 import {
@@ -45,6 +47,7 @@ import {
     RelationOneToOne,
     UsernameMappedObjects,
 } from 'mattermost-redux/types/utilities';
+import { NUMBER_OF_DAYS_CONSIDERED_NEW_USER } from 'utils/constants';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 
@@ -681,3 +684,15 @@ export function searchProfilesInGroup(state: GlobalState, groupId: $ID<Group>, t
 
     return profiles;
 }
+
+export const isCurrentUserNewAccount = createSelector(
+    'isCurrentUserNewAccount',
+    (state: GlobalState) => getCurrentUser(state),
+    (currentUser): boolean => {
+        const today = moment(Date.now());
+        const created = moment(new Date(currentUser.create_at));
+        const d = today.diff(created, 'days');
+        const existedForSomeTime = d > NUMBER_OF_DAYS_CONSIDERED_NEW_USER;
+        return existedForSomeTime;
+    },
+);
