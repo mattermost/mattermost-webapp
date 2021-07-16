@@ -111,9 +111,11 @@ export class SearchableUserList extends React.PureComponent<Props, State> {
         this.state = {
             nextDisabled: false,
         };
+
     }
 
     private nextTimeoutId!: NodeJS.Timeout;
+    private userListRef = React.createRef<HTMLDivElement>(); 
 
     componentDidMount() {
         this.focusSearchBar();
@@ -121,7 +123,7 @@ export class SearchableUserList extends React.PureComponent<Props, State> {
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.page !== prevProps.page || this.props.term !== prevProps.term) {
-            this.refs.userList.scrollToTop();
+            this.userListRef.current?.scrollToTop();
         }
     }
 
@@ -311,9 +313,8 @@ export class SearchableUserList extends React.PureComponent<Props, State> {
                         </span>
                     </div>
                 </div>
-                <div className='more-modal__list'>
+                <div ref={this.userListRef} className='more-modal__list'>
                     <UserList
-                        ref='userList'
                         users={usersToDisplay}
                         extraInfo={this.props.extraInfo}
                         actions={this.props.actions}
