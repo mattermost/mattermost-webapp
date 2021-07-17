@@ -56,7 +56,8 @@ describe('PostList', () => {
 
         test('should get previous item ID correctly for oldest row', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const row = shallow(wrapper.instance().renderRow({
+            const instance = wrapper.instance();
+            const row = shallow(instance.renderRow({
                 data: postListIds,
                 itemId: 'd',
             }));
@@ -66,7 +67,8 @@ describe('PostList', () => {
 
         test('should get previous item ID correctly for other rows', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const row = shallow(wrapper.instance().renderRow({
+            const instance = wrapper.instance();
+            const row = shallow(instance.renderRow({
                 data: postListIds,
                 itemId: 'b',
             }));
