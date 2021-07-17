@@ -4,20 +4,20 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {Posts} from 'mattermost-redux/constants';
 import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetReactionsForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
 import {getEmojiMap} from 'selectors/emojis';
+import {getHighlightedPostId} from 'selectors/rhs';
 
 import {isArchivedChannel} from 'utils/channel_utils';
+import {areConsecutivePostsBySameUser} from 'utils/post_utils';
 import {Preferences} from 'utils/constants';
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis.js';
@@ -31,16 +31,7 @@ function isConsecutivePost(state, ownProps) {
     let consecutivePost = false;
 
     if (previousPost) {
-        const postFromWebhook = Boolean(post.props && post.props.from_webhook);
-        const prevPostFromWebhook = Boolean(previousPost.props && previousPost.props.from_webhook);
-        if (previousPost && previousPost.user_id === post.user_id &&
-            post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT &&
-            !postFromWebhook && !prevPostFromWebhook &&
-            !isSystemMessage(post) && !isSystemMessage(previousPost) &&
-            (previousPost.root_id === post.root_id || previousPost.id === post.root_id)) {
-            // The last post and this post were made by the same user within some time
-            consecutivePost = true;
-        }
+        consecutivePost = areConsecutivePostsBySameUser(post, previousPost);
     }
     return consecutivePost;
 }
@@ -59,6 +50,7 @@ function mapStateToProps(state, ownProps) {
 
     const user = getUser(state, ownProps.post.user_id);
     const isBot = Boolean(user && user.is_bot);
+    const highlightedPostId = getHighlightedPostId(state);
 
     return {
         author: getDisplayName(state, ownProps.post.user_id),
@@ -77,6 +69,7 @@ function mapStateToProps(state, ownProps) {
         emojiMap,
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+        shouldHighlight: highlightedPostId === ownProps.post.id,
     };
 }
 

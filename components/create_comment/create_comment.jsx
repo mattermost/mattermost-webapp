@@ -43,6 +43,10 @@ const KeyCodes = Constants.KeyCodes;
 const CreateCommentDraftTimeoutMilliseconds = 500;
 
 class CreateComment extends React.PureComponent {
+    static defaultProps = {
+        blockFocus: false,
+    }
+
     static propTypes = {
 
         /**
@@ -232,6 +236,11 @@ class CreateComment extends React.PureComponent {
         groupsWithAllowReference: PropTypes.object,
         channelMemberCountsByGroup: PropTypes.object,
         onHeightChange: PropTypes.func,
+
+        /*
+         * Whether we want to block focus or not
+         */
+        blockFocus: PropTypes.bool,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -964,7 +973,7 @@ class CreateComment extends React.PureComponent {
     }
 
     focusTextbox = (keepFocus = false) => {
-        if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
+        if (!this.props.blockFocus && this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
             this.textboxRef.current.focus();
         }
     }
