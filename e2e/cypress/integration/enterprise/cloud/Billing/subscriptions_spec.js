@@ -7,28 +7,56 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise
+// Group: @enterprise @cloud_only
 
-describe('Billing', () => {
+describe('System Console - Subscriptions section', () => {
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
-
-        // # Disable LDAP
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
 
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
 
+        cy.intercept('**/api/v4/cloud/subscription').as('forNonExistanceOfTrailTag');
         gotoSubscriptionScreen();
     });
 
-    beforeEach(() => cy.visit('/admin_console/billing/subscription'));
+    beforeEach(() => {
+        cy.intercept('**/api/v4/cloud/subscription').as('forVisibilityOfTrailTag');
+        cy.visit('/admin_console/billing/subscription');
+    });
 
-    it('MM-37054 - Trail tag on Subscription screen', () => {
-        // * Check for Trail tag
-        cy.contains('span', 'Trial').should('be.visible');
+    it('MM-37054 - Non Existance of Trail tag on Subscription screen', () => {
+        // * Check for non existance of Trail tag
+        cy.wait('@forNonExistanceOfTrailTag').then((resObj) => {
+            expect(resObj.response.statusCode).to.equal(200);
+            const modifiedRes = {...resObj.response.body, ...resObj.response.body.is_free_trial = 'false'};
+            cy.intercept('**/api/v4/cloud/subscription', modifiedRes).as('nonExistanceTrailTag');
+            cy.contains('span', 'Trial').should('not.exist');
+            cy.wait('@nonExistanceTrailTag', {timeout: 5000}).then((xhr) => expect(xhr.response.statusCode).to.equal(200));
+        });
+    });
+
+    it('MM-37054 - Visibility of Trail tag on Subscription screen', () => {
+        // * Check for visibility of Trail tag
+        cy.wait('@forVisibilityOfTrailTag').then((res) => {
+            expect(res.response.statusCode).to.equal(200);
+            const modifiedRes = {...res.response.body, ...res.response.body.is_free_trial = 'true'};
+            cy.intercept('**/api/v4/cloud/subscription', modifiedRes).as('visibleTrailTag');
+            cy.contains('span', 'Trial').should('be.visible');
+            cy.wait('@visibleTrailTag', {timeout: 5000}).then((xhr) => expect(xhr.response.statusCode).to.equal(200));
+        });
+    });
+
+    it('MM-37054 - User Count on Subscription screen', () => {
+        // * Check for User count
+        cy.request('/api/v4/analytics/old?name=standard&team_id=').then((response) => {
+            cy.get('.PlanDetails__userCount > span').invoke('text').then((text) => {
+                const userCount = response.body.find((obj) => obj.name === 'unique_user_count');
+                expect(text).to.contain(userCount.value);
+            });
+        });
     });
 
     it('MM-37054 - Contact Sales navigation from Subscription screen', () => {
@@ -101,7 +129,7 @@ describe('Billing', () => {
         });
     });
 
-    it('MM-37054 - "Contact Support" navigation from Subscription screen', () => {
+    it('MM-37054 - "Contact Support" navigation from Subscribe screen', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
