@@ -95,7 +95,7 @@ describe('Custom emojis', () => {
             cy.findAllByTestId('emojiItem').children().should('have.length', 1);
 
             // # Select the builtin emoji
-            cy.findAllByTestId('emojiItem').children().click();
+            cy.findAllByTestId('emojiItem').children().click({force: true});
 
             // # Search for the custom emoji
             cy.clickPostReactionIcon(postId);

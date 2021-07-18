@@ -49,7 +49,7 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
         <ConfirmModal
           confirmButtonClass="btn btn-danger"
           confirmButtonText={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Revoke All Sessions"
               id="admin.system_users.revoke_all_sessions_button"
             />
@@ -67,7 +67,7 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
           onConfirm={[Function]}
           show={false}
           title={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Revoke all sessions in the system"
               id="admin.system_users.revoke_all_sessions_modal_title"
             />
@@ -82,7 +82,7 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
             onClick={[Function]}
             type="button"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Revoke All Sessions"
               id="admin.system_users.revokeAllSessions"
             />

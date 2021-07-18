@@ -9,7 +9,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
       Array [
         Object {
           "field": "name",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.team_channel_settings.user_list.nameHeader"
           />,
@@ -17,7 +17,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
         },
         Object {
           "field": "role",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Role"
             id="admin.team_channel_settings.user_list.roleHeader"
           />,
@@ -25,7 +25,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
         },
         Object {
           "field": "groups",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Groups"
             id="admin.team_channel_settings.user_list.groupsHeader"
           />,
@@ -48,34 +48,34 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
               "team_admin",
               "system_admin",
             ],
-            "name": <FormattedMessage
+            "name": <Memo(MemoizedFormattedMessage)
               defaultMessage="Role"
               id="admin.user_grid.role"
             />,
             "values": Object {
               "system_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
                 />,
                 "value": false,
               },
               "system_guest": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
                 />,
                 "value": false,
               },
               "team_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
                 />,
                 "value": false,
               },
               "team_user": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Member"
                   id="admin.user_item.member"
                 />,
@@ -91,7 +91,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
     onSearch={[Function]}
     page={0}
     placeholderEmpty={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
       />
@@ -115,7 +115,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
       Array [
         Object {
           "field": "name",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.team_channel_settings.user_list.nameHeader"
           />,
@@ -123,7 +123,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
         },
         Object {
           "field": "role",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Role"
             id="admin.team_channel_settings.user_list.roleHeader"
           />,
@@ -131,7 +131,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
         },
         Object {
           "field": "groups",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Groups"
             id="admin.team_channel_settings.user_list.groupsHeader"
           />,
@@ -154,34 +154,34 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
               "team_admin",
               "system_admin",
             ],
-            "name": <FormattedMessage
+            "name": <Memo(MemoizedFormattedMessage)
               defaultMessage="Role"
               id="admin.user_grid.role"
             />,
             "values": Object {
               "system_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
                 />,
                 "value": false,
               },
               "system_guest": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
                 />,
                 "value": false,
               },
               "team_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
                 />,
                 "value": false,
               },
               "team_user": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Member"
                   id="admin.user_item.member"
                 />,
@@ -197,7 +197,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
     onSearch={[Function]}
     page={0}
     placeholderEmpty={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
       />
@@ -221,7 +221,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
       Array [
         Object {
           "field": "name",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.team_channel_settings.user_list.nameHeader"
           />,
@@ -229,7 +229,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
         },
         Object {
           "field": "role",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Role"
             id="admin.team_channel_settings.user_list.roleHeader"
           />,
@@ -237,7 +237,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
         },
         Object {
           "field": "groups",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Groups"
             id="admin.team_channel_settings.user_list.groupsHeader"
           />,
@@ -260,34 +260,34 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
               "team_admin",
               "system_admin",
             ],
-            "name": <FormattedMessage
+            "name": <Memo(MemoizedFormattedMessage)
               defaultMessage="Role"
               id="admin.user_grid.role"
             />,
             "values": Object {
               "system_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
                 />,
                 "value": false,
               },
               "system_guest": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Guest"
                   id="admin.user_grid.guest"
                 />,
                 "value": false,
               },
               "team_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
                 />,
                 "value": false,
               },
               "team_user": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Member"
                   id="admin.user_item.member"
                 />,
@@ -303,7 +303,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
     onSearch={[Function]}
     page={0}
     placeholderEmpty={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
       />
@@ -327,7 +327,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
       Array [
         Object {
           "field": "name",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.team_channel_settings.user_list.nameHeader"
           />,
@@ -335,7 +335,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
         },
         Object {
           "field": "role",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Role"
             id="admin.team_channel_settings.user_list.roleHeader"
           />,
@@ -343,7 +343,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
         },
         Object {
           "field": "groups",
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Groups"
             id="admin.team_channel_settings.user_list.groupsHeader"
           />,
@@ -365,27 +365,27 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
               "team_admin",
               "system_admin",
             ],
-            "name": <FormattedMessage
+            "name": <Memo(MemoizedFormattedMessage)
               defaultMessage="Role"
               id="admin.user_grid.role"
             />,
             "values": Object {
               "system_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="System Admin"
                   id="admin.user_grid.system_admin"
                 />,
                 "value": false,
               },
               "team_admin": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Team Admin"
                   id="admin.user_grid.team_admin"
                 />,
                 "value": false,
               },
               "team_user": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Member"
                   id="admin.user_item.member"
                 />,
@@ -401,7 +401,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemove shou
     onSearch={[Function]}
     page={0}
     placeholderEmpty={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="No users found"
         id="admin.member_list_group.notFound"
       />

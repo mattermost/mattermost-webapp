@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -38,6 +40,8 @@ import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
 
+const CreateCommentDraftTimeoutMilliseconds = 500;
+
 class CreateComment extends React.PureComponent {
     static propTypes = {
 
@@ -74,11 +78,6 @@ class CreateComment extends React.PureComponent {
             uploadsInProgress: PropTypes.array.isRequired,
             fileInfos: PropTypes.array.isRequired,
         }).isRequired,
-
-        /**
-         * Whether the submit button is enabled
-         */
-        enableAddButton: PropTypes.bool.isRequired,
 
         /**
          * Force message submission on CTRL/CMD + ENTER
@@ -306,7 +305,7 @@ class CreateComment extends React.PureComponent {
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
 
         if (this.saveDraftFrame) {
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
 
             this.props.onUpdateCommentDraft(this.state.draft);
         }
@@ -629,7 +628,7 @@ class CreateComment extends React.PureComponent {
         const options = {ignoreSlash};
 
         try {
-            await this.props.onSubmit(options);
+            await this.props.onSubmit(draft, options);
 
             this.setState({
                 postError: null,
@@ -644,7 +643,9 @@ class CreateComment extends React.PureComponent {
             return;
         }
 
+        clearTimeout(this.saveDraftFrame);
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
+        this.draftsForPost[this.props.rootId] = null;
     }
 
     commentMsgKeyPress = (e) => {
@@ -708,10 +709,10 @@ class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
 
-        cancelAnimationFrame(this.saveDraftFrame);
-        this.saveDraftFrame = requestAnimationFrame(() => {
+        clearTimeout(this.saveDraftFrame);
+        this.saveDraftFrame = setTimeout(() => {
             this.props.onUpdateCommentDraft(updatedDraft);
-        });
+        }, CreateCommentDraftTimeoutMilliseconds);
 
         this.setState({draft: updatedDraft, serverError}, () => {
             if (this.props.scrollToBottom) {
@@ -964,8 +965,13 @@ class CreateComment extends React.PureComponent {
     }
 
     shouldEnableAddButton = () => {
-        if (this.props.enableAddButton) {
-            return true;
+        const {draft} = this.state;
+        if (draft) {
+            const message = draft.message ? draft.message.trim() : '';
+            const fileInfos = draft.fileInfos ? draft.fileInfos : [];
+            if (message.trim().length !== 0 || fileInfos.length !== 0) {
+                return true;
+            }
         }
 
         return isErrorInvalidSlashCommand(this.state.serverError);

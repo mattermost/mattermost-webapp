@@ -1293,7 +1293,7 @@ export function isValidBotUsername(name) {
 }
 
 export function isMobile() {
-    return window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
+    return window.innerWidth > 0 && window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
 }
 
 export function loadImage(url, onLoad, onProgress) {
