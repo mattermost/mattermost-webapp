@@ -4,7 +4,7 @@ exports[`components/LeavePrivateChannelModal should match snapshot, init 1`] = `
 <ConfirmModal
   confirmButtonClass="btn btn-danger"
   confirmButtonText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Yes, leave channel"
       id="leave_private_channel_modal.leave"
     />

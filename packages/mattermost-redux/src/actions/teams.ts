@@ -251,6 +251,26 @@ export function deleteTeam(teamId: string): ActionFunc {
     };
 }
 
+export function unarchiveTeam(teamId: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let team: Team;
+        try {
+            team = await Client4.unarchiveTeam(teamId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: TeamTypes.RECEIVED_TEAM_UNARCHIVED,
+            data: team,
+        });
+
+        return {data: true};
+    };
+}
+
 export function updateTeam(team: Team): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.updateTeam,

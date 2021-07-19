@@ -13,7 +13,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
   <span
     className="permission-name"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       id="admin.permissions.permission.id.name"
     />
   </span>
@@ -44,7 +44,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
   <span
     className="permission-name"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       id="admin.permissions.permission.id.name"
     />
   </span>
@@ -70,7 +70,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
   <span
     className="permission-name"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       id="admin.permissions.permission.id.name"
     />
   </span>
@@ -96,7 +96,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
   <span
     className="permission-name"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       id="admin.permissions.permission.id.name"
     />
   </span>

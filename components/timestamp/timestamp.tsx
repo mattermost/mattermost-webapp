@@ -12,7 +12,7 @@ import {
 import {isValidElementType} from 'react-is';
 import {Unit} from '@formatjs/intl-relativetimeformat';
 import moment, {Moment} from 'moment-timezone';
-import {capitalize as caps} from 'lodash';
+import {capitalize as caps, isArray} from 'lodash';
 
 import {isSameYear, isWithin, isEqual, getDiff} from 'utils/datetime';
 import {Resolvable, resolve} from 'utils/resolvable';
@@ -52,7 +52,7 @@ export type SimpleRelativeOptions = {
     updateIntervalInSeconds?: number;
 }
 
-function isSimpleRelative(format: ResolvedFormats['relative']): format is SimpleRelativeOptions {
+function isSimpleRelative(format: unknown): format is SimpleRelativeOptions {
     return (format as SimpleRelativeOptions)?.message != null;
 }
 
@@ -63,6 +63,10 @@ const defaultRefreshIntervals = new Map<Unit, number /* seconds */>([
 ]);
 
 type UnitDescriptor = [Unit, number?, boolean?];
+
+function isUnitDescriptor(unit: unknown): unit is UnitDescriptor {
+    return isArray(unit) && typeof unit[0] === 'string';
+}
 
 type Breakpoint = RequireOnlyOne<{
     within: UnitDescriptor;
@@ -77,8 +81,15 @@ type DisplayAs = {
 
 export type RangeDescriptor = Breakpoint & DisplayAs;
 
-function normalizeRangeDescriptor(unit: Unit | keyof typeof STANDARD_UNITS | RangeDescriptor): RangeDescriptor {
-    return typeof unit === 'string' || typeof unit === 'number' ? STANDARD_UNITS[unit] : unit;
+function normalizeRangeDescriptor(unit: NonNullable<Props['units']>[number]): RangeDescriptor {
+    if (typeof unit === 'string' || typeof unit === 'number') {
+        return STANDARD_UNITS[unit];
+    }
+    if (isUnitDescriptor(unit)) {
+        const [u, n] = unit;
+        return {within: [u, n], display: [u]};
+    }
+    return unit;
 }
 
 export type ResolvedFormats = {
@@ -99,7 +110,7 @@ export type Props = FormatOptions & {
     value?: ConstructorParameters<typeof Date>[0];
 
     useRelative?: Resolvable<ResolvedFormats['relative'], {value: Date}, FormatOptions>;
-    units?: Array<RangeDescriptor | Unit | keyof typeof STANDARD_UNITS>;
+    units?: Array<RangeDescriptor | UnitDescriptor | Unit | keyof typeof STANDARD_UNITS>;
     ranges?: Props['units'];
     useDate?: Resolvable<Exclude<ResolvedFormats['date'], 'timeZone'> | false, {value: Date}, FormatOptions>;
     useTime?: Resolvable<Exclude<ResolvedFormats['time'], 'timeZone' | 'hourCycle' | 'hour12'> | false, {value: Date}, FormatOptions>;

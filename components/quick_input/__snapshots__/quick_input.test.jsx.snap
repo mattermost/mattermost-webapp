@@ -149,7 +149,7 @@ exports[`components/QuickInput should render clear button with default tooltip t
         id="InputClearTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Clear"
           id="input.clear"
         />
@@ -173,7 +173,7 @@ exports[`components/QuickInput should render clear button with default tooltip t
           intl={null}
           placement="right"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Clear"
             id="input.clear"
           />

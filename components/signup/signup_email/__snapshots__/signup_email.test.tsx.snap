@@ -22,7 +22,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
         className="color--light"
         id="create_account"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Let's create your account"
           id="signup_user_completed.lets"
         />
@@ -31,7 +31,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
         className="color--light"
         id="signin_account"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Already have an account?"
           id="signup_user_completed.haveAccount"
         />
@@ -41,7 +41,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
           onClick={[Function]}
           to="/login?token=9f392f193973g11ggh398h39hg0ghH&email=test@example.com"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Click here to sign in."
             id="signup_user_completed.signIn"
           />
@@ -58,7 +58,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
               id="email_label"
             >
               <strong>
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="What's your email address?"
                   id="signup_user_completed.whatis"
                 />
@@ -81,7 +81,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
                 className="help-block"
                 id="valid_email"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Valid email required for sign-up"
                   id="signup_user_completed.emailHelp"
                 />
@@ -95,7 +95,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
               id="name_label"
             >
               <strong>
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Choose your username"
                   id="signup_user_completed.chooseUser"
                 />
@@ -117,7 +117,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
                 className="help-block"
                 id="valid_name"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="You can use lowercase letters, numbers, periods, dashes, and underscores."
                   id="signup_user_completed.userHelp"
                 />
@@ -131,7 +131,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
               id="password_label"
             >
               <strong>
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Choose your password"
                   id="signup_user_completed.choosePwd"
                 />
@@ -159,7 +159,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
               onClick={[Function]}
               type="submit"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Create Account"
                 id="signup_user_completed.create"
               />

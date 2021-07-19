@@ -15,7 +15,7 @@ exports[`components/marketplace/navigation_row should not render any buttons 1`]
       }
     }
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total"
       id="marketplace_list.count_total_page"
       values={
@@ -54,7 +54,7 @@ exports[`components/marketplace/navigation_row should render next and previous b
       }
     }
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total"
       id="marketplace_list.count_total_page"
       values={
@@ -93,7 +93,7 @@ exports[`components/marketplace/navigation_row should render only next button 1`
       }
     }
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total"
       id="marketplace_list.count_total_page"
       values={
@@ -138,7 +138,7 @@ exports[`components/marketplace/navigation_row should render only previous butto
       }
     }
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total"
       id="marketplace_list.count_total_page"
       values={

@@ -48,6 +48,7 @@
  */
 
 const os = require('os');
+
 const chalk = require('chalk');
 const cypress = require('cypress');
 const argv = require('yargs').argv;
