@@ -342,6 +342,7 @@ class CreateComment extends React.PureComponent {
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
             this.props.onUpdateCommentDraft(this.state.draft);
+            this.saveDraftFrame = null;
         }
     }
 

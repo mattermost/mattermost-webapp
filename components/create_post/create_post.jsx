@@ -387,6 +387,7 @@ class CreatePost extends React.PureComponent {
             const channelId = props.currentChannel.id;
             props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
             clearTimeout(this.saveDraftFrame);
+            this.saveDraftFrame = null;
         }
     }
 
