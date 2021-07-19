@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @cloud_only
+// Group: @cloud_only
 
 describe('System Console - Subscriptions section', () => {
     before(() => {
