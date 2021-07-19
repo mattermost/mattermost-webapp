@@ -35,7 +35,6 @@ type Props = {
     selectedProduct?: Product | null | undefined;
     currentProduct?: Product | null | undefined;
     isProratedPayment?: boolean;
-    teamName?: string;
 }
 
 type State = {
@@ -149,9 +148,8 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         if (this.props.isProratedPayment) {
             const formattedButonText = (
                 <FormattedMessage
-                    defaultMessage={'Return to {team}'}
-                    id={'admin.billing.subscription.proratedPayment.buttonText'}
-                    values={{team: this.props.teamName}}
+                    defaultMessage={'Lets go!'}
+                    id={'admin.billing.subscription.letsGo'}
                 />
             );
             const formattedTitle = (
@@ -165,7 +163,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 <FormattedMessage
                     defaultMessage={'Thank you for upgrading to {selectedProductName}. You will be charged a prorated amount for your {currentProductName} plan and {selectedProductName} plan based on the number of days and number of users.'}
                     id={'admin.billing.subscription.proratedPayment.substitle'}
-                    values={{selectedProduct: this.props.selectedProduct?.name, currentProductName: this.props.currentProduct?.name}}
+                    values={{selectedProductName: this.props.selectedProduct?.name, currentProductName: this.props.currentProduct?.name}}
                 />
             );
             return (

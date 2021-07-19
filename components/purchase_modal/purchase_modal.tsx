@@ -12,7 +12,6 @@ import {Tooltip} from 'react-bootstrap';
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
-import {Team} from 'mattermost-redux/types/teams';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
@@ -31,6 +30,7 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RadioButtonGroup from 'components/common/radio_group';
 import Badge from 'components/widgets/badges/badge';
 import OverlayTrigger from 'components/overlay_trigger';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
@@ -62,7 +62,6 @@ type Props = {
     contactSalesLink: string;
     isFreeTrial: boolean;
     productId: string | undefined;
-    team: Team;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -151,7 +150,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             });
         }
 
-        // this.fetchProductPrice();
         this.props.actions.getClientConfig();
     }
 
@@ -200,16 +198,27 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const selectedPlan = findProductInDictionary(this.props.products, e.target.value);
-
         this.setState({selectedProduct: selectedPlan});
     }
 
     listPlans = (): JSX.Element => {
         const products = this.props.products!;
+        const currentProduct = this.state.currentProduct!;
+
+        if (!products || !currentProduct) {
+            return (
+                <LoadingSpinner/>
+            );
+        }
+
         let flatFeeProducts: ProductOptions = [];
         let userBasedProducts: ProductOptions = [];
         Object.keys(products).forEach((key: string) => {
-            const tempEl: RadioGroupOption = {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
+            const tempEl: RadioGroupOption = {
+                key: products[key].name,
+                value: products[key].id,
+                price: products[key].price_per_seat,
+            };
             if (products[key].billing_scheme === BillingSchemes.FLAT_FEE) {
                 flatFeeProducts.push(tempEl);
             } else {
@@ -217,12 +226,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             }
         });
 
-        const currentProduct = this.state.currentProduct!;
-
         // if not on trial, only show current plan and those higher than it in terms of price
         if (!this.props.isFreeTrial) {
-            if (currentProduct.price_per_seat) {
+            if (currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
                 userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
+                    flatFeeProducts = [];
                     return option.price >= currentProduct.price_per_seat;
                 });
             } else {
@@ -231,11 +239,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 });
             }
         }
-
-        // temp commented if current product is user based, do not allow downgrade to flat_fees
-        // if (!this.props.isFreeTrial && currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
-        //     flatFeeProducts = [];
-        // }
 
         const options = [...flatFeeProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price), ...userBasedProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price)];
 
@@ -674,7 +677,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         contactSupportLink={this.props.contactSalesLink}
                                         selectedProduct={this.state.selectedProduct}
                                         currentProduct={this.state.currentProduct}
-                                        teamName={this.props.team?.name}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                     />
