@@ -7,6 +7,7 @@ import {useLocation} from 'react-router';
 
 import {GlobalState} from 'types/store';
 import {ProductComponent} from 'types/store/plugins';
+import {getBasePath} from 'utils/url';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
 
@@ -43,7 +44,7 @@ export const useCurrentProductId = (products?: ProductComponent[]): string | nul
     const location = useLocation();
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
-        if (location.pathname.startsWith(product.baseURL)) {
+        if (location.pathname.startsWith(getBasePath() + product.baseURL)) {
             return product.id;
         }
     }
