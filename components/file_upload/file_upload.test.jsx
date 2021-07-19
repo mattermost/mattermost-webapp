@@ -141,7 +141,7 @@ describe('components/FileUpload', () => {
         const wrapper = shallowWithIntl(
             <FileUpload
                 {...baseProps}
-                fileCount={4}
+                fileCount={9}
             />,
         );
 
@@ -157,7 +157,7 @@ describe('components/FileUpload', () => {
 
         // not allow file upload, max limit has been reached
         wrapper.setState({menuOpen: true});
-        wrapper.setProps({fileCount: 5});
+        wrapper.setProps({fileCount: 10});
         wrapper.instance().handleLocalFileUploaded(evt);
         expect(baseProps.onClick).toHaveBeenCalledTimes(1);
         expect(wrapper.instance().handleMaxUploadReached).toHaveBeenCalledTimes(1);
@@ -270,7 +270,7 @@ describe('components/FileUpload', () => {
     });
 
     test('should error max upload files', () => {
-        const fileCount = 5;
+        const fileCount = 10;
         const props = {...baseProps, fileCount};
         const files = [{name: 'file1.pdf'}, {name: 'file2.jpg'}];
 
@@ -289,7 +289,7 @@ describe('components/FileUpload', () => {
     });
 
     test('should error max upload files', () => {
-        const fileCount = 5;
+        const fileCount = 10;
         const props = {...baseProps, fileCount};
         const files = [{name: 'file1.pdf'}, {name: 'file2.jpg'}];
 
