@@ -51,10 +51,10 @@ const GlobalThreads = () => {
     const [filter, setFilter] = useGlobalState(ThreadFilter.none, FILTER_STORAGE_KEY);
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
-    const counts = useSelector(getThreadCountsInCurrentTeam, shallowEqual);
-    const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier), shallowEqual);
+    const counts = useSelector(getThreadCountsInCurrentTeam);
+    const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
-    const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!), shallowEqual);
+    const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;

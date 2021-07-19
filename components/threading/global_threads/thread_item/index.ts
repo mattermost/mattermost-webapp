@@ -20,28 +20,17 @@ function makeMapStateToProps() {
     const getChannel = makeGetChannel();
     const getDisplayName = makeGetDisplayName();
 
-    const getPostsForThreadProps = {rootId: ''};
-    const getChannelProps = {id: ''};
-
     return (state: GlobalState, ownProps: OwnProps) => {
         const {threadId} = ownProps;
 
         const post = getPost(state, threadId);
 
-        if (getPostsForThreadProps.rootId !== post.id) {
-            getPostsForThreadProps.rootId = post.id;
-        }
-
-        if (getChannelProps.id !== post.channel_id) {
-            getChannelProps.id = post.channel_id;
-        }
-
         return {
-            channel: getChannel(state, getChannelProps),
+            channel: getChannel(state, {id: post.channel_id}),
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
             displayName: getDisplayName(state, post.user_id, true),
             post,
-            postsInThread: getPostsForThread(state, getPostsForThreadProps),
+            postsInThread: getPostsForThread(state, {rootId: post.id}),
             thread: getThread(state, threadId),
         };
     };

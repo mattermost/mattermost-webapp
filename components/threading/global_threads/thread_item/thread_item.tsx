@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, MouseEvent, useMemo} from 'react';
+import React, {memo, useCallback, useEffect, MouseEvent, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
@@ -213,4 +213,4 @@ function ThreadItem({
     );
 }
 
-export default ThreadItem;
+export default memo(ThreadItem);
