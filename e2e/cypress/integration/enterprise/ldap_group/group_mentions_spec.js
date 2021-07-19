@@ -236,7 +236,7 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Click reset to defaults, confirm and save
-        cy.findByTestId('resetPermissionsToDefault').click();
+        cy.findByTestId('resetPermissionsToDefault').click({force: true});
         cy.get('#confirmModalButton').click();
         saveConfig();
 
