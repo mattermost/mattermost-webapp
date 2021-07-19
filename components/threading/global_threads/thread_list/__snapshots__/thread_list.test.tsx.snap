@@ -58,6 +58,17 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
   />
   <div
     className="threads"
-  />
+  >
+    <Memo(VirtualizedThreadList)
+      ids={
+        Array [
+          "1",
+          "2",
+          "3",
+        ]
+      }
+      key="threads_list_"
+    />
+  </div>
 </div>
 `;
