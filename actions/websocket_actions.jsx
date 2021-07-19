@@ -210,7 +210,7 @@ export function reconnect(includeWebSocket = true) {
             dispatch(getPosts(currentChannelId));
         }
         StatusActions.loadStatusesForChannelAndSidebar();
-        dispatch(TeamActions.getMyTeamUnreads());
+        dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
     }
 
     if (state.websocket.lastDisconnectAt) {
@@ -694,7 +694,8 @@ export function handlePostUnreadEvent(msg) {
 async function handleTeamAddedEvent(msg) {
     await dispatch(TeamActions.getTeam(msg.data.team_id));
     await dispatch(TeamActions.getMyTeamMembers());
-    await dispatch(TeamActions.getMyTeamUnreads());
+    const state = getState();
+    await dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
 }
 
 export function handleLeaveTeamEvent(msg) {
