@@ -21,6 +21,7 @@ describe('components/global/global_header', () => {
             <GlobalHeader/>,
         );
 
+        // Global header should render null
         expect(wrapper.type()).toEqual(null);
     });
 
@@ -34,6 +35,7 @@ describe('components/global/global_header', () => {
             <GlobalHeader/>,
         );
 
+        // Global header should not be null
         expect(wrapper.type()).not.toEqual(null);
     });
 });
