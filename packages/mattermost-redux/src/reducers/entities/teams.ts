@@ -139,12 +139,16 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
             const mentionCount = u.mention_count < 0 ? 0 : u.mention_count;
             const msgCountRoot = u.msg_count_root < 0 ? 0 : u.msg_count_root;
             const mentionCountRoot = u.mention_count_root < 0 ? 0 : u.mention_count_root;
+            const threadCount = u.thread_count < 0 ? 0 : u.thread_count;
+            const threadMentionCount = u.thread_mention_count < 0 ? 0 : u.thread_mention_count;
             const m = {
                 ...state[u.team_id],
                 mention_count: mentionCount,
                 msg_count: msgCount,
                 mention_count_root: mentionCountRoot,
                 msg_count_root: msgCountRoot,
+                thread_count: threadCount,
+                thread_mention_count: threadMentionCount,
             };
             nextState[u.team_id] = m;
         }

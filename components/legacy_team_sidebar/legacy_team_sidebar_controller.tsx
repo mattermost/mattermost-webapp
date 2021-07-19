@@ -224,17 +224,24 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
 
         const teams = sortedTeams.map((team: Team, index: number) => {
             const member = this.props.myTeamMembers[team.id];
+            const active = team.id === this.props.currentTeamId;
+            let mentions = 0;
+            let unread = false;
+            if (!active) {
+                mentions = this.props.collapsedThreads ? (member.mention_count_root + (member.thread_mention_count || 0)) : member.mention_count;
+                unread = this.props.collapsedThreads ? (member.msg_count_root + (member.thread_count || 0)) > 0 : member.msg_count > 0;
+            }
             return (
                 <TeamButton
                     key={'switch_team_' + team.name}
                     url={`/${team.name}`}
                     tip={team.display_name}
-                    active={team.id === this.props.currentTeamId}
+                    active={active}
                     displayName={team.display_name}
-                    unread={this.props.collapsedThreads ? (member.msg_count_root + this.props.threadCounts?.[team.id]?.total_unread_threads) > 0 : member.msg_count > 0}
+                    unread={unread}
                     order={index + 1}
                     showOrder={this.state.showOrder}
-                    mentions={this.props.collapsedThreads ? (member.mention_count_root + this.props.threadCounts?.[team.id]?.total_unread_mentions) : member.mention_count}
+                    mentions={mentions}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={this.props.actions.switchTeam}
                     isDraggable={true}
