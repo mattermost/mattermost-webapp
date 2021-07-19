@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {Tooltip} from 'react-bootstrap';
 
+import classNames from 'classnames';
+
 import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -336,7 +338,9 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             <MenuWrapper
                 onToggle={this.onToggle}
                 open={this.props.isStatusDropdownOpen}
-                className={'status-dropdown-menu ' + (this.props.globalHeader ? 'status-dropdown-menu-global-header' : '')}
+                className={classNames('status-dropdown-menu', {
+                    'status-dropdown-menu-global-header': this.props.globalHeader,
+                })}
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
