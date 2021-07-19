@@ -287,6 +287,7 @@ class CreateComment extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
+        window.addEventListener('beforeunload', this.saveDraft);
         if (useGroupMentions) {
             getChannelMemberCountsByGroup(channelId);
         }
@@ -303,12 +304,8 @@ class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
-
-        if (this.saveDraftFrame) {
-            clearTimeout(this.saveDraftFrame);
-
-            this.props.onUpdateCommentDraft(this.state.draft);
-        }
+        window.removeEventListener('beforeunload', this.saveDraft);
+        this.saveDraft();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -338,6 +335,14 @@ class CreateComment extends React.PureComponent {
                 this.props.scrollToBottom();
             }
             this.doInitialScrollToBottom = false;
+        }
+    }
+
+    saveDraft = () => {
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+            this.props.onUpdateCommentDraft(this.state.draft);
+            this.saveDraftFrame = null;
         }
     }
 
