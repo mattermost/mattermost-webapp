@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useDispatch, useStore, useSelector} from 'react-redux';
+
+import {isEmpty} from 'lodash';
 
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
@@ -83,8 +85,6 @@ const BillingSubscriptions: React.FC = () => {
         }));
     };
 
-    const subscriptionPlan = product?.sku || CloudProducts.PROFESSIONAL;
-
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
     if (subscription?.is_free_trial === 'true') {
@@ -96,30 +96,20 @@ const BillingSubscriptions: React.FC = () => {
     }
 
     useEffect(() => {
-        if (!products || products.length === null) {
-            setProduct(null);
+        if (product !== null || isEmpty(products) || isEmpty(subscription)) {
             return;
         }
-        const keys = Object.keys(products);
-        let product: Product;
-        if (products && subscription) {
-            product = products[subscription?.product_id];
-            if (!product) {
-                keys.forEach((key) => {
-                    if (products[key].name.toLowerCase().includes('professional')) {
-                        product = products[key];
-                    }
-                });
-            }
-            if (product) {
-                setProduct(product);
-                return;
-            }
+        const keys = Object.keys(products!);
+        let tempProduct: Product;
+        tempProduct = products![subscription?.product_id!];
+
+        if (isEmpty(tempProduct)) {
+            tempProduct = products![keys[0]];
         }
-        setProduct(products[keys[0]]);
+        setProduct(tempProduct);
     }, [products, subscription]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
         getCloudCustomer()(dispatch, store.getState());
@@ -193,7 +183,7 @@ const BillingSubscriptions: React.FC = () => {
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
-                            subscriptionPlan={subscriptionPlan}
+                            subscriptionPlan={product?.sku}
                         />
                         <BillingSummary
                             isPaidTier={isPaidTier}
@@ -202,7 +192,7 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, subscriptionPlan, onUpgradeMattermostCloud, productsLength)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, product?.sku, onUpgradeMattermostCloud, productsLength)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>

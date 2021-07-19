@@ -9,8 +9,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getClientConfig} from 'mattermost-redux/actions/general';
-import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';
@@ -23,14 +21,10 @@ import {ModalIdentifiers} from 'utils/constants';
 import {closeModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 
-import LocalStorageStore from 'stores/local_storage_store';
-
 import PurchaseModal from './purchase_modal';
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
-    const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
-    const team = getTeam(state, teamId || '');
 
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
@@ -41,7 +35,6 @@ function mapStateToProps(state: GlobalState) {
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
         productId: subscription?.product_id,
         customer: state.entities.cloud.customer,
-        team,
     };
 }
 type Actions = {
