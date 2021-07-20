@@ -345,7 +345,7 @@ class CreatePost extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
-        window.addEventListener('beforeunload', this.saveDraft);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
         if (useGroupMentions) {
@@ -377,8 +377,12 @@ class CreatePost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
-        window.addEventListener('beforeunload', this.saveDraft);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
+        this.saveDraft();
+    }
+
+    unloadHandler = () => {
         this.saveDraft();
     }
 
