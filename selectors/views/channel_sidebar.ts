@@ -27,8 +27,8 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {GlobalState} from 'types/store';
 
-export function isUnreadFilterEnabled(state: GlobalState) {
-    return state.views.channelSidebar.unreadFilterEnabled;
+export function isUnreadFilterEnabled(state: GlobalState): boolean {
+    return state.views.channelSidebar.unreadFilterEnabled && !shouldShowUnreadsCategory(state);
 }
 
 export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategory[] = (() => {
