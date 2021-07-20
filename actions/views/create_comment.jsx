@@ -46,7 +46,7 @@ export function updateCommentDraft(rootId, draft) {
     if (draft) {
         localStorage.setItem(key, JSON.stringify(draft));
     } else {
-        localStorage.removeItem(draft);
+        localStorage.removeItem(key);
     }
     return setGlobalItem(key, draft);
 }
