@@ -345,6 +345,7 @@ class CreatePost extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.saveDraft);
         this.setOrientationListeners();
 
         if (useGroupMentions) {
@@ -357,6 +358,7 @@ class CreatePost extends React.PureComponent {
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
+            this.saveDraft(prevProps);
             if (useGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
@@ -375,11 +377,17 @@ class CreatePost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.saveDraft);
         this.removeOrientationListeners();
-        if (this.saveDraftFrame) {
-            const channelId = this.props.currentChannel.id;
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+        this.saveDraft();
+    }
+
+    saveDraft = (props = this.props) => {
+        if (this.saveDraftFrame && props.currentChannel) {
+            const channelId = props.currentChannel.id;
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
             clearTimeout(this.saveDraftFrame);
+            this.saveDraftFrame = null;
         }
     }
 
