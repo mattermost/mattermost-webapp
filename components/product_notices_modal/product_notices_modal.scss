@@ -3,7 +3,7 @@
 .productNotices {
     width: 692px;
 
-    .modal-content {
+    .app__body .modal & .modal-content {
         padding: 40px;
     }
 
@@ -59,7 +59,7 @@
         margin-top: calc(50vh - 307px);
     }
 
-    &.GenericModal .modal-footer {
+    .app__body .modal & .modal-footer {
         position: relative;
         padding: 0;
     }
