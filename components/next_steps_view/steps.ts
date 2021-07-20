@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getUsers, isCurrentUserNewAccount} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
@@ -149,7 +149,12 @@ export const showOnboarding = createSelector(
 export const isOnboardingHidden = createSelector(
     'isOnboardingHidden',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
-    (stepPreferences) => {
+    (state: GlobalState) => isCurrentUserNewAccount(state),
+    (stepPreferences, newAccount) => {
+        // existing users will have no stepPreferences. to show them onboarding, we fallback to how long they have been on the server.
+        if (stepPreferences.length === 0 && !newAccount) {
+            return true;
+        }
         return stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'));
     },
 );

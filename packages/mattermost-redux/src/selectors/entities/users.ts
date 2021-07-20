@@ -47,7 +47,7 @@ import {
     RelationOneToOne,
     UsernameMappedObjects,
 } from 'mattermost-redux/types/utilities';
-import { NUMBER_OF_DAYS_CONSIDERED_NEW_USER } from 'utils/constants';
+import {NUMBER_OF_DAYS_CONSIDERED_OLD_USER} from 'utils/constants';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 
@@ -692,7 +692,6 @@ export const isCurrentUserNewAccount = createSelector(
         const today = moment(Date.now());
         const created = moment(new Date(currentUser.create_at));
         const d = today.diff(created, 'days');
-        const existedForSomeTime = d > NUMBER_OF_DAYS_CONSIDERED_NEW_USER;
-        return existedForSomeTime;
+        return d < NUMBER_OF_DAYS_CONSIDERED_OLD_USER;
     },
 );

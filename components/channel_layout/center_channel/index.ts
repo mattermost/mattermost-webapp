@@ -8,7 +8,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, isCurrentUserNewAccount} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
 import {getIsLhsOpen} from 'selectors/lhs';
@@ -52,7 +52,6 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         showNextStepsTips: showNextStepsTips(state),
         isOnboardingHidden: isOnboardingHidden(state),
         showNextStepsEphemeral: state.views.nextSteps.show,
-        isCurrentUserNewAccount: isCurrentUserNewAccount(state),
     };
 };
 
