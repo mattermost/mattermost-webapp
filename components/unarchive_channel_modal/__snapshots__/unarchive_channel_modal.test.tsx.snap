@@ -41,7 +41,7 @@ exports[`components/unarchive_channel_modal should match snapshot for unarchive_
       componentClass="h1"
       id="unarchiveChannelModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Confirm UNARCHIVE Channel"
         id="unarchive_channel.confirm"
       />
@@ -74,7 +74,7 @@ exports[`components/unarchive_channel_modal should match snapshot for unarchive_
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="unarchive_channel.cancel"
       />
@@ -87,7 +87,7 @@ exports[`components/unarchive_channel_modal should match snapshot for unarchive_
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Unarchive"
         id="unarchive_channel.del"
       />

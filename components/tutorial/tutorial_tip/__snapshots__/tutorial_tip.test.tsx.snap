@@ -73,7 +73,7 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
             id="tipNextButton"
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Next"
               id="tutorial_tip.next"
             />
@@ -81,7 +81,7 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
           <div
             className="tip-opt"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Seen this before? "
               id="tutorial_tip.seen"
             />
@@ -89,7 +89,7 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
               href="#"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Opt out of these tips."
                 id="tutorial_tip.out"
               />

@@ -21,7 +21,7 @@ export function highlight(lang: string, code: string) {
 
     if (language) {
         try {
-            return hlJS.highlight(language, code).value;
+            return hlJS.highlight(code, {language}).value;
         } catch (e) {
             // fall through if highlighting fails and handle below
         }

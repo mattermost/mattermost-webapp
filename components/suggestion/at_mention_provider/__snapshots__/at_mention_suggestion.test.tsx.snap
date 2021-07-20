@@ -49,7 +49,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
           className="BotBadge badge-autocomplete"
           show={false}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="BOT"
             id="post_info.bot"
           />
@@ -80,7 +80,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
           className="GuestBadge badge-autocomplete"
           show={false}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="GUEST"
             id="post_info.guest"
           />
@@ -141,7 +141,7 @@ exports[`at mention suggestion Should not display nick name of the signed in use
           className="BotBadge badge-autocomplete"
           show={false}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="BOT"
             id="post_info.bot"
           />
@@ -184,7 +184,7 @@ exports[`at mention suggestion Should not display nick name of the signed in use
           className="GuestBadge badge-autocomplete"
           show={false}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="GUEST"
             id="post_info.guest"
           />

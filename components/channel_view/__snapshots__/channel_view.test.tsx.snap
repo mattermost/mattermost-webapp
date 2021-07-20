@@ -63,7 +63,7 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
         className="btn btn-primary channel-archived__close-btn"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Close Channel"
           id="center_panel.archived.closeChannel"
         />
