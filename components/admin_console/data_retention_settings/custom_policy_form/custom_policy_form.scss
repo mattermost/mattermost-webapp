@@ -17,14 +17,15 @@
         color: var(--sys-center-channel-color);
     }
 
-    .Input_wrapper, .Input___info {
+    .Input_wrapper,
+    .Input___info {
         color: rgba(var(--sys-center-channel-color-rgb), 0.56);
     }
 
     .Input::placeholder {
         color: rgba(var(--sys-center-channel-color-rgb), 0.64);
     }
-    
+
     .Input_fieldset {
         border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
     }
@@ -45,7 +46,7 @@
 
     .Input_legend {
         background-color: var(--sys-center-channel-bg);
-        color: rgba(var(--sys-center-channel-color-rgb), 0.64); 
+        color: rgba(var(--sys-center-channel-color-rgb), 0.64);
     }
 }
 
