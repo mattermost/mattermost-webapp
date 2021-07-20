@@ -15,25 +15,25 @@ exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens should 
         id="tutorialIntroOne"
       >
         <h3>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Welcome to:"
             id="tutorial_intro.screenOne.title1"
           />
         </h3>
         <h1>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Mattermost"
             id="tutorial_intro.screenOne.title2"
           />
         </h1>
         <p>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Your team communication all in one place, instantly searchable and available anywhere."
             id="tutorial_intro.screenOne.body1"
           />
         </p>
         <p>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Keep your team connected to help them achieve what matters most."
             id="tutorial_intro.screenOne.body2"
           />
@@ -75,7 +75,7 @@ exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens should 
           id="tutorialNextButton"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Next"
             id="tutorial_intro.next"
           />
@@ -86,7 +86,7 @@ exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens should 
           id="tutorialSkipLink"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Skip Tutorial"
             id="tutorial_intro.skip"
           />

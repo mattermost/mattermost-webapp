@@ -5,7 +5,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
   <BooleanSetting
     disabled={false}
     falseText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="false"
         id="admin.false"
       />
@@ -18,7 +18,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
     }
     id="MySetting"
     label={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Enable Guest Access: "
         id="admin.guest_access.enableTitle"
       />
@@ -26,7 +26,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
     onChange={[Function]}
     setByEnv={false}
     trueText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="true"
         id="admin.true"
       />
@@ -36,13 +36,13 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Save and Disable Guest Access"
         id="admin.guest_access.disableConfirmButton"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able to login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts. Are you sure you wish to remove these users?"
         id="admin.guest_access.disableConfirmMessage"
       />
@@ -52,7 +52,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Save and Disable Guest Access?"
         id="admin.guest_access.disableConfirmTitle"
       />
@@ -66,7 +66,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
   <BooleanSetting
     disabled={false}
     falseText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="false"
         id="admin.false"
       />
@@ -79,7 +79,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
     }
     id="MySetting"
     label={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Enable Guest Access: "
         id="admin.guest_access.enableTitle"
       />
@@ -87,7 +87,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
     onChange={[Function]}
     setByEnv={false}
     trueText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="true"
         id="admin.true"
       />
@@ -97,13 +97,13 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Save and Disable Guest Access"
         id="admin.guest_access.disableConfirmButton"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able to login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts. Are you sure you wish to remove these users?"
         id="admin.guest_access.disableConfirmMessage"
       />
@@ -113,7 +113,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Save and Disable Guest Access?"
         id="admin.guest_access.disableConfirmTitle"
       />

@@ -22,7 +22,7 @@ exports[`components/PostPreHeader should properly handle flagged posts (and not 
       <a
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Saved"
           id="post_pre_header.flagged"
         />
@@ -55,7 +55,7 @@ exports[`components/PostPreHeader should properly handle link clicks 1`] = `
       <a
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Pinned"
           id="post_pre_header.pinned"
         />
@@ -68,7 +68,7 @@ exports[`components/PostPreHeader should properly handle link clicks 1`] = `
       <a
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Saved"
           id="post_pre_header.flagged"
         />
@@ -96,7 +96,7 @@ exports[`components/PostPreHeader should properly handle pinned posts (and not f
       <a
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Pinned"
           id="post_pre_header.pinned"
         />
@@ -129,7 +129,7 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
       <a
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Pinned"
           id="post_pre_header.pinned"
         />
@@ -142,7 +142,7 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
       <a
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Saved"
           id="post_pre_header.flagged"
         />
@@ -170,7 +170,7 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
       <a
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Pinned"
           id="post_pre_header.pinned"
         />
@@ -198,7 +198,7 @@ exports[`components/PostPreHeader should properly handle posts that are flagged 
       <a
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Saved"
           id="post_pre_header.flagged"
         />

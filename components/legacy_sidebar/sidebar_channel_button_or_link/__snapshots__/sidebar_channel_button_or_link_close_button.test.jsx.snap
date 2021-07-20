@@ -14,7 +14,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       id="remove-dm-tooltip"
       placement="right"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove from this list"
         id="sidebar.removeList"
       />
@@ -47,7 +47,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       id="remove-dm-tooltip"
       placement="right"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove from this list"
         id="sidebar.removeList"
       />
@@ -80,7 +80,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       id="remove-dm-tooltip"
       placement="right"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Leave the channel"
         id="sidebar.leave"
       />
@@ -113,7 +113,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       id="remove-dm-tooltip"
       placement="right"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Leave the channel"
         id="sidebar.leave"
       />

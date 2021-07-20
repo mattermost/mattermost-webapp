@@ -332,9 +332,14 @@ describe('rhs view actions', () => {
 
     describe('makeOnSubmit', () => {
         const onSubmit = makeOnSubmit(channelId, rootId, latestPostId);
+        const draft = {
+            message: '',
+            fileInfos: [],
+            uploadsInProgress: [],
+        };
 
         test('it adds message into history', () => {
-            store.dispatch(onSubmit());
+            store.dispatch(onSubmit(draft));
 
             const testStore = mockStore(initialState);
             testStore.dispatch(addMessageIntoHistory(''));
@@ -345,7 +350,7 @@ describe('rhs view actions', () => {
         });
 
         test('it clears comment draft', () => {
-            store.dispatch(onSubmit());
+            store.dispatch(onSubmit(draft));
 
             const testStore = mockStore(initialState);
             testStore.dispatch(updateCommentDraft(rootId, null));
@@ -356,23 +361,11 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a reaction when message is +:smile:', () => {
-            store = mockStore({
-                ...initialState,
-                storage: {
-                    storage: {
-                        [`${StoragePrefixes.COMMENT_DRAFT}${rootId}`]: {
-                            value: {
-                                message: '+:smile:',
-                                fileInfos: [],
-                                uploadsInProgress: [],
-                            },
-                            timestamp: new Date(),
-                        },
-                    },
-                },
-            });
-
-            store.dispatch(onSubmit());
+            store.dispatch(onSubmit({
+                message: '+:smile:',
+                fileInfos: [],
+                uploadsInProgress: [],
+            }));
 
             const testStore = mockStore(initialState);
             testStore.dispatch(submitReaction(latestPostId, '+', 'smile'));
@@ -383,23 +376,11 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a command when message is /away', () => {
-            store = mockStore({
-                ...initialState,
-                storage: {
-                    storage: {
-                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                            value: {
-                                message: '/away',
-                                fileInfos: [],
-                                uploadsInProgress: [],
-                            },
-                            timestamp: new Date(),
-                        },
-                    },
-                },
-            });
-
-            store.dispatch(onSubmit());
+            store.dispatch(onSubmit({
+                message: '/away',
+                fileInfos: [],
+                uploadsInProgress: [],
+            }));
 
             const testStore = mockStore(initialState);
             testStore.dispatch(submitCommand(channelId, rootId, {message: '/away', fileInfos: [], uploadsInProgress: []}));
@@ -412,23 +393,11 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a regular post when options.ignoreSlash is true', () => {
-            store = mockStore({
-                ...initialState,
-                storage: {
-                    storage: {
-                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                            value: {
-                                message: '/fakecommand',
-                                fileInfos: [],
-                                uploadsInProgress: [],
-                            },
-                            timestamp: new Date(),
-                        },
-                    },
-                },
-            });
-
-            store.dispatch(onSubmit({ignoreSlash: true}));
+            store.dispatch(onSubmit({
+                message: '/fakecommand',
+                fileInfos: [],
+                uploadsInProgress: [],
+            }, {ignoreSlash: true}));
 
             const testStore = mockStore(initialState);
             testStore.dispatch(submitPost(channelId, rootId, {message: '/fakecommand', fileInfos: [], uploadsInProgress: []}));
@@ -440,23 +409,11 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a regular post when message is something else', () => {
-            store = mockStore({
-                ...initialState,
-                storage: {
-                    storage: {
-                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                            value: {
-                                message: 'test msg',
-                                fileInfos: [],
-                                uploadsInProgress: [],
-                            },
-                            timestamp: new Date(),
-                        },
-                    },
-                },
-            });
-
-            store.dispatch(onSubmit());
+            store.dispatch(onSubmit({
+                message: 'test msg',
+                fileInfos: [],
+                uploadsInProgress: [],
+            }));
 
             const testStore = mockStore(initialState);
             testStore.dispatch(submitPost(channelId, rootId, {message: 'test msg', fileInfos: [], uploadsInProgress: []}));

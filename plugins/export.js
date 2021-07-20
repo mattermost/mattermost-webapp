@@ -10,12 +10,15 @@ import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import PurchaseModal from 'components/purchase_modal';
 
+import Timestamp from 'components/timestamp';
+
 // The following import has intentional side effects. Do not remove without research.
 import {openInteractiveDialog} from './interactive_dialog';
 
 // Common libraries exposed on window for plugins to use as Webpack externals.
 window.React = require('react');
 window.ReactDOM = require('react-dom');
+window.ReactIntl = require('react-intl');
 window.Redux = require('redux');
 window.ReactRedux = require('react-redux');
 window.ReactBootstrap = require('react-bootstrap');
@@ -30,4 +33,9 @@ window.WebappUtils = {
     browserHistory,
     modals: {openModal, ModalIdentifiers},
 };
-window.Components = {Textbox, PurchaseModal};
+
+window.Components = {
+    Textbox,
+    PurchaseModal,
+    Timestamp,
+};
