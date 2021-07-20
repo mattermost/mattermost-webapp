@@ -48,7 +48,7 @@ const SwitcherMenu = styled.div<SwitcherMenuProps>`
     color: var(--center-channel-color);
 `;
 
-const Open = styled.div`
+const SwitcherMenuDescriptiveText = styled.div`
     height: 32px;
     padding-left: 20px;
     font-weight: 600;
@@ -121,12 +121,12 @@ const ProductSwitcher = () => {
             <SwitcherMenu
                 open={switcherOpen}
             >
-                <Open>
+                <SwitcherMenuDescriptiveText>
                     <FormattedMessage
                         defaultMessage='Open...'
                         id='global_header.open'
                     />
-                </Open>
+                </SwitcherMenuDescriptiveText>
                 <SwitcherNavEntry
                     destination={'/channels'}
                     icon={<ChannelsIcon/>}

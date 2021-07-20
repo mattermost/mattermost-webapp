@@ -734,7 +734,6 @@ export default class PluginRegistry {
                 switcherLinkURL: '/' + standardizeRoute(switcherLinkURL),
                 mainComponent,
                 headerComponent,
-
             },
         });
 
