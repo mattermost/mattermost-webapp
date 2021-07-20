@@ -9,6 +9,7 @@
 
     .GenericModal__header {
         padding: 0;
+        margin-bottom: 16px;
     }
 
     .GenericModal__body {
@@ -17,6 +18,9 @@
 
     .productNotices__helpText {
         margin-top: 8px;
+        p {
+            margin-bottom: 32px;
+        }
     }
 
     .productNotices__img {
@@ -32,7 +36,7 @@
     }
 
     .modal-footer {
-        margin-top: 20px;
+        margin-top: 32px;
     }
 
     .productNotices__info {
@@ -54,7 +58,7 @@
         vertical-align: middle;
     }
 
-    &.GenericModal.modal-dialog {
+    .app__body .modal &.modal-dialog {
         height: unset;
         margin-top: calc(50vh - 307px);
     }
