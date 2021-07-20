@@ -18,6 +18,9 @@ describe('System Console - Subscriptions section', () => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
 
+        // # Capture the Subscribe Now button from Banner
+        cy.contains('span', 'Subscribe Now').parent().as('SubscribeBtn');
+
         cy.intercept('**/api/v4/cloud/subscription').as('forNonExistanceOfTrailTag');
         gotoSubscriptionScreen();
     });
@@ -25,6 +28,16 @@ describe('System Console - Subscriptions section', () => {
     beforeEach(() => {
         cy.intercept('**/api/v4/cloud/subscription').as('forVisibilityOfTrailTag');
         cy.visit('/admin_console/billing/subscription');
+    });
+
+    it('MM-37054 - Navigation of Subscribe button of Banner to Subscription screen', () => {
+        // * Check for navigation of Subscribe button of Banner
+        cy.get('@SubscribeBtn').then((ele) => {
+            cy.wrap(ele).click();
+
+            // * Check for "Provide Your Payment Details" label
+            cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
+        });
     });
 
     it('MM-37054 - Non Existance of Trail tag on Subscription screen', () => {
@@ -163,30 +176,6 @@ describe('System Console - Subscriptions section', () => {
         });
     });
 
-    it('MM-37054 - Enabling of "Subscribe" button in Subscribe window', () => {
-        // # Click on Subscribe Now button
-        cy.contains('span', 'Subscribe Now').parent().click();
-
-        // * Check for "Provide Your Payment Details" label
-        cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
-
-        // # Enter card details
-        getIframeBody().find('[name="cardnumber"]').clear().type('4242424242424242');
-        getIframeBody().find('[name="exp-date"]').clear().type('4242');
-        getIframeBody().find('[name="cvc"]').clear().type('412');
-        cy.get('#input_name').clear().type('test name');
-        cy.contains('legend', 'Country').parent().find('.icon-chevron-down').click();
-        cy.contains('legend', 'Country').parent().find("input[type='text']").type('India{enter}');
-        cy.get('#input_address').type('test1');
-        cy.get('#input_address2').type('test2');
-        cy.get('#input_city').clear().type('testcity');
-        cy.get('#input_state').type('test');
-        cy.get('#input_postalCode').type('444');
-
-        // * Check for enable status of Subscribe button
-        cy.get('.RHS').find('button').should('be.enabled');
-    });
-
     it('MM-37054 - Disabling of Subscribe button for not having valid data in Manditory fields in Subscribe screen', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
@@ -230,6 +219,39 @@ describe('System Console - Subscriptions section', () => {
         getIframeBody().find('[name="cvc"]').clear().type('472');
         cy.get('#input_name').clear().type('test user');
         cy.get('.RHS').find('button').should('be.disabled');
+    });
+
+    it('MM-37054 - Enabling of "Subscribe" button and Subscribing a plan from Subscribe window', () => {
+        // # Click on Subscribe Now button
+        cy.contains('span', 'Subscribe Now').parent().click();
+
+        // * Check for "Provide Your Payment Details" label
+        cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
+
+        // # Enter card details
+        getIframeBody().find('[name="cardnumber"]').clear().type('4242424242424242');
+        getIframeBody().find('[name="exp-date"]').clear().type('4242');
+        getIframeBody().find('[name="cvc"]').clear().type('412');
+        cy.get('#input_name').clear().type('test name');
+        cy.contains('legend', 'Country').parent().find('.icon-chevron-down').click();
+        cy.contains('legend', 'Country').parent().find("input[type='text']").type('India{enter}');
+        cy.get('#input_address').type('test1');
+        cy.get('#input_address2').type('test2');
+        cy.get('#input_city').clear().type('testcity');
+        cy.get('#input_state').type('test');
+        cy.get('#input_postalCode').type('444');
+
+        // # Click on Subscribe button
+        cy.get('.RHS').find('button').should('be.enabled').click();
+
+        // * Click on successfull message
+        cy.contains('span', "Great! You're now upgraded").should('be.visible');
+
+        // # Click on Let's Go button
+        cy.contains('Lets go!').parent.click();
+
+        // * Check for non existance of Trail tag
+        cy.contains('span', 'Trial').should('not.exist');
     });
 });
 
