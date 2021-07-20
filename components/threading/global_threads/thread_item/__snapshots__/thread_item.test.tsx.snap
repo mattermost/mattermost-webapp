@@ -31,7 +31,7 @@ exports[`components/threading/global_threads/thread_item should report total num
       useTime={false}
     />
   </h1>
-  <span
+  <div
     className="menu-anchor alt-visible"
   >
     <Memo(ThreadMenu)
@@ -58,7 +58,7 @@ exports[`components/threading/global_threads/thread_item should report total num
         </Memo(Button)>
       </SimpleTooltip>
     </Memo(ThreadMenu)>
-  </span>
+  </div>
   <div
     aria-readonly="true"
     className="preview"
@@ -142,7 +142,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       useTime={false}
     />
   </h1>
-  <span
+  <div
     className="menu-anchor alt-visible"
   >
     <Memo(ThreadMenu)
@@ -169,7 +169,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
         </Memo(Button)>
       </SimpleTooltip>
     </Memo(ThreadMenu)>
-  </span>
+  </div>
   <div
     aria-readonly="true"
     className="preview"
@@ -251,7 +251,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       useTime={false}
     />
   </h1>
-  <span
+  <div
     className="menu-anchor alt-visible"
   >
     <Memo(ThreadMenu)
@@ -278,7 +278,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
         </Memo(Button)>
       </SimpleTooltip>
     </Memo(ThreadMenu)>
-  </span>
+  </div>
   <div
     aria-readonly="true"
     className="preview"
