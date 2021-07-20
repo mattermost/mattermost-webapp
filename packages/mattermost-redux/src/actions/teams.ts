@@ -672,7 +672,7 @@ export function joinTeam(inviteId: string, teamId: string): ActionFunc {
             return {error};
         }
 
-        getMyTeamUnreads(isCollapsedThreadsEnabled(state))(dispatch, getState);
+        dispatch(getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
 
         await Promise.all([
             getTeam(teamId)(dispatch, getState),

@@ -178,7 +178,7 @@ function completeLogin(data: UserProfile): ActionFunc {
 
         const serverVersion = Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && getConfig(state).EnableCustomEmoji === 'true') {
+        if (!isMinimumServerVersion(serverVersion, 4, 7) && getConfig(getState()).EnableCustomEmoji === 'true') {
             dispatch(getAllCustomEmojis());
         }
 
