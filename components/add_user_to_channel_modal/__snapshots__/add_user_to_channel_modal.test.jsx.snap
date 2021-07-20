@@ -40,7 +40,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
       componentClass="h1"
       id="addChannelModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Add {name} to a Channel"
         id="add_user_to_channel_modal.title"
         values={
@@ -62,7 +62,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
       <div
         className="modal__hint"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss."
           id="add_user_to_channel_modal.help"
         />
@@ -116,7 +116,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Cancel"
           id="add_user_to_channel_modal.cancel"
         />
@@ -128,7 +128,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Add"
           id="add_user_to_channel_modal.add"
         />

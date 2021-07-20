@@ -111,7 +111,7 @@ type State = {
     userScrolledToBottom: boolean;
 }
 
-export default class ThreadViewer extends React.PureComponent<Props, State> {
+export default class ThreadViewer extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
     private containerRef: React.RefObject<HTMLDivElement>;

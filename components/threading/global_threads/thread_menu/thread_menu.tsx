@@ -3,7 +3,7 @@
 
 import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {$ID} from 'mattermost-redux/types/utilities';
@@ -57,7 +57,7 @@ function ThreadMenu({
         goToInChannel,
     } = useThreadRouting();
 
-    const isSaved = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, threadId, null) != null);
+    const isSaved = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, threadId, null) != null, shallowEqual);
 
     const handleReadUnread = useCallback(() => {
         const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
@@ -152,4 +152,13 @@ function ThreadMenu({
     );
 }
 
-export default memo(ThreadMenu);
+function areEqual(prevProps: Props, nextProps: Props) {
+    return (
+        prevProps.threadId === nextProps.threadId &&
+        prevProps.isFollowing === nextProps.isFollowing &&
+        prevProps.unreadTimestamp === nextProps.unreadTimestamp &&
+        prevProps.hasUnreads === nextProps.hasUnreads
+    );
+}
+
+export default memo(ThreadMenu, areEqual);
