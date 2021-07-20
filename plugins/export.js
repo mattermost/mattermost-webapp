@@ -10,6 +10,7 @@ import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import PurchaseModal from 'components/purchase_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
+import ChannelMembersModal from 'components/channel_members_modal';
 
 import Timestamp from 'components/timestamp';
 
@@ -40,4 +41,5 @@ window.Components = {
     PurchaseModal,
     Timestamp,
     ChannelInviteModal,
+    ChannelMembersModal,
 };
