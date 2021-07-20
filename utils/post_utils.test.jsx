@@ -670,7 +670,7 @@ describe('PostUtils.getLatestPostId', () => {
 describe('PostUtils.createAriaLabelForPost', () => {
     const emojiMap = new EmojiMap(new Map());
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
-        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const testPost = {
             message: 'test_message',
@@ -699,7 +699,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf('message is saved and pinned'));
     });
     test('Should show that message is a reply', () => {
-        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const testPost = {
             message: 'test_message',
@@ -714,7 +714,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf('reply'));
     });
     test('Should translate emoji into {emoji-name} emoji', () => {
-        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const testPost = {
             message: 'emoji_test :smile: :+1: :non-potable_water: :space emoji: :not_an_emoji:',
@@ -732,7 +732,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf(':not_an_emoji:'));
     });
     test('Generating aria label should not break if message is undefined', () => {
-        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const testPost = {
             id: 32,

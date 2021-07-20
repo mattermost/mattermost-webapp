@@ -19,7 +19,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render 1`] = `
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -53,7 +53,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render installed a
         className="btn btn-outline"
         disabled={true}
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Installed"
           id="marketplace_modal.list.installed"
         />
@@ -91,7 +91,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with empty 
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -131,7 +131,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with icon 1
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -172,7 +172,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with no hom
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -210,7 +210,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with no plu
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -248,7 +248,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with one la
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -296,7 +296,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with server
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Try Again"
             id="marketplace_modal.list.try_again"
           />
@@ -336,7 +336,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with two la
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -389,7 +389,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem when installing 1`] = `
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />

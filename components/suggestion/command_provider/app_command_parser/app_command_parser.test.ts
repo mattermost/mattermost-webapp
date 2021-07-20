@@ -53,7 +53,7 @@ describe('AppCommandParser', () => {
     let parser: AppCommandParser;
     beforeEach(async () => {
         const store = await makeStore(testBindings);
-        parser = new AppCommandParser(store as any, intl, 'current_channel_id', 'root_id');
+        parser = new AppCommandParser(store as any, intl, 'current_channel_id', 'team_id', 'root_id');
     });
 
     type Variant = {
@@ -144,25 +144,30 @@ describe('AppCommandParser', () => {
             {
                 title: 'incomplete top command',
                 command: '/jir',
-                autocomplete: {expectError: '`{command}`: No matching command found in this workspace.'},
+                autocomplete: {verify: (parsed: ParsedCommand): void => {
+                    expect(parsed.state).toBe(ParseState.Command);
+                    expect(parsed.incomplete).toBe('jir');
+                }},
                 submit: {expectError: '`{command}`: No matching command found in this workspace.'},
             },
             {
                 title: 'no space after the top command',
                 command: '/jira',
-                autocomplete: {expectError: '`{command}`: No matching command found in this workspace.'},
-                submit: {verify: (parsed: ParsedCommand): void => {
+                autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.Command);
-                    expect(parsed.binding?.label).toBe('jira');
+                    expect(parsed.incomplete).toBe('jira');
                 }},
+                submit: {expectError: 'You must select a subcommand.'},
             },
             {
                 title: 'space after the top command',
                 command: '/jira ',
-                submit: {verify: (parsed: ParsedCommand): void => {
+                autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.Command);
+                    expect(parsed.incomplete).toBe('');
                     expect(parsed.binding?.label).toBe('jira');
                 }},
+                submit: {expectError: 'You must select a subcommand.'},
             },
             {
                 title: 'middle of subcommand',
@@ -173,12 +178,7 @@ describe('AppCommandParser', () => {
                     expect(parsed.incomplete).toBe('iss');
                     expect(parsed.incompleteStart).toBe(9);
                 }},
-                submit: {verify: (parsed: ParsedCommand): void => {
-                    expect(parsed.state).toBe(ParseState.EndCommand);
-                    expect(parsed.binding?.label).toBe('jira');
-                    expect(parsed.incomplete).toBe('iss');
-                    expect(parsed.incompleteStart).toBe(9);
-                }},
+                submit: {expectError: 'You must select a subcommand.'},
             },
             {
                 title: 'second subcommand, no space',
@@ -189,11 +189,7 @@ describe('AppCommandParser', () => {
                     expect(parsed.incomplete).toBe('issue');
                     expect(parsed.incompleteStart).toBe(6);
                 }},
-                submit: {verify: (parsed: ParsedCommand): void => {
-                    expect(parsed.state).toBe(ParseState.Command);
-                    expect(parsed.binding?.label).toBe('issue');
-                    expect(parsed.location).toBe('/jira/issue');
-                }},
+                submit: {expectError: 'You must select a subcommand.'},
             },
             {
                 title: 'token after the end of bindings, no space',
@@ -307,7 +303,6 @@ describe('AppCommandParser', () => {
                     expect(parsed.values?.epic).toBe('M');
                 }},
             },
-
             {
                 title: 'happy full view',
                 command: '/jira issue view --project=`P 1` MM-123',

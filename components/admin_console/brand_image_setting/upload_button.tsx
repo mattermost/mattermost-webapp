@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as Utils from 'utils/utils.jsx';
@@ -10,30 +9,30 @@ import {UploadStatuses} from 'utils/constants';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 
-export default class UploadButton extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /*
+    /*
          * Upload status - loading, complete, default ('')
          */
-        status: PropTypes.string,
+    status?: string;
 
-        /*
-         * Primary class of the button
-         */
-        primaryClass: PropTypes.string,
+    /*
+  * Primary class of the button
+  */
+    primaryClass?: string;
 
-        /*
-         * Disable the button
-         */
-        disabled: PropTypes.bool,
+    /*
+  * Disable the button
+  */
+    disabled?: boolean;
 
-        /*
-         * Funtion to call on button click
-         */
-        onClick: PropTypes.func,
-    }
+    /*
+  * Funtion to call on button click
+  */
+    onClick?: () => void;
+}
 
+export default class UploadButton extends React.PureComponent<Props> {
     render() {
         const {
             status,

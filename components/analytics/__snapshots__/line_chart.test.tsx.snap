@@ -48,7 +48,7 @@ exports[`components/analytics/line_chart.tsx should match snapshot, loaded witho
       className="content"
     >
       <h5>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Not enough data for a meaningful representation."
           id="analytics.chart.meaningful"
         />
@@ -73,7 +73,7 @@ exports[`components/analytics/line_chart.tsx should match snapshot, on loading 1
     <div
       className="content"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Loading..."
         id="analytics.chart.loading"
       />

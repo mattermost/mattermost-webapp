@@ -11,7 +11,7 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
       className="CompleteProfileStep__profilePicture"
     >
       <h3>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Add a photo"
           id="next_steps_view.complete_profile_step.addAPhoto"
         />
@@ -28,7 +28,7 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
       className="CompleteProfileStep__fullName"
     >
       <h3>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Enter your name"
           id="next_steps_view.complete_profile_step.enterYourName"
         />
@@ -52,7 +52,7 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
       disabled={true}
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save profile"
         id="next_steps_view.complete_profile_step.saveProfile"
       />

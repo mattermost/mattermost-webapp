@@ -12,7 +12,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
         className="fa fa-angle-left back"
         to="/admin_console/compliance/data_retention_settings"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Global Retention Policy"
         id="admin.data_retention.globalPolicyTitle"
       />
@@ -204,7 +204,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="admin.data_retention.custom_policy.save"
         />
@@ -214,7 +214,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
       onClick={[Function]}
       saving={false}
       savingMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Saving"
           id="save_button.saving"
         />
@@ -224,7 +224,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
       className="cancel-button"
       to="/admin_console/compliance/data_retention_settings"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="admin.data_retention.custom_policy.cancel"
       />
