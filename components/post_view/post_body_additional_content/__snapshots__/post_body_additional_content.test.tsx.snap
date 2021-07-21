@@ -123,6 +123,31 @@ exports[`PostBodyAdditionalContent with a normal link Should render the plugin c
 </div>
 `;
 
+exports[`PostBodyAdditionalContent with a permalinklink Render permalink preview 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+  <Connect(PostMessagePreview)
+    metadata={
+      Object {
+        "channel_display_name": "channel1",
+        "post_id": "post_id123",
+        "team_name": "core",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with a permalinklink Render permalink preview with no data 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+</div>
+`;
+
 exports[`PostBodyAdditionalContent with an image preview should render correctly 1`] = `
 <div>
   <button
@@ -147,7 +172,6 @@ exports[`PostBodyAdditionalContent with an image preview should render correctly
         "metadata": Object {
           "embeds": Array [
             Object {
-              "data": Object {},
               "type": "image",
               "url": "https://example.com/image.png",
             },
@@ -190,7 +214,6 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
         "metadata": Object {
           "embeds": Array [
             Object {
-              "data": Object {},
               "type": "image",
               "url": "https://example.com/image.png",
             },
