@@ -150,6 +150,9 @@ export const isOnboardingHidden = createSelector(
     'isOnboardingHidden',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (stepPreferences) => {
+        if (stepPreferences.length === 0) {
+            return true;
+        }
         return stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'));
     },
 );
@@ -160,6 +163,9 @@ export const showNextSteps = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => nextStepsNotFinished(state),
     (stepPreferences, nextStepsNotFinished) => {
+        if (stepPreferences.length === 0) {
+            return false;
+        }
         if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
             return false;
         }
@@ -174,6 +180,9 @@ export const showNextStepsTips = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => nextStepsNotFinished(state),
     (stepPreferences, nextStepsNotFinished) => {
+        if (stepPreferences.length === 0) {
+            return false;
+        }
         if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
             return true;
         }
@@ -189,6 +198,9 @@ export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (stepPreferences, currentUser, firstAdmin) => {
+        if (stepPreferences.length === 0) {
+            return false;
+        }
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !Steps.every(checkPref);
