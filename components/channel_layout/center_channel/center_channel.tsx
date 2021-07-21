@@ -5,8 +5,9 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 
-import LoadingScreen from 'components/loading_screen';
+import {Action, ActionFunc} from 'mattermost-redux/types/actions';
 
+import LoadingScreen from 'components/loading_screen';
 import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
@@ -32,6 +33,16 @@ type Props = {
     rhsOpen: boolean;
     rhsMenuOpen: boolean;
     isCollapsedThreadsEnabled: boolean;
+    currentUserId: string;
+    showNextSteps: boolean;
+    showNextStepsTips: boolean;
+    isOnboardingHidden: boolean;
+    showNextStepsEphemeral: boolean;
+    actions: {
+        setShowNextStepsView: (show: boolean) => Action;
+        getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
+        getUser: (id: string) => ActionFunc;
+    };
 };
 
 type State = {
@@ -56,6 +67,27 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
             };
         }
         return {lastReturnTo: nextProps.location.pathname};
+    }
+
+    async componentDidMount() {
+        const {actions, showNextSteps, showNextStepsTips, isOnboardingHidden, currentUserId} = this.props;
+        await actions.getProfiles();
+
+        // We call getUser to make sure we have the current user's profile into the profiles state
+        await actions.getUser(currentUserId);
+        if ((showNextSteps || showNextStepsTips) && !isOnboardingHidden) {
+            actions.setShowNextStepsView(true);
+        }
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        const {location, showNextStepsEphemeral, actions, currentUserId} = this.props;
+        if (location.pathname !== prevProps.location.pathname && showNextStepsEphemeral) {
+            actions.setShowNextStepsView(false);
+        }
+
+        // We call getUser to make sure we have the current user's profile into the profiles state
+        actions.getUser(currentUserId);
     }
 
     render() {
