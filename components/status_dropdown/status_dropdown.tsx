@@ -36,7 +36,7 @@ import './status_dropdown.scss';
 import {toUTCUnix} from 'utils/datetime';
 import {getCurrentDateTimeForTimezone} from 'utils/timezone';
 
-
+const dispatch = store.dispatch;
 
 type Props = {
     status?: string;
@@ -136,10 +136,14 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             endTime.setHours(23, 59, 59, 999);
             break;
         case 5:
-            dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogProps: {
-                active_tab: 'notifications',
-                active_section: 'schedule'
-            }, dialogType: UserSettingsModal}));
+            dispatch(openModal({
+                modalId: ModalIdentifiers.USER_SETTINGS,
+                dialogProps: {
+                    active_tab: 'notifications',
+                    active_section: 'schedule',
+                },
+                dialogType: UserSettingsModal,
+            }));
             break;
         }
 

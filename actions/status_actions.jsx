@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import moment from 'moment';
 
 import {getStatusesByIds, updateStatusOnScheduledTime} from 'mattermost-redux/actions/users';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
@@ -9,9 +10,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import store from 'stores/redux_store.jsx';
-import { Constants } from 'utils/constants';
-
-import moment from "moment";
+import {Constants} from 'utils/constants';
 
 export function loadStatusesForChannelAndSidebar() {
     return (dispatch, getState) => {
@@ -97,12 +96,9 @@ export function startPeriodicStatusUpdates() {
     clearInterval(intervalId);
     intervalId = setInterval(
         () => {
-            const currentDate = moment()
-            const currentMinute = currentDate.format('mm')
-            // if (currentMinute === '00' || currentMinute === '30') {
-            // }
-            const currentTime = currentDate.format('kk:mm')
-            const currentDay = currentDate.format('ddd')
+            const currentDate = moment();
+            const currentTime = currentDate.format('kk:mm');
+            const currentDay = currentDate.format('ddd');
             store.dispatch(updateStatusOnScheduledTime(currentTime, currentDay));
             store.dispatch(loadStatusesForChannelAndSidebar());
         },
@@ -113,5 +109,3 @@ export function startPeriodicStatusUpdates() {
 export function stopPeriodicStatusUpdates() {
     clearInterval(intervalId);
 }
-
-

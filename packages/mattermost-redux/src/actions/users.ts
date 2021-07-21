@@ -20,6 +20,9 @@ import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/us
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
+import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
+import {registerAdminConsolePlugin} from 'actions/admin_actions';
+
 import {getAllCustomEmojis} from './emojis';
 import {getClientConfig, setServerVersion} from './general';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from './teams';
@@ -28,8 +31,6 @@ import {loadRolesIfNeeded} from './roles';
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from './helpers';
 import {getMyPreferences, makeDirectChannelVisibleIfNecessary, makeGroupMessageVisibleIfNecessary} from './preferences';
-import { getAdminConsoleCustomComponents } from 'selectors/admin_console';
-import { registerAdminConsolePlugin } from 'actions/admin_actions';
 
 export function checkMfa(loginId: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
@@ -1538,15 +1539,15 @@ export function checkForModifiedUsers() {
 export function updateStatusOnScheduledTime(currentTime: string, currentDay: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         try {
-            const state = getState()
+            const state = getState();
             const userId = getCurrentUserId(state);
             const status = await Client4.getStatusBasedOnSchedule(userId, currentTime, currentDay);
             dispatch({
                 type: StatusTypes.RECEIVED_STATUS,
-                data: status
-            })
+                data: status,
+            });
         } catch (error) {
-            return {error}
+            return {error};
         }
         return {data: true};
     };

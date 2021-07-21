@@ -7,14 +7,14 @@ import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
 
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import store from 'stores/redux_store.jsx';
 
-import { localizeMessage } from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
-import { saveNotificationsSchedules } from 'mattermost-redux/actions/notifications_schedule';
-import { getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
+import {saveNotificationsSchedules} from 'mattermost-redux/actions/notifications_schedule';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
 
 import './notification_schedule_setting.scss';
@@ -26,9 +26,9 @@ import clockIcon from 'images/icons/clock-time-five.png';
 
 const timeFormat = 'h:mm A';
 const periodsOptions = [
-    { value: 1, label: 'Every Day' },
-    { value: 2, label: 'Weekdays' },
-    { value: 3, label: 'Custom Schedule' },
+    {value: 1, label: 'Every Day'},
+    {value: 2, label: 'Weekdays'},
+    {value: 3, label: 'Custom Schedule'},
 ];
 
 const dispatch = store.dispatch;
@@ -41,11 +41,11 @@ class setNotificationSchedule extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        const { activeSection } = props;
+        const {activeSection} = props;
         this.state = {
             activeSection,
             enableCusotmDND: false,
-            selectedOption: { value: 1, label: 'Every Day' },
+            selectedOption: {value: 1, label: 'Every Day'},
             monEnable: false,
             tueEnable: false,
             wedEnable: false,
@@ -70,7 +70,7 @@ class setNotificationSchedule extends React.PureComponent {
         };
     }
     async componentWillMount() {
-        const schedules = await Client4.getStatus(currentUserId)
+        const schedules = await Client4.getStatus(currentUserId);
         if (schedules.mode > 0) {
             this.setState({
                 enableCusotmDND: true,
@@ -88,53 +88,53 @@ class setNotificationSchedule extends React.PureComponent {
                 thuEnd: schedules.thursday_end,
                 friEnd: schedules.friday_end,
                 satEnd: schedules.saturday_end,
-            })
+            });
             if (schedules.mode === 1) {
                 this.setState({
-                    selectedOption: { value: 1, label: 'Every Day'},
-                })
+                    selectedOption: {value: 1, label: 'Every Day'},
+                });
             } else if (schedules.mode === 2) {
                 this.setState({
-                    selectedOption: { value: 2, label: 'Weekdays'},
-                })
+                    selectedOption: {value: 2, label: 'Weekdays'},
+                });
             } else {
                 this.setState({
-                    selectedOption: { value: 3, label: 'Custom Schedule'},
-                })
+                    selectedOption: {value: 3, label: 'Custom Schedule'},
+                });
                 if (this.state.sunStart) {
                     this.setState({
-                        sunEnable: true
-                    })
+                        sunEnable: true,
+                    });
                 }
                 if (this.state.monStart) {
                     this.setState({
-                        monEnable: true
-                    })
+                        monEnable: true,
+                    });
                 }
                 if (this.state.tueStart) {
                     this.setState({
-                        tueEnable: true
-                    })
+                        tueEnable: true,
+                    });
                 }
                 if (this.state.wedStart) {
                     this.setState({
-                        wedEnable: true
-                    })
+                        wedEnable: true,
+                    });
                 }
                 if (this.state.thuStart) {
                     this.setState({
-                        thuEnable: true
-                    })
+                        thuEnable: true,
+                    });
                 }
                 if (this.state.friStart) {
                     this.setState({
-                        friEnable: true
-                    })
+                        friEnable: true,
+                    });
                 }
                 if (this.state.satStart) {
                     this.setState({
-                        satEnable: true
-                    })
+                        satEnable: true,
+                    });
                 }
             }
         }
@@ -150,7 +150,6 @@ class setNotificationSchedule extends React.PureComponent {
         if (this.state.selectedOption.value === 3 && !this.state.sunEnable && !this.state.monEnable && !this.state.tueEnable && !this.state.wedEnable && !this.state.thuEnable && !this.state.friEnable && !this.state.satEnable) {
             return;
         }
-        
         const notificationIntervalSchedule = {
             user_id: currentUserId,
             mode: nMode,
@@ -173,8 +172,8 @@ class setNotificationSchedule extends React.PureComponent {
         dispatch(
             saveNotificationsSchedules(
                 currentUserId,
-                notificationIntervalSchedule
-            )
+                notificationIntervalSchedule,
+            ),
         );
     };
 
@@ -213,7 +212,7 @@ class setNotificationSchedule extends React.PureComponent {
                 thuEnd: '18:00',
                 friEnd: '18:00',
                 satEnd: '18:00',
-            })
+            });
         } else if (option.value === 2) {
             this.setState({
                 sunStart: '',
@@ -230,7 +229,7 @@ class setNotificationSchedule extends React.PureComponent {
                 thuEnd: '18:00',
                 friEnd: '18:00',
                 satEnd: '',
-            })
+            });
         } else {
             this.setState({
                 monEnable: false,
@@ -254,7 +253,7 @@ class setNotificationSchedule extends React.PureComponent {
                 thuEnd: '',
                 friEnd: '',
                 satEnd: '',
-            })
+            });
         }
     };
 
@@ -313,24 +312,23 @@ class setNotificationSchedule extends React.PureComponent {
         if (e.target.checked) {
             this.setState({
                 [start]: '09:00',
-                [end]: '18:00'
-            })
+                [end]: '18:00',
+            });
         } else {
             this.setState({
                 [start]: '',
-                [end]: ''
-            })
+                [end]: '',
+            });
         }
     };
 
     renderMaxSettingView = () => {
-        
         if (this.state.selectedOption.label === 'Custom Schedule') {
             return (
                 <SettingItemMax
                     title={localizeMessage(
                         'user.settings.notifications.schedule.title',
-                        'Notifications Schedule'
+                        'Notifications Schedule',
                     )}
                     inputs={[
                         <div key='customNotificationSchedule'>
@@ -347,7 +345,7 @@ class setNotificationSchedule extends React.PureComponent {
                                         checked={this.state.enableCusotmDND}
                                         onChange={this.handelEnableChange}
                                     />
-                                    <span className='slider round' />
+                                    <span className='slider round'/>
                                 </label>
                                 <FormattedMessage
                                     id='user.settings.notifications.schedule.enable'
@@ -383,7 +381,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type='checkbox'
                                                 id='sunEnable'
                                                 checked={this.state.sunEnable}
-                                                onChange={(e, start = 'sunStart', end = 'sunEnd') => 
+                                                onChange={(e, start = 'sunStart', end = 'sunEnd') =>
                                                     this.handleDayChange(e, start, end)
                                                 }
                                                 className='weekday'
@@ -396,7 +394,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type='checkbox'
                                                 id='monEnable'
                                                 checked={this.state.monEnable}
-                                                onChange={(e, start = 'monStart', end = 'monEnd') => 
+                                                onChange={(e, start = 'monStart', end = 'monEnd') =>
                                                     this.handleDayChange(e, start, end)
                                                 }
                                                 className='weekday'
@@ -409,7 +407,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type='checkbox'
                                                 id='tueEnable'
                                                 checked={this.state.tueEnable}
-                                                onChange={(e, start = 'tueStart', end = 'tueEnd') => 
+                                                onChange={(e, start = 'tueStart', end = 'tueEnd') =>
                                                     this.handleDayChange(e, start, end)
                                                 }
                                                 className='weekday'
@@ -422,7 +420,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type='checkbox'
                                                 id='wedEnable'
                                                 checked={this.state.wedEnable}
-                                                onChange={(e, start = 'wedStart', end = 'wedEnd') => 
+                                                onChange={(e, start = 'wedStart', end = 'wedEnd') =>
                                                     this.handleDayChange(e, start, end)
                                                 }
                                                 className='weekday'
@@ -435,7 +433,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type='checkbox'
                                                 id='thuEnable'
                                                 checked={this.state.thuEnable}
-                                                onChange={(e, start = 'thuStart', end = 'thuEnd') => 
+                                                onChange={(e, start = 'thuStart', end = 'thuEnd') =>
                                                     this.handleDayChange(e, start, end)
                                                 }
                                                 className='weekday'
@@ -448,7 +446,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type='checkbox'
                                                 id='friEnable'
                                                 checked={this.state.friEnable}
-                                                onChange={(e, start = 'friStart', end = 'friEnd') => 
+                                                onChange={(e, start = 'friStart', end = 'friEnd') =>
                                                     this.handleDayChange(e, start, end)
                                                 }
                                                 className='weekday'
@@ -461,7 +459,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type='checkbox'
                                                 id='satEnable'
                                                 checked={this.state.satEnable}
-                                                onChange={(e, start = 'satStart', end = 'satEnd') => 
+                                                onChange={(e, start = 'satStart', end = 'satEnd') =>
                                                     this.handleDayChange(e, start, end)
                                                 }
                                                 className='weekday'
@@ -475,10 +473,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         Sunday
                                                     </div>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -495,20 +490,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'sunStart'
+                                                            id = 'sunStart',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                     <p>to</p>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -525,17 +517,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'sunEnd'
+                                                            id = 'sunEnd',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                 </div>
                                             ) : (
-                                                <div />
+                                                <div/>
                                             )}
                                             {this.state.monEnable ? (
                                                 <div className='time-wrapper custom-time'>
@@ -543,10 +535,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         Monday
                                                     </div>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -563,20 +552,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'monStart'
+                                                            id = 'monStart',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                     <p>to</p>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -593,17 +579,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'monEnd'
+                                                            id = 'monEnd',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                 </div>
                                             ) : (
-                                                <div />
+                                                <div/>
                                             )}
                                             {this.state.tueEnable ? (
                                                 <div className='time-wrapper custom-time'>
@@ -611,10 +597,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         Tuesday
                                                     </div>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -631,19 +614,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'tueStart'
+                                                            id = 'tueStart',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                     <p>to</p>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
+                                                        disabled={!this.state.enableCusotmDND
                                                         }
                                                         className='time-picker'
                                                         showSecond={false}
@@ -661,17 +642,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'tueEnd'
+                                                            id = 'tueEnd',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                 </div>
                                             ) : (
-                                                <div />
+                                                <div/>
                                             )}
                                             {this.state.wedEnable ? (
                                                 <div className='time-wrapper custom-time'>
@@ -679,10 +660,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         Wednesday
                                                     </div>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -699,20 +677,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'wedStart'
+                                                            id = 'wedStart',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                     <p>to</p>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -729,17 +704,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'wedEnd'
+                                                            id = 'wedEnd',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                 </div>
                                             ) : (
-                                                <div />
+                                                <div/>
                                             )}
                                             {this.state.thuEnable ? (
                                                 <div className='time-wrapper custom-time'>
@@ -747,10 +722,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         Thursday
                                                     </div>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -767,20 +739,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'thuStart'
+                                                            id = 'thuStart',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                     <p>to</p>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -797,17 +766,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'thuEnd'
+                                                            id = 'thuEnd',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                 </div>
                                             ) : (
-                                                <div />
+                                                <div/>
                                             )}
                                             {this.state.friEnable ? (
                                                 <div className='time-wrapper custom-time'>
@@ -815,10 +784,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         Friday
                                                     </div>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -827,7 +793,6 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         value={moment(this.state.friStart, 'kk:mm')}
                                                         minuteStep={30}
-                                                        minuteStep={15}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -836,20 +801,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'friStart'
+                                                            id = 'friStart',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                     <p>to</p>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -866,17 +828,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'friEnd'
+                                                            id = 'friEnd',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                 </div>
                                             ) : (
-                                                <div />
+                                                <div/>
                                             )}
                                             {this.state.satEnable ? (
                                                 <div className='time-wrapper custom-time'>
@@ -884,10 +846,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         Saturday
                                                     </div>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -904,20 +863,17 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'satStart'
+                                                            id = 'satStart',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                     <p>to</p>
                                                     <TimePicker
-                                                        disabled={
-                                                            !this.state
-                                                                .enableCusotmDND
-                                                        }
+                                                        disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
@@ -934,23 +890,23 @@ class setNotificationSchedule extends React.PureComponent {
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = 'satEnd'
+                                                            id = 'satEnd',
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
-                                                                id
+                                                                id,
                                                             )
                                                         }
                                                     />
                                                 </div>
                                             ) : (
-                                                <div />
+                                                <div/>
                                             )}
                                         </div>
                                     </div>
                                 </div>
                             ) : (
-                                <div />
+                                <div/>
                             )}
                         </div>,
                     ]}
@@ -960,12 +916,12 @@ class setNotificationSchedule extends React.PureComponent {
                     updateSection={this.handleUpdateSection}
                 />
             );
-        } 
+        }
         return (
             <SettingItemMax
                 title={localizeMessage(
                     'user.settings.notifications.schedule.title',
-                    'Notifications Schedule'
+                    'Notifications Schedule',
                 )}
                 inputs={[
                     <div key='NotificationSchedule'>
@@ -982,7 +938,7 @@ class setNotificationSchedule extends React.PureComponent {
                                     checked={this.state.enableCusotmDND}
                                     onChange={this.handelEnableChange}
                                 />
-                                <span className='slider round' />
+                                <span className='slider round'/>
                             </label>
                             <FormattedMessage
                                 id='user.settings.notifications.schedule.enable'
@@ -1061,7 +1017,7 @@ class setNotificationSchedule extends React.PureComponent {
                                 </div>
                             </div>
                         ) : (
-                            <div />
+                            <div/>
                         )}
                     </div>,
                 ]}
@@ -1109,7 +1065,7 @@ class setNotificationSchedule extends React.PureComponent {
             <SettingItemMin
                 title={localizeMessage(
                     'user.settings.notifications.schedule.title',
-                    'Notifications Schedule'
+                    'Notifications Schedule',
                 )}
                 describe={description}
                 section={'schedule'}

@@ -72,8 +72,8 @@ const holders = defineMessages({
 });
 
 export type Props = {
-    active_tab?: string,
-    active_section?: string,
+    active_tab?: string;
+    active_section?: string;
     currentUser: UserProfile;
     onHide: () => void;
     onExit: () => void;
@@ -149,13 +149,13 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
         document.addEventListener('keydown', this.handleKeyDown);
         if (this.props.active_tab !== undefined) {
             this.setState({
-                active_tab : this.props.active_tab,
-                active_section: this.props.active_section
-            })
+                active_tab: this.props.active_tab,
+                active_section: this.props.active_section,
+            });
         } else {
             this.setState({
-                active_tab: 'general'
-            })
+                active_tab: 'general',
+            });
         }
     }
 
