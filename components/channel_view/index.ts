@@ -43,7 +43,9 @@ function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
 
     const config = getConfig(state);
-    const enableTutorial = config.EnableTutorial === 'true';
+
+    // This stops the tutorial from showing since we now have onboarding flow screens. using config.EnableTutorial this can be toggled.
+    const enableTutorial = false;
     const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
