@@ -69,7 +69,6 @@ function mapStateToProps(state: GlobalState) {
         channelRolesLoading,
         deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
         focusedPostId: state.views.channel.focusedPostId,
-        showIntroScreens: false,
         onIntroTutorialScreen: tutorialStep <= TutorialSteps.INTRO_SCREENS,
         showNextSteps: showNextSteps(state),
         showNextStepsTips: showNextStepsTips(state),

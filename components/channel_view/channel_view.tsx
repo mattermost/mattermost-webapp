@@ -14,7 +14,6 @@ import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import NextStepsView from 'components/next_steps_view';
 import PostView from 'components/post_view';
-import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -38,7 +37,6 @@ type Props = {
     channelIsArchived: boolean;
     viewArchivedChannels: boolean;
     isCloud: boolean;
-    showIntroScreens: boolean;
     currentUserId: string;
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
@@ -169,13 +167,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     render() {
         const {channelIsArchived} = this.props;
-        if (this.props.showIntroScreens) {
-            return (
-                <TutorialView
-                    isRoot={false}
-                />
-            );
-        }
 
         if (this.props.showNextStepsEphemeral) {
             return (
