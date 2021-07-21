@@ -14,11 +14,13 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {Posts} from 'mattermost-redux/constants';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
+import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 import {FakePost} from 'types/store/rhs';
 import {getNewMessageIndex, getPreviousPostId, getLatestPostId} from 'utils/post_utils';
 
+import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import {THREADING_TIME as BASE_THREADING_TIME} from 'components/threading/common/options';
 
 import CreateComment from './create_comment';
@@ -47,7 +49,8 @@ type Props = {
 } & OwnProps;
 
 type State = {
-    topPostId?: string;
+    isScrolling: boolean;
+    topRhsPostId?: string;
     userScrolled: boolean;
     userScrolledToBottom: boolean;
 }
@@ -76,6 +79,7 @@ const OVERSCAN_COUNT_FORWARD = 30;
 const OVERSCAN_COUNT_BACKWARD = 30;
 
 class ThreadViewerVirtualized extends PureComponent<Props, State> {
+    private scrollStopAction: DelayedAction;
     postCreateContainerRef: React.RefObject<HTMLDivElement>;
     listRef: RefObject<DynamicSizeList>;
     innerRef: RefObject<HTMLDivElement>;
@@ -84,6 +88,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         this.listRef = React.createRef();
         this.innerRef = React.createRef();
 
@@ -99,9 +104,10 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         this.innerRef = React.createRef();
 
         this.state = {
+            isScrolling: false,
             userScrolled: false,
             userScrolledToBottom: false,
-            topPostId: undefined,
+            topRhsPostId: undefined,
         };
     }
 
@@ -150,9 +156,12 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         const userScrolledToBottom = scrollHeight - scrollOffset === clientHeight;
 
         this.setState({
+            isScrolling: true,
             userScrolled: true,
             userScrolledToBottom,
         });
+
+        this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
     }
 
     updateFloatingTimestamp = (visibleTopItem: number): void => {
@@ -161,7 +170,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
 
         this.setState({
-            topPostId: getLatestPostId(this.props.replyListIds.slice(visibleTopItem)),
+            topRhsPostId: getLatestPostId(this.props.replyListIds.slice(visibleTopItem)),
         });
     }
 
@@ -199,6 +208,10 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
     scrollToNewMessage = (): void => {
         this.scrollToItem(getNewMessageIndex(this.props.replyListIds), 'start', OFFSET_TO_SHOW_TOAST);
+    }
+
+    handleScrollStop = () => {
+        this.setState({isScrolling: false});
     }
 
     renderRow = memoize(({data, itemId, style}: {data: any; itemId: any; style: any}) => {
@@ -268,38 +281,48 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
     render() {
         return (
-            <div
-                role='application'
-                aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
-                className='post-right__content a11y__region'
-                style={{height: '100%'}}
-                data-a11y-sort-order='3'
-                data-a11y-focus-child={true}
-                data-a11y-order-reversed={true}
-            >
-                <AutoSizer>
-                    {({width, height}) => (
-                        <DynamicSizeList
-                            canLoadMorePosts={this.canLoadMorePosts}
-                            correctScrollToBottom={true}
-                            height={height}
-                            initRangeToRender={this.initRangeToRender}
-                            initScrollToIndex={this.initScrollToIndex}
-                            innerRef={this.innerRef}
-                            itemData={this.props.replyListIds}
-                            onItemsRendered={this.onItemsRendered}
-                            onScroll={this.onScroll}
-                            overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
-                            overscanCountForward={OVERSCAN_COUNT_FORWARD}
-                            ref={this.listRef}
-                            style={virtListStyles}
-                            width={width}
-                        >
-                            {this.renderRow}
-                        </DynamicSizeList>
-                    )}
-                </AutoSizer>
-            </div>
+            <>
+                {this.state.topRhsPostId && !this.props.useRelativeTimestamp && (
+                    <FloatingTimestamp
+                        isScrolling={this.state.isScrolling}
+                        isMobile={Utils.isMobile()}
+                        isRhsPost={true}
+                        postId={this.state.topRhsPostId}
+                    />
+                )}
+                <div
+                    role='application'
+                    aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
+                    className='post-right__content a11y__region'
+                    style={{height: '100%'}}
+                    data-a11y-sort-order='3'
+                    data-a11y-focus-child={true}
+                    data-a11y-order-reversed={true}
+                >
+                    <AutoSizer>
+                        {({width, height}) => (
+                            <DynamicSizeList
+                                canLoadMorePosts={this.canLoadMorePosts}
+                                correctScrollToBottom={true}
+                                height={height}
+                                initRangeToRender={this.initRangeToRender}
+                                initScrollToIndex={this.initScrollToIndex}
+                                innerRef={this.innerRef}
+                                itemData={this.props.replyListIds}
+                                onItemsRendered={this.onItemsRendered}
+                                onScroll={this.onScroll}
+                                overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
+                                overscanCountForward={OVERSCAN_COUNT_FORWARD}
+                                ref={this.listRef}
+                                style={virtListStyles}
+                                width={width}
+                            >
+                                {this.renderRow}
+                            </DynamicSizeList>
+                        )}
+                    </AutoSizer>
+                </div>
+            </>
         );
     }
 }
