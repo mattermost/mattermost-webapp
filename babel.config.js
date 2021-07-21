@@ -30,6 +30,13 @@ const config = {
         '@babel/plugin-proposal-object-rest-spread',
         'react-hot-loader/babel',
         'babel-plugin-typescript-to-proptypes',
+        [
+            'babel-plugin-styled-components',
+            {
+                ssr: false,
+                fileName: false,
+            },
+        ],
     ],
 };
 
