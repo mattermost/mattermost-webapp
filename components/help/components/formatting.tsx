@@ -260,7 +260,7 @@ export default function HelpFormatting(): JSX.Element {
                     id='help.formatting.images.description'
                     defaultMessage='Create in-line images using an `!` followed by the alt text in square brackets and the link in normal brackets. Add hover text by placing it in quotes after the link. See the [product documentation](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) for details on working with in-line images.'
                 />
-            </FormattedMessage>
+            </p>
             <h2 className='markdown__heading'>
                 <FormattedMessage
                     id='help.formatting.emojis.title'
