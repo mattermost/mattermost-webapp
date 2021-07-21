@@ -20,6 +20,7 @@ const HeaderLine = styled.div`
     padding: 2px 16px 0 0;
     flex-grow: 1;
     user-select: none;
+    color: var(--sidebar-text);
 `;
 
 const VerticalStack = styled.div`
