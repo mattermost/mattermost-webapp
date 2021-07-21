@@ -37,6 +37,8 @@ import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/
 import {localizeMessage} from 'utils/utils.jsx';
 import './status_dropdown.scss';
 
+const dispatch = store.dispatch;
+
 type Props = {
     status?: string;
     userId: string;
@@ -135,6 +137,12 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         case 3:
             // add one day in current date
             endTime = currentDate.add(1, 'day');
+            break;
+        case 5:
+            dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogProps: {
+                active_tab: 'notifications',
+                active_section: 'schedule'
+            }, dialogType: UserSettingsModal}));
             break;
         }
 
