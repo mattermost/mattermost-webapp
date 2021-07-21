@@ -1972,6 +1972,13 @@ export default class Client4 {
         );
     };
 
+    getPostsByIds = (ids: string[]) => {
+        return this.doFetch<Post[]>(
+            `${this.getPostsRoute()}/ids`,
+            {method: 'post', body: JSON.stringify(ids)},
+        );
+    }
+
     getUserThreads = (
         userId: $ID<UserProfile> = 'me',
         teamId: $ID<Team>,
