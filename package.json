@@ -53,6 +53,7 @@
     "prettier": "2.3.2",
     "process": "0.11.10",
     "prop-types": "15.7.2",
+    "rc-time-picker": "3.7.3",
     "react": "16.13.1",
     "react-beautiful-dnd": "13.1.0",
     "react-bootstrap": "github:mattermost/react-bootstrap#c6957962364e0818a51bbfd13e89919903b422d6",
