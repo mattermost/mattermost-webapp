@@ -11,6 +11,7 @@ import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {getProfiles} from 'mattermost-redux/actions/users';
 
@@ -44,10 +45,9 @@ function mapStateToProps(state: GlobalState) {
 
     const config = getConfig(state);
 
-    // This stops the tutorial from showing since we now have onboarding flow screens. using config.EnableTutorial this can be toggled.
-    const enableTutorial = false;
     const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+    const currentUserId = getCurrentUserId(state);
 
     let channelRolesLoading = true;
     if (channel && channel.id) {
@@ -69,7 +69,8 @@ function mapStateToProps(state: GlobalState) {
         channelRolesLoading,
         deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
         focusedPostId: state.views.channel.focusedPostId,
-        showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
+        showIntroScreens: false,
+        onIntroTutorialScreen: tutorialStep <= TutorialSteps.INTRO_SCREENS,
         showNextSteps: showNextSteps(state),
         showNextStepsTips: showNextStepsTips(state),
         isOnboardingHidden: isOnboardingHidden(state),
@@ -77,12 +78,14 @@ function mapStateToProps(state: GlobalState) {
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
         isCloud: getLicense(state).Cloud === 'true',
+        currentUserId,
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
+            savePreferences,
             setShowNextStepsView,
             goToLastViewedChannel,
             getProfiles,
