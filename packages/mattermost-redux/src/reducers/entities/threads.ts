@@ -324,15 +324,19 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
     return state;
 };
 
-function getThreadsToDeleteOfChannel(threads: ThreadsState['threads'], channelId: string) {
-    const threadsToDelete = [];
+function getThreadsOfChannel(threads: ThreadsState['threads'], channelId: string) {
+    const threadsToDelete: UserThread[] = [];
     for (const rootId of Object.keys(threads)) {
-        if (threads[rootId] && threads[rootId].post && threads[rootId].post.channel_id === channelId) {
-            threadsToDelete.push(rootId);
+        if (
+            threads[rootId] &&
+            threads[rootId].post &&
+            threads[rootId].post.channel_id === channelId
+        ) {
+            threadsToDelete.push(threads[rootId]);
         }
     }
 
-    return threadsToDelete.map((id) => threads[id]);
+    return threadsToDelete;
 }
 
 // custom combineReducers function
@@ -343,7 +347,7 @@ function reducer(state: ThreadsState = {threads: {}, threadsInTeam: {}, counts: 
     // acting as a 'middleware'
     if (action.type === ChannelTypes.LEAVE_CHANNEL) {
         if (!action.data.viewArchivedChannels) {
-            extra.threadsToDelete = getThreadsToDeleteOfChannel(state.threads, action.data.id);
+            extra.threadsToDelete = getThreadsOfChannel(state.threads, action.data.id);
         }
     }
 
