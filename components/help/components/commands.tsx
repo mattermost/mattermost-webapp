@@ -31,6 +31,7 @@ export default function HelpCommands(): JSX.Element {
                     id='help.commands.intro2'
                     defaultMessage='Built-in slash commands come with all Mattermost installations. See the [product documentation](!https://docs.mattermost.com/messaging/executing-slash-commands.html#built-in-commands) for a list of available built-in slash commands. Custom slash commands can interact with external applications.'
                 />
+            </p>
             <p>
                 <FormattedMarkdownMessage
                     id='help.commands.builtin2'
