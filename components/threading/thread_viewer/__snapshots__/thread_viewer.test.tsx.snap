@@ -41,7 +41,7 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
         key="id"
         onCardClick={[Function]}
         onCardClickPost={[Function]}
-        openTime={1626801698084}
+        openTime={1502715365000}
         postIds={
           Array [
             "id",

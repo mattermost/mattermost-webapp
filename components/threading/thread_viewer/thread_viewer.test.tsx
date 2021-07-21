@@ -10,6 +10,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
 
 import {TestHelper} from 'utils/test_helper';
+import {fakeDate} from 'tests/helpers/date';
 
 import ThreadViewer from './thread_viewer';
 
@@ -62,12 +63,15 @@ describe('components/threading/ThreadViewer', () => {
     };
 
     test('should match snapshot', async () => {
+        const reset = fakeDate(new Date(1502715365000));
+
         const wrapper = shallow(
             <ThreadViewer {...baseProps}/>,
         );
 
         await new Promise((resolve) => setTimeout(resolve));
         expect(wrapper).toMatchSnapshot();
+        reset();
     });
 
     test('should make api call to get thread posts on socket reconnect', () => {
