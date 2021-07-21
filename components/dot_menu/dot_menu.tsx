@@ -9,7 +9,7 @@ import {Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
@@ -28,6 +28,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';
+import { Client4 } from 'mattermost-redux/client';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -49,7 +50,7 @@ type Props = {
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
-    appBindings?: AppBinding[];
+    appBindings?: AppBinding[] | null;
     appsEnabled: boolean;
 
     /**
@@ -127,6 +128,7 @@ type State = {
     openUp: boolean;
     canEdit: boolean;
     canDelete: boolean;
+    appBindings?: AppBinding[];
 }
 
 export class DotMenuClass extends React.PureComponent<Props, State> {
@@ -173,13 +175,20 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     componentDidMount() {
         this.disableCanEditPostByTime();
+        if (!this.state.appBindings) {
+            this.fetchBindings();
+        }
     }
 
     static getDerivedStateFromProps(props: Props) {
-        return {
+        const state: Partial<State> = {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
-        };
+        }
+        if (props.appBindings) {
+            state.appBindings = props.appBindings;
+        }
+        return state;
     }
 
     componentWillUnmount() {
@@ -358,6 +367,17 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
+    fetchBindings = () => {
+        Client4.getAppsBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(
+            (bindings) => {
+                const headerBindings = bindings.filter((b) => b.location === AppBindingLocations.POST_MENU_ITEM);
+                const postMenuBindings = headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
+                this.setState({appBindings: postMenuBindings})
+            },
+            () => {},
+        ).catch(() => {});
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
@@ -394,8 +414,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             }) || [];
 
         let appBindings = [] as JSX.Element[];
-        if (this.props.appsEnabled && this.props.appBindings) {
-            appBindings = this.props.appBindings.map((item) => {
+        if (this.props.appsEnabled && this.state.appBindings) {
+            appBindings = this.state.appBindings.map((item) => {
                 let icon: JSX.Element | undefined;
                 if (item.icon) {
                     icon = (<img src={item.icon}/>);

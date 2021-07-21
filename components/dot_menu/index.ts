@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
@@ -103,7 +103,10 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
     const apps = appsEnabled(state);
     const showBindings = apps && !systemMessage && !isCombinedUserActivityPost(post.id);
-    const appBindings = showBindings ? getPostMenuBindings(state) : undefined;
+    let appBindings = null;
+    if (post.channel_id === getCurrentChannelId(state)) {
+        appBindings = showBindings ? getPostMenuBindings(state) : undefined;
+    }
 
     return {
         channelIsArchived: isArchivedChannel(channel),
