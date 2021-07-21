@@ -150,7 +150,10 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.dotMenuRef = React.createRef();
     }
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        if (e) {
+            e.stopPropagation();
+        }
         const showEmojiPicker = !this.state.showEmojiPicker;
 
         this.setState({

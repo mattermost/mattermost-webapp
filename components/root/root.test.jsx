@@ -34,6 +34,7 @@ jest.mock('utils/utils', () => ({
     localizeMessage: () => {},
     isDevMode: jest.fn(),
     enableDevModeFeatures: jest.fn(),
+    makeIsEligibleForClick: jest.fn(),
 }));
 
 jest.mock('mattermost-redux/actions/general', () => ({
