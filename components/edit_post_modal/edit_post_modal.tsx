@@ -4,64 +4,99 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage, injectIntl} from 'react-intl';
-import PropTypes from 'prop-types';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {splitMessageBasedOnCaretPosition, postMessageOnKeyPress} from 'utils/post_utils.jsx';
-
-import {intlShape} from 'utils/react_intl';
+import {
+    splitMessageBasedOnCaretPosition,
+    postMessageOnKeyPress,
+} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
+import {
+    getTable,
+    formatMarkdownTableMessage,
+    isGitHubCodeBlock,
+    formatGithubCodePaste,
+} from 'utils/paste';
 
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
+import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
+import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {Post} from 'mattermost-redux/types/posts';
 
 const KeyCodes = Constants.KeyCodes;
 const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
-class EditPostModal extends React.PureComponent {
-    static propTypes = {
-        canEditPost: PropTypes.bool,
-        canDeletePost: PropTypes.bool,
-        codeBlockOnCtrlEnter: PropTypes.bool,
-        ctrlSend: PropTypes.bool,
-        config: PropTypes.object.isRequired,
-        intl: intlShape.isRequired,
-        maxPostSize: PropTypes.number.isRequired,
-        shouldShowPreview: PropTypes.bool.isRequired,
-        useChannelMentions: PropTypes.bool.isRequired,
+type OpenModal = {
+    ModalId: string;
+    dialogType: typeof React.Component;
+    dialogProps: {
+        post: Post;
+        isRHS?: boolean;
+    };
+};
 
-        editingPost: PropTypes.shape({
-            post: PropTypes.object,
-            postId: PropTypes.string,
-            refocusId: PropTypes.string,
-            show: PropTypes.bool.isRequired,
-            title: PropTypes.string,
-            isRHS: PropTypes.bool,
-        }).isRequired,
+export type Props = {
+    canEditPost?: boolean;
+    canDeletePost?: boolean;
+    channelId: string;
+    codeBlockOnCtrlEnter?: boolean;
+    ctrlSend?: boolean;
+    config: {
+        EnableEmojiPicker: string;
+        EnableGifPicker?: string;
+    };
+    intl: IntlShape;
+    maxPostSize: number;
+    shouldShowPreview: boolean;
+    useChannelMentions: boolean;
+    editingPost: {
+        post?: Post;
+        postId?: string;
+        refocusId?: string;
+        show: boolean;
+        title?: string;
+        isRHS?: boolean;
+    };
+    actions: {
+        addMessageIntoHistory: (message: string) => void;
+        editPost: (input: Partial<Post>) => Promise<Post>;
+        hideEditPostModal: () => void;
+        openModal: (input: OpenModal) => void;
+        setShowPreview: (newPreview: boolean) => void;
+    };
+};
 
-        actions: PropTypes.shape({
-            addMessageIntoHistory: PropTypes.func.isRequired,
-            editPost: PropTypes.func.isRequired,
-            hideEditPostModal: PropTypes.func.isRequired,
-            openModal: PropTypes.func.isRequired,
-            setShowPreview: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+export type State = {
+    editText: string;
+    caretPosition: number;
+    postError: React.ReactNode;
+    errorClass: string | null;
+    showEmojiPicker: boolean;
+    renderScrollbar: boolean;
+    scrollbarWidth: number;
+    prevShowState: boolean;
+};
 
-    constructor(props) {
+export class EditPostModal extends React.PureComponent<Props, State> {
+    private editModalBody: React.RefObject<Modal>;
+    private editbox: TextboxClass | null;
+    private lastChannelSwitchAt: number | undefined;
+    private refocusId: string | null | undefined;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             editText: '',
             caretPosition: ''.length,
-            postError: '',
+            postError: null,
             errorClass: null,
             showEmojiPicker: false,
             renderScrollbar: false,
@@ -70,12 +105,15 @@ class EditPostModal extends React.PureComponent {
         };
 
         this.editModalBody = React.createRef();
+        this.editbox = null;
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         if (props.editingPost.show && !state.prevShowState) {
             return {
-                editText: props.editingPost.post.message_source || props.editingPost.post.message,
+                editText:
+          props.editingPost.post?.message_source ||
+          props.editingPost.post?.message,
                 prevShowState: props.editingPost.show,
             };
         }
@@ -91,30 +129,32 @@ class EditPostModal extends React.PureComponent {
         document.removeEventListener('paste', this.handlePaste);
     }
 
-    setShowPreview = (newPreviewValue) => {
+    setShowPreview = (newPreviewValue: boolean) => {
         this.props.actions.setShowPreview(newPreviewValue);
-    }
+    };
 
     getContainer = () => {
         return this.editModalBody.current;
-    }
+    };
 
     toggleEmojiPicker = () => {
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
         if (!this.state.showEmojiPicker && this.editbox) {
             this.editbox.focus();
         }
-    }
+    };
 
     hideEmojiPicker = () => {
         this.setState({showEmojiPicker: false});
         if (this.editbox) {
             this.editbox.focus();
         }
-    }
+    };
 
-    handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji && ((emoji.short_names && emoji.short_names[0]) || emoji.name);
+    handleEmojiClick = (emoji?: Emoji) => {
+        const emojiAlias =
+      emoji &&
+        (((emoji as SystemEmoji).short_names && (emoji as SystemEmoji).short_names[0]) || emoji.name);
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
@@ -125,58 +165,67 @@ class EditPostModal extends React.PureComponent {
             this.setState({editText: ':' + emojiAlias + ': '});
         } else {
             const {editText} = this.state;
-            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, editText);
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(
+                this.state.caretPosition,
+                editText,
+            );
 
             // check whether the first piece of the message is empty when cursor
             // is placed at beginning of message and avoid adding an empty string at the beginning of the message
-            const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
+            const newMessage = firstPiece === '' ?
+                `:${emojiAlias}: ${lastPiece}` :
+                `${firstPiece} :${emojiAlias}: ${lastPiece}`;
+            const newCaretPosition = firstPiece === '' ?
+                `:${emojiAlias}: `.length :
+                `${firstPiece} :${emojiAlias}: `.length;
 
-            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
+            const textbox = this.editbox && this.editbox.getInputBox();
 
-            const textbox = this.editbox.getInputBox();
-
-            this.setState({
-                editText: newMessage,
-                caretPosition: newCaretPosition,
-            }, () => {
-                Utils.setCaretPosition(textbox, newCaretPosition);
-            });
+            this.setState(
+                {
+                    editText: newMessage,
+                    caretPosition: newCaretPosition,
+                },
+                () => {
+                    Utils.setCaretPosition(textbox, newCaretPosition);
+                },
+            );
         }
 
         this.setState({showEmojiPicker: false});
 
-        if (this.editbox) {
-            this.editbox.focus();
-        }
-    }
+        this.editbox?.focus();
+    };
 
-    handleGifClick = (gif) => {
+    handleGifClick = (gif: string) => {
         if (this.state.editText === '') {
             this.setState({editText: gif});
         } else {
-            const newMessage = ((/\s+$/).test(this.state.editText)) ? this.state.editText + gif : this.state.editText + ' ' + gif;
+            const newMessage = (/\s+$/).test(this.state.editText) ?
+                this.state.editText + gif :
+                this.state.editText + ' ' + gif;
             this.setState({editText: newMessage});
         }
         this.setState({showEmojiPicker: false});
-        this.editbox.focus();
-    }
+        this.editbox?.focus();
+    };
 
     getTarget = () => {
         return this.refs.editPostEmoji;
-    }
+    };
 
-    handlePostError = (postError) => {
+    handlePostError = (postError: React.ReactNode) => {
         if (this.state.postError !== postError) {
             this.setState({postError});
         }
-    }
+    };
 
     handleEdit = async () => {
-        if (this.isSaveDisabled()) {
+        const {actions, editingPost} = this.props;
+        if (this.isSaveDisabled() || !editingPost.post) {
             return;
         }
 
-        const {actions, editingPost} = this.props;
         const updatedPost = {
             message: this.state.editText,
             id: editingPost.postId,
@@ -191,13 +240,13 @@ class EditPostModal extends React.PureComponent {
             return;
         }
 
-        if (updatedPost.message === (editingPost.post.message_source || editingPost.post.message)) {
+        if (updatedPost.message === (editingPost.post?.message_source || editingPost.post?.message)) {
             // no changes so just close the modal
             this.handleHide();
             return;
         }
 
-        const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
+        const hasAttachment = Boolean(editingPost.post?.file_ids && editingPost.post?.file_ids.length > 0);
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
             this.handleHide(false);
 
@@ -210,7 +259,7 @@ class EditPostModal extends React.PureComponent {
                 },
             };
 
-            this.props.actions.openModal(deletePostModalData);
+            actions.openModal(deletePostModalData);
             return;
         }
 
@@ -222,17 +271,22 @@ class EditPostModal extends React.PureComponent {
         }
 
         this.handleHide();
-    }
+    };
 
-    handleChange = (e) => {
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const message = e.target.value;
         this.setState({
             editText: message,
         });
-    }
+    };
 
-    handlePaste = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox') {
+    handlePaste = (e: ClipboardEvent) => {
+        if (
+            !e.clipboardData ||
+            !e.clipboardData.items ||
+            !this.props.canEditPost ||
+            (e.target as HTMLTextAreaElement).id !== 'edit_textbox'
+        ) {
             return;
         }
         const {clipboardData} = e;
@@ -247,27 +301,40 @@ class EditPostModal extends React.PureComponent {
         let message = editText;
         let newCaretPosition = this.state.caretPosition;
 
-        if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+        if (table && isGitHubCodeBlock(table.className)) {
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
+                this.state.caretPosition,
+                message,
+                clipboardData,
+            );
             newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
             message = formattedMessage;
-        } else {
-            message = formatMarkdownTableMessage(table, editText.trim(), newCaretPosition);
+        } else if (table) {
+            message = formatMarkdownTableMessage(
+                table,
+                editText.trim(),
+                newCaretPosition,
+            );
             newCaretPosition = message.length - (editText.length - newCaretPosition);
         }
 
-        this.setState({
-            editText: message,
-            caretPosition: newCaretPosition,
-        }, () => {
-            Utils.setCaretPosition(this.editbox.getInputBox(), newCaretPosition);
-        });
-    }
+        this.setState(
+            {
+                editText: message,
+                caretPosition: newCaretPosition,
+            },
+            () => {
+                if (this.editbox) {
+                    Utils.setCaretPosition(this.editbox.getInputBox(), newCaretPosition);
+                }
+            },
+        );
+    };
 
-    handleEditKeyPress = (e) => {
+    handleEditKeyPress = (e: React.KeyboardEvent<Element>) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
-        const {allowSending, ignoreKeyPress} = postMessageOnKeyPress(e, this.state.editText, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition);
+        const {allowSending, ignoreKeyPress} = postMessageOnKeyPress(e, this.state.editText, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition) as {allowSending: boolean; ignoreKeyPress?: boolean};
 
         if (ignoreKeyPress) {
             e.preventDefault();
@@ -275,33 +342,52 @@ class EditPostModal extends React.PureComponent {
             return;
         }
 
-        if (allowSending) {
+        if (allowSending && this.editbox) {
             e.preventDefault();
             this.editbox.blur();
             this.handleEdit();
         }
-    }
+    };
 
-    handleMouseUpKeyUp = (e) => {
+    handleMouseUpKeyUp = (e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>) => {
         const caretPosition = Utils.getCaretPosition(e.target);
         this.setState({
             caretPosition,
         });
-    }
+    };
 
-    handleSelect = (e) => {
-        Utils.adjustSelection(this.editbox.getInputBox(), e);
-    }
+    handleSelect = (
+        e: React.SyntheticEvent<Element, Event> | React.SyntheticEvent<Modal, Event>,
+    ) => {
+        if (this.editbox) {
+            Utils.adjustSelection(this.editbox.getInputBox(), e);
+        }
+    };
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (
+        e: React.KeyboardEvent<Element> | React.KeyboardEvent<Modal>,
+    ) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
-        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
-        const ctrlEnterKeyCombo = (ctrlSend || codeBlockOnCtrlEnter) && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
-        const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
-        const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
+        const ctrlOrMetaKeyPressed =
+            e.ctrlKey ||
+            e.metaKey;
+        const ctrlKeyCombo =
+            Utils.cmdOrCtrlPressed(e) &&
+            !e.altKey &&
+            !e.shiftKey;
+        const ctrlAltCombo =
+            Utils.cmdOrCtrlPressed(e, true) &&
+            e.altKey;
+        const ctrlEnterKeyCombo =
+            (ctrlSend || codeBlockOnCtrlEnter) &&
+            Utils.isKeyPressed(e, KeyCodes.ENTER) &&
+            ctrlOrMetaKeyPressed;
+        const markdownHotkey =
+            Utils.isKeyPressed(e, KeyCodes.B) ||
+            Utils.isKeyPressed(e, KeyCodes.I);
+        const markdownLinkKey =
+            Utils.isKeyPressed(e, KeyCodes.K);
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
@@ -309,56 +395,74 @@ class EditPostModal extends React.PureComponent {
             this.setState({editText: Utils.insertLineBreakFromKeyEvent(e)});
         } else if (ctrlEnterKeyCombo) {
             this.handleEdit();
-        } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !this.state.showEmojiPicker) {
+        } else if (
+            Utils.isKeyPressed(e, KeyCodes.ESCAPE) &&
+            !this.state.showEmojiPicker
+        ) {
             this.handleHide();
-        } else if ((ctrlKeyCombo && markdownHotkey) || (ctrlAltCombo && markdownLinkKey)) {
+        } else if (
+            (ctrlKeyCombo && markdownHotkey) ||
+            (ctrlAltCombo && markdownLinkKey)
+        ) {
             this.applyHotkeyMarkdown(e);
         }
-    }
+    };
 
-    applyHotkeyMarkdown = (e) => {
+    applyHotkeyMarkdown = (
+        e: React.KeyboardEvent<Element> | React.KeyboardEvent<Modal>,
+    ) => {
         const res = Utils.applyHotkeyMarkdown(e);
 
-        this.setState({
-            editText: res.message,
-        }, () => {
-            const textbox = this.editbox.getInputBox();
-            Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
-        });
-    }
+        this.setState(
+            {
+                editText: res.message,
+            },
+            () => {
+                if (this.editbox) {
+                    const textbox = this.editbox.getInputBox();
+                    Utils.setSelectionRange(
+                        textbox,
+                        res.selectionStart,
+                        res.selectionEnd,
+                    );
+                }
+            },
+        );
+    };
 
     handleHide = (doRefocus = true) => {
         this.refocusId = doRefocus ? this.props.editingPost.refocusId : null;
+        this.setState({editText: this.props.editingPost.post?.message || ''});
         this.props.actions.hideEditPostModal();
-    }
+    };
 
     handleCheckForChangesHide = () => {
-        if (this.state.editText !== this.props.editingPost.post.message) {
+        if (this.state.editText !== this.props.editingPost.post?.message) {
             return;
         }
 
         this.handleHide();
-    }
+    };
 
     handleEntered = () => {
         if (this.editbox) {
             this.editbox.focus();
             this.editbox.recalculateSize();
         }
-    }
+    };
 
-    handleHeightChange = (height, maxHeight) => {
+    handleHeightChange = (height: number, maxHeight: number) => {
         if (this.editbox) {
             this.setState({
                 renderScrollbar: height > maxHeight,
                 scrollbarWidth: Utils.scrollbarWidth(this.editbox.getInputBox()),
             });
         }
-    }
+    };
 
     handleExit = () => {
         this.props.actions.setShowPreview(false);
-    }
+    };
 
     handleExited = () => {
         const refocusId = this.refocusId;
@@ -372,17 +476,23 @@ class EditPostModal extends React.PureComponent {
         }
 
         this.refocusId = null;
-        this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false, prevShowState: false});
+        this.setState({
+            editText: '',
+            postError: null,
+            errorClass: null,
+            showEmojiPicker: false,
+            prevShowState: false,
+        });
         this.props.actions.setShowPreview(false);
-    }
+    };
 
-    setEditboxRef = (ref) => {
+    setEditboxRef = (ref: TextboxClass) => {
         this.editbox = ref;
 
         if (this.editbox) {
             this.editbox.focus();
         }
-    }
+    };
 
     isSaveDisabled = () => {
         const post = this.props.editingPost.post;
@@ -396,20 +506,28 @@ class EditPostModal extends React.PureComponent {
         }
 
         return !this.props.canDeletePost;
-    }
+    };
 
     render() {
         const {formatMessage} = this.props.intl;
         const errorBoxClass = 'edit-post-footer' + (this.state.postError ? ' has-error' : '');
         let postError = null;
         if (this.state.postError) {
-            const postErrorClass = 'post-error' + (this.state.errorClass ? (' ' + this.state.errorClass) : '');
-            postError = (<label className={postErrorClass}>{this.state.postError}</label>);
+            const postErrorClass = 'post-error' + (this.state.errorClass ? ' ' + this.state.errorClass : '');
+            postError = (
+                <label className={postErrorClass}>{this.state.postError}</label>
+            );
         }
 
         let emojiPicker = null;
-        const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
-        if (this.props.config.EnableEmojiPicker === 'true' && !this.props.shouldShowPreview) {
+        const emojiButtonAriaLabel = formatMessage({
+            id: 'emoji_picker.emojiPicker',
+            defaultMessage: 'Emoji Picker',
+        }).toLowerCase();
+        if (
+            this.props.config.EnableEmojiPicker === 'true' &&
+            !this.props.shouldShowPreview
+        ) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -430,10 +548,7 @@ class EditPostModal extends React.PureComponent {
                         className='style--none post-action'
                         onClick={this.toggleEmojiPicker}
                     >
-                        <EmojiIcon
-                            className='icon icon--emoji'
-
-                        />
+                        <EmojiIcon className='icon icon--emoji'/>
                     </button>
                 </div>
             );
@@ -472,16 +587,25 @@ class EditPostModal extends React.PureComponent {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body
-                    bsClass={`modal-body edit-modal-body${this.state.showEmojiPicker ? ' edit-modal-body--add-reaction' : ''}`}
+                    bsClass={classNames('modal-body edit-modal-body', {
+                        'edit-modal-body--add-reaction': this.state.showEmojiPicker,
+                    })}
                     ref={this.editModalBody}
                 >
                     <div className='post-create__container'>
                         <div
-                            className={classNames('textarea-wrapper', {scroll: this.state.renderScrollbar})}
-                            style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} : undefined}
+                            className={classNames('textarea-wrapper', {
+                                scroll: this.state.renderScrollbar,
+                            })}
+                            style={
+                                this.state.renderScrollbar && this.state.scrollbarWidth ? ({
+                                    '--detected-scrollbar-width': `${this.state.scrollbarWidth}px`,
+                                } as React.CSSProperties) : undefined
+                            }
                         >
                             <Textbox
-                                tabIndex='0'
+                                tabIndex={0}
+                                rootId={this.props.editingPost.post ? Utils.getRootId(this.props.editingPost.post) : ''}
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}
                                 onKeyDown={this.handleKeyDown}
@@ -491,9 +615,12 @@ class EditPostModal extends React.PureComponent {
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}
                                 value={this.state.editText}
-                                channelId={this.props.editingPost.post && this.props.editingPost.post.channel_id}
+                                channelId={this.props.channelId}
                                 emojiEnabled={this.props.config.EnableEmojiPicker === 'true'}
-                                createMessage={Utils.localizeMessage('edit_post.editPost', 'Edit the post...')}
+                                createMessage={Utils.localizeMessage(
+                                    'edit_post.editPost',
+                                    'Edit the post...',
+                                )}
                                 supportsCommands={false}
                                 suggestionListStyle='bottom'
                                 id='edit_textbox'
@@ -502,21 +629,16 @@ class EditPostModal extends React.PureComponent {
                                 preview={this.props.shouldShowPreview}
                                 useChannelMentions={this.props.useChannelMentions}
                             />
-                            <div className='post-body__actions'>
-                                {emojiPicker}
-                            </div>
+                            <div className='post-body__actions'>{emojiPicker}</div>
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
-                                ref={this.setTextboxLinksRef}
                                 updatePreview={this.setShowPreview}
                                 message={this.state.editText}
                             />
-                            <div className={errorBoxClass}>
-                                {postError}
-                            </div>
+                            <div className={errorBoxClass}>{postError}</div>
                         </div>
                     </div>
                 </Modal.Body>
@@ -524,7 +646,7 @@ class EditPostModal extends React.PureComponent {
                     <button
                         type='button'
                         className='btn btn-link'
-                        onClick={this.handleHide}
+                        onClick={() => this.handleHide()}
                     >
                         <FormattedMessage
                             id='edit_post.cancel'
