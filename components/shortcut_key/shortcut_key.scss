@@ -6,6 +6,7 @@
         font-size: 14px;
         font-weight: 500;
         line-height: 1;
+        color: var(--center-channel-bg);
 
         &.shortcut-key--contrast {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);

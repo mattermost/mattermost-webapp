@@ -7,9 +7,16 @@
 
 .nav-tabs {
     margin-bottom: 10px;
+    background: var(--center-channel-bg);
 
     > li {
         margin-right: 5px;
+
+        &.active {
+            > a {
+                background: var(--center-channel-bg);
+            }
+        }
 
         > a {
             padding: 7px 15px;

@@ -546,38 +546,6 @@ export function toRgbValues(hexStr) {
 }
 
 export function applyTheme(theme) {
-    if (theme.centerChannelBg) {
-        changeCss('.app__body .attachment__content, .app__body .attachment-actions button', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .shortcut-key, .app__body .post-list__new-messages-below', 'color:' + theme.centerChannelBg);
-        changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
-
-        // Fade out effect for collapsed posts (not hovered, not from current user)
-        changeCss(
-            '.app__body .post-list__table .post:not(.current--user) .post-collapse__gradient, ' +
-            '.app__body .post-list__table .post.post--compact .post-collapse__gradient, ' +
-            '.app__body .sidebar-right__body .post.post--compact .post-collapse__gradient',
-            `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
-        );
-        changeCss(
-            '.app__body .post-list__table .post-attachment-collapse__gradient, ' +
-            '.app__body .sidebar-right__body .post-attachment-collapse__gradient',
-            `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
-        );
-
-        changeCss(
-            '.app__body .post-list__table .post:not(.current--user) .post-collapse__show-more, ' +
-            '.app__body .post-list__table .post.post--compact .post-collapse__show-more, ' +
-            '.app__body .sidebar-right__body .post:not(.post--root) .post-collapse__show-more',
-            `background-color:${theme.centerChannelBg}`,
-        );
-        changeCss(
-            '.app__body .post-list__table .post-attachment-collapse__show-more, ' +
-            '.app__body .sidebar-right__body .post-attachment-collapse__show-more',
-            `background-color:${theme.centerChannelBg}`,
-        );
-    }
-
     if (theme.centerChannelColor) {
         changeCss('.app__body .bg-text-200', 'background:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .user-popover__role', 'background:' + changeOpacity(theme.centerChannelColor, 0.3));
@@ -648,7 +616,6 @@ export function applyTheme(theme) {
         changeCss('body', 'scrollbar-arrow-color:' + theme.centerChannelColor);
         changeCss('.app__body .post-create__container .post-create-body .btn-file svg, .app__body .post.post--compact .post-image__column .post-image__details svg, .app__body .modal .about-modal .about-modal__logo svg, .app__body .status svg, .app__body .edit-post__actions .icon svg', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .scrollbar--horizontal, .app__body .scrollbar--vertical', 'background:' + changeOpacity(theme.centerChannelColor, 0.5));
-        changeCss('.app__body .post-list__new-messages-below', 'background:' + changeColor(theme.centerChannelColor, 0.5));
         changeCss('.app__body .post.post--comment .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('@media(min-width: 768px){.app__body .post.post--compact.same--root.post--comment .post__content', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .post.post--comment.current--user .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));

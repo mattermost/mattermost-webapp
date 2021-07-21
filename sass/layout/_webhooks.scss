@@ -110,6 +110,7 @@
             border-left: none;
             margin: 5px 0 5px 20px;
             border-radius: 0 4px 4px 0;
+            background: var(--center-channel-bg);
 
             &.attachment__content--permalink {
                 border-left-width: 1px;
@@ -376,6 +377,7 @@
                 font-size: 13px;
                 font-weight: 700;
                 outline: 0;
+                background: var(--center-channel-bg);
 
                 &[disabled] {
                     cursor: auto;
