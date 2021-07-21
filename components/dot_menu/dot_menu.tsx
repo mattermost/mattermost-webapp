@@ -175,8 +175,13 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     componentDidMount() {
         this.disableCanEditPostByTime();
-        if (!this.state.appBindings) {
-            this.fetchBindings();
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (!this.state.appBindings && this.props.isMenuOpen && !prevProps.isMenuOpen) {
+            if (!this.state.appBindings) {
+                this.fetchBindings();
+            }
         }
     }
 
@@ -374,8 +379,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 const postMenuBindings = headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
                 this.setState({appBindings: postMenuBindings})
             },
-            () => {},
-        ).catch(() => {});
+            () => {
+                this.setState({appBindings: []});
+            },
+        ).catch(() => {
+            this.setState({appBindings: []});
+        });
     }
 
     render() {
