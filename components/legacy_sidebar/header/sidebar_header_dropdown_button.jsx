@@ -20,7 +20,7 @@ const HeaderLine = styled.div`
     padding: 2px 16px 0 0;
     flex-grow: 1;
     user-select: none;
-    color: var(--sidebar-text);
+    color: var(--sidebar-header-text-color);
 `;
 
 const VerticalStack = styled.div`
@@ -35,7 +35,7 @@ const TeamName = styled.h1`
     line-height: 24px;
     margin: 0;
     margin-left: 6px;
-    color: var(--sidebar-text);
+    color: var(--sidebar-header-text-color);
 `;
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
