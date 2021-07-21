@@ -5,19 +5,15 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {getProfiles} from 'mattermost-redux/actions/users';
 
 import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 
@@ -45,9 +41,7 @@ function mapStateToProps(state: GlobalState) {
 
     const config = getConfig(state);
 
-    const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
-    const currentUserId = getCurrentUserId(state);
 
     let channelRolesLoading = true;
     if (channel && channel.id) {
@@ -69,7 +63,6 @@ function mapStateToProps(state: GlobalState) {
         channelRolesLoading,
         deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
         focusedPostId: state.views.channel.focusedPostId,
-        onIntroTutorialScreen: tutorialStep <= TutorialSteps.INTRO_SCREENS,
         showNextSteps: showNextSteps(state),
         showNextStepsTips: showNextStepsTips(state),
         isOnboardingHidden: isOnboardingHidden(state),
@@ -77,14 +70,12 @@ function mapStateToProps(state: GlobalState) {
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
         isCloud: getLicense(state).Cloud === 'true',
-        currentUserId,
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
-            savePreferences,
             setShowNextStepsView,
             goToLastViewedChannel,
             getProfiles,

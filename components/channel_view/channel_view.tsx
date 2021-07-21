@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Action, ActionFunc} from 'mattermost-redux/types/actions';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
@@ -17,7 +16,6 @@ import PostView from 'components/post_view';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import {Preferences} from 'utils/constants.jsx';
 
 type Props = {
     channelId: string;
@@ -29,7 +27,6 @@ type Props = {
             postid?: string;
         };
     };
-    onIntroTutorialScreen: boolean;
     showNextSteps: boolean;
     showNextStepsTips: boolean;
     isOnboardingHidden: boolean;
@@ -37,12 +34,10 @@ type Props = {
     channelIsArchived: boolean;
     viewArchivedChannels: boolean;
     isCloud: boolean;
-    currentUserId: string;
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
         setShowNextStepsView: (show: boolean) => Action;
         getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
-        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
 };
 
@@ -121,18 +116,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
         await this.props.actions.getProfiles();
         if ((this.props.showNextSteps || this.props.showNextStepsTips) && !this.props.isOnboardingHidden) {
             this.props.actions.setShowNextStepsView(true);
-        }
-
-        const {currentUserId, onIntroTutorialScreen, actions} = this.props;
-        if (onIntroTutorialScreen) {
-            const preferences = [{
-                user_id: currentUserId,
-                category: Preferences.TUTORIAL_STEP,
-                name: currentUserId,
-                value: '1',
-            }];
-
-            await actions.savePreferences(currentUserId, preferences);
         }
     }
 
