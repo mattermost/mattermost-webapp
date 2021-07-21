@@ -108,7 +108,7 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral post 1`]
     <span
       className="post__visibility"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="(Only visible to you)"
         id="post_info.message.visible"
       />

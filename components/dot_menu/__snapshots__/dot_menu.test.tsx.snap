@@ -17,7 +17,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         id="dotmenu-icon-tooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
         />
@@ -153,7 +153,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         id="dotmenu-icon-tooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More actions"
           id="post_info.dot_menu.tooltip.more_actions"
         />

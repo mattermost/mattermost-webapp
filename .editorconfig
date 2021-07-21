@@ -27,3 +27,6 @@ indent_style = tab
 [*.scss]
 indent_style = space
 indent_size = 4
+
+[.npm-upgrade.json]
+insert_final_newline = false

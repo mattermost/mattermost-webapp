@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
@@ -16,41 +15,51 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 const HTTP_STATUS_OK = 200;
 
-export default class BrandImageSetting extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /*
-         * Set for testing purpose
-         */
-        id: PropTypes.string,
+    /*
+   * Set for testing purpose
+   */
+    id?: string;
 
-        /*
-         * Set to disable the setting
-         */
-        disabled: PropTypes.bool.isRequired,
+    /*
+   * Set to disable the setting
+   */
+    disabled: boolean;
 
-        /*
-        * Set the save needed in the admin schema settings to trigger the save button to turn on
-        */
-        setSaveNeeded: PropTypes.func.isRequired,
+    /*
+   * Set the save needed in the admin schema settings to trigger the save button to turn on
+   */
+    setSaveNeeded: () => void;
 
-        /*
-        * Registers the function suppose to be run when the save button is pressed
-        */
-        registerSaveAction: PropTypes.func.isRequired,
+    /*
+   * Registers the function suppose to be run when the save button is pressed
+   */
+    registerSaveAction: (saveAction: () => Promise<unknown>) => void;
 
-        /*
-        * Unregisters the function on unmount of the component suppose to be run when the save button is pressed
-        */
-        unRegisterSaveAction: PropTypes.func.isRequired,
-    }
+    /*
+   * Unregisters the function on unmount of the component suppose to be run when the save button is pressed
+   */
+    unRegisterSaveAction: (saveAction: () => Promise<unknown>) => void;
+};
 
-    constructor(props) {
+type State = {
+    deleteBrandImage: boolean;
+    brandImage?: Blob;
+    brandImageExists: boolean;
+    brandImageTimestamp: number;
+    error: string;
+};
+
+export default class BrandImageSetting extends React.PureComponent<Props, State> {
+    private imageRef: React.RefObject<HTMLImageElement>;
+    private fileInputRef: React.RefObject<HTMLInputElement>;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             deleteBrandImage: false,
-            brandImage: null,
             brandImageExists: false,
             brandImageTimestamp: Date.now(),
             error: '',
@@ -61,15 +70,18 @@ export default class BrandImageSetting extends React.PureComponent {
     }
 
     componentDidMount() {
-        fetch(Client4.getBrandImageUrl(this.state.brandImageTimestamp)).then(
-            (resp) => {
-                if (resp.status === HTTP_STATUS_OK) {
-                    this.setState({brandImageExists: true});
-                } else {
-                    this.setState({brandImageExists: false});
-                }
-            },
-        );
+        fetch(
+            Client4.getBrandImageUrl(String(this.state.brandImageTimestamp)),
+        ).then((resp) => {
+            if (resp.status === HTTP_STATUS_OK) {
+                this.setState({brandImageExists: true});
+            } else {
+                this.setState({brandImageExists: false});
+            }
+        }).catch((err) => {
+            console.error(`unable to retrieve brand image: ${err}`); //eslint-disable-line no-console
+            this.setState({brandImageExists: false});
+        });
 
         this.props.registerSaveAction(this.handleSave);
     }
@@ -84,15 +96,27 @@ export default class BrandImageSetting extends React.PureComponent {
 
             const img = this.imageRef.current;
             reader.onload = (e) => {
-                $(img).attr('src', e.target.result); // eslint-disable-line jquery/no-attr
+                const src =
+          e.target?.result instanceof ArrayBuffer ?
+              e.target?.result.toString() :
+              e.target?.result;
+
+                if (src) {
+                    $(img).attr('src', src); // eslint-disable-line jquery/no-attr
+                }
             };
 
-            reader.readAsDataURL(this.state.brandImage);
+            if (this.state.brandImage) {
+                reader.readAsDataURL(this.state.brandImage);
+            }
         }
     }
 
     handleImageChange = () => {
-        const element = $(this.fileInputRef.current);
+        if (!this.fileInputRef.current) {
+            return;
+        }
+        const element = $(this.fileInputRef.current) as any;
         if (element.prop('files').length > 0) {
             this.props.setSaveNeeded();
             this.setState({
@@ -100,12 +124,16 @@ export default class BrandImageSetting extends React.PureComponent {
                 deleteBrandImage: false,
             });
         }
-    }
+    };
 
     handleDeleteButtonPressed = () => {
-        this.setState({deleteBrandImage: true, brandImage: null, brandImageExists: false});
+        this.setState({
+            deleteBrandImage: true,
+            brandImage: undefined,
+            brandImageExists: false,
+        });
         this.props.setSaveNeeded();
-    }
+    };
 
     handleSave = async () => {
         this.setState({
@@ -119,10 +147,10 @@ export default class BrandImageSetting extends React.PureComponent {
                     this.setState({
                         deleteBrandImage: false,
                         brandImageExists: false,
-                        brandImage: null,
+                        brandImage: undefined,
                     });
                 },
-                (err) => {
+                (err: Error) => {
                     error = err;
                     this.setState({
                         error: err.message,
@@ -135,11 +163,11 @@ export default class BrandImageSetting extends React.PureComponent {
                 () => {
                     this.setState({
                         brandImageExists: true,
-                        brandImage: null,
+                        brandImage: undefined,
                         brandImageTimestamp: Date.now(),
                     });
                 },
-                (err) => {
+                (err: Error) => {
                     error = err;
                     this.setState({
                         error: err.message,
@@ -148,7 +176,7 @@ export default class BrandImageSetting extends React.PureComponent {
             );
         }
         return {error};
-    }
+    };
 
     render() {
         let letbtnDefaultClass = 'btn';
@@ -174,7 +202,7 @@ export default class BrandImageSetting extends React.PureComponent {
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='right'
-                        overlay={(
+                        overlay={
                             <Tooltip id='removeIcon'>
                                 <div aria-hidden={true}>
                                     <FormattedMessage
@@ -183,7 +211,7 @@ export default class BrandImageSetting extends React.PureComponent {
                                     />
                                 </div>
                             </Tooltip>
-                        )}
+                        }
                     >
                         <button
                             type='button'
@@ -199,7 +227,9 @@ export default class BrandImageSetting extends React.PureComponent {
                 <div className='remove-image__img mb-5'>
                     <img
                         alt='brand image'
-                        src={Client4.getBrandImageUrl(this.state.brandImageTimestamp)}
+                        src={Client4.getBrandImageUrl(
+                            String(this.state.brandImageTimestamp),
+                        )}
                     />
                     {overlay}
                 </div>
@@ -227,9 +257,7 @@ export default class BrandImageSetting extends React.PureComponent {
                     />
                 </label>
                 <div className='col-sm-8'>
-                    <div className='remove-image'>
-                        {img}
-                    </div>
+                    <div className='remove-image'>{img}</div>
                 </div>
                 <div className='col-sm-4'/>
                 <div className='col-sm-8'>

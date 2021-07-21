@@ -11,7 +11,7 @@ exports[`/components/common/SiteNameAndDescription should match snapshot, defaul
     className="color--light"
     id="site_description"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="All team communication in one place, searchable and accessible anywhere"
       id="web.root.signup_info"
     />

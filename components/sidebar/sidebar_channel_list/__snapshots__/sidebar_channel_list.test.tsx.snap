@@ -14,7 +14,7 @@ exports[`SidebarChannelList should match snapshot 1`] = `
   >
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -26,7 +26,7 @@ exports[`SidebarChannelList should match snapshot 1`] = `
     />
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
