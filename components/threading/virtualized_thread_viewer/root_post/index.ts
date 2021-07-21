@@ -10,11 +10,8 @@ import {GlobalState} from 'types/store';
 import RootPost, {OwnProps} from './root_post';
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const {id} = ownProps;
-    const post = getPost(state, id);
-
     return {
-        post,
+        post: getPost(state, ownProps.id),
     };
 }
 

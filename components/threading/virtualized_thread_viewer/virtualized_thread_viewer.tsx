@@ -151,15 +151,59 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         if (scrollHeight <= 0 || scrollUpdateWasRequested) {
             return;
         }
-        const lastPostRect = this.getLastPost()?.getBoundingClientRect();
-        let updatedState = {userScrolled: true} as Pick<State, keyof State>;
 
-        if (lastPostRect) {
-            const userScrolledToBottom = scrollOffset >= clientHeight - lastPostRect.height;
-            updatedState = {...updatedState, userScrolledToBottom};
+        const userScrolledToBottom = scrollHeight - scrollOffset === clientHeight;
+
+        this.setState({
+            userScrolled: true,
+            userScrolledToBottom,
+        });
+    }
+
+    updateFloatingTimestamp = (visibleTopItem: number): void => {
+        if (!this.props.replyListIds) {
+            return;
         }
 
-        this.setState(updatedState);
+        this.setState({
+            topPostId: getLatestPostId(this.props.replyListIds.slice(visibleTopItem)),
+        });
+    }
+
+    onItemsRendered = ({visibleStartIndex}: {visibleStartIndex: number}): void => {
+        this.updateFloatingTimestamp(visibleStartIndex);
+    }
+
+    shouldScrollToBottom = (): boolean => {
+        return this.getInitialPostIndex() === 0;
+    }
+
+    getInitialPostIndex = (): number => {
+        let postIndex = 0;
+
+        if (this.props.highlightedPostId) {
+            postIndex = this.props.replyListIds.findIndex((postId) => postId === this.props.highlightedPostId);
+        } else {
+            postIndex = getNewMessageIndex(this.props.replyListIds);
+        }
+
+        return postIndex === -1 ? 0 : postIndex;
+    }
+
+    scrollToItem = (index: number, position: string, offset?: number): void => {
+        if (this.listRef.current) {
+            this.listRef.current.scrollToItem(index, position, offset);
+        }
+    }
+
+    scrollToBottom = (): void => {
+        if (this.shouldScrollToBottom()) {
+            this.scrollToItem(0, 'end');
+        }
+    }
+
+    scrollToNewMessage = (): void => {
+        this.scrollToItem(getNewMessageIndex(this.props.replyListIds), 'start', OFFSET_TO_SHOW_TOAST);
     }
 
     renderRow = memoize(({data, itemId, style}: {data: any; itemId: any; style: any}) => {
@@ -226,52 +270,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             </div>
         );
     });
-
-    updateFloatingTimestamp = (visibleTopItem: number): void => {
-        if (!this.props.replyListIds) {
-            return;
-        }
-
-        this.setState({
-            topPostId: getLatestPostId(this.props.replyListIds.slice(visibleTopItem)),
-        });
-    }
-
-    onItemsRendered = ({visibleStartIndex}: {visibleStartIndex: number}): void => {
-        this.updateFloatingTimestamp(visibleStartIndex);
-    }
-
-    shouldScrollToBottom = (): boolean => {
-        return this.getInitialPostIndex() === 0;
-    }
-
-    getInitialPostIndex = (): number => {
-        let postIndex = 0;
-
-        if (this.props.highlightedPostId) {
-            postIndex = this.props.replyListIds.findIndex((postId) => postId === this.props.highlightedPostId);
-        } else {
-            postIndex = getNewMessageIndex(this.props.replyListIds);
-        }
-
-        return postIndex === -1 ? 0 : postIndex;
-    }
-
-    scrollToItem = (index: number, position: string, offset?: number): void => {
-        if (this.listRef.current) {
-            this.listRef.current.scrollToItem(index, position, offset);
-        }
-    }
-
-    scrollToBottom = (): void => {
-        if (this.shouldScrollToBottom()) {
-            this.scrollToItem(0, 'end');
-        }
-    }
-
-    scrollToNewMessage = (): void => {
-        this.scrollToItem(getNewMessageIndex(this.props.replyListIds), 'start', OFFSET_TO_SHOW_TOAST);
-    }
 
     render() {
         return (

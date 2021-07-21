@@ -9,15 +9,10 @@ import {GlobalState} from 'types/store';
 
 import Reply, {OwnProps} from './reply';
 
-function makeMapStateToProps() {
-    return (state: GlobalState, ownProps: OwnProps) => {
-        const {id} = ownProps;
-        const post = getPost(state, id);
-
-        return {
-            post,
-        };
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    return {
+        post: getPost(state, ownProps.id),
     };
 }
 
-export default connect(makeMapStateToProps)(Reply);
+export default connect(mapStateToProps)(Reply);
