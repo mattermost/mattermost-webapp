@@ -114,11 +114,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
     }
 
-    private getLastPost() {
-        const childPosts = this.innerRef.current?.children;
-        return childPosts && childPosts[childPosts.length - 1];
-    }
-
     canLoadMorePosts(): void {}
 
     initScrollToIndex = () => {
