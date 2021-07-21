@@ -49,6 +49,7 @@ type Props = {
 } & OwnProps;
 
 type State = {
+    isMobile: boolean;
     isScrolling: boolean;
     topRhsPostId?: string;
     userScrolled: boolean;
@@ -59,6 +60,7 @@ const virtListStyles = {
     position: 'absolute',
     top: '0',
     maxHeight: '100%',
+    willChange: 'auto',
 };
 
 const THREADING_TIME: typeof BASE_THREADING_TIME = {
@@ -79,6 +81,7 @@ const OVERSCAN_COUNT_FORWARD = 30;
 const OVERSCAN_COUNT_BACKWARD = 30;
 
 class ThreadViewerVirtualized extends PureComponent<Props, State> {
+    private mounted = false;
     private scrollStopAction: DelayedAction;
     postCreateContainerRef: React.RefObject<HTMLDivElement>;
     listRef: RefObject<DynamicSizeList>;
@@ -103,12 +106,25 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         this.listRef = React.createRef();
         this.innerRef = React.createRef();
 
+        const isMobile = Utils.isMobile();
+
         this.state = {
+            isMobile,
             isScrolling: false,
             userScrolled: false,
             userScrolledToBottom: false,
             topRhsPostId: undefined,
         };
+    }
+
+    componentDidMount(): void {
+        this.mounted = true;
+        window.addEventListener('resize', this.handleWindowResize);
+    }
+
+    componentWillUnmount(): void {
+        this.mounted = false;
+        window.removeEventListener('resize', this.handleWindowResize);
     }
 
     componentDidUpdate(prevProps: Props): void {
@@ -122,7 +138,16 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
     canLoadMorePosts(): void {}
 
-    initScrollToIndex = () => {
+    handleWindowResize = (): void => {
+        const isMobile = Utils.isMobile();
+        if (isMobile !== this.state.isMobile) {
+            this.setState({
+                isMobile,
+            });
+        }
+    }
+
+    initScrollToIndex = (): {index: number; position: string; offset?: number} => {
         const {highlightedPostId, replyListIds} = this.props;
 
         if (highlightedPostId) {
@@ -175,7 +200,9 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     onItemsRendered = ({visibleStartIndex}: {visibleStartIndex: number}): void => {
-        this.updateFloatingTimestamp(visibleStartIndex);
+        if (this.state.isMobile) {
+            this.updateFloatingTimestamp(visibleStartIndex);
+        }
     }
 
     shouldScrollToBottom = (): boolean => {
@@ -210,8 +237,10 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         this.scrollToItem(getNewMessageIndex(this.props.replyListIds), 'start', OFFSET_TO_SHOW_TOAST);
     }
 
-    handleScrollStop = () => {
-        this.setState({isScrolling: false});
+    handleScrollStop = (): void => {
+        if (this.mounted) {
+            this.setState({isScrolling: false});
+        }
     }
 
     renderRow = memoize(({data, itemId, style}: {data: any; itemId: any; style: any}) => {
@@ -280,12 +309,14 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     });
 
     render() {
+        const {isMobile} = this.state;
+
         return (
             <>
-                {this.state.topRhsPostId && !this.props.useRelativeTimestamp && (
+                {isMobile && this.state.topRhsPostId && !this.props.useRelativeTimestamp && (
                     <FloatingTimestamp
                         isScrolling={this.state.isScrolling}
-                        isMobile={Utils.isMobile()}
+                        isMobile={true}
                         isRhsPost={true}
                         postId={this.state.topRhsPostId}
                     />
