@@ -18,6 +18,7 @@ import {isDesktopApp} from 'utils/user_agent';
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting';
 import ManageAutoResponder from './manage_auto_responder.jsx';
+import NotificationScheduleSetting from './notification_schedule_setting.jsx';
 
 function getNotificationsStateFromProps(props) {
     const user = props.user;
@@ -963,6 +964,14 @@ export default class NotificationsTab extends React.PureComponent {
                         </>
                     )}
                     {autoResponderSection}
+                    <div className='divider-light'/>
+                    <NotificationScheduleSetting
+                        saving={this.state.isSaving}
+                        onCancel={this.handleCancel}
+                        serverError={this.state.serverError}
+                        activeSection={this.props.activeSection}
+                        updateSection={this.handleUpdateSection}
+                    />
                     <div className='divider-dark'/>
                 </div>
             </div>

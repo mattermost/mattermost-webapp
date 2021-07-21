@@ -6,7 +6,7 @@ import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCust
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {Client4} from 'mattermost-redux/client';
 import {General} from '../constants';
-import {UserTypes, TeamTypes, AdminTypes} from 'mattermost-redux/action_types';
+import {UserTypes, TeamTypes, AdminTypes, StatusTypes} from 'mattermost-redux/action_types';
 
 import {getUserIdFromChannelName, isDirectChannel, isDirectChannelVisible, isGroupChannel, isGroupChannelVisible} from 'mattermost-redux/utils/channel_utils';
 
@@ -19,6 +19,9 @@ import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/g
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
+
+import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
+import {registerAdminConsolePlugin} from 'actions/admin_actions';
 
 import {getAllCustomEmojis} from './emojis';
 import {getClientConfig, setServerVersion} from './general';
@@ -1065,7 +1068,6 @@ export function startPeriodicStatusUpdates(): ActionFunc {
                 if (!statuses) {
                     return;
                 }
-
                 const userIds = Object.keys(statuses);
                 if (!userIds.length) {
                     return;
@@ -1534,6 +1536,23 @@ export function checkForModifiedUsers() {
     };
 }
 
+export function updateStatusOnScheduledTime(currentTime: string, currentDay: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            const state = getState();
+            const userId = getCurrentUserId(state);
+            const status = await Client4.getStatusBasedOnSchedule(userId, currentTime, currentDay);
+            dispatch({
+                type: StatusTypes.RECEIVED_STATUS,
+                data: status,
+            });
+        } catch (error) {
+            return {error};
+        }
+        return {data: true};
+    };
+}
+
 export default {
     checkMfa,
     generateMfaSecret,
@@ -1583,4 +1602,5 @@ export default {
     disableUserAccessToken,
     enableUserAccessToken,
     checkForModifiedUsers,
+    updateStatusOnScheduledTime,
 };

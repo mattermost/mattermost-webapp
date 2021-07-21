@@ -293,7 +293,6 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 />
             );
         }
-
         return (
             <SettingItemMax
                 title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
