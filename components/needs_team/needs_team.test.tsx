@@ -31,6 +31,7 @@ jest.mock('utils/utils', () => ({
     localizeMessage: jest.fn(),
     areObjectsEqual: jest.fn(),
     isGuest: jest.fn(),
+    makeIsEligibleForClick: jest.fn(),
 }));
 
 describe('components/needs_team', () => {
