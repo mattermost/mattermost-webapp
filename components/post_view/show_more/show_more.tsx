@@ -144,7 +144,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
                 attachmentTextOverflow = (
                     <button
                         id='showMoreButton'
-                        className='post-preview-collapse__show-more-button'
+                        className='post-preview-collapse__show-more-button color--link'
                         onClick={this.toggleCollapse}
                     >
                         {showText}
