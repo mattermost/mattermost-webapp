@@ -62,10 +62,13 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
             Object {
               "defaultFormats": Object {},
               "defaultLocale": "en",
+              "defaultRichTextElements": undefined,
               "formatDate": [Function],
+              "formatDateTimeRange": [Function],
               "formatDateToParts": [Function],
               "formatDisplayName": [Function],
               "formatList": [Function],
+              "formatListToParts": [Function],
               "formatMessage": [Function],
               "formatNumber": [Function],
               "formatNumberToParts": [Function],
@@ -203,13 +206,13 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
           onClick={[Function]}
         >
           <div>
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="No channel header yet."
               id="navbar.noHeader"
             />
             <React.Fragment>
               <br />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="{clickHere} to add one."
                 id="navbar.clickToAddHeader"
                 values={
@@ -218,7 +221,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
                       href="#"
                       onClick={[Function]}
                     >
-                      <FormattedMessage
+                      <Memo(MemoizedFormattedMessage)
                         defaultMessage="Click here"
                         id="navbar.click"
                       />
@@ -252,10 +255,13 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
             Object {
               "defaultFormats": Object {},
               "defaultLocale": "en",
+              "defaultRichTextElements": undefined,
               "formatDate": [Function],
+              "formatDateTimeRange": [Function],
               "formatDateToParts": [Function],
               "formatDisplayName": [Function],
               "formatList": [Function],
+              "formatListToParts": [Function],
               "formatMessage": [Function],
               "formatNumber": [Function],
               "formatNumberToParts": [Function],
@@ -289,13 +295,13 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
             onClick={[Function]}
           >
             <div>
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="No channel header yet."
                 id="navbar.noHeader"
               />
               <React.Fragment>
                 <br />
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="{clickHere} to add one."
                   id="navbar.clickToAddHeader"
                   values={
@@ -304,7 +310,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
                         href="#"
                         onClick={[Function]}
                       >
-                        <FormattedMessage
+                        <Memo(MemoizedFormattedMessage)
                           defaultMessage="Click here"
                           id="navbar.click"
                         />

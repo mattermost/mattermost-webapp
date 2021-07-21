@@ -151,17 +151,6 @@
         font-weight: 600;
         line-height: 14px;
         text-align: center;
-
-        .mentions__name & {
-            left: 0;
-            width: 17px;
-            height: 18px;
-            flex: 0 0 17px;
-            margin-left: 0;
-            background-color: rgba(var(--center-channel-color-rgb), 0.32);
-            line-height: 18px;
-            text-align: center;
-        }
     }
 
     .dnd--icon {

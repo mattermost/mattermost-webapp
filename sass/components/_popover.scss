@@ -308,14 +308,6 @@
     }
 }
 
-.search-autocomplete__icon {
-    display: inline-flex;
-    width: 2.4rem;
-    height: 2.4rem;
-    align-items: center;
-    justify-content: center;
-}
-
 .search-autocomplete__divider {
     position: relative;
     display: flex;
@@ -384,47 +376,6 @@
                 background-color: rgba(var(--center-channel-color-rgb), 0.24) !important;
                 border-radius: 4px;
             }
-        }
-    }
-
-    .search-autocomplete__item {
-        @include border-radius(2px);
-
-        display: flex;
-        overflow: hidden;
-        height: 4rem;
-        align-items: center;
-        padding: 0 2.4rem;
-        cursor: pointer;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-
-        &.selected {
-            background: rgba(var(--center-channel-color-rgb), 0.08);
-            box-shadow: none;
-        }
-
-        .status--group {
-            display: flex;
-            width: 1.8rem;
-            height: 1.8rem;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            background-color: rgba(var(--center-channel-color-rgb), 0.2);
-        }
-
-        .mention--align {
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .fa {
-            @include opacity(0.5);
-
-            position: relative;
-            top: 1px;
-            margin-right: 5px;
         }
     }
 

@@ -4,8 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import UploadButton from 'components/admin_console/brand_image_setting/upload_button';
+
 import {UploadStatuses} from 'utils/constants';
-import UploadButton from 'components/admin_console/brand_image_setting/upload_button.jsx';
 
 describe('components/admin_console/brand_image_setting/UploadButton', () => {
     const baseProps = {
@@ -16,7 +17,7 @@ describe('components/admin_console/brand_image_setting/UploadButton', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<UploadButton>(
             <UploadButton {...baseProps}/>,
         );
 
@@ -35,7 +36,7 @@ describe('components/admin_console/brand_image_setting/UploadButton', () => {
     test('should have called props.onClick on button click', () => {
         const onClick = jest.fn();
         const props = {...baseProps, onClick};
-        const wrapper = shallow(
+        const wrapper = shallow<UploadButton>(
             <UploadButton {...props}/>,
         );
 

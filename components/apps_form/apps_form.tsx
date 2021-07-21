@@ -20,6 +20,8 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+import Markdown from 'components/markdown';
+
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
 
@@ -95,12 +97,23 @@ export class AppsForm extends React.PureComponent<Props, State> {
             state.formError = formError;
         }
 
-        if (fieldErrors &&
-            Object.keys(fieldErrors).length >= 0 &&
-            checkIfErrorsMatchElements(fieldErrors as any, elements)
-        ) {
+        if (fieldErrors && Object.keys(fieldErrors).length >= 0) {
             hasErrors = true;
-            state.fieldErrors = fieldErrors;
+            if (checkIfErrorsMatchElements(fieldErrors as any, elements)) {
+                state.fieldErrors = {};
+                for (const [key, value] of Object.entries(fieldErrors)) {
+                    state.fieldErrors[key] = (<Markdown message={value}/>);
+                }
+            } else if (!state.formError) {
+                const field = Object.keys(fieldErrors)[0];
+                state.formError = this.props.intl.formatMessage({
+                    id: 'apps.error.responses.unknown_field_error',
+                    defaultMessage: 'Received an error for an unknown field. Field name: `{field}`. Error:\n{error}',
+                }, {
+                    field,
+                    error: fieldErrors[field],
+                });
+            }
         }
 
         if (hasErrors) {
@@ -151,6 +164,8 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         const res = await this.props.actions.submit(submission);
 
+        this.setState({submitting: false});
+
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error;
@@ -162,7 +177,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
         }
 
         const callResponse = res.data as AppCallResponse<FormResponseData>;
-        this.setState({submitting: false});
 
         let hasErrors = false;
         let updatedForm = false;
@@ -175,7 +189,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
             break;
         default:
             hasErrors = true;
-            this.updateErrors([], undefined, this.context.intl.formatMessage({
+            this.updateErrors([], undefined, this.props.intl.formatMessage({
                 id: 'apps.error.responses.unknown_type',
                 defaultMessage: 'App response type not supported. Response type: {type}.',
             }, {
@@ -192,7 +206,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
     };
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
-        const intl = this.context.intl;
+        const intl = this.props.intl;
         const field = this.props.form.fields.find((f) => f.name === name);
         if (!field) {
             return [];
@@ -300,7 +314,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     return;
                 case AppCallResponseTypes.OK:
                 case AppCallResponseTypes.NAVIGATE:
-                    this.updateErrors([], undefined, this.context.intl.formatMessage({
+                    this.updateErrors([], undefined, this.props.intl.formatMessage({
                         id: 'apps.error.responses.unexpected_type',
                         defaultMessage: 'App response type was not expected. Response type: {type}.',
                     }, {
@@ -308,7 +322,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     }));
                     return;
                 default:
-                    this.updateErrors([], undefined, this.context.intl.formatMessage({
+                    this.updateErrors([], undefined, this.props.intl.formatMessage({
                         id: 'apps.error.responses.unknown_type',
                         defaultMessage: 'App response type not supported. Response type: {type}.',
                     }, {
@@ -506,7 +520,9 @@ export class AppsForm extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 {this.state.formError && (
-                    <div className='error-text'>{this.state.formError}</div>
+                    <div className='error-text'>
+                        <Markdown message={this.state.formError}/>
+                    </div>
                 )}
                 <button
                     id='appsModalCancel'

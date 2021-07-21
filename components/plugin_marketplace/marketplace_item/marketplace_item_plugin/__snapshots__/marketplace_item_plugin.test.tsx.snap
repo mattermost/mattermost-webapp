@@ -19,7 +19,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render 1`] = `
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -81,7 +81,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render installe
           className="btn btn-outline"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Configure"
             id="marketplace_modal.list.configure"
           />
@@ -145,7 +145,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with emp
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -210,7 +210,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -273,7 +273,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -336,7 +336,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -398,7 +398,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with one
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -471,7 +471,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with ser
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Try Again"
             id="marketplace_modal.list.try_again"
           />
@@ -536,7 +536,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with two
           loading={false}
           text="Installing..."
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Install"
             id="marketplace_modal.list.install"
           />
@@ -612,7 +612,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
           className="btn btn-outline"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Configure"
             id="marketplace_modal.list.configure"
           />
@@ -677,7 +677,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
           className="btn btn-outline"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Configure"
             id="marketplace_modal.list.configure"
           />
@@ -726,7 +726,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
 <ConfirmModal
   confirmButtonClass="btn btn-primary"
   confirmButtonText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Update"
       id="marketplace_modal.list.update_confirmation.confirm_button"
     />
@@ -734,7 +734,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
   message={
     Array [
       <p>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Are you sure you want to update the pluginName plugin to 1.0.0?"
           id="marketplace_modal.list.update_confirmation.message.intro"
           values={
@@ -777,7 +777,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
   onConfirm={[Function]}
   show={true}
   title={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Confirm Plugin Update"
       id="marketplace_modal.list.update_confirmation.title"
     />
@@ -789,7 +789,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
 <ConfirmModal
   confirmButtonClass="btn btn-primary"
   confirmButtonText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Update"
       id="marketplace_modal.list.update_confirmation.confirm_button"
     />
@@ -797,7 +797,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
   message={
     Array [
       <p>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Are you sure you want to update the pluginName plugin to 1.0.0?"
           id="marketplace_modal.list.update_confirmation.message.intro"
           values={
@@ -809,7 +809,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
         />
       </p>,
       <p>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="You currently have 0.0.1 installed."
           id="marketplace_modal.list.update_confirmation.message.current"
           values={
@@ -822,7 +822,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
       <p
         className="alert alert-warning"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="This update may contain breaking changes."
           id="marketplace_modal.list.update_confirmation.message.warning_major_version"
         />
@@ -834,7 +834,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
   onConfirm={[Function]}
   show={true}
   title={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Confirm Plugin Update"
       id="marketplace_modal.list.update_confirmation.title"
     />
@@ -848,7 +848,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should render 
 <ConfirmModal
   confirmButtonClass="btn btn-primary"
   confirmButtonText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Update"
       id="marketplace_modal.list.update_confirmation.confirm_button"
     />
@@ -856,7 +856,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should render 
   message={
     Array [
       <p>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Are you sure you want to update the pluginName plugin to 0.0.2?"
           id="marketplace_modal.list.update_confirmation.message.intro"
           values={
@@ -868,7 +868,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should render 
         />
       </p>,
       <p>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="You currently have 0.0.1 installed."
           id="marketplace_modal.list.update_confirmation.message.current"
           values={
@@ -885,7 +885,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should render 
   onConfirm={[Function]}
   show={true}
   title={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Confirm Plugin Update"
       id="marketplace_modal.list.update_confirmation.title"
     />

@@ -40,7 +40,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -107,7 +107,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
           <CheckboxCheckedIcon />
         </span>
         <span>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Is Linked"
             id="admin.group_settings.filters.isLinked"
           />
@@ -123,7 +123,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
           <CheckboxCheckedIcon />
         </span>
         <span>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Is Not Linked"
             id="admin.group_settings.filters.isUnlinked"
           />
@@ -137,7 +137,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
           onClick={[Function]}
         />
         <span>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Is Configured"
             id="admin.group_settings.filters.isConfigured"
           />
@@ -151,7 +151,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
           onClick={[Function]}
         />
         <span>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Is Not Configured"
             id="admin.group_settings.filters.isUnconfigured"
           />
@@ -161,7 +161,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         className="btn btn-primary search-groups-btn"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Search"
           id="search_bar.search"
         />
@@ -177,7 +177,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -240,7 +240,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -253,7 +253,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="group-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name"
         id="admin.group_settings.groups_list.nameHeader"
       />
@@ -264,7 +264,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
       <div
         className="group-description"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Mattermost Linking"
           id="admin.group_settings.groups_list.mappingHeader"
         />
@@ -292,7 +292,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -369,7 +369,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-unlink"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Unlink Selected Groups"
           id="admin.group_settings.groups_list.unlink_selected"
         />
@@ -382,7 +382,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="group-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name"
         id="admin.group_settings.groups_list.nameHeader"
       />
@@ -393,7 +393,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
       <div
         className="group-description"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Mattermost Linking"
           id="admin.group_settings.groups_list.mappingHeader"
         />
@@ -421,7 +421,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -498,7 +498,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -511,7 +511,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="group-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name"
         id="admin.group_settings.groups_list.nameHeader"
       />
@@ -522,7 +522,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
       <div
         className="group-description"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Mattermost Linking"
           id="admin.group_settings.groups_list.mappingHeader"
         />
@@ -550,7 +550,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -626,7 +626,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -639,7 +639,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="group-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name"
         id="admin.group_settings.groups_list.nameHeader"
       />
@@ -650,7 +650,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
       <div
         className="group-description"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Mattermost Linking"
           id="admin.group_settings.groups_list.mappingHeader"
         />
@@ -714,7 +714,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -790,7 +790,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -803,7 +803,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="group-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name"
         id="admin.group_settings.groups_list.nameHeader"
       />
@@ -814,7 +814,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
       <div
         className="group-description"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Mattermost Linking"
           id="admin.group_settings.groups_list.mappingHeader"
         />
@@ -969,7 +969,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -1045,7 +1045,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -1058,7 +1058,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="group-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name"
         id="admin.group_settings.groups_list.nameHeader"
       />
@@ -1069,7 +1069,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
       <div
         className="group-description"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Mattermost Linking"
           id="admin.group_settings.groups_list.mappingHeader"
         />
@@ -1224,7 +1224,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -1300,7 +1300,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -1313,7 +1313,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="group-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name"
         id="admin.group_settings.groups_list.nameHeader"
       />
@@ -1324,7 +1324,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
       <div
         className="group-description"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Mattermost Linking"
           id="admin.group_settings.groups_list.mappingHeader"
         />
@@ -1388,7 +1388,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={
@@ -1464,7 +1464,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -1478,7 +1478,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="groups-list-empty"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="No groups found"
         id="admin.group_settings.groups_list.no_groups_found"
       />
@@ -1527,7 +1527,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
         <i
           className="icon fa fa-link"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Link Selected Groups"
           id="admin.group_settings.groups_list.link_selected"
         />
@@ -1540,7 +1540,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="group-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name"
         id="admin.group_settings.groups_list.nameHeader"
       />
@@ -1551,7 +1551,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
       <div
         className="group-description"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Mattermost Linking"
           id="admin.group_settings.groups_list.mappingHeader"
         />
@@ -1579,7 +1579,7 @@ exports[`components/admin_console/group_settings/GroupsList.tsx should match sna
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.group_settings.groups_list.paginatorCount"
         values={

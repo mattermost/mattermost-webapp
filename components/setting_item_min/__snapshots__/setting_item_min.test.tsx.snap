@@ -24,7 +24,7 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
         onClick={[Function]}
       >
         <EditIcon />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit"
           id="setting_item_min.edit"
         />
