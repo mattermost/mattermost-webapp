@@ -187,6 +187,7 @@
         a {
             padding: 10px 16px;
             border-left: 3px solid transparent;
+            background: rgba(var(--sidebar-text-rgb), 0.08);
 
             &:hover {
                 .fa {
@@ -436,7 +437,7 @@
 
                 &:focus,
                 &:hover {
-                    color: v(center-channel-color-72);
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
                     text-decoration: none;
                 }
 
@@ -593,9 +594,13 @@
 
         &:hover {
             &::before {
-                background: var(--sidebar-text-08);
+                background: rgba(var(--sidebar-text-rgb), 0.08);
             }
 
+            .user__name {
+                color: var(--sidebar-header-text-color);
+            }
+          
             .sidebar-header-dropdown {
                 .sidebar-header-dropdown__toggle {
                     @include opacity(1);
@@ -726,7 +731,7 @@
             position: relative;
             width: 100%;
             padding: 2px 16px 0 0;
-            color: $white;
+            color: var(--sidebar-header-text-color);
 
             .sidebar-header-dropdown__icon {
                 @include single-transition(opacity, $transition-quick, ease-in-out);
@@ -738,7 +743,7 @@
                 width: 36px;
                 height: 36px;
                 border-radius: 36px;
-                fill: $white;
+                fill: var(--sidebar-header-text-color);
                 line-height: 36px;
                 text-align: center;
             }
@@ -771,6 +776,7 @@
             position: relative;
             top: -3px;
             padding-right: 4px;
+            color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
             font-size: 14px;
             font-weight: 400;
         }

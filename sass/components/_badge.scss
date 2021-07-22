@@ -14,14 +14,22 @@
     }
 
     .team-sidebar,
+    .sidebar--left,
+    #SidebarContainer {
+        .active .badge,
+        .badge {
+            background: var(--mention-bg);
+            color: var(--mention-color);
+        }
+    }
+
+    .team-sidebar,
     #SidebarContainer {
         .badge {
             min-width: 20px;
             height: auto;
             padding: 0 6px;
-            background: var(--mention-bg);
             border-radius: 8px;
-            color: var(--mention-color);
             font-size: 11px;
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: grayscale;

@@ -47,6 +47,10 @@
                 width: 13px;
                 height: 13px;
                 max-height: initial;
+
+                &.offline--icon {
+                    fill: var(--sidebar-text);
+                }
             }
         }
     }
