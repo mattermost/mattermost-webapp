@@ -6,7 +6,7 @@ exports[`components/activity_log_modal/MoreInfo should match snapshot extra info
   href="#"
   onClick={[MockFunction]}
 >
-  <FormattedMessage
+  <MemoizedFormattedMessage
     defaultMessage="More info"
     id="activity_log.moreInfo"
   />
@@ -16,7 +16,7 @@ exports[`components/activity_log_modal/MoreInfo should match snapshot extra info
 exports[`components/activity_log_modal/MoreInfo should match snapshot, extra info toggled on 1`] = `
 <div>
   <div>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="First time active: {date}, {time}"
       id="activity_log.firstTime"
       values={
@@ -37,7 +37,7 @@ exports[`components/activity_log_modal/MoreInfo should match snapshot, extra inf
     />
   </div>
   <div>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="OS: {os}"
       id="activity_log.os"
       values={
@@ -48,7 +48,7 @@ exports[`components/activity_log_modal/MoreInfo should match snapshot, extra inf
     />
   </div>
   <div>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Browser: {browser}"
       id="activity_log.browser"
       values={
@@ -59,7 +59,7 @@ exports[`components/activity_log_modal/MoreInfo should match snapshot, extra inf
     />
   </div>
   <div>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Session ID: {id}"
       id="activity_log.sessionId"
       values={

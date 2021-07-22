@@ -60,6 +60,15 @@ import ContactUsButton from 'components/announcement_bar/contact_sales/contact_u
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
+const CLICKABLE_ELEMENTS = [
+    'a',
+    'button',
+    'img',
+    'svg',
+    'audio',
+    'video',
+];
+
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
@@ -551,7 +560,7 @@ export function applyTheme(theme) {
         changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a, .app__body .post .Menu .MenuItem', 'background:' + theme.centerChannelBg);
         changeCss('#post-create, .app__body .emoji-picker__preview', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
+        changeCss('.dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .popover.right>.arrow:after, .app__body .tip-overlay.tip-overlay--sidebar .arrow, .app__body .tip-overlay.tip-overlay--header .arrow', 'border-right-color:' + theme.centerChannelBg);
         changeCss('.app__body .popover.top>.arrow:after, .app__body .tip-overlay.tip-overlay--chat .arrow', 'border-top-color:' + theme.centerChannelBg);
         changeCss('.app__body .attachment__content, .app__body .attachment-actions button', 'background:' + theme.centerChannelBg);
@@ -2177,4 +2186,58 @@ export function deleteKeysFromObject(value, keys) {
         delete value[key];
     }
     return value;
+}
+
+export function isSelection() {
+    const selection = window.getSelection();
+    return selection.type === 'Range';
+}
+
+/*
+ * Returns false when the element clicked or its ancestors
+ * is a potential click target (link, button, image, etc..)
+ * but not the events currentTarget
+ * and true in any other case.
+ *
+ * @param {string} selector - CSS selector of elements not eligible for click
+ * @returns {function}
+ */
+export function makeIsEligibleForClick(selector = '') {
+    return (event) => {
+        const currentTarget = event.currentTarget;
+        let node = event.target;
+
+        if (isSelection()) {
+            return false;
+        }
+
+        if (node === currentTarget) {
+            return true;
+        }
+
+        // in the case of a react Portal
+        if (!currentTarget.contains(node)) {
+            return false;
+        }
+
+        // traverses the targets parents up to currentTarget to see
+        // if any of them is a potentially clickable element
+        while (node) {
+            if (!node || node === currentTarget) {
+                break;
+            }
+
+            if (
+                CLICKABLE_ELEMENTS.includes(node.tagName.toLowerCase()) ||
+                node.getAttribute('role') === 'button' ||
+                (selector && node.matches(selector))
+            ) {
+                return false;
+            }
+
+            node = node.parentNode;
+        }
+
+        return true;
+    };
 }

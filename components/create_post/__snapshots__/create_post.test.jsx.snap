@@ -110,7 +110,7 @@ exports[`components/create_post Show tutorial 1`] = `
           Array [
             <div>
               <h4>
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Sending Messages"
                   id="create_post.tutorialTip.title"
                 />
@@ -162,7 +162,7 @@ exports[`components/create_post Show tutorial 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -309,7 +309,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -419,7 +419,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -566,7 +566,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -713,7 +713,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -860,7 +860,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />

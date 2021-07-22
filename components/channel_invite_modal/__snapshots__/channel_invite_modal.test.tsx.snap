@@ -47,7 +47,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       className="channel-switcher__header"
     >
       <h1>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Add people to {channel}"
           id="channel_invite.addNewMembers"
           values={
@@ -207,7 +207,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
       className="channel-switcher__header"
     >
       <h1>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Add people to {channel}"
           id="channel_invite.addNewMembers"
           values={

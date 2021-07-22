@@ -38,7 +38,7 @@ import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
-import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
+import BrandImageSetting from './brand_image_setting/brand_image_setting';
 import GroupSettings from './group_settings/group_settings.jsx';
 import GroupDetails from './group_settings/group_details';
 import TeamSettings from './team_channel_settings/team';
@@ -77,7 +77,6 @@ import {
     GuestAccessFeatureDiscovery,
     SystemRolesFeatureDiscovery,
     GroupsFeatureDiscovery,
-    PermissionsFeatureDiscovery,
 } from './feature_discovery/features';
 
 import * as DefinitionConstants from './admin_definition_constants';
@@ -605,36 +604,12 @@ const AdminDefinition = {
                 'admin.permissions.teamOverrideSchemesNewButton',
             ],
             isHidden: it.any(
-                it.not(it.licensed),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
-            },
-        },
-        permissions_feature_discovery: {
-            url: 'user_management/permissions/',
-            isDiscovery: true,
-            title: t('admin.sidebar.permissions'),
-            title_default: 'Permissions',
-            isHidden: it.any(
-                it.licensed,
-                it.not(it.enterpriseReady),
-            ),
-            schema: {
-                id: 'PermissionSchemes',
-                name: t('admin.permissions.permissionSchemes'),
-                name_default: 'Permission Schemes',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_CUSTOM,
-                        component: PermissionsFeatureDiscovery,
-                        key: 'PermissionsFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
-                    },
-                ],
             },
         },
         system_role: {
@@ -2100,17 +2075,6 @@ const AdminDefinition = {
                 name_default: 'Users and Teams',
                 settings: [
                     {
-                        type: Constants.SettingsTypes.TYPE_PERMISSION,
-                        key: 'TeamSettings.EnableTeamCreation',
-                        label: t('admin.team.teamCreationTitle'),
-                        label_default: 'Enable Team Creation: ',
-                        help_text: t('admin.team.teamCreationDescription'),
-                        help_text_default: 'When false, only System Administrators can create teams.',
-                        permissions_mapping_name: 'enableTeamCreation',
-                        isHidden: it.licensed,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'TeamSettings.MaxUsersPerTeam',
                         label: t('admin.team.maxUsersTitle'),
@@ -2187,21 +2151,6 @@ const AdminDefinition = {
                         help_text: t('admin.lockTeammateNameDisplayHelpText'),
                         help_text_default: 'When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.',
                         isHidden: it.not(it.licensedForFeature('LockTeammateNameDisplay')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_PERMISSION,
-                        key: 'TeamSettings.EditOthersPosts',
-                        label: t('admin.team.editOthersPostsTitle'),
-                        label_default: 'Allow Team Administrators to edit others\' posts:',
-                        help_text: t('admin.team.editOthersPostsDesc'),
-                        help_text_default: 'When **true**, both Team Admins and System Admins can edit other users\' posts.  When **false**, only System Admins can edit other users\' posts. However, Team Admins and System Admins can always delete other users\' posts.',
-                        help_text_markdown: true,
-                        permissions_mapping_name: 'editOthersPosts',
-                        isHidden: it.any(
-                            it.licensed,
-                            it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
                     {

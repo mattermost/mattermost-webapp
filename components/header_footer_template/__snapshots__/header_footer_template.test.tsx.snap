@@ -44,7 +44,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with about link 1
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               id="web.footer.about"
             />
           </a>
@@ -99,7 +99,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               id="web.footer.about"
             />
           </a>
@@ -111,7 +111,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               id="web.footer.privacy"
             />
           </a>
@@ -123,7 +123,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               id="web.footer.terms"
             />
           </a>
@@ -135,7 +135,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               id="web.footer.help"
             />
           </a>
@@ -236,7 +236,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with help link 1`
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               id="web.footer.help"
             />
           </a>
@@ -291,7 +291,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with privacy poli
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               id="web.footer.privacy"
             />
           </a>
@@ -346,7 +346,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with term of serv
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               id="web.footer.terms"
             />
           </a>

@@ -1136,6 +1136,13 @@ export default class Client4 {
         );
     };
 
+    unarchiveTeam = (teamId: string) => {
+        return this.doFetch<Team>(
+            `${this.getTeamRoute(teamId)}/restore`,
+            {method: 'post'},
+        );
+    }
+
     updateTeam = (team: Team) => {
         this.trackEvent('api', 'api_teams_update_name', {team_id: team.id});
 

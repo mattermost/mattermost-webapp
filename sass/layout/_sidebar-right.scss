@@ -3,7 +3,7 @@
 .sidebar--right {
     @include translateX(100%);
 
-    position: fixed;
+    position: absolute;
     z-index: 11;
     right: 0;
     width: 400px;

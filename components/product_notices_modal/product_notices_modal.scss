@@ -3,12 +3,13 @@
 .productNotices {
     width: 692px;
 
-    .modal-content {
+    .app__body .modal & .modal-content {
         padding: 40px;
     }
 
     .GenericModal__header {
         padding: 0;
+        margin-bottom: 16px;
     }
 
     .GenericModal__body {
@@ -17,13 +18,17 @@
 
     .productNotices__helpText {
         margin-top: 8px;
+
+        p {
+            margin-bottom: 16px;
+        }
     }
 
     .productNotices__img {
         display: block;
         max-height: 347px;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-        margin: 20px auto 0;
+        margin: 32px auto 0;
         border-radius: 4px;
     }
 
@@ -32,7 +37,7 @@
     }
 
     .modal-footer {
-        margin-top: 20px;
+        margin-top: 32px;
     }
 
     .productNotices__info {
@@ -54,12 +59,12 @@
         vertical-align: middle;
     }
 
-    &.GenericModal.modal-dialog {
+    .app__body .modal &.modal-dialog {
         height: unset;
         margin-top: calc(50vh - 307px);
     }
 
-    &.GenericModal .modal-footer {
+    .app__body .modal & .modal-footer {
         position: relative;
         padding: 0;
     }

@@ -18,7 +18,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         <h1
           className="NextStepsView__header-headerTopText"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Welcome to Mattermost"
             id="next_steps_view.welcomeToMattermost"
           />
@@ -26,7 +26,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         <h2
           className="NextStepsView__header-headerBottomText"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Here are some recommended next steps to help you get started"
             id="next_steps_view.hereAreSomeNextSteps"
           />
@@ -56,7 +56,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
             className="NextStepsView__button tertiary"
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Skip Getting Started"
               id="next_steps_view.skipGettingStarted"
             />
@@ -81,7 +81,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
       <h1
         className="NextStepsView__transitionTopText"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Nicely done! You’re all set."
           id="next_steps_view.nicelyDone"
         />
@@ -92,7 +92,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         <img
           src={null}
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="One moment"
           id="next_steps_view.oneMoment"
         />

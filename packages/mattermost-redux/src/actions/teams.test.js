@@ -217,6 +217,52 @@ describe('Actions.Teams', () => {
         assert.ifError(myMembers[secondTeam.id]);
     });
 
+    it('unarchiveTeam', async () => {
+        const secondClient = TestHelper.createClient4();
+
+        nock(Client4.getBaseRoute()).
+            post('/users').
+            query(true).
+            reply(201, TestHelper.fakeUserWithId());
+
+        const user = await TestHelper.basicClient4.createUser(
+            TestHelper.fakeUser(),
+            null,
+            null,
+            TestHelper.basicTeam.invite_id,
+        );
+
+        nock(Client4.getBaseRoute()).
+            post('/users/login').
+            reply(200, user);
+        await secondClient.login(user.email, 'password1');
+
+        nock(Client4.getBaseRoute()).
+            post('/teams').
+            reply(201, TestHelper.fakeTeamWithId());
+        const secondTeam = await secondClient.createTeam(
+            TestHelper.fakeTeam());
+
+        nock(Client4.getBaseRoute()).
+            delete(`/teams/${secondTeam.id}`).
+            reply(200, OK_RESPONSE);
+
+        await Actions.deleteTeam(
+            secondTeam.id,
+        )(store.dispatch, store.getState);
+
+        nock(Client4.getBaseRoute()).
+            post(`/teams/${secondTeam.id}/restore`).
+            reply(200, secondTeam);
+
+        await Actions.unarchiveTeam(
+            secondTeam.id,
+        )(store.dispatch, store.getState);
+
+        const {teams} = store.getState().entities.teams;
+        assert.deepStrictEqual(teams[secondTeam.id], secondTeam);
+    });
+
     it('updateTeam', async () => {
         const displayName = 'The Updated Team';
         const description = 'This is a team created by unit tests';

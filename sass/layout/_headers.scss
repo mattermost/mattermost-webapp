@@ -600,7 +600,7 @@
             .user__name {
                 color: var(--sidebar-header-text-color);
             }
-
+          
             .sidebar-header-dropdown {
                 .sidebar-header-dropdown__toggle {
                     @include opacity(1);
@@ -626,15 +626,8 @@
             .MenuWrapper {
                 flex: 1;
 
-                &.main-menu {
-                    .dropdown-menu {
-                        left: -50px;
-                    }
-                }
-
-                &:first-child {
-                    width: auto;
-                    flex: 0 0 50px;
+                &.status-dropdown-menu {
+                    flex-grow: 0;
                 }
             }
         }

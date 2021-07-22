@@ -10,7 +10,7 @@ exports[`components/admin_console/group_settings/group_details/GroupProfile shou
     <label
       className="control-label col-sm-4"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Name:"
         id="admin.group_settings.group_details.group_profile.name"
       />
