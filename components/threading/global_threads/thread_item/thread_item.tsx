@@ -147,7 +147,6 @@ function ThreadItem({
                     {...THREADING_TIME}
                     className='alt-hidden'
                     value={lastReplyAt}
-                    capitalize={true}
                 />
             </h1>
             <div className='menu-anchor alt-visible'>

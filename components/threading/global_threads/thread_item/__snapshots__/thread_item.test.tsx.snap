@@ -16,7 +16,6 @@ exports[`components/threading/global_threads/thread_item should report total num
       Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
-      capitalize={true}
       className="alt-hidden"
       day="numeric"
       units={
@@ -127,7 +126,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
-      capitalize={true}
       className="alt-hidden"
       day="numeric"
       units={
@@ -236,7 +234,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
-      capitalize={true}
       className="alt-hidden"
       day="numeric"
       units={
