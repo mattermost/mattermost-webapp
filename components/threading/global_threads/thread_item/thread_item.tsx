@@ -82,11 +82,10 @@ function ThreadItem({
 
     const selectHandler = useCallback(() => select(threadId), []);
 
-    const onImageHeightChanged = useCallback(() => {}, []);
-
-    const onImageLoaded = useCallback(() => {}, []);
-
-    const imageProps = useMemo(() => ({onImageHeightChanged, onImageLoaded}), [onImageHeightChanged, onImageLoaded]);
+    const imageProps = useMemo(() => ({
+        onImageHeightChanged: () => {},
+        onImageLoaded: () => {},
+    }), []);
 
     const goToInChannelHandler = useCallback((e: MouseEvent) => {
         e.stopPropagation();
