@@ -8,6 +8,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
+import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
 import RootPost from './root_post';
 import Reply from './reply';
@@ -20,11 +21,9 @@ type Props = {
     listId: string;
     onCardClick: (post: Post) => void;
     onCardClickPost: (post: Post) => void;
-    previewCollapsed: string;
-    previewEnabled: boolean;
     previousPostId: string;
     teamId: string;
-    timestampProps?: any;
+    timestampProps?: Partial<TimestampProps>;
 };
 
 function ThreadViewerRow({
@@ -35,8 +34,6 @@ function ThreadViewerRow({
     listId,
     onCardClick,
     onCardClickPost,
-    previewCollapsed,
-    previewEnabled,
     previousPostId,
     teamId,
     timestampProps,
@@ -68,8 +65,6 @@ function ThreadViewerRow({
                 id={listId}
                 isLastPost={isLastPost}
                 onCardClick={onCardClick}
-                previewCollapsed={previewCollapsed}
-                previewEnabled={previewEnabled}
                 teamId={teamId}
                 timestampProps={timestampProps}
             />
@@ -82,8 +77,6 @@ function ThreadViewerRow({
                 id={listId}
                 isLastPost={isLastPost}
                 onCardClick={onCardClickPost}
-                previewCollapsed={previewCollapsed}
-                previewEnabled={previewEnabled}
                 previousPostId={previousPostId}
                 teamId={teamId}
                 timestampProps={timestampProps}

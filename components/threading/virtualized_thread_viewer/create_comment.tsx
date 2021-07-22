@@ -5,7 +5,7 @@ import React, {memo, forwardRef} from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import MMCreateComment from 'components/create_comment';
+import GenericCreateComment from 'components/create_comment';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants';
 
@@ -32,53 +32,49 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
     teammate,
     threadId,
 }: Props, ref) => {
-    // const postsArray = this.filterPosts(this.props.posts, this.props.selected, this.state.openTime);
-
-    if (channelType === Constants.DM_CHANNEL) {
-        if (teammate && teammate.delete_at) {
-            return (
-                <div
-                    className='post-create-message'
-                >
-                    <FormattedMarkdownMessage
-                        id='create_post.deactivated'
-                        defaultMessage='You are viewing an archived channel with a **deactivated user**. New messages cannot be posted.'
-                    />
-                </div>
-            );
-        }
-    }
-
-    if (!isFakeDeletedPost) {
-        if (channelIsArchived) {
-            return (
-                <div className='channel-archived-warning'>
-                    <FormattedMarkdownMessage
-                        id='archivedChannelMessage'
-                        defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
-                    />
-                </div>
-            );
-        }
-
+    if (channelType === Constants.DM_CHANNEL && teammate?.delete_at) {
         return (
             <div
-                className='post-create__container'
-                ref={ref}
+                className='post-create-message'
             >
-                <MMCreateComment
-                    isFakeDeletedPost={isFakeDeletedPost}
-                    onHeightChange={onHeightChange}
-                    channelId={channelId}
-                    rootId={threadId}
-                    rootDeleted={isDeleted}
-                    blockFocus={blockFocus}
+                <FormattedMarkdownMessage
+                    id='create_post.deactivated'
+                    defaultMessage='You are viewing an archived channel with a **deactivated user**. New messages cannot be posted.'
                 />
             </div>
         );
     }
 
-    return null;
+    if (isFakeDeletedPost) {
+        return null;
+    }
+
+    if (channelIsArchived) {
+        return (
+            <div className='channel-archived-warning'>
+                <FormattedMarkdownMessage
+                    id='archivedChannelMessage'
+                    defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
+                />
+            </div>
+        );
+    }
+
+    return (
+        <div
+            className='post-create__container'
+            ref={ref}
+        >
+            <GenericCreateComment
+                isFakeDeletedPost={isFakeDeletedPost}
+                onHeightChange={onHeightChange}
+                channelId={channelId}
+                rootId={threadId}
+                rootDeleted={isDeleted}
+                blockFocus={blockFocus}
+            />
+        </div>
+    );
 });
 
 export default memo(CreateComment);

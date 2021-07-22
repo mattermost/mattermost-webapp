@@ -26,27 +26,19 @@ import {THREADING_TIME as BASE_THREADING_TIME} from 'components/threading/common
 import CreateComment from './create_comment';
 import Row from './thread_viewer_row';
 
-export type OwnProps = {
-    channel: Channel;
-    onCardClick: (post: Post) => void;
-    onCardClickPost: (post: Post) => void;
-    openTime: number;
-    postIds: Array<$ID<Post | FakePost>>;
-    removePost: (post: Post) => void;
-    selected: Post | FakePost;
-    useRelativeTimestamp: boolean;
-};
-
 type Props = {
+    channel: Channel;
     currentUserId: string;
     directTeammate: UserProfile | undefined;
     highlightedPostId?: $ID<Post>;
     lastPost: Post;
-    previewCollapsed: string;
-    previewEnabled: boolean;
+    onCardClick: (post: Post) => void;
+    onCardClickPost: (post: Post) => void;
     replyListIds: string[];
+    selected: Post | FakePost;
     teamId: string;
-} & OwnProps;
+    useRelativeTimestamp: boolean;
+}
 
 type State = {
     isMobile: boolean;
@@ -76,7 +68,7 @@ const THREADING_TIME: typeof BASE_THREADING_TIME = {
     ],
 };
 
-const OFFSET_TO_SHOW_TOAST = Number(-50);
+const OFFSET_TO_SHOW_TOAST = -50;
 const OVERSCAN_COUNT_FORWARD = 30;
 const OVERSCAN_COUNT_BACKWARD = 30;
 
@@ -91,22 +83,18 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.scrollStopAction = new DelayedAction(this.handleScrollStop);
-        this.listRef = React.createRef();
-        this.innerRef = React.createRef();
-
         const postIndex = this.getInitialPostIndex();
+        const isMobile = Utils.isMobile();
 
         this.initRangeToRender = [
             Math.max(postIndex - 30, 0),
             Math.max(postIndex + 30, Math.min(props.replyListIds.length - 1, 50)),
         ];
 
-        this.postCreateContainerRef = React.createRef();
         this.listRef = React.createRef();
         this.innerRef = React.createRef();
-
-        const isMobile = Utils.isMobile();
+        this.postCreateContainerRef = React.createRef();
+        this.scrollStopAction = new DelayedAction(this.handleScrollStop);
 
         this.state = {
             isMobile,
@@ -117,17 +105,17 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         };
     }
 
-    componentDidMount(): void {
+    componentDidMount() {
         this.mounted = true;
         window.addEventListener('resize', this.handleWindowResize);
     }
 
-    componentWillUnmount(): void {
+    componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
     }
 
-    componentDidUpdate(prevProps: Props): void {
+    componentDidUpdate(prevProps: Props) {
         if (
             prevProps.lastPost.id !== this.props.lastPost.id &&
             (this.props.lastPost.user_id === this.props.currentUserId || this.state.userScrolledToBottom)
@@ -136,9 +124,9 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
     }
 
-    canLoadMorePosts(): void {}
+    canLoadMorePosts() {}
 
-    handleWindowResize = (): void => {
+    handleWindowResize = () => {
         const isMobile = Utils.isMobile();
         if (isMobile !== this.state.isMobile) {
             this.setState({
@@ -173,7 +161,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         };
     }
 
-    onScroll = ({scrollHeight, scrollUpdateWasRequested, scrollOffset, clientHeight}: {scrollHeight: number; scrollUpdateWasRequested: boolean; scrollOffset: number; clientHeight: number}): void => {
+    onScroll = ({scrollHeight, scrollUpdateWasRequested, scrollOffset, clientHeight}: {scrollHeight: number; scrollUpdateWasRequested: boolean; scrollOffset: number; clientHeight: number}) => {
         if (scrollHeight <= 0 || scrollUpdateWasRequested) {
             return;
         }
@@ -189,7 +177,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
     }
 
-    updateFloatingTimestamp = (visibleTopItem: number): void => {
+    updateFloatingTimestamp = (visibleTopItem: number) => {
         if (!this.props.replyListIds) {
             return;
         }
@@ -199,7 +187,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         });
     }
 
-    onItemsRendered = ({visibleStartIndex}: {visibleStartIndex: number}): void => {
+    onItemsRendered = ({visibleStartIndex}: {visibleStartIndex: number}) => {
         if (this.state.isMobile) {
             this.updateFloatingTimestamp(visibleStartIndex);
         }
@@ -221,23 +209,23 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         return postIndex === -1 ? 0 : postIndex;
     }
 
-    scrollToItem = (index: number, position: string, offset?: number): void => {
+    scrollToItem = (index: number, position: string, offset?: number) => {
         if (this.listRef.current) {
             this.listRef.current.scrollToItem(index, position, offset);
         }
     }
 
-    scrollToBottom = (): void => {
+    scrollToBottom = () => {
         if (this.shouldScrollToBottom()) {
             this.scrollToItem(0, 'end');
         }
     }
 
-    scrollToNewMessage = (): void => {
+    scrollToNewMessage = () => {
         this.scrollToItem(getNewMessageIndex(this.props.replyListIds), 'start', OFFSET_TO_SHOW_TOAST);
     }
 
-    handleScrollStop = (): void => {
+    handleScrollStop = () => {
         if (this.mounted) {
             this.setState({isScrolling: false});
         }
@@ -284,8 +272,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                     listId={itemId}
                     onCardClick={this.props.onCardClick}
                     onCardClickPost={this.props.onCardClickPost}
-                    previewCollapsed={this.props.previewCollapsed}
-                    previewEnabled={this.props.previewEnabled}
                     previousPostId={getPreviousPostId(data, index)}
                     teamId={this.props.teamId}
                     timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}

@@ -6,16 +6,28 @@ import {connect} from 'react-redux';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {get, getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {$ID} from 'mattermost-redux/types/utilities';
+import {Channel} from 'mattermost-redux/types/channels';
+import {Post} from 'mattermost-redux/types/posts';
+
+import {FakePost} from 'types/store/rhs';
 
 import {getHighlightedPostId} from 'selectors/rhs';
 import {makePrepareReplyIdsForThreadViewer, makeGetThreadLastViewedAt} from 'selectors/views/threads';
 
-import {Preferences} from 'utils/constants';
-
 import {GlobalState} from 'types/store';
 
-import ThreadViewerVirtualized, {OwnProps} from './virtualized_thread_viewer';
+import ThreadViewerVirtualized from './virtualized_thread_viewer';
+
+type OwnProps = {
+    channel: Channel;
+    openTime: number;
+    postIds: Array<$ID<Post | FakePost>>;
+    selected: Post | FakePost;
+    useRelativeTimestamp: boolean;
+}
 
 function makeMapStateToProps() {
     const getRepliesListWithSeparators = makePrepareReplyIdsForThreadViewer();
@@ -40,16 +52,11 @@ function makeMapStateToProps() {
             openTime,
         });
 
-        const previewCollapsed = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT);
-        const previewEnabled = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT === 'true');
-
         return {
             currentUserId,
             directTeammate,
             highlightedPostId,
             lastPost,
-            previewCollapsed,
-            previewEnabled,
             replyListIds,
             teamId: channel.team_id,
         };

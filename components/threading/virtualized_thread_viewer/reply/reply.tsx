@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useCallback} from 'react';
+
 import {useDispatch} from 'react-redux';
 
 import {removePost} from 'mattermost-redux/actions/posts';
@@ -9,25 +10,22 @@ import {removePost} from 'mattermost-redux/actions/posts';
 import {Post} from 'mattermost-redux/types/posts';
 
 import RhsComment from 'components/rhs_comment';
+import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
-export type OwnProps = {
+type Props = {
     a11Index: number;
     currentUserId: string;
-    id: string;
     isLastPost: boolean;
     onCardClick: (post: Post) => void;
+    post: Post;
     previewCollapsed: string;
     previewEnabled: boolean;
     previousPostId: string;
     teamId: string;
-    timestampProps?: any;
+    timestampProps?: Partial<TimestampProps>;
 }
 
-type Props = OwnProps & {
-    post: Post;
-}
-
-function Repy({
+function Reply({
     a11Index,
     currentUserId,
     isLastPost,
@@ -62,4 +60,4 @@ function Repy({
     );
 }
 
-export default memo(Repy);
+export default memo(Reply);

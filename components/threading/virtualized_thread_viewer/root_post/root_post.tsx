@@ -6,22 +6,19 @@ import React, {memo} from 'react';
 import {Post} from 'mattermost-redux/types/posts';
 
 import RhsRootPost from 'components/rhs_root_post';
+import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
-export type OwnProps = {
+type Props = {
     a11Index: number;
-    id: string;
-    isLastPost: boolean;
-    timestampProps: any;
-    onCardClick: (post: Post) => void;
-    previewEnabled: boolean;
-    previewCollapsed: string;
     currentUserId: string;
-    teamId: string;
-}
-
-type Props = OwnProps & {
+    isLastPost: boolean;
+    onCardClick: (post: Post) => void;
     post: Post;
-};
+    previewCollapsed: string;
+    previewEnabled: boolean;
+    teamId: string;
+    timestampProps?: Partial<TimestampProps>;
+}
 
 function RootPost({
     a11Index,

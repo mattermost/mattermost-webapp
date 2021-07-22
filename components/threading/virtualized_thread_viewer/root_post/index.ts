@@ -4,14 +4,37 @@
 import {connect} from 'react-redux';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
+
+import {Preferences} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 
-import RootPost, {OwnProps} from './root_post';
+import RootPost from './root_post';
+
+type OwnProps = {
+    id: string;
+}
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const previewCollapsed = get(
+        state,
+        Preferences.CATEGORY_DISPLAY_SETTINGS,
+        Preferences.COLLAPSE_DISPLAY,
+        Preferences.COLLAPSE_DISPLAY_DEFAULT,
+    );
+
+    const previewEnabled = getBool(
+        state,
+        Preferences.CATEGORY_DISPLAY_SETTINGS,
+        Preferences.LINK_PREVIEW_DISPLAY,
+        Preferences.LINK_PREVIEW_DISPLAY_DEFAULT === 'true',
+    );
+
     return {
         post: getPost(state, ownProps.id),
+        previewEnabled,
+        previewCollapsed,
     };
 }
 
