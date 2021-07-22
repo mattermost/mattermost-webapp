@@ -60,11 +60,6 @@ describe('System Console - Enterprise', () => {
             url: 'admin_console/authentication/guest_access',
         },
         {
-            header: 'Data Retention Policy',
-            sidebar: 'Data Retention Policy',
-            url: 'admin_console/compliance/data_retention',
-        },
-        {
             header: 'Compliance Export (Beta)',
             sidebar: 'Compliance Export (Beta)',
             url: 'admin_console/compliance/export',

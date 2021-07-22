@@ -30,7 +30,6 @@ describe('Feature discovery', () => {
             {sidebarName: 'SAML 2.0', featureDiscoveryTitle: 'SAML'},
             {sidebarName: 'OpenID Connect', featureDiscoveryTitle: 'OpenID Connect'},
             {sidebarName: 'Groups', featureDiscoveryTitle: 'Active Directory/LDAP groups'},
-            {sidebarName: 'Data Retention Policy', featureDiscoveryTitle: 'data retention schedules'},
             {sidebarName: 'Compliance Export', featureDiscoveryTitle: 'compliance exports'},
             {sidebarName: 'System Roles', featureDiscoveryTitle: 'controlled access to the System Console'},
             {sidebarName: 'Permissions', featureDiscoveryTitle: 'role-based permissions'},

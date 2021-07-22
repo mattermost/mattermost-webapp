@@ -17,41 +17,6 @@ describe('Settings', () => {
         cy.apiRequireLicense();
     });
 
-    it('MM-T1161 Data retention - Settings are saved', () => {
-        cy.visit('/admin_console/compliance/data_retention');
-
-        // # Change dropdown
-        cy.findByTestId('enableMessageDeletiondropdown').select('Keep messages for a set amount of time');
-
-        // * Verify that button is enabled
-        cy.get('#adminConsoleWrapper .wrapper--fixed > .admin-console__wrapper').
-            within(() => {
-                cy.get('.job-table__panel button').should('be.enabled');
-            });
-
-        // # Save setting
-        cy.findByTestId('saveSetting').should('be.enabled').click().wait(TIMEOUTS.HALF_SEC);
-
-        // * Confirm that modal shows up
-        cy.get('#confirmModalLabel').should('be.visible').should('have.text', 'Confirm data retention policy');
-        cy.get('#confirmModalButton').should('be.enabled').click();
-
-        // # Change dropdown
-        cy.findByTestId('enableMessageDeletiondropdown').select('Keep all messages indefinitely');
-
-        // * Verify that button is disabled
-        cy.get('#adminConsoleWrapper .wrapper--fixed > .admin-console__wrapper').
-            within(() => {
-                cy.get('.job-table__panel button').should('be.disabled');
-            });
-
-        cy.findByTestId('saveSetting').should('be.enabled').click().wait(TIMEOUTS.HALF_SEC);
-
-        // * Confirm that modal shows up
-        cy.get('#confirmModalLabel').should('be.visible').should('have.text', 'Confirm data retention policy');
-        cy.get('#confirmModalButton').should('be.enabled').click();
-    });
-
     it('MM-T1181 Compliance and Auditing: Run a report, it appears in the job table', () => {
         cy.visit('/admin_console/compliance/monitoring');
 
