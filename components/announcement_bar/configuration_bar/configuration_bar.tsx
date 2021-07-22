@@ -254,7 +254,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         />
                         <FormattedMarkdownMessage
                             id='announcement_bar.error.trial_license_expiring_last_day'
-                            defaultMessage={'**This is the last day of your free trial. Purchase a license now to continue using E10 & E20 features.**'}
+                            defaultMessage={'**This is the last day of your free trial. Purchase a license now to continue using Mattermost Professional and Enterprise features.**'}
                         />
                     </>
                 );
