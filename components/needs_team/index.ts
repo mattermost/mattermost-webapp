@@ -43,8 +43,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
         license,
         theme: getTheme(state),
-        collapsedThreads: isCollapsedThreadsEnabled(state),
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
+        collapsedThreads: isCollapsedThreadsEnabled(state),
         currentUser,
         currentTeamId: getCurrentTeamId(state),
         previousTeamId: getPreviousTeamId(state) as string,
