@@ -11,7 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
-import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
+import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.tsx';
 import UpgradeLink from 'components/widgets/links/upgrade_link';
 import NotifyLink from 'components/widgets/links/notify_link';
 

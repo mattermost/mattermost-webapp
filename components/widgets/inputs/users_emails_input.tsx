@@ -2,11 +2,15 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactElement} from 'react';
+
 import {FormattedMessage} from 'react-intl';
-import AsyncSelect from 'react-select/lib/AsyncCreatable';
-import {components} from 'react-select';
 import classNames from 'classnames';
+import {components, OptionsType, OptionTypeBase, Styles, ValueType} from 'react-select';
+import {Props as AsyncSelectProps} from 'react-select/async';
+import {NoticeProps} from 'react-select/src/components/Menu';
+
+import {AppSelectOption} from 'mattermost-redux/types/apps';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -25,7 +29,79 @@ import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
 
-export default class UsersEmailsInput extends React.PureComponent {
+import {UserProfile} from 'mattermost-redux/types/users';
+
+const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>; // eslint-disable-line global-require
+
+type Option = {
+    id?: string;
+    email?: string;
+    username?: string;
+    value: string;
+    label?: string;
+}
+
+interface IOptionType extends OptionTypeBase {
+    id?: string;
+    email?: string;
+    username?: string;
+    value: string;
+    label?: string;
+}
+type UserEmailInputState = {
+    options: Option[];
+}
+
+// type Props  = {
+//   placeholder: string;
+//   ariaLabel: string;
+//   usersLoader: (input:string, customCallback:(options:Option[]) => void) => Promise<void>;
+//   onChange: () => string;
+//   showError: boolean;
+//   errorMessageId: string;
+//   errorMessageDefault: string;
+//   errorMessageValues: object;
+//   value: object[]|string[];
+//   onInputChange: (input:string) => void;
+//   inputValue: string;
+//   noMatchMessageId: string;
+//   noMatchMessageDefault: string;
+//   validAddressMessageId: string;
+//   validAddressMessageDefault: string;
+//   loadingMessageId: string;
+//   loadingMessageDefault: string;
+//   emailInvitationsEnabled: boolean;
+//   extraErrorText: any;
+
+type Props = {
+    placeholder: string;
+    ariaLabel: string;
+
+    // usersLoader: (input: string, customCallback: (options: object) => void) => Promise<UserData>;
+    usersLoader: (input: string, customCallback: (options: OptionsType<AppSelectOption>) => void) => Promise<void>;
+    onChange: (input: Array<(Option| string)>) => string;
+    showError: boolean;
+    errorMessageId: string;
+    errorMessageDefault: string;
+    errorMessageValues: unknown;
+    value: Array<(Option)>;
+    onInputChange: (input: string) => void;
+    inputValue: string;
+    noMatchMessageId: string;
+    noMatchMessageDefault: string;
+    validAddressMessageId: string;
+    validAddressMessageDefault: string;
+    loadingMessageId: string;
+    loadingMessageDefault: string;
+    emailInvitationsEnabled: boolean;
+    extraErrorText: string;
+}
+
+export default class UsersEmailsInput extends React.PureComponent<Props> {
+    selectRef: React.RefObject<UsersEmailsInput>
+    state: UserEmailInputState;
+    customStyles?: Partial<Styles>
+
     static propTypes = {
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,
@@ -47,7 +123,6 @@ export default class UsersEmailsInput extends React.PureComponent {
         emailInvitationsEnabled: PropTypes.bool,
         extraErrorText: PropTypes.any,
     }
-
     static defaultProps = {
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
         noMatchMessageDefault: 'No one found matching **{text}**, type email address',
@@ -58,7 +133,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         showError: false,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.selectRef = React.createRef();
         this.state = {
@@ -66,7 +141,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         };
     }
 
-    renderUserName = (user) => {
+    renderUserName = (user: UserProfile): React.ReactFragment => {
         const parts = getLongDisplayNameParts(user);
         let fullName = null;
         if (parts.fullName) {
@@ -86,7 +161,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         );
     }
 
-    loadingMessage = () => {
+    loadingMessage = (): JSX.Element => {
         const text = (
             <FormattedMessage
                 id={this.props.loadingMessageId}
@@ -97,11 +172,11 @@ export default class UsersEmailsInput extends React.PureComponent {
         return (<LoadingSpinner text={text}/>);
     }
 
-    getOptionValue = (user) => {
+    getOptionValue = (user: UserProfile) => {
         return user.id || user.value;
     }
 
-    formatOptionLabel = (user, options) => {
+    formatOptionLabel = (user: UserProfile, options: {context: string}): React.ReactFragment => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
         let botBadge = null;
@@ -110,7 +185,7 @@ export default class UsersEmailsInput extends React.PureComponent {
             botBadge = <BotBadge/>;
         }
 
-        if (!isEmail(user.value) && isGuest(user)) {
+        if (!isEmail(user?.value || '') && isGuest(user)) {
             guestBadge = <GuestBadge/>;
         }
 
@@ -155,18 +230,21 @@ export default class UsersEmailsInput extends React.PureComponent {
         );
     }
 
-    onChange = (value) => {
+    onChange = (value: Array<Option|string>): void => {
         if (this.props.onChange) {
-            this.props.onChange(value.map((v) => {
-                if (v.id) {
+            this.props.onChange(value.map((v): string => {
+                if (typeof v === 'string') {
                     return v;
+                }
+                if (v instanceof Option) {
+                    return v.text;
                 }
                 return v.value;
             }));
         }
     }
 
-    getCreateLabel = (value) => (
+    getCreateLabel = (value: string): React.ReactFragment => (
         <React.Fragment>
             <MailPlusIcon className='mail-plus-icon'/>
             <FormattedMarkdownMessage
@@ -179,8 +257,11 @@ export default class UsersEmailsInput extends React.PureComponent {
         </React.Fragment>
     );
 
-    NoOptionsMessage = (props) => {
-        const inputValue = props.selectProps.inputValue;
+    NoOptionsMessage = ({selectProps, props}: {
+        selectProps: {inputValue: string};
+        props: NoticeProps<OptionsType<OptionTypeBase>>;
+    }): ReactElement|null => {
+        const inputValue = selectProps.inputValue;
         if (!inputValue) {
             return null;
         }
@@ -193,7 +274,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                     values={{text: inputValue}}
                     disableLinks={true}
                 >
-                    {(message) => (
+                    {(message: string) => (
                         <components.NoOptionsMessage {...props}>
                             {message}
                         </components.NoOptionsMessage>
@@ -203,7 +284,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         );
     };
 
-    MultiValueRemove = ({children, innerProps}) => (
+    MultiValueRemove = ({children, innerProps}: {children: React.ReactElement; innerProps: unknown}): ReactElement => (
         <div {...innerProps}>
             {children || <CloseCircleSolidIcon/>}
         </div>
@@ -215,14 +296,9 @@ export default class UsersEmailsInput extends React.PureComponent {
         IndicatorsContainer: () => null,
     };
 
-    handleInputChange = (inputValue, action) => {
-        if (action.action === 'input-blur' && inputValue !== '') {
-            const values = this.props.value.map((v) => {
-                if (v.id) {
-                    return v;
-                }
-                return {label: v, value: v};
-            });
+    handleInputChange = (inputValue: Option, action: {action: string}): void => {
+        if (action.action === 'input-blur') {
+            const values = this.props.value;
 
             for (const option of this.state.options) {
                 if (this.props.inputValue === option.username || this.props.inputValue === ('@' + option.username)) {
@@ -243,34 +319,32 @@ export default class UsersEmailsInput extends React.PureComponent {
             }
         }
         if (action.action !== 'input-blur' && action.action !== 'menu-close') {
-            this.props.onInputChange(inputValue);
+            this.props.onInputChange(inputValue.value);
         }
     }
 
-    optionsLoader = (input, callback) => {
-        const customCallback = (options) => {
+    optionsLoader = (_: string, callback: (options: OptionsType<AppSelectOption>) => void ) => {
+        const customCallback = (options: OptionsType<AppSelectOption>) => {
             this.setState({options});
             callback(options);
         };
-        const result = this.props.usersLoader(this.props.inputValue, customCallback);
-        if (result && result.then) {
-            result.then(customCallback);
-        }
+        return this.props.usersLoader(this.props.inputValue, customCallback);
     }
 
-    showAddEmail = (input, values, options) => {
+    showAddEmail = (input: string, _:any, options: any[]): boolean => {
         return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
     }
 
     onFocus = () => {
-        this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
+        this.selectRef.current?.handleInputChange({value: this.props.inputValue}, {action: 'custom'});
     }
 
     onBlur = () => {
-        this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'input-blur'});
+        this.selectRef.current?.handleInputChange({value: this.props.inputValue}, {action: 'input-blur'});
+
     }
 
-    render() {
+    public render(): JSX.Element {
         const values = this.props.value.map((v) => {
             if (v.id) {
                 return v;
@@ -282,7 +356,8 @@ export default class UsersEmailsInput extends React.PureComponent {
                 <AsyncSelect
                     ref={this.selectRef}
                     styles={this.customStyles}
-                    onChange={this.onChange}
+                    onChange={(value: ValueType<IOptionType>) => this.onChange([value?.values])}
+
                     loadOptions={this.optionsLoader}
                     isValidNewOption={this.showAddEmail}
                     isMulti={true}
@@ -318,8 +393,8 @@ export default class UsersEmailsInput extends React.PureComponent {
                             values={this.props.errorMessageValues || null}
                             disableLinks={true}
                         >
-                            {(message) => (
-                                <components.NoOptionsMessage>
+                            {(message: string) => (
+                                <components.NoOptionsMessage >
                                     {message}
                                 </components.NoOptionsMessage>
                             )}
