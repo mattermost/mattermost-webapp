@@ -82,14 +82,14 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         };
     }
 
-    public componentDidMount(): void {
+    public componentDidMount() {
         if (this.props.isCollapsedThreadsEnabled && this.props.userThread !== null) {
             this.markThreadRead();
         }
         this.onInit();
     }
 
-    public componentDidUpdate(prevProps: Props): void {
+    public componentDidUpdate(prevProps: Props) {
         const reconnected = this.props.socketConnectionStatus && !prevProps.socketConnectionStatus;
         const selectedChanged = this.props.selected.id !== prevProps.selected.id;
 
