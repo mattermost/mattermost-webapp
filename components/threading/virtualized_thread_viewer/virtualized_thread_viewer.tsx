@@ -116,9 +116,13 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (
-            prevProps.lastPost.id !== this.props.lastPost.id &&
-            (this.props.lastPost.user_id === this.props.currentUserId || this.state.userScrolledToBottom)
+        const {highlightedPostId, lastPost, currentUserId} = this.props;
+
+        if (highlightedPostId && prevProps.highlightedPostId !== highlightedPostId) {
+            this.scrollToHighlightedPost();
+        } else if (
+            prevProps.lastPost.id !== lastPost.id &&
+            (lastPost.user_id === currentUserId || this.state.userScrolledToBottom)
         ) {
             this.scrollToBottom();
         }
@@ -139,7 +143,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         const {highlightedPostId, replyListIds} = this.props;
 
         if (highlightedPostId) {
-            const index = replyListIds.findIndex((item) => item === highlightedPostId);
+            const index = replyListIds.indexOf(highlightedPostId);
             return {
                 index,
                 position: 'center',
@@ -223,6 +227,14 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
     scrollToNewMessage = () => {
         this.scrollToItem(getNewMessageIndex(this.props.replyListIds), 'start', OFFSET_TO_SHOW_TOAST);
+    }
+
+    scrollToHighlightedPost = () => {
+        const {highlightedPostId, replyListIds} = this.props;
+
+        if (highlightedPostId) {
+            this.scrollToItem(replyListIds.indexOf(highlightedPostId), 'center');
+        }
     }
 
     handleScrollStop = () => {
