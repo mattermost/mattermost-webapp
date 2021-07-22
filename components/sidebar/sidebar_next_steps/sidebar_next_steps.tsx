@@ -102,6 +102,10 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     render() {
+        if (this.props.preferences.length === 0) {
+            return null;
+        }
+
         if (this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value === 'true')) {
             return null;
         }
