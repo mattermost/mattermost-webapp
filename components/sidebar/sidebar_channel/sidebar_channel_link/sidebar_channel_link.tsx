@@ -174,14 +174,11 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         let tutorialTip: JSX.Element | null = null;
         if (showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) {
             tutorialTip = (
-                <div>
-                    <SidebarTutorialTip
-                        townSquareDisplayName={this.props.townSquareDisplayName}
-                        offTopicDisplayName={this.props.offTopicDisplayName}
-                        openLhs={actions.openLhs}
-                    />
-
-                </div>
+                <SidebarTutorialTip
+                    townSquareDisplayName={this.props.townSquareDisplayName}
+                    offTopicDisplayName={this.props.offTopicDisplayName}
+                    openLhs={actions.openLhs}
+                />
 
             );
         }
