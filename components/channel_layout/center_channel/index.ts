@@ -38,14 +38,13 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         channelName = getRedirectChannelNameForTeam(state, team!.id);
     }
     const lastChannelPath = `${ownProps.match.url}/channels/${channelName}`;
-    const currentUserId = getCurrentUserId(state);
     return {
         lastChannelPath,
         lhsOpen: getIsLhsOpen(state),
         rhsOpen: getIsRhsOpen(state),
         rhsMenuOpen: getIsRhsMenuOpen(state),
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        currentUserId,
+        currentUserId: getCurrentUserId(state),
         showNextSteps: showNextSteps(state),
         showNextStepsTips: showNextStepsTips(state),
         isOnboardingHidden: isOnboardingHidden(state),
