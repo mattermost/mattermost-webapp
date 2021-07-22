@@ -36,7 +36,7 @@ type Props = {
     };
 }
 
-declare module 'components/post_view/reaction' {
+declare module 'components/suggestion/suggestion_list' {
     declare class SuggestionList extends React.PureComponent<Props> {}
 }
 

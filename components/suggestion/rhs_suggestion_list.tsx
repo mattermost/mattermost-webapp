@@ -10,19 +10,17 @@ import Constants from 'utils/constants';
 
 import SuggestionList from './suggestion_list';
 
-type Props = React.ComponentProps<SuggestionList> & {
-    target: React.Ref<QuickInput>;
+type Props = React.ComponentProps<typeof SuggestionList> & {
+    inputRef: React.RefObject<QuickInput>;
 }
 
 export default function RhsSuggestionList(props: Props): JSX.Element {
-    const [position, setPosition] = useState('top');
-
-    const {target, ...otherProps} = props;
+    const [position, setPosition] = useState<Props['location']>('top');
 
     useEffect(() => {
-        const input = target.current;
+        const input = props.inputRef.current;
 
-        if (otherProps.open) {
+        if (props.open) {
             const inputTop = (input?.getInput() as AutosizeTextarea).getDOMNode()?.getBoundingClientRect().top || 0;
             const newPosition = (inputTop < Constants.SUGGESTION_LIST_SPACE_RHS) ? 'bottom' : 'top';
 
@@ -32,11 +30,11 @@ export default function RhsSuggestionList(props: Props): JSX.Element {
                 setPosition(newPosition);
             }
         }
-    }, [target, otherProps.open]);
+    }, [props.inputRef, props.open]);
 
     return (
         <SuggestionList
-            {...otherProps}
+            {...props}
             location={position}
         />
     );
