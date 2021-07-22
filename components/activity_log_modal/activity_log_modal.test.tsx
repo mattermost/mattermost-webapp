@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { MouseEvent } from 'react';
+import React, {MouseEvent} from 'react';
 import {shallow} from 'enzyme';
 
 import ActivityLogModal from 'components/activity_log_modal/activity_log_modal';
@@ -45,7 +45,7 @@ describe('components/ActivityLogModal', () => {
             <ActivityLogModal {...props}/>,
         );
 
-        wrapper.instance().submitRevoke('altId', {preventDefault: jest.fn()} as unknown as React.MouseEvent);
+        wrapper.instance().submitRevoke('altId', {preventDefault: jest.fn()} as unknown as MouseEvent);
         expect(wrapper).toMatchSnapshot();
         expect(revokeSession).toHaveBeenCalledTimes(1);
         expect(revokeSession).toHaveBeenCalledWith('', 'altId');
