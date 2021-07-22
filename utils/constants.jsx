@@ -342,9 +342,9 @@ export const EventTypes = Object.assign(
 );
 
 export const CloudProducts = {
-    STARTER: 'Cloud Starter',
-    PROFESSIONAL: 'Mattermost Cloud',
-    ENTERPRISE: 'Cloud Enterprise',
+    STARTER: 'cloud-starter',
+    PROFESSIONAL: 'cloud-professional',
+    ENTERPRISE: 'cloud-enterprise',
 };
 
 export const A11yClassNames = {
