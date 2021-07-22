@@ -22,14 +22,14 @@ describe('System Console - Company Information section', () => {
     });
 
     it('MM-37051 - Adding the Company Information screen', () => {
-        const compnayName = getRandomLetter(30);
+        const companyName = getRandomLetter(30);
         gotoCompanyInformationScreen();
 
         // # click on Add Company Information button
         cy.contains('span', 'Add Company Information').parent().click();
 
         // # enter company information functionality
-        cy.get('#input_companyName').clear().type(compnayName);
+        cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
         cy.get('.css-1hwfws3').click();
         cy.get(".DropDown__input > input[type='text']").type('India{enter}');
@@ -43,7 +43,7 @@ describe('System Console - Company Information section', () => {
         cy.get('#saveSetting').should('be.enabled').click();
 
         // * check for persisted company name
-        cy.get('.CompanyInfoDisplay__companyInfo-name').should('have.text', compnayName);
+        cy.get('.CompanyInfoDisplay__companyInfo-name').should('have.text', companyName);
 
         // * check for employee number
         cy.get('.CompanyInfoDisplay__companyInfo-numEmployees > span').should('include.text', '10');
@@ -62,14 +62,14 @@ describe('System Console - Company Information section', () => {
     });
 
     it('MM-37051 - Save Info should persist the data and same persisted data should be displayed in Company Information screen', () => {
-        const compnayName = getRandomLetter(30);
+        const companyName = getRandomLetter(30);
         cy.visit('/admin_console/billing/company_info');
 
         // # click on edit Company Information button
         cy.get('.CompanyInfoDisplay__companyInfo-editButton').click();
 
         // # enter company information functionality
-        cy.get('#input_companyName').clear().type(compnayName);
+        cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
         cy.get('.css-1hwfws3').click();
         cy.get(".DropDown__input > input[type='text']").type('India{enter}');
@@ -83,7 +83,7 @@ describe('System Console - Company Information section', () => {
         cy.get('#saveSetting').should('be.enabled').click();
 
         // * check for persisted company name
-        cy.get('.CompanyInfoDisplay__companyInfo-name').should('have.text', compnayName);
+        cy.get('.CompanyInfoDisplay__companyInfo-name').should('have.text', companyName);
 
         // * check for employee number
         cy.get('.CompanyInfoDisplay__companyInfo-numEmployees > span').should('include.text', '10');
