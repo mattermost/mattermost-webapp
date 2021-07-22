@@ -3,7 +3,7 @@
 
 import React, {PureComponent, RefObject} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import {DynamicSizeList} from 'dynamic-virtualized-list';
+import {DynamicSizeList, OnScrollArgs} from 'dynamic-virtualized-list';
 import memoize from 'memoize-one';
 
 import {$ID} from 'mattermost-redux/types/utilities';
@@ -161,7 +161,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         };
     }
 
-    onScroll = ({scrollHeight, scrollUpdateWasRequested, scrollOffset, clientHeight}: {scrollHeight: number; scrollUpdateWasRequested: boolean; scrollOffset: number; clientHeight: number}) => {
+    onScroll = ({scrollHeight, scrollUpdateWasRequested, scrollOffset, clientHeight}: OnScrollArgs) => {
         if (scrollHeight <= 0 || scrollUpdateWasRequested) {
             return;
         }

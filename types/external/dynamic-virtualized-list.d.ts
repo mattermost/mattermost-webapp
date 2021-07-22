@@ -2,6 +2,14 @@
 // See LICENSE.txt for license information.
 
 declare module 'dynamic-virtualized-list' {
+    export type OnScrollArgs = {
+        scrollDirection: 'backward' | 'forward';
+        scrollOffset: number;
+        scrollUpdateWasRequested: boolean;
+        clientHeight: number;
+        scrollHeight: number;
+    }
+
     interface DynamicSizeListProps {
         canLoadMorePosts: (id?: string) => void;
         children: ({data: any, itemId: any, style: any}) => JSX.Element;
@@ -13,7 +21,7 @@ declare module 'dynamic-virtualized-list' {
         innerRef: React.Ref<any>;
         itemData: string[];
         onItemsRendered: (args: any) => void;
-        onScroll: (scrollArgs: any) => void;
+        onScroll: (scrollArgs: OnScrollArgs) => void;
         overscanCountBackward: number;
         overscanCountForward: number;
         scrollToFailed: (index: number) => void;
