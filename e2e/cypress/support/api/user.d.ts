@@ -60,14 +60,14 @@ declare namespace Cypress {
          * @returns {UserProfile} out.user: `UserProfile` object
          *
          * @example
-         *   cy.apiAdminLoginWithMFA({token: '123456'});
+         *   cy.apiAdminLoginWithMFA(token);
          */
         apiAdminLoginWithMFA(): Chainable<UserProfile>;
 
         /**
          * Logout a user's active session from server via API.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1logout/post
-         * Clears all cookies espececially `MMAUTHTOKEN`, `MMUSERID` and `MMCSRF`.
+         * Clears all cookies especially `MMAUTHTOKEN`, `MMUSERID` and `MMCSRF`.
          *
          * @example
          *   cy.apiLogout();
@@ -194,7 +194,7 @@ declare namespace Cypress {
          * @param {string} options.user - predefined `user` object instead on random user
          * @param {string} options.prefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
-         * @param {boolean} options.hideCloudOnboarding - true (default) to hide or false to show Cloud Onboarding steps
+         * @param {boolean} options.hideOnboarding - true (default) to hide or false to show Onboarding steps
          * @returns {UserProfile} `out.user` as `UserProfile` object
          *
          * @example
@@ -205,9 +205,8 @@ declare namespace Cypress {
         /**
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.prefix - 'guest' (default) or any prefix to easily identify a guest
-         * @param {string} options.activate - true (default) to activate guest user
          * @param {boolean} options.bypassTutorial - true (default) or false for guest to go thru tutorial steps
-         * @param {boolean} options.hideCloudOnboarding - true (default) to hide or false to show Cloud Onboarding steps
+         * @param {boolean} options.hideOnboarding - true (default) to hide or false to show Onboarding steps
          * @returns {UserProfile} `out.guest` as `UserProfile` object
          *
          * @example

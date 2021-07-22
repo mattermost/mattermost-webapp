@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createSelector} from 'reselect';
 import shallowEquals from 'shallow-equals';
+
+import {createSelector} from 'reselect';
 
 import {General, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -10,7 +11,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getCurrentChannelId, getMyChannelMemberships, makeGetChannelsForIds} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
-import {getMyPreferences, getTeammateNameDisplaySetting, shouldAutocloseDMs, getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyPreferences, getTeammateNameDisplaySetting, shouldAutocloseDMs, getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -66,6 +67,7 @@ export function getCategoryIdsForTeam(state: GlobalState, teamId: string): strin
 
 export function makeGetCategoriesForTeam(): (state: GlobalState, teamId: string) => ChannelCategory[] {
     return createSelector(
+        'makeGetCategoriesForTeam',
         getCategoryIdsForTeam,
         (state: GlobalState) => state.entities.channelCategories.byId,
         (categoryIds, categoriesById) => {
@@ -82,6 +84,7 @@ export function makeGetCategoriesForTeam(): (state: GlobalState, teamId: string)
 // is archived or is currently being viewed. The selector returns the original array if no channels are filtered out.
 export function makeFilterArchivedChannels(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeFilterArchivedChannels',
         (state: GlobalState, channels: Channel[]) => channels,
         getCurrentChannelId,
         (channels: Channel[], currentChannelId: string) => {
@@ -102,6 +105,7 @@ function getDefaultAutocloseCutoff() {
 // recently. The selector returns the original array if no channels are filtered out.
 export function legacyMakeFilterAutoclosedDMs(getAutocloseCutoff = getDefaultAutocloseCutoff): (state: GlobalState, channels: Channel[], categoryType: string) => Channel[] {
     return createSelector(
+        'legacyMakeFilterAutoclosedDMs',
         (state: GlobalState, channels: Channel[]) => channels,
         (state: GlobalState, channels: Channel[], categoryType: string) => categoryType,
         getMyPreferences,
@@ -111,7 +115,8 @@ export function legacyMakeFilterAutoclosedDMs(getAutocloseCutoff = getDefaultAut
         getCurrentUserId,
         getMyChannelMemberships,
         getLastPostPerChannel,
-        (channels, categoryType, myPreferences, autocloseDMs, currentChannelId, profiles, currentUserId, myMembers, lastPosts) => {
+        isCollapsedThreadsEnabled,
+        (channels, categoryType, myPreferences, autocloseDMs, currentChannelId, profiles, currentUserId, myMembers, lastPosts, collapsedThreads) => {
             if (categoryType !== CategoryTypes.DIRECT_MESSAGES) {
                 // Only autoclose DMs that haven't been assigned to a category
                 return channels;
@@ -125,7 +130,7 @@ export function legacyMakeFilterAutoclosedDMs(getAutocloseCutoff = getDefaultAut
                     return true;
                 }
 
-                if (isUnreadChannel(myMembers, channel)) {
+                if (isUnreadChannel(myMembers, channel, collapsedThreads)) {
                     // Unread DMs/GMs are always visible
                     return true;
                 }
@@ -191,6 +196,7 @@ export function legacyMakeFilterAutoclosedDMs(getAutocloseCutoff = getDefaultAut
 
 export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channel[], categoryType: string) => Channel[] {
     return createSelector(
+        'makeFilterAutoclosedDMs',
         (state: GlobalState, channels: Channel[]) => channels,
         (state: GlobalState, channels: Channel[], categoryType: string) => categoryType,
         getCurrentChannelId,
@@ -199,7 +205,8 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
         getMyChannelMemberships,
         (state: GlobalState) => getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, 20),
         getMyPreferences,
-        (channels, categoryType, currentChannelId, profiles, currentUserId, myMembers, limitPref, myPreferences) => {
+        isCollapsedThreadsEnabled,
+        (channels, categoryType, currentChannelId, profiles, currentUserId, myMembers, limitPref, myPreferences, collapsedThreads) => {
             if (categoryType !== CategoryTypes.DIRECT_MESSAGES) {
                 // Only autoclose DMs that haven't been assigned to a category
                 return channels;
@@ -221,7 +228,7 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
 
             let unreadCount = 0;
             let visibleChannels = channels.filter((channel) => {
-                if (isUnreadChannel(myMembers, channel)) {
+                if (isUnreadChannel(myMembers, channel, collapsedThreads)) {
                     unreadCount++;
 
                     // Unread DMs/GMs are always visible
@@ -257,9 +264,9 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
                 }
 
                 // Second priority is for unread channels
-                if (isUnreadChannel(myMembers, channelA) && !isUnreadChannel(myMembers, channelB)) {
+                if (isUnreadChannel(myMembers, channelA, collapsedThreads) && !isUnreadChannel(myMembers, channelB, collapsedThreads)) {
                     return -1;
-                } else if (!isUnreadChannel(myMembers, channelA) && isUnreadChannel(myMembers, channelB)) {
+                } else if (!isUnreadChannel(myMembers, channelA, collapsedThreads) && isUnreadChannel(myMembers, channelB, collapsedThreads)) {
                     return 1;
                 }
 
@@ -290,12 +297,14 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
 
 export function makeFilterManuallyClosedDMs(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeFilterManuallyClosedDMs',
         (state: GlobalState, channels: Channel[]) => channels,
         getMyPreferences,
         getCurrentChannelId,
         getCurrentUserId,
         getMyChannelMemberships,
-        (channels, myPreferences, currentChannelId, currentUserId, myMembers) => {
+        isCollapsedThreadsEnabled,
+        (channels, myPreferences, currentChannelId, currentUserId, myMembers, collapsedThreads) => {
             const filtered = channels.filter((channel) => {
                 let preference;
 
@@ -303,7 +312,7 @@ export function makeFilterManuallyClosedDMs(): (state: GlobalState, channels: Ch
                     return true;
                 }
 
-                if (isUnreadChannel(myMembers, channel)) {
+                if (isUnreadChannel(myMembers, channel, collapsedThreads)) {
                     // Unread DMs/GMs are always visible
                     return true;
                 }
@@ -349,6 +358,7 @@ export function makeCompareChannels(getDisplayName: (channel: Channel) => string
 
 export function makeSortChannelsByName(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeSortChannelsByName',
         (state: GlobalState, channels: Channel[]) => channels,
         (state: GlobalState) => getCurrentUserLocale(state),
         getMyChannelMemberships,
@@ -362,6 +372,7 @@ export function makeSortChannelsByName(): (state: GlobalState, channels: Channel
 
 export function makeSortChannelsByNameWithDMs(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeSortChannelsByNameWithDMs',
         (state: GlobalState, channels: Channel[]) => channels,
         getCurrentUserId,
         (state: GlobalState) => state.entities.users.profiles,
@@ -419,6 +430,7 @@ export function makeSortChannelsByNameWithDMs(): (state: GlobalState, channels: 
 
 export function makeSortChannelsByRecency(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeSortChannelsByRecency',
         (state: GlobalState, channels: Channel[]) => channels,
         getLastPostPerChannel,
         (channels, lastPosts) => {
@@ -468,14 +480,23 @@ export function makeSortChannels() {
     };
 }
 
-export function makeGetChannelsForCategory() {
+export function makeGetChannelIdsForCategory() {
     const getChannels = makeGetChannelsForIds();
     const filterAndSortChannelsForCategory = makeFilterAndSortChannelsForCategory();
+
+    let lastChannelIds: string[] = [];
 
     return (state: GlobalState, category: ChannelCategory) => {
         const channels = getChannels(state, category.channel_ids);
 
-        return filterAndSortChannelsForCategory(state, channels, category);
+        const filteredChannelIds = filterAndSortChannelsForCategory(state, channels, category).map((channel) => channel.id);
+
+        if (shallowEquals(filteredChannelIds, lastChannelIds)) {
+            return lastChannelIds;
+        }
+
+        lastChannelIds = filteredChannelIds;
+        return lastChannelIds;
     };
 }
 

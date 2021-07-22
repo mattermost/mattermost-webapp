@@ -177,7 +177,7 @@ exports[`AppsFormComponent should set match snapshot 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Cancel"
           id="interactive_dialog.cancel"
         />
@@ -191,7 +191,7 @@ exports[`AppsFormComponent should set match snapshot 1`] = `
         spinningText="Submitting..."
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Submit"
           id="interactive_dialog.submit"
         />

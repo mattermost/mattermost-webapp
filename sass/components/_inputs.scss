@@ -11,7 +11,7 @@
     }
 
     a {
-        opacity: .5;
+        opacity: 0.5;
     }
 
     .help-link {
@@ -23,9 +23,9 @@
     }
 
     &.remove-filename {
-        margin-bottom: 5px;
         position: relative;
         top: -2px;
+        margin-bottom: 5px;
     }
 }
 
@@ -39,8 +39,8 @@
     }
 
     &.no-padding {
-        line-height: 32px;
         padding: 0;
+        line-height: 32px;
     }
 
     &.no-resize {
@@ -49,7 +49,8 @@
 
     &[disabled],
     [readonly] {
-        @include alpha-property(background, $white, .1);
+        @include alpha-property(background, $white, 0.1);
+
         color: inherit;
         cursor: auto;
     }
@@ -58,7 +59,8 @@
 fieldset {
     &[disabled] {
         .form-control {
-            @include alpha-property(background, $white, .1);
+            @include alpha-property(background, $white, 0.1);
+
             color: inherit;
             cursor: auto;
         }
@@ -72,13 +74,13 @@ fieldset {
 input {
     &[type='radio'],
     &[type='checkbox'] {
-        font-size: 14px;
         margin-top: 3px;
+        font-size: 14px;
     }
 }
 
 input::-webkit-file-upload-button {
-    display: none
+    display: none;
 }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */

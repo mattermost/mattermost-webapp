@@ -22,19 +22,19 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <thead>
           <tr>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
               />
@@ -112,19 +112,19 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <thead>
           <tr>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
               />
@@ -173,19 +173,19 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <thead>
           <tr>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
               />
@@ -211,7 +211,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                 <div
                   data-testid="admin-channel_settings-channel_moderation-channelMentions-disabledBothDueToCreatePosts"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Guests and members can not use channel mentions without the ability to create posts."
                     id="admin.channel_settings.channel_moderation.channelMentions.disabledBothDueToCreatePosts"
                   />
@@ -241,7 +241,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
     <label
       data-testid="admin-channel_settings-channel_moderation-createPosts"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Create Posts"
         id="admin.channel_settings.channel_moderation.createPosts"
       />
@@ -249,7 +249,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
     <div
       data-testid="admin-channel_settings-channel_moderation-createPostsDesc"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="The ability for members and guests to create posts in the channel."
         id="admin.channel_settings.channel_moderation.createPostsDesc"
       />
@@ -285,7 +285,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
     <label
       data-testid="admin-channel_settings-channel_moderation-createPosts"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Create Posts"
         id="admin.channel_settings.channel_moderation.createPosts"
       />
@@ -293,7 +293,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
     <div
       data-testid="admin-channel_settings-channel_moderation-createPostsDesc"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="The ability for members to create posts in the channel."
         id="admin.channel_settings.channel_moderation.createPostsDescMembers"
       />
@@ -335,19 +335,19 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <thead>
           <tr>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
               />
@@ -373,7 +373,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                 <div
                   data-testid="admin-channel_settings-channel_moderation-channelMentions-disabledGuestsDueToCreatePosts"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Guests can not use channel mentions without the ability to create posts."
                     id="admin.channel_settings.channel_moderation.channelMentions.disabledGuestsDueToCreatePosts"
                   />
@@ -433,13 +433,13 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <thead>
           <tr>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
               />
@@ -488,19 +488,19 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
         <thead>
           <tr>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Permissions"
                 id="admin.channel_settings.channel_moderation.permissions"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Guests"
                 id="admin.channel_settings.channel_moderation.guests"
               />
             </th>
             <th>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Members"
                 id="admin.channel_settings.channel_moderation.members"
               />
@@ -526,7 +526,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
                 <div
                   data-testid="admin-channel_settings-channel_moderation-channelMentions-disabledMemberDueToCreatePosts"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Members can not use channel mentions without the ability to create posts."
                     id="admin.channel_settings.channel_moderation.channelMentions.disabledMemberDueToCreatePosts"
                   />

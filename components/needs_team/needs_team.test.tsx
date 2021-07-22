@@ -31,6 +31,7 @@ jest.mock('utils/utils', () => ({
     localizeMessage: jest.fn(),
     areObjectsEqual: jest.fn(),
     isGuest: jest.fn(),
+    makeIsEligibleForClick: jest.fn(),
 }));
 
 describe('components/needs_team', () => {
@@ -110,6 +111,7 @@ describe('components/needs_team', () => {
         history,
         useLegacyLHS: true,
         previousTeamId: '',
+        selectedThreadId: null,
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});

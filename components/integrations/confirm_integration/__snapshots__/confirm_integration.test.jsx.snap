@@ -10,12 +10,12 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
     <Link
       to="/team_test/integrations/commands"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Slash Commands"
         id="installed_commands.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Add"
       id="integrations.add"
     />
@@ -27,7 +27,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
       className="backstage-form__title"
       id="formTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
       />
@@ -65,7 +65,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
         to="/team_test/integrations/commands"
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Done"
           id="integrations.done"
         />
@@ -83,12 +83,12 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
     <Link
       to="/team_test/integrations/incoming_webhooks"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Incoming Webhooks"
         id="installed_incoming_webhooks.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Add"
       id="integrations.add"
     />
@@ -100,7 +100,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
       className="backstage-form__title"
       id="formTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
       />
@@ -138,7 +138,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
         to="/team_test/integrations/incoming_webhooks"
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Done"
           id="integrations.done"
         />
@@ -156,12 +156,12 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     <Link
       to="/team_test/integrations/oauth2-apps"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="OAuth 2.0 Applications"
         id="installed_oauth_apps.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Add"
       id="integrations.add"
     />
@@ -173,7 +173,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
       className="backstage-form__title"
       id="formTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
       />
@@ -222,7 +222,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     <p
       key="add_oauth_app.doneUrlHelp"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Here are your authorized redirect URLs."
         id="add_oauth_app.doneUrlHelp"
       />
@@ -249,7 +249,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
         to="/team_test/integrations/oauth2-apps"
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Done"
           id="integrations.done"
         />
@@ -269,12 +269,12 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
     <Link
       to="/team_test/integrations/outgoing_webhooks"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Outgoing Webhooks"
         id="installed_outgoing_webhooks.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Add"
       id="integrations.add"
     />
@@ -286,7 +286,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
       className="backstage-form__title"
       id="formTitle"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Setup Successful"
         id="integrations.successful"
       />
@@ -324,7 +324,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
         to="/team_test/integrations/outgoing_webhooks"
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Done"
           id="integrations.done"
         />

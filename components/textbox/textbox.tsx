@@ -20,13 +20,15 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
+import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 
 type Props = {
     id: string;
     channelId: string;
     rootId?: string;
+    tabIndex: number;
     value: string;
-    onChange: (e: ChangeEvent) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (e: KeyboardEvent) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
@@ -77,7 +79,17 @@ export default class Textbox extends React.PureComponent<Props> {
     constructor(props: Props) {
         super(props);
 
-        this.suggestionProviders = [
+        this.suggestionProviders = [];
+
+        if (props.supportsCommands) {
+            this.suggestionProviders.push(new AppCommandProvider({
+                teamId: this.props.currentTeamId,
+                channelId: this.props.channelId,
+                rootId: this.props.rootId,
+            }));
+        }
+
+        this.suggestionProviders.push(
             new AtMentionProvider({
                 currentUserId: this.props.currentUserId,
                 profilesInChannel: this.props.profilesInChannel,
@@ -89,7 +101,7 @@ export default class Textbox extends React.PureComponent<Props> {
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
-        ];
+        );
 
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider({

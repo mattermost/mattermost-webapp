@@ -10,7 +10,7 @@ class MenuActionSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
 
-        let className = 'mentions__name';
+        let className = 'suggestion-list__item';
         if (isSelection) {
             className += ' suggestion--selected';
         }

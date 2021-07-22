@@ -41,7 +41,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       componentClass="h1"
       id="deleteChannelModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Confirm ARCHIVE Channel"
         id="delete_channel.confirm"
       />
@@ -74,7 +74,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="delete_channel.cancel"
       />
@@ -87,7 +87,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Archive"
         id="delete_channel.del"
       />

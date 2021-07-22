@@ -3,8 +3,9 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {createSelector} from 'reselect';
 import {withRouter} from 'react-router-dom';
+
+import {createSelector} from 'reselect';
 
 import {Posts} from 'mattermost-redux/constants';
 import {getAllPosts, getPostIdsInChannel} from 'mattermost-redux/selectors/entities/posts';
@@ -18,6 +19,7 @@ import {updateToastStatus} from 'actions/views/channel';
 import ToastWrapper from './toast_wrapper.jsx';
 export function makeGetRootPosts() {
     return createSelector(
+        'makeGetRootPosts',
         getAllPosts,
         getCurrentUserId,
         getCurrentChannel,
@@ -39,6 +41,7 @@ export function makeGetRootPosts() {
 
 export function makeCountUnreadsBelow() {
     return createSelector(
+        'makeCountUnreadsBelow',
         getAllPosts,
         getCurrentUserId,
         (state, postIds) => postIds,

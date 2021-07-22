@@ -75,5 +75,5 @@ export const matterpollPlugin = {
 export const testPlugin = {
     id: 'com.mattermost.test-plugin',
     version: '0.1.0',
-    url: 'https://github.com/mattermost/mattermost-plugin-test/archive/v0.1.0.tar.gz',
+    url: 'https://github.com/mattermost/mattermost-plugin-test/releases/download/v0.1.0/com.mattermost.test-plugin-0.1.0.tar.gz',
 };

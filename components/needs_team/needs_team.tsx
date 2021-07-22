@@ -76,6 +76,7 @@ type Props = {
     teamsList: Team[];
     theme: any;
     plugins?: any;
+    selectedThreadId: string | null;
 }
 
 type State = {
@@ -141,7 +142,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         // Set up tracking for whether the window is active
         window.isActive = true;
-        Utils.applyTheme(this.props.theme);
 
         if (UserAgent.isIosSafari()) {
             // Use iNoBounce to prevent scrolling past the boundaries of the page
@@ -191,6 +191,9 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     handleFocus = () => {
+        if (this.props.selectedThreadId) {
+            window.isActive = true;
+        }
         if (this.props.currentChannelId) {
             this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
             window.isActive = true;

@@ -11,6 +11,7 @@ import TextSetting from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
+import Markdown from 'components/markdown';
 
 import AppsFormField, {Props} from './apps_form_field';
 import AppsFormSelectField from './apps_form_select_field';
@@ -53,7 +54,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             type: 'input',
             value: '',
             id: baseDialogTextProps.name,
-            helpText: 'The description',
+            helpText: (<Markdown message='The description'/>),
         };
         it('subtype blank', () => {
             const wrapper = shallow(

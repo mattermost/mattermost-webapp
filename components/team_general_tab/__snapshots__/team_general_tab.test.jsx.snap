@@ -31,7 +31,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
       />
@@ -43,7 +43,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <h3
       className="tab-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
       />
@@ -61,7 +61,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Click 'Edit' to add a team description."
           id="general_tab.emptyDescription"
         />
@@ -98,7 +98,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Click 'Edit' to add an email domain whitelist."
           id="general_tab.allowedDomainsEdit"
         />
@@ -163,7 +163,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
       />
@@ -175,7 +175,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <h3
       className="tab-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
       />
@@ -193,7 +193,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Click 'Edit' to add a team description."
           id="general_tab.emptyDescription"
         />
@@ -230,7 +230,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Click 'Edit' to add an email domain whitelist."
           id="general_tab.allowedDomainsEdit"
         />
@@ -289,7 +289,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
           <BackIcon />
         </span>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
       />
@@ -301,7 +301,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     <h3
       className="tab-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="General Settings"
         id="general_tab.title"
       />

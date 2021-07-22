@@ -14,7 +14,6 @@ describe('DND Status - Setting Your Own DND Status', () => {
         'dndTime-30mins_menuitem',
         'dndTime-1hour_menuitem',
         'dndTime-2hours_menuitem',
-        'dndTime-Today_menuitem',
         'dndTime-Tomorrow_menuitem',
         'dndTime-Custom_menuitem',
     ];
@@ -29,7 +28,7 @@ describe('DND Status - Setting Your Own DND Status', () => {
 
     it('MM-8497_1 Set status DND with predefined end times', () => {
         // # Loop through all predefined end times and verify them
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 4; i++) {
             // # Open status dropdown menu and hover over Do Not Disturb option
             openDndStatusSubMenu();
 
@@ -51,7 +50,7 @@ describe('DND Status - Setting Your Own DND Status', () => {
         openDndStatusSubMenu();
 
         // # Click on Custom end time
-        cy.get(`.SubMenuItemContainer li#${dndTimes[5]}`).click();
+        cy.get(`.SubMenuItemContainer li#${dndTimes[4]}`).click();
 
         // # Click 'Disable Notification' in custom time selection modal to choose pre-filled time
         cy.get('.DndModal__footer span').should('have.text', 'Disable Notifications').click();
@@ -70,7 +69,7 @@ describe('DND Status - Setting Your Own DND Status', () => {
         openDndStatusSubMenu();
 
         // # Click on Custom end time
-        cy.get(`.SubMenuItemContainer li#${dndTimes[5]}`).click();
+        cy.get(`.SubMenuItemContainer li#${dndTimes[4]}`).click();
 
         // # Click on DayPicker input field
         cy.get('.DayPickerInput input').click();
@@ -98,7 +97,7 @@ describe('DND Status - Setting Your Own DND Status', () => {
         openDndStatusSubMenu();
 
         // # Click on Custom end time
-        cy.get(`.SubMenuItemContainer li#${dndTimes[5]}`).click();
+        cy.get(`.SubMenuItemContainer li#${dndTimes[4]}`).click();
 
         // # Click on time picker input field
         cy.get('.MenuWrapper .DndModal__input').click();
@@ -126,7 +125,7 @@ describe('DND Status - Setting Your Own DND Status', () => {
         openDndStatusSubMenu();
 
         // # Click on Custom end time
-        cy.get(`.SubMenuItemContainer li#${dndTimes[5]}`).click();
+        cy.get(`.SubMenuItemContainer li#${dndTimes[4]}`).click();
 
         // # Click on DayPicker input field
         cy.get('.DayPickerInput input').click();

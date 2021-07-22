@@ -6,7 +6,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
   addLink="/test/integrations/oauth2-apps/add"
   addText="Add OAuth 2.0 Application"
   emptyText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="No OAuth 2.0 Applications found"
       id="installed_oauth_apps.empty"
     />
@@ -18,13 +18,13 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
     />
   }
   header={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="OAuth 2.0 Applications"
       id="installed_oauth_apps.header"
     />
   }
   helpText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Create {oauthApplications} to securely integrate bots and third-party apps with Mattermost. Visit the {appDirectory} to find available self-hosted apps."
       id="installed_oauth_apps.help"
       values={
@@ -34,7 +34,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="App Directory"
               id="installed_oauth_apps.help.appDirectory"
             />
@@ -44,7 +44,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="OAuth 2.0 applications"
               id="installed_oauth_apps.help.oauthApplications"
             />

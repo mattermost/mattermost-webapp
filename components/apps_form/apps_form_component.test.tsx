@@ -12,6 +12,8 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
+import Markdown from 'components/markdown';
+
 import {AppsForm, Props} from './apps_form_component';
 
 describe('AppsFormComponent', () => {
@@ -146,7 +148,7 @@ describe('AppsFormComponent', () => {
 
             const expected = (
                 <div className='error-text'>
-                    {'This is an error.'}
+                    <Markdown message={'This is an error.'}/>
                 </div>
             );
             expect(wrapper.find(Modal.Footer).containsMatchingElement(expected)).toBe(true);
@@ -196,6 +198,17 @@ describe('AppsFormComponent', () => {
                     general: {
                         config: {},
                     },
+                    channels: {},
+                    teams: {
+                        teams: {},
+                    },
+                    users: {
+                        profiles: {},
+                    },
+                    groups: {
+                        myGroups: {},
+                    },
+                    emojis: {},
                     preferences: {
                         myPreferences: {},
                     },

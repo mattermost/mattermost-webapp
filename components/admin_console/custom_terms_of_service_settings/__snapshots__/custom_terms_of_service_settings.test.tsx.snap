@@ -10,7 +10,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
       />
@@ -25,7 +25,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -74,7 +74,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
       />
@@ -89,7 +89,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -138,7 +138,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
       />
@@ -153,7 +153,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -202,7 +202,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Custom Terms of Service (Beta)"
         id="admin.support.termsOfServiceTitle"
       />
@@ -217,7 +217,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />

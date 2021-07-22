@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
 import {createSelector} from 'reselect';
 
 import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-redux/actions/channels';
@@ -18,6 +19,7 @@ import List from './channel_list';
 const compareByDisplayName = (a: {display_name: string}, b: {display_name: string}) => a.display_name.localeCompare(b.display_name);
 
 const getSortedListOfChannels = createSelector(
+    'getSortedListOfChannels',
     getAllChannels,
     (teams) => Object.values(teams).
         filter((c) => (c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL)).

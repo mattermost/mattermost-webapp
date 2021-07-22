@@ -8,8 +8,6 @@ import emojiRegex from 'emoji-regex';
 
 import {Renderer} from 'marked';
 
-import {Channel} from 'mattermost-redux/types/channels';
-
 import {formatWithRenderer} from 'utils/markdown';
 
 import * as Emoticons from './emoticons';
@@ -32,7 +30,7 @@ export type ChannelNamesMap = {
     [name: string]: {
         display_name: string;
         team_name?: string;
-    } | Channel;
+    } | string;
 };
 
 export type Tokens = Map<
@@ -418,9 +416,7 @@ function autolinkChannelMentions(
     team?: Team,
 ) {
     function channelMentionExists(c: string) {
-        return Boolean(channelNamesMap[c]) &&
-            typeof channelNamesMap[c] === 'object' &&
-            Boolean(channelNamesMap[c].display_name);
+        return channelNamesMap.hasOwnProperty(c);
     }
     function addToken(channelName: string, teamName: string, mention: string, displayName: string) {
         const index = tokens.size;
@@ -454,16 +450,22 @@ function autolinkChannelMentions(
 
         if (channelMentionExists(channelNameLower)) {
             // Exact match
+            let displayName = '';
             let teamName = '';
+
             const channelValue = channelNamesMap[channelNameLower];
-            if ('team_name' in channelValue) {
+            if (typeof channelValue === 'object') {
+                displayName = channelValue.display_name;
                 teamName = channelValue.team_name || '';
+            } else {
+                displayName = channelValue;
             }
+
             return addToken(
                 channelNameLower,
                 teamName,
                 mention,
-                escapeHtml(channelValue.display_name),
+                escapeHtml(displayName),
             );
         }
 
@@ -476,16 +478,23 @@ function autolinkChannelMentions(
 
                 if (channelMentionExists(channelNameLower)) {
                     const suffix = originalChannelName.substr(c - 1);
+
+                    let displayName = '';
                     let teamName = '';
+
                     const channelValue = channelNamesMap[channelNameLower];
-                    if ('team_name' in channelValue) {
+                    if (typeof channelValue === 'object') {
+                        displayName = channelValue.display_name;
                         teamName = channelValue.team_name || '';
+                    } else {
+                        displayName = channelValue;
                     }
+
                     const alias = addToken(
                         channelNameLower,
                         teamName,
                         '~' + channelNameLower,
-                        escapeHtml(channelValue.display_name),
+                        escapeHtml(displayName),
                     );
                     return alias + suffix;
                 }
@@ -876,7 +885,7 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
         if (emojiMap && emojiMap.hasUnicode(emojiCode)) {
             const emoji = emojiMap.getUnicode(emojiCode);
 
-            return Emoticons.renderEmoji(emoji.aliases[0], emojiMatch);
+            return Emoticons.renderEmoji(emoji.short_names[0], emojiMatch);
         }
 
         // wrap unsupported unicode emoji in span to style as needed

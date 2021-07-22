@@ -19,6 +19,7 @@ import {selectPost} from 'actions/views/rhs';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import Avatars from 'components/widgets/users/avatars';
 import Timestamp from 'components/timestamp';
@@ -37,10 +38,11 @@ function ThreadFooter({
     const dispatch = useDispatch();
     const currentTeamId = useSelector(getCurrentTeamId);
     const currentUserId = useSelector(getCurrentUserId);
-    const thread = useSelector((state: GlobalState) => getThreadOrSynthetic(state, threadId));
+    const post = useSelector((state: GlobalState) => getPost(state, threadId));
+    const thread = useSelector((state: GlobalState) => getThreadOrSynthetic(state, post));
 
     useEffect(() => {
-        if (threadIsSynthetic(thread) && thread.is_following) {
+        if (threadIsSynthetic(thread) && thread.is_following && thread.reply_count > 0) {
             dispatch(fetchThread(currentUserId, currentTeamId, threadId));
         }
     }, []);
@@ -56,17 +58,19 @@ function ThreadFooter({
     } = thread;
     const participantIds = useMemo(() => participants?.map(({id}) => id), [participants]);
 
-    const handleReply = useCallback(() => {
+    const handleReply = useCallback((e) => {
+        e.stopPropagation();
         dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
     }, [threadId, channelId]);
 
-    const handleFollowing = useCallback(() => {
+    const handleFollowing = useCallback((e) => {
+        e.stopPropagation();
         dispatch(setThreadFollow(currentUserId, currentTeamId, threadId, !isFollowing));
     }, [isFollowing]);
 
     return (
         <div className='ThreadFooter'>
-            {threadIsSynthetic(thread) || !thread.unread_replies ? (
+            {!isFollowing || threadIsSynthetic(thread) || !thread.unread_replies ? (
                 <div className='indicator'/>
             ) : (
                 <SimpleTooltip
@@ -95,21 +99,23 @@ function ThreadFooter({
                 />
             ) : null}
 
-            <Button
-                onClick={handleReply}
-                className='ReplyButton separated'
-                prepend={
-                    <span className='icon'>
-                        <i className='icon-reply-outline'/>
-                    </span>
-                }
-            >
-                <FormattedMessage
-                    id='threading.numReplies'
-                    defaultMessage='{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}'
-                    values={{totalReplies}}
-                />
-            </Button>
+            {thread.reply_count > 0 && (
+                <Button
+                    onClick={handleReply}
+                    className='ReplyButton separated'
+                    prepend={
+                        <span className='icon'>
+                            <i className='icon-reply-outline'/>
+                        </span>
+                    }
+                >
+                    <FormattedMessage
+                        id='threading.numReplies'
+                        defaultMessage='{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}'
+                        values={{totalReplies}}
+                    />
+                </Button>
+            )}
 
             <FollowButton
                 isFollowing={isFollowing}

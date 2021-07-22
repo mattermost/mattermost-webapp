@@ -18,7 +18,7 @@
         text-decoration: underline;
     }
 
-    a[href^=http]:after {
+    a[href^=http]::after {
         content: ' <' attr(href) '> ';
     }
 
@@ -82,19 +82,19 @@
         margin-right: 0;
     }
 
-    .post-image__columns > div:first-child:before {
-        content: 'Attachments:';
+    .post-image__columns > div:first-child::before {
         display: block;
+        content: 'Attachments:';
         font-weight: bold;
     }
 
     .post-image__column {
-        width: inherit;
         display: inline;
+        width: inherit;
         height: inherit;
-        background: transparent;
-        border-color: transparent;
         border: 0 none;
+        border-color: transparent;
+        background: transparent;
     }
 
     .post-image__details {
@@ -102,11 +102,11 @@
         border: 0 none;
         line-height: 98px;
 
-        .post-image__name:before {
+        .post-image__name::before {
             content: '[';
         }
 
-        .post-image__name:after {
+        .post-image__name::after {
             content: ': ' attr(href) ']';
         }
 

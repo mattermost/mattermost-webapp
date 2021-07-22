@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
+import classNames from 'classnames';
 
 import {isMobile} from 'utils/utils';
 
@@ -24,6 +25,7 @@ type Props = {
     id?: string;
     ariaLabel: string;
     customStyles?: CSSProperties;
+    className?: string;
 }
 
 export default class Menu extends React.PureComponent<Props> {
@@ -134,7 +136,7 @@ export default class Menu extends React.PureComponent<Props> {
                 <ul
                     ref={this.node}
                     style={styles}
-                    className='Menu__content dropdown-menu'
+                    className={classNames('Menu__content dropdown-menu', this.props.className)}
                     onClick={this.handleMenuClick}
                 >
                     {children}

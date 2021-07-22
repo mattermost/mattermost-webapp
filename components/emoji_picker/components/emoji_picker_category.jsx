@@ -3,10 +3,15 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {injectIntl, FormattedMessage} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 
-export default class EmojiPickerCategory extends React.Component {
+import OverlayTrigger from 'components/overlay_trigger';
+import {Constants} from 'utils/constants';
+
+class EmojiPickerCategory extends React.Component {
     static propTypes = {
-        category: PropTypes.string.isRequired,
+        category: PropTypes.object.isRequired,
         icon: PropTypes.node.isRequired,
         onCategoryClick: PropTypes.func.isRequired,
         selected: PropTypes.bool.isRequired,
@@ -20,7 +25,7 @@ export default class EmojiPickerCategory extends React.Component {
 
     handleClick = (e) => {
         e.preventDefault();
-        this.props.onCategoryClick(this.props.category);
+        this.props.onCategoryClick(this.props.category.name);
     }
 
     render() {
@@ -33,15 +38,37 @@ export default class EmojiPickerCategory extends React.Component {
             className += ' disable';
         }
 
-        return (
-            <a
-                className={className}
-                href='#'
-                onClick={this.handleClick}
-                aria-label={this.props.category}
+        const tooltip = (
+            <Tooltip
+                id='skinTooltip'
+                className='emoji-tooltip'
             >
-                {this.props.icon}
-            </a>
+                <span>
+                    <FormattedMessage
+                        id={`emoji_picker.${this.props.category.name}`}
+                        defaultMessage={this.props.category.message}
+                    />
+                </span>
+            </Tooltip>);
+
+        return (
+            <OverlayTrigger
+                trigger={['hover']}
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='bottom'
+                overlay={tooltip}
+            >
+                <a
+                    className={className}
+                    href='#'
+                    onClick={this.handleClick}
+                    aria-label={this.props.category.id}
+                >
+                    {this.props.icon}
+                </a>
+            </OverlayTrigger>
         );
     }
 }
+
+export default injectIntl(EmojiPickerCategory);

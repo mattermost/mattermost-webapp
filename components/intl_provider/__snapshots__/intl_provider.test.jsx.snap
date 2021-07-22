@@ -11,5 +11,3 @@ exports[`components/IntlProvider should render children when passed translation 
   Bonjour tout le monde!
 </span>
 `;
-
-exports[`components/IntlProvider should render null when missing translation strings 1`] = `null`;
