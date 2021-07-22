@@ -42,7 +42,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value=""
         />
@@ -154,7 +154,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value=""
         />
@@ -266,7 +266,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
         />
@@ -414,7 +414,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
         />
@@ -550,7 +550,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value=""
         />
@@ -698,7 +698,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
         />
