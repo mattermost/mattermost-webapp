@@ -26,6 +26,6 @@ describe('/components/common/SiteNameAndDescription', () => {
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('h1').text()).toEqual(props.siteName);
-        expect(wrapper.find('h4').text()).toEqual(props.customDescriptionText);
+        expect(wrapper.find('h3').text()).toEqual(props.customDescriptionText);
     });
 });

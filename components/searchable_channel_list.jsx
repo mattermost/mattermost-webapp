@@ -164,12 +164,13 @@ export default class SearchableChannelList extends React.PureComponent {
         } else if (channels.length === 0) {
             listContent = (
                 <div className='no-channel-message'>
-                    <p className='primary-message'>
+                    <h3 className='primary-message'>
                         <FormattedMessage
                             id='more_channels.noMore'
+                            tagName='strong'
                             defaultMessage='No more channels to join'
                         />
-                    </p>
+                    </h3>
                     {this.props.noResultsText}
                 </div>
             );

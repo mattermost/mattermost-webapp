@@ -110,13 +110,11 @@ export default class TutorialIntroScreens extends React.PureComponent<Props, Sta
 
         return (
             <div id='tutorialIntroOne'>
-                <h3>
+                <h1>
                     <FormattedMessage
                         id='tutorial_intro.screenOne.title1'
-                        defaultMessage='Welcome to:'
+                        defaultMessage='Welcome to '
                     />
-                </h3>
-                <h1>
                     <FormattedMessage
                         id='tutorial_intro.screenOne.title2'
                         defaultMessage='Mattermost'

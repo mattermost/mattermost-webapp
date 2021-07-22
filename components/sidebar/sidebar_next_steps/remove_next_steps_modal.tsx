@@ -64,7 +64,7 @@ export default function RemoveNextStepsModal(props: Props) {
             >
                 <FormattedMessage
                     id={'remove_next_steps_modal.mainText'}
-                    defaultMessage='This will remove this section from your sidebar, but you can access it later in the Getting Started section of the Main Menu.'
+                    defaultMessage='This will remove this section from your sidebar. You can access it in the Getting Started section of the Main Menu.'
                 />
             </GenericModal>
         </>

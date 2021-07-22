@@ -160,12 +160,12 @@ export default function NextStepsTips(props: Props) {
                         <div className='Card__image'>
                             <PluginsSvg/>
                         </div>
-                        <h3>
+                        <h4>
                             <FormattedMessage
                                 id='next_steps_view.tips.connectPlugins'
                                 defaultMessage='Connect your favorite tools'
                             />
-                        </h3>
+                        </h4>
                         <FormattedMessage
                             id='next_steps_view.tips.connectPlugins.text'
                             defaultMessage='Install Mattermost plugins to connect with your favorite tools'
@@ -187,12 +187,12 @@ export default function NextStepsTips(props: Props) {
                             <div className='Card__image'>
                                 <IncidentsSvg/>
                             </div>
-                            <h3>
+                            <h4>
                                 <FormattedMessage
                                     id='next_steps_view.tips.resolveIncidents'
                                     defaultMessage='Resolve incidents faster'
                                 />
-                            </h3>
+                            </h4>
                             <FormattedMessage
                                 id='next_steps_view.tips.resolveIncidents.text'
                                 defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
@@ -216,12 +216,12 @@ export default function NextStepsTips(props: Props) {
             <>
                 <Card expanded={true}>
                     <div className='Card__body'>
-                        <h3>
+                        <h4>
                             <FormattedMessage
                                 id='next_steps_view.tips.configureLogins'
                                 defaultMessage='See who else is here'
                             />
-                        </h3>
+                        </h4>
                         <FormattedMessage
                             id='next_steps_view.tips.configureLogin.texts'
                             defaultMessage='Browse or search through the team members directory'
@@ -239,12 +239,12 @@ export default function NextStepsTips(props: Props) {
                 </Card>
                 <Card expanded={true}>
                     <div className='Card__body'>
-                        <h3>
+                        <h4>
                             <FormattedMessage
                                 id='next_steps_view.tips.addPluginss'
                                 defaultMessage='Learn Keyboard Shortcuts'
                             />
-                        </h3>
+                        </h4>
                         <FormattedMessage
                             id='next_steps_view.tips.addPlugins.texts'
                             defaultMessage='Work more efficiently with Keyboard Shortcuts in Mattermost.'
@@ -284,12 +284,12 @@ export default function NextStepsTips(props: Props) {
             <div className='NextStepsView__download'>
                 <img src={downloadApps}/>
                 <div className='NextStepsView__downloadText'>
-                    <h3>
+                    <h4>
                         <FormattedMessage
                             id='next_steps_view.downloadDesktopAndMobile'
                             defaultMessage='Download the Desktop and Mobile apps'
                         />
-                    </h3>
+                    </h4>
                     <div className='NextStepsView__downloadButtons'>
                         <button
                             className='NextStepsView__button NextStepsView__downloadForPlatformButton secondary'
@@ -320,12 +320,12 @@ export default function NextStepsTips(props: Props) {
                     <div className='Card__image'>
                         <DocumentsSvg/>
                     </div>
-                    <h3>
+                    <h4>
                         <FormattedMessage
                             id='next_steps_view.tips.manageWorkspace'
                             defaultMessage='Manage your workspace'
                         />
-                    </h3>
+                    </h4>
                     <FormattedMessage
                         id='next_steps_view.tips.manageWorkspace.text'
                         defaultMessage='Visit the system console to manage users, teams, and plugins'
@@ -346,12 +346,12 @@ export default function NextStepsTips(props: Props) {
         channelsSection = (
             <Card expanded={true}>
                 <div className='Card__body'>
-                    <h3>
+                    <h4>
                         <FormattedMessage
                             id='next_steps_view.tips.exploreChannels'
                             defaultMessage='Explore channels'
                         />
-                    </h3>
+                    </h4>
                     <FormattedMessage
                         id='next_steps_view.tips.exploreChannels.text'
                         defaultMessage='See the channels in your workspace or create a new channel.'

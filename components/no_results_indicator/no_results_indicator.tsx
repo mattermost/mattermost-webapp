@@ -112,9 +112,9 @@ const NoResultsIndicator = ({
             {iconGraphic}
 
             {title ? (
-                <div className={classNames('no-results__title', {'only-title': !subtitle})}>
+                <h3 className={classNames('no-results__title', {'only-title': !subtitle})}>
                     {title}
-                </div>
+                </h3>
             ) : null}
 
             {subtitle ? (

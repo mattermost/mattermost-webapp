@@ -33,6 +33,16 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+h1,
+h2,
+h3 {
+    font-family: Metropolis, sans-serif;
+}
+
+h1 {
+    font-weight: 600;
+}
+
 .is-empty:empty {
     display: none;
 }
@@ -92,6 +102,49 @@ ol {
 
 .cursor--pointer {
     cursor: pointer;
+}
+
+// Metropolis font definitions
+@font-face {
+    font-family: 'Metropolis';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/Metropolis-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Metropolis';
+    font-style: italic;
+    font-weight: 600;
+    src: url('../fonts/Metropolis-SemiBoldItalic.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Metropolis';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/Metropolis-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Metropolis';
+    font-style: italic;
+    font-weight: 400;
+    src: url('../fonts/Metropolis-RegularItalic.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Metropolis';
+    font-style: normal;
+    font-weight: 300;
+    src: url('../fonts/Metropolis-Light.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Metropolis';
+    font-style: italic;
+    font-weight: 300;
+    src: url('../fonts/Metropolis-LightItalic.woff2') format('woff2');
 }
 
 /* open-sans-300 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */
@@ -162,6 +215,14 @@ ol {
 
 .app__body.font--open_sans {
     font-family: 'Open Sans', sans-serif;
+}
+
+.app__body {
+    h1,
+    h2,
+    h3 {
+        font-family: Metropolis, sans-serif;
+    }
 }
 
 .color--link--adminack {

@@ -227,7 +227,8 @@
     .heading {
         overflow: hidden;
         margin: 0 0 0 2px;
-        font-size: 14px;
+        font-family: Metropolis, sans-serif;
+        font-size: 16px;
         font-weight: 600;
         line-height: 16px;
         text-overflow: ellipsis;
@@ -543,7 +544,7 @@
 
     .channel-intro__title {
         margin-bottom: 15px;
-        font-size: 20px;
+        font-size: 28px;
         font-weight: 600;
     }
 
@@ -753,7 +754,7 @@
         .user__name {
             display: block;
             overflow: hidden;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             text-decoration: none;
             text-overflow: ellipsis;
@@ -762,6 +763,7 @@
 
         .team__name {
             margin: 0;
+            font-family: Metropolis, sans-serif;
             line-height: 22px;
         }
 

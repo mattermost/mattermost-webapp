@@ -39,9 +39,9 @@ export default class LoadingScreen extends React.PureComponent<Props> {
                 style={{position: this.props.position, ...this.props.style}}
             >
                 <div className='loading__content'>
-                    <h3>
+                    <p>
                         {message}
-                    </h3>
+                    </p>
                     <div className='round round-1'/>
                     <div className='round round-2'/>
                     <div className='round round-3'/>

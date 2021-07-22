@@ -244,12 +244,12 @@ class InvitationModalMembersStep extends React.PureComponent {
                     className='share-link'
                     data-testid='shareLink'
                 >
-                    <h2>
+                    <h5>
                         <FormattedMessage
                             id='invitation_modal.members.share_link.title'
                             defaultMessage='Share This Link'
                         />
-                    </h2>
+                    </h5>
                     <div className='share-link-input-block'>
                         <input
                             ref={this.inviteLinkRef}
@@ -303,12 +303,12 @@ class InvitationModalMembersStep extends React.PureComponent {
                     className='search-and-add'
                     data-testid='searchAdd'
                 >
-                    <h2>
+                    <h5>
                         <FormattedMessage
                             id='invitation_modal.members.search_and_add.title'
                             defaultMessage='Add or Invite People'
                         />
-                    </h2>
+                    </h5>
                     <div data-testid='inputPlaceholder'>
                         <UsersEmailsInput
                             {...errorProperties}
