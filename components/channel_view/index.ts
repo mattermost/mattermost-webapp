@@ -14,7 +14,6 @@ import {getProfiles} from 'mattermost-redux/actions/users';
 
 import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-
 import {goToLastViewedChannel} from 'actions/views/channel';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';

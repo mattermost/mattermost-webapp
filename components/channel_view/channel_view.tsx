@@ -16,7 +16,6 @@ import PostView from 'components/post_view';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-
 type Props = {
     channelId: string;
     deactivatedChannel: boolean;
