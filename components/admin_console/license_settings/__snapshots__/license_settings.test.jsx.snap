@@ -42,7 +42,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -71,7 +71,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
                       loading={false}
                       text="Restarting"
                     >
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="Restart Server"
                         id="admin.license.enterprise.restart"
                       />
@@ -88,7 +88,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -115,7 +115,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -187,7 +187,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -209,7 +209,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
                     <LoadingWrapper
                       loading={true}
                       text={
-                        <FormattedMessage
+                        <Memo(MemoizedFormattedMessage)
                           defaultMessage="Upgrading {percentage}%"
                           id="admin.license.enterprise.upgrading"
                           values={
@@ -220,7 +220,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
                         />
                       }
                     >
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="Upgrade to Enterprise Edition"
                         id="admin.license.enterprise.upgrade"
                       />
@@ -245,7 +245,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -272,7 +272,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -327,7 +327,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -350,7 +350,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     loading={false}
                     text="Getting trial"
                   >
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                     />
@@ -374,7 +374,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -393,7 +393,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -408,7 +408,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
                 className="btn btn-primary"
                 type="button"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Choose File"
                   id="admin.license.choose"
                 />
@@ -426,7 +426,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
               id="upload-button"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload"
                 id="admin.license.upload"
               />
@@ -434,7 +434,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
             <div
               className="help-text m-0"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="No file uploaded"
                 id="admin.license.noFile"
               />
@@ -498,7 +498,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -515,7 +515,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -585,7 +585,7 @@ Your subscription details are as follows:
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -601,7 +601,7 @@ Your subscription details are as follows:
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Remove Enterprise License and Downgrade Server"
                 id="admin.license.keyRemove"
               />
@@ -663,7 +663,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -680,7 +680,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -750,7 +750,7 @@ Your subscription details are as follows:
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -766,7 +766,7 @@ Your subscription details are as follows:
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Remove Enterprise License and Downgrade Server"
                 id="admin.license.keyRemove"
               />
@@ -828,7 +828,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -845,7 +845,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -919,7 +919,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -935,7 +935,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Remove Enterprise License and Downgrade Server"
                 id="admin.license.keyRemove"
               />
@@ -955,7 +955,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -1020,7 +1020,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1037,7 +1037,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1105,7 +1105,7 @@ Your subscription details are as follows:
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -1121,7 +1121,7 @@ Your subscription details are as follows:
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Remove Enterprise License and Downgrade Server"
                 id="admin.license.keyRemove"
               />
@@ -1166,7 +1166,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1189,7 +1189,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     loading={false}
                     text="Getting trial"
                   >
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                     />
@@ -1213,7 +1213,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1232,7 +1232,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -1247,7 +1247,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
                 className="btn btn-primary"
                 type="button"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Choose File"
                   id="admin.license.choose"
                 />
@@ -1265,7 +1265,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
               id="upload-button"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload"
                 id="admin.license.upload"
               />
@@ -1273,7 +1273,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
             <div
               className="help-text m-0"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="No file uploaded"
                 id="admin.license.noFile"
               />
@@ -1320,7 +1320,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1343,7 +1343,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     loading={false}
                     text="Getting trial"
                   >
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                     />
@@ -1367,7 +1367,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1391,7 +1391,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -1406,7 +1406,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 className="btn btn-primary"
                 type="button"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Choose File"
                   id="admin.license.choose"
                 />
@@ -1424,7 +1424,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               id="upload-button"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload"
                 id="admin.license.upload"
               />
@@ -1432,7 +1432,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             <div
               className="help-text m-0"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="No file uploaded"
                 id="admin.license.noFile"
               />
@@ -1454,7 +1454,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -1526,7 +1526,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1548,7 +1548,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     <LoadingWrapper
                       loading={false}
                       text={
-                        <FormattedMessage
+                        <Memo(MemoizedFormattedMessage)
                           defaultMessage="Upgrading {percentage}%"
                           id="admin.license.enterprise.upgrading"
                           values={
@@ -1559,7 +1559,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                         />
                       }
                     >
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="Upgrade to Enterprise Edition"
                         id="admin.license.enterprise.upgrade"
                       />
@@ -1584,7 +1584,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1611,7 +1611,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -1666,7 +1666,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1688,7 +1688,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     <LoadingWrapper
                       loading={false}
                       text={
-                        <FormattedMessage
+                        <Memo(MemoizedFormattedMessage)
                           defaultMessage="Upgrading {percentage}%"
                           id="admin.license.enterprise.upgrading"
                           values={
@@ -1699,7 +1699,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                         />
                       }
                     >
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="Upgrade to Enterprise Edition"
                         id="admin.license.enterprise.upgrade"
                       />
@@ -1724,7 +1724,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1751,7 +1751,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -1806,7 +1806,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1821,7 +1821,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               >
                 <PurchaseLink
                   buttonTextElement={
-                    <FormattedMessage
+                    <Memo(MemoizedFormattedMessage)
                       defaultMessage="Purchase a license"
                       id="admin.license.trialCard.purchase_license"
                     />
@@ -1841,7 +1841,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1860,7 +1860,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -1875,7 +1875,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
                 className="btn btn-primary"
                 type="button"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Choose File"
                   id="admin.license.choose"
                 />
@@ -1893,7 +1893,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
               id="upload-button"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload"
                 id="admin.license.upload"
               />
@@ -1901,7 +1901,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
             <div
               className="help-text m-0"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="No file uploaded"
                 id="admin.license.noFile"
               />

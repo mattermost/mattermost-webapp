@@ -66,7 +66,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             disabled={false}
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
             />
@@ -83,7 +83,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
               loading={false}
               text="Uploading..."
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
               />
@@ -97,7 +97,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           href="#"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
           />
@@ -164,7 +164,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             disabled={false}
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
             />
@@ -181,7 +181,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
               loading={false}
               text="Uploading..."
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
               />
@@ -195,7 +195,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           href="#"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
           />
@@ -272,7 +272,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             disabled={true}
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
             />
@@ -289,7 +289,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
               loading={true}
               text="Uploading..."
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
               />
@@ -303,7 +303,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           href="#"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
           />
@@ -392,7 +392,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             disabled={false}
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
             />
@@ -409,7 +409,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
               loading={false}
               text="Uploading..."
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
               />
@@ -423,7 +423,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           href="#"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
           />
@@ -500,7 +500,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             disabled={false}
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
             />
@@ -517,7 +517,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
               loading={false}
               text="Uploading..."
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
               />
@@ -531,7 +531,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           href="#"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
           />
@@ -620,7 +620,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             disabled={false}
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
             />
@@ -637,7 +637,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
               loading={false}
               text="Uploading..."
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
               />
@@ -651,7 +651,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           href="#"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
           />
@@ -709,7 +709,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
                 <div
                   aria-hidden={true}
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Remove This Icon"
                     id="setting_picture.remove"
                   />
@@ -737,7 +737,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
               <span
                 className="sr-only"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Remove This Icon"
                   id="setting_picture.remove"
                 />
@@ -784,7 +784,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             disabled={false}
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
             />
@@ -801,7 +801,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
               loading={false}
               text="Uploading..."
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
               />
@@ -815,7 +815,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           href="#"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
           />
@@ -873,7 +873,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
                 <div
                   aria-hidden={true}
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Remove Profile Picture"
                     id="setting_picture.remove_profile_picture"
                   />
@@ -901,7 +901,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
               <span
                 className="sr-only"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Remove Profile Picture"
                   id="setting_picture.remove_profile_picture"
                 />
@@ -948,7 +948,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             disabled={false}
             onClick={[Function]}
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Select"
               id="setting_picture.select"
             />
@@ -965,7 +965,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
               loading={false}
               text="Uploading..."
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Save"
                 id="setting_picture.save"
               />
@@ -979,7 +979,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           href="#"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_picture.cancel"
           />

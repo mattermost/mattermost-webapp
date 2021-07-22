@@ -37,10 +37,10 @@ import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlig
 import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
 
 // eslint-disable-line import/order
-import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
+import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/base16/solarized-dark.css';
 
 // eslint-disable-line import/order
-import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
+import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/base16/solarized-light.css'; // eslint-disable-line import/order
 
 export const SettingsTypes = {
     TYPE_TEXT: 'text',
@@ -103,6 +103,10 @@ export const Preferences = {
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
+    GLOBAL_HEADER_DISPLAY: 'global_header_display',
+    GLOBAL_HEADER_DISPLAY_ON: 'global_header_display_on',
+    GLOBAL_HEADER_DISPLAY_OFF: 'global_header_display_off',
+    GLOBAL_HEADER_DISPLAY_DEFAULT: 'global_header_display_off',
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',

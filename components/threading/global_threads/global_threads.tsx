@@ -5,7 +5,7 @@ import React, {memo, useCallback, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import classNames from 'classnames';
 
 import {
@@ -35,13 +35,11 @@ import NoResultsIndicator from 'components/no_results_indicator';
 
 import {useThreadRouting} from '../hooks';
 import ChatIllustration from '../common/chat_illustration';
-import BalloonIllustration from '../common/balloon_illustration';
 
 import ThreadViewer from '../thread_viewer';
 
 import ThreadList, {ThreadFilter, FILTER_STORAGE_KEY} from './thread_list';
 import ThreadPane from './thread_pane';
-import ThreadItem from './thread_item';
 
 import './global_threads.scss';
 
@@ -57,8 +55,8 @@ const GlobalThreads = () => {
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
-    const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id));
-    const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id));
+    const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
+    const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null;
 
@@ -144,25 +142,10 @@ const GlobalThreads = () => {
                         currentFilter={filter}
                         setFilter={setFilter}
                         someUnread={Boolean(numUnread)}
-                    >
-                        {(filter === 'unread' ? unreadThreadIds : threadIds).map((id) => (
-                            <ThreadItem
-                                key={id}
-                                threadId={id}
-                                isSelected={threadIdentifier === id}
-                            />
-                        ))}
-                        {filter === 'unread' && !numUnread && isEmpty(unreadThreadIds) ? (
-                            <NoResultsIndicator
-                                expanded={true}
-                                iconGraphic={BalloonIllustration}
-                                title={formatMessage({
-                                    id: 'globalThreads.threadList.noUnreadThreads',
-                                    defaultMessage: 'No unread threads',
-                                })}
-                            />
-                        ) : null}
-                    </ThreadList>
+                        selectedThreadId={threadIdentifier}
+                        ids={threadIds}
+                        unreadIds={unreadThreadIds}
+                    />
                     {selectedThread && selectedPost ? (
                         <ThreadPane
                             thread={selectedThread}

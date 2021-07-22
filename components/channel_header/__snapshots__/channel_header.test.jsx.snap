@@ -65,7 +65,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
                   id="favoriteTooltip"
                   placement="right"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
                   />
@@ -144,16 +144,16 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               className="header-placeholder style--none"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
               />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Edit"
                 id="channel_header.editLink"
               >
                 <Component />
-              </FormattedMessage>
+              </MemoizedFormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -245,7 +245,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
                   id="favoriteTooltip"
                   placement="right"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
                   />
@@ -324,16 +324,16 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               className="header-placeholder style--none"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
               />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Edit"
                 id="channel_header.editLink"
               >
                 <Component />
-              </FormattedMessage>
+              </MemoizedFormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -425,7 +425,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
                   id="favoriteTooltip"
                   placement="right"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
                   />
@@ -504,16 +504,16 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               className="header-placeholder style--none"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
               />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Edit"
                 id="channel_header.editLink"
               >
                 <Component />
-              </FormattedMessage>
+              </MemoizedFormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -605,7 +605,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
                   id="favoriteTooltip"
                   placement="right"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
                   />
@@ -684,16 +684,16 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               className="header-placeholder style--none"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
               />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Edit"
                 id="channel_header.editLink"
               >
                 <Component />
-              </FormattedMessage>
+              </MemoizedFormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -908,7 +908,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                   id="favoriteTooltip"
                   placement="right"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
                   />
@@ -943,7 +943,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 id="channelMutedTooltip"
                 placement="right"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Unmute"
                   id="channelHeader.unmute"
                 />
@@ -1021,16 +1021,16 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               className="header-placeholder style--none"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
               />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Edit"
                 id="channel_header.editLink"
               >
                 <Component />
-              </FormattedMessage>
+              </MemoizedFormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -1122,7 +1122,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
                   id="favoriteTooltip"
                   placement="right"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
                   />
@@ -1201,16 +1201,16 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               className="header-placeholder style--none"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
               />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Edit"
                 id="channel_header.editLink"
               >
                 <Component />
-              </FormattedMessage>
+              </MemoizedFormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -1284,7 +1284,7 @@ exports[`components/ChannelHeader should render properly when custom status is e
                       <ArchiveIcon
                         className="icon icon__archive icon channel-header-archived-icon svg-text-color"
                       />
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="{displayname} (you) "
                         id="channel_header.directchannel.you"
                         values={
@@ -1323,7 +1323,7 @@ exports[`components/ChannelHeader should render properly when custom status is e
           <span
             className="header-status__text"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Offline"
               id="status_dropdown.set_offline"
             />
@@ -1495,7 +1495,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
                       <ArchiveIcon
                         className="icon icon__archive icon channel-header-archived-icon svg-text-color"
                       />
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="{displayname} (you) "
                         id="channel_header.directchannel.you"
                         values={
@@ -1534,7 +1534,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
           <span
             className="header-status__text"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Offline"
               id="status_dropdown.set_offline"
             />
@@ -1748,7 +1748,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                   id="favoriteTooltip"
                   placement="right"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
                   />
@@ -1827,16 +1827,16 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               className="header-placeholder style--none"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
               />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Edit"
                 id="channel_header.editLink"
               >
                 <Component />
-              </FormattedMessage>
+              </MemoizedFormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -2156,7 +2156,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
                   id="favoriteTooltip"
                   placement="right"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
                   />
@@ -2237,16 +2237,16 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               className="header-placeholder style--none"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
               />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Edit"
                 id="channel_header.editLink"
               >
                 <Component />
-              </FormattedMessage>
+              </MemoizedFormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>
@@ -2340,7 +2340,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
                   id="favoriteTooltip"
                   placement="right"
                 >
-                  <FormattedMessage
+                  <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
                     id="channelHeader.addToFavorites"
                   />
@@ -2427,16 +2427,16 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               className="header-placeholder style--none"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Add a channel description"
                 id="channel_header.addChannelHeader"
               />
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Edit"
                 id="channel_header.editLink"
               >
                 <Component />
-              </FormattedMessage>
+              </MemoizedFormattedMessage>
             </button>
           </Connect(ChannelPermissionGate)>
         </div>

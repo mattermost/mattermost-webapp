@@ -188,7 +188,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
     <div
       className="SidebarCategory_newLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="new"
         id="sidebar_left.sidebar_category.newLabel"
       />
@@ -235,7 +235,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
         <span
           className="SidebarCategory_newDropBox-label"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Drag channels here..."
             id="sidebar_left.sidebar_category.newDropBoxLabel"
           />
