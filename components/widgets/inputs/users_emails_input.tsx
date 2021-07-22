@@ -78,7 +78,7 @@ type Props = {
     ariaLabel: string;
 
     // usersLoader: (input: string, customCallback: (options: object) => void) => Promise<UserData>;
-    usersLoader: (input: string, customCallback: (options: Option[]) => void) => Promise<void>;
+    usersLoader: (input: string, customCallback: (options: OptionsType<AppSelectOption>) => void) => Promise<void>;
     onChange: (input: Array<(Option| string)>) => string;
     showError: boolean;
     errorMessageId: string;
@@ -323,16 +323,15 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         }
     }
 
-    optionsLoader = (_: void, callback: (options: Option[] | void) => string ) => {
-        const customCallback = (options: Option[] | void) => {
+    optionsLoader = (_: string, callback: (options: OptionsType<AppSelectOption>) => void ) => {
+        const customCallback = (options: OptionsType<AppSelectOption>) => {
             this.setState({options});
             callback(options);
         };
-        const result = this.props.usersLoader(this.props.inputValue, customCallback);
-        return result?.then(customCallback);
+        return this.props.usersLoader(this.props.inputValue, customCallback);
     }
 
-    showAddEmail = (input: string, _, options: any[]): boolean => {
+    showAddEmail = (input: string, _:any, options: any[]): boolean => {
         return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
     }
 
