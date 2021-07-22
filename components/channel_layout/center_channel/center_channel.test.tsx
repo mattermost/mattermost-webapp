@@ -27,7 +27,6 @@ describe('components/channel_layout/CenterChannel', () => {
         actions: {
             setShowNextStepsView: jest.fn,
             getProfiles: jest.fn,
-            getUser: jest.fn,
         },
     };
     test('should call update returnTo on props change', () => {

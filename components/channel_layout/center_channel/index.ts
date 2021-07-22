@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getProfiles, getUser} from 'mattermost-redux/actions/users';
+import {getProfiles} from 'mattermost-redux/actions/users';
 import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
@@ -54,7 +54,6 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
 
 type Actions = {
     setShowNextStepsView: (show: boolean) => Action;
-    getUser: (id: string) => ActionFunc;
     getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
 }
 
@@ -63,7 +62,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
             setShowNextStepsView,
             getProfiles,
-            getUser,
         }, dispatch),
     };
 }
