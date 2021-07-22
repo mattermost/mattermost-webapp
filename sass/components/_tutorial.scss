@@ -163,8 +163,8 @@
     &.tip-overlay--sidebar {
         @include opacity(0.8);
 
-        top: -9px;
-        left: 0;
+        top: 8px;
+        right: 21px;
     }
 }
 
