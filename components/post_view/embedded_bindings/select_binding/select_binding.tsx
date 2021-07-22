@@ -43,16 +43,41 @@ type State = {
 
 export class SelectBinding extends React.PureComponent<Props, State> {
     private providers: MenuActionProvider[];
-
+    private nOptions = 0;
     constructor(props: Props) {
         super(props);
 
         const binding = props.binding;
         this.providers = [];
         if (binding.bindings) {
-            const options = binding.bindings.map((b) => {
-                return {text: b.label, value: b.location};
+            const options: Array<{text: string; value: string}> = [];
+            const usedLabels: {[label: string]: boolean} = {};
+            const usedValues: {[label: string]: boolean} = {};
+            binding.bindings.forEach((b) => {
+                const label = b.label || b.location;
+                if (!label) {
+                    return;
+                }
+
+                if (!b.location) {
+                    return;
+                }
+
+                if (usedLabels[label]) {
+                    return;
+                }
+
+                if (usedValues[b.location]) {
+                    return;
+                }
+
+                usedLabels[label] = true;
+                usedValues[b.location] = true;
+
+                options.push({text: label, value: b.location});
             });
+
+            this.nOptions = options.length;
             this.providers = [new MenuActionProvider(options)];
         }
 
@@ -133,7 +158,15 @@ export class SelectBinding extends React.PureComponent<Props, State> {
     }
 
     render() {
+        if (!this.nOptions) {
+            return null;
+        }
+
         const {binding} = this.props;
+        const label = binding.label || binding.location;
+        if (!label) {
+            return null;
+        }
 
         return (
             <PostContext.Consumer>
@@ -141,7 +174,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
                     <AutocompleteSelector
                         providers={this.providers}
                         onSelected={this.handleSelected}
-                        placeholder={binding.label}
+                        placeholder={label}
                         inputClassName='post-attachment-dropdown'
                         value={this.state.selected?.text}
                         toggleFocus={handlePopupOpened}

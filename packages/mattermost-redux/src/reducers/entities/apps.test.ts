@@ -118,7 +118,6 @@ describe('bindings', () => {
                     location: '/channel_header',
                     bindings: [
                         {
-                            location: 'locB',
                             icon: 'icon',
                             call: {},
                         },
@@ -178,7 +177,6 @@ describe('bindings', () => {
                     location: '/post_menu',
                     bindings: [
                         {
-                            location: 'locA',
                             call: {},
                         },
                         {
@@ -209,7 +207,6 @@ describe('bindings', () => {
                     location: '/post_menu',
                     bindings: [
                         {
-                            location: 'locA',
                             call: {},
                         },
                     ],
@@ -291,7 +288,6 @@ describe('bindings', () => {
                             label: 'c',
                             bindings: [
                                 {
-                                    location: 'subC1',
                                     call: {},
                                 },
                                 {
@@ -306,7 +302,6 @@ describe('bindings', () => {
                             label: 'd',
                             bindings: [
                                 {
-                                    location: 'subC1',
                                     call: {},
                                 },
                             ],
@@ -318,7 +313,6 @@ describe('bindings', () => {
                     location: '/command',
                     bindings: [
                         {
-                            location: 'locC',
                             call: {},
                         },
                     ],
