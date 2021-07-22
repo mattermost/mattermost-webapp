@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import {PostTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team, TeamUnread} from 'mattermost-redux/types/teams';
 import {Post} from 'mattermost-redux/types/posts';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -187,6 +187,21 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
                 total_unread_mentions: 0,
                 total_unread_threads: 0,
             },
+        };
+    }
+    case TeamTypes.RECEIVED_MY_TEAM_UNREADS: {
+        const members = action.data;
+        return {
+            ...state,
+            ...members.reduce((result: ThreadsState['counts'], member: TeamUnread) => {
+                result[member.team_id] = {
+                    ...state[member.team_id],
+                    total_unread_threads: member.thread_count || 0,
+                    total_unread_mentions: member.thread_mention_count || 0,
+                };
+
+                return result;
+            }, {}),
         };
     }
     case ThreadTypes.READ_CHANGED_THREAD: {

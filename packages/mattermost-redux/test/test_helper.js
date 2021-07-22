@@ -361,7 +361,7 @@ class TestHelper {
             reply(200, [this.basicTeamMember]);
 
         nock(this.basicClient4.getBaseRoute()).
-            get('/users/me/teams/unread').
+            get('/users/me/teams/unread?include_collapsed_threads=true').
             reply(200, [{team_id: this.basicTeam.id, msg_count: 0, mention_count: 0}]);
 
         nock(this.basicClient4.getBaseRoute()).

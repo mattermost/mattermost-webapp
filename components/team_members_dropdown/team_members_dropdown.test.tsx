@@ -25,6 +25,7 @@ describe('components/team_members_dropdown', () => {
         currentTeam: team,
         index: 0,
         totalUsers: 10,
+        collapsedThreads: true,
         actions: {
             getMyTeamMembers: jest.fn(),
             getMyTeamUnreads: jest.fn(),
