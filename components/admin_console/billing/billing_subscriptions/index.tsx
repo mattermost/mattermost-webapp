@@ -30,7 +30,6 @@ import {
     CloudBanners,
     TELEMETRY_CATEGORIES,
     ModalIdentifiers,
-    CloudProducts,
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
@@ -96,13 +95,12 @@ const BillingSubscriptions: React.FC = () => {
     }
 
     useEffect(() => {
-        if (product !== null || isEmpty(products) || isEmpty(subscription)) {
+        if (product !== null || isEmpty(products) || !subscription?.product_id) {
             return;
         }
         const keys = Object.keys(products!);
         let tempProduct: Product;
-        tempProduct = products![subscription?.product_id!];
-
+        tempProduct = products![subscription?.product_id];
         if (isEmpty(tempProduct)) {
             tempProduct = products![keys[0]];
         }

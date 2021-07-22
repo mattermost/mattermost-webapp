@@ -344,7 +344,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         );
 
         let payment = normalPaymentText;
-        if ((!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
+        if (!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
                 this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT) {
             const announcementTooltip = (
                 <Tooltip
