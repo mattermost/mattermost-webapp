@@ -90,6 +90,41 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
       <MenuItemAction
         icon={
           <i
+            className="icon-globe"
+          />
+        }
+        id="showMoreChannels"
+        onClick={[Function]}
+        show={true}
+        text="Browse Channels"
+      />
+      <MenuItemAction
+        icon={
+          <i
+            className="icon-plus"
+          />
+        }
+        id="showNewChannel"
+        onClick={[Function]}
+        show={true}
+        text="Create New Channel"
+      />
+      <MenuItemAction
+        icon={
+          <i
+            className="icon-account-plus-outline"
+          />
+        }
+        id="browseDirectMessages"
+        onClick={[Function]}
+        show={true}
+        text="Open a direct message"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
             className="icon-folder-plus-outline"
           />
         }
@@ -164,6 +199,41 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         }
         subMenuClass="pl-4"
         text="Sort"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="icon-globe"
+          />
+        }
+        id="showMoreChannels"
+        onClick={[Function]}
+        show={true}
+        text="Browse Channels"
+      />
+      <MenuItemAction
+        icon={
+          <i
+            className="icon-plus"
+          />
+        }
+        id="showNewChannel"
+        onClick={[Function]}
+        show={true}
+        text="Create New Channel"
+      />
+      <MenuItemAction
+        icon={
+          <i
+            className="icon-account-plus-outline"
+          />
+        }
+        id="browseDirectMessages"
+        onClick={[Function]}
+        show={true}
+        text="Open a direct message"
       />
     </MenuGroup>
     <MenuGroup>

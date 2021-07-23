@@ -15,6 +15,9 @@ import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
 import {Props as SubmenuItemProps} from 'components/widgets/menu/menu_items/submenu_item';
+import MoreChannels from '../../../more_channels';
+import NewChannelFlow from '../../../new_channel_flow';
+import MoreDirectChannels from '../../../more_direct_channels';
 
 type Props = {
     currentTeamId: string;
@@ -33,6 +36,7 @@ type Props = {
 
 type State = {
     showDeleteCategoryModal: boolean;
+    showDirectChannelsModal: boolean;
     openUp: boolean;
 }
 
@@ -42,6 +46,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
 
         this.state = {
             showDeleteCategoryModal: false,
+            showDirectChannelsModal: false,
             openUp: false,
         };
     }
@@ -58,6 +63,35 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                 category: this.props.category,
             },
         });
+    }
+    showMoreChannelsModal = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.MORE_CHANNELS,
+            dialogType: MoreChannels,
+            dialogProps: {morePublicChannelsModalType: 'public'},
+        });
+    }
+    showNewChannelModal = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
+            dialogType: NewChannelFlow,
+            dialogProps: {category: this.props.category},
+        });
+    }
+    handleOpenDirectMessagesModal = (e: Event) => {
+        e.preventDefault();
+        if (this.state.showDirectChannelsModal) {
+            this.hideMoreDirectChannelsModal();
+        } else {
+            this.showMoreDirectChannelsModal();
+        }
+    }
+    showMoreDirectChannelsModal = () => {
+        this.setState({showDirectChannelsModal: true});
+    }
+
+    hideMoreDirectChannelsModal = () => {
+        this.setState({showDirectChannelsModal: false});
     }
 
     renameCategory = () => {
@@ -183,7 +217,33 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         default:
             icon = <i className='icon-format-list-bulleted'/>;
         }
-
+        const joinPublicChannel = (
+            <Menu.ItemAction
+                id='showMoreChannels'
+                onClick={this.showMoreChannelsModal}
+                icon={<i className='icon-globe'/>}
+                text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.browseChannels', defaultMessage: 'Browse Channels'})}
+            />
+        );
+        const createChannel = (
+            <Menu.ItemAction
+                id='showNewChannel'
+                onClick={this.showNewChannelModal}
+                icon={<i className='icon-plus'/>}
+                text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel'})}
+            />
+        );
+        let createDirectMessage;
+        if (category.type === CategoryTypes.CUSTOM || category.type === CategoryTypes.FAVORITES) {
+            createDirectMessage = (
+                <Menu.ItemAction
+                    id={'browseDirectMessages'}
+                    onClick={this.handleOpenDirectMessagesModal}
+                    icon={<i className='icon-account-plus-outline'/>}
+                    text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
+                />
+            );
+        }
         return (
             <React.Fragment>
                 <Menu.Group>
@@ -204,6 +264,11 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                     />
                 </Menu.Group>
                 <Menu.Group>
+                    {joinPublicChannel}
+                    {createChannel}
+                    {createDirectMessage}
+                </Menu.Group>
+                <Menu.Group>
                     <Menu.ItemAction
                         id={`create-${category.id}`}
                         onClick={this.createCategory}
@@ -211,6 +276,22 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                         text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.createCategory', defaultMessage: 'Create New Category'})}
                     />
                 </Menu.Group>
+            </React.Fragment>
+        );
+    }
+    renderModals = () => {
+        let moreDirectChannelsModal;
+        if (this.state.showDirectChannelsModal) {
+            moreDirectChannelsModal = (
+                <MoreDirectChannels
+                    onModalDismissed={this.hideMoreDirectChannelsModal}
+                    isExistingChannel={false}
+                />
+            );
+        }
+        return (
+            <React.Fragment>
+                {moreDirectChannelsModal}
             </React.Fragment>
         );
     }
@@ -239,6 +320,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                 >
                     {this.renderDropdownItems()}
                 </SidebarMenu>
+                {this.renderModals()}
             </React.Fragment>
         );
     }
