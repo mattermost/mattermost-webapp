@@ -296,7 +296,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         IndicatorsContainer: () => null,
     };
 
-    handleInputChange = (inputValue: Option, action: {action: string}): void => {
+    handleInputChange = (inputValue: IOptionType, action: {action: string}): void => {
         if (action.action === 'input-blur') {
             const values = this.props.value;
 
