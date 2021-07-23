@@ -39,7 +39,7 @@ type Props = {
     onBlur?: (e: FocusEvent) => void;
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
-    suggestionList?: React.Component<React.ComponentProps<typeof SuggestionList>>;
+    suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListStyle?: string;
     emojiEnabled?: boolean;
     isRHS?: boolean;
