@@ -82,6 +82,7 @@
     flex-direction: column;
     border: 1px solid;
     margin-right: 3px;
+    background: var(--center-channel-bg);
     border-radius: 4px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 
@@ -171,12 +172,12 @@
         align-items: center;
         justify-content: center;
         border-radius: 4px;
-        color: v(center-channel-color-48);
+        color: rgba(var(--center-channel-color-rgb), 0.48);
         text-decoration: none;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.04);
-            color: var(--center-channel-color-72);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
         }
 
         &:active {
@@ -210,7 +211,7 @@
     padding: 13px 10px 13px 15px;
     border: 1px solid $light-gray;
     background: $primary-color;
-    color: $white;
+    color: var(--sidebar-header-text-color);
 
     .emoji-picker__header-title {
         margin-top: 2px;
@@ -221,7 +222,7 @@
         width: 30px;
         height: 30px;
         background: transparent;
-        color: $white;
+        color: var(--sidebar-header-text-color);
         opacity: 1;
 
         &:hover {
@@ -319,7 +320,7 @@
         z-index: 5;
         width: 95%;
         height: 32px;
-        border: 1px solid var(--center-channel-color-24);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
         border-radius: 4px;
 
         &:focus-within {
@@ -412,6 +413,7 @@
         height: 26px;
         padding: 4px 0 0 31px;
         border-width: 0;
+        background: var(--center-channel-bg);
         border-radius: inherit;
         font-size: 13px;
 
@@ -444,7 +446,7 @@
         padding-top: 3px;
         margin-top: 3px;
         margin-bottom: 6px;
-        color: var(--center-channel-color-48);
+        color: rgba(var(--center-channel-color-rgb), 0.48);
         font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
@@ -576,6 +578,7 @@
     align-items: stretch;
     justify-content: flex-start;
     padding: 18px 0 18px 16px;
+    background: var(--center-channel-bg);
     vertical-align: middle;
 
     &.emoji-picker__preview-placeholder {

@@ -6,6 +6,7 @@
     width: 65px;
     height: 100%;
     flex-direction: column;
+    background: var(--sidebar-teambar-bg);
     text-align: center;
 
     body.announcement-bar--fixed & {

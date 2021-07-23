@@ -7,9 +7,16 @@
 
 .nav-tabs {
     margin-bottom: 10px;
+    background: var(--center-channel-bg);
 
     > li {
         margin-right: 5px;
+
+        &.active {
+            > a {
+                background: var(--center-channel-bg);
+            }
+        }
 
         > a {
             padding: 7px 15px;
@@ -55,7 +62,7 @@
         position: absolute;
         min-height: 50px;
         border: none;
-        background: $primary-color;
+        background: var(--sidebar-teambar-bg);
 
         .navbar-nav {
             > li {
@@ -84,7 +91,7 @@
             border-color: transparent;
             margin: 0;
             border-radius: 0;
-            fill: $white;
+            fill: var(--sidebar-header-text-color);
             float: left;
             line-height: 48px;
 
@@ -100,6 +107,11 @@
                 margin: 9px 10px 0 0;
                 background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
                 line-height: 0;
+
+                &:hover,
+                &:focus {
+                    background: rgba(var(--sidebar-header-text-color-rgb), 0.3);
+                }
             }
 
             &.menu-toggle {

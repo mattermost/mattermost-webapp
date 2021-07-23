@@ -25,15 +25,15 @@
             height: 40px;
             padding: 4px;
             border-radius: 4px;
-            fill: var(--center-channel-color-56);
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
 
             &:hover {
-                background: var(--center-channel-color-08);
-                fill: var(--center-channel-color-72);
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                fill: rgba(var(--center-channel-color-rgb), 0.72);
             }
 
             &:active {
-                background: var(--button-bg-08);
+                background: rgba(var(--button-bg-rgb), 0.08);
                 fill: var(--button-bg);
             }
         }

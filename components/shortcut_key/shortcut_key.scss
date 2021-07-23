@@ -3,11 +3,12 @@
         display: inline-block;
         padding: 2px 8px;
         border-radius: 3px;
+        color: var(--center-channel-bg);
         font-size: 14px;
         font-weight: 500;
 
         &.shortcut-key--contrast {
-            background-color: var(--center-channel-color-08);
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
             color: var(--center-channel-color);
         }
     }

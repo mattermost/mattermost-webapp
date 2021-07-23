@@ -134,6 +134,8 @@
     }
 
     .modal-footer {
+        background: var(--center-channel-bg);
+
         &.modal-footer--invisible {
             overflow: hidden;
             height: 0;
@@ -250,7 +252,7 @@
         .modal-title {
             overflow: hidden;
             max-width: calc(100% - 80px);
-            color: $bg--gray;
+            color: var(--sidebar-header-text-color);
             float: left;
             font-size: 17px;
             line-height: 27px;

@@ -60,7 +60,7 @@
         background: rgba(var(--sys-center-channel-bg-rgb), 1);
 
         .app__body & {
-            border-color: var(--center-channel-color-20);
+            border-color: rgba(var(--center-channel-color-rgb), 0.2);
             background: var(--center-channel-bg);
         }
 
@@ -138,11 +138,11 @@
         }
 
         &-list {
-            border: 1px solid var(--sys-center-channel-color-20);
+            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.2);
             border-radius: 4px;
 
             .app__body & {
-                border: 1px solid var(--center-channel-color-20);
+                border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
             }
         }
     }
@@ -154,7 +154,7 @@
             background: rgba(var(--sys-button-bg-rgb), 0.08);
 
             .app__body & {
-                background: var(--center-channel-color-08);
+                background: rgba(var(--center-channel-color-rgb), 0.08);
             }
         }
 
@@ -174,7 +174,7 @@
             background: rgba(var(--sys-button-bg-rgb), 0.88);
 
             .app__body & {
-                background: var(--button-bg-88);
+                background: rgba(var(--button-bg-rgb), 0.88);
             }
         }
 
@@ -182,7 +182,7 @@
             background: rgba(var(--sys-button-bg-rgb), 0.16);
 
             .app__body & {
-                background: var(--button-bg-16);
+                background: rgba(var(--button-bg-rgb), 0.16);
             }
         }
     }
