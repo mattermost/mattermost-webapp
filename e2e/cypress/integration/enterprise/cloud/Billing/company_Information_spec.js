@@ -31,7 +31,7 @@ describe('System Console - Company Information section', () => {
         // # enter company information functionality
         cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
-        cy.get('.css-1hwfws3').click();
+        cy.get('#DropdownInput_country_dropdown').click();
         cy.get(".DropDown__input > input[type='text']").type('India{enter}');
         cy.get('#input_address').clear().type('Add test address');
         cy.get('#input_address2').clear().type('Add test address2');
@@ -71,7 +71,7 @@ describe('System Console - Company Information section', () => {
         // # enter company information functionality
         cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
-        cy.get('.css-1hwfws3').click();
+        cy.get('#DropdownInput_country_dropdown').click();
         cy.get(".DropDown__input > input[type='text']").type('India{enter}');
         cy.get('#input_address').clear().type('test address');
         cy.get('#input_address2').clear().type('test2');
