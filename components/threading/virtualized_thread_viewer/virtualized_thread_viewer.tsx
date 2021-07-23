@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, PureComponent, RefObject} from 'react';
+import React, {PureComponent, RefObject} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList, OnScrollArgs} from 'dynamic-virtualized-list';
 import memoize from 'memoize-one';
@@ -76,7 +76,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     private mounted = false;
     private scrollStopAction: DelayedAction;
     private latestPostId: $ID<Post>;
-    postCreateContainerRef: React.RefObject<HTMLDivElement>;
+    postCreateContainerRef: RefObject<HTMLDivElement>;
     listRef: RefObject<DynamicSizeList>;
     innerRef: RefObject<HTMLDivElement>;
     initRangeToRender: number[];
