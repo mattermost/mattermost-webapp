@@ -13,12 +13,12 @@
     }
 
     .table > thead > tr > th {
-        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
     }
 
     .help-text {
         padding: 10px 16px;
-        background: rgba(var(--center-channel-color-rgb), 0.04);
+        background: rgba(var(--sys-center-channel-color-rgb), 0.04);
         color: var(--sys-center-channel-color);
     }
 }
