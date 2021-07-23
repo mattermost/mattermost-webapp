@@ -375,8 +375,18 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
                     defaultOptions={false}
                     defaultMenuIsOpen={false}
                     openMenuOnClick={false}
-                    loadingMessage={this.loadingMessage}
-                    onInputChange={this.handleInputChange}
+                    loadingMessage={
+                        // I don't think I can retain the same behavior here without refactoring
+                        // this function or some how changing the accepted types of `loadingMessage
+                        // property of `AsyncSelect` 
+                        this.loadingMessage
+                    }
+                    onInputChange={
+                        // I have fiddled with the type signature for this function a lot, the way it
+                        // is now works for everything except for this. this property seems to requires a function
+                        // that will take a string as an input, but everything in our method is working on an object
+                        this.handleInputChange
+                    }
                     inputValue={this.props.inputValue}
                     openMenuOnFocus={true}
                     onFocus={this.onFocus}
