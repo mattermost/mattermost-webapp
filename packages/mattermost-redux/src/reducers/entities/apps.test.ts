@@ -10,8 +10,7 @@ describe('bindings', () => {
     const initialState: AppBinding[] = [];
 
     test('No element get filtered', () => {
-        const data = {
-            bindings: [
+        const data = [
                 {
                     app_id: '1',
                     location: '/post_menu',
@@ -57,8 +56,7 @@ describe('bindings', () => {
                         },
                     ],
                 },
-            ],
-        };
+            ];
 
         const state = Reducers.bindings(
             initialState,
@@ -72,8 +70,7 @@ describe('bindings', () => {
     });
 
     test('Invalid channel header get filtered', () => {
-        const data = {
-            bindings: [
+        const data = [
                 {
                     app_id: '1',
                     location: '/post_menu',
@@ -156,8 +153,7 @@ describe('bindings', () => {
                         },
                     ],
                 },
-            ],
-        };
+            ]
 
         const state = Reducers.bindings(
             initialState,
@@ -171,8 +167,7 @@ describe('bindings', () => {
     });
 
     test('Invalid post menu get filtered', () => {
-        const data = {
-            bindings: [
+        const data = [
                 {
                     app_id: '1',
                     location: '/post_menu',
@@ -237,8 +232,7 @@ describe('bindings', () => {
                         },
                     ],
                 },
-            ],
-        };
+            ];
 
         const state = Reducers.bindings(
             initialState,
@@ -252,8 +246,7 @@ describe('bindings', () => {
     });
 
     test('Invalid commands get filtered', () => {
-        const data = {
-            bindings: [
+        const data = [
                 {
                     app_id: '1',
                     location: '/post_menu',
@@ -346,8 +339,7 @@ describe('bindings', () => {
                         },
                     ],
                 },
-            ],
-        };
+            ];
 
         const state = Reducers.bindings(
             initialState,
