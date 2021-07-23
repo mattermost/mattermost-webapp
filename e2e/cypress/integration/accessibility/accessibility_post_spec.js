@@ -20,13 +20,6 @@ describe('Verify Accessibility Support in Post', () => {
     let testChannel;
 
     before(() => {
-        // # Update Configs
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelOrganization: false,
-            },
-        });
-
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
             testTeam = team;
