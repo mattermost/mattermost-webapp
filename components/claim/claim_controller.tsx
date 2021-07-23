@@ -34,15 +34,15 @@ type Props = {
         url: string;
     };
     actions: {
-        switchLdapToEmail: (ldapPassword: string, email: string, emailPassword: string, mfaCode?: string) => ActionFunc;
+        switchLdapToEmail: (ldapPassword: string, email: string, emailPassword: string, mfaCode: string) => ActionFunc;
     };
 }
 
 export default class ClaimController extends React.PureComponent<Props> {
     render(): JSX.Element {
-        const email = (new URLSearchParams(this.props.location.search)).get('email');
-        const newType = (new URLSearchParams(this.props.location.search)).get('new_type');
-        const currentType = (new URLSearchParams(this.props.location.search)).get('old_type');
+        const email = (new URLSearchParams(this.props.location.search)).get('email')!;
+        const newType = (new URLSearchParams(this.props.location.search)).get('new_type')!;
+        const currentType = (new URLSearchParams(this.props.location.search)).get('old_type')!;
 
         return (
             <div>
@@ -73,7 +73,7 @@ export default class ClaimController extends React.PureComponent<Props> {
                                         <EmailToOAuth
                                             newType={newType}
                                             email={email}
-                                            siteName={this.props.siteName}
+                                            siteName={this.props.siteName!}
                                         />
                                     )}
                                 />

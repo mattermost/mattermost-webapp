@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -12,26 +11,34 @@ import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-export default class EmailToOAuth extends React.PureComponent {
-    static propTypes = {
-        newType: PropTypes.string,
-        email: PropTypes.string,
-        siteName: PropTypes.string,
-    };
+export type State = {
+    showMfa?: boolean;
+    password?: string;
+    error?: string;
+};
 
-    constructor(props) {
+type Props = {
+    email: string;
+    newType: string;
+    siteName: string;
+}
+export default class EmailToOAuth extends React.PureComponent <Props, State> {
+    private passwordInput: React.RefObject<HTMLInputElement>;
+
+    constructor(props: Props) {
         super(props);
-
-        this.state = {showMfa: false, password: ''};
 
         this.passwordInput = React.createRef();
     }
 
-    preSubmit = (e) => {
+    preSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        var state = {};
 
-        var password = this.passwordInput.current.value;
+        const state = {
+            error: '',
+        };
+
+        const password = this.passwordInput.current && this.passwordInput.current.value;
         if (!password) {
             state.error = Utils.localizeMessage('claim.email_to_oauth.pwdError', 'Please enter your password.');
             this.setState(state);
@@ -40,24 +47,23 @@ export default class EmailToOAuth extends React.PureComponent {
 
         this.setState({password});
 
-        state.error = null;
         this.setState(state);
 
         this.submit(this.props.email, password, '');
     }
 
-    submit = (loginId, password, token) => {
+    submit = (loginId: string, password: string, token: string) => {
         emailToOAuth(
             loginId,
             password,
             token,
             this.props.newType,
-            (data) => {
+            (data: { follow_link: string }) => {
                 if (data.follow_link) {
                     window.location.href = data.follow_link;
                 }
             },
-            (err) => {
+            (err: { server_error_id: string; message: any }) => {
                 if (!this.state.showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
                     this.setState({showMfa: true});
                 } else {
@@ -68,12 +74,12 @@ export default class EmailToOAuth extends React.PureComponent {
     }
 
     render() {
-        var error = null;
+        let error = null;
         if (this.state.error) {
             error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
         }
 
-        var formClass = 'form-group';
+        let formClass = 'form-group';
         if (error) {
             formClass += ' has-error';
         }
