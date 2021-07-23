@@ -116,7 +116,7 @@ export const planDetailsTopElements = (
     isPaidTier: boolean,
     isFreeTrial: boolean,
     userLimit: number,
-    subscriptionPlan: string | null,
+    subscriptionPlan: string | undefined,
 ) => {
     let userCountDisplay = (
         <div className='PlanDetails__userCount'>
@@ -297,7 +297,7 @@ export const getPlanDetailElements = (
     };
 };
 
-export const featureList = (subscriptionPlan: string | null, isPaidTier: boolean) => {
+export const featureList = (subscriptionPlan: string | undefined, isPaidTier: boolean) => {
     const featuresFreeTier = [
         localizeMessage('admin.billing.subscription.planDetails.features.10GBstoragePerUser', '10 GB storage per user'),
         localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.0% uptime'),

@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useDispatch, useStore, useSelector} from 'react-redux';
+
+import {isEmpty} from 'lodash';
 
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
@@ -28,7 +30,6 @@ import {
     CloudBanners,
     TELEMETRY_CATEGORIES,
     ModalIdentifiers,
-    CloudProducts,
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
@@ -60,6 +61,7 @@ const BillingSubscriptions: React.FC = () => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
 
     const products = useSelector((state: GlobalState) => state.entities.cloud.products);
+    const [product, setProduct] = useState<Product | null>(null);
     const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
@@ -73,29 +75,6 @@ const BillingSubscriptions: React.FC = () => {
     const query = useQuery();
     const actionQueryParam = query.get('action');
 
-    const product = useSelector((state: GlobalState) => {
-        const products = state.entities.cloud.products!;
-        if (!products) {
-            return null;
-        }
-        const keys = Object.keys(products);
-        let product: Product;
-        if (products && subscription) {
-            product = products[subscription?.product_id];
-            if (!product) {
-                keys.forEach((key) => {
-                    if (products[key].name.toLowerCase().includes('professional')) {
-                        product = products[key];
-                    }
-                });
-            }
-            if (product) {
-                return product;
-            }
-        }
-        return products[keys[0]];
-    });
-
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
@@ -104,8 +83,6 @@ const BillingSubscriptions: React.FC = () => {
             dialogType: PurchaseModal,
         }));
     };
-
-    const subscriptionPlan = product?.sku || CloudProducts.PROFESSIONAL;
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
@@ -118,6 +95,19 @@ const BillingSubscriptions: React.FC = () => {
     }
 
     useEffect(() => {
+        if (product !== null || isEmpty(products) || !subscription?.product_id) {
+            return;
+        }
+        const keys = Object.keys(products!);
+        let tempProduct: Product;
+        tempProduct = products![subscription?.product_id];
+        if (isEmpty(tempProduct)) {
+            tempProduct = products![keys[0]];
+        }
+        setProduct(tempProduct);
+    }, [products, subscription]);
+
+    useLayoutEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
         getCloudCustomer()(dispatch, store.getState());
@@ -191,7 +181,7 @@ const BillingSubscriptions: React.FC = () => {
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
-                            subscriptionPlan={subscriptionPlan}
+                            subscriptionPlan={product?.sku}
                         />
                         <BillingSummary
                             isPaidTier={isPaidTier}
@@ -200,7 +190,7 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, subscriptionPlan, onUpgradeMattermostCloud, productsLength)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, product?.sku, onUpgradeMattermostCloud, productsLength)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>

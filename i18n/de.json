@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Ihre letzte Zahlung ist fehlgeschlagen",
   "admin.billing.subscription.nextBillingDate": "Ab dem {date} fallen für Sie Gebühren an, je nach Anzahl aktivierter Nutzer",
   "admin.billing.subscription.otherBillingOption": "Benötigen Sie andere Zahlungsoptionen?",
-  "admin.billing.subscription.payamentBegins": "Die Zahlung beginnt ab: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "Die Zahlung beginnt ab: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Die Zahlung ist fehlgeschlagen. Bitte versuchen Sie es erneut oder kontaktieren Sie unseren Support.",
   "admin.billing.subscription.paymentNoteEnd": " für Hilfe",
   "admin.billing.subscription.paymentNoteStart": "Falls der Mattermost Cloud Test vor oder am 15 September startete, dann ",

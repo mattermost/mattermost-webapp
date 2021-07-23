@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Последното Ви плащане е неуспешно",
   "admin.billing.subscription.nextBillingDate": "От {date} ще бъдете таксувани въз основа на броя активирани потребители",
   "admin.billing.subscription.otherBillingOption": "Нужда от други опции за таксуване?",
-  "admin.billing.subscription.payamentBegins": "Начало на плащане: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "Начало на плащане: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Неуспешно плащане. Моля, опитайте отново или се свържете с поддръжката.",
   "admin.billing.subscription.paymentNoteEnd": " за съдействие",
   "admin.billing.subscription.paymentNoteStart": "Ако пробната ви версия на Mattermost Cloud е започнала на или преди 15 септември, моля ",

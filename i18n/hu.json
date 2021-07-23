@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Legutóbbi fizetése sikertelen",
   "admin.billing.subscription.nextBillingDate": "{Date} dátumtól az engedélyezett felhasználók száma alapján számolunk fel díjat",
   "admin.billing.subscription.otherBillingOption": "Szüksége van más számlázási lehetőségekre?",
-  "admin.billing.subscription.payamentBegins": "A fizetés megkezdése: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "A fizetés megkezdése: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Fizetés meghiúsult. Kérjük, próbálja újra, vagy vegye fel a kapcsolatot az ügyfélszolgálattal.",
   "admin.billing.subscription.paymentNoteEnd": " segítségért",
   "admin.billing.subscription.paymentNoteStart": "Amennyiben a Mattermost Cloud teszt időszak szeptember 15 -én vagy előtte kezdődött, úgy ",

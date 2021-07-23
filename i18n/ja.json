@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "直近の支払いに失敗しました",
   "admin.billing.subscription.nextBillingDate": "{data} から有効なユーザー数に基づいて課金されます",
   "admin.billing.subscription.otherBillingOption": "他の支払い方法が必要ですか？",
-  "admin.billing.subscription.payamentBegins": "支払い開始日: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "支払い開始日: {beginDate}",
   "admin.billing.subscription.paymentFailed": "支払いできませんでした。再度試してみるか、サポートへご連絡ください。",
   "admin.billing.subscription.paymentNoteEnd": " 。サポートいたします。",
   "admin.billing.subscription.paymentNoteStart": "9月15日以前にMattermost Cloudのトライアルを開始された方は、 ",
