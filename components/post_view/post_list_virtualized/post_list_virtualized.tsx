@@ -1,11 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {DetailedHTMLProps, HTMLAttributes, RefObject, CSSProperties, ReactText} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'dynamic-virtualized-list';
-import {injectIntl} from 'react-intl';
+import {injectIntl, WrappedComponentProps, IntlShape} from 'react-intl';
 
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
@@ -14,7 +13,6 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId, getNewMessageIndex} from 'utils/post_utils.jsx';
-import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -32,11 +30,11 @@ const MAXIMUM_POSTS_FOR_SLICING = {
     permalink: 100,
 };
 
-const postListStyle = {
+const postListStyle: CSSProperties = {
     padding: '14px 0px 7px',
 };
 
-const virtListStyles = {
+const virtListStyles: CSSProperties = {
     position: 'absolute',
     bottom: '0',
     maxHeight: '100%',
@@ -44,86 +42,159 @@ const virtListStyles = {
 
 const OFFSET_TO_SHOW_TOAST = -50;
 
-class PostList extends React.PureComponent {
-    static propTypes = {
+type RowData = {
+    data: string[];
+    itemId: string;
+    style?: CSSProperties;
+};
 
-        /**
-         * Array of Ids in the channel including date separators, new message indicator, more messages loader,
-         * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
-         */
-        postListIds: PropTypes.array.isRequired,
+type OnItemsRenderedArgs = {
 
-        /**
-         * Set to focus this post
-         */
-        focusedPostId: PropTypes.string,
+    /**
+     * Index of first item in view
+     */
+    visibleStartIndex: number;
 
-        /**
-         * The current channel id
-         */
-        channelId: PropTypes.string.isRequired,
+    /**
+     * Index of the first item rendered.
+     */
+    overscanStartIndex?: number;
 
-        /**
-         * Used for disabling auto retry of posts and enabling manual link for loading posts
-         */
-        autoRetryEnable: PropTypes.bool,
+    /**
+     * Index of the last item rendered.
+     */
+    overscanStopIndex?: number;
 
-        /**
-         * used for populating header, scroll correction and disabling triggering loadOlderPosts
-         */
-        atOldestPost: PropTypes.bool,
+    /**
+     * Index of the last visible item in view.
+     */
+    visibleStopIndex?: number;
+};
 
-        /**
-         * used for disabling triggering loadNewerPosts
-         */
-        atLatestPost: PropTypes.bool,
+type ScrollToIndex = {
+    index: number;
+    position: string;
+    offset?: number;
+};
 
-        /**
-         * used in passing to post row for enabling animation when loading posts
-         */
-        loadingNewerPosts: PropTypes.bool,
-        loadingOlderPosts: PropTypes.bool,
+type Timestamp = number;
 
-        intl: intlShape.isRequired,
+type SpanAttribute = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
-        latestPostTimeStamp: PropTypes.number,
+type OnScrollArgs = {
+    scrollDirection: 'backward' | 'forward';
+    scrollOffset: number;
+    scrollUpdateWasRequested: boolean;
+    clientHeight: number;
+    scrollHeight: number;
+};
 
-        latestAriaLabelFunc: PropTypes.func,
+type ScrollPosition = {
+    previousScrollTop: number;
+    previousScrollHeight: number;
+};
 
-        lastViewedAt: PropTypes.string,
+type Snapshot = ScrollPosition | null;
 
-        actions: PropTypes.shape({
+export interface PostListProps extends WrappedComponentProps<'intl'> {
 
-            /**
-             * Function to get older posts in the channel
-             */
-            loadOlderPosts: PropTypes.func.isRequired,
+    /**
+    * Array of Ids in the channel including date separators, new message indicator, more messages loader,
+     * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
+    */
+    postListIds: string[];
 
-            /**
-             * Function to get newer posts in the channel
-             */
-            loadNewerPosts: PropTypes.func.isRequired,
+    /**
+     * Set to focus this post
+     */
+    focusedPostId?: string;
 
-            /**
-             * Function used for autoLoad of posts incase screen is not filled with posts
-             */
-            canLoadMorePosts: PropTypes.func.isRequired,
+    /**
+    * The current channel id
+    */
+    channelId: string;
 
-            /**
-             * Function to check and set if app is in mobile view
-             */
-            checkAndSetMobileView: PropTypes.func.isRequired,
+    /**
+    * Used for disabling auto retry of posts and enabling manual link for loading posts
+    */
+    autoRetryEnable?: boolean;
 
-            /**
-             * Function to change the post selected for postList
-             */
-            changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
+    /**
+    * used for populating header, scroll correction and disabling triggering loadOlderPosts
+    */
+    atOldestPost: boolean;
 
-            updateNewMessagesAtInChannel: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+    /**
+     * used for disabling triggering loadNewerPosts
+    */
+    atLatestPost: boolean;
 
-    constructor(props) {
+    /**
+    * used in passing to post row for enabling animation when loading posts
+    */
+    loadingNewerPosts: boolean;
+    loadingOlderPosts: boolean;
+
+    latestPostTimeStamp: number;
+    latestAriaLabelFunc?: (ariaLabel: IntlShape) => SpanAttribute;
+    lastViewedAt: string | Timestamp;
+
+    actions: PostListActions;
+};
+
+interface PostListActions {
+
+    /**
+    * Function to get older posts in the channel
+     */
+    loadOlderPosts: () => void;
+
+    /**
+     * Function to get newer posts in the channel
+    */
+    loadNewerPosts: () => void;
+
+    /**
+    * Function used for autoLoad of posts incase screen is not filled with posts
+     */
+    canLoadMorePosts: (id?: string) => void;
+
+    /**
+     * Function to check and set if app is in mobile view
+     */
+    checkAndSetMobileView: () => void;
+
+    changeUnreadChunkTimeStamp: (lastViewedAt: string | Timestamp | ReactText) => void;
+    updateNewMessagesAtInChannel: (channelId: string, lastViewedAt: Timestamp) => void;
+
+};
+
+export type PostListState = {
+    isScrolling: boolean;
+    isMobile: boolean | null;
+    atBottom: boolean | null;
+    lastViewedBottom: Timestamp;
+    postListIds: string[];
+    topPostId: string;
+    postMenuOpened: boolean | undefined;
+    dynamicListStyle: {
+        willChange: string;
+    };
+    initScrollCompleted: boolean;
+    showSearchHint: boolean;
+    isSearchHintDismissed: boolean;
+    initScrollOffsetFromBottom: number;
+};
+
+class PostList extends React.PureComponent<PostListProps, PostListState, Snapshot> {
+    listRef: RefObject<any>;
+    postListRef: RefObject<any>;
+    scrollStopAction!: DelayedAction;
+    initRangeToRender: number[];
+    mounted!: boolean;
+    showSearchHintThreshold: number;
+
+    constructor(props: Readonly<PostListProps>) {
         super(props);
 
         const channelIntroMessage = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
@@ -180,7 +251,7 @@ class PostList extends React.PureComponent {
         EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
-    getSnapshotBeforeUpdate(prevProps) {
+    getSnapshotBeforeUpdate(prevProps: Readonly<PostListProps>): Snapshot {
         if (this.postListRef && this.postListRef.current) {
             const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
@@ -198,7 +269,7 @@ class PostList extends React.PureComponent {
         return null;
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps: Readonly<PostListProps>, _prevState: PostListState, snapshot: Snapshot) {
         if (!this.postListRef.current) {
             return;
         }
@@ -225,7 +296,7 @@ class PostList extends React.PureComponent {
         EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props: Readonly<PostListProps>): Partial<PostListState> | null {
         const postListIds = props.postListIds;
         let newPostListIds;
 
@@ -250,7 +321,7 @@ class PostList extends React.PureComponent {
         };
     }
 
-    getNewMessagesSeparatorIndex = (postListIds) => {
+    getNewMessagesSeparatorIndex = (postListIds: string[]): number => {
         return postListIds.findIndex(
             (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0,
         );
@@ -279,7 +350,7 @@ class PostList extends React.PureComponent {
         this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
-    togglePostMenu = (opened) => {
+    togglePostMenu = (opened: boolean) => {
         const dynamicListStyle = this.state.dynamicListStyle;
         if (this.state.isMobile) {
             dynamicListStyle.willChange = opened ? 'unset' : 'transform';
@@ -291,7 +362,7 @@ class PostList extends React.PureComponent {
         });
     };
 
-    renderRow = ({data, itemId, style}) => {
+    renderRow = ({data, itemId, style}: RowData) => {
         const index = data.indexOf(itemId);
         let className = '';
         const basePaddingClass = 'post-row__padding';
@@ -333,7 +404,7 @@ class PostList extends React.PureComponent {
         );
     };
 
-    scrollToFailed = (index) => {
+    scrollToFailed = (index: number) => {
         if (index === 0) {
             this.props.actions.changeUnreadChunkTimeStamp('');
         } else {
@@ -341,7 +412,7 @@ class PostList extends React.PureComponent {
         }
     }
 
-    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, clientHeight, scrollHeight}) => {
+    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, clientHeight, scrollHeight}: OnScrollArgs) => {
         if (scrollHeight <= 0) {
             return;
         }
@@ -401,22 +472,22 @@ class PostList extends React.PureComponent {
         }
     }
 
-    getShowSearchHintThreshold = () => {
+    getShowSearchHintThreshold = (): number => {
         return window.screen.height * 3;
     }
 
-    checkBottom = (scrollOffset, scrollHeight, clientHeight) => {
+    checkBottom = (scrollOffset: number, scrollHeight: number, clientHeight: number) => {
         this.updateAtBottom(this.isAtBottom(scrollOffset, scrollHeight, clientHeight));
     }
 
-    isAtBottom = (scrollOffset, scrollHeight, clientHeight) => {
+    isAtBottom = (scrollOffset: number, scrollHeight: number, clientHeight: number) => {
         // Calculate how far the post list is from being scrolled to the bottom
         const offsetFromBottom = scrollHeight - clientHeight - scrollOffset;
 
         return offsetFromBottom <= BUFFER_TO_BE_CONSIDERED_BOTTOM && scrollHeight > 0;
     }
 
-    updateAtBottom = (atBottom) => {
+    updateAtBottom = (atBottom: boolean) => {
         if (atBottom !== this.state.atBottom) {
             // Update lastViewedBottom when the list reaches or leaves the bottom
             let lastViewedBottom = Date.now();
@@ -453,7 +524,7 @@ class PostList extends React.PureComponent {
         });
     }
 
-    updateFloatingTimestamp = (visibleTopItem) => {
+    updateFloatingTimestamp = (visibleTopItem: number) => {
         if (!this.state.isMobile) {
             return;
         }
@@ -467,11 +538,11 @@ class PostList extends React.PureComponent {
         });
     }
 
-    onItemsRendered = ({visibleStartIndex}) => {
+    onItemsRendered = ({visibleStartIndex}: OnItemsRenderedArgs) => {
         this.updateFloatingTimestamp(visibleStartIndex);
     }
 
-    initScrollToIndex = () => {
+    initScrollToIndex = (): ScrollToIndex => {
         if (this.props.focusedPostId) {
             const index = this.state.postListIds.findIndex(
                 (item) => item === this.props.focusedPostId,
@@ -527,7 +598,7 @@ class PostList extends React.PureComponent {
         this.props.actions.updateNewMessagesAtInChannel(this.props.channelId, lastViewedAt);
     }
 
-    renderToasts = (width) => {
+    renderToasts = (width: number) => {
         return (
             <ToastWrapper
                 atLatestPost={this.props.atLatestPost}
@@ -601,7 +672,7 @@ class PostList extends React.PureComponent {
                                 {ariaLabel}
                             </span>
                             <AutoSizer>
-                                {({height, width}) => (
+                                {({height, width}: any) => (
                                     <React.Fragment>
                                         <div>{this.renderToasts(width)}</div>
 
