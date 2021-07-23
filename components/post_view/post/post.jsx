@@ -9,7 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import {makeIsEligibleForClick} from 'utils/utils';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import PostProfilePicture from 'components/post_profile_picture';

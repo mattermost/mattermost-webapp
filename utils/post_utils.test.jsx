@@ -8,7 +8,7 @@ import {createIntl} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import {PostListRowListIds, Constants} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 import EmojiMap from 'utils/emoji_map';

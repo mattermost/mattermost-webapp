@@ -14,7 +14,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import {Locations} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
 
-jest.mock('utils/post_utils.jsx', () => ({
+jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
     isSystemMessage: jest.fn().mockReturnValue(false),
     fromAutoResponder: jest.fn().mockReturnValue(false),

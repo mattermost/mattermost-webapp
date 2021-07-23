@@ -25,7 +25,7 @@ jest.mock('utils/utils.jsx', () => ({
     localizeMessage: jest.fn(),
 }));
 
-jest.mock('utils/post_utils.jsx', () => ({
+jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
 }));
 

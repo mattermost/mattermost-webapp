@@ -10,7 +10,7 @@ import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations} from 'utils/constants';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';

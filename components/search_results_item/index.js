@@ -19,7 +19,7 @@ import {
     setRhsExpanded,
 } from 'actions/views/rhs';
 
-import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {makeCreateAriaLabelForPost} from 'utils/post_utils';
 import {getDisplayNameByUser} from 'utils/utils.jsx';
 
 import SearchResultsItem from './search_results_item.jsx';

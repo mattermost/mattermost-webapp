@@ -15,7 +15,7 @@ import {
 } from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import {intlShape} from 'utils/react_intl';
 import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';

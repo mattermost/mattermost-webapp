@@ -14,7 +14,7 @@ import {selectPost, selectPostCard} from 'actions/views/rhs';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
-import {areConsecutivePostsBySameUser, makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {areConsecutivePostsBySameUser, makeCreateAriaLabelForPost} from 'utils/post_utils';
 
 import Post from './post.jsx';
 

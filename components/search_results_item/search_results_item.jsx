@@ -28,7 +28,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 
 import Constants, {Locations} from 'utils/constants';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 

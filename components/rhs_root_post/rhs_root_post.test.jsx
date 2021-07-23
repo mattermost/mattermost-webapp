@@ -13,7 +13,7 @@ import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import {Locations} from 'utils/constants';
 
-jest.mock('utils/post_utils.jsx', () => ({
+jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
     isSystemMessage: jest.fn().mockReturnValue(false),
     fromAutoResponder: jest.fn().mockReturnValue(false),
