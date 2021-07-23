@@ -142,7 +142,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         // Set up tracking for whether the window is active
         window.isActive = true;
-        Utils.applyTheme(this.props.theme);
 
         if (UserAgent.isIosSafari()) {
             // Use iNoBounce to prevent scrolling past the boundaries of the page

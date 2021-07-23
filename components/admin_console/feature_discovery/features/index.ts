@@ -11,7 +11,6 @@ import DataRetentionFeatureDiscovery from './data_retention';
 import GuestAccessFeatureDiscovery from './guest_access';
 import SystemRolesFeatureDiscovery from './system_roles';
 import GroupsFeatureDiscovery from './groups';
-import PermissionsFeatureDiscovery from './permissions';
 
 export {
     LDAPFeatureDiscovery,
@@ -25,5 +24,4 @@ export {
     GuestAccessFeatureDiscovery,
     SystemRolesFeatureDiscovery,
     GroupsFeatureDiscovery,
-    PermissionsFeatureDiscovery,
 };
