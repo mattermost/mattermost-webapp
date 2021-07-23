@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import React, {HTMLAttributes} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';

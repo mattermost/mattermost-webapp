@@ -131,6 +131,17 @@ function onSubmitPost(post, fileInfos) {
     };
 }
 
+// Temporarily store draft manually in localStorage since the current version of redux-persist
+// we're on will not save the draft quickly enough on page unload.
+function setDraft(key, value) {
+    if (value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    } else {
+        localStorage.removeItem(key);
+    }
+    return setGlobalItem(key, value);
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -140,7 +151,7 @@ function mapDispatchToProps(dispatch) {
             moveHistoryIndexForward,
             addReaction,
             removeReaction,
-            setDraft: setGlobalItem,
+            setDraft,
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
