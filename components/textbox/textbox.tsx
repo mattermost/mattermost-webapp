@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -14,13 +13,13 @@ import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
+import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
-import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 
 type Props = {
     id: string;
@@ -39,6 +38,7 @@ type Props = {
     onBlur?: (e: FocusEvent) => void;
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
+    suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListStyle?: string;
     emojiEnabled?: boolean;
     isRHS?: boolean;
@@ -73,6 +73,7 @@ export default class Textbox extends React.PureComponent<Props> {
         isRHS: false,
         listenForMentionKeyClick: false,
         inputComponent: AutosizeTextarea,
+        suggestionList: SuggestionList,
     };
 
     constructor(props: Props) {
@@ -287,7 +288,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={this.props.inputComponent}
-                    listComponent={SuggestionList}
+                    listComponent={this.props.suggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
@@ -305,4 +306,3 @@ export default class Textbox extends React.PureComponent<Props> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
