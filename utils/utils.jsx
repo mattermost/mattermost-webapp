@@ -1164,16 +1164,17 @@ export function offsetTopLeft(el) {
     return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
 }
 
-export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 'top') {
+export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
     if (!textArea || !(textArea instanceof HTMLElement)) {
         return {
             pixelsToMoveX: 0,
             pixelsToMoveY: 0,
         };
     }
+
     const caretCoordinatesInTxtArea = getCaretXYCoordinate(textArea);
     const caretXCoordinateInTxtArea = caretCoordinatesInTxtArea.x;
-    let caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
+    const caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
     const viewportWidth = getViewportSize().w;
 
     const suggestionBoxWidth = getSuggestionBoxWidth(textArea);
@@ -1192,16 +1193,15 @@ export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 
         // stick the suggestion list to the very right of the TextArea
         pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
     }
-    const txtAreaLineHeight = Number(getComputedStyle(textArea)?.lineHeight.replace('px', ''));
-    if (boxLocation === 'bottom') {
-        // Add the line height and 4 extra px so it looks less tight
-        caretYCoordinateInTxtArea += txtAreaLineHeight + 4;
-    }
-    return {
-        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
 
-        // if the suggestion box was invoked from the first line in the post box, stick to the top of the post box
-        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea > txtAreaLineHeight ? caretYCoordinateInTxtArea : 0),
+    return {
+
+        // The rough location of the caret in the textbox
+        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
+        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea),
+
+        // The line height of the textbox is needed so that the SuggestionList can adjust its position to be below the current line in the textbox
+        lineHeight: Number(getComputedStyle(textArea)?.lineHeight.replace('px', '')),
     };
 }
 
