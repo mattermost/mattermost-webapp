@@ -40,7 +40,7 @@
             align-items: center;
             margin: 0 10px 0 0;
             color: rgba(var(--center-channel-color-rgb), 1);
-            grid-template-columns: min-content 1fr;
+            grid-template-columns: max-content 1fr;
 
             > span {
                 padding-right: 8px;
