@@ -6,6 +6,9 @@ import React from 'react';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
+
+import ThemeThumbnail from '../theme_thumbnail';
 
 export default class PremadeThemeChooser extends React.PureComponent {
     render() {
@@ -38,11 +41,18 @@ export default class PremadeThemeChooser extends React.PureComponent {
                             className={activeClass}
                             onClick={() => this.props.updateTheme(premadeTheme)}
                         >
-                            <label>
-                                <img
-                                    alt={'premade theme ' + k}
-                                    className='img-responsive'
-                                    src={premadeTheme.image}
+                            <label className=''>
+                                <ThemeThumbnail
+                                    sidebarBg={premadeTheme.sidebarBg}
+                                    sidebarText={changeOpacity(premadeTheme.sidebarText, 0.48)}
+                                    sidebarUnreadText={premadeTheme.sidebarUnreadText}
+                                    onlineIndicator={premadeTheme.onlineIndicator}
+                                    awayIndicator={premadeTheme.awayIndicator}
+                                    dndIndicator={premadeTheme.dndIndicator}
+                                    centerChannelColor={changeOpacity(premadeTheme.centerChannelColor, 0.16)}
+                                    centerChannelBg={premadeTheme.centerChannelBg}
+                                    newMessageSeparator={premadeTheme.newMessageSeparator}
+                                    buttonBg={premadeTheme.buttonBg}
                                 />
                                 <div className='theme-label'>{Utils.toTitleCase(premadeTheme.type)}</div>
                             </label>

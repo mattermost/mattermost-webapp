@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme, ThemeTypeMap} from 'mattermost-redux/types/themes';
 import {Preferences} from '../constants';
 
 export function makeStyleFromTheme(getStyleFromTheme: (a: any) => any): (a: any) => any {
@@ -116,20 +116,26 @@ export const blendColors = (background: string, foreground: string, opacity: num
     return `rgba(${red},${green},${blue},${alpha})`;
 };
 
+// object mapping theme types to their keys for retrieving the source themes
+// - supports mapping old themes to new themes
+const themeTypeMap: ThemeTypeMap = {
+    Mattermost: 'sapphire',
+    Organization: 'quartz',
+    'Mattermost Dark': 'indigo',
+    'Windows Dark': 'onyx',
+    Sapphire: 'sapphire',
+    Quartz: 'quartz',
+    Indigo: 'indigo',
+    Onyx: 'onyx',
+};
+
 // setThemeDefaults will set defaults on the theme for any unset properties.
 export function setThemeDefaults(theme: Theme): Theme {
-    const defaultTheme = Preferences.THEMES.default;
+    const defaultTheme = Preferences.THEMES.sapphire;
 
-    // If this is a system theme, find it in case the user's theme is missing any fields
-    if (theme.type && theme.type !== 'custom') {
-        const match = Object.values(Preferences.THEMES).find((v) => v.type === theme.type);
-        if (match) {
-            if (!match.mentionBg) {
-                match.mentionBg = match.mentionBj;
-            }
-
-            return match;
-        }
+    // If this is a system theme, return the source theme object matching the theme preference type
+    if (theme.type && theme.type !== 'custom' && Object.keys(themeTypeMap).includes(theme.type)) {
+        return Preferences.THEMES[themeTypeMap[theme.type]];
     }
 
     for (const key of Object.keys(defaultTheme)) {

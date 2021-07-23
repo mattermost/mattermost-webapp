@@ -5,6 +5,8 @@ import {CollapsedThreads} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
+import {ActiveThemeKeys} from './themes';
+
 export type ClientConfig = {
     AboutLink: string;
     AllowBannerDismissal: string;
@@ -37,7 +39,7 @@ export type ClientConfig = {
     DataRetentionFileRetentionDays: string;
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
-    DefaultTheme: 'default' | 'organization' | 'mattermostDark' | 'windows10';
+    DefaultTheme: ActiveThemeKeys;
     DesktopLatestVersion: string;
     DesktopMinVersion: string;
     DiagnosticId: string;

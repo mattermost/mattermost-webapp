@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage, WrappedComponentProps, injectIntl} from 'react-intl';
 
 import {blendColors, setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
