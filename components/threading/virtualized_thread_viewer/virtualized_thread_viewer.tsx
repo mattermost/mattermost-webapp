@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {PureComponent, RefObject} from 'react';
+import React, {CSSProperties, PureComponent, RefObject} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList, OnScrollArgs} from 'dynamic-virtualized-list';
 import memoize from 'memoize-one';
@@ -18,14 +18,13 @@ import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 import {FakePost} from 'types/store/rhs';
-import {getNewMessageIndex, getPreviousPostId, getLatestPostId} from 'utils/post_utils';
+import {getNewMessageIndex, getPreviousPostId, getLatestPostId, getOldestPostId} from 'utils/post_utils';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import {THREADING_TIME as BASE_THREADING_TIME} from 'components/threading/common/options';
 
 import CreateComment from './create_comment';
 import Row from './thread_viewer_row';
-import reply from './reply';
 
 type Props = {
     channel: Channel;
@@ -76,6 +75,7 @@ const OVERSCAN_COUNT_BACKWARD = 30;
 class ThreadViewerVirtualized extends PureComponent<Props, State> {
     private mounted = false;
     private scrollStopAction: DelayedAction;
+    private oldestPostId: $ID<Post>;
     private latestPostId: $ID<Post>;
     postCreateContainerRef: React.RefObject<HTMLDivElement>;
     listRef: RefObject<DynamicSizeList>;
@@ -97,6 +97,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         this.innerRef = React.createRef();
         this.postCreateContainerRef = React.createRef();
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
+        this.oldestPostId = getOldestPostId(props.replyListIds);
         this.latestPostId = getLatestPostId(props.replyListIds);
 
         this.state = {
@@ -132,6 +133,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
         if (replyListIds !== prevProps.replyListIds) {
             this.latestPostId = getLatestPostId(replyListIds);
+            this.oldestPostId = getLatestPostId(replyListIds);
         }
     }
 
@@ -277,9 +279,8 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             a11Index++;
         }
 
-        // Since the first in the list is the latest message
         const isLastPost = itemId === this.latestPostId;
-        const isFirstPost = itemId === this.props.replyListIds[this.props.replyListIds.length - (this.props.useRelativeTimestamp ? 1 : 2)];
+        const isFirstPost = itemId === this.oldestPostId;
 
         return (
             <div
@@ -317,17 +318,27 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         );
     });
 
+    getInnerStyles = (): React.CSSProperties|undefined => {
+        if (!this.props.useRelativeTimestamp) {
+            return {
+                paddingTop: '28px',
+            };
+        }
+
+        return undefined;
+    }
+
     render() {
-        const {isMobile} = this.state;
+        const {isMobile, topRhsPostId} = this.state;
 
         return (
             <>
-                {isMobile && this.state.topRhsPostId && !this.props.useRelativeTimestamp && (
+                {isMobile && topRhsPostId && !this.props.useRelativeTimestamp && (
                     <FloatingTimestamp
                         isMobile={true}
                         isRhsPost={true}
                         isScrolling={this.state.isScrolling}
-                        postId={this.state.topRhsPostId}
+                        postId={topRhsPostId}
                     />
                 )}
                 <div
@@ -347,6 +358,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                                 height={height}
                                 initRangeToRender={this.initRangeToRender}
                                 initScrollToIndex={this.initScrollToIndex}
+                                innerListStyle={this.getInnerStyles()}
                                 innerRef={this.innerRef}
                                 itemData={this.props.replyListIds}
                                 onItemsRendered={this.onItemsRendered}
