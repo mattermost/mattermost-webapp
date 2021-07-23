@@ -359,6 +359,7 @@
   "admin.billing.subscription.unlimitedUsers": "Unlimitierte Benutzer",
   "admin.billing.subscription.updatePaymentInfo": "Zahlungsinformationen aktualisieren",
   "admin.billing.subscription.upgrade": "Upgrade",
+  "admin.billing.subscription.upgradeCloudSubscription": "Erweitern Sie Ihr Mattermost Cloud Abonnement",
   "admin.billing.subscription.upgradeMattermostCloud.description": "Die kostenlose Stufe ist **auf 10 Benutzer begrenzt.** Erhalten Sie Zugang zu mehr Benutzern, Teams und anderen großartigen Funktionen",
   "admin.billing.subscription.upgradeMattermostCloud.title": "Benötigen Sie mehr Benutzer?",
   "admin.billing.subscription.upgradeMattermostCloud.upgradeButton": "Upgrade Mattermost Cloud",
