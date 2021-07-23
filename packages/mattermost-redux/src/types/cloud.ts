@@ -82,7 +82,7 @@ export type Address = {
 // PaymentMethod represents methods of payment for a customer.
 export type PaymentMethod = {
     type: string;
-    last_four: number;
+    last_four: string;
     exp_month: number;
     exp_year: number;
     card_brand: string;
