@@ -22,20 +22,27 @@ export default function HelpCommands(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.commands.intro1'
-                    defaultMessage='You can execute commands by typing into the text input box to perform operations in Mattermost. These commands are called slash commands. To run a slash command, type `/` followed by a command and some arguments to perform actions.'
+                    defaultMessage='You can execute commands, called slash commands, by typing into the text input box to perform operations in Mattermost. To run a slash command, type `/` followed by a command and some arguments to perform actions.'
                 />
             </p>
+
+            <h2 className='markdown__heading'>
+                <FormattedMarkdownMessage
+                    id='help.commands.builtin.title'
+                    defaultMessage='Built-In Commands'
+                />
+            </h2>
 
             <p>
                 <FormattedMarkdownMessage
                     id='help.commands.intro2'
-                    defaultMessage='Built-in slash commands come with all Mattermost installations. See the [product documentation](!https://docs.mattermost.com/messaging/executing-slash-commands.html#built-in-commands) for a list of available built-in slash commands. Custom slash commands can interact with external applications.'
+                    defaultMessage='Built-in slash commands come with all Mattermost installations. See the [product documentation](!https://docs.mattermost.com/messaging/executing-slash-commands.html) for a list of available built-in slash commands.'
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
                     id='help.commands.builtin2'
-                    defaultMessage='Begin by typing `/`. A list of slash command options displays above the text input box. The autocomplete suggestions help by providing a format example in black text and a short description of the slash command in grey text.'
+                    defaultMessage='Begin by typing `/`. A list of slash command options displays above the text input box. The autocomplete suggestions provide you with a format example in black text and a short description of the slash command in grey text.'
                 />
             </p>
 
@@ -57,14 +64,14 @@ export default function HelpCommands(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.commands.custom.description'
-                    defaultMessage='Custom slash commands integrate with external applications. For example, a team might configure a custom slash command to check internal health records with `/patient joe smith` or check the weekly weather forecast in a city with `/weather toronto week`. Check with your System Admin, or open the autocomplete list by typing `/`, to determine whether custom slash commands are available for your organization.'
+                    defaultMessage='Custom slash commands can integrate with external applications. For example, a team might configure a custom slash command to check internal health records with `/patient joe smith` or check the weekly weather forecast in a city with `/weather toronto week`. Check with your System Admin, or open the autocomplete list by typing `/`, to determine whether custom slash commands are available for your organization.'
                 />
             </p>
 
             <p>
                 <FormattedMarkdownMessage
                     id='help.commands.custom2'
-                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to **Integrations > Integration Management**. Learn about configuring custom slash commands on the [developer slash command documentation page](!https://docs.mattermost.com/developer/slash-commands.html).'
+                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to **Integrations > Integration Management**. Learn about configuring custom slash commands on the [developer slash command documentation page](!https://developers.mattermost.com/integrate/slash-commands/).'
                 />
             </p>
 

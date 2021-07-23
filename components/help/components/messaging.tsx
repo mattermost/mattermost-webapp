@@ -17,6 +17,7 @@ export default function Messaging(): JSX.Element {
                 />
             </h1>
             <hr/>
+
             <p>
                 <FormattedMarkdownMessage
                     id='help.messaging.write'
@@ -45,7 +46,7 @@ export default function Messaging(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.messaging.format'
-                    defaultMessage='**Format Your Messages:** Use Markdown to include text styling, headings, links, emoticons, code blocks, block quotes, tables, lists, and in-line images in your messages.'
+                    defaultMessage='**Format Your Messages:** Use Markdown to include text styling, headings, links, emoticons, code blocks, block quotes, tables, lists, and in-line images in your messages. See the following table for common formatting examples.'
                 />
             </p>
             <p>
