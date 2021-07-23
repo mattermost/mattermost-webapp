@@ -8,9 +8,9 @@ import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, FormResponseData, AppLookupResponse, AppFormValue} from 'mattermost-redux/types/apps';
 import {DialogElement} from 'mattermost-redux/types/integrations';
-import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {DoAppCallResult} from 'types/apps';
 
@@ -38,22 +38,27 @@ export type AppsFormProps = {
     };
 }
 
-type Props = AppsFormProps & WrappedComponentProps<'intl'>;
+export type Props = AppsFormProps & WrappedComponentProps<'intl'>;
 
-type State = {
+export type State = {
     show: boolean;
-    values: {[name: string]: string};
+    values: AppFormValues;
     formError: string | null;
     fieldErrors: {[name: string]: React.ReactNode};
     submitting: boolean;
     form: AppForm;
 }
 
-const initFormValues = (form: AppForm): {[name: string]: string} => {
-    const values: {[name: string]: any} = {};
+const initFormValues = (form: AppForm): AppFormValues => {
+    const values: AppFormValues = {};
     if (form && form.fields) {
         form.fields.forEach((f) => {
-            values[f.name] = f.value || null;
+            let defaultValue: AppFormValue = null;
+            if (f.type === AppFieldTypes.BOOL) {
+                defaultValue = false;
+            }
+
+            values[f.name] = f.value || defaultValue;
         });
     }
 
