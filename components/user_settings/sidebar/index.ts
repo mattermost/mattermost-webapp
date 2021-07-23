@@ -38,8 +38,6 @@ function mapStateToProps(state: GlobalState) {
         unreadsAtTop: sidebarPreference.unreads_at_top,
         favoriteAtTop: sidebarPreference.favorite_at_top,
         channelSwitcherOption,
-        showChannelOrganization: config.ExperimentalChannelOrganization === 'true',
-        showUnusedOption: config.CloseUnusedDirectMessages === 'true',
         user: getCurrentUser(state),
         enableLegacySidebar: config.EnableLegacySidebar === 'true',
     };
