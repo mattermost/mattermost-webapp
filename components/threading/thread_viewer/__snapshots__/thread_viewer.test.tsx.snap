@@ -67,7 +67,6 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
                   "reactions": Array [],
                 },
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "reply_count": 3,

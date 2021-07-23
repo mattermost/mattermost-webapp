@@ -29,7 +29,6 @@ describe('components/RhsRootPost', () => {
         is_pinned: false,
         message: 'post message',
         original_id: '',
-        parent_id: '',
         pending_post_id: '',
         props: {},
         root_id: '',

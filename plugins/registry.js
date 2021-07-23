@@ -522,7 +522,6 @@ export default class PluginRegistry {
     //            channel_id: channelId,
     //            team_id: teamId,
     //            root_id: rootId,
-    //            parent_id: rootId,
     //        }
     //
     // To reject a command, return an object containing an error:

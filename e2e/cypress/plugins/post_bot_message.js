@@ -19,7 +19,6 @@ module.exports = async ({token, message, props = {}, channelId, rootId, createAt
                 props,
                 type: '',
                 create_at: createAt,
-                parent_id: rootId,
                 root_id: rootId,
             },
         });
