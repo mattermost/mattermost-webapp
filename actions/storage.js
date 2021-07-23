@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {batchActions} from 'mattermost-redux/types/actions';
+
 import {StoragePrefixes, StorageTypes} from 'utils/constants';
 import {getPrefix} from 'utils/storage_utils';
-
-import {batchActions} from 'mattermost-redux/types/actions';
 
 export function setItem(name, value) {
     return (dispatch, getState) => {
