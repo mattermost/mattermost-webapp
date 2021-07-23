@@ -4,6 +4,8 @@
 import React, {memo, forwardRef} from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
+import {Post} from 'mattermost-redux/types/posts';
+import {$ID} from 'mattermost-redux/types/utilities';
 
 import GenericCreateComment from 'components/create_comment';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -19,6 +21,7 @@ type Props = {
     onHeightChange: () => void;
     teammate?: UserProfile;
     threadId: string;
+    latestPostId: $ID<Post>;
 };
 
 const CreateComment = forwardRef<HTMLDivElement, Props>(({
@@ -31,6 +34,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
     onHeightChange,
     teammate,
     threadId,
+    latestPostId,
 }: Props, ref) => {
     if (channelType === Constants.DM_CHANNEL && teammate?.delete_at) {
         return (
@@ -66,12 +70,13 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
             ref={ref}
         >
             <GenericCreateComment
-                isFakeDeletedPost={isFakeDeletedPost}
-                onHeightChange={onHeightChange}
-                channelId={channelId}
-                rootId={threadId}
-                rootDeleted={isDeleted}
                 blockFocus={blockFocus}
+                channelId={channelId}
+                isFakeDeletedPost={isFakeDeletedPost}
+                latestPostId={latestPostId}
+                onHeightChange={onHeightChange}
+                rootDeleted={isDeleted}
+                rootId={threadId}
             />
         </div>
     );

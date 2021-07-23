@@ -25,6 +25,7 @@ import {THREADING_TIME as BASE_THREADING_TIME} from 'components/threading/common
 
 import CreateComment from './create_comment';
 import Row from './thread_viewer_row';
+import reply from './reply';
 
 type Props = {
     channel: Channel;
@@ -75,6 +76,7 @@ const OVERSCAN_COUNT_BACKWARD = 30;
 class ThreadViewerVirtualized extends PureComponent<Props, State> {
     private mounted = false;
     private scrollStopAction: DelayedAction;
+    private latestPostId: $ID<Post>;
     postCreateContainerRef: React.RefObject<HTMLDivElement>;
     listRef: RefObject<DynamicSizeList>;
     innerRef: RefObject<HTMLDivElement>;
@@ -95,6 +97,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         this.innerRef = React.createRef();
         this.postCreateContainerRef = React.createRef();
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
+        this.latestPostId = getLatestPostId(props.replyListIds);
 
         this.state = {
             isMobile,
@@ -116,7 +119,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        const {highlightedPostId, lastPost, currentUserId} = this.props;
+        const {highlightedPostId, lastPost, currentUserId, replyListIds} = this.props;
 
         if (highlightedPostId && prevProps.highlightedPostId !== highlightedPostId) {
             this.scrollToHighlightedPost();
@@ -125,6 +128,10 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             (lastPost.user_id === currentUserId || this.state.userScrolledToBottom)
         ) {
             this.scrollToBottom();
+        }
+
+        if (replyListIds !== prevProps.replyListIds) {
+            this.latestPostId = getLatestPostId(replyListIds);
         }
     }
 
@@ -271,7 +278,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
 
         // Since the first in the list is the latest message
-        const isLastPost = itemId === getLatestPostId(this.props.replyListIds);
+        const isLastPost = itemId === this.latestPostId;
         const isFirstPost = itemId === this.props.replyListIds[this.props.replyListIds.length - (this.props.useRelativeTimestamp ? 1 : 2)];
 
         return (
@@ -280,8 +287,8 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                 className={className}
             >
                 <Row
-                    currentUserId={this.props.currentUserId}
                     a11Index={a11Index}
+                    currentUserId={this.props.currentUserId}
                     isFirstPost={isFirstPost}
                     isLastPost={isLastPost}
                     listId={itemId}
@@ -295,14 +302,15 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                     <CreateComment
                         blockFocus={!this.canScrollToBottom()}
                         channelId={this.props.channel.id}
-                        isFakeDeletedPost={this.props.selected.type === Constants.PostTypes.FAKE_PARENT_DELETED}
                         channelIsArchived={this.props.channel.delete_at !== 0}
-                        isDeleted={(this.props.selected as Post).state === Posts.POST_DELETED}
-                        threadId={this.props.selected.id}
-                        onHeightChange={this.scrollToBottom}
                         channelType={this.props.channel.type}
-                        teammate={this.props.directTeammate}
+                        isDeleted={(this.props.selected as Post).state === Posts.POST_DELETED}
+                        isFakeDeletedPost={this.props.selected.type === Constants.PostTypes.FAKE_PARENT_DELETED}
+                        latestPostId={this.latestPostId}
+                        onHeightChange={this.scrollToBottom}
                         ref={this.postCreateContainerRef}
+                        teammate={this.props.directTeammate}
+                        threadId={this.props.selected.id}
                     />
                 )}
             </div>
@@ -316,9 +324,9 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             <>
                 {isMobile && this.state.topRhsPostId && !this.props.useRelativeTimestamp && (
                     <FloatingTimestamp
-                        isScrolling={this.state.isScrolling}
                         isMobile={true}
                         isRhsPost={true}
+                        isScrolling={this.state.isScrolling}
                         postId={this.state.topRhsPostId}
                     />
                 )}
