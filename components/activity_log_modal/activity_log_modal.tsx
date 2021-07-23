@@ -2,54 +2,61 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import ActivityLog from 'components/activity_log_modal/components/activity_log';
-import LoadingScreen from 'components/loading_screen';
+import {Session} from 'mattermost-redux/types/sessions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
-export default class ActivityLogModal extends React.PureComponent {
+import ActivityLog from 'components/activity_log_modal/components/activity_log';
+
+export type Props = {
+
+    /**
+     * The current user id
+     */
+    currentUserId: string;
+
+    /**
+     * Current user's sessions
+     */
+    sessions: Session[];
+
+    /**
+     * Current user's locale
+     */
+    locale: string;
+
+    /**
+     * Function that's called when user closes the modal
+     */
+    onHide: () => void;
+
+    actions: {
+
+        /**
+         * Function to refresh sessions from server
+         */
+        getSessions: (userId: string) => ActionFunc;
+
+        /**
+         * Function to revoke a particular session
+         */
+        revokeSession: (userId: string, sessionId: string) => Promise<{ data: boolean }>;
+    };
+}
+
+type State = {
+    show: boolean;
+}
+
+export default class ActivityLogModal extends React.PureComponent<Props, State> {
     static propTypes = {
 
-        /**
-         * The current user id
-         */
-        currentUserId: PropTypes.string.isRequired,
-
-        /**
-         * Current user's sessions
-         */
-        sessions: PropTypes.oneOfType([
-            PropTypes.array,
-            PropTypes.object,
-        ]).isRequired,
-
-        /**
-         * Current user's locale
-         */
-        locale: PropTypes.string.isRequired,
-
-        /**
-         * Function that's called when user closes the modal
-         */
-        onHide: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-
-            /**
-             * Function to refresh sessions from server
-             */
-            getSessions: PropTypes.func.isRequired,
-
-            /**
-             * Function to revoke a particular session
-             */
-            revokeSession: PropTypes.func.isRequired,
-        }).isRequired,
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -57,9 +64,9 @@ export default class ActivityLogModal extends React.PureComponent {
         };
     }
 
-    submitRevoke = (altId, e) => {
+    submitRevoke = (altId: string, e: React.MouseEvent) => {
         e.preventDefault();
-        var modalContent = $(e.target).closest('.modal-content'); // eslint-disable-line jquery/no-closest
+        const modalContent = $(e.target).closest('.modal-content'); // eslint-disable-line jquery/no-closest
         modalContent.addClass('animation--highlight');
         setTimeout(() => {
             modalContent.removeClass('animation--highlight');
@@ -82,29 +89,24 @@ export default class ActivityLogModal extends React.PureComponent {
     }
 
     render() {
-        let content;
-        if (this.props.sessions.loading) {
-            content = <LoadingScreen/>;
-        } else {
-            const activityList = this.props.sessions.reduce((array, currentSession, index) => {
-                if (currentSession.props.type === 'UserAccessToken') {
-                    return array;
-                }
-
-                array.push(
-                    <ActivityLog
-                        key={currentSession.id}
-                        index={index}
-                        locale={this.props.locale}
-                        currentSession={currentSession}
-                        submitRevoke={this.submitRevoke}
-                    />,
-                );
+        const activityList = this.props.sessions.reduce((array: JSX.Element[], currentSession, index) => {
+            if (currentSession.props.type === 'UserAccessToken') {
                 return array;
-            }, []);
+            }
 
-            content = <form role='form'>{activityList}</form>;
-        }
+            array.push(
+                <ActivityLog
+                    key={currentSession.id}
+                    index={index}
+                    locale={this.props.locale}
+                    currentSession={currentSession}
+                    submitRevoke={this.submitRevoke}
+                />,
+            );
+            return array;
+        }, []);
+
+        const content = <form role='form'>{activityList}</form>;
 
         return (
             <Modal

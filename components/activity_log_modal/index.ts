@@ -2,16 +2,18 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getSessions, revokeSession} from 'mattermost-redux/actions/users';
 import {getCurrentUserId, getUserSessions} from 'mattermost-redux/selectors/entities/users';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {getCurrentLocale} from 'selectors/i18n';
+import {GlobalState} from 'types/store';
 
-import ActivityLogModal from './activity_log_modal.jsx';
+import ActivityLogModal, {Props} from './activity_log_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         currentUserId: getCurrentUserId(state),
         sessions: getUserSessions(state),
@@ -19,9 +21,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc| GenericAction>, Props['actions']>({
             getSessions,
             revokeSession,
         }, dispatch),
