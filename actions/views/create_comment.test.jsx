@@ -348,21 +348,11 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a reaction when message is +:smile:', () => {
-            store = mockStore({
-                ...initialState,
-                storage: {
-                    storage: {
-                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                            value: {
-                                message: '+:smile:',
-                                fileInfos: [],
-                                uploadsInProgress: [],
-                            },
-                            timestamp: new Date(),
-                        },
-                    },
-                },
-            });
+            store.dispatch(onSubmit({
+                message: '+:smile:',
+                fileInfos: [],
+                uploadsInProgress: [],
+            }));
 
             store.dispatch(onSubmit());
 
