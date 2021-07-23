@@ -258,8 +258,8 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
     );
 
     NoOptionsMessage = ({selectProps, props}: {
-        selectProps: {inputValue: string};
-        props: NoticeProps<OptionsType<OptionTypeBase>>;
+        selectProps: {inputValue?: string};
+        props?: any;
     }): ReactElement|null => {
         const inputValue = selectProps.inputValue;
         if (!inputValue) {
