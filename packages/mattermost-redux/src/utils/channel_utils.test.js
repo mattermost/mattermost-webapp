@@ -105,56 +105,6 @@ describe('ChannelUtils', () => {
         assert.ok(!canManageMembersOldPermissions(privateChannel, systemUser, teamUser, channelUser, systemAdminsCanManageMembers, licensed));
     });
 
-    it('isAutoClosed', () => {
-        const autoCloseEnabled = {CloseUnusedDirectMessages: 'true'};
-        const autoCloseDisabled = {CloseUnusedDirectMessages: 'false'};
-        const activeChannel = {id: 'channelid', last_post_at: new Date().getTime()};
-        const inactiveChannel = {id: 'channelid', last_post_at: 1};
-        const now = new Date().getTime();
-
-        assert.ok(isAutoClosed(autoCloseEnabled, {}, inactiveChannel));
-
-        assert.ok(isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-        }, inactiveChannel));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-        }, inactiveChannel, now));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-        }, activeChannel));
-
-        assert.ok(!isAutoClosed(autoCloseDisabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-        }, inactiveChannel));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-            'channel_open_time--channelid': {value: now.toString()},
-        }, inactiveChannel));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'never'},
-        }, inactiveChannel));
-
-        assert.ok(isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-            'channel_open_time--channelid': {value: (now - 1000).toString()},
-        }, inactiveChannel, 0, now));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-            'channel_open_time--channelid': {value: now.toString()},
-        }, inactiveChannel, 0, now - 1000));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-            'channel_open_time--channelid': {value: (now - 1000).toString()},
-        }, inactiveChannel, 0, now, 'channelid'));
-    });
-
     it('areChannelMentionsIgnored', () => {
         const currentUserNotifyProps1 = {channel: 'true'};
         const channelMemberNotifyProps1 = {ignore_channel_mentions: Users.IGNORE_CHANNEL_MENTIONS_DEFAULT};

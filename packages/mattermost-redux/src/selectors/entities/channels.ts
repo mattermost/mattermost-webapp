@@ -374,7 +374,7 @@ export function isChannelReadOnly(state: GlobalState, channel: Channel): boolean
 }
 
 export function shouldHideDefaultChannel(state: GlobalState, channel: Channel): boolean {
-    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalHideTownSquareinLHS === 'true';
+    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state);
 }
 
 export const countCurrentChannelUnreadMessages: (state: GlobalState) => number = createSelector(

@@ -155,7 +155,7 @@ export function isAutoClosed(
         return true;
     }
 
-    if (config.CloseUnusedDirectMessages !== 'true' || isFavoriteChannelOld(myPreferences, channel.id)) {
+    if (isFavoriteChannelOld(myPreferences, channel.id)) {
         return false;
     }
 

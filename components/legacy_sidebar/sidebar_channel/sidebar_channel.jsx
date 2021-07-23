@@ -224,12 +224,6 @@ class SidebarChannel extends React.PureComponent {
             }
             if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
                 closeHandler = this.handleLeaveDirectChannel;
-            } else if (this.props.config.EnableXToLeaveChannelsFromLHS === 'true') {
-                if (this.props.channelType === Constants.OPEN_CHANNEL && this.props.channelName !== Constants.DEFAULT_CHANNEL) {
-                    closeHandler = this.handleLeavePublicChannel;
-                } else if (this.props.channelType === Constants.PRIVATE_CHANNEL) {
-                    closeHandler = this.handleLeavePrivateChannel;
-                }
             }
         }
 

@@ -92,17 +92,4 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
-
-    test('should use correct close handler when experimental setting is enabled', () => {
-        const props = {
-            ...baseProps,
-            enableXToLeaveChannelsFromLHS: 'true',
-        };
-
-        const wrapper = shallow<SidebarBaseChannel>(
-            <SidebarBaseChannel {...props}/>,
-        );
-
-        expect(wrapper.instance().getCloseHandler()).toBe(wrapper.instance().handleLeavePublicChannel);
-    });
 });

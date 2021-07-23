@@ -24,7 +24,6 @@ export type ClientConfig = {
     BuildHash: string;
     BuildHashEnterprise: string;
     BuildNumber: string;
-    CloseUnusedDirectMessages: string;
     CollapsedThreads: CollapsedThreads;
     CustomBrandText: string;
     CustomDescriptionText: string;
@@ -103,7 +102,6 @@ export type ClientConfig = {
     EnableUserCreation: string;
     EnableUserDeactivation: string;
     EnableUserTypingMessages: string;
-    EnableXToLeaveChannelsFromLHS: string;
     EnforceMultifactorAuthentication: string;
     ExperimentalChannelOrganization: string;
     ExperimentalClientSideCertCheck: string;
@@ -117,7 +115,6 @@ export type ClientConfig = {
     ExperimentalEnableDefaultChannelLeaveJoinMessages: string;
     ExperimentalEnablePostMetadata: string;
     ExperimentalGroupUnreadChannels: string;
-    ExperimentalHideTownSquareinLHS: string;
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
     ExperimentalTownSquareIsReadOnly: string;
@@ -311,7 +308,6 @@ export type ServiceSettings = {
     EnableUserStatuses: boolean;
     ExperimentalEnableAuthenticationTransfer: boolean;
     ClusterLogTimeoutMilliseconds: number;
-    CloseUnusedDirectMessages: boolean;
     EnablePreviewFeatures: boolean;
     EnableTutorial: boolean;
     ExperimentalEnableDefaultChannelLeaveJoinMessages: boolean;
@@ -323,7 +319,6 @@ export type ServiceSettings = {
     ImageProxyOptions: string;
     EnableAPITeamDeletion: boolean;
     ExperimentalEnableHardenedMode: boolean;
-    DisableLegacyMFA: boolean;
     ExperimentalStrictCSRFEnforcement: boolean;
     EnableEmailInvitations: boolean;
     DisableBotsWhenOwnerIsDeactivated: boolean;
@@ -357,7 +352,6 @@ export type TeamSettings = {
     RestrictPublicChannelDeletion: string;
     RestrictPrivateChannelDeletion: string;
     RestrictPrivateChannelManageMembers: string;
-    EnableXToLeaveChannelsFromLHS: boolean;
     UserStatusAwayTimeout: number;
     MaxChannelsPerTeam: number;
     MaxNotificationsPerChannel: number;
@@ -365,7 +359,6 @@ export type TeamSettings = {
     TeammateNameDisplay: string;
     ExperimentalViewArchivedChannels: boolean;
     ExperimentalEnableAutomaticReplies: boolean;
-    ExperimentalHideTownSquareinLHS: boolean;
     ExperimentalTownSquareIsReadOnly: boolean;
     LockTeammateNameDisplay: boolean;
     ExperimentalPrimaryTeam: string;
