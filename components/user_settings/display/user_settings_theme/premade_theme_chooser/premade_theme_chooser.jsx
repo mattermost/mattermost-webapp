@@ -41,7 +41,7 @@ export default class PremadeThemeChooser extends React.PureComponent {
                             className={activeClass}
                             onClick={() => this.props.updateTheme(premadeTheme)}
                         >
-                            <label className=''>
+                            <label>
                                 <ThemeThumbnail
                                     sidebarBg={premadeTheme.sidebarBg}
                                     sidebarText={changeOpacity(premadeTheme.sidebarText, 0.48)}
