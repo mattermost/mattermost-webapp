@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme, ThemeKey} from 'mattermost-redux/types/themes';
 
 const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
@@ -168,7 +168,7 @@ const Preferences = {
             codeTheme: 'monokai',
             sidebarTeamBarBg: '#1b1d22',
         },
-    } as Record<string, Theme>,
+    } as Record<ThemeKey, Theme>,
 };
 
 export default Preferences;

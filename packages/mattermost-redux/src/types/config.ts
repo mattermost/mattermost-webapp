@@ -5,7 +5,7 @@ import {CollapsedThreads} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
-import {ActiveThemeKeys} from './themes';
+import {ThemeKey} from './themes';
 
 export type ClientConfig = {
     AboutLink: string;
@@ -39,7 +39,7 @@ export type ClientConfig = {
     DataRetentionFileRetentionDays: string;
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
-    DefaultTheme: ActiveThemeKeys;
+    DefaultTheme: ThemeKey;
     DesktopLatestVersion: string;
     DesktopMinVersion: string;
     DiagnosticId: string;

@@ -116,7 +116,7 @@ export const blendColors = (background: string, foreground: string, opacity: num
     return `rgba(${red},${green},${blue},${alpha})`;
 };
 
-// object mapping theme types to their keys for retrieving the source themes
+// object mapping theme types to their respective keys for retrieving the source themes directly
 // - supports mapping old themes to new themes
 const themeTypeMap: ThemeTypeMap = {
     Mattermost: 'sapphire',
