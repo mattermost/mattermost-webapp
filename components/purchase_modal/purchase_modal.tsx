@@ -229,8 +229,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         // if not on trial, only show current plan and those higher than it in terms of price
         if (!this.props.isFreeTrial) {
             if (currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
+                flatFeeProducts = [];
                 userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
-                    flatFeeProducts = [];
                     return option.price >= currentProduct.price_per_seat;
                 });
             } else {
