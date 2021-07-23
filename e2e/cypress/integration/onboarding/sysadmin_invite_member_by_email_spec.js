@@ -7,9 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding @cloud_only
+// Group: @onboarding
 
-describe('Cloud Onboarding - Sysadmin invite members by email', () => {
+describe('Onboarding - Sysadmin invite members by email', () => {
     let teamId;
     let townSquarePage;
     let sysadmin;
