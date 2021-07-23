@@ -14,7 +14,6 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {FakePost} from 'types/store/rhs';
 
-import {getHighlightedPostId} from 'selectors/rhs';
 import {makePrepareReplyIdsForThreadViewer, makeGetThreadLastViewedAt} from 'selectors/views/threads';
 
 import {GlobalState} from 'types/store';
@@ -40,7 +39,6 @@ function makeMapStateToProps() {
         const currentUserId = getCurrentUserId(state);
         const lastViewedAt = getThreadLastViewedAt(state, selected.id);
         const directTeammate = getDirectTeammate(state, channel.id);
-        const highlightedPostId = getHighlightedPostId(state);
 
         const lastPost = getPost(state, postIds[0]);
 
@@ -55,7 +53,6 @@ function makeMapStateToProps() {
         return {
             currentUserId,
             directTeammate,
-            highlightedPostId,
             lastPost,
             replyListIds,
             teamId: channel.team_id,

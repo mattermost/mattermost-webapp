@@ -21,6 +21,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
+import {getHighlightedPostId} from 'selectors/rhs';
 import {updateThreadLastOpened} from 'actions/views/threads';
 import {GlobalState} from 'types/store';
 
@@ -40,6 +41,7 @@ function makeMapStateToProps() {
         const currentTeamId = getCurrentTeamId(state);
         const selected = getPost(state, rootPostId);
         const socketStatus = getSocketStatus(state);
+        const highlightedPostId = getHighlightedPostId(state);
 
         let posts: Post[] = [];
         let postIds: string[] = [];
@@ -63,6 +65,7 @@ function makeMapStateToProps() {
             postIds,
             socketConnectionStatus: socketStatus.connected,
             channel,
+            highlightedPostId,
         };
     };
 }

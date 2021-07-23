@@ -51,7 +51,7 @@ type State = {
 const virtListStyles = {
     position: 'absolute',
     top: '0',
-    maxHeight: '100%',
+    height: '100%',
     willChange: 'auto',
 };
 
@@ -197,8 +197,11 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
     }
 
-    shouldScrollToBottom = (): boolean => {
-        return this.getInitialPostIndex() === 0;
+    canScrollToBottom = (): boolean => {
+        return (
+            this.getInitialPostIndex() === 0 ||
+            (this.state.userScrolled && !this.state.isScrolling)
+        );
     }
 
     getInitialPostIndex = (): number => {
@@ -220,7 +223,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     scrollToBottom = () => {
-        if (this.shouldScrollToBottom()) {
+        if (this.canScrollToBottom()) {
             this.scrollToItem(0, 'end');
         }
     }
@@ -290,7 +293,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                 />
                 {isLastPost && (
                     <CreateComment
-                        blockFocus={!this.shouldScrollToBottom()}
+                        blockFocus={!this.canScrollToBottom()}
                         channelId={this.props.channel.id}
                         isFakeDeletedPost={this.props.selected.type === Constants.PostTypes.FAKE_PARENT_DELETED}
                         channelIsArchived={this.props.channel.delete_at !== 0}

@@ -11,6 +11,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
+import {$ID} from 'mattermost-redux/types/utilities';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -45,6 +46,7 @@ type Props = Attrs & {
     };
     useRelativeTimestamp?: boolean;
     postIds: string[];
+    highlightedPostId: $ID<Post>;
 };
 
 type State = {
@@ -213,7 +215,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
                     <div style={{flex: '1 1 auto'}}>
                         {this.props.selected && (
                             <DeferredThreadViewerVirt
-                                key={this.props.selected.id}
+                                key={`${this.props.selected.id}${this.props.highlightedPostId}`}
                                 channel={this.props.channel}
                                 onCardClick={this.handleCardClick}
                                 onCardClickPost={this.handleCardClickPost}
@@ -222,6 +224,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
                                 removePost={this.props.actions.removePost}
                                 selected={this.props.selected}
                                 useRelativeTimestamp={this.props.useRelativeTimestamp || false}
+                                highlightedPostId={this.props.highlightedPostId}
                             />
                         )}
                     </div>
