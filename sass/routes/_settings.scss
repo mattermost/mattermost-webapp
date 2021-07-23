@@ -314,11 +314,12 @@
                             &:hover {
                                 cursor: pointer;
                             }
-                            border: solid 2px rgba(var(--center-channel-color-rgb), 0.16);
-                            border-radius: 4px;
+
                             overflow: hidden;
                             width: 100%;
                             height: auto;
+                            border: solid 2px rgba(var(--center-channel-color-rgb), 0.16);
+                            border-radius: 4px;
                         }
 
                         .active {
