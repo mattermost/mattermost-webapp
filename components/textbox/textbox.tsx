@@ -25,8 +25,9 @@ type Props = {
     id: string;
     channelId: string;
     rootId?: string;
+    tabIndex: number;
     value: string;
-    onChange: (e: ChangeEvent) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (e: KeyboardEvent) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
