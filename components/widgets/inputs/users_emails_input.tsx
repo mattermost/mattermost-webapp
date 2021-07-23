@@ -141,7 +141,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         };
     }
 
-    renderUserName = (user: UserProfile): React.ReactFragment => {
+    renderUserName = (user: IOptionType): React.ReactFragment => {
         const parts = getLongDisplayNameParts(user);
         let fullName = null;
         if (parts.fullName) {
@@ -172,11 +172,11 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         return (<LoadingSpinner text={text}/>);
     }
 
-    getOptionValue = (user: UserProfile) => {
+    getOptionValue = (user:IOptionType) => {
         return user.id || user.value;
     }
 
-    formatOptionLabel = (user: UserProfile, options: {context: string}): React.ReactFragment => {
+    formatOptionLabel = (user: IOptionType, options: {context: string}): React.ReactFragment => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
         let botBadge = null;
