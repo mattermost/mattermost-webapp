@@ -18,7 +18,7 @@ import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 import {FakePost} from 'types/store/rhs';
-import {getNewMessageIndex, getPreviousPostId, getLatestPostId, getOldestPostId} from 'utils/post_utils';
+import {getNewMessageIndex, getPreviousPostId, getLatestPostId} from 'utils/post_utils';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import {THREADING_TIME as BASE_THREADING_TIME} from 'components/threading/common/options';
@@ -75,7 +75,6 @@ const OVERSCAN_COUNT_BACKWARD = 30;
 class ThreadViewerVirtualized extends PureComponent<Props, State> {
     private mounted = false;
     private scrollStopAction: DelayedAction;
-    private oldestPostId: $ID<Post>;
     private latestPostId: $ID<Post>;
     postCreateContainerRef: React.RefObject<HTMLDivElement>;
     listRef: RefObject<DynamicSizeList>;
@@ -97,7 +96,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         this.innerRef = React.createRef();
         this.postCreateContainerRef = React.createRef();
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
-        this.oldestPostId = getOldestPostId(props.replyListIds);
         this.latestPostId = getLatestPostId(props.replyListIds);
 
         this.state = {
@@ -133,7 +131,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
         if (replyListIds !== prevProps.replyListIds) {
             this.latestPostId = getLatestPostId(replyListIds);
-            this.oldestPostId = getLatestPostId(replyListIds);
         }
     }
 
@@ -280,7 +277,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
 
         const isLastPost = itemId === this.latestPostId;
-        const isFirstPost = itemId === this.oldestPostId;
+        const isFirstPost = itemId === this.props.selected.id;
 
         return (
             <div
