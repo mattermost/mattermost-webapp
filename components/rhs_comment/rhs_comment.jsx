@@ -57,7 +57,6 @@ class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
-        isInViewport: PropTypes.func.isRequired,
 
         /**
          * If the user that made the post is a bot.
@@ -89,7 +88,7 @@ class RhsComment extends React.PureComponent {
         /**
          * To Check if the current post is to be highlighted and scrolled into center view of RHS
          */
-        isFocused: PropTypes.bool,
+        shouldHighlight: PropTypes.bool,
     };
 
     constructor(props) {
@@ -118,9 +117,6 @@ class RhsComment extends React.PureComponent {
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
-            if (this.props.isFocused) {
-                this.scrollIntoHighlight();
-            }
         }
     }
 
@@ -135,7 +131,7 @@ class RhsComment extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost, isFocused} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
@@ -152,18 +148,6 @@ class RhsComment extends React.PureComponent {
             // ensure deleted message content does not remain in stale aria-label
             this.updateAriaLabel();
         }
-
-        if (isFocused && !prevProps.isFocused) {
-            this.scrollIntoHighlight();
-        }
-    }
-
-    scrollIntoHighlight = () => {
-        window.requestAnimationFrame(() => {
-            if (this.postRef.current && !this.props.isInViewport(this.postRef.current)) {
-                this.postRef.current.scrollIntoView();
-            }
-        });
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -238,7 +222,7 @@ class RhsComment extends React.PureComponent {
     getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--thread same--root post--comment';
 
-        if (this.props.isFocused) {
+        if (this.props.shouldHighlight) {
             className += ' post--highlight';
         }
 

@@ -129,7 +129,10 @@ export default class SidebarRight extends React.PureComponent {
     }
 
     determineTransition = () => {
-        const transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
+        let transitionInfo;
+        if (this.sidebarRight.current) {
+            transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
+        }
         const hasTransition = Boolean(transitionInfo) && transitionInfo !== 'all 0s ease 0s';
 
         if (this.sidebarRight.current && hasTransition) {

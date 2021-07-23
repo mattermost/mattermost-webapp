@@ -10,6 +10,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
 
 import {TestHelper} from 'utils/test_helper';
+import {fakeDate} from 'tests/helpers/date';
 
 import ThreadViewer from './thread_viewer';
 
@@ -58,15 +59,19 @@ describe('components/threading/ThreadViewer', () => {
         actions,
         directTeammate,
         isCollapsedThreadsEnabled: false,
+        postIds: [post.id],
     };
 
     test('should match snapshot', async () => {
+        const reset = fakeDate(new Date(1502715365000));
+
         const wrapper = shallow(
             <ThreadViewer {...baseProps}/>,
         );
 
         await new Promise((resolve) => setTimeout(resolve));
         expect(wrapper).toMatchSnapshot();
+        reset();
     });
 
     test('should make api call to get thread posts on socket reconnect', () => {
@@ -93,82 +98,6 @@ describe('components/threading/ThreadViewer', () => {
 
         wrapper.setProps({selected: {...post, id: `${post.id}_new`}});
         expect(wrapper.state('openTime')).not.toEqual(originalOpenTimeState);
-    });
-
-    test('should scroll to the bottom when the current user makes a new post in the thread', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <ThreadViewer {...baseProps}/>,
-        );
-        const instance = wrapper.instance() as ThreadViewer;
-        instance.scrollToBottom = scrollToBottom;
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
-        wrapper.setProps({
-            posts: [
-                {
-                    id: 'newpost',
-                    root_id: post.id,
-                    user_id: 'user_id',
-                },
-                post,
-            ],
-        });
-
-        expect(scrollToBottom).toHaveBeenCalled();
-    });
-
-    test('should not scroll to the bottom when another user makes a new post in the thread', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <ThreadViewer {...baseProps}/>,
-        );
-        const instance = wrapper.instance() as ThreadViewer;
-        instance.scrollToBottom = scrollToBottom;
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
-
-        wrapper.setProps({
-            posts: [
-                {
-                    id: 'newpost',
-                    root_id: post.id,
-                    user_id: 'other_user_id',
-                },
-                post,
-            ],
-        });
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
-    });
-
-    test('should not scroll to the bottom when there is a highlighted reply', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <ThreadViewer
-                {...baseProps}
-                highlightedPostId='42'
-            />,
-        );
-
-        const instance = wrapper.instance() as ThreadViewer;
-        instance.scrollToBottom = scrollToBottom;
-
-        wrapper.setProps({
-            posts: [
-                {
-                    id: 'newpost',
-                    root_id: post.id,
-                    user_id: 'user_id',
-                },
-                post,
-            ],
-        });
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
     });
 
     test('should not break if root post is missing', () => {
