@@ -137,7 +137,7 @@ export interface PostListProps extends WrappedComponentProps<'intl'> {
 
     latestPostTimeStamp: number;
     latestAriaLabelFunc?: (ariaLabel: IntlShape) => SpanAttribute;
-    lastViewedAt: string | Timestamp;
+    lastViewedAt?: string | Timestamp;
 
     actions: PostListActions;
 };
@@ -710,3 +710,4 @@ class PostList extends React.PureComponent<PostListProps, PostListState, Snapsho
 }
 
 export default injectIntl(PostList);
+export { PostList as PostListType}
