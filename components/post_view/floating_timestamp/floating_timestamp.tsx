@@ -15,7 +15,7 @@ type Props = {
     isMobile: boolean;
     createAt: Date | number;
     toastPresent: boolean;
-    isRhsPost: boolean;
+    isRhsPost?: boolean;
 }
 
 export default class FloatingTimestamp extends React.PureComponent<Props> {

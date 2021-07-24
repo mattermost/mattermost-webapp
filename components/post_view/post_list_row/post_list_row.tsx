@@ -25,7 +25,7 @@ export type PostListRowProps = {
     shouldHighlight?: boolean;
     loadOlderPosts: () => void;
     loadNewerPosts: () => void;
-    togglePostMenu: () => void;
+    togglePostMenu: (opened: boolean) => void;
 
     /**
      * To Check if the current post is last in the list
