@@ -64,7 +64,7 @@ exports[`components/post_view/post_list_row should render manual load messages t
   className="more-messages-text theme style--none color--link"
   onClick={[MockFunction]}
 >
-  <FormattedMessage
+  <MemoizedFormattedMessage
     defaultMessage="Load More Messages"
     id="posts_view.loadMore"
   />

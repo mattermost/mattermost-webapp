@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @auto_response @messaging
 
 describe('Auto Response In DMs', () => {

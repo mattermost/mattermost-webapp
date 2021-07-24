@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -45,6 +47,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
+
+const CreatePostDraftTimeoutMilliseconds = 500;
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str) {
@@ -116,11 +120,6 @@ class CreatePost extends React.PureComponent {
             uploadsInProgress: PropTypes.array.isRequired,
             fileInfos: PropTypes.array.isRequired,
         }).isRequired,
-
-        /**
-         *  Data used dispatching handleViewAction
-         */
-        commentCountForPost: PropTypes.number,
 
         /**
          *  Data used dispatching handleViewAction ex: edit post
@@ -380,7 +379,7 @@ class CreatePost extends React.PureComponent {
         if (this.saveDraftFrame) {
             const channelId = this.props.currentChannel.id;
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
         }
     }
 
@@ -477,6 +476,10 @@ class CreatePost extends React.PureComponent {
 
         this.setState({submitting: true, serverError: null});
 
+        const fasterThanHumanWillClick = 150;
+        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
+        this.focusTextbox(forceFocus);
+
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
         if (post.message.indexOf('/') === 0 && !ignoreSlash) {
             this.setState({message: '', postError: null});
@@ -533,14 +536,9 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
-        cancelAnimationFrame(this.saveDraftFrame);
+        clearTimeout(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
-
-        const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
-
-        this.focusTextbox(forceFocus);
     }
 
     handleNotifyAllConfirmation = (e) => {
@@ -808,10 +806,10 @@ class CreatePost extends React.PureComponent {
             ...this.props.draft,
             message,
         };
-        cancelAnimationFrame(this.saveDraftFrame);
-        this.saveDraftFrame = requestAnimationFrame(() => {
+        clearTimeout(this.saveDraftFrame);
+        this.saveDraftFrame = setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        });
+        }, CreatePostDraftTimeoutMilliseconds);
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -1077,7 +1075,7 @@ class CreatePost extends React.PureComponent {
         if (this.textboxRef.current) {
             this.textboxRef.current.blur();
         }
-        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
+        this.props.actions.setEditingPost(lastPost.id, 'post_textbox', type);
     }
 
     replyToLastPost = (e) => {
@@ -1161,7 +1159,7 @@ class CreatePost extends React.PureComponent {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji.name || emoji.aliases[0];
+        const emojiAlias = (emoji.short_names && emoji.short_names[0]) || emoji.name;
 
         if (!emojiAlias) {
             //Oops.. There went something wrong

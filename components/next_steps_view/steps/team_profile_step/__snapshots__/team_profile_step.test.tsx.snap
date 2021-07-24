@@ -11,7 +11,7 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
       className="TeamProfileStep__profilePicture"
     >
       <h3>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Team image"
           id="next_steps_view.team_profile_step.teamImage"
         />
@@ -36,7 +36,7 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
       className="TeamProfileStep__textInputs"
     >
       <h3>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Enter your team name"
           id="next_steps_view.team_profile_step.enterYourNameAndURL"
         />
@@ -60,7 +60,7 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
       disabled={false}
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save team"
         id="next_steps_view.team_profile_step.saveTeam"
       />

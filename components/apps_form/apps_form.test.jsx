@@ -12,6 +12,8 @@ import EmojiMap from 'utils/emoji_map';
 
 import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
+import Markdown from 'components/markdown';
+
 import AppsForm from './apps_form';
 
 describe('components/apps_form/AppsForm', () => {
@@ -55,7 +57,7 @@ describe('components/apps_form/AppsForm', () => {
 
             const expected = (
                 <div className='error-text'>
-                    {'This is an error.'}
+                    <Markdown message={'This is an error.'}/>
                 </div>
             );
             expect(wrapper.find(Modal.Footer).containsMatchingElement(expected)).toBe(true);
@@ -105,6 +107,17 @@ describe('components/apps_form/AppsForm', () => {
                     general: {
                         config: {},
                     },
+                    channels: {},
+                    teams: {
+                        teams: {},
+                    },
+                    users: {
+                        profiles: {},
+                    },
+                    groups: {
+                        myGroups: {},
+                    },
+                    emojis: {},
                     preferences: {
                         myPreferences: {},
                     },

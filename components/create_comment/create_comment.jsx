@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
+/* eslint-disable max-lines */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -39,6 +40,8 @@ import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
 
+const CreateCommentDraftTimeoutMilliseconds = 500;
+
 class CreateComment extends React.PureComponent {
     static propTypes = {
 
@@ -75,11 +78,6 @@ class CreateComment extends React.PureComponent {
             uploadsInProgress: PropTypes.array.isRequired,
             fileInfos: PropTypes.array.isRequired,
         }).isRequired,
-
-        /**
-         * Whether the submit button is enabled
-         */
-        enableAddButton: PropTypes.bool.isRequired,
 
         /**
          * Force message submission on CTRL/CMD + ENTER
@@ -222,6 +220,11 @@ class CreateComment extends React.PureComponent {
          */
         shouldShowPreview: PropTypes.bool.isRequired,
 
+        /***
+         * Called when parent component should be scrolled to bottom
+         */
+        scrollToBottom: PropTypes.func,
+
         /*
             Group member mention
         */
@@ -302,15 +305,15 @@ class CreateComment extends React.PureComponent {
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
 
         if (this.saveDraftFrame) {
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
 
             this.props.onUpdateCommentDraft(this.state.draft);
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.draft.uploadsInProgress.length < this.state.draft.uploadsInProgress.length) {
-            this.scrollToBottom();
+        if (prevState.draft.uploadsInProgress.length < this.state.draft.uploadsInProgress.length && this.props.scrollToBottom) {
+            this.props.scrollToBottom();
         }
 
         // Focus on textbox when emoji picker is closed
@@ -331,7 +334,9 @@ class CreateComment extends React.PureComponent {
         }
 
         if (this.doInitialScrollToBottom) {
-            this.scrollToBottom();
+            if (this.props.scrollToBottom) {
+                this.props.scrollToBottom();
+            }
             this.doInitialScrollToBottom = false;
         }
     }
@@ -424,7 +429,7 @@ class CreateComment extends React.PureComponent {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji.name || emoji.aliases[0];
+        const emojiAlias = emoji.short_name || emoji.name;
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
@@ -623,7 +628,7 @@ class CreateComment extends React.PureComponent {
         const options = {ignoreSlash};
 
         try {
-            await this.props.onSubmit(options);
+            await this.props.onSubmit(draft, options);
 
             this.setState({
                 postError: null,
@@ -638,7 +643,9 @@ class CreateComment extends React.PureComponent {
             return;
         }
 
+        clearTimeout(this.saveDraftFrame);
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
+        this.draftsForPost[this.props.rootId] = null;
     }
 
     commentMsgKeyPress = (e) => {
@@ -650,7 +657,9 @@ class CreateComment extends React.PureComponent {
         const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter, 0, 0, this.state.caretPosition);
 
         if (allowSending) {
-            e.persist();
+            if (e.persist) {
+                e.persist();
+            }
             if (this.textboxRef.current) {
                 this.textboxRef.current.blur();
             }
@@ -689,13 +698,6 @@ class CreateComment extends React.PureComponent {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
-    scrollToBottom = () => {
-        const $el = $('.post-right__scroll');
-        if ($el[0]) {
-            $el.parent().scrollTop($el[0].scrollHeight); // eslint-disable-line jquery/no-parent
-        }
-    }
-
     handleChange = (e) => {
         const message = e.target.value;
 
@@ -707,13 +709,15 @@ class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
 
-        cancelAnimationFrame(this.saveDraftFrame);
-        this.saveDraftFrame = requestAnimationFrame(() => {
+        clearTimeout(this.saveDraftFrame);
+        this.saveDraftFrame = setTimeout(() => {
             this.props.onUpdateCommentDraft(updatedDraft);
-        });
+        }, CreateCommentDraftTimeoutMilliseconds);
 
         this.setState({draft: updatedDraft, serverError}, () => {
-            this.scrollToBottom();
+            if (this.props.scrollToBottom) {
+                this.props.scrollToBottom();
+            }
         });
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
@@ -893,8 +897,8 @@ class CreateComment extends React.PureComponent {
         }
 
         this.setState({serverError}, () => {
-            if (serverError) {
-                this.scrollToBottom();
+            if (serverError && this.props.scrollToBottom) {
+                this.props.scrollToBottom();
             }
         });
     }
@@ -961,8 +965,13 @@ class CreateComment extends React.PureComponent {
     }
 
     shouldEnableAddButton = () => {
-        if (this.props.enableAddButton) {
-            return true;
+        const {draft} = this.state;
+        if (draft) {
+            const message = draft.message ? draft.message.trim() : '';
+            const fileInfos = draft.fileInfos ? draft.fileInfos : [];
+            if (message.trim().length !== 0 || fileInfos.length !== 0) {
+                return true;
+            }
         }
 
         return isErrorInvalidSlashCommand(this.state.serverError);

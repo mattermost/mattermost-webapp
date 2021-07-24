@@ -9,8 +9,6 @@ import {Tooltip} from 'react-bootstrap';
 
 import {WarnMetricStatus} from 'mattermost-redux/types/config';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -35,7 +33,7 @@ type Props = {
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
     icon?: React.ReactNode;
-    warnMetricStatus?: Dictionary<WarnMetricStatus>;
+    warnMetricStatus?: WarnMetricStatus;
     actions: {
         incrementAnnouncementBarCount: () => void;
         decrementAnnouncementBarCount: () => void;
@@ -138,7 +136,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                     placement='bottom'
                     overlay={announcementTooltip}
                 >
-                    <span>
+                    <div className='announcement-bar__text'>
                         {this.props.icon ? this.props.icon : announcementIcon()}
                         {message}
                         {
@@ -180,7 +178,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                                 />
                             </button>
                         }
-                    </span>
+                    </div>
                 </OverlayTrigger>
                 {closeButton}
             </div>

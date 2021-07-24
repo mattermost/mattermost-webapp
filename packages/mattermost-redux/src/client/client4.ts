@@ -1001,8 +1001,8 @@ export default class Client4 {
 
     removeRecentCustomStatus = (customStatus: UserCustomStatus) => {
         return this.doFetch(
-            `${this.getUserRoute('me')}/status/custom/recent`,
-            {method: 'delete', body: JSON.stringify(customStatus)},
+            `${this.getUserRoute('me')}/status/custom/recent/delete`,
+            {method: 'post', body: JSON.stringify(customStatus)},
         );
     }
 
@@ -1135,6 +1135,13 @@ export default class Client4 {
             {method: 'delete'},
         );
     };
+
+    unarchiveTeam = (teamId: string) => {
+        return this.doFetch<Team>(
+            `${this.getTeamRoute(teamId)}/restore`,
+            {method: 'post'},
+        );
+    }
 
     updateTeam = (team: Team) => {
         this.trackEvent('api', 'api_teams_update_name', {team_id: team.id});
@@ -1749,7 +1756,7 @@ export default class Client4 {
     };
 
     viewMyChannel = (channelId: string, prevChannelId?: string) => {
-        const data = {channel_id: channelId, prev_channel_id: prevChannelId};
+        const data = {channel_id: channelId, prev_channel_id: prevChannelId, collapsed_threads_supported: true};
         return this.doFetch<ChannelViewResponse>(
             `${this.getChannelsRoute()}/members/me/view`,
             {method: 'post', body: JSON.stringify(data)},
@@ -2045,7 +2052,7 @@ export default class Client4 {
 
         return this.doFetch<ChannelUnread>(
             `${this.getUserRoute(userId)}/posts/${postId}/set_unread`,
-            {method: 'post'},
+            {method: 'post', body: JSON.stringify({collapsed_threads_supported: true})},
         );
     }
 
@@ -2651,7 +2658,8 @@ export default class Client4 {
     };
 
     getSystemEmojiImageUrl = (filename: string) => {
-        return `${this.url}/static/emoji/${filename}.png`;
+        const extension = filename.endsWith('.png') ? '' : '.png';
+        return `${this.url}/static/emoji/${filename}${extension}`;
     };
 
     getCustomEmojiImageUrl = (id: string) => {
@@ -2725,9 +2733,9 @@ export default class Client4 {
         );
     }
 
-    getDataRetentionCustomPolicyTeams = (id: string, page = 0, perPage = PER_PAGE_DEFAULT, includeTotalCount = false) => {
+    getDataRetentionCustomPolicyTeams = (id: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<Team[]>(
-            `${this.getDataRetentionRoute()}/policies/${id}/teams${buildQueryString({page, per_page: perPage, include_total_count: includeTotalCount})}`,
+            `${this.getDataRetentionRoute()}/policies/${id}/teams${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
@@ -2839,6 +2847,13 @@ export default class Client4 {
     updateConfig = (config: AdminConfig) => {
         return this.doFetch<AdminConfig>(
             `${this.getBaseRoute()}/config`,
+            {method: 'put', body: JSON.stringify(config)},
+        );
+    };
+
+    patchConfig = (config: AdminConfig) => {
+        return this.doFetch<AdminConfig>(
+            `${this.getBaseRoute()}/config/patch`,
             {method: 'put', body: JSON.stringify(config)},
         );
     };
@@ -3143,6 +3158,13 @@ export default class Client4 {
             {method: 'delete'},
         );
     };
+
+    getPrevTrialLicense = () => {
+        return this.doFetch<ClientLicense>(
+            `${this.getBaseRoute()}/trial-license/prev`,
+            {method: 'get'},
+        );
+    }
 
     getAnalytics = (name = 'standard', teamId = '') => {
         return this.doFetch<AnalyticsRow[]>(
@@ -3630,6 +3652,13 @@ export default class Client4 {
         return this.doFetch(
             `${this.getCloudRoute()}/payment/confirm`,
             {method: 'post', body: JSON.stringify({stripe_setup_intent_id: stripeSetupIntentID})},
+        );
+    }
+
+    subscribeCloudProduct = (productId: string) => {
+        return this.doFetch<CloudCustomer>(
+            `${this.getCloudRoute()}/subscription`,
+            {method: 'put', body: JSON.stringify({product_id: productId})},
         );
     }
 

@@ -148,7 +148,7 @@ export function installApp(id: string) {
             team_id: teamID,
         };
 
-        const result = await dispatch(executeCommand('/apps install ' + id, args));
+        const result = await dispatch(executeCommand('/apps install marketplace ' + id, args));
         if (isError(result)) {
             dispatch({
                 type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,

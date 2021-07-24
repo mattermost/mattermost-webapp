@@ -61,7 +61,7 @@ exports[`admin_console/system_roles should match snapshot 1`] = `
               Array [
                 Object {
                   "cells": Object {
-                    "description": <FormattedMessage
+                    "description": <Memo(MemoizedFormattedMessage)
                       id="admin.permissions.roles.system_admin.description"
                     />,
                     "edit": <span
@@ -71,16 +71,16 @@ exports[`admin_console/system_roles should match snapshot 1`] = `
                       <Link
                         to="/admin_console/user_management/system_roles/system_admin"
                       >
-                        <FormattedMessage
+                        <Memo(MemoizedFormattedMessage)
                           defaultMessage="Edit"
                           id="admin.permissions.roles.edit"
                         />
                       </Link>
                     </span>,
-                    "role": <FormattedMessage
+                    "role": <Memo(MemoizedFormattedMessage)
                       id="admin.permissions.roles.system_admin.name"
                     />,
-                    "type": <FormattedMessage
+                    "type": <Memo(MemoizedFormattedMessage)
                       id="admin.permissions.roles.system_admin.type"
                     />,
                   },

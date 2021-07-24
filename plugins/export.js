@@ -6,12 +6,19 @@ import {formatText} from 'utils/text_formatting';
 import {browserHistory} from 'utils/browser_history';
 import Textbox from 'components/textbox';
 
+import {openModal} from 'actions/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
+import PurchaseModal from 'components/purchase_modal';
+
+import Timestamp from 'components/timestamp';
+
 // The following import has intentional side effects. Do not remove without research.
 import {openInteractiveDialog} from './interactive_dialog';
 
 // Common libraries exposed on window for plugins to use as Webpack externals.
 window.React = require('react');
 window.ReactDOM = require('react-dom');
+window.ReactIntl = require('react-intl');
 window.Redux = require('redux');
 window.ReactRedux = require('react-redux');
 window.ReactBootstrap = require('react-bootstrap');
@@ -22,5 +29,13 @@ window.PDFJS = require('pdfjs-dist');
 // Functions and components exposed on window for plugins to use.
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
-window.WebappUtils = {browserHistory};
-window.Components = {Textbox};
+window.WebappUtils = {
+    browserHistory,
+    modals: {openModal, ModalIdentifiers},
+};
+
+window.Components = {
+    Textbox,
+    PurchaseModal,
+    Timestamp,
+};

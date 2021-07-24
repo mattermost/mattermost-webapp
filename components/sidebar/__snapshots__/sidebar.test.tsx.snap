@@ -25,15 +25,20 @@ exports[`components/sidebar should match snapshot 1`] = `
       unreadFilterEnabled={false}
     />
   </div>
-  <Connect(Pluggable)
-    pluggableName="LeftSidebarHeader"
-  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
   <Connect(SidebarChannelList)
     handleOpenMoreDirectChannelsModal={[Function]}
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
+  <Connect(SidebarNextSteps) />
 </div>
 `;
 
@@ -60,15 +65,20 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
       unreadFilterEnabled={false}
     />
   </div>
-  <Connect(Pluggable)
-    pluggableName="LeftSidebarHeader"
-  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
   <Connect(SidebarChannelList)
     handleOpenMoreDirectChannelsModal={[Function]}
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
+  <Connect(SidebarNextSteps) />
   <Connect(MoreDirectChannels)
     isExistingChannel={false}
     onModalDismissed={[Function]}
@@ -99,14 +109,19 @@ exports[`components/sidebar should match snapshot when more channels modal is op
       unreadFilterEnabled={false}
     />
   </div>
-  <Connect(Pluggable)
-    pluggableName="LeftSidebarHeader"
-  />
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
   <Connect(SidebarChannelList)
     handleOpenMoreDirectChannelsModal={[Function]}
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
+  <Connect(SidebarNextSteps) />
 </div>
 `;

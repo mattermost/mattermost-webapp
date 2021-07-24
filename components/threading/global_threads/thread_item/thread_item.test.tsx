@@ -8,6 +8,7 @@ import {set} from 'lodash';
 
 import {UserThread} from 'mattermost-redux/types/threads';
 
+import * as Utils from 'utils/utils';
 import ThreadMenu from '../thread_menu';
 import Badge from 'components/widgets/badges/badge';
 
@@ -76,6 +77,7 @@ describe('components/threading/global_threads/thread_item', () => {
         set(mockState, 'entities.general.config', {});
         set(mockState, 'entities.preferences.myPreferences', {});
         set(mockState, 'entities.teams.currentTeamId', 'tid');
+        set(mockState, 'entities.teams.teams', {tid: {id: 'tid', name: 'tname'}});
         set(mockState, 'entities.users', {
             currentUserId: '7n4ach3i53bbmj84dfmu5b7c1c',
             profiles: {
@@ -129,8 +131,8 @@ describe('components/threading/global_threads/thread_item', () => {
             />,
         );
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('id', 'threading.numReplies');
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('values.totalReplies', 9);
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('id', 'threading.numReplies');
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('values.totalReplies', 9);
     });
 
     test('should report unread messages', () => {
@@ -144,8 +146,8 @@ describe('components/threading/global_threads/thread_item', () => {
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.exists('.dot-unreads')).toBe(true);
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('id', 'threading.numNewReplies');
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('values.newReplies', 2);
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('id', 'threading.numNewReplies');
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('values.newReplies', 2);
     });
 
     test('should report unread mentions', () => {
@@ -160,8 +162,8 @@ describe('components/threading/global_threads/thread_item', () => {
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.dot-mentions').text()).toBe('2');
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('id', 'threading.numNewReplies');
-        expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('values.newReplies', 5);
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('id', 'threading.numNewReplies');
+        expect(wrapper.find('.activity MemoizedFormattedMessage').props()).toHaveProperty('values.newReplies', 5);
     });
 
     test('should show channel name', () => {
@@ -190,5 +192,16 @@ describe('components/threading/global_threads/thread_item', () => {
             expect(wrapper.find(ThreadMenu).props()).toHaveProperty(prop, val);
         });
     });
-});
 
+    test('should call Utils.handleFormattedTextClick on click', () => {
+        const wrapper = shallow(
+            <ThreadItem
+                {...props}
+            />,
+        );
+        const spy = jest.spyOn(Utils, 'handleFormattedTextClick').mockImplementationOnce(jest.fn());
+        wrapper.find('.preview').simulate('click', {});
+
+        expect(spy).toHaveBeenCalledWith({}, '/tname');
+    });
+});

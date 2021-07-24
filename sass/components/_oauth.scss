@@ -1,20 +1,20 @@
 @charset 'UTF-8';
 
 .prompt {
-    background: $white;
-    border: 1px solid $light-gray;
-    margin: 50px auto;
+    width: 600px;
     max-width: 90%;
     padding: 1em 2em 0;
-    width: 600px;
+    border: 1px solid $light-gray;
+    margin: 50px auto;
+    background: $white;
 
     .prompt__heading {
         display: table;
+        width: 100%;
+        margin: 1em 0;
         font-size: em(18px);
         line-height: normal;
-        margin: 1em 0;
         table-layout: fixed;
-        width: 100%;
 
         > div {
             display: table-cell;
@@ -31,13 +31,13 @@
     }
 
     .prompt__allow {
-        font-size: em(20px);
         margin: 1em 0;
+        font-size: em(20px);
     }
 
     .prompt__buttons {
-        border-top: 1px solid $light-gray;
         padding: 1.5em 0;
+        border-top: 1px solid $light-gray;
         text-align: right;
     }
 

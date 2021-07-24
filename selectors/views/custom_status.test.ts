@@ -9,6 +9,7 @@ import configureStore from 'store';
 import {makeGetCustomStatus, getRecentCustomStatuses, isCustomStatusEnabled, showStatusDropdownPulsatingDot, showPostHeaderUpdateStatusButton} from 'selectors/views/custom_status';
 
 import {TestHelper} from 'utils/test_helper';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
 
 jest.mock('mattermost-redux/selectors/entities/users');
 jest.mock('mattermost-redux/selectors/entities/general');
@@ -17,13 +18,14 @@ jest.mock('mattermost-redux/selectors/entities/preferences');
 const customStatus = {
     emoji: 'speech_balloon',
     text: 'speaking',
+    duration: CustomStatusDuration.DONT_CLEAR,
 };
 
 describe('getCustomStatus', () => {
     const user = TestHelper.getUserMock();
     const getCustomStatus = makeGetCustomStatus();
 
-    it('should return undefined when there is no custom status', async () => {
+    it('should return undefined when current user has no custom status set', async () => {
         const store = await configureStore();
         (UserSelectors.getCurrentUser as jest.Mock).mockReturnValue(user);
         expect(getCustomStatus(store.getState())).toBeUndefined();

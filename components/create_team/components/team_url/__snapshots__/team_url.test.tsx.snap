@@ -9,7 +9,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       src="logo.png"
     />
     <h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team URL"
         id="create_team.team_url.teamUrl"
       />
@@ -69,7 +69,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       </div>
     </div>
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Choose the web address of your new team:"
         id="create_team.team_url.webAddress"
       />
@@ -78,19 +78,19 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       className="color--light"
     >
       <li>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Short and memorable is best"
           id="create_team.team_url.hint1"
         />
       </li>
       <li>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Use lowercase letters, numbers and dashes"
           id="create_team.team_url.hint2"
         />
       </li>
       <li>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Must start with a letter and can't end in a dash"
           id="create_team.team_url.hint3"
         />
@@ -109,7 +109,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
         onClick={[Function]}
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Finish"
           id="create_team.team_url.finish"
         />
@@ -122,7 +122,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
         href="#"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Back to previous step"
           id="create_team.team_url.back"
         />

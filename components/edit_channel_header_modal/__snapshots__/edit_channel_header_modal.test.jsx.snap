@@ -42,7 +42,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
       componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Edit Header"
         id="edit_channel_header_modal.title_dm"
       />
@@ -54,7 +54,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
   >
     <div>
       <p>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
         />
@@ -99,7 +99,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
       />
@@ -110,7 +110,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
       />
@@ -161,7 +161,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
       componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Edit Header for {channel}"
         id="edit_channel_header_modal.title"
         values={
@@ -178,7 +178,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
   >
     <div>
       <p>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
         />
@@ -219,7 +219,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
         <label
           className="control-label"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="The text entered exceeds the character limit. The channel header is limited to {maxLength} characters."
             id="edit_channel_header_modal.error"
             values={
@@ -241,7 +241,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
       />
@@ -252,7 +252,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
       />
@@ -303,7 +303,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
       componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Edit Header for {channel}"
         id="edit_channel_header_modal.title"
         values={
@@ -320,7 +320,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
   >
     <div>
       <p>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
         />
@@ -375,7 +375,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
       />
@@ -386,7 +386,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
       />
@@ -437,7 +437,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
       componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Edit Header for {channel}"
         id="edit_channel_header_modal.title"
         values={
@@ -454,7 +454,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
   >
     <div>
       <p>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
         />
@@ -499,7 +499,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
       />
@@ -510,7 +510,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
       />
@@ -561,7 +561,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
       componentClass="h1"
       id="editChannelHeaderModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Edit Header for {channel}"
         id="edit_channel_header_modal.title"
         values={
@@ -578,7 +578,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
   >
     <div>
       <p>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit the text appearing next to the channel name in the channel header."
           id="edit_channel_header_modal.description"
         />
@@ -623,7 +623,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_header_modal.cancel"
       />
@@ -634,7 +634,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_header_modal.save"
       />

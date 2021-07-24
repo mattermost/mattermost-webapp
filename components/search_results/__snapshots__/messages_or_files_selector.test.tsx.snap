@@ -12,7 +12,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       onClick={[Function]}
       onKeyDown={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Messages"
         id="search_bar.messages_tab"
       />
@@ -27,7 +27,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       onClick={[Function]}
       onKeyDown={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Files"
         id="search_bar.files_tab"
       />
@@ -57,7 +57,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       onClick={[Function]}
       onKeyDown={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Messages"
         id="search_bar.messages_tab"
       />
@@ -72,7 +72,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       onClick={[Function]}
       onKeyDown={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Files"
         id="search_bar.files_tab"
       />

@@ -18,7 +18,7 @@ import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/telemetry_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
 import BrowserStore from 'stores/browser_store';
-import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
+import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';

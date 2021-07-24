@@ -1,5 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/threading/channel_threads/thread_footer should match snapshot when a single message is followed 1`] = `
+<Memo(ThreadFooter)
+  threadId="singlemessageid"
+>
+  <div
+    className="ThreadFooter"
+  >
+    <div
+      className="indicator"
+    />
+    <Memo(FollowButton)
+      className="separated"
+      isFollowing={true}
+      onClick={[Function]}
+    >
+      <Memo(Button)
+        className="separated FollowButton"
+        disabled={false}
+        isActive={true}
+        onClick={[Function]}
+      >
+        <button
+          className="Button Button___transparent is-active separated FollowButton"
+          disabled={false}
+          onClick={[Function]}
+        >
+          <span
+            className="Button_label"
+          >
+            Following
+          </span>
+        </button>
+      </Memo(Button)>
+    </Memo(FollowButton)>
+  </div>
+</Memo(ThreadFooter)>
+`;
+
 exports[`components/threading/channel_threads/thread_footer should report total number of replies 1`] = `
 <Memo(ThreadFooter)
   threadId="postthreadid"
@@ -87,10 +125,13 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                       Object {
                         "defaultFormats": Object {},
                         "defaultLocale": "en",
+                        "defaultRichTextElements": undefined,
                         "formatDate": [Function],
+                        "formatDateTimeRange": [Function],
                         "formatDateToParts": [Function],
                         "formatDisplayName": [Function],
                         "formatList": [Function],
+                        "formatListToParts": [Function],
                         "formatMessage": [Function],
                         "formatNumber": [Function],
                         "formatNumberToParts": [Function],
@@ -226,10 +267,13 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                       Object {
                         "defaultFormats": Object {},
                         "defaultLocale": "en",
+                        "defaultRichTextElements": undefined,
                         "formatDate": [Function],
+                        "formatDateTimeRange": [Function],
                         "formatDateToParts": [Function],
                         "formatDisplayName": [Function],
                         "formatList": [Function],
+                        "formatListToParts": [Function],
                         "formatMessage": [Function],
                         "formatNumber": [Function],
                         "formatNumberToParts": [Function],
@@ -365,10 +409,13 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                       Object {
                         "defaultFormats": Object {},
                         "defaultLocale": "en",
+                        "defaultRichTextElements": undefined,
                         "formatDate": [Function],
+                        "formatDateTimeRange": [Function],
                         "formatDateToParts": [Function],
                         "formatDisplayName": [Function],
                         "formatList": [Function],
+                        "formatListToParts": [Function],
                         "formatMessage": [Function],
                         "formatNumber": [Function],
                         "formatNumberToParts": [Function],
@@ -486,10 +533,13 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     Object {
                       "defaultFormats": Object {},
                       "defaultLocale": "en",
+                      "defaultRichTextElements": undefined,
                       "formatDate": [Function],
+                      "formatDateTimeRange": [Function],
                       "formatDateToParts": [Function],
                       "formatDisplayName": [Function],
                       "formatList": [Function],
+                      "formatListToParts": [Function],
                       "formatMessage": [Function],
                       "formatNumber": [Function],
                       "formatNumberToParts": [Function],
@@ -652,7 +702,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
       <injectIntl(Timestamp)
         day="numeric"
         dispatch={[Function]}
-        hour12={true}
+        hourCycle="h12"
         units={
           Array [
             "now",
@@ -669,16 +719,18 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           day="numeric"
           dispatch={[Function]}
           hour="numeric"
-          hour12={true}
           hourCycle="h12"
           intl={
             Object {
               "defaultFormats": Object {},
               "defaultLocale": "en",
+              "defaultRichTextElements": undefined,
               "formatDate": [Function],
+              "formatDateTimeRange": [Function],
               "formatDateToParts": [Function],
               "formatDisplayName": [Function],
               "formatList": [Function],
+              "formatListToParts": [Function],
               "formatMessage": [Function],
               "formatNumber": [Function],
               "formatNumberToParts": [Function],
@@ -746,6 +798,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 Last reply 
                 <Memo(SemanticTime)
                   aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                  key=".$.1"
                   value={2019-04-01T23:31:44.000Z}
                 >
                   <time
@@ -774,7 +827,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
   >
     <SimpleTooltip
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="{newReplies, plural, =0 {no unread messages} =1 {one unread message} other {# unread messages}}"
           id="threading.numNewMessages"
           values={
@@ -796,7 +849,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             id="threadFooterIndicator"
             placement="top"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="{newReplies, plural, =0 {no unread messages} =1 {one unread message} other {# unread messages}}"
               id="threading.numNewMessages"
               values={
@@ -827,10 +880,13 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 Object {
                   "defaultFormats": Object {},
                   "defaultLocale": "en",
+                  "defaultRichTextElements": undefined,
                   "formatDate": [Function],
+                  "formatDateTimeRange": [Function],
                   "formatDateToParts": [Function],
                   "formatDisplayName": [Function],
                   "formatList": [Function],
+                  "formatListToParts": [Function],
                   "formatMessage": [Function],
                   "formatNumber": [Function],
                   "formatNumberToParts": [Function],
@@ -858,7 +914,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               }
               placement="top"
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="{newReplies, plural, =0 {no unread messages} =1 {one unread message} other {# unread messages}}"
                 id="threading.numNewMessages"
                 values={
@@ -970,10 +1026,13 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                       Object {
                         "defaultFormats": Object {},
                         "defaultLocale": "en",
+                        "defaultRichTextElements": undefined,
                         "formatDate": [Function],
+                        "formatDateTimeRange": [Function],
                         "formatDateToParts": [Function],
                         "formatDisplayName": [Function],
                         "formatList": [Function],
+                        "formatListToParts": [Function],
                         "formatMessage": [Function],
                         "formatNumber": [Function],
                         "formatNumberToParts": [Function],
@@ -1109,10 +1168,13 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                       Object {
                         "defaultFormats": Object {},
                         "defaultLocale": "en",
+                        "defaultRichTextElements": undefined,
                         "formatDate": [Function],
+                        "formatDateTimeRange": [Function],
                         "formatDateToParts": [Function],
                         "formatDisplayName": [Function],
                         "formatList": [Function],
+                        "formatListToParts": [Function],
                         "formatMessage": [Function],
                         "formatNumber": [Function],
                         "formatNumberToParts": [Function],
@@ -1248,10 +1310,13 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                       Object {
                         "defaultFormats": Object {},
                         "defaultLocale": "en",
+                        "defaultRichTextElements": undefined,
                         "formatDate": [Function],
+                        "formatDateTimeRange": [Function],
                         "formatDateToParts": [Function],
                         "formatDisplayName": [Function],
                         "formatList": [Function],
+                        "formatListToParts": [Function],
                         "formatMessage": [Function],
                         "formatNumber": [Function],
                         "formatNumberToParts": [Function],
@@ -1369,10 +1434,13 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     Object {
                       "defaultFormats": Object {},
                       "defaultLocale": "en",
+                      "defaultRichTextElements": undefined,
                       "formatDate": [Function],
+                      "formatDateTimeRange": [Function],
                       "formatDateToParts": [Function],
                       "formatDisplayName": [Function],
                       "formatList": [Function],
+                      "formatListToParts": [Function],
                       "formatMessage": [Function],
                       "formatNumber": [Function],
                       "formatNumberToParts": [Function],
@@ -1535,7 +1603,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
       <injectIntl(Timestamp)
         day="numeric"
         dispatch={[Function]}
-        hour12={true}
+        hourCycle="h12"
         units={
           Array [
             "now",
@@ -1552,16 +1620,18 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           day="numeric"
           dispatch={[Function]}
           hour="numeric"
-          hour12={true}
           hourCycle="h12"
           intl={
             Object {
               "defaultFormats": Object {},
               "defaultLocale": "en",
+              "defaultRichTextElements": undefined,
               "formatDate": [Function],
+              "formatDateTimeRange": [Function],
               "formatDateToParts": [Function],
               "formatDisplayName": [Function],
               "formatList": [Function],
+              "formatListToParts": [Function],
               "formatMessage": [Function],
               "formatNumber": [Function],
               "formatNumberToParts": [Function],
@@ -1629,6 +1699,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 Last reply 
                 <Memo(SemanticTime)
                   aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                  key=".$.1"
                   value={2019-04-01T23:31:44.000Z}
                 >
                   <time
