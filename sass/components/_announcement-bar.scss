@@ -57,9 +57,7 @@
         }
 
         &.announcement-bar__close {
-            position: absolute;
-            top: 5px;
-            right: 0;
+            margin-left: auto;
             padding: 0 10px;
             color: $white;
             font-family: 'Open Sans', sans-serif;
@@ -90,7 +88,7 @@
         font-size: 16px;
     }
 
-    button {
+    .announcement-bar-button {
         &:hover {
             background-color: rgba(255, 255, 255, 0.08);
         }
@@ -107,6 +105,19 @@
         font-style: normal;
         font-weight: 600;
         line-height: 16px;
+
+        &--text {
+            border: none;
+        }
+    }
+}
+
+.announcement-bar__dont-ask-again {
+    display: none;
+    margin-left: auto;
+
+    .announcement-bar:hover & {
+        display: block;
     }
 }
 

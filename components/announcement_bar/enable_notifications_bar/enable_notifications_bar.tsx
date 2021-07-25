@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import { AnnouncementBarTypes } from 'utils/constants';
 
 import {t} from 'utils/i18n';
 import AnnouncementBar from '../default_announcement_bar';
@@ -29,13 +30,13 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
 
   return (
     <AnnouncementBar
-
-      message={t("enable_notifications_banner.message")} 
-      showCloseButton 
-      showLinkAsButton 
-      modalButtonText="enable_notifications_banner.message" 
-      modalButtonDefaultText="Enable"
-      onButtonClick={handleEnableButtonClick} 
+      type={AnnouncementBarTypes.GENERAL}
+      message={t("enable_notifications_banner.message")}
+      showLinkAsButton
+      modalButtonText="enable_notifications_banner.enable_button"
+      modalButtonDefaultText="Enable" 
+      showCloseButton
+      showDontAskAgainButton 
     />
   );
 };

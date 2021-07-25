@@ -20,6 +20,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 type Props = {
     showCloseButton: boolean;
+    showDontAskAgainButton?: boolean;
     color: string;
     textColor: string;
     type: string;
@@ -91,8 +92,6 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
             barClass = 'announcement-bar announcement-bar-advisor-ack';
         } else if (this.props.type === AnnouncementBarTypes.GENERAL) {
             barClass = 'announcement-bar announcement-bar-general';
-        } else if (this.props.type === AnnouncementBarTypes.INFO) {
-            barClass = 'announcement-bar announcement-bar-info';
         }
 
         let closeButton;
@@ -106,6 +105,15 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                 >
                     {'×'}
                 </a>
+            );
+        }
+
+        let dontAskAgainButton;
+        if (this.props.showDontAskAgainButton) {
+            dontAskAgainButton = (
+                <button className='announcement-bar__button announcement-bar__button--text announcement-bar__dont-ask-again'>
+                    <FormattedMessage id={"announcement_bar.dont_ask_again_button_text"} defaultMessage={"Don't ask again"} />
+                </button>
             );
         }
 
@@ -169,7 +177,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                         {
                             this.props.showLinkAsButton &&
                             <button
-                                className='upgrade-button'
+                                className='announcement-bar__button upgrade-button'
                                 onClick={this.props.onButtonClick}
                             >
                                 <FormattedMessage
@@ -180,6 +188,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                         }
                     </div>
                 </OverlayTrigger>
+                {dontAskAgainButton}
                 {closeButton}
             </div>
         );

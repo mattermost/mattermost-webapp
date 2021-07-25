@@ -640,7 +640,6 @@ export const AnnouncementBarTypes = {
     ADVISOR: 'advisor',
     ADVISOR_ACK: 'advisor-ack',
     GENERAL: 'general',
-    INFO: 'info',
 };
 
 export const AnnouncementBarMessages = {
@@ -1126,7 +1125,7 @@ export const Constants = {
     ARCHIVED_CHANNEL: 'archive',
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
-    SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS: 3,
+    SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS: 1000,
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
