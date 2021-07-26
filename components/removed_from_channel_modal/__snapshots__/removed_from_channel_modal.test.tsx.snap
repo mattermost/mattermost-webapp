@@ -40,7 +40,7 @@ exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
       componentClass="h1"
       id="removeFromChannelModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Removed from "
         id="removed_channel.from"
       />
@@ -56,7 +56,7 @@ exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
     componentClass="div"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{remover} removed you from {channel}"
         id="removed_channel.remover"
         values={
@@ -78,7 +78,7 @@ exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Okay"
         id="removed_channel.okay"
       />

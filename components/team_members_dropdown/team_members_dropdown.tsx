@@ -5,10 +5,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-
 import {UserProfile} from 'mattermost-redux/types/users';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils.jsx';
@@ -28,9 +27,10 @@ type Props = {
     currentTeam: Team;
     index: number;
     totalUsers: number;
+    collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     actions: {
         getMyTeamMembers: () => void;
-        getMyTeamUnreads: () => void;
+        getMyTeamUnreads: (collapsedThreads: boolean) => void;
         getUser: (id: string) => void;
         getTeamMember: (teamId: string, userId: string) => void;
         getTeamStats: (teamId: string) => ActionFunc;
@@ -73,7 +73,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
                 this.props.actions.getTeamMember(this.props.teamMember.team_id, this.props.user.id);
                 if (this.props.user.id === me.id) {
                     await this.props.actions.getMyTeamMembers();
-                    this.props.actions.getMyTeamUnreads();
+                    this.props.actions.getMyTeamUnreads(this.props.collapsedThreads);
                 }
             }
         }

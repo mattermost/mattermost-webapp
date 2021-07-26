@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
@@ -57,6 +59,8 @@ import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
 const KeyCodes = Constants.KeyCodes;
+
+const CreatePostDraftTimeoutMilliseconds = 500;
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str: string) {
@@ -316,8 +320,8 @@ class CreatePost extends React.PureComponent<Props, State> {
     private lastBlurAt = 0;
     private lastChannelSwitchAt = 0;
     private draftsForChannel: {[channelID: string]: PostDraft | null} = {}
-    private lastOrientation: string | undefined;
-    private saveDraftFrame: number | undefined;
+    private lastOrientation?: string;
+    private saveDraftFrame?: number | null;
 
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
@@ -376,6 +380,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
         if (useGroupMentions) {
@@ -388,6 +393,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
+            this.saveDraft(prevProps);
             if (useGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
@@ -406,11 +412,21 @@ class CreatePost extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
-        if (this.saveDraftFrame) {
-            const channelId = this.props.currentChannel.id;
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
-            cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraft();
+    }
+
+    unloadHandler = () => {
+        this.saveDraft();
+    }
+
+    saveDraft = (props = this.props) => {
+        if (this.saveDraftFrame && props.currentChannel) {
+            const channelId = props.currentChannel.id;
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            clearTimeout(this.saveDraftFrame);
+            this.saveDraftFrame = null;
         }
     }
 
@@ -569,7 +585,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
 
         if (this.saveDraftFrame) {
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
         }
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
@@ -859,12 +875,12 @@ class CreatePost extends React.PureComponent<Props, State> {
             message,
         };
         if (this.saveDraftFrame) {
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
         }
 
-        this.saveDraftFrame = requestAnimationFrame(() => {
+        this.saveDraftFrame = window.setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        });
+        }, CreatePostDraftTimeoutMilliseconds);
         this.draftsForChannel[channelId] = draft;
     }
 

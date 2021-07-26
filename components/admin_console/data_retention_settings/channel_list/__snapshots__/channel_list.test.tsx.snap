@@ -11,7 +11,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
         Object {
           "field": "name",
           "fixed": true,
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.channel_settings.channel_list.nameHeader"
           />,
@@ -19,7 +19,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
         Object {
           "field": "team",
           "fixed": true,
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Team"
             id="admin.channel_settings.channel_list.teamHeader"
           />,
@@ -50,21 +50,21 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
             "name": "Channels",
             "values": Object {
               "deleted": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Archived"
                   id="admin.channel_list.archived"
                 />,
                 "value": false,
               },
               "private": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Private"
                   id="admin.channel_list.private"
                 />,
                 "value": false,
               },
               "public": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Public"
                   id="admin.channel_list.public"
                 />,
@@ -86,7 +86,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
             },
             "values": Object {
               "team_ids": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Teams"
                   id="admin.team_settings.title"
                 />,
@@ -130,7 +130,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-123"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -159,7 +159,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
         Object {
           "field": "name",
           "fixed": true,
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.channel_settings.channel_list.nameHeader"
           />,
@@ -167,7 +167,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
         Object {
           "field": "team",
           "fixed": true,
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Team"
             id="admin.channel_settings.channel_list.teamHeader"
           />,
@@ -198,21 +198,21 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
             "name": "Channels",
             "values": Object {
               "deleted": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Archived"
                   id="admin.channel_list.archived"
                 />,
                 "value": false,
               },
               "private": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Private"
                   id="admin.channel_list.private"
                 />,
                 "value": false,
               },
               "public": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Public"
                   id="admin.channel_list.public"
                 />,
@@ -234,7 +234,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
             },
             "values": Object {
               "team_ids": Object {
-                "name": <FormattedMessage
+                "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Teams"
                   id="admin.team_settings.title"
                 />,
@@ -278,7 +278,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id0"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -312,7 +312,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id1"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -346,7 +346,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id2"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -380,7 +380,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id3"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -414,7 +414,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id4"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -448,7 +448,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id5"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -482,7 +482,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id6"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -516,7 +516,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id7"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -550,7 +550,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id8"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />
@@ -584,7 +584,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               id="remove-channel-id9"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Remove"
                 id="admin.data_retention.custom_policy.teams.remove"
               />

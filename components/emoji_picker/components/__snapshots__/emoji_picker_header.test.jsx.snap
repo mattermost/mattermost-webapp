@@ -17,7 +17,7 @@ exports[`components/emoji_picker/components/EmojiPickerHeader handleEmojiPickerC
     <span
       className="sr-only"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="emoji_picker.close"
       />
@@ -26,7 +26,7 @@ exports[`components/emoji_picker/components/EmojiPickerHeader handleEmojiPickerC
   <h4
     className="modal-title emoji-picker__header-title"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Emoji Picker"
       id="emoji_picker.header"
     />
@@ -51,7 +51,7 @@ exports[`components/emoji_picker/components/EmojiPickerHeader should match snaps
     <span
       className="sr-only"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="emoji_picker.close"
       />
@@ -60,7 +60,7 @@ exports[`components/emoji_picker/components/EmojiPickerHeader should match snaps
   <h4
     className="modal-title emoji-picker__header-title"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Emoji Picker"
       id="emoji_picker.header"
     />

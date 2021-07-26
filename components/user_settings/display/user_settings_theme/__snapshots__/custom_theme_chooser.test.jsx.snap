@@ -12,7 +12,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       id="sidebarStyles"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Sidebar Styles"
         id="user.settings.custom_theme.sidebarTitle"
       />
@@ -49,7 +49,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="sidebarBg"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Sidebar BG"
               id="user.settings.custom_theme.sidebarBg"
             />
@@ -65,7 +65,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="sidebarText"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Sidebar Text"
               id="user.settings.custom_theme.sidebarText"
             />
@@ -81,7 +81,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="sidebarHeaderBg"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Sidebar Header BG"
               id="user.settings.custom_theme.sidebarHeaderBg"
             />
@@ -97,7 +97,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="sidebarTeamBarBg"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Team Sidebar BG"
               id="user.settings.custom_theme.sidebarTeamBarBg"
             />
@@ -113,7 +113,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="sidebarHeaderTextColor"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Sidebar Header Text"
               id="user.settings.custom_theme.sidebarHeaderTextColor"
             />
@@ -129,7 +129,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="sidebarUnreadText"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Sidebar Unread Text"
               id="user.settings.custom_theme.sidebarUnreadText"
             />
@@ -145,7 +145,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="sidebarTextHoverBg"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Sidebar Text Hover BG"
               id="user.settings.custom_theme.sidebarTextHoverBg"
             />
@@ -161,7 +161,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="sidebarTextActiveBorder"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Sidebar Text Active Border"
               id="user.settings.custom_theme.sidebarTextActiveBorder"
             />
@@ -177,7 +177,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="sidebarTextActiveColor"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Sidebar Text Active Color"
               id="user.settings.custom_theme.sidebarTextActiveColor"
             />
@@ -193,7 +193,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="onlineIndicator"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Online Indicator"
               id="user.settings.custom_theme.onlineIndicator"
             />
@@ -209,7 +209,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="awayIndicator"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Away Indicator"
               id="user.settings.custom_theme.awayIndicator"
             />
@@ -225,7 +225,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="dndIndicator"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Do Not Disturb Indicator"
               id="user.settings.custom_theme.dndIndicator"
             />
@@ -241,7 +241,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="mentionBg"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Mention Jewel BG"
               id="user.settings.custom_theme.mentionBg"
             />
@@ -257,7 +257,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="mentionColor"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Mention Jewel Text"
               id="user.settings.custom_theme.mentionColor"
             />
@@ -276,7 +276,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       id="centerChannelStyles"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Center Channel Styles"
         id="user.settings.custom_theme.centerChannelTitle"
       />
@@ -314,7 +314,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="centerChannelBg"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Center Channel BG"
               id="user.settings.custom_theme.centerChannelBg"
             />
@@ -330,7 +330,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="centerChannelColor"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Center Channel Text"
               id="user.settings.custom_theme.centerChannelColor"
             />
@@ -346,7 +346,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="newMessageSeparator"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="New Message Separator"
               id="user.settings.custom_theme.newMessageSeparator"
             />
@@ -362,7 +362,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="errorTextColor"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Error Text Color"
               id="user.settings.custom_theme.errorTextColor"
             />
@@ -378,7 +378,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="mentionHighlightBg"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Mention Highlight BG"
               id="user.settings.custom_theme.mentionHighlightBg"
             />
@@ -394,7 +394,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="mentionHighlightLink"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Mention Highlight Link"
               id="user.settings.custom_theme.mentionHighlightLink"
             />
@@ -410,7 +410,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <label
           className="custom-label"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Code Theme"
             id="user.settings.custom_theme.codeTheme"
           />
@@ -497,7 +497,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       id="linkAndButtonsStyles"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Link and Button Styles"
         id="user.settings.custom_theme.linkButtonTitle"
       />
@@ -534,7 +534,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="linkColor"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Link Color"
               id="user.settings.custom_theme.linkColor"
             />
@@ -550,7 +550,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="buttonBg"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Button BG"
               id="user.settings.custom_theme.buttonBg"
             />
@@ -566,7 +566,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <ColorChooser
           id="buttonColor"
           label={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Button Text"
               id="user.settings.custom_theme.buttonColor"
             />
@@ -586,7 +586,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       <label
         className="custom-label"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Copy to share or paste theme colors here:"
           id="user.settings.custom_theme.copyPaste"
         />
@@ -607,7 +607,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
           className="btn btn-link copy-theme-button"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Copy Theme Colors"
             id="user.settings.custom_theme.copyThemeColors"
           />
@@ -621,7 +621,7 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             }
           }
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="✔ Copied"
             id="user.settings.custom_theme.copied"
           />

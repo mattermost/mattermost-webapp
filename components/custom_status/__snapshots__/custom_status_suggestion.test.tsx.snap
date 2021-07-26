@@ -46,7 +46,7 @@ exports[`components/custom_status/custom_status_emoji should match snapshot with
   <span
     className="statusSuggestion__duration"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Today"
       id="custom_status.expiry_dropdown.today"
     />
