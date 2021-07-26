@@ -181,7 +181,7 @@ const BillingSubscriptions: React.FC = () => {
         <div className='wrapper--fixed BillingSubscriptions'>
             <FormattedAdminHeader
                 id='admin.billing.subscription.title'
-                defaultMessage='Subscriptions'
+                defaultMessage='Subscription'
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
