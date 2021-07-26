@@ -2,12 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-
-// import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions'; // added
-import {GlobalState} from 'types/store'; // added
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'types/store';
 
 import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
 
@@ -26,38 +24,6 @@ const NUMBER_OF_COLUMNS_PORTRAIT = 2;
 const NUMBER_OF_COLUMNS_LANDSCAPE = 2;
 const WEBKIT_SCROLLBAR_WIDTH = 8;
 
-// static propTypes = {
-//     appProps: PropTypes.object,
-//     gifs: PropTypes.object,
-//     resultsByTerm: PropTypes.object,
-//     containerClassName: PropTypes.string,
-//     keyword: PropTypes.string, // searchText, tagName
-//     handleItemClick: PropTypes.func,
-//     loadMore: PropTypes.func,
-//     numberOfColumns: PropTypes.number,
-//     scrollPosition: PropTypes.number,
-//     saveSearchScrollPosition: PropTypes.func,
-// }
-
-type Props = {
-    appProps: Record<string, any>;
-    gifs: Record<string, Record<string, any>>;
-    resultsByTerm: Record<string, Record<string, any>>;
-    containerClassName?: string;
-    keyword: string;
-    handleItemClick: (gif: any) => void;
-
-    // handleItemClick: (gif: Record<string, any>) => void;
-    loadMore: () => void;
-    numberOfColumns?: number;
-    scrollPosition: number;
-    saveSearchScrollPosition: (scrollPosition: number) => (dispatch: DispatchFunc) => void;
-}
-
-type State = {
-    containerWidth: null | number;
-}
-
 function mapStateToProps(state: GlobalState) {
     return {
         ...state.entities.gifs.cache,
@@ -70,9 +36,30 @@ const mapDispatchToProps = ({
     saveSearchScrollPosition,
 });
 
-// export class SearchGrid extends PureComponent<Props, GlobalState> {
+type Props = {
+    appProps: Record<string, any>;
+    gifs: Record<string, Record<string, any>>;
+    resultsByTerm: Record<string, Record<string, any>>;
+    containerClassName?: string;
+    keyword: string; // searchText, tagName
+    handleItemClick: (gif: Record<string, any>) => void;
+    loadMore: () => void;
+    saveSearchScrollPosition: (scrollPosition: number) => (dispatch: DispatchFunc) => void;
+    scrollPosition: number;
+}
+
+type State = {
+    containerWidth: null | number;
+}
+
 export class SearchGrid extends PureComponent<Props, State> {
-    // scrollPosition: number;
+    columnsHeights: number[];
+    container: HTMLElement | null;
+    containerHeight: number | undefined;
+    numberOfColumns: number | undefined;
+    padding: number;
+    scrollPosition: number;
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -80,6 +67,7 @@ export class SearchGrid extends PureComponent<Props, State> {
         };
         this.scrollPosition = this.props.scrollPosition;
         this.setNumberOfColumns();
+        this.container = null;
 
         /**
          * Inital values for columns heights
@@ -94,16 +82,20 @@ export class SearchGrid extends PureComponent<Props, State> {
 
     componentDidMount() {
         this.container = document.getElementById('search-grid-container');
-        // eslint-disable-next-line react/no-did-mount-set-state
-        this.setState({
-            ...this.state,
-            containerWidth: this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH,
-        });
+
+        if (this.container !== null) {
+            // eslint-disable-next-line react/no-did-mount-set-state
+            this.setState({
+                ...this.state,
+                containerWidth: this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH,
+            });
+        }
+
         window.addEventListener('resize', this.resizeHandler);
         window.addEventListener('scroll', this.scrollHandler);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.keyword !== this.props.keyword) {
             window.scrollTo(0, 0);
         }
@@ -127,7 +119,7 @@ export class SearchGrid extends PureComponent<Props, State> {
         }
     }
 
-    itemClickHandler = (gfyItem) => {
+    itemClickHandler = (gfyItem: Record<string, any>) => {
         const {keyword, handleItemClick} = this.props;
         this.props.saveSearchScrollPosition(this.scrollPosition);
 
@@ -148,7 +140,7 @@ export class SearchGrid extends PureComponent<Props, State> {
     }
 
     resizeHandler = () => {
-        if (this.state.containerWidth !== this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH) {
+        if ((this.container !== null) && (this.state.containerWidth !== this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH)) {
             this.setNumberOfColumns();
             this.setState({
                 ...this.state,
@@ -173,12 +165,13 @@ export class SearchGrid extends PureComponent<Props, State> {
         } = this.props;
 
         const {containerWidth} = this.state;
-        const {moreRemaining, items = [], isEmpty = items.length === 0, isFetching} = resultsByTerm[keyword] ? resultsByTerm[keyword] : {};
+
+        const {moreRemaining, items = [], isEmpty = items.length === 0, isFetching}: Record<string, any> = resultsByTerm[keyword] ? resultsByTerm[keyword] : {};
 
         /**
          * Columns 'left' values
          */
-        const columnWidth = parseInt(containerWidth / this.numberOfColumns, 10);
+        const columnWidth = containerWidth! / this.numberOfColumns!;
         const leftPosition = Array(this.numberOfColumns).fill(0).map((item, index) => this.padding + ((index * columnWidth) - (index * (this.padding / 2))));
 
         this.columnsHeights = Array(this.numberOfColumns).fill(this.padding);
@@ -187,8 +180,8 @@ export class SearchGrid extends PureComponent<Props, State> {
         //const itemWidth = this.numberOfColumns === NUMBER_OF_COLUMNS_PORTRAIT ? 100 / NUMBER_OF_COLUMNS_PORTRAIT : 100 / this.numberOfColumns;
         const itemWidth = 140;
 
-        const searchItems = containerWidth && items.length ?
-            items.map((item, index) => {
+        const searchItems = containerWidth! && items.length ?
+            items.map((item: string, index: number) => {
                 const gfyItem = gifs[item];
                 const {gfyId} = gfyItem;
 

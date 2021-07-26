@@ -23,8 +23,4 @@ function mapDispatchToProps() {
     };
 }
 
-// const mapDispatchToProps = ({
-//     saveSearchScrollPosition,
-// });
-
 export default connect(mapStateToProps, mapDispatchToProps)(SearchGrid);
