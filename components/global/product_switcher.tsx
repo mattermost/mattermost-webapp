@@ -2,11 +2,13 @@
 // See LICENSE.txt for license information.
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
+import Text from '@mattermost/compass-components/components/text/Text';
 import Shape from '@mattermost/compass-components/foundations/shape';
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 import Popover from '@mattermost/compass-components/utilities/popover/Popover';
 import Spacing from '@mattermost/compass-components/utilities/spacing';
 import React, {useRef, useState} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {Link, useRouteMatch} from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -79,7 +81,8 @@ const ProductSwitcher = (): JSX.Element => {
                 isVisible={switcherOpen}
                 onClickAway={() => setSwitcherOpen(false)}
                 placement={'bottom-start'}
-                offset={[25, 25]}
+                offset={[0, 75]}
+                zIndex={20}
             >
                 <Shape
                     elevation={1}
@@ -89,6 +92,15 @@ const ProductSwitcher = (): JSX.Element => {
                     <Flex
                         padding={Spacing.all(50)}
                     >
+                        <Text
+                            size={300}
+                            weight={'bold'}
+                        >
+                            <FormattedMessage
+                                defaultMessage='Open...'
+                                id='global_header.open'
+                            />
+                        </Text>
                         {items}
                     </Flex>
                 </Shape>

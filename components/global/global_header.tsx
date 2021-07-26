@@ -35,7 +35,7 @@ const GlobalHeader = (): JSX.Element | null => {
                     element={Shape}
                     columnsTemplate={'auto 1fr auto'}
                     placeItems={{alignItems: 'center'}}
-                    padding={Spacing.symmetric({horizontal: 200, vertical: 25})}
+                    padding={Spacing.symmetric({horizontal: 200, vertical: 0})}
                     width={'100%'}
                     height={40}
                     radius={0}
@@ -53,10 +53,6 @@ const GlobalHeader = (): JSX.Element | null => {
                            This is where the header content for the webapp will go
                         */}
                     </div>
-                    <Avatar
-                        name={'lame'}
-                        onClick={() => {}}
-                    />
                     <StatusDropdown
                         globalHeader={true}
                     />
