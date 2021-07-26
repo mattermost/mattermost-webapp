@@ -1,11 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Locations} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -89,7 +88,7 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('should match snapshot for channel', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...defaultProps}/>,
         );
 
@@ -111,7 +110,7 @@ describe('components/SearchResultsItem', () => {
             enablePostUsernameOverride: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -132,7 +131,7 @@ describe('components/SearchResultsItem', () => {
             enablePostUsernameOverride: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -148,7 +147,7 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...props}/>,
         );
 
@@ -156,7 +155,7 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('Check for dotmenu dropdownOpened state', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...defaultProps}/>,
         );
 
@@ -177,7 +176,7 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...props}/>,
         );
 
@@ -196,7 +195,7 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...props}/>,
         );
 
@@ -212,7 +211,7 @@ describe('components/SearchResultsItem', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...props}/>,
         );
 
@@ -220,7 +219,7 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('should pass props correctly to PostFlagIcon', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...defaultProps}/>,
         );
 
@@ -238,7 +237,7 @@ describe('components/SearchResultsItem', () => {
             isFlaggedPosts: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SearchResultsItem {...props}/>,
         );
 

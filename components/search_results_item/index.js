@@ -19,13 +19,11 @@ import {
     setRhsExpanded,
 } from 'actions/views/rhs';
 
-import {makeCreateAriaLabelForPost} from 'utils/post_utils';
 import {getDisplayNameByUser} from 'utils/utils.jsx';
 
 import SearchResultsItem from './search_results_item.jsx';
 
 function mapStateToProps() {
-    const createAriaLabelForPost = makeCreateAriaLabelForPost();
     const getReplyCount = makeGetCommentCountForPost();
 
     return (state, ownProps) => {
@@ -39,7 +37,6 @@ function mapStateToProps() {
 
         return {
             currentTeamName: getCurrentTeam(state).name,
-            createAriaLabel: createAriaLabelForPost(state, post),
             channelId: channel.id,
             channelName: channel.display_name,
             channelType: channel.type,

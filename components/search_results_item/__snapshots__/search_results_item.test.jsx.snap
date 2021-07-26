@@ -8,16 +8,42 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "id": "id",
+        "is_pinned": true,
+        "message": "post message",
+        "original_id": "",
+        "parent_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "root_id": "",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
       className="search-channel__name"
     >
-      Direct Message (with Other guy)
+      <MemoizedFormattedMessage
+        defaultMessage="Direct Message (with {username})"
+        id="search_item.direct"
+        values={
+          Object {
+            "username": "Other guy",
+          }
+        }
+      />
     </div>
     <Connect(injectIntl(PostPreHeader))
       channelId="channel_id"
@@ -203,7 +229,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </div>
 `;
 
@@ -215,10 +241,28 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "parent_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "root_id": "",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
@@ -421,7 +465,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </div>
 `;
 
@@ -433,10 +477,28 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "parent_id": "",
+        "pending_post_id": "",
+        "props": Object {},
+        "root_id": "",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
@@ -628,7 +690,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </div>
 `;
 
@@ -640,10 +702,36 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "file_ids": Array [
+          "id",
+          "id2",
+        ],
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "parent_id": "",
+        "pending_post_id": "",
+        "props": Object {
+          "from_webhook": true,
+          "override_username": "overridden_username",
+        },
+        "root_id": "",
+        "state": "DELETED",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
@@ -771,7 +859,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </div>
 `;
 
@@ -783,10 +871,36 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   <Memo(DateSeparator)
     date={2017-12-14T18:15:28.290Z}
   />
-  <div
+  <PostAriaLabelDiv
     className="a11y__section post post--thread post--compact"
     id="searchResult_id"
-    onFocus={[Function]}
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "edit_at": 1502715372443,
+        "file_ids": Array [
+          "id",
+          "id2",
+        ],
+        "id": "id",
+        "is_pinned": false,
+        "message": "post message",
+        "original_id": "",
+        "parent_id": "",
+        "pending_post_id": "",
+        "props": Object {
+          "from_webhook": true,
+          "override_username": "overridden_username",
+        },
+        "root_id": "",
+        "state": "deleted",
+        "type": "",
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+      }
+    }
   >
     <div
       aria-hidden="true"
@@ -914,6 +1028,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
         </div>
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </div>
 `;

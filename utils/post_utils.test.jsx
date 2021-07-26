@@ -669,6 +669,7 @@ describe('PostUtils.getLatestPostId', () => {
 
 describe('PostUtils.createAriaLabelForPost', () => {
     const emojiMap = new EmojiMap(new Map());
+
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
@@ -692,12 +693,13 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        assert.ok(ariaLabel.indexOf(author));
-        assert.ok(ariaLabel.indexOf(testPost.message));
-        assert.ok(ariaLabel.indexOf('3 attachments'));
-        assert.ok(ariaLabel.indexOf('2 reactions'));
-        assert.ok(ariaLabel.indexOf('message is saved and pinned'));
+        expect(ariaLabel.indexOf(author)).toBeTruthy();
+        expect(ariaLabel.indexOf(testPost.message)).toBeTruthy();
+        expect(ariaLabel.indexOf('3 attachments')).toBeTruthy();
+        expect(ariaLabel.indexOf('2 reactions')).toBeTruthy();
+        expect(ariaLabel.indexOf('message is saved and pinned')).toBeTruthy();
     });
+
     test('Should show that message is a reply', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
@@ -711,8 +713,9 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        assert.ok(ariaLabel.indexOf('reply'));
+        expect(ariaLabel.indexOf('reply')).toBeTruthy();
     });
+
     test('Should translate emoji into {emoji-name} emoji', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
@@ -725,12 +728,13 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        assert.ok(ariaLabel.indexOf('smile emoji'));
-        assert.ok(ariaLabel.indexOf('+1 emoji'));
-        assert.ok(ariaLabel.indexOf('non-potable water emoji'));
-        assert.ok(ariaLabel.indexOf(':space emoji:'));
-        assert.ok(ariaLabel.indexOf(':not_an_emoji:'));
+        expect(ariaLabel.indexOf('smile emoji')).toBeTruthy();
+        expect(ariaLabel.indexOf('+1 emoji')).toBeTruthy();
+        expect(ariaLabel.indexOf('non-potable water emoji')).toBeTruthy();
+        expect(ariaLabel.indexOf(':space emoji:')).toBeTruthy();
+        expect(ariaLabel.indexOf(':not_an_emoji:')).toBeTruthy();
     });
+
     test('Generating aria label should not break if message is undefined', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
@@ -743,7 +747,23 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        assert.doesNotThrow(() => PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap));
+        expect(() => PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap)).not.toThrow();
+    });
+
+    test('Should not mention reactions if passed an empty object', () => {
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
+
+        const testPost = {
+            message: 'test_message',
+            root_id: 'test_id',
+            create_at: (new Date().getTime() / 1000) || 0,
+        };
+        const author = 'test_author';
+        const reactions = {};
+        const isFlagged = true;
+
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
+        expect(ariaLabel.indexOf('reaction') === -1).toBe(true);
     });
 });
 

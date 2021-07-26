@@ -43,7 +43,7 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
           <Memo(DateSeparator)
             date={2017-08-14T12:56:05.009Z}
           />
-          <Connect(injectIntl(RhsRootPost))
+          <Connect(RhsRootPost)
             commentCount={0}
             currentUserId="user_id"
             handleCardClick={[Function]}

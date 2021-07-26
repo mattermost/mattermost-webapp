@@ -14,7 +14,7 @@ import {selectPost, selectPostCard} from 'actions/views/rhs';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
-import {areConsecutivePostsBySameUser, makeCreateAriaLabelForPost} from 'utils/post_utils';
+import {areConsecutivePostsBySameUser} from 'utils/post_utils';
 
 import Post from './post.jsx';
 
@@ -37,7 +37,6 @@ export function isFirstReply(post, previousPost) {
 function makeMapStateToProps() {
     const getReplyCount = makeGetCommentCountForPost();
     const isPostCommentMention = makeIsPostCommentMention();
-    const createAriaLabelForPost = makeCreateAriaLabelForPost();
 
     return (state, ownProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
@@ -58,7 +57,6 @@ function makeMapStateToProps() {
 
         return {
             post,
-            createAriaLabel: createAriaLabelForPost(state, post),
             currentUserId: getCurrentUserId(state),
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,

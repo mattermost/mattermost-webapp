@@ -480,7 +480,7 @@ export function createAriaLabelForPost(post: Post, author: string, isFlagged: bo
             {
                 reactionCount: emojiNames.length,
             });
-        } else {
+        } else if (emojiNames.length === 1) {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.reaction',
                 defaultMessage: ', 1 reaction',
