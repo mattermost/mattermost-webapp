@@ -29,7 +29,7 @@ window.ReactRouterDom = require('react-router-dom');
 window.PropTypes = require('prop-types');
 window.PDFJS = require('pdfjs-dist');
 
-// Functions and components exposed on window for plugins to use.
+// Functions exposed on window for plugins to use.
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
 window.WebappUtils = {
@@ -37,6 +37,9 @@ window.WebappUtils = {
     modals: {openModal, ModalIdentifiers},
 };
 
+// Components exposed on window FOR INTERNAL PLUGIN USE ONLY. These components may have breaking changes in the future
+// outside of major releases. They will be replaced by common components once that project is more mature and able to
+// guarantee better compatibility.
 window.Components = {
     Textbox,
     PurchaseModal,
