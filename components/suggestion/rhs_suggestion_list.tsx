@@ -15,7 +15,7 @@ type Props = React.ComponentProps<typeof SuggestionList> & {
 }
 
 export default function RhsSuggestionList(props: Props): JSX.Element {
-    const [position, setPosition] = useState<Props['location']>('top');
+    const [position, setPosition] = useState<Props['position']>('top');
 
     useEffect(() => {
         const input = props.inputRef.current;

@@ -7,7 +7,7 @@ import Textbox from 'components/textbox';
 import BaseTextbox from 'components/textbox/textbox';
 
 type Props = Omit<React.ComponentPropsWithRef<typeof Textbox>, 'suggestionListPosition'> & {
-    suggestionListStyle: string;
+    suggestionListStyle?: React.ComponentPropsWithRef<typeof Textbox>['suggestionListPosition'];
 }
 
 const PluginTextbox = React.forwardRef((props: Props, ref?: React.Ref<BaseTextbox>) => {

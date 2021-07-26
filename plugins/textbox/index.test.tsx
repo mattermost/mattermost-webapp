@@ -13,6 +13,7 @@ describe('PluginTextbox', () => {
         id: 'id',
         channelId: 'channelId',
         rootId: 'rootId',
+        tabIndex: -1,
         value: '',
         onChange: jest.fn(),
         onKeyPress: jest.fn(),
@@ -32,7 +33,7 @@ describe('PluginTextbox', () => {
     };
 
     test('should rename suggestionListStyle to suggestionListPosition', () => {
-        const props = {
+        const props: React.ComponentProps<typeof PluginTextbox> = {
             ...baseProps,
             suggestionListStyle: 'bottom',
         };
