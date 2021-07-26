@@ -11,6 +11,8 @@ import {GlobalState} from 'types/store';
 import {Preferences, TutorialSteps} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
+
 import SidebarHeader from './sidebar_header';
 
 function mapStateToProps(state: GlobalState) {
@@ -24,6 +26,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         enableTutorial,
         showTutorialTip,
+        globalHeaderEnabled: getGlobalHeaderEnabled(state),
     };
 }
 

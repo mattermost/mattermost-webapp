@@ -5,16 +5,12 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-
-import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 
@@ -36,8 +32,7 @@ function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
 
     const config = getConfig(state);
-    const enableTutorial = config.EnableTutorial === 'true';
-    const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
+
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
     let channelRolesLoading = true;
@@ -60,7 +55,6 @@ function mapStateToProps(state: GlobalState) {
         channelRolesLoading,
         deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
         focusedPostId: state.views.channel.focusedPostId,
-        showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
         showNextStepsEphemeral: state.views.nextSteps.show,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,

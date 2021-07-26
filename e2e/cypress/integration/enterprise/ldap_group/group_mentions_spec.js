@@ -178,13 +178,8 @@ describe('System Console', () => {
                 });
             });
 
-            const preferences = [{
-                user_id: user.id,
-                category: 'tutorial_step',
-                name: user.id,
-                value: '999',
-            }];
-            cy.apiSaveUserPreference(preferences, user.id);
+            cy.apiSaveTutorialStep(user.id, '999');
+            cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
         });
     });
 
@@ -236,7 +231,7 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Click reset to defaults, confirm and save
-        cy.findByTestId('resetPermissionsToDefault').click();
+        cy.findByTestId('resetPermissionsToDefault').click({force: true});
         cy.get('#confirmModalButton').click();
         saveConfig();
 
@@ -272,7 +267,7 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Click reset to defaults confirm and save
-        cy.findByTestId('resetPermissionsToDefault').click();
+        cy.findByTestId('resetPermissionsToDefault').click({force: true});
         cy.get('#confirmModalButton').click();
         saveConfig();
     });

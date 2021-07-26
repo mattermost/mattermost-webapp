@@ -37,6 +37,7 @@ import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
+import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -1234,15 +1235,6 @@ class CreateComment extends React.PureComponent {
             scrollbarClass = ' scroll';
         }
 
-        const textboxRef = this.textboxRef.current;
-        let suggestionListStyle = 'top';
-        if (textboxRef) {
-            const textboxPosTop = textboxRef.getInputBox().getBoundingClientRect().top;
-            if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
-                suggestionListStyle = 'bottom';
-            }
-        }
-
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
@@ -1282,7 +1274,7 @@ class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
-                                suggestionListStyle={suggestionListStyle}
+                                suggestionList={RhsSuggestionList}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}

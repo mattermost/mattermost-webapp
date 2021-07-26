@@ -7,11 +7,9 @@ import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-r
 
 import {getCurrentChannelId, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import {getCustomEmojisByName as selectCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
-import {parseNeededCustomEmojisFromText} from 'mattermost-redux/utils/emoji_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {Action, ActionResult, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
@@ -21,7 +19,6 @@ import {Post, PostList} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -975,13 +972,6 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         promises.push(getProfilesByUsernames(Array.from(usernamesToLoad))(dispatch, getState));
     }
 
-    // Emojis used in the posts
-    const emojisToLoad = getNeededCustomEmojis(state, posts);
-
-    if (emojisToLoad && emojisToLoad.size > 0) {
-        promises.push(getCustomEmojisByName(Array.from(emojisToLoad))(dispatch, getState));
-    }
-
     return Promise.all(promises);
 }
 
@@ -1023,76 +1013,6 @@ export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[])
     return usernamesToLoad;
 }
 
-function buildPostAttachmentText(attachments: any[]) {
-    let attachmentText = '';
-
-    attachments.forEach((a) => {
-        if (a.fields && a.fields.length) {
-            a.fields.forEach((f: any) => {
-                attachmentText += ' ' + (f.value || '');
-            });
-        }
-
-        if (a.pretext) {
-            attachmentText += ' ' + a.pretext;
-        }
-
-        if (a.text) {
-            attachmentText += ' ' + a.text;
-        }
-    });
-
-    return attachmentText;
-}
-
-export function getNeededCustomEmojis(state: GlobalState, posts: Post[]): Set<string> {
-    if (getConfig(state).EnableCustomEmoji !== 'true') {
-        return new Set<string>();
-    }
-
-    // If post metadata is supported, custom emojis will have been provided as part of that
-    if (posts[0].metadata) {
-        return new Set<string>();
-    }
-
-    let customEmojisToLoad = new Set<string>();
-
-    let customEmojisByName: Map<string, CustomEmoji>; // Populate this lazily since it's relatively expensive
-    const nonExistentEmoji = state.entities.emojis.nonExistentEmoji;
-
-    posts.forEach((post) => {
-        if (post.message.includes(':')) {
-            if (!customEmojisByName) {
-                customEmojisByName = selectCustomEmojisByName(state);
-            }
-
-            const emojisFromPost = parseNeededCustomEmojisFromText(post.message, systemEmojis, customEmojisByName, nonExistentEmoji);
-
-            if (emojisFromPost.size > 0) {
-                customEmojisToLoad = new Set([...customEmojisToLoad, ...emojisFromPost]);
-            }
-        }
-
-        const props = post.props;
-        if (props && props.attachments && props.attachments.length) {
-            if (!customEmojisByName) {
-                customEmojisByName = selectCustomEmojisByName(state);
-            }
-
-            const attachmentText = buildPostAttachmentText(props.attachments);
-
-            if (attachmentText) {
-                const emojisFromAttachment = parseNeededCustomEmojisFromText(attachmentText, systemEmojis, customEmojisByName, nonExistentEmoji);
-
-                if (emojisFromAttachment.size > 0) {
-                    customEmojisToLoad = new Set([...customEmojisToLoad, ...emojisFromAttachment]);
-                }
-            }
-        }
-    });
-
-    return customEmojisToLoad;
-}
 export type ExtendedPost = Post & { system_post_ids?: string[] };
 
 export function removePost(post: ExtendedPost) {
