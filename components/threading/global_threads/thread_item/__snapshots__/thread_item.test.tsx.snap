@@ -66,6 +66,12 @@ exports[`components/threading/global_threads/thread_item should report total num
     tabIndex={0}
   >
     <Connect(Markdown)
+      imageProps={
+        Object {
+          "onImageHeightChanged": [Function],
+          "onImageLoaded": [Function],
+        }
+      }
       message="test msg"
       options={
         Object {
@@ -176,6 +182,12 @@ exports[`components/threading/global_threads/thread_item should report unread me
     tabIndex={0}
   >
     <Connect(Markdown)
+      imageProps={
+        Object {
+          "onImageHeightChanged": [Function],
+          "onImageLoaded": [Function],
+        }
+      }
       message="test msg"
       options={
         Object {
@@ -284,6 +296,12 @@ exports[`components/threading/global_threads/thread_item should report unread me
     tabIndex={0}
   >
     <Connect(Markdown)
+      imageProps={
+        Object {
+          "onImageHeightChanged": [Function],
+          "onImageLoaded": [Function],
+        }
+      }
       message="test msg"
       options={
         Object {
