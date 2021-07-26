@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Avatar from '@mattermost/compass-components/components/avatar/Avatar';
 import Shape from '@mattermost/compass-components/foundations/shape';
 import PShape from '@mattermost/compass-components/foundations/shape/Shape.props';
 import Grid from '@mattermost/compass-components/utilities/grid/Grid';
