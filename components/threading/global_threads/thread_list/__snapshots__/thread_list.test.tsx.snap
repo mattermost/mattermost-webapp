@@ -12,7 +12,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
           isActive={true}
           onClick={[Function]}
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="All your threads"
             id="threading.filters.allThreads"
           />
@@ -23,7 +23,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
           isActive={false}
           onClick={[Function]}
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Unreads"
             id="threading.filters.unreads"
           />
@@ -58,6 +58,17 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
   />
   <div
     className="threads"
-  />
+  >
+    <Memo(VirtualizedThreadList)
+      ids={
+        Array [
+          "1",
+          "2",
+          "3",
+        ]
+      }
+      key="threads_list_"
+    />
+  </div>
 </div>
 `;

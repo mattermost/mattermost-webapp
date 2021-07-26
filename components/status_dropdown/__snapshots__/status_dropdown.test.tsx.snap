@@ -23,12 +23,12 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     <span
       className="status status-edit edit"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Dropdown Icon"
         id="generic_icons.dropdown"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </span>
   </div>
   <Menu
@@ -36,7 +36,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     id="statusDropdownMenu"
   >
     <MenuHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Status"
         id="status_dropdown.set_your_status"
       />
@@ -124,12 +124,12 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     <span
       className="status status-edit edit"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Dropdown Icon"
         id="generic_icons.dropdown"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </span>
   </div>
   <Menu
@@ -163,7 +163,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
                 id="clear-custom-status"
                 placement="right"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Clear"
                   id="status_dropdown.custom_status.tooltip_clear"
                 />
@@ -299,12 +299,12 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     <span
       className="status status-edit edit"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Dropdown Icon"
         id="generic_icons.dropdown"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </span>
   </div>
   <Menu
@@ -421,12 +421,12 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     <span
       className="status status-edit edit"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Dropdown Icon"
         id="generic_icons.dropdown"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </span>
   </div>
   <Menu
@@ -544,12 +544,12 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     <span
       className="status status-edit edit"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Dropdown Icon"
         id="generic_icons.dropdown"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </span>
   </div>
   <Menu
@@ -673,12 +673,12 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     <span
       className="status status-edit edit"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Dropdown Icon"
         id="generic_icons.dropdown"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </span>
   </div>
   <Menu
@@ -686,7 +686,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     id="statusDropdownMenu"
   >
     <MenuHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Status"
         id="status_dropdown.set_your_status"
       />
@@ -774,12 +774,12 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     <span
       className="status status-edit edit"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Dropdown Icon"
         id="generic_icons.dropdown"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </span>
   </div>
   <Menu
@@ -787,7 +787,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     id="statusDropdownMenu"
   >
     <MenuHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Status"
         id="status_dropdown.set_your_status"
       />

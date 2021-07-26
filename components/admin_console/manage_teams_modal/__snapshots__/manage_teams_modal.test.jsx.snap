@@ -39,7 +39,7 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
       componentClass="h1"
       id="manageTeamsModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Manage Teams"
         id="admin.user_item.manageTeams"
       />
@@ -125,7 +125,7 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
       componentClass="h1"
       id="manageTeamsModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Manage Teams"
         id="admin.user_item.manageTeams"
       />

@@ -58,11 +58,13 @@ function ThreadFooter({
     } = thread;
     const participantIds = useMemo(() => participants?.map(({id}) => id), [participants]);
 
-    const handleReply = useCallback(() => {
+    const handleReply = useCallback((e) => {
+        e.stopPropagation();
         dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
     }, [threadId, channelId]);
 
-    const handleFollowing = useCallback(() => {
+    const handleFollowing = useCallback((e) => {
+        e.stopPropagation();
         dispatch(setThreadFollow(currentUserId, currentTeamId, threadId, !isFollowing));
     }, [isFollowing]);
 

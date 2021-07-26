@@ -60,6 +60,15 @@ import ContactUsButton from 'components/announcement_bar/contact_sales/contact_u
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
+const CLICKABLE_ELEMENTS = [
+    'a',
+    'button',
+    'img',
+    'svg',
+    'audio',
+    'video',
+];
+
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
@@ -625,7 +634,7 @@ export function applyTheme(theme) {
         changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a, .app__body .post .Menu .MenuItem', 'background:' + theme.centerChannelBg);
         changeCss('#post-create, .app__body .emoji-picker__preview', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
+        changeCss('.dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .popover.right>.arrow:after, .app__body .tip-overlay.tip-overlay--sidebar .arrow, .app__body .tip-overlay.tip-overlay--header .arrow', 'border-right-color:' + theme.centerChannelBg);
         changeCss('.app__body .popover.top>.arrow:after, .app__body .tip-overlay.tip-overlay--chat .arrow', 'border-top-color:' + theme.centerChannelBg);
         changeCss('.app__body .attachment__content, .app__body .attachment-actions button', 'background:' + theme.centerChannelBg);
@@ -1155,16 +1164,17 @@ export function offsetTopLeft(el) {
     return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
 }
 
-export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 'top') {
+export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
     if (!textArea || !(textArea instanceof HTMLElement)) {
         return {
             pixelsToMoveX: 0,
             pixelsToMoveY: 0,
         };
     }
+
     const caretCoordinatesInTxtArea = getCaretXYCoordinate(textArea);
     const caretXCoordinateInTxtArea = caretCoordinatesInTxtArea.x;
-    let caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
+    const caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
     const viewportWidth = getViewportSize().w;
 
     const suggestionBoxWidth = getSuggestionBoxWidth(textArea);
@@ -1183,16 +1193,15 @@ export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 
         // stick the suggestion list to the very right of the TextArea
         pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
     }
-    const txtAreaLineHeight = Number(getComputedStyle(textArea)?.lineHeight.replace('px', ''));
-    if (boxLocation === 'bottom') {
-        // Add the line height and 4 extra px so it looks less tight
-        caretYCoordinateInTxtArea += txtAreaLineHeight + 4;
-    }
-    return {
-        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
 
-        // if the suggestion box was invoked from the first line in the post box, stick to the top of the post box
-        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea > txtAreaLineHeight ? caretYCoordinateInTxtArea : 0),
+    return {
+
+        // The rough location of the caret in the textbox
+        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
+        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea),
+
+        // The line height of the textbox is needed so that the SuggestionList can adjust its position to be below the current line in the textbox
+        lineHeight: Number(getComputedStyle(textArea)?.lineHeight.replace('px', '')),
     };
 }
 
@@ -2249,4 +2258,58 @@ export function deleteKeysFromObject(value, keys) {
         delete value[key];
     }
     return value;
+}
+
+export function isSelection() {
+    const selection = window.getSelection();
+    return selection.type === 'Range';
+}
+
+/*
+ * Returns false when the element clicked or its ancestors
+ * is a potential click target (link, button, image, etc..)
+ * but not the events currentTarget
+ * and true in any other case.
+ *
+ * @param {string} selector - CSS selector of elements not eligible for click
+ * @returns {function}
+ */
+export function makeIsEligibleForClick(selector = '') {
+    return (event) => {
+        const currentTarget = event.currentTarget;
+        let node = event.target;
+
+        if (isSelection()) {
+            return false;
+        }
+
+        if (node === currentTarget) {
+            return true;
+        }
+
+        // in the case of a react Portal
+        if (!currentTarget.contains(node)) {
+            return false;
+        }
+
+        // traverses the targets parents up to currentTarget to see
+        // if any of them is a potentially clickable element
+        while (node) {
+            if (!node || node === currentTarget) {
+                break;
+            }
+
+            if (
+                CLICKABLE_ELEMENTS.includes(node.tagName.toLowerCase()) ||
+                node.getAttribute('role') === 'button' ||
+                (selector && node.matches(selector))
+            ) {
+                return false;
+            }
+
+            node = node.parentNode;
+        }
+
+        return true;
+    };
 }

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -45,6 +47,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
+
+const CreatePostDraftTimeoutMilliseconds = 500;
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str) {
@@ -341,6 +345,7 @@ class CreatePost extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
         if (useGroupMentions) {
@@ -353,6 +358,7 @@ class CreatePost extends React.PureComponent {
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
+            this.saveDraft(prevProps);
             if (useGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
@@ -371,11 +377,21 @@ class CreatePost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
-        if (this.saveDraftFrame) {
-            const channelId = this.props.currentChannel.id;
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
-            cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraft();
+    }
+
+    unloadHandler = () => {
+        this.saveDraft();
+    }
+
+    saveDraft = (props = this.props) => {
+        if (this.saveDraftFrame && props.currentChannel) {
+            const channelId = props.currentChannel.id;
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            clearTimeout(this.saveDraftFrame);
+            this.saveDraftFrame = null;
         }
     }
 
@@ -532,7 +548,7 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
-        cancelAnimationFrame(this.saveDraftFrame);
+        clearTimeout(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
     }
@@ -802,10 +818,10 @@ class CreatePost extends React.PureComponent {
             ...this.props.draft,
             message,
         };
-        cancelAnimationFrame(this.saveDraftFrame);
-        this.saveDraftFrame = requestAnimationFrame(() => {
+        clearTimeout(this.saveDraftFrame);
+        this.saveDraftFrame = setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        });
+        }, CreatePostDraftTimeoutMilliseconds);
         this.draftsForChannel[channelId] = draft;
     }
 

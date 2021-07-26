@@ -38,7 +38,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelGroups should match 
       id="addGroupsToChannelToggle"
       isDisabled={false}
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Add Group"
         id="admin.channel_settings.channel_details.add_group"
       />

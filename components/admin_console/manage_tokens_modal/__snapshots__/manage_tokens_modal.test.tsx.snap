@@ -39,7 +39,7 @@ exports[`components/admin_console/manage_tokens_modal/manage_tokens_modal.tsx sh
       componentClass="h1"
       id="manageTokensModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Manage Personal Access Tokens"
         id="admin.manage_tokens.manageTokensTitle"
       />

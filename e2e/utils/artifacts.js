@@ -6,6 +6,7 @@
 const fs = require('fs');
 
 const path = require('path');
+
 const async = require('async');
 const AWS = require('aws-sdk');
 const mime = require('mime-types');
