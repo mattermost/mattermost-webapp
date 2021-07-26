@@ -18,7 +18,7 @@ import Pluggable from 'plugins/pluggable';
 import ProductSwitcher from './product_switcher';
 import {useCurrentProductId, useProducts} from './hooks';
 
-const GlobalHeader = () => {
+const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
