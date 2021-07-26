@@ -1,15 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import IconButton from '@mattermost/compass-components/components/icon-button';
-import Text from '@mattermost/compass-components/components/text/Text';
 import Shape from '@mattermost/compass-components/foundations/shape';
 import Grid from '@mattermost/compass-components/utilities/grid/Grid';
-import Flex from '@mattermost/compass-components/utilities/layout/Flex';
-import Popover from '@mattermost/compass-components/utilities/popover/Popover';
 import Spacing from '@mattermost/compass-components/utilities/spacing';
 import ThemeProvider, {darkTheme} from '@mattermost/compass-components/utilities/theme';
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import {useSelector} from 'react-redux';
 
 import styled from 'styled-components';
@@ -44,10 +40,6 @@ const GlobalHeader = () => {
     const enabled = useSelector(getGlobalHeaderEnabled);
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
-    const [switcherOpen, setSwitcherOpen] = useState(false);
-    const menuRef = useRef(null);
-
-    const handleClick = () => setSwitcherOpen(!switcherOpen);
 
     if (!enabled) {
         return null;
@@ -61,65 +53,34 @@ const GlobalHeader = () => {
                     width={'100%'}
                     height={40}
                     radius={0}
+                    backgroundColor={'var(--sidebar-teambar-bg)'}
                 >
                     <Grid
                         element={'div'}
                         placeItems={{alignItems: 'center'}}
+                        padding={Spacing.symmetric({horizontal: 50, vertical: 25})}
                     >
-                        <IconButton
-                            icon={'view-grid-outline'}
-                            onClick={handleClick}
-                            ref={menuRef}
-                            size={'sm'}
-                            toggled={switcherOpen}
-                        />
-                        <Popover
-                            anchorReference={menuRef}
-                            isVisible={switcherOpen}
-                            onClickAway={() => setSwitcherOpen(false)}
-                            placement={'bottom-start'}
-                            offset={[25, 25]}
-                        >
-                            <Shape
-                                elevation={1}
-                                elevationOnHover={6}
-                                width={200}
-                            >
-                                <Flex
-                                    padding={Spacing.all(50)}
-                                >
-                                    <Text
-                                        margin={'none'}
-                                        color={'primary'}
-                                    >
-                                        {'POPOVER MENU'}
-                                    </Text>
-                                </Flex>
-                            </Shape>
-                        </Popover>
+                        <ProductSwitcher/>
                     </Grid>
-                </Shape>
-            </ThemeProvider>
-            <HeaderContainer>
-                <ProductSwitcher/>
-                <AppSpectificContent>
-                    {currentProductID !== null &&
+                    <AppSpectificContent>
+                        {currentProductID !== null &&
                         <Pluggable
                             pluggableName={'Product'}
                             subComponentName={'headerComponent'}
                             pluggableId={currentProductID}
                         />
-                    }
-                    {/*currentProductID === null &&
+                        }
+                        {/*currentProductID === null &&
                        This is where the header content for the webapp will go
                     */}
-                </AppSpectificContent>
-                <ProfileWrapper>
-                    <StatusDropdown
-                        globalHeader={true}
-                    />
-                </ProfileWrapper>
-            </HeaderContainer>
+                    </AppSpectificContent>
+                    <ProfileWrapper>
+                        <StatusDropdown
+                            globalHeader={true}
+                        />
+                    </ProfileWrapper>
+                </Shape>
+            </ThemeProvider>
         </>
     );
 };
