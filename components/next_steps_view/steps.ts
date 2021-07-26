@@ -150,6 +150,11 @@ export const isOnboardingHidden = createSelector(
     'isOnboardingHidden',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (stepPreferences) => {
+        // Before onboarding was introduced, there were existing users that didn't have step preferences set.
+        // We don't want onboarding to suddenly pop up for them.
+        if (stepPreferences.length === 0) {
+            return true;
+        }
         return stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'));
     },
 );
