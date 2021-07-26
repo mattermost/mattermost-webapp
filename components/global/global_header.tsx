@@ -3,13 +3,12 @@
 
 import Avatar from '@mattermost/compass-components/components/avatar/Avatar';
 import Shape from '@mattermost/compass-components/foundations/shape';
+import PShape from '@mattermost/compass-components/foundations/shape/Shape.props';
 import Grid from '@mattermost/compass-components/utilities/grid/Grid';
 import Spacing from '@mattermost/compass-components/utilities/spacing';
 import ThemeProvider, {darkTheme} from '@mattermost/compass-components/utilities/theme';
 import React from 'react';
 import {useSelector} from 'react-redux';
-
-import styled from 'styled-components';
 
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import StatusDropdown from 'components/status_dropdown';
@@ -32,7 +31,7 @@ const GlobalHeader = () => {
     return (
         <>
             <ThemeProvider theme={darkTheme}>
-                <Grid
+                <Grid<PShape>
                     element={Shape}
                     columnsTemplate={'auto 1fr auto'}
                     placeItems={{alignItems: 'center'}}
