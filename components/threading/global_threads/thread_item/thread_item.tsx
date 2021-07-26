@@ -82,6 +82,11 @@ function ThreadItem({
 
     const selectHandler = useCallback(() => select(threadId), []);
 
+    const imageProps = useMemo(() => ({
+        onImageHeightChanged: () => {},
+        onImageLoaded: () => {},
+    }), []);
+
     const goToInChannelHandler = useCallback((e: MouseEvent) => {
         e.stopPropagation();
         goToInChannel(threadId);
@@ -181,6 +186,8 @@ function ThreadItem({
                 <Markdown
                     message={post?.message ?? '(message deleted)'}
                     options={markdownPreviewOptions}
+                    imagesMetadata={post?.metadata && post?.metadata?.images}
+                    imageProps={imageProps}
                 />
             </div>
             <div className='activity'>
