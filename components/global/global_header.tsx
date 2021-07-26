@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import Avatar from '@mattermost/compass-components/components/avatar/Avatar';
 import Shape from '@mattermost/compass-components/foundations/shape';
 import Grid from '@mattermost/compass-components/utilities/grid/Grid';
 import Spacing from '@mattermost/compass-components/utilities/spacing';
@@ -18,24 +19,6 @@ import Pluggable from 'plugins/pluggable';
 import ProductSwitcher from './product_switcher';
 import {useCurrentProductId, useProducts} from './hooks';
 
-const HeaderContainer = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 40px;
-    background: var(--sidebar-teambar-bg);
-    color: var(--sidebar-text);
-`;
-
-const AppSpectificContent = styled.div`
-    flex-grow: 1;
-`;
-
-const ProfileWrapper = styled.div`
-    margin-right: 20px;
-`;
-
 const GlobalHeader = () => {
     const enabled = useSelector(getGlobalHeaderEnabled);
     const products = useProducts();
@@ -49,20 +32,17 @@ const GlobalHeader = () => {
     return (
         <>
             <ThemeProvider theme={darkTheme}>
-                <Shape
+                <Grid
+                    element={Shape}
+                    columnsTemplate={'auto 1fr auto'}
+                    placeItems={{alignItems: 'center'}}
+                    padding={Spacing.symmetric({horizontal: 200, vertical: 25})}
                     width={'100%'}
                     height={40}
                     radius={0}
-                    backgroundColor={'var(--sidebar-teambar-bg)'}
                 >
-                    <Grid
-                        element={'div'}
-                        placeItems={{alignItems: 'center'}}
-                        padding={Spacing.symmetric({horizontal: 50, vertical: 25})}
-                    >
-                        <ProductSwitcher/>
-                    </Grid>
-                    <AppSpectificContent>
+                    <ProductSwitcher/>
+                    <div>
                         {currentProductID !== null &&
                         <Pluggable
                             pluggableName={'Product'}
@@ -71,15 +51,17 @@ const GlobalHeader = () => {
                         />
                         }
                         {/*currentProductID === null &&
-                       This is where the header content for the webapp will go
-                    */}
-                    </AppSpectificContent>
-                    <ProfileWrapper>
-                        <StatusDropdown
-                            globalHeader={true}
-                        />
-                    </ProfileWrapper>
-                </Shape>
+                           This is where the header content for the webapp will go
+                        */}
+                    </div>
+                    <Avatar
+                        name={'lame'}
+                        onClick={() => {}}
+                    />
+                    <StatusDropdown
+                        globalHeader={true}
+                    />
+                </Grid>
             </ThemeProvider>
         </>
     );

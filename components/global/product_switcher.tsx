@@ -12,53 +12,6 @@ import styled from 'styled-components';
 
 import {useProducts} from './hooks';
 
-// interface SwitcherButtonProps {
-//     open: boolean;
-// }
-//
-// const SwitcherButton = styled.button<SwitcherButtonProps>`
-//     margin-left: 17px;
-//     margin-right: 17px;
-//     background: ${(props) => (props.open ? 'var(--sidebar-text)' : 'transparent')};
-//     fill: ${(props) => (props.open ? 'var(--button-bg)' : 'rgba(var(--sidebar-header-text-color-rgb), 0.64)')};
-//     border: none;
-//     border-radius: 4px;
-//     outline: none;
-//     width: 28px;
-//     height: 28px;
-// `;
-//
-// interface SwitcherMenuProps {
-//     open: boolean;
-// }
-//
-// const SwitcherMenu = styled.div<SwitcherMenuProps>`
-//     visibility: ${(props) => (props.open ? 'visible' : 'hidden')};
-//     position: absolute;
-//     top: 35px;
-//     left: 5px;
-//     margin-left: 12px;
-//     z-index: 1000;
-//     background: var(--center-channel-bg);
-//     display: flex;
-//     flex-direction: column;
-//     width: 273px;
-//     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-//     box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
-//     border-radius: 4px;
-//     padding-top: 14px;
-//     padding-bottom: 5px;
-//     color: var(--center-channel-color);
-// `;
-//
-// const SwitcherMenuDescriptiveText = styled.div`
-//     height: 32px;
-//     padding-left: 20px;
-//     font-weight: 600;
-//     font-size: 14px;
-//     line-height: 20px;
-// `;
-
 const MenuItem = styled(Link)`
     && {
         text-decoration: none;
@@ -130,7 +83,7 @@ const ProductSwitcher = (): JSX.Element => {
             >
                 <Shape
                     elevation={1}
-                    elevationOnHover={6}
+                    elevationOnHover={3}
                     width={200}
                 >
                     <Flex
