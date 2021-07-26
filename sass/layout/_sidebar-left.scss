@@ -150,6 +150,7 @@
             .AddChannelDropdown_dropdownButton,
             .SidebarFilters_filterButton,
             .SidebarChannelNavigator_backButton,
+            .SidebarChannelNavigator_inviteUsers,
             .SidebarChannelNavigator_forwardButton {
                 background: transparent;
 
@@ -165,6 +166,7 @@
             margin: 16px 14px 8px 14px;
 
             .AddChannelDropdown_dropdownButton,
+            .SidebarChannelNavigator_inviteUsers,
             .SidebarChannelNavigator_jumpToButton,
             .SidebarFilters_filterButton {
                 margin: 0 2px;
@@ -178,6 +180,7 @@
         }
 
         .AddChannelDropdown_dropdownButton,
+        .SidebarChannelNavigator_inviteUsers,
         .SidebarChannelNavigator_jumpToButton,
         .SidebarFilters_filterButtontton,
         .SidebarChannelNavigator_backButton,
@@ -305,7 +308,8 @@
         }
     }
 
-    .AddChannelDropdown_dropdownButton {
+    .AddChannelDropdown_dropdownButton,
+    .SidebarChannelNavigator_inviteUsers {
         z-index: 1;
         width: 28px;
         height: 28px;
@@ -644,6 +648,41 @@
 
             .SidebarChannelGroupHeader_groupButton {
                 border-radius: 4px;
+            }
+        }
+    }
+
+    .SidebarChannelNavigator_inviteMembersLhsButton {
+        margin-left: 20px;
+        color: rgba(var(--sidebar-text-rgb), 0.72);
+        list-style: none;
+
+        &:hover {
+            color: var(--sidebar-text);
+        }
+    }
+
+    .SidebarChannelNavigator_inviteUsersSticky {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        padding: 10px;
+        background-color: var(--sidebar-bg);
+
+        button {
+            min-width: 90%;
+            padding: 3px 10px;
+            border: 1px solid rgba(var(--sidebar-text-rgb), 0.72);
+            background-color: inherit;
+            border-radius: 4px;
+            color: rgba(var(--sidebar-text-rgb), 0.72);
+            cursor: pointer;
+
+            &:hover {
+                border: 1px solid var(--sidebar-text);
+                color: var(--sidebar-text);
             }
         }
     }
