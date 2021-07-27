@@ -107,11 +107,6 @@ describe('Actions.User', () => {
                     },
                 },
             },
-            general: {
-                config: {
-                    ExperimentalChannelSidebarOrganization: 'default_on',
-                },
-            },
             preferences: {
                 myPreferences: {
                     'theme--team_1': {
@@ -336,13 +331,6 @@ describe('Actions.User', () => {
                         ...initialState.entities.myMembers,
                         [gmChannel1.id]: {last_viewed_at: 1000},
                         [gmChannel2.id]: {last_viewed_at: 2000},
-                    },
-                },
-                general: {
-                    ...initialState.entities.general,
-                    config: {
-                        ...initialState.entities.general.config,
-                        ExperimentalChannelSidebarOrganization: General.ALWAYS_ON,
                     },
                 },
                 preferences: {

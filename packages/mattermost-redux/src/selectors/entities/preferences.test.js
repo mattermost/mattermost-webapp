@@ -645,7 +645,6 @@ describe('shouldShowUnreadsCategory', () => {
             entities: {
                 general: {
                     config: {
-                        ExperimentalChannelSidebarOrganization: 'default_on',
                         ExperimentalGroupUnreadChannels: 'default_off',
                     },
                 },
@@ -677,7 +676,6 @@ describe('shouldShowUnreadsCategory', () => {
             entities: {
                 general: {
                     config: {
-                        ExperimentalChannelSidebarOrganization: 'default_on',
                         ExperimentalGroupUnreadChannels: 'default_off',
                     },
                 },
@@ -708,7 +706,6 @@ describe('shouldShowUnreadsCategory', () => {
             entities: {
                 general: {
                     config: {
-                        ExperimentalChannelSidebarOrganization: 'default_on',
                         ExperimentalGroupUnreadChannels: 'default_on',
                     },
                 },
@@ -739,7 +736,6 @@ describe('shouldShowUnreadsCategory', () => {
             entities: {
                 general: {
                     config: {
-                        ExperimentalChannelSidebarOrganization: 'default_on',
                         ExperimentalGroupUnreadChannels: 'disabled',
                     },
                 },
