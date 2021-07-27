@@ -59,7 +59,7 @@ export default class VersionBar extends React.PureComponent <Props, State> {
                                 id='version_bar.new'
                                 defaultMessage='A new version of Mattermost is available.'
                             />
-                            {' '}
+                            &nbsp;
                             <a onClick={this.reloadPage}>
                                 <FormattedMessage
                                     id='version_bar.refresh'
