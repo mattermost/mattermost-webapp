@@ -614,7 +614,15 @@ export default class ThreadViewer extends React.Component<Props, State> {
         }
 
         if (this.state.isLoading) {
-            return <LoadingScreen style={{height: '100%'}}/>;
+            return (
+                <LoadingScreen
+                    style={{
+                        display: 'grid',
+                        placeContent: 'center',
+                        flex: '1',
+                    }}
+                />
+            );
         }
 
         return (
