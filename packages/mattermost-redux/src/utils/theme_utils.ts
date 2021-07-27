@@ -133,6 +133,8 @@ const themeTypeMap: ThemeTypeMap = {
 export function setThemeDefaults(theme: Theme): Theme {
     const defaultTheme = Preferences.THEMES.sapphire;
 
+    const processedTheme = {...theme};
+
     // If this is a system theme, return the source theme object matching the theme preference type
     if (theme.type && theme.type !== 'custom' && Object.keys(themeTypeMap).includes(theme.type)) {
         return Preferences.THEMES[themeTypeMap[theme.type]];
@@ -141,27 +143,27 @@ export function setThemeDefaults(theme: Theme): Theme {
     for (const key of Object.keys(defaultTheme)) {
         if (theme[key]) {
             // Fix a case where upper case theme colours are rendered as black
-            theme[key] = theme[key]?.toLowerCase();
+            processedTheme[key] = theme[key]?.toLowerCase();
         }
     }
 
     for (const property in defaultTheme) {
-        if (property === 'type' || property === 'sidebarTeamBarBg') {
+        if (property === 'type' || (property === 'sidebarTeamBarBg' && theme.sidebarHeaderBg)) {
             continue;
         }
         if (theme[property] == null) {
-            theme[property] = defaultTheme[property];
+            processedTheme[property] = defaultTheme[property];
         }
 
         // Backwards compatability with old name
-        if (!theme.mentionBg) {
-            theme.mentionBg = theme.mentionBj;
+        if (!theme.mentionBg && theme.mentionBj) {
+            processedTheme.mentionBg = theme.mentionBj;
         }
     }
 
-    if (!theme.sidebarTeamBarBg) {
-        theme.sidebarTeamBarBg = blendColors(theme.sidebarHeaderBg, '#000000', 0.2, true);
+    if (!theme.sidebarTeamBarBg && theme.sidebarHeaderBg) {
+        processedTheme.sidebarTeamBarBg = blendColors(theme.sidebarHeaderBg, '#000000', 0.2, true);
     }
 
-    return theme;
+    return processedTheme;
 }
