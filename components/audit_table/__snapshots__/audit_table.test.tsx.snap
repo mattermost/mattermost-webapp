@@ -7,31 +7,31 @@ exports[`components/audit_table/AuditTable should match snapshot with audits 1`]
   <thead>
     <tr>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Timestamp"
           id="audit_table.timestamp"
         />
       </th>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="User ID"
           id="audit_table.userId"
         />
       </th>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Action"
           id="audit_table.action"
         />
       </th>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="IP Address"
           id="audit_table.ip"
         />
       </th>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Session ID"
           id="audit_table.session"
         />
@@ -140,31 +140,31 @@ exports[`components/audit_table/AuditTable should match snapshot with no audits 
   <thead>
     <tr>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Timestamp"
           id="audit_table.timestamp"
         />
       </th>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="User ID"
           id="audit_table.userId"
         />
       </th>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Action"
           id="audit_table.action"
         />
       </th>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="IP Address"
           id="audit_table.ip"
         />
       </th>
       <th>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Session ID"
           id="audit_table.session"
         />

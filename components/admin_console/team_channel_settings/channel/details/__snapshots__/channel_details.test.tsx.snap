@@ -12,7 +12,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         className="fa fa-angle-left back"
         to="/admin_console/user_management/channels"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Configuration"
         id="admin.channel_settings.channel_detail.channel_configuration"
       />
@@ -59,13 +59,13 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       <ConfirmModal
         confirmButtonClass="btn btn-primary"
         confirmButtonText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.button"
           />
         }
         message={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
             id="admin.channel_settings.channel_detail.archive_confirm.message"
           />
@@ -75,7 +75,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         onConfirm={[Function]}
         show={false}
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.title"
           />
@@ -203,7 +203,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         className="fa fa-angle-left back"
         to="/admin_console/user_management/channels"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Configuration"
         id="admin.channel_settings.channel_detail.channel_configuration"
       />
@@ -246,13 +246,13 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
       <ConfirmModal
         confirmButtonClass="btn btn-primary"
         confirmButtonText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.button"
           />
         }
         message={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Saving will archive the channel from the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this channel?"
             id="admin.channel_settings.channel_detail.archive_confirm.message"
           />
@@ -262,7 +262,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         onConfirm={[Function]}
         show={false}
         title={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save and Archive Channel"
             id="admin.channel_settings.channel_detail.archive_confirm.title"
           />

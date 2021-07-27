@@ -1136,6 +1136,13 @@ export default class Client4 {
         );
     };
 
+    unarchiveTeam = (teamId: string) => {
+        return this.doFetch<Team>(
+            `${this.getTeamRoute(teamId)}/restore`,
+            {method: 'post'},
+        );
+    }
+
     updateTeam = (team: Team) => {
         this.trackEvent('api', 'api_teams_update_name', {team_id: team.id});
 
@@ -1234,9 +1241,9 @@ export default class Client4 {
         );
     };
 
-    getMyTeamUnreads = () => {
+    getMyTeamUnreads = (includeCollapsedThreads = false) => {
         return this.doFetch<TeamUnread[]>(
-            `${this.getUserRoute('me')}/teams/unread`,
+            `${this.getUserRoute('me')}/teams/unread${buildQueryString({include_collapsed_threads: includeCollapsedThreads})}`,
             {method: 'get'},
         );
     };

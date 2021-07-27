@@ -279,7 +279,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       id="channelEditHeader"
       modalId="edit_channel_header"
       show={false}
-      text="Edit Channel Header"
+      text="Edit Conversation Header"
     />
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
@@ -764,7 +764,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       id="channelEditHeader"
       modalId="edit_channel_header"
       show={false}
-      text="Edit Channel Header"
+      text="Edit Conversation Header"
     />
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"

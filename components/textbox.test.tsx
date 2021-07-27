@@ -9,6 +9,7 @@ import Textbox from 'components/textbox/textbox';
 describe('components/TextBox', () => {
     const baseProps = {
         channelId: 'channelId',
+        rootId: 'rootId',
         currentUserId: 'currentUserId',
         currentTeamId: 'currentTeamId',
         profilesInChannel: [
@@ -25,6 +26,7 @@ describe('components/TextBox', () => {
             searchAssociatedGroupsForReference: jest.fn(),
         },
         useChannelMentions: true,
+        tabIndex: 0,
     };
 
     test('should match snapshot with required props', () => {
@@ -67,7 +69,7 @@ describe('components/TextBox', () => {
                 onKeyUp={() => {}}
                 onBlur={() => {}}
                 handlePostError={() => {}}
-                suggestionListStyle='style'
+                suggestionListPosition='top'
                 emojiEnabled={true}
                 isRHS={true}
                 disabled={true}

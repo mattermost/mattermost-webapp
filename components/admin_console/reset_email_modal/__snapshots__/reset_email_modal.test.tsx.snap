@@ -40,7 +40,7 @@ exports[`components/admin_console/reset_email_modal/reset_email_modal.tsx should
       componentClass="h1"
       id="resetEmailModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Update Email"
         id="admin.reset_email.titleReset"
       />
@@ -69,7 +69,7 @@ exports[`components/admin_console/reset_email_modal/reset_email_modal.tsx should
               data-toggle="tooltip"
               title="New Email"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="New Email"
                 id="admin.reset_email.newEmail"
               />
@@ -93,7 +93,7 @@ exports[`components/admin_console/reset_email_modal/reset_email_modal.tsx should
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Cancel"
           id="admin.reset_email.cancel"
         />
@@ -104,7 +104,7 @@ exports[`components/admin_console/reset_email_modal/reset_email_modal.tsx should
         onClick={[Function]}
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Reset"
           id="admin.reset_email.reset"
         />

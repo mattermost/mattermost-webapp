@@ -28,7 +28,7 @@ exports[`components/login/LoginController should match snapshot 1`] = `
         <div>
           <FormError
             error={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
                 id="login.noMethods"
               />
@@ -77,7 +77,7 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
               additionalClassName={null}
             />
              
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Your session has expired. Please log in again."
               id="login.session_expired"
             />
@@ -94,7 +94,7 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
           </div>
           <FormError
             error={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
                 id="login.noMethods"
               />
@@ -150,7 +150,7 @@ exports[`components/login/LoginController should show session expiry notificatio
               additionalClassName={null}
             />
              
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Your session has expired. Please log in again."
               id="login.session_expired"
             />
@@ -167,7 +167,7 @@ exports[`components/login/LoginController should show session expiry notificatio
           </div>
           <FormError
             error={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
                 id="login.noMethods"
               />
@@ -213,14 +213,14 @@ exports[`components/login/LoginController should suppress session expiry notific
             className="alert alert-success"
           >
             <SuccessIcon />
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage=" Sign-in method changed successfully"
               id="login.changed"
             />
           </div>
           <FormError
             error={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
                 id="login.noMethods"
               />
