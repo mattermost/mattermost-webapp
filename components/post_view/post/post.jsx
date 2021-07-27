@@ -31,11 +31,6 @@ export default class Post extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /**
-         * The corresponding UserThread
-         */
-        thread: PropTypes.object,
-
-        /**
          * The logged in user ID
          */
         currentUserId: PropTypes.string.isRequired,

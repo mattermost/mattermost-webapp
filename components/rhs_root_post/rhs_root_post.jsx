@@ -36,8 +36,6 @@ export default class RhsRootPost extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
-        author: PropTypes.string,
-        reactions: PropTypes.object,
         isFlagged: PropTypes.bool.isRequired,
         previewCollapsed: PropTypes.string,
         previewEnabled: PropTypes.bool,
@@ -67,7 +65,6 @@ export default class RhsRootPost extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
-        emojiMap: PropTypes.object.isRequired,
         timestampProps: PropTypes.object,
         isBot: PropTypes.bool,
         collapsedThreadsEnabled: PropTypes.bool,

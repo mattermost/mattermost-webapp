@@ -41,8 +41,6 @@ export default class RhsComment extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
-        author: PropTypes.string,
-        reactions: PropTypes.object,
         isFlagged: PropTypes.bool.isRequired,
         isBusy: PropTypes.bool,
         removePost: PropTypes.func.isRequired,
@@ -81,7 +79,6 @@ export default class RhsComment extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
-        emojiMap: PropTypes.object.isRequired,
         timestampProps: PropTypes.object,
         collapsedThreadsEnabled: PropTypes.bool,
 
