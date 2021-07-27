@@ -6,7 +6,7 @@ import React from 'react';
 import * as Utils from 'utils/utils.jsx';
 import StatusDropdown from 'components/status_dropdown';
 
-import SidebarHeaderDropdown from 'components/legacy_sidebar/header/dropdown';
+import SidebarHeaderDropdown from 'components/sidebar/sidebar_header/dropdown';
 
 type State = {
     isMobile: boolean;

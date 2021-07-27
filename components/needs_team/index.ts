@@ -50,7 +50,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         previousTeamId: getPreviousTeamId(state) as string,
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
-        useLegacyLHS: config.EnableLegacySidebar === 'true',
         plugins,
         selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
     };

@@ -47,7 +47,6 @@ type Props = {
     };
     currentChannelId?: string;
     currentTeamId?: string;
-    useLegacyLHS: boolean;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
         getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
@@ -324,11 +323,9 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     />
                 ))}
                 <Route
-                    render={(renderProps) => (
+                    render={() => (
                         <ChannelController
-                            pathName={renderProps.location.pathname}
                             fetchingChannels={!this.state.finishedFetchingChannels}
-                            useLegacyLHS={this.props.useLegacyLHS}
                         />
                     )}
                 />

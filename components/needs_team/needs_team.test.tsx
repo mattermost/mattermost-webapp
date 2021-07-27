@@ -109,7 +109,6 @@ describe('components/needs_team', () => {
         match,
         teamsList,
         history,
-        useLegacyLHS: true,
         previousTeamId: '',
         selectedThreadId: null,
         collapsedThreads: true,

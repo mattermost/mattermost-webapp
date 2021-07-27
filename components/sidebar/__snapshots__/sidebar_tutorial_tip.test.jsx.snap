@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
+exports[`SidebarTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
 <Connect(TutorialTip)
   overlayClass="tip-overlay--sidebar"
   placement="right"
@@ -88,7 +88,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
 />
 `;
 
-exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with townSquare and without offTopic 1`] = `
+exports[`SidebarTutorialTip should match snapshot, with townSquare and without offTopic 1`] = `
 <Connect(TutorialTip)
   overlayClass="tip-overlay--sidebar"
   placement="right"
@@ -176,7 +176,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
 />
 `;
 
-exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, without townSquare and with offTopic 1`] = `
+exports[`SidebarTutorialTip should match snapshot, without townSquare and with offTopic 1`] = `
 <Connect(TutorialTip)
   overlayClass="tip-overlay--sidebar"
   placement="right"
@@ -264,7 +264,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
 />
 `;
 
-exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, without townSquare and without offTopic 1`] = `
+exports[`SidebarTutorialTip should match snapshot, without townSquare and without offTopic 1`] = `
 <Connect(TutorialTip)
   overlayClass="tip-overlay--sidebar"
   placement="right"
