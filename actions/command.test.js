@@ -36,7 +36,6 @@ const initialState = {
         general: {
             config: {
                 ExperimentalViewArchivedChannels: 'false',
-                EnableLegacySidebar: 'true',
             },
         },
         posts: {
