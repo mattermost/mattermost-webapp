@@ -71,7 +71,6 @@ export type ClientConfig = {
     EnableIncomingWebhooks: string;
     EnableLatex: string;
     EnableLdap: string;
-    EnableLegacySidebar: string;
     EnableLinkPreviews: string;
     EnableMarketplace: string;
     EnableMetrics: string;
