@@ -42,6 +42,31 @@ describe('Messaging', () => {
         });
     });
 
+    it('MM-T2189 Emoji reaction - type +:+1: with CRT on', () => {
+        // # Post a message
+        cy.postMessage('Hello');
+        cy.uiChangeCRTDisplaySetting('ON');
+
+        cy.getLastPostId().then((postId) => {
+            // # Click reply to open the post in the right hand side
+            cy.clickPostCommentIcon(postId);
+
+            // # Type "+:+1:" in comment box to react to the post with a thumbs-up and post
+            cy.postMessageReplyInRHS('+:+1:');
+
+            // * Thumbs-up reaction displays as reaction on post
+            cy.get(`#${postId}_message`).within(() => {
+                cy.findByLabelText('reactions').should('be.visible');
+                cy.findByLabelText('remove reaction +1').should('be.visible');
+            });
+
+            // # Close RHS
+            cy.closeRHS();
+        });
+
+        cy.uiChangeCRTDisplaySetting('OFF');
+    });
+
     it('MM-T2190 Emoji reaction - click `+` next to existing reaction (center)', () => {
         // # Post a message
         cy.postMessage('Hello to yourself');
