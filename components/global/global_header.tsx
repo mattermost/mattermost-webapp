@@ -26,15 +26,23 @@ const GlobalHeader = (): JSX.Element | null => {
         return null;
     }
 
+    const theme = {
+        ...darkTheme,
+        background: {
+            ...darkTheme.background,
+            shape: 'var(--sidebar-teambar-bg)',
+        },
+    };
+
     // adding the dark theme for now to test how the colors "perform"
     return (
         <>
-            <ThemeProvider theme={darkTheme}>
+            <ThemeProvider theme={theme}>
                 <Grid<PShape>
                     element={Shape}
                     columnsTemplate={'auto 1fr auto'}
                     placeItems={{alignItems: 'center'}}
-                    padding={Spacing.symmetric({horizontal: 200, vertical: 0})}
+                    padding={Spacing.trbl({top: 75, right: 200, bottom: 75, left: 100})}
                     width={'100%'}
                     height={40}
                     radius={0}
