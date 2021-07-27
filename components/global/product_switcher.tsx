@@ -3,11 +3,11 @@
 
 import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link, useRouteMatch} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {ChannelsIcon, SwitcherIcon} from './assets';
-import {useClickOutsideRef, useProducts} from './hooks';
+import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
 
 interface SwitcherButtonProps {
     open: boolean;
@@ -95,6 +95,7 @@ const ProductSwitcher = () => {
     const products = useProducts();
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+    const currentProductID = useCurrentProductId(products);
     useClickOutsideRef(menuRef, () => {
         setSwitcherOpen(false);
     });
@@ -106,6 +107,7 @@ const ProductSwitcher = () => {
                 destination={product.switcherLinkURL}
                 icon={product.switcherIcon}
                 text={product.switcherText}
+                active={product.id === currentProductID}
             />
         );
     });
@@ -128,9 +130,10 @@ const ProductSwitcher = () => {
                     />
                 </SwitcherMenuDescriptiveText>
                 <SwitcherNavEntry
-                    destination={'/channels'}
+                    destination={'/'}
                     icon={<ChannelsIcon/>}
                     text={'Channels'}
+                    active={currentProductID === null}
                 />
                 {items}
             </SwitcherMenu>
@@ -142,20 +145,21 @@ interface SwitcherNavEntryProps {
     destination: string;
     icon: React.ReactNode;
     text: React.ReactNode;
+    active: boolean;
 }
 
 const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
-    const match = useRouteMatch(props.destination);
     return (
         <MenuItem
             to={props.destination}
-            target='_blank'
         >
             {props.icon}
             <MenuItemTextContainer>
                 {props.text}
             </MenuItemTextContainer>
-            <LinkIcon className={'fa ' + (match ? 'fa-check' : 'fa-external-link')}/>
+            {props.active &&
+                <LinkIcon className={'fa fa-check'}/>
+            }
         </MenuItem>
     );
 };
