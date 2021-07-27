@@ -71,7 +71,7 @@ export default function HelpCommands(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.commands.custom2'
-                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to **Integrations > Integration Management**. Learn about configuring custom slash commands on the [developer slash command documentation page](!https://developers.mattermost.com/integrate/slash-commands/).'
+                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to **Integrations > Integration Management**. Learn about configuring custom slash commands in the [developer   documentation](!https://developers.mattermost.com/integrate/slash-commands/).'
                 />
             </p>
 
