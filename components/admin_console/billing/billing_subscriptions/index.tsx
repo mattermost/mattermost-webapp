@@ -1,10 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {useDispatch, useStore, useSelector} from 'react-redux';
-
-import {isEmpty} from 'lodash';
 
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
@@ -14,8 +12,6 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-
-import {Product} from 'mattermost-redux/types/cloud';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
@@ -61,7 +57,6 @@ const BillingSubscriptions: React.FC = () => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
 
     const products = useSelector((state: GlobalState) => state.entities.cloud.products);
-    const [product, setProduct] = useState<Product | null>(null);
     const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
@@ -74,6 +69,13 @@ const BillingSubscriptions: React.FC = () => {
 
     const query = useQuery();
     const actionQueryParam = query.get('action');
+
+    const product = useSelector((state: GlobalState) => {
+        if (state.entities.cloud.products && subscription) {
+            return state.entities.cloud.products[subscription?.product_id];
+        }
+        return undefined;
+    });
 
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
@@ -93,19 +95,6 @@ const BillingSubscriptions: React.FC = () => {
             daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
         }
     }
-
-    useEffect(() => {
-        if (product !== null || isEmpty(products) || !subscription?.product_id) {
-            return;
-        }
-        const keys = Object.keys(products!);
-        let tempProduct: Product;
-        tempProduct = products![subscription?.product_id];
-        if (isEmpty(tempProduct)) {
-            tempProduct = products![keys[0]];
-        }
-        setProduct(tempProduct);
-    }, [products, subscription]);
 
     useLayoutEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
