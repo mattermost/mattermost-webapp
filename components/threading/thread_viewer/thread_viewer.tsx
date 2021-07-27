@@ -203,7 +203,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
             selected,
         } = this.props;
 
-        if (this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
+        if (selected && this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
             return getThread(
                 currentUserId,
                 currentTeamId,
@@ -243,7 +243,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         const curPostsArray = this.props.posts || [];
 
         const reconnected = this.props.socketConnectionStatus && !prevProps.socketConnectionStatus;
-        const selectedChanged = this.props.selected.id !== prevProps.selected.id;
+        const selectedChanged = this.props.selected && this.props.selected.id !== prevProps.selected?.id;
 
         if (reconnected || selectedChanged) {
             this.onInit(reconnected);
