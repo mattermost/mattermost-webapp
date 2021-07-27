@@ -140,7 +140,7 @@ export interface PostListProps extends WrappedComponentProps<'intl'> {
     lastViewedAt?: string | Timestamp;
 
     actions: PostListActions;
-};
+}
 
 interface PostListActions {
 
@@ -167,7 +167,7 @@ interface PostListActions {
     changeUnreadChunkTimeStamp: (lastViewedAt: string | Timestamp | ReactText) => void;
     updateNewMessagesAtInChannel: (channelId: string, lastViewedAt: Timestamp) => void;
 
-};
+}
 
 export type PostListState = {
     isScrolling: boolean;
@@ -710,4 +710,4 @@ class PostList extends React.PureComponent<PostListProps, PostListState, Snapsho
 }
 
 export default injectIntl(PostList);
-export { PostList as PostListType}
+export {PostList as PostListType};
