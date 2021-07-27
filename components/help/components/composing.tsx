@@ -50,7 +50,7 @@ export default function HelpComposing(): JSX.Element {
             <p>
                 <FormattedMessage
                     id='help.composing.replies.description1'
-                    defaultMessage='Select the **Reply** icon next to any message to open the right-hand sidebar to respond to a thread. When Collapsed Reply Threads (Beta) is disabled, replies are indented slightly in the center pane to indicate that they are child messages of a parent post. When Collapsed Reply Threads (Beta) is enabled, replies only display in the right-hand sidebar.'
+                    defaultMessage='Select the **Reply** icon next to any message to open the right-hand sidebar to respond to a thread.'
                 />
             </p>
             <p>
