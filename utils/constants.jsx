@@ -103,6 +103,10 @@ export const Preferences = {
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
+    GLOBAL_HEADER_DISPLAY: 'global_header_display',
+    GLOBAL_HEADER_DISPLAY_ON: 'global_header_display_on',
+    GLOBAL_HEADER_DISPLAY_OFF: 'global_header_display_off',
+    GLOBAL_HEADER_DISPLAY_DEFAULT: 'global_header_display_off',
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
@@ -438,10 +442,9 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
-    INTRO_SCREENS: 0,
-    POST_POPOVER: 1,
-    CHANNEL_POPOVER: 2,
-    MENU_POPOVER: 3,
+    POST_POPOVER: 0,
+    CHANNEL_POPOVER: 1,
+    MENU_POPOVER: 2,
     FINISHED: 999,
 };
 
