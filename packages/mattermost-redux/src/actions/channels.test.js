@@ -2278,7 +2278,7 @@ describe('Actions.Channels', () => {
         expect(state.entities.channelCategories.byId[channelsCategory.id].channel_ids).toEqual([channel.id]);
     });
 
-    test('favoriteChannel with new sidebar', async () => {
+    test('favoriteChannel', async () => {
         const channel = TestHelper.basicChannel;
         const team = TestHelper.basicTeam;
         const currentUserId = TestHelper.generateId();
@@ -2331,42 +2331,7 @@ describe('Actions.Channels', () => {
         expect(state.entities.channelCategories.byId.channelsCategory.channel_ids).toEqual([]);
     });
 
-    test('favoriteChannel with old sidebar enabled', async () => {
-        const channel = TestHelper.basicChannel;
-        const currentUserId = TestHelper.generateId();
-
-        store = configureStore({
-            entities: {
-                channels: {
-                    channels: {
-                        [channel.id]: channel,
-                    },
-                },
-                general: {
-                    config: {
-                        EnableLegacySidebar: 'true',
-                    },
-                },
-                users: {
-                    currentUserId,
-                },
-            },
-        });
-
-        nock(Client4.getBaseRoute()).
-            put(`/users/${currentUserId}/preferences`).
-            reply(200, OK_RESPONSE);
-
-        await store.dispatch(Actions.favoriteChannel(channel.id));
-
-        const state = store.getState();
-
-        // Should favorite the channel in preferences
-        const prefKey = getPreferenceKey(Preferences.CATEGORY_FAVORITE_CHANNEL, channel.id);
-        expect(state.entities.preferences.myPreferences[prefKey]).toMatchObject({value: 'true'});
-    });
-
-    it('unfavoriteChannel with new sidebar enabled', async () => {
+    it('unfavoriteChannel', async () => {
         const channel = TestHelper.basicChannel;
         const team = TestHelper.basicTeam;
         const currentUserId = TestHelper.generateId();
@@ -2420,47 +2385,6 @@ describe('Actions.Channels', () => {
         // And in channel categories
         expect(state.entities.channelCategories.byId.favoritesCategory.channel_ids).toEqual([]);
         expect(state.entities.channelCategories.byId.channelsCategory.channel_ids).toEqual([channel.id]);
-    });
-
-    test('unfavoriteChannel with old sidebar', async () => {
-        const channel = TestHelper.basicChannel;
-        const currentUserId = TestHelper.generateId();
-
-        const prefKey = getPreferenceKey(Preferences.CATEGORY_FAVORITE_CHANNEL, channel.id);
-
-        store = configureStore({
-            entities: {
-                channels: {
-                    channels: {
-                        [channel.id]: channel,
-                    },
-                },
-                general: {
-                    config: {
-                        EnableLegacySidebar: 'true',
-                    },
-                },
-                preferences: {
-                    myPreferences: {
-                        [prefKey]: {value: 'true'},
-                    },
-                },
-                users: {
-                    currentUserId,
-                },
-            },
-        });
-
-        nock(Client4.getBaseRoute()).
-            put(`/users/${TestHelper.basicUser.id}/preferences`).
-            reply(200, OK_RESPONSE);
-
-        await store.dispatch(Actions.unfavoriteChannel(channel.id));
-
-        const state = store.getState();
-
-        // Should unfavorite the channel in preferences
-        expect(state.entities.preferences.myPreferences[prefKey]).toBeUndefined();
     });
 
     it('autocompleteChannels', async () => {

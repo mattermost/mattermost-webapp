@@ -1079,58 +1079,6 @@ describe('Selectors.Channels.getChannelIdsForCurrentTeam', () => {
     });
 });
 
-describe('Selectors.Channels.isCurrentChannelFavorite', () => {
-    const team1 = TestHelper.fakeTeamWithId();
-
-    const channel1 = TestHelper.fakeChannelWithId(team1.id);
-    const channel2 = TestHelper.fakeChannelWithId(team1.id);
-
-    const myPreferences = {
-        [`${Preferences.CATEGORY_FAVORITE_CHANNEL}--${channel1.id}`]: {
-            name: channel1.id,
-            category: Preferences.CATEGORY_FAVORITE_CHANNEL,
-            value: 'true',
-        },
-    };
-
-    const testState = deepFreezeAndThrowOnMutation({
-        entities: {
-            channels: {
-                currentChannelId: channel1.id,
-            },
-            general: {
-                config: {
-                    EnableLegacySidebar: 'true',
-                },
-            },
-            preferences: {
-                myPreferences,
-            },
-        },
-    });
-
-    it('isCurrentChannelFavorite', () => {
-        assert.ok(Selectors.isCurrentChannelFavorite(testState) === true);
-
-        const newState = {
-            entities: {
-                channels: {
-                    currentChannelId: channel2.id,
-                },
-                preferences: {
-                    myPreferences,
-                },
-                general: {
-                    config: {
-                        EnableLegacySidebar: 'true',
-                    },
-                },
-            },
-        };
-        assert.ok(Selectors.isCurrentChannelFavorite(newState) === false);
-    });
-});
-
 describe('Selectors.Channels.isCurrentChannelMuted', () => {
     const team1 = TestHelper.fakeTeamWithId();
 
@@ -3960,55 +3908,7 @@ test('Selectors.Channels.getChannelMemberCountsByGroup', () => {
 });
 
 describe('isFavoriteChannel', () => {
-    test('should use preferences if old sidebar is enabled', () => {
-        const channelId = 'channelId';
-        const preferenceKey = `${Preferences.CATEGORY_FAVORITE_CHANNEL}--${channelId}`;
-
-        let state = {
-            entities: {
-                general: {
-                    config: {
-                        EnableLegacySidebar: 'true',
-                    },
-                },
-                preferences: {
-                    myPreferences: {},
-                },
-            },
-        };
-
-        expect(Selectors.isFavoriteChannel(state, channelId)).toBe(false);
-
-        state = mergeObjects(state, {
-            entities: {
-                preferences: {
-                    myPreferences: {
-                        [preferenceKey]: {
-                            value: 'false',
-                        },
-                    },
-                },
-            },
-        });
-
-        expect(Selectors.isFavoriteChannel(state, channelId)).toBe(false);
-
-        state = mergeObjects(state, {
-            entities: {
-                preferences: {
-                    myPreferences: {
-                        [preferenceKey]: {
-                            value: 'true',
-                        },
-                    },
-                },
-            },
-        });
-
-        expect(Selectors.isFavoriteChannel(state, channelId)).toBe(true);
-    });
-
-    test('should use channel categories if new sidebar is enabled', () => {
+    test('should use channel categories to determine favorites', () => {
         const currentTeamId = 'currentTeamId';
         const channel = {id: 'channel'};
 

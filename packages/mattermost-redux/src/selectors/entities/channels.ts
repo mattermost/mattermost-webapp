@@ -71,7 +71,6 @@ import {
     isDirectChannelVisible,
     isGroupChannelVisible,
     sortChannelsByDisplayName,
-    isFavoriteChannelOld,
     isDefault,
     sortChannelsByRecency,
     isDirectChannel,
@@ -1513,11 +1512,6 @@ export function getChannelMemberCountsByGroup(state: GlobalState, channelId: str
 }
 
 export function isFavoriteChannel(state: GlobalState, channelId: string): boolean {
-    const config = getConfig(state);
-    if (config.EnableLegacySidebar === 'true') {
-        return isFavoriteChannelOld(getMyPreferences(state), channelId);
-    }
-
     const channel = getChannel(state, channelId);
     if (!channel) {
         return false;
@@ -1531,6 +1525,7 @@ export function isFavoriteChannel(state: GlobalState, channelId: string): boolea
 
     return category.channel_ids.includes(channel.id);
 }
+
 export function filterChannelList(channelList: Channel[], filters: ChannelSearchOpts): Channel[] {
     if (!filters || (!filters.private && !filters.public && !filters.deleted && !filters.team_ids)) {
         return channelList;

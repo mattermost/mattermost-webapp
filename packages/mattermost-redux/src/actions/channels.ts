@@ -35,7 +35,7 @@ import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {addChannelToInitialCategory, addChannelToCategory} from './channel_categories';
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
-import {savePreferences, deletePreferences} from './preferences';
+import {savePreferences} from './preferences';
 import {loadRolesIfNeeded} from './roles';
 import {getMissingProfilesByIds} from './users';
 
@@ -1494,7 +1494,6 @@ export function getMyChannelMember(channelId: string) {
 export function favoriteChannel(channelId: string, updateCategories = true): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
         const currentUserId = getCurrentUserId(state);
 
         const preference: PreferenceType = {
@@ -1505,11 +1504,6 @@ export function favoriteChannel(channelId: string, updateCategories = true): Act
         };
 
         Client4.trackEvent('action', 'action_channels_favorite');
-
-        if (config.EnableLegacySidebar === 'true') {
-            // The old sidebar is enabled, so favorite the channel by calling the preferences API
-            return dispatch(savePreferences(currentUserId, [preference]));
-        }
 
         // The new sidebar is enabled, so favorite the channel by moving it into the current team's Favorites category
         if (updateCategories) {
@@ -1531,7 +1525,6 @@ export function favoriteChannel(channelId: string, updateCategories = true): Act
 export function unfavoriteChannel(channelId: string, updateCategories = true): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
         const currentUserId = getCurrentUserId(state);
 
         const preference: PreferenceType = {
@@ -1542,11 +1535,6 @@ export function unfavoriteChannel(channelId: string, updateCategories = true): A
         };
 
         Client4.trackEvent('action', 'action_channels_unfavorite');
-
-        if (config.EnableLegacySidebar === 'true') {
-            // The old sidebar is enabled, so unfavorite the channel by calling the preferences API
-            return dispatch(deletePreferences(currentUserId, [preference]));
-        }
 
         // The new sidebar is enabled, so unfavorite the channel by moving it into the current team's Channels/DMs category
         if (updateCategories) {
