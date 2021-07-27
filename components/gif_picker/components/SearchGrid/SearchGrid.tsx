@@ -38,11 +38,11 @@ const mapDispatchToProps = ({
 
 type Props = {
     appProps: Record<string, any>;
-    gifs: Record<string, Record<string, any>>;
+    gifs: Record<string, Gif>;
     resultsByTerm: Record<string, Record<string, any>>;
     containerClassName?: string;
     keyword: string; // searchText, tagName
-    handleItemClick: (gif: Record<string, any>) => void;
+    handleItemClick: (gif: Gif) => void;
     loadMore: () => void;
     saveSearchScrollPosition: (scrollPosition: number) => (dispatch: DispatchFunc) => void;
     scrollPosition: number;
@@ -50,6 +50,130 @@ type Props = {
 
 type State = {
     containerWidth: null | number;
+}
+
+type Gif = {
+    anonymous: boolean;
+    avgColor: string;
+    content_urls: {
+        '100pxGif': {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+        largeGif: {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+        max1mbGif: {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+        max2mbGif: {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+        max5mbGif: {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+        mobile: {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+        mobilePoster: {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+        mp4: {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+        webm: {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+        webp: {
+            url: string;
+            size: number;
+            width: number;
+            height: number;
+        };
+    };
+    createDate: number;
+    description: string;
+    dislikes: number;
+    domainWhitelist: string[];
+    extraLemmas: string;
+    frameRate: number;
+    gatekeeper: number;
+    geoWhitelist: string[];
+    gfyId: string;
+    gfyName: string;
+    gfyNumber: string; // Ex: '227423790'
+    gif100px: string;
+    gifUrl: string;
+    hasAudio: boolean;
+    hasTransparency: boolean;
+    height: number;
+    languageCategories: string[ ];
+    languageText: string;
+    likes: number;
+    max1mbGif: string;
+    max2mbGif: string;
+    max5mbGif: string;
+    miniPosterUrl: string;
+    miniUrl: string;
+    mobilePosterUrl: string;
+    mobileUrl: string;
+    mp4Size: number;
+    mp4Url: string;
+    nsfw: number;
+    numFrames: number;
+    posterUrl: string;
+    published: number;
+    rating: string;
+    sitename: string;
+    source: number;
+    tags: string[ ];
+    thumb100PosterUrl: string;
+    title: string;
+    url: string;
+    userData: {
+        followers: number;
+        following: number;
+        name: string;
+        profileImageUrl: string;
+        subscription: number;
+        username: string;
+        verified: boolean;
+        views: number;
+    };
+    userDisplayName: string;
+    username: string;
+    userProfileImageUrl: string;
+    views: number;
+    webmSize: number;
+    webmUrl: string;
+    webpUrl: string;
+    width: number;
 }
 
 export class SearchGrid extends PureComponent<Props, State> {
@@ -119,7 +243,7 @@ export class SearchGrid extends PureComponent<Props, State> {
         }
     }
 
-    itemClickHandler = (gfyItem: Record<string, any>) => {
+    itemClickHandler = (gfyItem: Gif) => {
         const {keyword, handleItemClick} = this.props;
         this.props.saveSearchScrollPosition(this.scrollPosition);
 
