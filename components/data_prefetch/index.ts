@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentChannelId, getUnreadChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {getMsgCountInChannel, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
@@ -71,11 +70,6 @@ const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationO
 });
 
 function isSidebarLoaded(state: GlobalState) {
-    if (getConfig(state).EnableLegacySidebar === 'true') {
-        // With the old sidebar, we don't need to wait for anything to load before fetching profiles
-        return true;
-    }
-
     return getCategoriesForCurrentTeam(state).length > 0;
 }
 
