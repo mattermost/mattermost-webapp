@@ -16,7 +16,6 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {prefetchChannelPosts} from 'actions/views/channel';
-import {trackDMGMOpenChannels} from 'actions/user_actions';
 
 import {getCategoriesForCurrentTeam} from 'selectors/views/channel_sidebar';
 
@@ -28,7 +27,6 @@ import DataPrefetch from './data_prefetch';
 
 type Actions = {
     prefetchChannelPosts: (channelId: string, delay?: number) => Promise<{data: PostList}>;
-    trackDMGMOpenChannels: () => Promise<void>;
 };
 
 enum Priority {
@@ -93,7 +91,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             prefetchChannelPosts,
-            trackDMGMOpenChannels,
         }, dispatch),
     };
 }

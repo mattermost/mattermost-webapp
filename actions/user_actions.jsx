@@ -14,7 +14,6 @@ import {
     getMyChannels,
     getMyChannelMember,
     getChannelMembersInChannels,
-    getDirectChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
@@ -22,7 +21,6 @@ import * as Selectors from 'mattermost-redux/selectors/entities/users';
 
 import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
-import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {getDisplayedChannels} from 'selectors/views/channel_sidebar';
 
@@ -440,15 +438,5 @@ export function autoResetStatus() {
         }
 
         return userStatus;
-    };
-}
-
-export function trackDMGMOpenChannels() {
-    return (doDispatch, doGetState) => {
-        const state = doGetState();
-        const channels = getDirectChannels(state);
-        trackEvent('ui', 'LHS_DM_GM_Count', {count: channels.length});
-
-        return {data: true};
     };
 }
