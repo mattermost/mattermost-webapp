@@ -13,7 +13,6 @@ declare module 'dynamic-virtualized-list' {
     interface DynamicSizeListProps {
         canLoadMorePosts: (id?: string) => void;
         children: ({data: any, itemId: any, style: any}) => JSX.Element;
-        correctScrollToBottom: boolean;
         height: number;
         initRangeToRender: number[];
         initScrollToIndex: () => any;
@@ -29,6 +28,7 @@ declare module 'dynamic-virtualized-list' {
         width: number;
 
         className?: string;
+        correctScrollToBottom?: boolean;
         innerListStyle?: CSSProperties;
         loaderId?: string;
         scrollToFailed?: (index: number) => void;

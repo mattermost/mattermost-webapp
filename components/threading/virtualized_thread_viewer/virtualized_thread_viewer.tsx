@@ -201,14 +201,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
     }
 
-    canScrollToBottom = (): boolean => {
-        return (
-            this.getInitialPostIndex() === 0 ||
-            (this.state.userScrolled && !this.state.isScrolling) ||
-            this.state.userScrolledToBottom
-        );
-    }
-
     getInitialPostIndex = (): number => {
         let postIndex = 0;
 
@@ -228,9 +220,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     scrollToBottom = () => {
-        if (this.canScrollToBottom()) {
-            this.scrollToItem(0, 'end');
-        }
+        this.scrollToItem(0, 'end');
     }
 
     scrollToNewMessage = () => {
@@ -255,8 +245,12 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         let createCommentHeight = height > maxHeight ? maxHeight : height;
         createCommentHeight += CREATE_COMMENT_BUTTON_HEIGHT;
 
-        this.setState({createCommentHeight});
-        this.scrollToBottom();
+        if (createCommentHeight !== this.state.createCommentHeight) {
+            this.setState({createCommentHeight});
+            if (this.state.userScrolledToBottom) {
+                this.scrollToBottom();
+            }
+        }
     }
 
     renderRow = ({data, itemId, style}: {data: any; itemId: any; style: any}) => {
@@ -305,7 +299,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                 />
                 {isLastPost && (
                     <CreateComment
-                        focusOnMount={this.canScrollToBottom()}
+                        focusOnMount={this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0)}
                         channelId={this.props.channel.id}
                         channelIsArchived={this.props.channel.delete_at !== 0}
                         channelType={this.props.channel.type}
@@ -358,7 +352,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                         {({width, height}) => (
                             <DynamicSizeList
                                 canLoadMorePosts={this.canLoadMorePosts}
-                                correctScrollToBottom={true}
                                 height={height}
                                 initRangeToRender={this.initRangeToRender}
                                 initScrollToIndex={this.initScrollToIndex}
