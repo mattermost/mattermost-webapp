@@ -623,7 +623,7 @@ const AdminDefinition = {
         system_roles: {
             url: 'user_management/system_roles',
             title: t('admin.sidebar.systemRoles'),
-            title_default: 'System Roles (Beta)',
+            title_default: 'System Roles',
             searchableStrings: [],
             isHidden: it.any(
                 it.not(it.licensedForFeature('LDAPGroups')),
@@ -639,7 +639,7 @@ const AdminDefinition = {
             url: 'user_management/system_roles',
             isDiscovery: true,
             title: t('admin.sidebar.systemRoles'),
-            title_default: 'System Roles (Beta)',
+            title_default: 'System Roles',
             isHidden: it.any(
                 it.licensedForFeature('LDAPGroups'),
                 it.not(it.enterpriseReady),
@@ -647,7 +647,7 @@ const AdminDefinition = {
             schema: {
                 id: 'SystemRoles',
                 name: t('admin.permissions.systemRoles'),
-                name_default: 'System Roles (Beta)',
+                name_default: 'System Roles',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -2159,7 +2159,7 @@ const AdminDefinition = {
                         label: t('admin.viewArchivedChannelsTitle'),
                         label_default: 'Allow users to view archived channels: ',
                         help_text: t('admin.viewArchivedChannelsHelpText'),
-                        help_text_default: '(Beta) When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
+                        help_text_default: 'When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
                     {
@@ -4973,7 +4973,7 @@ const AdminDefinition = {
         guest_access: {
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
-            title_default: 'Guest Access (Beta)',
+            title_default: 'Guest Access',
             isHidden: it.any(
                 it.not(it.licensed),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
@@ -4981,7 +4981,7 @@ const AdminDefinition = {
             schema: {
                 id: 'GuestAccountsSettings',
                 name: t('admin.authentication.guest_access'),
-                name_default: 'Guest Access (Beta)',
+                name_default: 'Guest Access',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -5047,7 +5047,7 @@ const AdminDefinition = {
             isDiscovery: true,
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
-            title_default: 'Guest Access (Beta)',
+            title_default: 'Guest Access',
             isHidden: it.any(
                 it.licensed,
                 it.not(it.enterpriseReady),
@@ -5055,7 +5055,7 @@ const AdminDefinition = {
             schema: {
                 id: 'GuestAccountsSettings',
                 name: t('admin.authentication.guest_access'),
-                name_default: 'Guest Access (Beta)',
+                name_default: 'Guest Access',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -5070,7 +5070,7 @@ const AdminDefinition = {
     plugins: {
         icon: 'fa-plug',
         sectionTitle: t('admin.sidebar.plugins'),
-        sectionTitleDefault: 'Plugins (Beta)',
+        sectionTitleDefault: 'Plugins',
         id: 'plugins',
         isHidden: it.not(it.userHasReadPermissionOnResource('plugins')),
         plugin_management: {
@@ -5479,7 +5479,7 @@ const AdminDefinition = {
         message_export: {
             url: 'compliance/export',
             title: t('admin.sidebar.complianceExport'),
-            title_default: 'Compliance Export (Beta)',
+            title_default: 'Compliance Export',
             searchableStrings: [
                 'admin.service.complianceExportTitle',
                 'admin.service.complianceExportDesc',
@@ -5512,7 +5512,7 @@ const AdminDefinition = {
             isDiscovery: true,
             url: 'compliance/export',
             title: t('admin.sidebar.complianceExport'),
-            title_default: 'Compliance Export (Beta)',
+            title_default: 'Compliance Export',
             isHidden: it.any(
                 it.licensedForFeature('MessageExport'),
                 it.not(it.enterpriseReady),
@@ -5520,7 +5520,7 @@ const AdminDefinition = {
             schema: {
                 id: 'MessageExportSettings',
                 name: t('admin.complianceExport.title'),
-                name_default: 'Compliance Export (Beta)',
+                name_default: 'Compliance Export',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -5605,7 +5605,7 @@ const AdminDefinition = {
         custom_terms_of_service: {
             url: 'compliance/custom_terms_of_service',
             title: t('admin.sidebar.customTermsOfService'),
-            title_default: 'Custom Terms of Service (Beta)',
+            title_default: 'Custom Terms of Service',
             searchableStrings: [
                 'admin.support.termsOfServiceTitle',
                 'admin.support.enableTermsOfServiceTitle',
@@ -5629,7 +5629,7 @@ const AdminDefinition = {
             url: 'compliance/custom_terms_of_service',
             isDiscovery: true,
             title: t('admin.sidebar.customTermsOfService'),
-            title_default: 'Custom Terms of Service (Beta)',
+            title_default: 'Custom Terms of Service',
             isHidden: it.any(
                 it.licensedForFeature('CustomTermsOfService'),
                 it.not(it.enterpriseReady),
@@ -5637,7 +5637,7 @@ const AdminDefinition = {
             schema: {
                 id: 'TermsOfServiceSettings',
                 name: t('admin.support.termsOfServiceTitle'),
-                name_default: 'Custom Terms of Service (Beta)',
+                name_default: 'Custom Terms of Service',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
