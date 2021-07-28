@@ -12,7 +12,7 @@ import {PostListRowListIds, PostRequestTypes} from 'utils/constants';
 
 import PostListRow from 'components/post_view/post_list_row';
 
-import PostList from './post_list_virtualized';
+import PostList, {PostListType} from './post_list_virtualized';
 
 describe('PostList', () => {
     const baseActions = {
@@ -56,7 +56,8 @@ describe('PostList', () => {
 
         test('should get previous item ID correctly for oldest row', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
+
             const row = shallow(instance.renderRow({
                 data: postListIds,
                 itemId: 'd',
@@ -67,7 +68,7 @@ describe('PostList', () => {
 
         test('should get previous item ID correctly for other rows', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             const row = shallow(instance.renderRow({
                 data: postListIds,
                 itemId: 'b',
@@ -83,14 +84,15 @@ describe('PostList', () => {
             };
 
             const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const instance = wrapper.instance() as PostListType;
 
-            let row = shallow(wrapper.instance().renderRow({
+            let row = shallow(instance.renderRow({
                 data: postListIds,
                 itemId: 'c',
             }));
             expect(row.find(PostListRow).prop('shouldHighlight')).toEqual(false);
 
-            row = shallow(wrapper.instance().renderRow({
+            row = shallow(instance.renderRow({
                 data: postListIds,
                 itemId: 'b',
             }));
@@ -101,13 +103,14 @@ describe('PostList', () => {
     describe('onScroll', () => {
         test('should call checkBottom', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            wrapper.instance().checkBottom = jest.fn();
+            const instance = wrapper.instance() as PostListType;
+            instance.checkBottom = jest.fn();
 
             const scrollOffset = 1234;
             const scrollHeight = 1000;
             const clientHeight = 500;
 
-            wrapper.instance().onScroll({
+            instance.onScroll({
                 scrollDirection: 'forward',
                 scrollOffset,
                 scrollUpdateWasRequested: false,
@@ -115,12 +118,12 @@ describe('PostList', () => {
                 clientHeight,
             });
 
-            expect(wrapper.instance().checkBottom).toHaveBeenCalledWith(scrollOffset, scrollHeight, clientHeight);
+            expect(instance.checkBottom).toHaveBeenCalledWith(scrollOffset, scrollHeight, clientHeight);
         });
 
         test('should call canLoadMorePosts with AFTER_ID if loader is visible', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
 
             const scrollOffset = 1234;
             const scrollHeight = 1000;
@@ -140,7 +143,7 @@ describe('PostList', () => {
 
         test('should not call canLoadMorePosts with AFTER_ID if loader is below the fold by couple of messages', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
 
             const scrollOffset = 1234;
             const scrollHeight = 1000;
@@ -162,7 +165,7 @@ describe('PostList', () => {
             const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
 
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
 
             const scrollHeight = 3000;
             const clientHeight = 500;
@@ -185,7 +188,7 @@ describe('PostList', () => {
             const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
 
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
 
             const scrollHeight = 3000;
             const clientHeight = 500;
@@ -208,7 +211,7 @@ describe('PostList', () => {
             const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
 
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
 
             const scrollHeight = 3000;
             const clientHeight = 500;
@@ -233,7 +236,7 @@ describe('PostList', () => {
 
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             wrapper.setState({isMobile: true});
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
 
             const scrollHeight = 3000;
             const clientHeight = 500;
@@ -255,7 +258,7 @@ describe('PostList', () => {
         test('should not show search channel hint if it has already been dismissed', () => {
             const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
 
             const scrollHeight = 3000;
             const clientHeight = 500;
@@ -279,7 +282,7 @@ describe('PostList', () => {
             const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
 
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
 
             const scrollHeight = 3000;
             const clientHeight = 500;
@@ -338,7 +341,8 @@ describe('PostList', () => {
         ]) {
             test(testCase.name, () => {
                 const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-                expect(wrapper.instance().isAtBottom(testCase.scrollOffset, scrollHeight, clientHeight)).toBe(testCase.expected);
+                const instance = wrapper.instance() as PostListType;
+                expect(instance.isAtBottom(testCase.scrollOffset, scrollHeight, clientHeight)).toBe(testCase.expected);
             });
         }
     });
@@ -346,9 +350,10 @@ describe('PostList', () => {
     describe('updateAtBottom', () => {
         test('should update atBottom and lastViewedBottom when atBottom changes', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            const instance = wrapper.instance() as PostListType;
             wrapper.setState({lastViewedBottom: 1234, atBottom: false});
 
-            wrapper.instance().updateAtBottom(true);
+            instance.updateAtBottom(true);
 
             expect(wrapper.state('atBottom')).toBe(true);
             expect(wrapper.state('lastViewedBottom')).not.toBe(1234);
@@ -356,9 +361,10 @@ describe('PostList', () => {
 
         test('should not update lastViewedBottom when atBottom does not change', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            const instance = wrapper.instance() as PostListType;
             wrapper.setState({lastViewedBottom: 1234, atBottom: false});
 
-            wrapper.instance().updateAtBottom(false);
+            instance.updateAtBottom(false);
 
             expect(wrapper.state('lastViewedBottom')).toBe(1234);
         });
@@ -367,9 +373,10 @@ describe('PostList', () => {
             Date.now = jest.fn().mockReturnValue(12344);
 
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            const instance = wrapper.instance() as PostListType;
             wrapper.setState({lastViewedBottom: 1234, atBottom: false});
 
-            wrapper.instance().updateAtBottom(true);
+            instance.updateAtBottom(true);
 
             expect(wrapper.state('lastViewedBottom')).toBe(12345);
         });
@@ -378,9 +385,11 @@ describe('PostList', () => {
             Date.now = jest.fn().mockReturnValue(12346);
 
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            const instance = wrapper.instance() as PostListType;
+
             wrapper.setState({lastViewedBottom: 1234, atBottom: false});
 
-            wrapper.instance().updateAtBottom(true);
+            instance.updateAtBottom(true);
 
             expect(wrapper.state('lastViewedBottom')).toBe(12346);
         });
@@ -389,7 +398,7 @@ describe('PostList', () => {
     describe('Scroll correction logic on mount of posts at the top', () => {
         test('should return previous scroll position from getSnapshotBeforeUpdate', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             instance.componentDidUpdate = jest.fn();
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
@@ -400,13 +409,15 @@ describe('PostList', () => {
             expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
             instance.postListRef = {current: {scrollHeight: 200, parentElement: {scrollTop: 30}}};
-            wrapper.setProps({postListIds: [
-                'post1',
-                'post2',
-                'post3',
-                DATE_LINE + 1551711600000,
-                'post4',
-            ]});
+            wrapper.setProps({
+                postListIds: [
+                    'post1',
+                    'post2',
+                    'post3',
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                ],
+            });
 
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
             expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
@@ -414,7 +425,7 @@ describe('PostList', () => {
 
         test('should not return previous scroll position from getSnapshotBeforeUpdate as list is at bottom', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             instance.componentDidUpdate = jest.fn();
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
@@ -437,7 +448,7 @@ describe('PostList', () => {
             };
 
             const wrapper = shallowWithIntl(<PostList {...props}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             expect(instance.initRangeToRender).toEqual([0, 50]);
         });
 
@@ -454,7 +465,7 @@ describe('PostList', () => {
             };
 
             const wrapper = shallowWithIntl(<PostList {...props}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             expect(instance.initRangeToRender).toEqual([35, 95]);
         });
     });
@@ -467,7 +478,7 @@ describe('PostList', () => {
             };
 
             const wrapper = shallowWithIntl(<PostList {...props}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             const post3Row = shallow(instance.renderRow({
                 data: postListIdsForClassNames,
                 itemId: 'post3',
@@ -497,8 +508,9 @@ describe('PostList', () => {
             };
 
             const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const instance = wrapper.instance() as PostListType;
 
-            const row = shallow(wrapper.instance().renderRow({
+            const row = shallow(instance.renderRow({
                 data: props.postListIds,
                 itemId: 'post4',
             }));
@@ -521,8 +533,9 @@ describe('PostList', () => {
             };
 
             const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const instance = wrapper.instance() as PostListType;
 
-            const row = shallow(wrapper.instance().renderRow({
+            const row = shallow(instance.renderRow({
                 data: props.postListIds,
                 itemId: 'post2',
             }));
@@ -534,7 +547,7 @@ describe('PostList', () => {
     describe('updateFloatingTimestamp', () => {
         test('should not update topPostId as is it not mobile view', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             wrapper.setState({isMobile: false});
             instance.onItemsRendered({visibleStartIndex: 0});
             expect(wrapper.state('topPostId')).toBe('');
@@ -542,7 +555,7 @@ describe('PostList', () => {
 
         test('should update topPostId with latest visible postId', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             wrapper.setState({isMobile: true});
             instance.onItemsRendered({visibleStartIndex: 1});
             expect(wrapper.state('topPostId')).toBe('post2');
@@ -556,7 +569,7 @@ describe('PostList', () => {
         test('should call scrollToBottom', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             wrapper.setProps({atLatestPost: true});
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             instance.scrollToBottom = jest.fn();
             instance.scrollToLatestMessages();
             expect(instance.scrollToBottom).toHaveBeenCalled();
@@ -564,8 +577,9 @@ describe('PostList', () => {
 
         test('should call changeUnreadChunkTimeStamp', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             instance.scrollToLatestMessages();
+
             expect(baseActions.changeUnreadChunkTimeStamp).toHaveBeenCalledWith('');
         });
     });
@@ -574,7 +588,8 @@ describe('PostList', () => {
         test('should have LOAD_NEWER_MESSAGES_TRIGGER and LOAD_OLDER_MESSAGES_TRIGGER', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             wrapper.setProps({autoRetryEnable: false});
-            const postListIdsState = wrapper.state('postListIds');
+
+            const postListIdsState: string[] = wrapper.state('postListIds');
             expect(postListIdsState[0]).toBe(PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER);
             expect(postListIdsState[postListIdsState.length - 1]).toBe(PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER);
         });
@@ -598,7 +613,7 @@ describe('PostList', () => {
             };
 
             const wrapper = shallowWithIntl(<PostList {...props}/>);
-            const instance = wrapper.instance();
+            const instance = wrapper.instance() as PostListType;
             const initScrollToIndex = instance.initScrollToIndex();
             expect(initScrollToIndex).toEqual({index: 6, position: 'start', offset: -50});
         });
@@ -620,7 +635,7 @@ describe('PostList', () => {
         };
 
         const wrapper = shallowWithIntl(<PostList {...props}/>);
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as PostListType;
         const initScrollToIndex = instance.initScrollToIndex();
         expect(initScrollToIndex).toEqual({index: 5, position: 'start', offset: -50});
     });
