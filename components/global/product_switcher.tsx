@@ -75,6 +75,7 @@ const ProductSwitcher = (): JSX.Element => {
                 ref={menuRef}
                 size={'sm'}
                 toggled={switcherOpen}
+                inverted={true}
             />
             <Popover
                 anchorReference={menuRef}
