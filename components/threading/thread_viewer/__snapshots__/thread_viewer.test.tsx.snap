@@ -5,13 +5,7 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
   <div
     className="ThreadViewer"
   >
-    <div
-      style={
-        Object {
-          "flex": "1 1 auto",
-        }
-      }
-    >
+    <div>
       <DeferredRenderWrapper
         channel={
           Object {
@@ -41,7 +35,6 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
         key="id"
         onCardClick={[Function]}
         onCardClickPost={[Function]}
-        openTime={1502715365000}
         postIds={
           Array [
             "id",

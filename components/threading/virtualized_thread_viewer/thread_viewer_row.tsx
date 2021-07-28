@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useMemo, memo} from 'react';
+import React, {memo} from 'react';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {Post} from 'mattermost-redux/types/posts';

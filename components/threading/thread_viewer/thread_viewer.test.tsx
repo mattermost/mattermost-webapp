@@ -12,6 +12,8 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {TestHelper} from 'utils/test_helper';
 import {fakeDate} from 'tests/helpers/date';
 
+import {FakePost} from 'types/store/rhs';
+
 import ThreadViewer from './thread_viewer';
 
 describe('components/threading/ThreadViewer', () => {
@@ -22,6 +24,15 @@ describe('components/threading/ThreadViewer', () => {
         is_following: true,
         reply_count: 3,
     });
+
+    const fakePost: FakePost = {
+        id: post.id,
+        exists: true,
+        type: post.type,
+        user_id: post.user_id,
+        channel_id: post.channel_id,
+        message: post.message,
+    };
 
     const channel: Channel = TestHelper.getChannelMock({
         display_name: '',
@@ -48,7 +59,6 @@ describe('components/threading/ThreadViewer', () => {
     const directTeammate: UserProfile = TestHelper.getUserMock();
 
     const baseProps = {
-        posts: [post],
         selected: post,
         channel,
         currentUserId: 'user_id',
@@ -85,25 +95,10 @@ describe('components/threading/ThreadViewer', () => {
         return expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
     });
 
-    test('should update openTime state when selected prop updated', async () => {
-        jest.useRealTimers();
-        const wrapper = shallow(
-            <ThreadViewer {...baseProps}/>,
-        );
-
-        const waitMilliseconds = 100;
-        const originalOpenTimeState = wrapper.state('openTime');
-
-        await new Promise((resolve) => setTimeout(resolve, waitMilliseconds));
-
-        wrapper.setProps({selected: {...post, id: `${post.id}_new`}});
-        expect(wrapper.state('openTime')).not.toEqual(originalOpenTimeState);
-    });
-
-    test('should not break if root post is missing', () => {
+    test('should not break if root post is a fake post', () => {
         const props = {
             ...baseProps,
-            posts: [{...baseProps.posts[0], root_id: 'something'}],
+            selected: fakePost,
         };
 
         expect(() => {
