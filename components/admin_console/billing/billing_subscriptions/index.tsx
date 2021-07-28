@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useStore, useSelector} from 'react-redux';
 
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
@@ -96,7 +96,7 @@ const BillingSubscriptions: React.FC = () => {
         }
     }
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
         getCloudCustomer()(dispatch, store.getState());
