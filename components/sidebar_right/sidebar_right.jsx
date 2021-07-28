@@ -207,7 +207,11 @@ export default class SidebarRight extends React.PureComponent {
 
         return (
             <div
-                className={classNames('sidebar--right', {'sidebar--right--expanded': isSidebarRightExpanded}, {'move--left': isOpen})}
+                className={classNames('sidebar--right', {
+                    'sidebar--right--expanded': isSidebarRightExpanded,
+                    'move--left': isOpen,
+                    hidden: !isOpen,
+                })}
                 id='sidebar-right'
                 role='complementary'
                 ref={this.sidebarRight}

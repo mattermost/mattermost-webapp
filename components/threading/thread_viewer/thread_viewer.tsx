@@ -127,7 +127,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             selected,
         } = this.props;
 
-        if (this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
+        if (selected && this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
             return getThread(
                 currentUserId,
                 currentTeamId,
@@ -206,7 +206,15 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         }
 
         if (this.state.isLoading) {
-            return <LoadingScreen style={{height: '100%'}}/>;
+            return (
+                <LoadingScreen
+                    style={{
+                        display: 'grid',
+                        placeContent: 'center',
+                        flex: '1',
+                    }}
+                />
+            );
         }
 
         return (

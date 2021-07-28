@@ -622,7 +622,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                                     'Edit the post...',
                                 )}
                                 supportsCommands={false}
-                                suggestionListStyle='bottom'
+                                suggestionListPosition='bottom'
                                 id='edit_textbox'
                                 ref={this.setEditboxRef}
                                 characterLimit={this.props.maxPostSize}
