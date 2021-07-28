@@ -104,8 +104,11 @@ export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetSta
     let markAsReadOnServer = false;
 
     // Skip marking a channel as read (when the user is viewing a channel)
-    // if they have manually marked it as unread.
-    if (!isManuallyUnread(getState(), post.channel_id)) {
+    // if they have manually marked it as unread, or if they are replying to
+    // a thread
+    const isCRTReply = isCollapsedThreadsEnabled(state) && post.root_id;
+
+    if (!isManuallyUnread(getState(), post.channel_id) && !(isCRTReply)) {
         if (
             post.user_id === getCurrentUserId(state) &&
             !isSystemMessage(post) &&
