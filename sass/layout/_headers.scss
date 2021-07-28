@@ -530,6 +530,8 @@
         .user-popover {
             overflow: hidden;
             max-width: calc(100% - 100px);
+            font-family: Metropolis, sans-serif;
+            font-size: 28px;
             font-weight: 600;
             text-overflow: ellipsis;
         }
