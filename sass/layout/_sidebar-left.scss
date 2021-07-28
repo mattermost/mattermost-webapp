@@ -642,11 +642,6 @@
         }
     }
 
-    .SidebarChannelGroup:not(.autoSortedCategory) .draggingOver .SidebarChannelGroupHeader:hover {
-        border-radius: 4px;
-        box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
-    }
-
     .SidebarChannelGroupHeader_groupButton {
         z-index: 1;
         top: 0;
@@ -758,7 +753,7 @@
         font-size: 12px;
     }
 
-    .SidebarChannelGroup.autoSortedCategory .draggingOver {
+    .SidebarChannelGroup .draggingOver {
         border-radius: 4px;
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
 
