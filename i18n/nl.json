@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Je meest recente betaling is niet gelukt",
   "admin.billing.subscription.nextBillingDate": "Vanaf {date} wordt je gefactureerd op basis van het aantal ingeschakelde gebruikers",
   "admin.billing.subscription.otherBillingOption": "Heb je andere factureringsopties nodig?",
-  "admin.billing.subscription.payamentBegins": "Betaling begint: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "Betaling begint: {beginDate}",
   "admin.billing.subscription.paymentFailed": "De betaling is mislukt. Probeer opnieuw of neem contact met de helpdesk.",
   "admin.billing.subscription.paymentNoteEnd": " voor help",
   "admin.billing.subscription.paymentNoteStart": "Als jouw Mattermost Cloud proef gestart is op of voor 15 september, gelieve ",

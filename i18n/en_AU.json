@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Your most recent payment failed",
   "admin.billing.subscription.nextBillingDate": "Starting {date} you will be charged based on the number of enabled users",
   "admin.billing.subscription.otherBillingOption": "Need other billing options?",
-  "admin.billing.subscription.payamentBegins": "Payment begins: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "Payment begins: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Payment failed. Please try again or contact support.",
   "admin.billing.subscription.paymentNoteEnd": " for assistance",
   "admin.billing.subscription.paymentNoteStart": "If your Mattermost Cloud trial started on or before September 15, please ",
