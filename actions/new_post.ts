@@ -65,6 +65,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
         }
 
         const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+        const isCRTReply = collapsedThreadsEnabled && post.root_id;
 
         actions.push(
             PostActions.receivedNewPost(post, collapsedThreadsEnabled),
@@ -76,12 +77,17 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
                     now: Date.now(),
                 },
             },
-            ...setChannelReadAndViewed(dispatch, getState, post, websocketMessageProps, fetchedChannelMember),
         );
 
+        const isCRTReplyByCurrentUser = isCRTReply && post.user_id === getCurrentUserId(state);
+        if (!isCRTReplyByCurrentUser) {
+            actions.push(
+                ...setChannelReadAndViewed(dispatch, getState, post, websocketMessageProps, fetchedChannelMember),
+            );
+        }
         dispatch(batchActions(actions));
 
-        if (collapsedThreadsEnabled && post.root_id) {
+        if (isCRTReply) {
             dispatch(setThreadRead(post));
         }
 
@@ -104,11 +110,8 @@ export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetSta
     let markAsReadOnServer = false;
 
     // Skip marking a channel as read (when the user is viewing a channel)
-    // if they have manually marked it as unread, or if they are replying to
-    // a thread
-    const isCRTReply = isCollapsedThreadsEnabled(state) && post.root_id;
-
-    if (!isManuallyUnread(getState(), post.channel_id) && !(isCRTReply)) {
+    // if they have manually marked it as unread.
+    if (!isManuallyUnread(getState(), post.channel_id)) {
         if (
             post.user_id === getCurrentUserId(state) &&
             !isSystemMessage(post) &&
