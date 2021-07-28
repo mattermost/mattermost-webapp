@@ -45,7 +45,7 @@ const CreateCommentDraftTimeoutMilliseconds = 500;
 
 class CreateComment extends React.PureComponent {
     static defaultProps = {
-        blockFocus: false,
+        focusOnMount: true,
     }
 
     static propTypes = {
@@ -239,9 +239,9 @@ class CreateComment extends React.PureComponent {
         onHeightChange: PropTypes.func,
 
         /*
-         * Whether we want to block focus or not
+         * Whether we want to focus on mount or not
          */
-        blockFocus: PropTypes.bool,
+        focusOnMount: PropTypes.bool,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -294,7 +294,10 @@ class CreateComment extends React.PureComponent {
         onResetHistoryIndex();
         setShowPreview(false);
 
-        this.focusTextbox();
+        if (this.props.focusOnMount) {
+            this.focusTextbox();
+        }
+
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
         window.addEventListener('beforeunload', this.saveDraft);
@@ -974,7 +977,7 @@ class CreateComment extends React.PureComponent {
     }
 
     focusTextbox = (keepFocus = false) => {
-        if (!this.props.blockFocus && this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
+        if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
             this.textboxRef.current.focus();
         }
     }
@@ -1019,7 +1022,7 @@ class CreateComment extends React.PureComponent {
         });
 
         if (this.props.onHeightChange) {
-            this.props.onHeightChange();
+            this.props.onHeightChange(height, maxHeight);
         }
     }
 

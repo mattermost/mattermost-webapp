@@ -13,8 +13,6 @@ import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 
-import * as Utils from 'utils/utils.jsx';
-
 import deferComponentRender from 'components/deferComponentRender';
 import LoadingScreen from 'components/loading_screen';
 import {FakePost} from 'types/store/rhs';
@@ -29,7 +27,6 @@ type Attrs = Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'id'>;
 type Props = Attrs & {
     isCollapsedThreadsEnabled: boolean;
     userThread?: UserThread | null;
-    posts: Post[];
     channel: Channel | null;
     selected: Post | FakePost;
     previousRhsState?: string;
@@ -50,36 +47,14 @@ type Props = Attrs & {
 };
 
 type State = {
-    selected?: Post | FakePost;
-    windowWidth?: number;
-    windowHeight?: number;
     isLoading: boolean;
-    topRhsPostId: string;
-    openTime: number;
-    postsArray?: Array<Post | FakePost>;
-    isBusy?: boolean;
-    postsContainerHeight: number;
-    userScrolledToBottom: boolean;
 }
 
 export default class ThreadViewer extends React.PureComponent<Props, State> {
-    static getDerivedStateFromProps(props: Props, state: State): Partial<State>|null {
-        if (state.selected && props.selected && state.selected.id !== props.selected.id) {
-            return {selected: props.selected, openTime: (new Date()).getTime()};
-        }
-
-        return null;
-    }
-
     public constructor(props: Props) {
         super(props);
 
         this.state = {
-            selected: props.selected,
-            topRhsPostId: '',
-            openTime: (new Date()).getTime(),
-            postsContainerHeight: 0,
-            userScrolledToBottom: false,
             isLoading: false,
         };
     }
@@ -88,6 +63,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         if (this.props.isCollapsedThreadsEnabled && this.props.userThread !== null) {
             this.markThreadRead();
         }
+
         this.onInit();
     }
 
@@ -108,13 +84,12 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
     }
 
     public morePostsToFetch(): boolean {
-        const rootPost = Utils.getRootPost(this.props.posts);
         const replyCount = this.getReplyCount();
-        return rootPost && this.props.posts.length < (replyCount + 1);
+        return this.props.selected && this.props.postIds.length < (replyCount + 1);
     }
 
-    public getReplyCount() {
-        return Utils.getRootPost(this.props.posts)?.reply_count || this.props.userThread?.reply_count || 0;
+    public getReplyCount(): number {
+        return (this.props.selected as Post)?.reply_count || this.props.userThread?.reply_count || 0;
     }
 
     fetchThread() {
@@ -127,7 +102,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             selected,
         } = this.props;
 
-        if (selected && this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
+        if (selected && this.getReplyCount() && (this.props.selected as Post)?.is_following) {
             return getThread(
                 currentUserId,
                 currentTeamId,
@@ -199,7 +174,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
     }
 
     public render(): JSX.Element {
-        if (this.props.posts == null || this.props.selected == null || !this.props.channel) {
+        if (this.props.postIds == null || this.props.selected == null || !this.props.channel) {
             return (
                 <span/>
             );
@@ -220,14 +195,13 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         return (
             <>
                 <div className={classNames('ThreadViewer', this.props.className)}>
-                    <div style={{flex: '1 1 auto'}}>
+                    <div>
                         {this.props.selected && (
                             <DeferredThreadViewerVirt
                                 key={`${this.props.selected.id}${this.props.highlightedPostId ?? ''}`}
                                 channel={this.props.channel}
                                 onCardClick={this.handleCardClick}
                                 onCardClickPost={this.handleCardClickPost}
-                                openTime={this.state.openTime}
                                 postIds={this.props.postIds}
                                 removePost={this.props.actions.removePost}
                                 selected={this.props.selected}

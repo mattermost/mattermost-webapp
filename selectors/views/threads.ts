@@ -19,7 +19,6 @@ import {Post} from 'mattermost-redux/types/posts';
 import {DATE_LINE, makeCombineUserActivityPosts, START_OF_NEW_MESSAGES} from 'mattermost-redux/utils/post_list';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
-import {PostTypes} from 'mattermost-redux/constants/posts';
 
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
@@ -29,9 +28,7 @@ import {isFromWebhook} from 'utils/post_utils';
 interface PostFilterOptions {
     postIds: Array<$ID<Post>>;
     showDate: boolean;
-    lastViewedAt: number;
-    openTime: number;
-    collapsedThreads: boolean;
+    lastViewedAt?: number;
 }
 
 export function getSelectedThreadIdInTeam(state: GlobalState) {
@@ -103,11 +100,9 @@ export function makeFilterRepliesAndAddSeparators() {
         (state: GlobalState, {postIds}: PostFilterOptions) => getPostsForIds(state, postIds),
         (_state: GlobalState, {lastViewedAt}: PostFilterOptions) => lastViewedAt,
         (_state: GlobalState, {showDate}: PostFilterOptions) => showDate,
-        (_state: GlobalState, {collapsedThreads}: PostFilterOptions) => collapsedThreads,
-        (_state: GlobalState, {openTime}: PostFilterOptions) => openTime,
         getCurrentUser,
         isTimezoneEnabled,
-        (posts, lastViewedAt, showDate, collapsedThreads, openTime, currentUser, timeZoneEnabled) => {
+        (posts, lastViewedAt, showDate, currentUser, timeZoneEnabled) => {
             if (posts.length === 0 || !currentUser) {
                 return [];
             }
@@ -120,7 +115,7 @@ export function makeFilterRepliesAndAddSeparators() {
             for (let i = posts.length - 1; i >= 0; i--) {
                 const post = posts[i];
 
-                if (!post || (post.type === PostTypes.EPHEMERAL && post.create_at < openTime)) {
+                if (!post) {
                     continue;
                 }
 
@@ -146,7 +141,6 @@ export function makeFilterRepliesAndAddSeparators() {
                 }
 
                 if (
-                    collapsedThreads &&
                     lastViewedAt &&
                     post.create_at >= lastViewedAt &&
                     (i < posts.length - 1) &&

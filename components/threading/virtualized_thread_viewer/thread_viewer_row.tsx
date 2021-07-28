@@ -38,13 +38,8 @@ function ThreadViewerRow({
     teamId,
     timestampProps,
 }: Props) {
-    const [isDateLine, isStartOfNewMessages] = useMemo(() => [
-        PostListUtils.isDateLine(listId),
-        PostListUtils.isStartOfNewMessages(listId),
-    ], [listId]);
-
     switch (true) {
-    case isDateLine: {
+    case PostListUtils.isDateLine(listId): {
         const date = PostListUtils.getDateForDateLine(listId);
         return (
             <DateSeparator
@@ -54,7 +49,7 @@ function ThreadViewerRow({
         );
     }
 
-    case isStartOfNewMessages:
+    case PostListUtils.isStartOfNewMessages(listId):
         return <NewMessageSeparator separatorId={listId}/>;
 
     case isFirstPost:

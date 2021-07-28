@@ -4,7 +4,6 @@
 import React, {PureComponent, RefObject} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList, OnScrollArgs} from 'dynamic-virtualized-list';
-import memoize from 'memoize-one';
 
 import {$ID} from 'mattermost-redux/types/utilities';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -41,6 +40,7 @@ type Props = {
 }
 
 type State = {
+    createCommentHeight: number;
     isMobile: boolean;
     isScrolling: boolean;
     topRhsPostId?: string;
@@ -54,6 +54,8 @@ const virtListStyles = {
     height: '100%',
     willChange: 'auto',
 };
+
+const CREATE_COMMENT_BUTTON_HEIGHT = 81;
 
 const THREADING_TIME: typeof BASE_THREADING_TIME = {
     ...BASE_THREADING_TIME,
@@ -75,7 +77,6 @@ const OVERSCAN_COUNT_BACKWARD = 30;
 class ThreadViewerVirtualized extends PureComponent<Props, State> {
     private mounted = false;
     private scrollStopAction: DelayedAction;
-    private latestPostId: $ID<Post>;
     postCreateContainerRef: RefObject<HTMLDivElement>;
     listRef: RefObject<DynamicSizeList>;
     innerRef: RefObject<HTMLDivElement>;
@@ -96,9 +97,9 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         this.innerRef = React.createRef();
         this.postCreateContainerRef = React.createRef();
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
-        this.latestPostId = getLatestPostId(props.replyListIds);
 
         this.state = {
+            createCommentHeight: 0,
             isMobile,
             isScrolling: false,
             userScrolled: false,
@@ -118,7 +119,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        const {highlightedPostId, lastPost, currentUserId, replyListIds} = this.props;
+        const {highlightedPostId, lastPost, currentUserId} = this.props;
 
         if (highlightedPostId && prevProps.highlightedPostId !== highlightedPostId) {
             this.scrollToHighlightedPost();
@@ -127,10 +128,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             (lastPost.user_id === currentUserId || this.state.userScrolledToBottom)
         ) {
             this.scrollToBottom();
-        }
-
-        if (replyListIds !== prevProps.replyListIds) {
-            this.latestPostId = getLatestPostId(replyListIds);
         }
     }
 
@@ -175,8 +172,9 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         if (scrollHeight <= 0 || scrollUpdateWasRequested) {
             return;
         }
+        const {createCommentHeight} = this.state;
 
-        const userScrolledToBottom = scrollHeight - scrollOffset === clientHeight;
+        const userScrolledToBottom = scrollHeight - scrollOffset - createCommentHeight <= clientHeight;
 
         this.setState({
             isScrolling: true,
@@ -206,7 +204,8 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     canScrollToBottom = (): boolean => {
         return (
             this.getInitialPostIndex() === 0 ||
-            (this.state.userScrolled && !this.state.isScrolling)
+            (this.state.userScrolled && !this.state.isScrolling) ||
+            this.state.userScrolledToBottom
         );
     }
 
@@ -252,7 +251,15 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
     }
 
-    renderRow = memoize(({data, itemId, style}: {data: any; itemId: any; style: any}) => {
+    handleCreateCommentHeightChange = (height: number, maxHeight: number) => {
+        let createCommentHeight = height > maxHeight ? maxHeight : height;
+        createCommentHeight += CREATE_COMMENT_BUTTON_HEIGHT;
+
+        this.setState({createCommentHeight});
+        this.scrollToBottom();
+    }
+
+    renderRow = ({data, itemId, style}: {data: any; itemId: any; style: any}) => {
         const index = data.indexOf(itemId);
         let className = '';
         let a11Index = 0;
@@ -276,7 +283,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             a11Index++;
         }
 
-        const isLastPost = itemId === this.latestPostId;
+        const isLastPost = itemId === this.props.lastPost.id;
         const isFirstPost = itemId === this.props.selected.id;
 
         return (
@@ -298,14 +305,14 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                 />
                 {isLastPost && (
                     <CreateComment
-                        blockFocus={!this.canScrollToBottom()}
+                        focusOnMount={this.canScrollToBottom()}
                         channelId={this.props.channel.id}
                         channelIsArchived={this.props.channel.delete_at !== 0}
                         channelType={this.props.channel.type}
                         isDeleted={(this.props.selected as Post).state === Posts.POST_DELETED}
                         isFakeDeletedPost={this.props.selected.type === Constants.PostTypes.FAKE_PARENT_DELETED}
-                        latestPostId={this.latestPostId}
-                        onHeightChange={this.scrollToBottom}
+                        latestPostId={this.props.lastPost.id}
+                        onHeightChange={this.handleCreateCommentHeightChange}
                         ref={this.postCreateContainerRef}
                         teammate={this.props.directTeammate}
                         threadId={this.props.selected.id}
@@ -313,7 +320,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                 )}
             </div>
         );
-    });
+    };
 
     getInnerStyles = (): React.CSSProperties|undefined => {
         if (!this.props.useRelativeTimestamp) {

@@ -33,9 +33,9 @@ function makeMapStateToProps() {
     const getThreadLastViewedAt = makeGetThreadLastViewedAt();
 
     return (state: GlobalState, ownProps: OwnProps) => {
-        const collapsedThreads = isCollapsedThreadsEnabled(state);
-        const {postIds, useRelativeTimestamp, selected, openTime, channel} = ownProps;
+        const {postIds, useRelativeTimestamp, selected, channel} = ownProps;
 
+        const collapsedThreads = isCollapsedThreadsEnabled(state);
         const currentUserId = getCurrentUserId(state);
         const lastViewedAt = getThreadLastViewedAt(state, selected.id);
         const directTeammate = getDirectTeammate(state, channel.id);
@@ -45,9 +45,7 @@ function makeMapStateToProps() {
         const replyListIds = getRepliesListWithSeparators(state, {
             postIds,
             showDate: !useRelativeTimestamp,
-            lastViewedAt,
-            collapsedThreads,
-            openTime,
+            lastViewedAt: collapsedThreads ? lastViewedAt : undefined,
         });
 
         return {

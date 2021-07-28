@@ -12,20 +12,20 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants';
 
 type Props = {
-    blockFocus: boolean;
+    focusOnMount: boolean;
     channelId?: string;
     channelIsArchived: boolean;
     channelType: string;
     isDeleted: boolean;
     isFakeDeletedPost: boolean;
-    onHeightChange: () => void;
+    onHeightChange: (height: number, maxHeight: number) => void;
     teammate?: UserProfile;
     threadId: string;
     latestPostId: $ID<Post>;
 };
 
 const CreateComment = forwardRef<HTMLDivElement, Props>(({
-    blockFocus,
+    focusOnMount,
     channelId,
     channelIsArchived,
     channelType,
@@ -70,7 +70,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
             ref={ref}
         >
             <GenericCreateComment
-                blockFocus={blockFocus}
+                focusOnMount={focusOnMount}
                 channelId={channelId}
                 isFakeDeletedPost={isFakeDeletedPost}
                 latestPostId={latestPostId}
