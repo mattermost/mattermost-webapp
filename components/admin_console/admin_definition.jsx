@@ -47,7 +47,6 @@ import ChannelSettings from './team_channel_settings/channel';
 import ChannelDetails from './team_channel_settings/channel/details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
-import DataRetentionSettingsOld from './data_retention_settings.jsx';
 import DataRetentionSettings from './data_retention_settings/index.ts';
 import GlobalDataRetentionForm from './data_retention_settings/global_policy_form';
 import CustomDataRetentionForm from './data_retention_settings/custom_policy_form';
@@ -5359,7 +5358,6 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
             schema: {
@@ -5373,7 +5371,6 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
             schema: {
@@ -5387,7 +5384,6 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
             schema: {
@@ -5416,41 +5412,11 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
             schema: {
                 id: 'DataRetentionSettings',
                 component: DataRetentionSettings,
-            },
-        },
-        data_retention_old: {
-            url: 'compliance/data_retention',
-            title: t('admin.sidebar.dataRetentionPolicy'),
-            title_default: 'Data Retention Policy',
-            searchableStrings: [
-                'admin.data_retention.title',
-                'admin.data_retention.messageRetentionDays.description',
-                'admin.data_retention.fileRetentionDays.description',
-                ['admin.data_retention.note.description', {documentationLink: ''}],
-                'admin.data_retention.enableMessageDeletion.title',
-                'admin.data_retention.enableMessageDeletion.description',
-                'admin.data_retention.enableFileDeletion.title',
-                'admin.data_retention.enableFileDeletion.description',
-                'admin.data_retention.deletionJobStartTime.title',
-                'admin.data_retention.deletionJobStartTime.description',
-                'admin.data_retention.createJob.title',
-                'admin.data_retention.createJob.help',
-            ],
-            isHidden: it.any(
-                it.not(it.licensedForFeature('DataRetention')),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsTrue('FeatureFlags', 'CustomDataRetentionEnabled'),
-            ),
-            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-            schema: {
-                id: 'DataRetentionSettings',
-                component: DataRetentionSettingsOld,
             },
         },
         data_retention_feature_discovery: {
