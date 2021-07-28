@@ -1104,6 +1104,8 @@ export const Constants = {
         'error',
         'help',
         'plugins',
+        'playbooks',
+        'boards',
     ],
     RESERVED_USERNAMES: [
         'valet',
