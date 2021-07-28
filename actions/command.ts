@@ -36,7 +36,7 @@ import {t} from 'utils/i18n';
 
 import {doAppCall, postEphemeralCallResponseForCommandArgs} from './apps';
 
-export function executeCommand(message: string, args: CommandArgs, appCommandParser?: AppCommandParser): ActionFunc {
+export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
@@ -110,12 +110,14 @@ export function executeCommand(message: string, args: CommandArgs, appCommandPar
         }
 
         if (appsEnabled(state)) {
+            const getGlobalState = () => getState() as GlobalState;
             const createErrorMessage = (errMessage: string) => {
                 return {error: {message: errMessage}};
             };
-            if (appCommandParser?.isAppCommand(msg)) {
+            const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, intlShim, args.channel_id, args.team_id, args.root_id);
+            if (parser.isAppCommand(msg)) {
                 try {
-                    const {call, errorMessage} = await appCommandParser.composeCallFromCommand(msg);
+                    const {call, errorMessage} = await parser.composeCallFromCommand(msg);
                     if (!call) {
                         return createErrorMessage(errorMessage!);
                     }

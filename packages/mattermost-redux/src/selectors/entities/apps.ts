@@ -4,12 +4,10 @@
 import {createSelector} from 'reselect';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCommandFormMap} from 'mattermost-redux/types/apps';
 import {ClientConfig} from 'mattermost-redux/types/config';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
-import {getCurrentChannelId} from './common';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
@@ -26,7 +24,7 @@ export const appsEnabled = createSelector(
 export const makeAppBindingsSelector = (location: string) => {
     return createSelector(
         'makeAppBindingsSelector',
-        (state: GlobalState) => state.entities.apps.bindings,
+        (state: GlobalState) => state.entities.apps.main.bindings,
         (state: GlobalState) => appsEnabled(state),
         (bindings: AppBinding[], areAppsEnabled: boolean) => {
             if (!areAppsEnabled || !bindings) {
@@ -42,20 +40,10 @@ export const makeAppBindingsSelector = (location: string) => {
 export const makeRHSAppBindingSelector = (location: string) => {
     return createSelector(
         'makeRHSAppBindingSelector',
-        (state: GlobalState) => state.entities.apps.bindings,
+        (state: GlobalState) => state.entities.apps.rhs.bindings,
         (state: GlobalState) => appsEnabled(state),
-        (state: GlobalState) => getCurrentChannelId(state),
-        (state: GlobalState, channelID: string) => channelID,
-        (bindings: AppBinding[], areAppsEnabled: boolean, currentChannelID: string, channelID: string) => {
-            if (!areAppsEnabled) {
-                return [];
-            }
-
-            if (currentChannelID !== channelID) {
-                return null;
-            }
-
-            if (!bindings) {
+        (bindings: AppBinding[], areAppsEnabled: boolean) => {
+            if (!areAppsEnabled || !bindings) {
                 return [];
             }
 
@@ -64,3 +52,21 @@ export const makeRHSAppBindingSelector = (location: string) => {
         },
     );
 };
+
+export const getAppCommandForm = createSelector(
+    'getAppCommandForm',
+    (state: GlobalState) => state.entities.apps.main.forms,
+    (state: GlobalState, location: string) => location,
+    (formMap: AppCommandFormMap, location: string) => {
+        return formMap[location];
+    },
+);
+
+export const getAppRHSCommandForm = createSelector(
+    'getAppCommandForm',
+    (state: GlobalState) => state.entities.apps.rhs.forms,
+    (state: GlobalState, location: string) => location,
+    (formMap: AppCommandFormMap, location: string) => {
+        return formMap[location];
+    },
+);

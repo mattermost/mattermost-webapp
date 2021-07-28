@@ -57,9 +57,6 @@ import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
 
-import {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
-import {AppBindingLocations} from 'mattermost-redux/constants/apps';
-
 import CreatePost from './create_post';
 
 type OwnProps = {
@@ -68,7 +65,6 @@ type OwnProps = {
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST as any);
-    const commandBindingSelector = makeAppBindingsSelector(AppBindingLocations.COMMAND);
 
     return (state: GlobalState, ownProps: OwnProps) => {
         const config = getConfig(state);
@@ -94,7 +90,6 @@ function makeMapStateToProps() {
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
         const currentTeamId = getCurrentTeamId(state);
         const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
-        const commandBindings = commandBindingSelector(state);
 
         return {
             currentTeamId,
@@ -129,7 +124,6 @@ function makeMapStateToProps() {
             useGroupMentions,
             channelMemberCountsByGroup,
             isLDAPEnabled,
-            commandBindings,
         };
     };
 }

@@ -183,42 +183,49 @@ export const createCommand: AppBinding = {
 
 export const testBindings: AppBinding[] = [
     {
-        app_id: 'jira',
-        label: 'jira',
-        description: 'Interact with your Jira instance',
-        icon: 'Jira icon',
-        hint: 'Jira hint',
-        bindings: [{
-            app_id: 'jira',
-            label: 'issue',
-            description: 'Interact with Jira issues',
-            icon: 'Issue icon',
-            hint: 'Issue hint',
-            bindings: [
-                viewCommand,
-                createCommand,
-            ],
-        }],
-    },
-    {
-        app_id: 'other',
-        label: 'other',
-        description: 'Other description',
-        icon: 'Other icon',
-        hint: 'Other hint',
-        bindings: [{
-            app_id: 'other',
-            label: 'sub1',
-            description: 'Some Description',
-            form: {
-                fields: [{
-                    name: 'fieldname',
-                    label: 'fieldlabel',
-                    description: 'field description',
-                    type: AppFieldTypes.TEXT,
-                    hint: 'field hint',
+        app_id: '',
+        label: '',
+        location: '/command',
+        bindings: [
+            {
+                app_id: 'jira',
+                label: 'jira',
+                description: 'Interact with your Jira instance',
+                icon: 'Jira icon',
+                hint: 'Jira hint',
+                bindings: [{
+                    app_id: 'jira',
+                    label: 'issue',
+                    description: 'Interact with Jira issues',
+                    icon: 'Issue icon',
+                    hint: 'Issue hint',
+                    bindings: [
+                        viewCommand,
+                        createCommand,
+                    ],
                 }],
             },
-        }],
+            {
+                app_id: 'other',
+                label: 'other',
+                description: 'Other description',
+                icon: 'Other icon',
+                hint: 'Other hint',
+                bindings: [{
+                    app_id: 'other',
+                    label: 'sub1',
+                    description: 'Some Description',
+                    form: {
+                        fields: [{
+                            name: 'fieldname',
+                            label: 'fieldlabel',
+                            description: 'field description',
+                            type: AppFieldTypes.TEXT,
+                            hint: 'field hint',
+                        }],
+                    },
+                }],
+            },
+        ],
     },
 ];

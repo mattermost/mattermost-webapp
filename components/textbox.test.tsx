@@ -6,8 +6,6 @@ import {shallow} from 'enzyme';
 
 import Textbox from 'components/textbox/textbox';
 
-import {AppCommandParser} from './suggestion/command_provider/app_command_parser/app_command_parser';
-
 describe('components/TextBox', () => {
     const baseProps = {
         channelId: 'channelId',
@@ -27,7 +25,6 @@ describe('components/TextBox', () => {
             searchAssociatedGroupsForReference: jest.fn(),
         },
         useChannelMentions: true,
-        appCommandParser: new AppCommandParser(null, null as any, [], '', '', ''),
     };
 
     test('should match snapshot with required props', () => {

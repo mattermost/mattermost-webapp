@@ -32,7 +32,6 @@ import {Constants, StoragePrefixes} from 'utils/constants';
 import {PostDraft} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, value: PostDraft) => {
@@ -112,7 +111,7 @@ export function submitReaction(postId: string, action: string, emojiName: string
     };
 }
 
-export function submitCommand(channelId: string, rootId: string, draft: PostDraft, appCommandParser: AppCommandParser) {
+export function submitCommand(channelId: string, rootId: string, draft: PostDraft) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
@@ -138,7 +137,7 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
         message = hookResult.data.message;
         args = hookResult.data.args;
 
-        const {error} = await dispatch(executeCommand(message, args, appCommandParser));
+        const {error} = await dispatch(executeCommand(message, args));
 
         if (error) {
             if (error.sendMessage) {
@@ -152,7 +151,7 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
 }
 
 export function makeOnSubmit(channelId: string, rootId: string, latestPostId: string) {
-    return (options: {ignoreSlash?: boolean} = {}, appCommandParser: AppCommandParser) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
+    return (options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
         const {message} = draft;
 
@@ -169,7 +168,7 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
             dispatch(submitReaction(latestPostId, isReaction[1], isReaction[2]));
         } else if (message.indexOf('/') === 0 && !options.ignoreSlash) {
             try {
-                await dispatch(submitCommand(channelId, rootId, draft, appCommandParser));
+                await dispatch(submitCommand(channelId, rootId, draft));
             } catch (err) {
                 dispatch(updateCommentDraft(rootId, draft));
                 throw err;

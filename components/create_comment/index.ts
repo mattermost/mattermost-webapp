@@ -11,7 +11,7 @@ import {PostDraft} from 'types/store/rhs.js';
 import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
@@ -38,11 +38,6 @@ import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selecto
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 
-import {makeRHSAppBindingSelector} from 'mattermost-redux/selectors/entities/apps';
-import {AppBindingLocations} from 'mattermost-redux/constants/apps';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
-
 import CreateComment from './create_comment';
 
 type OwnProps = {
@@ -53,7 +48,6 @@ type OwnProps = {
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
-    const commandBindingSelector = makeRHSAppBindingSelector(AppBindingLocations.COMMAND);
 
     return (state: GlobalState, ownProps: OwnProps) => {
         const err = state.requests.posts.createPost.error || {};
@@ -79,7 +73,6 @@ function makeMapStateToProps() {
         const useGroupMentions = isLDAPEnabled && haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_GROUP_MENTIONS);
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
         const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : null;
-        const commandBindings = commandBindingSelector(state, ownProps.channelId);
 
         return {
             draft,
@@ -105,9 +98,6 @@ function makeMapStateToProps() {
             groupsWithAllowReference,
             useGroupMentions,
             channelMemberCountsByGroup,
-            commandBindings,
-            currentTeamId: getCurrentTeamId(state),
-            currentUserID: getCurrentUserId(state),
         };
     };
 }
@@ -120,7 +110,7 @@ type Actions = {
     clearCommentDraftUploads: () => void;
     onUpdateCommentDraft: (draft?: PostDraft & {props?: any}) => void;
     updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
-    onSubmit: (options: {ignoreSlash: boolean}, appCommandParser: AppCommandParser) => void;
+    onSubmit: (options: {ignoreSlash: boolean}) => void;
     onResetHistoryIndex: () => void;
     onMoveHistoryIndexBack: () => void;
     onMoveHistoryIndexForward: () => void;
@@ -133,7 +123,7 @@ type Actions = {
 
 function makeMapDispatchToProps() {
     let onUpdateCommentDraft: (draft?: PostDraft & {props?: any}) => void;
-    let onSubmit: (options: {ignoreSlash: boolean}, appCommandParser: AppCommandParser) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onSubmit: (options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onEditLatestPost: () => ActionFunc;

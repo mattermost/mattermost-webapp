@@ -55,8 +55,6 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {AppBinding} from 'mattermost-redux/types/apps';
-import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -270,7 +268,7 @@ type Props = {
       */
         openModal: (modalData: ModalData) => void;
 
-        executeCommand: (message: string, args: CommandArgs, appCommandParser: AppCommandParser) => ActionResult;
+        executeCommand: (message: string, args: CommandArgs) => ActionResult;
 
         /**
       * Function to get the users timezones in the channel
@@ -289,7 +287,6 @@ type Props = {
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     useGroupMentions: boolean;
-    commandBindings: AppBinding[];
 }
 
 type State = {
@@ -326,8 +323,6 @@ class CreatePost extends React.PureComponent<Props, State> {
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
     private createPostControlsRef: React.RefObject<HTMLSpanElement>;
-
-    private appCommandParser: AppCommandParser;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
         let updatedState: Partial<State> = {currentChannel: props.currentChannel};
@@ -366,8 +361,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.textboxRef = React.createRef<TextboxClass>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
         this.createPostControlsRef = React.createRef<HTMLSpanElement>();
-
-        this.appCommandParser = new AppCommandParser(null, this.props.intl, this.props.commandBindings, this.props.currentChannel.id, this.props.currentTeamId);
     }
 
     componentDidMount() {
@@ -407,14 +400,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         // Focus on textbox when emoji picker is closed
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
             this.focusTextbox();
-        }
-
-        if (this.props.currentTeamId !== prevProps.currentTeamId ||
-            this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            this.appCommandParser.setChannelContext(this.props.currentChannel.id, this.props.currentTeamId);
-        }
-        if (this.props.commandBindings !== prevProps.commandBindings) {
-            this.appCommandParser.setBindings(this.props.commandBindings);
         }
     }
 
@@ -550,7 +535,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                 post.message = hookResult.data.message;
                 args = hookResult.data.args;
 
-                const {error} = await this.props.actions.executeCommand(post.message, args, this.appCommandParser);
+                const {error} = await this.props.actions.executeCommand(post.message, args);
 
                 if (error) {
                     if (error.sendMessage) {
@@ -1596,7 +1581,6 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}
-                                appCommandParser={this.appCommandParser}
                             />
                             <span
                                 ref={this.createPostControlsRef}

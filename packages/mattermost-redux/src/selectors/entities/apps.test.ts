@@ -14,7 +14,10 @@ const makeNewState = (flag?: string, bindings?: AppBinding[]) => ({
             },
         },
         apps: {
-            bindings,
+            main: {
+                bindings,
+                forms: {},
+            },
         },
     },
 }) as unknown as GlobalState;

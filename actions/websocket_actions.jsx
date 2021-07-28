@@ -4,6 +4,8 @@
 
 import {batchActions} from 'redux-batched-actions';
 
+import {useRouteMatch} from 'react-router-dom';
+
 import {
     ChannelTypes,
     EmojiTypes,
@@ -74,9 +76,9 @@ import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selec
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {fetchAppBindings} from 'mattermost-redux/actions/apps';
+import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
-import {getSelectedChannelId} from 'selectors/rhs';
+import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
@@ -1408,9 +1410,25 @@ function handleCloudPaymentStatusUpdated() {
 function handleRefreshAppsBindings() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
-        if (appsEnabled(state)) {
-            doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
+        if (!appsEnabled(state)) {
+            return {data: true};
         }
+
+        doDispatch(fetchAppBindings(getCurrentChannelId(state)));
+
+        const rhsPost = getSelectedPost(state);
+        const {params: {threadIdentifier}} = useRouteMatch();
+        let selectedThread;
+        if (threadIdentifier) {
+            selectedThread = getThread(state, threadIdentifier);
+        }
+        const rootID = threadIdentifier || rhsPost?.id;
+        const channelID = selectedThread?.post?.channel_id || rhsPost?.channel_id;
+        if (!rootID) {
+            return {data: true};
+        }
+
+        doDispatch(fetchRHSAppsBindings(channelID));
         return {data: true};
     };
 }

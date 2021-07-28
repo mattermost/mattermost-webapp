@@ -21,7 +21,6 @@ import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
-import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 
 type Props = {
     id: string;
@@ -61,7 +60,6 @@ type Props = {
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
-    appCommandParser: AppCommandParser;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -84,7 +82,9 @@ export default class Textbox extends React.PureComponent<Props> {
 
         if (props.supportsCommands) {
             this.suggestionProviders.push(new AppCommandProvider({
-                appCommandParser: this.props.appCommandParser,
+                teamId: this.props.currentTeamId,
+                channelId: this.props.channelId,
+                rootId: this.props.rootId,
             }));
         }
 
@@ -107,7 +107,6 @@ export default class Textbox extends React.PureComponent<Props> {
                 teamId: this.props.currentTeamId,
                 channelId: this.props.channelId,
                 rootId: this.props.rootId,
-                appCommandParser: this.props.appCommandParser,
             }));
         }
 
@@ -125,7 +124,10 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
             this.props.profilesInChannel !== prevProps.profilesInChannel ||
-            this.props.autocompleteGroups !== prevProps.autocompleteGroups) {
+            this.props.autocompleteGroups !== prevProps.autocompleteGroups ||
+            this.props.useChannelMentions !== prevProps.useChannelMentions ||
+            this.props.currentTeamId !== prevProps.currentTeamId ||
+            this.props.priorityProfiles !== prevProps.priorityProfiles) {
             // Update channel id for AtMentionProvider.
             const providers = this.suggestionProviders;
             for (let i = 0; i < providers.length; i++) {
@@ -140,20 +142,37 @@ export default class Textbox extends React.PureComponent<Props> {
                         priorityProfiles: this.props.priorityProfiles,
                     });
                 }
+            }
+        }
+
+        if (this.props.channelId !== prevProps.channelId ||
+            this.props.currentTeamId !== prevProps.currentTeamId ||
+            this.props.rootId !== prevProps.rootId) {
+            // Update channel id for AtMentionProvider.
+            const providers = this.suggestionProviders;
+            for (let i = 0; i < providers.length; i++) {
                 if (providers[i] instanceof CommandProvider) {
                     (providers[i] as CommandProvider).setProps({
                         teamId: this.props.currentTeamId,
                         channelId: this.props.channelId,
                         rootId: this.props.rootId,
-                        appCommandParser: this.props.appCommandParser,
+                    });
+                }
+                if (providers[i] instanceof AppCommandProvider) {
+                    (providers[i] as AppCommandProvider).setProps({
+                        teamId: this.props.currentTeamId,
+                        channelId: this.props.channelId,
+                        rootId: this.props.rootId,
                     });
                 }
             }
         }
+
         if (prevProps.value !== this.props.value) {
             this.checkMessageLength(this.props.value);
         }
     }
+
     componentDidUpdate(prevProps: Props) {
         if (!prevProps.preview && this.props.preview) {
             this.preview.current?.focus();

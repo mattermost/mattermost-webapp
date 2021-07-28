@@ -103,7 +103,7 @@ export function emitChannelClickEvent(channel: Channel) {
         }]));
 
         if (appsEnabled(state)) {
-            dispatch(fetchAppBindings(userId, chan.id));
+            dispatch(fetchAppBindings(chan.id));
         }
     }
 

@@ -45,8 +45,16 @@ export type AppModalState = {
     call: AppCallRequest;
 }
 
-export type AppsState = {
+export type AppCommandFormMap = {[location: string]: AppForm}
+
+export type BindingsInfo = {
     bindings: AppBinding[];
+    forms: AppCommandFormMap;
+}
+
+export type AppsState = {
+    main: BindingsInfo;
+    rhs: BindingsInfo;
 };
 
 export type AppBinding = {

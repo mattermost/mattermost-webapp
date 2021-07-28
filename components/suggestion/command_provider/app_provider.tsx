@@ -18,11 +18,13 @@ import {ChannelMentionSuggestion} from '../channel_mention_provider';
 
 import {AppCommandParser} from './app_command_parser/app_command_parser';
 
-import {AutocompleteSuggestion, Channel, COMMAND_SUGGESTION_CHANNEL, COMMAND_SUGGESTION_USER, UserProfile} from './app_command_parser/app_command_parser_dependencies';
+import {AutocompleteSuggestion, Channel, COMMAND_SUGGESTION_CHANNEL, COMMAND_SUGGESTION_USER, intlShim, UserProfile} from './app_command_parser/app_command_parser_dependencies';
 import {CommandSuggestion} from './command_provider';
 
 type Props = {
-    appCommandParser: AppCommandParser;
+    teamId: string;
+    channelId: string;
+    rootId?: string;
 };
 
 export type Results = {
@@ -43,12 +45,12 @@ export default class AppCommandProvider extends Provider {
         super();
 
         this.store = globalStore;
-        this.appCommandParser = props.appCommandParser;
+        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, props.channelId, props.teamId, props.rootId);
         this.triggerCharacter = '/';
     }
 
     setProps(props: Props) {
-        this.appCommandParser = props.appCommandParser;
+        this.appCommandParser.setChannelContext(props.channelId, props.teamId, props.rootId);
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {

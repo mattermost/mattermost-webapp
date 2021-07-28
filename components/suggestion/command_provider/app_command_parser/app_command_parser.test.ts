@@ -7,6 +7,7 @@ import {
     thunk,
     configureStore,
     Client4,
+    AppBinding,
     checkForExecuteSuggestion,
 } from './tests/app_command_parser_test_dependencies';
 
@@ -30,8 +31,20 @@ import {
 const mockStore = configureStore([thunk]);
 
 describe('AppCommandParser', () => {
-    const makeStore = async () => {
-        const testStore = await mockStore(reduxTestState);
+    const makeStore = async (bindings: AppBinding[]) => {
+        const initialState = {
+            ...reduxTestState,
+            entities: {
+                ...reduxTestState.entities,
+                apps: {
+                    main: {
+                        bindings,
+                        forms: {},
+                    },
+                },
+            },
+        } as any;
+        const testStore = await mockStore(initialState);
 
         return testStore;
     };
@@ -44,8 +57,8 @@ describe('AppCommandParser', () => {
 
     let parser: AppCommandParser;
     beforeEach(async () => {
-        const store = await makeStore();
-        parser = new AppCommandParser(store as any, intl, testBindings, 'current_channel_id', 'team_id', 'root_id');
+        const store = await makeStore(testBindings);
+        parser = new AppCommandParser(store as any, intl, 'current_channel_id', 'team_id');
     });
 
     type Variant = {
@@ -217,12 +230,14 @@ describe('AppCommandParser', () => {
 
         table.forEach((tc) => {
             test(tc.title, async () => {
+                const bindings = testBindings[0].bindings as AppBinding[];
+
                 let a = new ParsedCommand(tc.command, parser, intl);
-                a = await a.matchBinding(testBindings, true);
+                a = await a.matchBinding(bindings, true);
                 checkResult(a, tc.autocomplete || tc.submit);
 
                 let s = new ParsedCommand(tc.command, parser, intl);
-                s = await s.matchBinding(testBindings, false);
+                s = await s.matchBinding(bindings, false);
                 checkResult(s, tc.submit);
             });
         });
@@ -417,13 +432,15 @@ describe('AppCommandParser', () => {
 
         table.forEach((tc) => {
             test(tc.title, async () => {
+                const bindings = testBindings[0].bindings as AppBinding[];
+
                 let a = new ParsedCommand(tc.command, parser, intl);
-                a = await a.matchBinding(testBindings, true);
+                a = await a.matchBinding(bindings, true);
                 a = a.parseForm(true);
                 checkResult(a, tc.autocomplete || tc.submit);
 
                 let s = new ParsedCommand(tc.command, parser, intl);
-                s = await s.matchBinding(testBindings, false);
+                s = await s.matchBinding(bindings, false);
                 s = s.parseForm(false);
                 checkResult(s, tc.submit);
             });
@@ -852,7 +869,7 @@ describe('AppCommandParser', () => {
                 app_id: 'jira',
                 channel_id: 'current_channel_id',
                 location: '/command',
-                root_id: 'root_id',
+                root_id: '',
                 team_id: 'team_id',
             },
             path: '/create-issue',
@@ -920,7 +937,7 @@ describe('AppCommandParser', () => {
                     app_id: 'jira',
                     channel_id: 'current_channel_id',
                     location: '/command',
-                    root_id: 'root_id',
+                    root_id: '',
                     team_id: 'team_id',
                 },
                 expand: {},

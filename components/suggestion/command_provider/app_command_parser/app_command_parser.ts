@@ -6,6 +6,7 @@
 import {getChannelSuggestions, getUserSuggestions, inTextMentionSuggestions} from '../mentions';
 
 import {
+    AppsTypes,
     AppCallRequest,
     AppBinding,
     AppField,
@@ -25,6 +26,7 @@ import {
     AppCallResponseTypes,
     AppCallTypes,
     AppFieldTypes,
+    makeAppBindingsSelector,
     selectChannel,
     getChannel,
     getCurrentTeamId,
@@ -46,6 +48,9 @@ import {
     autocompleteUsersInChannel,
     autocompleteChannels,
     UserProfile,
+    getAppCommandForm,
+    getAppRHSCommandForm,
+    makeRHSAppBindingSelector,
 } from './app_command_parser_dependencies';
 
 export interface Store {
@@ -85,6 +90,9 @@ type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
     type?: string;
     item?: UserProfile | Channel;
 }
+
+const getCommandBindings = makeAppBindingsSelector(AppBindingLocations.COMMAND);
+const getRHSCommandBindings = makeRHSAppBindingSelector(AppBindingLocations.COMMAND);
 
 export class ParsedCommand {
     state = ParseState.Start;
@@ -549,24 +557,20 @@ export class AppCommandParser {
     private teamID: string;
     private rootPostID?: string;
     private intl: Intl;
-    private bindings: AppBinding[];
 
-    forms: {[location: string]: AppForm} = {};
-
-    constructor(store: Store|null, intl: Intl, bindings: AppBinding[], channelID: string, teamID = '', rootPostID = '') {
+    constructor(store: Store|null, intl: Intl, channelID: string, teamID = '', rootPostID = '') {
         this.store = store || getStore();
         this.channelID = channelID;
         this.rootPostID = rootPostID;
         this.teamID = teamID;
         this.intl = intl;
-        this.bindings = bindings;
     }
 
     // composeCallFromCommand creates the form submission call
     public composeCallFromCommand = async (command: string): Promise<{call: AppCallRequest | null; errorMessage?: string}> => {
         let parsed = new ParsedCommand(command, this, this.intl);
 
-        const commandBindings = this.bindings;
+        const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
             return {call: null,
                 errorMessage: this.intl.formatMessage({
@@ -661,7 +665,7 @@ export class AppCommandParser {
         const command = pretext.toLowerCase();
         const result: AutocompleteSuggestion[] = [];
 
-        const bindings = this.bindings;
+        const bindings = this.getCommandBindings();
 
         for (const binding of bindings) {
             let base = binding.label;
@@ -692,7 +696,7 @@ export class AppCommandParser {
         let parsed = new ParsedCommand(pretext, this, this.intl);
         let suggestions: ExtendedAutocompleteSuggestion[] = [];
 
-        const commandBindings = this.bindings;
+        const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
             return [];
         }
@@ -905,6 +909,16 @@ export class AppCommandParser {
         };
     }
 
+    // getCommandBindings returns the commands in the redux store.
+    // They are grouped by app id since each app has one base command
+    private getCommandBindings = (): AppBinding[] => {
+        const state = this.store.getState();
+        if (this.rootPostID) {
+            return getRHSCommandBindings(state);
+        }
+        return getCommandBindings(state);
+    }
+
     // getChannel gets the channel in which the user is typing the command
     private getChannel = (): Channel | null => {
         const state = this.store.getState();
@@ -912,16 +926,9 @@ export class AppCommandParser {
     }
 
     public setChannelContext = (channelID: string, teamID = '', rootPostID?: string) => {
-        if (this.channelID !== channelID || this.rootPostID !== rootPostID || this.teamID !== teamID) {
-            this.forms = {};
-        }
         this.channelID = channelID;
         this.rootPostID = rootPostID;
         this.teamID = teamID;
-    }
-
-    public setBindings = (bindings: AppBinding[]) => {
-        this.bindings = bindings;
     }
 
     // isAppCommand determines if subcommand/form suggestions need to be returned.
@@ -929,7 +936,7 @@ export class AppCommandParser {
     // When it returns false, the caller should call getSuggestionsBase() to check if there are any base commands that match the command string.
     public isAppCommand = (pretext: string): boolean => {
         const command = pretext.toLowerCase();
-        for (const binding of this.bindings) {
+        for (const binding of this.getCommandBindings()) {
             let base = binding.label;
             if (!base) {
                 continue;
@@ -1012,15 +1019,21 @@ export class AppCommandParser {
     public getForm = async (location: string, binding: AppBinding): Promise<{form?: AppForm; error?: string} | undefined> => {
         const rootID = this.rootPostID || '';
         const key = `${this.channelID}-${rootID}-${location}`;
-        const form = this.forms[key];
+        const form = this.rootPostID ? getAppRHSCommandForm(this.store.getState(), key) : getAppCommandForm(this.store.getState(), key);
         if (form) {
             return {form};
         }
 
-        this.forms = {};
         const fetched = await this.fetchForm(binding);
         if (fetched?.form) {
-            this.forms[key] = fetched.form;
+            let actionType: string = AppsTypes.RECEIVED_APP_FORM;
+            if (this.rootPostID) {
+                actionType = AppsTypes.RECEIVED_APP_RHS_FORM;
+            }
+            this.store.dispatch({
+                data: {form: fetched.form, location: key},
+                type: actionType,
+            });
         }
         return fetched;
     }

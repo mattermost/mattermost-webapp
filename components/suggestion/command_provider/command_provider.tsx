@@ -21,6 +21,7 @@ import Provider from '../provider';
 import {GlobalState} from 'types/store';
 
 import {AppCommandParser} from './app_command_parser/app_command_parser';
+import {intlShim} from './app_command_parser/app_command_parser_dependencies';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
@@ -79,7 +80,6 @@ type Props = {
     teamId: string;
     channelId: string;
     rootId?: string;
-    appCommandParser: AppCommandParser;
 };
 
 export type Results = {
@@ -102,13 +102,13 @@ export default class CommandProvider extends Provider {
 
         this.store = globalStore;
         this.props = props;
-        this.appCommandParser = props.appCommandParser;
+        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, props.channelId, props.teamId, props.rootId);
         this.triggerCharacter = '/';
     }
 
     setProps(props: Props) {
         this.props = props;
-        this.appCommandParser = props.appCommandParser;
+        this.appCommandParser.setChannelContext(props.channelId, props.teamId, props.rootId);
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
@@ -219,7 +219,7 @@ export default class CommandProvider extends Provider {
                     cmd = '⌘';
                 }
 
-                if (appsEnabled(this.store.getState()) && this.appCommandParser) {
+                if (appsEnabled(this.store.getState())) {
                     const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext).map((suggestion) => ({
                         ...suggestion,
                         Complete: '/' + suggestion.Complete,
