@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import * as Utils from 'utils/utils.jsx';
@@ -21,8 +20,8 @@ type Props = {
     currentUser: UserProfile;
     currentUserId: string;
     currentTeamId: string;
-    publicChannels: Channel[];
-    privateChannels: Channel[];
+    numOfPublicChannels: number;
+    numOfPrivateChannels: number;
     onHide: () => void;
     show: boolean;
     actions: {
@@ -58,10 +57,14 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
     };
 
     render() {
-        const {currentUser} = this.props;
+        const {
+            currentUser,
+            numOfPrivateChannels,
+            numOfPublicChannels,
+        } = this.props;
+
         const isGuest = Utils.isGuest(currentUser);
-        const numOfPublicChannels = this.props.publicChannels.length;
-        const numOfPrivateChannels = this.props.privateChannels.length;
+
         let modalMessage;
         if (isGuest) {
             if (numOfPublicChannels !== 0 && numOfPrivateChannels !== 0) {
