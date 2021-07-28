@@ -28,7 +28,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';
-import { Client4 } from 'mattermost-redux/client';
+import {Client4} from 'mattermost-redux/client';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -50,7 +50,7 @@ type Props = {
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
-    appBindings?: AppBinding[] | null;
+    appBindings: AppBinding[] | null;
     appsEnabled: boolean;
 
     /**
@@ -179,9 +179,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     componentDidUpdate(prevProps: Props) {
         if (!this.state.appBindings && this.props.isMenuOpen && !prevProps.isMenuOpen) {
-            if (!this.state.appBindings) {
-                this.fetchBindings();
-            }
+            this.fetchBindings();
         }
     }
 
@@ -189,7 +187,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const state: Partial<State> = {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
-        }
+        };
         if (props.appBindings) {
             state.appBindings = props.appBindings;
         }
@@ -377,7 +375,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             (bindings) => {
                 const headerBindings = bindings.filter((b) => b.location === AppBindingLocations.POST_MENU_ITEM);
                 const postMenuBindings = headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
-                this.setState({appBindings: postMenuBindings})
+                this.setState({appBindings: postMenuBindings});
             },
             () => {
                 this.setState({appBindings: []});

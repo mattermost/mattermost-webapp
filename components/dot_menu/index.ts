@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
@@ -62,6 +62,8 @@ type Props = {
 
 const getPostMenuBindings = makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
 
+// getRHSPostMenuBindings = makeAppRHSBindingsSelector(AppBindingLocation.POST_MENU_ITEM);
+
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
 
@@ -104,8 +106,21 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const apps = appsEnabled(state);
     const showBindings = apps && !systemMessage && !isCombinedUserActivityPost(post.id);
     let appBindings = null;
-    if (post.channel_id === getCurrentChannelId(state)) {
-        appBindings = showBindings ? getPostMenuBindings(state) : undefined;
+    switch (ownProps.location) {
+    case 'CENTER':
+        appBindings = getPostMenuBindings(state);
+        break;
+    case 'RHS_ROOT':
+    case 'RHS_COMMENT':
+        //appBindings = getRHSPostMenuBindings(state);
+        break;
+    case 'SEARCH':
+    default:
+        appBindings = null;
+    }
+
+    if (!showBindings) {
+        appBindings = [];
     }
 
     return {
