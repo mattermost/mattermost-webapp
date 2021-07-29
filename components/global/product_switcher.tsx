@@ -2,17 +2,44 @@
 // See LICENSE.txt for license information.
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
-import Text from '@mattermost/compass-components/components/text/Text';
-import Shape from '@mattermost/compass-components/foundations/shape';
-import Flex from '@mattermost/compass-components/utilities/layout/Flex';
-import Popover from '@mattermost/compass-components/utilities/popover/Popover';
-import Spacing from '@mattermost/compass-components/utilities/spacing';
 import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link, useRouteMatch} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {useProducts} from './hooks';
+import {ChannelsIcon} from './assets';
+import {useClickOutsideRef, useProducts} from './hooks';
+
+interface SwitcherMenuProps {
+    open: boolean;
+}
+
+const SwitcherMenu = styled.div<SwitcherMenuProps>`
+    visibility: ${(props) => (props.open ? 'visible' : 'hidden')};
+    position: absolute;
+    top: 35px;
+    left: 5px;
+    margin-left: 12px;
+    z-index: 1000;
+    background: var(--center-channel-bg);
+    display: flex;
+    flex-direction: column;
+    width: 273px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    padding-top: 14px;
+    padding-bottom: 5px;
+    color: var(--center-channel-color);
+`;
+
+const SwitcherMenuDescriptiveText = styled.div`
+    height: 32px;
+    padding-left: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+`;
 
 const MenuItem = styled(Link)`
     && {
@@ -52,9 +79,13 @@ const LinkIcon = styled.i`
 const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
     const [switcherOpen, setSwitcherOpen] = useState(false);
-    const menuRef = useRef(null);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     const handleClick = () => setSwitcherOpen(!switcherOpen);
+
+    useClickOutsideRef(menuRef, () => {
+        setSwitcherOpen(false);
+    });
 
     const items = products?.map((product) => {
         return (
@@ -68,45 +99,31 @@ const ProductSwitcher = (): JSX.Element => {
     });
 
     return (
-        <>
+        <div ref={menuRef}>
             <IconButton
                 icon={'view-grid-outline'}
                 onClick={handleClick}
-                ref={menuRef}
                 size={'sm'}
                 toggled={switcherOpen}
                 inverted={true}
             />
-            <Popover
-                anchorReference={menuRef}
-                isVisible={switcherOpen}
-                onClickAway={() => setSwitcherOpen(false)}
-                placement={'bottom-start'}
-                offset={[0, 75]}
-                zIndex={20}
+            <SwitcherMenu
+                open={switcherOpen}
             >
-                <Shape
-                    elevation={1}
-                    elevationOnHover={3}
-                    width={200}
-                >
-                    <Flex
-                        padding={Spacing.all(50)}
-                    >
-                        <Text
-                            size={300}
-                            weight={'bold'}
-                        >
-                            <FormattedMessage
-                                defaultMessage='Open...'
-                                id='global_header.open'
-                            />
-                        </Text>
-                        {items}
-                    </Flex>
-                </Shape>
-            </Popover>
-        </>
+                <SwitcherMenuDescriptiveText>
+                    <FormattedMessage
+                        defaultMessage='Open...'
+                        id='global_header.open'
+                    />
+                </SwitcherMenuDescriptiveText>
+                <SwitcherNavEntry
+                    destination={'/channels'}
+                    icon={<ChannelsIcon/>}
+                    text={'Channels'}
+                />
+                {items}
+            </SwitcherMenu>
+        </div>
     );
 };
 
