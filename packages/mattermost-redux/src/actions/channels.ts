@@ -21,7 +21,6 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -1491,69 +1490,41 @@ export function getMyChannelMember(channelId: string) {
     });
 }
 
-export function favoriteChannel(channelId: string, updateCategories = true): ActionFunc {
+// favoriteChannel moves the provided channel into the current team's Favorites category.
+export function favoriteChannel(channelId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const currentUserId = getCurrentUserId(state);
-
-        const preference: PreferenceType = {
-            user_id: currentUserId,
-            category: Preferences.CATEGORY_FAVORITE_CHANNEL,
-            name: channelId,
-            value: 'true',
-        };
+        const channel = getChannelSelector(state, channelId);
+        const category = getCategoryInTeamByType(state, channel.team_id || getCurrentTeamId(state), CategoryTypes.FAVORITES);
 
         Client4.trackEvent('action', 'action_channels_favorite');
 
-        // The new sidebar is enabled, so favorite the channel by moving it into the current team's Favorites category
-        if (updateCategories) {
-            const channel = getChannelSelector(state, channelId);
-            const category = getCategoryInTeamByType(state, channel.team_id || getCurrentTeamId(state), CategoryTypes.FAVORITES);
-
-            if (category) {
-                await dispatch(addChannelToCategory(category.id, channelId));
-            }
+        if (!category) {
+            return {data: false};
         }
 
-        return dispatch({
-            type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: [preference],
-        });
+        return dispatch(addChannelToCategory(category.id, channelId));
     };
 }
 
-export function unfavoriteChannel(channelId: string, updateCategories = true): ActionFunc {
+// unfavoriteChannel moves the provided channel into the current team's Channels/DMs category.
+export function unfavoriteChannel(channelId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const currentUserId = getCurrentUserId(state);
-
-        const preference: PreferenceType = {
-            user_id: currentUserId,
-            category: Preferences.CATEGORY_FAVORITE_CHANNEL,
-            name: channelId,
-            value: '',
-        };
+        const channel = getChannelSelector(state, channelId);
+        const category = getCategoryInTeamByType(
+            state,
+            channel.team_id || getCurrentTeamId(state),
+            channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL ? CategoryTypes.DIRECT_MESSAGES : CategoryTypes.CHANNELS,
+        );
 
         Client4.trackEvent('action', 'action_channels_unfavorite');
 
-        // The new sidebar is enabled, so unfavorite the channel by moving it into the current team's Channels/DMs category
-        if (updateCategories) {
-            const channel = getChannelSelector(state, channelId);
-            const category = getCategoryInTeamByType(
-                state,
-                channel.team_id || getCurrentTeamId(state),
-                channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL ? CategoryTypes.DIRECT_MESSAGES : CategoryTypes.CHANNELS,
-            );
-
-            if (category) {
-                await dispatch(addChannelToCategory(category.id, channel.id));
-            }
+        if (!category) {
+            return {data: false};
         }
 
-        return dispatch({
-            type: PreferenceTypes.DELETED_PREFERENCES,
-            data: [preference],
-        });
+        return dispatch(addChannelToCategory(category.id, channel.id));
     };
 }
 

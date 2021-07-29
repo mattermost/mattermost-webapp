@@ -2322,11 +2322,7 @@ describe('Actions.Channels', () => {
 
         const state = store.getState();
 
-        // Should favorite the channel in preferences
-        const prefKey = getPreferenceKey(Preferences.CATEGORY_FAVORITE_CHANNEL, channel.id);
-        expect(state.entities.preferences.myPreferences[prefKey]).toMatchObject({value: 'true'});
-
-        // And in channel categories
+        // Should favorite the channel in channel categories
         expect(state.entities.channelCategories.byId.favoritesCategory.channel_ids).toEqual([channel.id]);
         expect(state.entities.channelCategories.byId.channelsCategory.channel_ids).toEqual([]);
     });
@@ -2335,8 +2331,6 @@ describe('Actions.Channels', () => {
         const channel = TestHelper.basicChannel;
         const team = TestHelper.basicTeam;
         const currentUserId = TestHelper.generateId();
-
-        const prefKey = getPreferenceKey(Preferences.CATEGORY_FAVORITE_CHANNEL, channel.id);
 
         const favoritesCategory = {id: 'favoritesCategory', team_id: team.id, type: CategoryTypes.FAVORITES, channel_ids: [channel.id]};
         const channelsCategory = {id: 'channelsCategory', team_id: team.id, type: CategoryTypes.CHANNELS, channel_ids: []};
@@ -2357,11 +2351,6 @@ describe('Actions.Channels', () => {
                         [team.id]: ['favoritesCategory', 'channelsCategory'],
                     },
                 },
-                preferences: {
-                    myPreferences: {
-                        [prefKey]: {value: 'true'},
-                    },
-                },
                 users: {
                     currentUserId,
                 },
@@ -2379,10 +2368,7 @@ describe('Actions.Channels', () => {
 
         const state = store.getState();
 
-        // Should unfavorite the channel in preferences
-        expect(state.entities.preferences.myPreferences[prefKey]).toBeUndefined();
-
-        // And in channel categories
+        // Should unfavorite the channel in channel categories
         expect(state.entities.channelCategories.byId.favoritesCategory.channel_ids).toEqual([]);
         expect(state.entities.channelCategories.byId.channelsCategory.channel_ids).toEqual([channel.id]);
     });

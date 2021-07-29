@@ -71,13 +71,6 @@ export function getGroupShowPreferences(state: GlobalState) {
     return getGroupShowCategory(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW);
 }
 
-const getFavoritesCategory = makeGetCategory();
-
-export function getFavoritesPreferences(state: GlobalState) {
-    const favorites = getFavoritesCategory(state, Preferences.CATEGORY_FAVORITE_CHANNEL);
-    return favorites.filter((f) => f.value === 'true').map((f) => f.name);
-}
-
 export const getTeammateNameDisplaySetting: (state: GlobalState) => string = createSelector(
     'getTeammateNameDisplaySetting',
     getConfig,

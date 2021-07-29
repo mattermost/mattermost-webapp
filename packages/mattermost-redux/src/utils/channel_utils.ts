@@ -155,7 +155,7 @@ export function isAutoClosed(
         return true;
     }
 
-    if (config.CloseUnusedDirectMessages !== 'true' || isFavoriteChannelOld(myPreferences, channel.id)) {
+    if (config.CloseUnusedDirectMessages !== 'true'/* || isFavoriteChannelOld(myPreferences, channel.id)*/) {
         return false;
     }
 
@@ -410,13 +410,6 @@ export function getGroupDisplayNameFromUserIds(userIds: string[], profiles: IDMa
     }
 
     return names.sort(sortUsernames).join(', ');
-}
-
-export function isFavoriteChannelOld(myPreferences: {
-    [x: string]: PreferenceType;
-}, id: string) {
-    const fav = myPreferences[`${Preferences.CATEGORY_FAVORITE_CHANNEL}--${id}`];
-    return fav ? fav.value === 'true' : false;
 }
 
 export function isDefault(channel: Channel): boolean {

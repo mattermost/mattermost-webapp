@@ -19,7 +19,6 @@ describe('Selectors.Preferences', () => {
     const category2 = 'testcategory2';
     const directCategory = Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
     const groupCategory = Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
-    const favCategory = Preferences.CATEGORY_FAVORITE_CHANNEL;
 
     const name1 = 'testname1';
     const value1 = 'true';
@@ -39,11 +38,6 @@ describe('Selectors.Preferences', () => {
     const gp2 = 'group2';
     const prefGp2 = {category: groupCategory, name: gp2, value: 'false'};
 
-    const fav1 = 'favorite1';
-    const favPref1 = {category1: favCategory, name: fav1, value: 'true'};
-    const fav2 = 'favorite2';
-    const favPref2 = {category1: favCategory, name: fav2, value: 'false'};
-
     const currentUserId = 'currentuserid';
 
     const myPreferences = {};
@@ -53,8 +47,6 @@ describe('Selectors.Preferences', () => {
     myPreferences[`${directCategory}--${dm2}`] = dmPref2;
     myPreferences[`${groupCategory}--${gp1}`] = prefGp1;
     myPreferences[`${groupCategory}--${gp2}`] = prefGp2;
-    myPreferences[`${favCategory}--${fav1}`] = favPref1;
-    myPreferences[`${favCategory}--${fav2}`] = favPref2;
 
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
@@ -606,10 +598,6 @@ describe('Selectors.Preferences', () => {
         const getStyleFromTheme = Selectors.makeGetStyleFromTheme();
 
         assert.deepEqual(getStyleFromTheme(state, testStyleFunction), expected);
-    });
-
-    it('get favorites names', () => {
-        assert.deepEqual(Selectors.getFavoritesPreferences(testState), [fav1]);
     });
 });
 
