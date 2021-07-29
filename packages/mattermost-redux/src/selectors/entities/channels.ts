@@ -320,7 +320,7 @@ function sortAndInjectChannels(channels: IDMappedObjects<Channel>, channelSet: s
     return currentChannels.sort(sortChannelsByDisplayName.bind(null, locale));
 }
 
-export const getChannelsInCurrentTeam: (state: GlobalState) => Channel[] = createSelector( // safe? do we still need to sort and everything?
+export const getChannelsInCurrentTeam: (state: GlobalState) => Channel[] = createSelector(
     'getChannelsInCurrentTeam',
     getAllChannels,
     getChannelSetInCurrentTeam,
@@ -449,15 +449,6 @@ export const getOtherChannels: (state: GlobalState, archived?: boolean | null) =
     (state: GlobalState, archived: boolean | undefined | null = true) => archived,
     (channels: Channel[], myMembers: RelationOneToOne<Channel, ChannelMembership>, archived?: boolean | null): Channel[] => {
         return channels.filter((c) => !myMembers.hasOwnProperty(c.id) && c.type === General.OPEN_CHANNEL && (archived ? true : c.delete_at === 0));
-    },
-);
-
-export const getDefaultChannel: (state: GlobalState) => Channel | undefined | null = createSelector( // TODO unused
-    'getDefaultChannel',
-    getAllChannels,
-    getCurrentTeamId,
-    (channels: IDMappedObjects<Channel>, teamId: string): Channel | undefined | null => {
-        return Object.keys(channels).map((key) => channels[key]).find((c) => c && c.team_id === teamId && c.name === General.DEFAULT_CHANNEL);
     },
 );
 
