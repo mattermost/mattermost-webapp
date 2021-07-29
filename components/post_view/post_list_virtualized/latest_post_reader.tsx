@@ -25,7 +25,13 @@ const LatestPostReader = (props: Props): JSX.Element => {
     const latestPost = useSelector<GlobalState, Post>((state) => getPost(state, latestPostId));
 
     const createAriaLabelForPost = useRef(makeCreateAriaLabelForPost());
-    const ariaLabel = useSelector<GlobalState, string>((state) => createAriaLabelForPost.current(state, latestPost)(intl));
+    const ariaLabel = useSelector<GlobalState, string>((state) => {
+        if (!latestPost) {
+            return '';
+        }
+
+        return createAriaLabelForPost.current(state, latestPost)(intl);
+    });
 
     return (
         <span
