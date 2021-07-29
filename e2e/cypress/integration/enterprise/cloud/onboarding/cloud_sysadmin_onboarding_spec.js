@@ -37,6 +37,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
             'notification_setup',
             'team_setup',
             'invite_members',
+            'enter_support_email',
             'hide',
             'skip',
         ];
@@ -136,7 +137,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.Card__body.expanded .TeamProfileStep').should('exist').should('be.visible');
 
         // * Step counter should not increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 4 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 5 steps complete');
     });
 
     it('MM-T3328 Sysadmin - Skip Getting Started', () => {
