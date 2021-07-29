@@ -165,5 +165,5 @@ export function setThemeDefaults(theme: Partial<Theme>): Theme {
         processedTheme.sidebarTeamBarBg = blendColors(theme.sidebarHeaderBg, '#000000', 0.2, true);
     }
 
-    return processedTheme;
+    return processedTheme as Theme;
 }
