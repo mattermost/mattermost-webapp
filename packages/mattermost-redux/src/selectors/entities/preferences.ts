@@ -8,9 +8,7 @@ import {General, Preferences} from 'mattermost-redux/constants';
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {PreferenceType, Theme} from 'mattermost-redux/types/preferences';
-import {UserProfile} from 'mattermost-redux/types/users';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
@@ -79,22 +77,6 @@ export function getFavoritesPreferences(state: GlobalState) {
     const favorites = getFavoritesCategory(state, Preferences.CATEGORY_FAVORITE_CHANNEL);
     return favorites.filter((f) => f.value === 'true').map((f) => f.name);
 }
-
-export const getVisibleTeammate: (state: GlobalState) => Array<$ID<UserProfile>> = createSelector(
-    'getVisibleTeammate',
-    getDirectShowPreferences,
-    (direct) => {
-        return direct.filter((dm) => dm.value === 'true' && dm.name).map((dm) => dm.name);
-    },
-);
-
-export const getVisibleGroupIds: (state: GlobalState) => string[] = createSelector(
-    'getVisibleGroupIds',
-    getGroupShowPreferences,
-    (groups) => {
-        return groups.filter((dm) => dm.value === 'true' && dm.name).map((dm) => dm.name);
-    },
-);
 
 export const getTeammateNameDisplaySetting: (state: GlobalState) => string = createSelector(
     'getTeammateNameDisplaySetting',

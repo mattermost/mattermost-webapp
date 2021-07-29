@@ -611,14 +611,6 @@ describe('Selectors.Preferences', () => {
     it('get favorites names', () => {
         assert.deepEqual(Selectors.getFavoritesPreferences(testState), [fav1]);
     });
-
-    it('get visible teammates', () => {
-        assert.deepEqual(Selectors.getVisibleTeammate(testState), [dm1]);
-    });
-
-    it('get visible groups', () => {
-        assert.deepEqual(Selectors.getVisibleGroupIds(testState), [gp1]);
-    });
 });
 
 describe('shouldShowUnreadsCategory', () => {
