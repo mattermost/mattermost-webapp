@@ -240,55 +240,6 @@ export function isGroupChannelVisible(
     );
 }
 
-export function isGroupOrDirectChannelVisible(
-    channel: Channel,
-    memberships: RelationOneToOne<Channel, ChannelMembership>,
-    config: any,
-    myPreferences: {
-        [x: string]: PreferenceType;
-    },
-    currentUserId: string,
-    users: IDMappedObjects<UserProfile>,
-    lastPosts: RelationOneToOne<Channel, Post>,
-    collapsedThreads: boolean,
-    currentChannelId?: string,
-    now?: number,
-): boolean {
-    const lastPost = lastPosts[channel.id];
-    const unreadChannel = isUnreadChannel(memberships, channel, collapsedThreads);
-
-    if (
-        isGroupChannel(channel) &&
-        isGroupChannelVisible(
-            config,
-            myPreferences,
-            channel,
-            lastPost,
-            unreadChannel,
-            now,
-        )
-    ) {
-        return true;
-    }
-
-    if (!isDirectChannel(channel)) {
-        return false;
-    }
-
-    const otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
-
-    return isDirectChannelVisible(
-        users[otherUserId] || otherUserId,
-        config,
-        myPreferences,
-        channel,
-        lastPost,
-        unreadChannel,
-        currentChannelId,
-        now,
-    );
-}
-
 export function showCreateOption(state: GlobalState, config: any, license: any, teamId: string, channelType: ChannelType, isAdmin: boolean, isSystemAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channelType === General.OPEN_CHANNEL) {

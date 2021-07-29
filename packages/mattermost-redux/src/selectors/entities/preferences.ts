@@ -221,16 +221,6 @@ export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = create
     },
 );
 
-export function shouldAutocloseDMs(state: GlobalState) {
-    const config = getConfig(state);
-    if (!config.CloseUnusedDirectMessages || config.CloseUnusedDirectMessages === 'false') {
-        return false;
-    }
-
-    const preference = get(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.CHANNEL_SIDEBAR_AUTOCLOSE_DMS, Preferences.AUTOCLOSE_DMS_ENABLED);
-    return preference === Preferences.AUTOCLOSE_DMS_ENABLED;
-}
-
 export function getCollapsedThreadsPreference(state: GlobalState): string {
     const configValue = getConfig(state)?.CollapsedThreads;
     let preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_OFF;
