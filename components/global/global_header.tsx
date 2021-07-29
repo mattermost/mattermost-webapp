@@ -4,12 +4,15 @@
 import Shape from '@mattermost/compass-components/foundations/shape';
 import PShape from '@mattermost/compass-components/foundations/shape/Shape.props';
 import Grid from '@mattermost/compass-components/utilities/grid/Grid';
+import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 import Spacing from '@mattermost/compass-components/utilities/spacing';
 import ThemeProvider, {darkTheme} from '@mattermost/compass-components/utilities/theme';
 import React from 'react';
 import {useSelector} from 'react-redux';
 
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
+import GlobalSearchNav from './global_search_nav';
+import GlobalIconsWrapper from './global_icons_wrapper';
 import StatusDropdown from 'components/status_dropdown';
 
 import Pluggable from 'plugins/pluggable';
@@ -48,7 +51,7 @@ const GlobalHeader = (): JSX.Element | null => {
                     radius={0}
                 >
                     <ProductSwitcher/>
-                    <div>
+                    <Flex row justify={'center'} alignment={'center'}>
                         {currentProductID !== null &&
                         <Pluggable
                             pluggableName={'Product'}
@@ -56,14 +59,16 @@ const GlobalHeader = (): JSX.Element | null => {
                             pluggableId={currentProductID}
                         />
                         }
-                        {/*currentProductID === null &&
-                           This is where the header content for the webapp will go
-                        */}
-                    </div>
-                    <StatusDropdown
+                        {currentProductID === null && 
+                        <>
+                            <GlobalSearchNav/>
+                            <GlobalIconsWrapper/>
+                        </>}
+                        </Flex>
+                        <StatusDropdown
                         globalHeader={true}
-                    />
-                </Grid>
+                        />                
+                    </Grid>
             </ThemeProvider>
         </>
     );

@@ -5,8 +5,10 @@ import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Tooltip} from 'react-bootstrap';
+import Text from '@mattermost/compass-components/components/text';
 
 import classNames from 'classnames';
+import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -26,10 +28,11 @@ import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
+import UserSettingsModal from 'components/user_settings/modal';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {UserCustomStatus, UserStatus, CustomStatusDuration} from 'mattermost-redux/types/users';
+import {UserCustomStatus, UserStatus, CustomStatusDuration, UserProfile} from 'mattermost-redux/types/users';
 
 import './status_dropdown.scss';
 import {toUTCUnix} from 'utils/datetime';
@@ -47,6 +50,7 @@ type Props = {
         setStatusDropdown: (open: boolean) => void;
     };
     customStatus?: UserCustomStatus;
+    currentUser: UserProfile;
     isCustomStatusEnabled: boolean;
     isCustomStatusExpired: boolean;
     isStatusDropdownOpen: boolean;
@@ -194,6 +198,10 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.props.actions.unsetCustomStatus();
     };
 
+    handleEmitUserLoggedOutEvent = () => {
+        GlobalActions.emitUserLoggedOutEvent();
+    }
+
     onToggle = (open: boolean): void => {
         this.props.actions.setStatusDropdown(open);
     }
@@ -264,7 +272,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     id={'status-menu-custom-status'}
                     sibling={clearButton}
                 >
-                    <span className='custom_status__container'>
+                    <span>
                         <span className='custom_status__icon'>
                             {customStatusEmoji}
                         </span>
@@ -369,6 +377,13 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             />
                         </Menu.Header>
                     )}
+                     <Menu.Header>
+                        <div className='status-wrapper status-selector'>
+                            {profilePicture}
+                            <Text>{this.props.currentUser.first_name + this.props.currentUser.last_name}</Text>
+                            <Text color={'secondary'}>{'@' + this.props.currentUser.username}</Text>
+                        </div>
+                    </Menu.Header>
                     <Menu.Group>
                         <Menu.ItemAction
                             show={this.isUserOutOfOffice()}
@@ -401,6 +416,23 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             text={localizeMessage('status_dropdown.set_offline', 'Offline')}
                             icon={<StatusOfflineIcon/>}
                             id={'status-menu-offline'}
+                        />
+                    </Menu.Group>
+                    <Menu.Group>
+                        <Menu.ItemToggleModalRedux
+                            id='accountSettings'
+                            modalId={ModalIdentifiers.USER_SETTINGS}
+                            dialogType={UserSettingsModal}
+                            text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
+                            icon={<i className='fa fa-cog'/>}
+                        />
+                    </Menu.Group>
+                    <Menu.Group>
+                        <Menu.ItemAction
+                            id='logout'
+                            onClick={this.handleEmitUserLoggedOutEvent}
+                            text={localizeMessage('navbar_dropdown.logout', 'Log Out')}
+                            icon={<i className='fa fa-sign-out'/>}
                         />
                     </Menu.Group>
                 </Menu>

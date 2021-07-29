@@ -11,7 +11,7 @@ import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link, useRouteMatch} from 'react-router-dom';
 import styled from 'styled-components';
-
+import ProductSwitcherMenu from './product_switcher_menu'
 import {useProducts} from './hooks';
 
 const MenuItem = styled(Link)`
@@ -49,6 +49,28 @@ const LinkIcon = styled.i`
     color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
+interface SwitcherNavEntryProps {
+    destination: string;
+    icon: React.ReactNode;
+    text: React.ReactNode;
+}
+
+const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
+    const match = useRouteMatch(props.destination);
+    return (
+        <MenuItem
+            to={props.destination}
+            target='_blank'
+        >
+            {props.icon}
+            <MenuItemTextContainer>
+                {props.text}
+            </MenuItemTextContainer>
+            <LinkIcon className={'fa ' + (match ? 'fa-check' : 'fa-external-link')}/>
+        </MenuItem>
+    );
+};
+
 const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
     const [switcherOpen, setSwitcherOpen] = useState(false);
@@ -56,7 +78,7 @@ const ProductSwitcher = (): JSX.Element => {
 
     const handleClick = () => setSwitcherOpen(!switcherOpen);
 
-    const items = products?.map((product) => {
+    const productItems = products?.map((product) => {
         return (
             <SwitcherNavEntry
                 key={product.id}
@@ -101,33 +123,12 @@ const ProductSwitcher = (): JSX.Element => {
                                 id='global_header.open'
                             />
                         </Text>
-                        {items}
+                        {productItems}
+                        <ProductSwitcherMenu id='ProductSwitcherMenu'/>
                     </Flex>
                 </Shape>
             </Popover>
         </>
-    );
-};
-
-interface SwitcherNavEntryProps {
-    destination: string;
-    icon: React.ReactNode;
-    text: React.ReactNode;
-}
-
-const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
-    const match = useRouteMatch(props.destination);
-    return (
-        <MenuItem
-            to={props.destination}
-            target='_blank'
-        >
-            {props.icon}
-            <MenuItemTextContainer>
-                {props.text}
-            </MenuItemTextContainer>
-            <LinkIcon className={'fa ' + (match ? 'fa-check' : 'fa-external-link')}/>
-        </MenuItem>
     );
 };
 
