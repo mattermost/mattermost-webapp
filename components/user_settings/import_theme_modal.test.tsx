@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-import {Theme} from 'mattermost-redux/types/themes';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
