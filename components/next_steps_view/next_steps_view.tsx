@@ -252,13 +252,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                             defaultMessage='Nicely done! You’re all set.'
                         />
                     </h1>
-                    <h2 className='NextStepsView__transitionBottomText'>
+                    <p className='NextStepsView__transitionBottomText'>
                         <img src={loadingIcon}/>
                         <FormattedMessage
                             id='next_steps_view.oneMoment'
                             defaultMessage='One moment'
                         />
-                    </h2>
+                    </p>
                 </div>
             </div>
         );
