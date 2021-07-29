@@ -370,7 +370,7 @@ export function isChannelReadOnlyById(state: GlobalState, channelId: string): bo
 }
 
 export function isChannelReadOnly(state: GlobalState, channel: Channel): boolean {
-    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true';
+    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state);
 }
 
 export function shouldHideDefaultChannel(state: GlobalState, channel: Channel): boolean {

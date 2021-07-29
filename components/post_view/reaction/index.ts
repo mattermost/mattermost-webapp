@@ -110,7 +110,7 @@ function checkReactionAction(
         return false;
     }
 
-    if (channelName === Constants.DEFAULT_CHANNEL && config.ExperimentalTownSquareIsReadOnly === 'true' && license.IsLicensed === 'true' && !user.roles.includes('system_admin')) {
+    if (channelName === Constants.DEFAULT_CHANNEL && license.IsLicensed === 'true' && !user.roles.includes('system_admin')) {
         return false;
     }
 
