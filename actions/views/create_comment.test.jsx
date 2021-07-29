@@ -236,7 +236,6 @@ describe('rhs view actions', () => {
             message: draft.message,
             channel_id: channelId,
             root_id: rootId,
-            parent_id: rootId,
             user_id: currentUserId,
         };
 
@@ -287,7 +286,6 @@ describe('rhs view actions', () => {
             channel_id: channelId,
             team_id: teamId,
             root_id: rootId,
-            parent_id: rootId,
         };
 
         const draft = {message: '/test msg'};
@@ -325,7 +323,7 @@ describe('rhs view actions', () => {
 
             await store.dispatch(remockedSubmitCommand(channelId, rootId, draft));
 
-            const expectedActions = [{args: ['/test msg', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
+            const expectedActions = [{args: ['/test msg', {channel_id: '4j5j4k3k34j4', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
             expect(store.getActions()).toEqual(expectedActions);
         });
     });
@@ -385,7 +383,7 @@ describe('rhs view actions', () => {
             const testStore = mockStore(initialState);
             testStore.dispatch(submitCommand(channelId, rootId, {message: '/away', fileInfos: [], uploadsInProgress: []}));
 
-            const commandActions = [{args: ['/away', {channel_id: '4j5j4k3k34j4', parent_id: 'fc234c34c23', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
+            const commandActions = [{args: ['/away', {channel_id: '4j5j4k3k34j4', root_id: 'fc234c34c23', team_id: '4j5nmn4j3'}], type: 'MOCK_ACTIONS_COMMAND_EXECUTE'}];
             expect(store.getActions()).toEqual(
                 expect.arrayContaining(testStore.getActions()),
                 expect.arrayContaining(commandActions),

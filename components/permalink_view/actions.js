@@ -39,7 +39,7 @@ function focusRootPost(post, channel) {
 
 function focusReplyPost(post, channel, teamId, returnTo) {
     return async (dispatch, getState) => {
-        await dispatch(getPostThread(post.parent_id));
+        await dispatch(getPostThread(post.root_id));
         const state = getState();
 
         const team = getTeam(state, channel.team_id || teamId);

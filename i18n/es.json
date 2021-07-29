@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Tu pago más reciente falló",
   "admin.billing.subscription.nextBillingDate": "A partir de {date}, se le cobrará según la cantidad de usuarios habilitados",
   "admin.billing.subscription.otherBillingOption": "¿Necesita otras opciones de facturación?",
-  "admin.billing.subscription.payamentBegins": "El pago empieza: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "El pago empieza: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Pago fallido. Vuelva a intentarlo o póngase en contacto con el servicio de asistencia.",
   "admin.billing.subscription.paymentNoteEnd": " para la asistencia",
   "admin.billing.subscription.paymentNoteStart": "Si su prueba de Mattermost Cloud comenzó el 15 de septiembre o antes, por favor ",

@@ -29,7 +29,6 @@ describe('components/post_view/CommentedOn', () => {
             user_id: 'user_id',
             channel_id: 'channel_id',
             root_id: 'root_id',
-            parent_id: 'parent_id',
             original_id: 'original_id',
             type: 'system_add_remove',
             hashtags: 'hashtags',
