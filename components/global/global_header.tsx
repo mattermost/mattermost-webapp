@@ -42,6 +42,7 @@ const GlobalHeader = (): JSX.Element | null => {
         return null;
     }
 
+    // temporary, theming will be connected to the webapp in a separate pr
     const theme = {
         ...lightTheme,
         noStyleReset: true,
@@ -53,7 +54,6 @@ const GlobalHeader = (): JSX.Element | null => {
         },
     };
 
-    // adding the dark theme for now to test how the colors "perform"
     return (
         <ThemeProvider theme={theme}>
             <HeaderContainer>
