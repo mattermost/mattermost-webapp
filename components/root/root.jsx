@@ -116,8 +116,10 @@ export default class Root extends React.PureComponent {
 
         // Prevent drag and drop files from navigating away from the app
         document.addEventListener('drop', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            if (e.dataTransfer.items.length > 0 && e.dataTransfer.items[0].kind === 'file') {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         });
 
         document.addEventListener('dragover', (e) => {

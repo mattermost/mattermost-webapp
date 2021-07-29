@@ -85,6 +85,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value=""
         />
@@ -248,6 +249,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value="new message"
         />
@@ -411,6 +413,7 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={false}
           value=""
         />
@@ -574,6 +577,7 @@ exports[`components/EditPostModal should match when editing post is undefined 1`
           rootId=""
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value=""
         />
@@ -737,6 +741,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value=""
         />
@@ -900,6 +905,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value=""
         />
@@ -1037,6 +1043,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value="new message"
         />
@@ -1200,6 +1207,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value=""
         />
@@ -1363,6 +1371,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value=""
         />
@@ -1526,6 +1535,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value=""
         />
@@ -1689,6 +1699,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
           rootId="123"
           suggestionListPosition="bottom"
           supportsCommands={false}
+          tabIndex={0}
           useChannelMentions={true}
           value=""
         />

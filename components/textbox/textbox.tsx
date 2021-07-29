@@ -25,6 +25,7 @@ type Props = {
     id: string;
     channelId: string;
     rootId: string;
+    tabIndex?: number;
     value: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (e: KeyboardEvent) => void;
@@ -248,7 +249,7 @@ export default class Textbox extends React.PureComponent<Props> {
 
             preview = (
                 <div
-                    tabIndex={0}
+                    tabIndex={this.props.tabIndex || 0}
                     ref={this.preview}
                     className='form-control custom-textarea textbox-preview-area'
                     onKeyPress={this.props.onKeyPress}

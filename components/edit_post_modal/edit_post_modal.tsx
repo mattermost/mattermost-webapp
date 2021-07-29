@@ -604,6 +604,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                             }
                         >
                             <Textbox
+                                tabIndex={0}
                                 rootId={this.props.editingPost.post ? Utils.getRootId(this.props.editingPost.post) : ''}
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}

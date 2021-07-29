@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Son ödemeniz yapılamadı",
   "admin.billing.subscription.nextBillingDate": "{date} tarihinden başlayarak etkinleştirilmiş kullanıcı sayısına göre ödeme yapacaksınız",
   "admin.billing.subscription.otherBillingOption": "Başka faturalama seçenekleri mi arıyorsunuz?",
-  "admin.billing.subscription.payamentBegins": "Ödeme başlangıcı: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "Ödeme başlangıcı: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Ödeme yapılamadı. Lütfen yeniden deneyin ya da destek ekibimiz ile görüşün.",
   "admin.billing.subscription.paymentNoteEnd": " yardım almak için",
   "admin.billing.subscription.paymentNoteStart": "Mattermost Cloud deneme süreniz 15 Eylül tarihinden önce başlamış ise ",
