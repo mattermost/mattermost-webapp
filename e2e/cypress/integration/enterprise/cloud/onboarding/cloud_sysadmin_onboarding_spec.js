@@ -96,9 +96,23 @@ describe('Cloud Onboarding - Sysadmin', () => {
         // * Step counter should increment
         cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '4 / 4 steps complete');
 
+        // * Check to make sure card is expanded
+        cy.get('.Card__body.expanded .EnterSupportEmailStep').should('be.visible');
+
+        // # Enter email addresses
+        cy.get('#input_enter_support_email').should('be.visible').type('robot@gmail.com');
+
+        // # Click Finish button
+        cy.findByTestId('EnterSupportEmailStep__finishButton').should('be.visible').and('not.be.disabled').click();
+
+        // * Step counter should increment
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '5 / 5 steps complete');
+
         // * Should show Tips and Next Steps
         cy.findByText('Tips & Next Steps').should('be.visible');
         cy.findByText('A few other areas to explore').should('be.visible');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__top').should('contain', 'Tips & Next steps');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', 'A few other areas to explore');
 
         // * Transition screen should be visible
         cy.get('.NextStepsView__transitionView.completed').should('be.visible');
