@@ -146,53 +146,6 @@ export function makeGetStyleFromTheme<Style>(): (state: GlobalState, getStyleFro
     );
 }
 
-export type SidebarPreferences = {
-    grouping: 'by_type' | 'none';
-    unreads_at_top: 'true' | 'false';
-    favorite_at_top: 'true' | 'false';
-    sorting: 'alpha' | 'recent';
-}
-
-const defaultSidebarPrefs: SidebarPreferences = {
-    grouping: 'by_type',
-    unreads_at_top: 'true',
-    favorite_at_top: 'true',
-    sorting: 'alpha',
-};
-
-export const getSidebarPreferences: (state: GlobalState) => SidebarPreferences = createSelector(
-    'getSidebarPreferences',
-    (state: GlobalState) => {
-        const config = getConfig(state);
-        return config.ExperimentalGroupUnreadChannels !== General.DISABLED && getBool(
-            state,
-            Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            'show_unread_section',
-            config.ExperimentalGroupUnreadChannels === General.DEFAULT_ON,
-        );
-    },
-    (state) => {
-        return get(
-            state,
-            Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            '',
-            null,
-        );
-    },
-    (showUnreadSection, sidebarPreference) => {
-        let sidebarPrefs = JSON.parse(sidebarPreference);
-        if (sidebarPrefs === null) {
-            // Support unread settings for old implementation
-            sidebarPrefs = {
-                ...defaultSidebarPrefs,
-                unreads_at_top: showUnreadSection ? 'true' : 'false',
-            };
-        }
-
-        return sidebarPrefs;
-    },
-);
-
 // shouldShowUnreadsCategory returns true if the user has unereads grouped separately with the new sidebar enabled.
 export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = createSelector(
     'shouldShowUnreadsCategory',
