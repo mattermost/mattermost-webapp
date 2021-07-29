@@ -440,10 +440,9 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
-    INTRO_SCREENS: 0,
-    POST_POPOVER: 1,
-    CHANNEL_POPOVER: 2,
-    MENU_POPOVER: 3,
+    POST_POPOVER: 0,
+    CHANNEL_POPOVER: 1,
+    MENU_POPOVER: 2,
     FINISHED: 999,
 };
 
@@ -752,6 +751,7 @@ export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
     COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
     CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
+    PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
 };
 
 export const BillingSchemes = {
@@ -1103,6 +1103,8 @@ export const Constants = {
         'error',
         'help',
         'plugins',
+        'playbooks',
+        'boards',
     ],
     RESERVED_USERNAMES: [
         'valet',
