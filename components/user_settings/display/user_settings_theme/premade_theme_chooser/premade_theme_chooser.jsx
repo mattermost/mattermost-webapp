@@ -43,6 +43,8 @@ export default class PremadeThemeChooser extends React.PureComponent {
                         >
                             <label>
                                 <ThemeThumbnail
+                                    themeName={premadeTheme.type}
+                                    themeKey={k}
                                     sidebarBg={premadeTheme.sidebarBg}
                                     sidebarText={changeOpacity(premadeTheme.sidebarText, 0.48)}
                                     sidebarUnreadText={premadeTheme.sidebarUnreadText}

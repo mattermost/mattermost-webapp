@@ -6,6 +6,8 @@
 import React from 'react';
 
 type ThemeThumbnailProps = {
+    themeName: string;
+    themeKey: string;
     sidebarBg: string;
     sidebarText: string;
     sidebarUnreadText: string;
@@ -19,6 +21,8 @@ type ThemeThumbnailProps = {
 }
 
 function ThemeThumbnail({
+    themeName,
+    themeKey,
     sidebarBg = '#174AB5',
     sidebarText = '#86A1D9',
     sidebarUnreadText = 'white',
@@ -31,7 +35,8 @@ function ThemeThumbnail({
     buttonBg = '#15B7B7',
 }: ThemeThumbnailProps): JSX.Element {
     return (
-        <svg width='112' height='86' viewBox='0 0 112 86' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <svg width='112' height='86' viewBox='0 0 112 86' fill='none' xmlns='http://www.w3.org/2000/svg' aria-labelledby={`${themeKey}-theme-icon`} role='img'>
+            <title id={`${themeKey}-theme-icon`}>{`${themeName} theme icon`}</title>
             <rect style={{fill: centerChannelBg}} x='0' y='0' width='112' height='86'/>
             <g>
                 <rect style={{fill: centerChannelBg}} x='50' y='-1' width='63' height='88'/>
