@@ -498,7 +498,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     </div>}
                 </div>
                 {this.props.saveButtonPosition === 'bottom' &&
-                <div className='channel-switcher__footer'>
+                <div className='multi-select__footer'>
                     <SaveButton
                         id='saveItems'
                         saving={this.props.saving}
