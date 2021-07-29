@@ -105,14 +105,14 @@
     margin: 0;
     font-size: 32px;
     font-weight: 600;
-    letter-spacing: -0.02em;
     line-height: 40px;
 }
 
 .NextStepsView__header-headerBottomText {
     margin-top: 8px;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 24px;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
 }
 
 .NextStepsView__header-logo {
@@ -417,7 +417,7 @@
         }
     }
 
-    h3 {
+    h4 {
         margin: 0 0 12px 0;
         color: var(--center-channel-color);
         font-size: 16px;
@@ -459,7 +459,7 @@
 .NextStepsView__downloadText {
     margin-left: 40px;
 
-    h3 {
+    h4 {
         color: var(--center-channel-color);
         font-size: 16px;
         font-weight: 600;

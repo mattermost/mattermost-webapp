@@ -35,11 +35,13 @@ body {
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
+h3
+{
     font-family: Metropolis, sans-serif;
+}
+
+h1 {
+    font-weight: 600;
 }
 
 .is-empty:empty {
@@ -219,10 +221,7 @@ ol {
 .app__body {
     h1,
     h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    h3 {
         font-family: Metropolis, sans-serif;
     }
 }

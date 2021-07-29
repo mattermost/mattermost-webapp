@@ -32,6 +32,12 @@
     border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     background-color: var(--sidebar-bg);
 
+    h1,
+    h2,
+    h3 {
+        font-family: 'Open Sans', sans-serif;
+    }
+
     &.dragging {
         z-index: 14;
 
@@ -101,6 +107,7 @@
 
             .team__name,
             .user__name {
+
                 max-width: 140px;
             }
 
