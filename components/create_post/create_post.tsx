@@ -1597,6 +1597,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}
+                                rootId={''}
                             />
                             <span
                                 ref={this.createPostControlsRef}
