@@ -249,3 +249,7 @@ export function isTimedDNDEnabled(state: GlobalState): boolean {
         getFeatureFlagValue(state, 'TimedDND') === 'true'
     );
 }
+
+export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
+    return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
+}

@@ -43,8 +43,6 @@ const Preferences = {
 
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CHANNEL_SIDEBAR_ORGANIZATION: 'channel_sidebar_organization',
-    CHANNEL_SIDEBAR_AUTOCLOSE_DMS: 'close_unused_direct_messages',
-    AUTOCLOSE_DMS_ENABLED: 'after_seven_days',
     LIMIT_VISIBLE_DMS_GMS: 'limit_visible_dms_gms',
     SHOW_UNREAD_SECTION: 'show_unread_section',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
