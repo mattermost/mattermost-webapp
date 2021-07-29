@@ -33,7 +33,7 @@ describe('Reply counts', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
-    it('should number of replies on threads', () => {
+    it('should show number of replies in thread', () => {
         cy.get(`#post_${rootPost.id}`).find('.ThreadFooter').should('not.exist');
 
         cy.postMessageAs({sender: testUser, message: 'reply!', channelId: testChannel.id, rootId: rootPost.id});

@@ -58,7 +58,7 @@ describe('Follow/Unfollow Threads', () => {
         });
     });
 
-    it('should follow a thread after marking as unread', () => {
+    it('should follow a thread after marking it as unread', () => {
         cy.postMessageAs({
             sender: otherUser,
             message: 'Another interesting post,',
@@ -94,7 +94,7 @@ describe('Follow/Unfollow Threads', () => {
         });
     });
 
-    it('clicking footer Following button should unfollow the thread', () => {
+    it('clicking "Following" button in the footer should unfollow the thread', () => {
         cy.getLastPostId().then((rootId) => {
             cy.get(`#post_${rootId}`).click();
 
@@ -112,7 +112,7 @@ describe('Follow/Unfollow Threads', () => {
         });
     });
 
-    it('should follow a thread after marking as unread', () => {
+    it('clicking "Follow" button in the footer should follow the thread', () => {
         cy.getLastPostId().then((rootId) => {
             cy.get(`#post_${rootId}`).click();
 

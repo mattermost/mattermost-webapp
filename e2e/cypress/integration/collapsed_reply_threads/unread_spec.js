@@ -28,7 +28,7 @@ describe('Read/Unread Threads', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
-    it('should show a new messages line on an unread thread', () => {
+    it('should show a new messages line for an unread thread', () => {
         cy.postMessageAs({
             sender: testUser,
             message: 'Another interesting post,',
