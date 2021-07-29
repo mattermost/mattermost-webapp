@@ -399,14 +399,14 @@ describe('PostList', () => {
         test('should return previous scroll position from getSnapshotBeforeUpdate', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             const instance = wrapper.instance() as PostListType;
-            instance.componentDidUpdate = jest.fn();
+            const spy = jest.spyOn(instance, 'componentDidUpdate');
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
 
             wrapper.setState({atBottom: false});
             wrapper.setProps({atOldestPost: true});
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(2);
-            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
+            expect(spy.mock.calls[1][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
             instance.postListRef = {current: {scrollHeight: 200, parentElement: {scrollTop: 30}}};
             wrapper.setProps({
@@ -420,18 +420,18 @@ describe('PostList', () => {
             });
 
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(3);
-            expect(instance.componentDidUpdate.mock.calls[2][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
+            expect(spy.mock.calls[2][2]).toEqual({previousScrollTop: 30, previousScrollHeight: 200});
         });
 
         test('should not return previous scroll position from getSnapshotBeforeUpdate as list is at bottom', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             const instance = wrapper.instance() as PostListType;
-            instance.componentDidUpdate = jest.fn();
+            const spy = jest.spyOn(instance, 'componentDidUpdate');
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
             wrapper.setProps({atOldestPost: true});
             wrapper.setState({atBottom: true});
-            expect(instance.componentDidUpdate.mock.calls[1][2]).toEqual(null);
+            expect(spy.mock.calls[1][2]).toEqual(null);
         });
     });
 
