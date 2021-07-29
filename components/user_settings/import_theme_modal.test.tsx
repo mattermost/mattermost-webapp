@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {Theme} from 'mattermost-redux/types/themes';
+import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -16,7 +17,7 @@ describe('components/user_settings/ImportThemeModal', () => {
     });
 
     it('should correctly parse a Slack theme', () => {
-        const theme: Partial<Theme> = {
+        const theme = setThemeDefaults({
             type: 'custom',
             sidebarBg: '#1d2229',
             sidebarText: '#ffffff',
@@ -29,7 +30,7 @@ describe('components/user_settings/ImportThemeModal', () => {
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#94e864',
             mentionBg: '#78af8f',
-        };
+        });
 
         const themeString = '#1d2229,#0b161e,#537aa6,#ffffff,#313843,#ffffff,#94e864,#78af8f,#0b161e,#ffffff';
         const wrapper = mountWithIntl(<ImportThemeModal/>);

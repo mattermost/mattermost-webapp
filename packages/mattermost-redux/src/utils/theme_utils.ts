@@ -130,7 +130,7 @@ const themeTypeMap: ThemeTypeMap = {
 };
 
 // setThemeDefaults will set defaults on the theme for any unset properties.
-export function setThemeDefaults(theme: Theme): Theme {
+export function setThemeDefaults(theme: Partial<Theme>): Theme {
     const defaultTheme = Preferences.THEMES.sapphire;
 
     const processedTheme = {...theme};
