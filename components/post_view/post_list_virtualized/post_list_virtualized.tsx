@@ -47,7 +47,10 @@ type RowData = {
     itemId: string;
     style?: CSSProperties;
 };
-
+type DynamicSizeListDimensions = {
+    width: number;
+    height: number;
+}
 type OnItemsRenderedArgs = {
 
     /**
@@ -94,7 +97,7 @@ type ScrollPosition = {
     previousScrollHeight: number;
 };
 
-type Snapshot = ScrollPosition | null;
+export type Snapshot = ScrollPosition | null;
 
 export interface PostListProps extends WrappedComponentProps<'intl'> {
 
@@ -140,7 +143,7 @@ export interface PostListProps extends WrappedComponentProps<'intl'> {
     lastViewedAt?: string | Timestamp;
 
     actions: PostListActions;
-};
+}
 
 interface PostListActions {
 
@@ -164,10 +167,10 @@ interface PostListActions {
      */
     checkAndSetMobileView: () => void;
 
-    changeUnreadChunkTimeStamp: (lastViewedAt: string | Timestamp | ReactText) => void;
+    changeUnreadChunkTimeStamp: (lastViewedAt: string | Timestamp | ReactText | undefined) => void;
     updateNewMessagesAtInChannel: (channelId: string, lastViewedAt: Timestamp) => void;
 
-};
+}
 
 export type PostListState = {
     isScrolling: boolean;
@@ -672,7 +675,7 @@ class PostList extends React.PureComponent<PostListProps, PostListState, Snapsho
                                 {ariaLabel}
                             </span>
                             <AutoSizer>
-                                {({height, width}: any) => (
+                                {({height, width}: DynamicSizeListDimensions) => (
                                     <React.Fragment>
                                         <div>{this.renderToasts(width)}</div>
 
@@ -710,4 +713,4 @@ class PostList extends React.PureComponent<PostListProps, PostListState, Snapsho
 }
 
 export default injectIntl(PostList);
-export { PostList as PostListType}
+export {PostList as PostListType};
