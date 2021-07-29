@@ -69,7 +69,7 @@ describe('components/TextBox', () => {
                 onKeyUp={() => {}}
                 onBlur={() => {}}
                 handlePostError={() => {}}
-                suggestionListStyle='style'
+                suggestionListPosition='top'
                 emojiEnabled={true}
                 isRHS={true}
                 disabled={true}

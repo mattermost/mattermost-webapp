@@ -2,32 +2,25 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
+import {shallow} from 'enzyme';
 import configureStore from 'redux-mock-store';
+
+import {Modal} from 'react-bootstrap';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import EmojiMap from 'utils/emoji_map';
-
-import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
 import Markdown from 'components/markdown';
 
-import AppsForm from './apps_form';
+import {AppsForm, Props} from './apps_form_component';
 
-describe('components/apps_form/AppsForm', () => {
-    const baseProps = {
-        form: {
-            fields: [{
-                name: 'field1',
-                type: 'text',
-            }],
-        },
-        call: {
-            path: '/submit_url',
-        },
-        onHide: () => {},
+describe('AppsFormComponent', () => {
+    const baseProps: Props = {
+        intl: {} as any,
+        onHide: jest.fn(),
+        isEmbedded: false,
         actions: {
             performLookupCall: jest.fn(),
             refreshOnSelect: jest.fn(),
@@ -37,8 +30,106 @@ describe('components/apps_form/AppsForm', () => {
                 },
             }),
         },
-        emojiMap: new EmojiMap(new Map()),
+        form: {
+            title: 'Title',
+            footer: 'Footer',
+            header: 'Header',
+            icon: 'Icon',
+            call: {
+                path: '/create',
+            },
+            fields: [
+                {
+                    name: 'bool1',
+                    type: 'bool',
+                },
+                {
+                    name: 'bool2',
+                    type: 'bool',
+                    value: false,
+                },
+                {
+                    name: 'bool3',
+                    type: 'bool',
+                    value: true,
+                },
+                {
+                    name: 'text1',
+                    type: 'text',
+                    value: 'initial text',
+                },
+                {
+                    name: 'select1',
+                    type: 'static_select',
+                    options: [
+                        {label: 'Label1', value: 'Value1'},
+                        {label: 'Label2', value: 'Value2'},
+                    ],
+                    value: {label: 'Label1', value: 'Value1'},
+                },
+            ],
+        },
     };
+
+    test('should set match snapshot', () => {
+        const wrapper = shallow<AppsForm>(
+            <AppsForm
+                {...baseProps}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should set initial form values', () => {
+        const wrapper = shallow<AppsForm>(
+            <AppsForm
+                {...baseProps}
+            />,
+        );
+
+        expect(wrapper.state().values).toEqual({
+            bool1: false,
+            bool2: false,
+            bool3: true,
+            text1: 'initial text',
+            select1: {label: 'Label1', value: 'Value1'},
+        });
+    });
+
+    test('it should submit and close the modal', async () => {
+        const submit = jest.fn().mockResolvedValue({data: {type: 'ok'}});
+
+        const props: Props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                submit,
+            },
+        };
+
+        const wrapper = shallow<AppsForm>(
+            <AppsForm
+                {...props}
+            />,
+        );
+
+        const hide = jest.fn();
+        wrapper.instance().handleHide = hide;
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
+
+        expect(submit).toHaveBeenCalledWith({
+            values: {
+                bool1: false,
+                bool2: false,
+                bool3: true,
+                text1: 'initial text',
+                select1: {label: 'Label1', value: 'Value1'},
+            },
+        });
+        expect(hide).toHaveBeenCalled();
+    });
 
     describe('generic error message', () => {
         test('should appear when submit returns an error', async () => {
@@ -51,9 +142,9 @@ describe('components/apps_form/AppsForm', () => {
                     }),
                 },
             };
-            const wrapper = shallowWithIntl(<AppsForm {...props}/>);
+            const wrapper = shallow<AppsForm>(<AppsForm {...props}/>);
 
-            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
 
             const expected = (
                 <div className='error-text'>
@@ -64,8 +155,8 @@ describe('components/apps_form/AppsForm', () => {
         });
 
         test('should not appear when submit does not return an error', async () => {
-            const wrapper = shallowWithIntl(<AppsForm {...baseProps}/>);
-            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+            const wrapper = shallow<AppsForm>(<AppsForm {...baseProps}/>);
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
 
             expect(wrapper.find(Modal.Footer).exists('.error-text')).toBe(false);
         });
