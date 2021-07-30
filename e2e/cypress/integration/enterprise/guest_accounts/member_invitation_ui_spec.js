@@ -85,7 +85,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify Invite People field
         cy.findByTestId('searchAdd').should('be.visible').within(() => {
-            cy.findByText(/add or invite people/i).should('have.text', 'Add or Invite People');
+            cy.findByText(/add or invite people/i).should('be.visible');
             cy.get('.help-text > span').should('have.text', 'Add existing members or send email invites to new members.');
         });
         cy.get('#inviteMembersButton').scrollIntoView().should('be.visible').and('be.disabled');
