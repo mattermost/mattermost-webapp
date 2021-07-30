@@ -12,7 +12,7 @@ import {intlShape} from 'utils/react_intl';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
-import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
+import ChannelTutorialTip from '../channel_tutorial_tip.jsx';
 
 class SidebarChannel extends React.PureComponent {
     static propTypes = {
@@ -261,7 +261,7 @@ class SidebarChannel extends React.PureComponent {
         let tutorialTip = null;
         if (this.props.showTutorialTip && this.props.channelName === Constants.DEFAULT_CHANNEL) {
             tutorialTip = (
-                <SidebarTutorialTip
+                <ChannelTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}
                     offTopicDisplayName={this.props.offTopicDisplayName}
                     openLhs={this.props.actions.openLhs}

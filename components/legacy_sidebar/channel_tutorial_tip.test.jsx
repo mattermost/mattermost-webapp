@@ -4,15 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SidebarTutorialTip from './sidebar_tutorial_tip.jsx';
+import ChannelTutorialTip from './channel_tutorial_tip.jsx';
 
-describe('component/legacy_sidebar/SidebarTutorialTip', () => {
+describe('component/legacy_sidebar/ChannelTutorialTip', () => {
     const defaultProps = {
         openLhs: jest.fn(),
     };
     test('should match snapshot, without townSquare and without offTopic', () => {
         const props = {...defaultProps};
-        const wrapper = shallow(<SidebarTutorialTip {...props}/>);
+        const wrapper = shallow(<ChannelTutorialTip {...props}/>);
         expect(wrapper).toMatchSnapshot();
         expect(props.openLhs).not.toBeCalled();
     });
@@ -20,7 +20,7 @@ describe('component/legacy_sidebar/SidebarTutorialTip', () => {
     test('should match snapshot, with townSquare and without offTopic', () => {
         const props = {...defaultProps, townSquareDisplayName: 'TestTownSquare'};
         const wrapper = shallow(
-            <SidebarTutorialTip {...props}/>,
+            <ChannelTutorialTip {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(props.openLhs).toBeCalled();
@@ -29,7 +29,7 @@ describe('component/legacy_sidebar/SidebarTutorialTip', () => {
     test('should match snapshot, without townSquare and with offTopic', () => {
         const props = {...defaultProps, offTopicDisplayName: 'TestOffTopic'};
         const wrapper = shallow(
-            <SidebarTutorialTip {...props}/>,
+            <ChannelTutorialTip {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(props.openLhs).toBeCalled();
@@ -38,7 +38,7 @@ describe('component/legacy_sidebar/SidebarTutorialTip', () => {
     test('should match snapshot, with townSquare and with offTopic', () => {
         const props = {...defaultProps, townSquareDisplayName: 'TestTownSquare', offTopicDisplayName: 'TestOffTopic'};
         const wrapper = shallow(
-            <SidebarTutorialTip {...props}/>,
+            <ChannelTutorialTip {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(props.openLhs).toBeCalled();
