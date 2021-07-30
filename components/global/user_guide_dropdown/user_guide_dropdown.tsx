@@ -106,6 +106,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     overlay={this.state.buttonActive ? <></> : tooltip}
                 >
                     <IconButton
+                        size={'sm'}
                         icon={'help-circle-outline'}
                         className={classNames({'channel-header__icon--active': this.state.buttonActive})}
                     />

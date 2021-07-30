@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
+import Text from '@mattermost/compass-components/components/text';
+import Flex from '@mattermost/compass-components/utilities/layout';
+import { TIconGlyph } from '@mattermost/compass-components/foundations/icon';
 import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {ChannelsIcon} from './assets';
 import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
 import ProductSwitcherMenu from './product_switcher_menu';
 
@@ -17,7 +19,7 @@ interface SwitcherMenuProps {
 
 interface SwitcherNavEntryProps {
     destination: string;
-    icon: React.ReactNode;
+    icon: TIconGlyph;
     text: React.ReactNode;
     active: boolean;
 }
@@ -89,7 +91,8 @@ const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
         <MenuItem
             to={props.destination}
         >
-            {props.icon}
+
+            <IconButton icon={props.icon} />
             <MenuItemTextContainer>
                 {props.text}
             </MenuItemTextContainer>
@@ -127,13 +130,18 @@ const ProductSwitcher = (): JSX.Element => {
 
     return (
         <div ref={menuRef}>
-            <IconButton
-                icon={'view-grid-outline'}
-                onClick={handleClick}
-                size={'sm'}
-                toggled={switcherOpen}
-                inverted={true}
-            />
+            <Flex row>
+                <IconButton
+                    icon={'view-grid-outline'}
+                    onClick={handleClick}
+                    size={'sm'}
+                    toggled={switcherOpen}
+                    inverted={true}
+                />
+
+                <IconButton size={'md'} icon={'mattermost'} />
+                <Text>{'Channels'}</Text>
+            </Flex>
             <SwitcherMenu
                 open={switcherOpen}
             >
@@ -145,7 +153,7 @@ const ProductSwitcher = (): JSX.Element => {
                 </SwitcherMenuDescriptiveText>
                 <SwitcherNavEntry
                     destination={'/'}
-                    icon={<ChannelsIcon/>}
+                    icon={'mattermost'}
                     text={'Channels'}
                     active={currentProductID === null}
                 />

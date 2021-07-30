@@ -4,6 +4,7 @@
 import ThemeProvider, {lightTheme} from '@mattermost/compass-components/utilities/theme';
 import React from 'react';
 import {useSelector} from 'react-redux';
+import Flex from '@mattermost/compass-components/utilities/layout';
 
 import styled from 'styled-components';
 
@@ -22,17 +23,10 @@ const HeaderContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     height: 40px;
     background: var(--sidebar-teambar-bg);
     color: var(--sidebar-text);
-`;
-
-const AppSpectificContent = styled.div`
-    flex-grow: 1;
-`;
-
-const ProfileWrapper = styled.div`
-    margin-right: 20px;
 `;
 
 const GlobalHeader = (): JSX.Element | null => {
@@ -60,26 +54,21 @@ const GlobalHeader = (): JSX.Element | null => {
         <ThemeProvider theme={theme}>
             <HeaderContainer>
                 <ProductSwitcher/>
-                <AppSpectificContent>
-                    {currentProductID !== null &&
+                    {/* {currentProductID !== null &&
                         <Pluggable
                             pluggableName={'Product'}
                             subComponentName={'headerComponent'}
                             pluggableId={currentProductID}
                         />
-                    }
-                    {currentProductID === null && 
-                    <>
-                        <GlobalSearchNav/>
-                        <GlobalIconsWrapper/>
-                    </>
-                    }
-                </AppSpectificContent>
-                <ProfileWrapper>
+                    } */}
+                {currentProductID === null &&
+                <GlobalSearchNav/>}
+                <Flex row alignment="center">
+                    <GlobalIconsWrapper/>
                     <StatusDropdown
                         globalHeader={true}
                     />
-                </ProfileWrapper>
+                </Flex>
             </HeaderContainer>
         </ThemeProvider>
     );

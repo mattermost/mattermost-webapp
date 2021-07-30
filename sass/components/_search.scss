@@ -84,6 +84,13 @@
         @include single-transition(opacity, $transition-quick, ease-out);
     }
 }
+.search-bar-container--global {
+    width: 100%;
+}
+
+.search__form--global > .search__font-icon {
+    color: var(--sidebar-text-72);
+}
 
 .search__form {
     position: relative;
@@ -172,7 +179,15 @@
             box-shadow: none;
         }
     }
-
+    
+    .Global__search-bar {
+        color: var(--sidebar-text-72);
+        background: var(--sidebar-text-08);
+        &::placeholder {
+            color: var(--sidebar-text-72);
+        }
+    }
+    
     .LoadingSpinner {
         @include opacity(0.5);
 

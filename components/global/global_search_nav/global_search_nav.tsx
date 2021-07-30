@@ -151,7 +151,7 @@ class GlobalSearchNav extends React.PureComponent<Props, State> {
 
         return (
             <ThemeProvider theme={theme}>
-                <Flex row>
+                <Flex row width={450} flex={1} alignment='center'>
                 <Search
                     isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
                     hideSearchBar={!this.state.showSearchBar}

@@ -88,9 +88,9 @@ class GlobalIconsWrapper extends React.PureComponent<Props, State> {
                     row
                     alignment={'center'}
                 >
-                    <IconButton icon={'at'} className={classNames({[HEADER_ICON_ACTIVE]: rhsState === RHSStates.MENTION})} onClick={this.mentionButtonClick}/>
-                    <IconButton icon={'bookmark-outline'} className={classNames({[HEADER_ICON_ACTIVE]: rhsState === RHSStates.FLAG})} onClick={this.getSaved}/>
-                    <IconButton icon={'settings-outline'} onClick={() => {}}/>
+                    <IconButton size={'sm'} icon={'at'} className={classNames({[HEADER_ICON_ACTIVE]: rhsState === RHSStates.MENTION})} onClick={this.mentionButtonClick}/>
+                    <IconButton size={'sm'} icon={'bookmark-outline'} className={classNames({[HEADER_ICON_ACTIVE]: rhsState === RHSStates.FLAG})} onClick={this.getSaved}/>
+                    <IconButton size={'sm'} icon={'settings-outline'} onClick={() => {}}/>
                 </Flex>
             </ThemeProvider>
         );

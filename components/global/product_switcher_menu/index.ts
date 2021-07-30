@@ -16,7 +16,7 @@ import ProductSwitcherMenu from './product_switcher_menu';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
-    const currentTeam = getCurrentTeam(state);
+    const currentTeam = getCurrentTeam(state) || {};
     const currentUser = getCurrentUser(state);
 
     const appDownloadLink = config.AppDownloadLink  || '';
@@ -29,7 +29,7 @@ function mapStateToProps(state: GlobalState) {
     const canManageTeamIntegrations = (haveICurrentTeamPermission(state, Permissions.MANAGE_SLASH_COMMANDS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OAUTH) || haveICurrentTeamPermission(state, Permissions.MANAGE_INCOMING_WEBHOOKS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OUTGOING_WEBHOOKS));
     const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
     const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
-
+    console.log(currentTeam)
     return {
         isMobile: state.views.channel.mobileView,
         appDownloadLink,
