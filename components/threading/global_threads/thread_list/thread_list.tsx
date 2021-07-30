@@ -98,7 +98,6 @@ const ThreadList = ({
                     <div className='right-anchor'>
                         <SimpleTooltip
                             id='threadListMarkRead'
-                            disabled={!someUnread}
                             content={formatMessage({
                                 id: 'threading.threadList.markRead',
                                 defaultMessage: 'Mark all as read',
@@ -106,7 +105,6 @@ const ThreadList = ({
                         >
                             <Button
                                 className={'Button___large Button___icon'}
-                                disabled={!someUnread}
                                 onClick={handleAllMarkedRead}
                             >
                                 <span className='Icon'>

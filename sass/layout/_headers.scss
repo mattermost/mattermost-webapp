@@ -38,7 +38,7 @@
             }
         }
 
-        .heading span {
+        .heading > span {
             overflow: hidden;
             line-height: 20px;
             text-overflow: ellipsis;
@@ -227,10 +227,15 @@
     .heading {
         overflow: hidden;
         margin: 0 0 0 2px;
-        font-size: 14px;
+        font-family: Metropolis, sans-serif;
+        font-size: 16px;
         font-weight: 600;
         line-height: 16px;
         text-overflow: ellipsis;
+
+        .Badge {
+            font-family: "Open Sans", sans-serif;
+        }
     }
 
     .caret {
@@ -525,6 +530,8 @@
         .user-popover {
             overflow: hidden;
             max-width: calc(100% - 100px);
+            font-family: Metropolis, sans-serif;
+            font-size: 28px;
             font-weight: 600;
             text-overflow: ellipsis;
         }
@@ -543,7 +550,7 @@
 
     .channel-intro__title {
         margin-bottom: 15px;
-        font-size: 20px;
+        font-size: 28px;
         font-weight: 600;
     }
 
@@ -725,7 +732,7 @@
 
             position: relative;
             width: 100%;
-            padding: 2px 16px 0 0;
+            padding: 2px 36px 0 0;
             color: $white;
 
             .sidebar-header-dropdown__icon {
@@ -753,7 +760,7 @@
         .user__name {
             display: block;
             overflow: hidden;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             text-decoration: none;
             text-overflow: ellipsis;
@@ -762,6 +769,7 @@
 
         .team__name {
             margin: 0;
+            font-family: Metropolis, sans-serif;
             line-height: 22px;
         }
 
