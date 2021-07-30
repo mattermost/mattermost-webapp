@@ -19,6 +19,13 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     let testChannel;
 
     before(() => {
+        // # Update Configs
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelOrganization: true,
+            },
+        });
+
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
             testTeam = team;

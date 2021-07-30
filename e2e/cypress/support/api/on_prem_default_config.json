@@ -72,6 +72,7 @@
         "EnableTutorial": true,
         "ExperimentalEnableDefaultChannelLeaveJoinMessages": true,
         "ExperimentalGroupUnreadChannels": "disabled",
+        "ExperimentalChannelOrganization": false,
         "EnableAPITeamDeletion": true,
         "ExperimentalEnableHardenedMode": false,
         "ExperimentalStrictCSRFEnforcement": false,
