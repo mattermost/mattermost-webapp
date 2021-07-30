@@ -151,6 +151,12 @@
     top: 0;
     right: 0;
 
+
+    &.tip-overlay--chat {
+        left: 0;
+        right: unset;
+    }
+
     &.tip-overlay--header {
         top: 21px;
         right: 2px;

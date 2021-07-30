@@ -1218,7 +1218,7 @@ class CreatePost extends React.PureComponent {
                 <p>
                     <FormattedMarkdownMessage
                         id='create_post.tutorialTip1'
-                        defaultMessage='Type here to write a message and press **Enter** to post it.'
+                        defaultMessage='Type your first message and select **Enter** to send it. Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages.'
                     />
                 </p>
                 <p>

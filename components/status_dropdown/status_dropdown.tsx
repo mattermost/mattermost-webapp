@@ -242,7 +242,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             );
 
         const pulsatingDot = !isStatusSet && this.props.showCustomStatusPulsatingDot && (
-            <PulsatingDot />
+            <PulsatingDot/>
         );
 
         const expiryTime = isStatusSet && customStatus?.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR &&
