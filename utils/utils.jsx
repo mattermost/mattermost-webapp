@@ -18,7 +18,7 @@ import {
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
-import {Posts} from 'mattermost-redux/constants';
+import {Posts, Preferences} from 'mattermost-redux/constants';
 import {
     getChannel,
     getChannelsNameMapInTeam,
@@ -949,7 +949,7 @@ export function applyTheme(theme) {
 }
 
 export function resetTheme() {
-    applyTheme(Constants.THEMES.sapphire);
+    applyTheme(Preferences.THEMES.sapphire);
 }
 
 export function changeCss(className, classValue) {
