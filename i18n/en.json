@@ -3943,7 +3943,7 @@
   "remove_next_steps_modal.confirm": "Remove",
   "remove_next_steps_modal.header": "Remove {title}?",
   "remove_next_steps_modal.helpText": "Access {title} any time through the Main Menu",
-  "remove_next_steps_modal.mainText": "This will remove this section from your sidebar, but you can access it later in the Tips and Next steps section of the Main Menu.",
+  "remove_next_steps_modal.mainText": "This will remove this section from your sidebar, but you can access it later in the {title} section of the Main Menu.",
   "removed_channel.channelName": "the channel",
   "removed_channel.from": "Removed from ",
   "removed_channel.okay": "Okay",
