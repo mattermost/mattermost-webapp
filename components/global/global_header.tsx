@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import ThemeProvider, {lightTheme} from '@mattermost/compass-components/utilities/theme';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import Flex from '@mattermost/compass-components/utilities/layout';
 
@@ -33,6 +33,18 @@ const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
+
+    useEffect(() => {
+        const root = document.querySelector('#root');
+        if (enabled) {
+            root?.classList.add('feature-global-header');
+        } else {
+            root?.classList.remove('feature-global-header');
+        }
+        return () => {
+            root?.classList.remove('feature-global-header');
+        };
+    }, [enabled]);
 
     if (!enabled) {
         return null;

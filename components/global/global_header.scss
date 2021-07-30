@@ -1,0 +1,11 @@
+@charset 'UTF-8';
+
+// apply styling overrides to legacy layout when global header is enabled
+.feature-global-header {
+    .team-sidebar {
+        height: calc(100% - 40px);
+    }
+    #SidebarContainer {
+        height: calc(100% - 40px);
+    }
+}
