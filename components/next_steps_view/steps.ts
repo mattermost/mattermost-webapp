@@ -193,9 +193,10 @@ export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
-    (stepPreferences, currentUser, firstAdmin) => {
+    (state: GlobalState) => getSteps(state),
+    (stepPreferences, currentUser, firstAdmin, mySteps) => {
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
-        return !Steps.every(checkPref);
+        return !mySteps.every(checkPref);
     },
 );
