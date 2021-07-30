@@ -569,8 +569,8 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                         style={{position: 'absolute'}}
                     >
                         {channelList}
-                        <InviteMembersButton buttonType={InviteMembersBtnLocations.STICKY}/>
                     </Scrollbars>
+                    <InviteMembersButton buttonType={InviteMembersBtnLocations.STICKY}/>
                 </div>
             </>
         );
