@@ -656,6 +656,8 @@
         margin-left: 15px;
         color: rgba(var(--sidebar-text-rgb), 0.72);
         list-style: none;
+        line-height: 20px;
+        display: flex;
 
         i {
             font-size: 20px;
@@ -663,6 +665,8 @@
 
         span {
             margin-left: 5px;
+            margin-top: -2px;
+            align-self: flex-end;
         }
 
         &:hover {
@@ -680,8 +684,9 @@
         display: flex;
         width: 100%;
         justify-content: space-evenly;
-        padding: 10px 16px;
+        padding: 16px;
         background-color: var(--sidebar-bg);
+        z-index: 2;
 
         button {
             min-width: 100%;

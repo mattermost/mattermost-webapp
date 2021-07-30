@@ -25,6 +25,7 @@ type Props = {
 
 const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null => {
     const intl = useIntl();
+
     const inviteMembersButtonLocation = getInviteMembersButtonLocation(store.getState());
 
     const tooltip = (
