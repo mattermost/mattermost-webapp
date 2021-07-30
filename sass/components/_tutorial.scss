@@ -151,10 +151,9 @@
     top: 0;
     right: 0;
 
-
     &.tip-overlay--chat {
-        left: 0;
         right: unset;
+        left: 0;
     }
 
     &.tip-overlay--header {
