@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CollapsedThreads} from '../constants/config';
+import {CollapsedThreads, InviteMembersBtnLocations} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
@@ -26,6 +26,7 @@ export type ClientConfig = {
     BuildNumber: string;
     CloseUnusedDirectMessages: string;
     CollapsedThreads: CollapsedThreads;
+    InviteMembersBtnLocations: InviteMembersBtnLocations;
     CustomBrandText: string;
     CustomDescriptionText: string;
     CustomTermsOfServiceId: string;
