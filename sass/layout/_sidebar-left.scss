@@ -653,20 +653,20 @@
     }
 
     .SidebarChannelNavigator_inviteMembersLhsButton {
+        display: flex;
         margin-left: 15px;
         color: rgba(var(--sidebar-text-rgb), 0.72);
-        list-style: none;
         line-height: 20px;
-        display: flex;
+        list-style: none;
 
         i {
             font-size: 20px;
         }
 
         span {
-            margin-left: 5px;
-            margin-top: -2px;
             align-self: flex-end;
+            margin-top: -2px;
+            margin-left: 5px;
         }
 
         &:hover {
@@ -680,13 +680,13 @@
 
     .SidebarChannelNavigator_inviteUsersSticky {
         position: absolute;
+        z-index: 2;
         bottom: 0;
         display: flex;
         width: 100%;
         justify-content: space-evenly;
         padding: 16px;
         background-color: var(--sidebar-bg);
-        z-index: 2;
 
         button {
             min-width: 100%;
