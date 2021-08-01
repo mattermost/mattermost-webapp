@@ -290,7 +290,7 @@
   "admin.billing.subscription.mostRecentPaymentFailed": "Din senaste betalning misslyckades",
   "admin.billing.subscription.nextBillingDate": "Med start den {date} kommer du faktureras baserat på antalet användare",
   "admin.billing.subscription.otherBillingOption": "Behöver du andra betalsätt?",
-  "admin.billing.subscription.payamentBegins": "Betalperioden startar: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "Betalperioden startar: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Betalningen misslyckades. Försök igen eller kontakta support.",
   "admin.billing.subscription.paymentVerificationFailed": "Ledsen men din betalning misslyckades",
   "admin.billing.subscription.perUserPerMonth": " /användare/månad",

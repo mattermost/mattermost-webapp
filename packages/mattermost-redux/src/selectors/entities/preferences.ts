@@ -284,3 +284,7 @@ export function isTimedDNDEnabled(state: GlobalState): boolean {
         getFeatureFlagValue(state, 'TimedDND') === 'true'
     );
 }
+
+export function getInviteMembersButtonLocation(state: GlobalState): string | undefined {
+    return getFeatureFlagValue(state, 'InviteMembersButton');
+}

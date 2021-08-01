@@ -263,6 +263,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
   >
     <Component />
   </Connect(Droppable)>
+  <InviteMembersButton
+    buttonType="lhs_button"
+  />
 </div>
 `;
 
@@ -372,6 +375,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
   >
     <Component />
   </Connect(Droppable)>
+  <InviteMembersButton
+    buttonType="lhs_button"
+  />
 </div>
 `;
 
