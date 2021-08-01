@@ -75,13 +75,13 @@ describe('MM-T3156 DM category', () => {
         cy.findByText('Sort').trigger('mouseover');
         cy.findByText('Alphabetically').click();
 
-        cy.get('.autoSortedCategory').should('be.visible').within(() => {
-            cy.findByLabelText('DIRECT MESSAGES').should('be.visible');
-            cy.get('.NavGroupContent').children().each(($el, index) => {
-                // * Verify that the usernames are in alphabetical order
-                cy.wrap($el).findByText(usernames[index]).should('be.visible');
+        cy.findByLabelText('DIRECT MESSAGES').should('be.visible').
+            parents('.SidebarChannelGroup').within(() => {
+                cy.get('.NavGroupContent').children().each(($el, index) => {
+                    // * Verify that the usernames are in alphabetical order
+                    cy.wrap($el).findByText(usernames[index]).should('be.visible');
+                });
             });
-        });
     });
 
     it('MM-T3156_4 should not be able to rearrange DMs', () => {
