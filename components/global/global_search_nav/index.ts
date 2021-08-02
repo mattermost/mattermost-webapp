@@ -13,7 +13,6 @@ import {
 } from 'actions/views/modals';
 
 import {
-    showFlaggedPosts,
     showMentions,
     openRHSSearch,
     closeRightHandSide,
@@ -38,7 +37,6 @@ function mapStateToProps(state: GlobalState): Omit<Props, 'actions'> {
 
 const mapDispatchToProps = (dispatch: Dispatch<GenericAction>): Pick<Props, 'actions'> => ({
     actions: bindActionCreators({
-        showFlaggedPosts,
         showMentions,
         openRHSSearch,
         closeRightHandSide,

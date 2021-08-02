@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 
 import Search from 'components/search';
@@ -14,14 +14,11 @@ import {
 
 import * as Utils from 'utils/utils';
 
-const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
-
 type Props = {
     rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
     rhsOpen: boolean;
     isQuickSwitcherOpen?: boolean;
     actions: {
-        showFlaggedPosts: () => void;
         showMentions: () => void;
         openRHSSearch: () => void;
         closeRightHandSide: () => void;
@@ -30,49 +27,15 @@ type Props = {
     };
 };
 
-type State = {
-    showSearchBar: boolean;
-};
+const GlobalSearchNav = (props: Props): JSX.Element => {
+    const {rhsState, rhsOpen, actions: {closeRightHandSide, showMentions}} = props;
 
-class GlobalSearchNav extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
+    useEffect(() => {
+        document.addEventListener('keydown', handleShortcut);
+        document.addEventListener('keydown', handleQuickSwitchKeyPress);
+    }, []);
 
-        this.state = {showSearchBar: GlobalSearchNav.getShowSearchBar(props)};
-    }
-
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleShortcut);
-        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
-        window.addEventListener('resize', this.handleResize);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleShortcut);
-        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
-        window.removeEventListener('resize', this.handleResize);
-    }
-
-    static getDerivedStateFromProps(nextProps: Props) {
-        return {showSearchBar: GlobalSearchNav.getShowSearchBar(nextProps)};
-    }
-
-    static getShowSearchBar(props: Props) {
-        return !Utils.isMobile() && (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE || props.rhsOpen);
-    }
-
-    handleResize = () => {
-        this.setState({showSearchBar: GlobalSearchNav.getShowSearchBar(this.props)});
-    };
-
-    mentionButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        this.searchMentions();
-    }
-
-    searchMentions = () => {
-        const {rhsState, actions: {closeRightHandSide, showMentions}} = this.props;
-
+    const searchMentions = () => {
         if (rhsState === RHSStates.MENTION) {
             closeRightHandSide();
         } else {
@@ -80,29 +43,14 @@ class GlobalSearchNav extends React.PureComponent<Props, State> {
         }
     };
 
-    getFlagged = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        if (this.props.rhsState === RHSStates.FLAG) {
-            this.props.actions.closeRightHandSide();
-        } else {
-            this.props.actions.showFlaggedPosts();
-        }
-    };
-
-    searchButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-
-        this.props.actions.openRHSSearch();
-    };
-
-    handleShortcut = (e: KeyboardEvent) => {
-        const {actions: {closeModal}} = this.props;
+    const handleShortcut = (e: KeyboardEvent) => {
+        const {actions: {closeModal}} = props;
 
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
                 e.preventDefault();
                 closeModal(ModalIdentifiers.QUICK_SWITCH);
-                this.searchMentions();
+                searchMentions();
             }
             if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
                 // just close the modal if it's open, but let someone else handle the shortcut
@@ -111,17 +59,8 @@ class GlobalSearchNav extends React.PureComponent<Props, State> {
         }
     };
 
-    handleQuickSwitchKeyPress = (e: KeyboardEvent) => {
-        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-            if (!e.altKey) {
-                e.preventDefault();
-                this.toggleQuickSwitchModal();
-            }
-        }
-    }
-
-    toggleQuickSwitchModal = () => {
-        const {isQuickSwitcherOpen, actions: {openModal, closeModal}} = this.props;
+    const toggleQuickSwitchModal = () => {
+        const {isQuickSwitcherOpen, actions: {openModal, closeModal}} = props;
 
         if (isQuickSwitcherOpen) {
             closeModal(ModalIdentifiers.QUICK_SWITCH);
@@ -131,29 +70,31 @@ class GlobalSearchNav extends React.PureComponent<Props, State> {
                 dialogType: QuickSwitchModal,
             });
         }
-    }
+    };
 
-    render() {
-        const {
-            rhsOpen,
-            rhsState,
-        } = this.props;
+    const handleQuickSwitchKeyPress = (e: KeyboardEvent) => {
+        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
+            if (!e.altKey) {
+                e.preventDefault();
+                toggleQuickSwitchModal();
+            }
+        }
+    };
 
-        return (
-            <Flex
-                row={true}
-                width={450}
-                flex={1}
-                alignment='center'
-            >
-                <Search
-                    isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
-                    hideSearchBar={!this.state.showSearchBar}
-                    enableFindShortcut={true}
-                />
-            </Flex>
-        );
-    }
+    return (
+        <Flex
+            row={true}
+            width={450}
+            flex={1}
+            alignment='center'
+        >
+            <Search
+                isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
+                enableFindShortcut={true}
+            />
+        </Flex>
+    );
+
 }
 
 export default GlobalSearchNav;
