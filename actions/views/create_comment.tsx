@@ -89,7 +89,6 @@ export function submitPost(channelId: string, rootId: string, draft: PostDraft) 
             message: draft.message,
             channel_id: channelId,
             root_id: rootId,
-            parent_id: rootId,
             pending_post_id: `${userId}:${time}`,
             user_id: userId,
             create_at: time,
@@ -129,7 +128,6 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
             channel_id: channelId,
             team_id: teamId,
             root_id: rootId,
-            parent_id: rootId,
         };
 
         let {message} = draft;
