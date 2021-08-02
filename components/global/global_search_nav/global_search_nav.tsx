@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import ThemeProvider, {lightTheme} from '@mattermost/compass-components/utilities/theme';
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
+
 import Search from 'components/search';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {
@@ -14,17 +14,7 @@ import {
 
 import * as Utils from 'utils/utils';
 
-import UserGuideDropdown from '../user_guide_dropdown';
-
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
-
-const theme = {
-    ...lightTheme,
-    background: {
-        ...lightTheme.background,
-        shape: 'var(--sidebar-teambar-bg)',
-    },
-};
 
 type Props = {
     rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
@@ -150,16 +140,18 @@ class GlobalSearchNav extends React.PureComponent<Props, State> {
         } = this.props;
 
         return (
-            <ThemeProvider theme={theme}>
-                <Flex row width={450} flex={1} alignment='center'>
+            <Flex
+                row={true}
+                width={450}
+                flex={1}
+                alignment='center'
+            >
                 <Search
                     isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
                     hideSearchBar={!this.state.showSearchBar}
                     enableFindShortcut={true}
                 />
-                <UserGuideDropdown/>
-                </Flex>
-            </ThemeProvider>
+            </Flex>
         );
     }
 }

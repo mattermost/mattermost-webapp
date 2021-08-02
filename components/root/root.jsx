@@ -6,6 +6,8 @@ import React from 'react';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
+import ThemeProvider, {lightTheme} from '@mattermost/compass-components/utilities/theme';
+
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
 import {setUrl} from 'mattermost-redux/actions/general';
@@ -280,6 +282,12 @@ export default class Root extends React.PureComponent {
             return <div/>;
         }
 
+        const theme = {
+            ...lightTheme,
+            noStyleReset: true,
+            noDefaultStyle: true,
+        };
+
         return (
             <IntlProvider>
                 <Switch>
@@ -359,7 +367,7 @@ export default class Root extends React.PureComponent {
                         from={'/_redirect/pl/:postid'}
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
-                    <>
+                    <ThemeProvider theme={theme}>
                         <GlobalHeader/>
                         <Switch>
                             {this.props.products?.map((product) => (
@@ -398,7 +406,7 @@ export default class Root extends React.PureComponent {
                                 }}
                             />
                         </Switch>
-                    </>
+                    </ThemeProvider>
                 </Switch>
             </IntlProvider>
         );
