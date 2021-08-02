@@ -5,10 +5,13 @@ import React from 'react';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
-import {RHSStates} from 'utils/constants';
+import Constants, {RHSStates} from 'utils/constants';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 type Props = {
     rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
+    isRhsOpen?: boolean;
     actions: {
         showMentions: () => void;
         closeRightHandSide: () => void;
@@ -16,7 +19,7 @@ type Props = {
 };
 
 const AtMentionsButton = (props: Props): JSX.Element => {
-    const {rhsState, actions: {closeRightHandSide, showMentions}} = props;
+    const {rhsState, isRhsOpen, actions: {closeRightHandSide, showMentions}} = props;
 
     const mentionButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -27,18 +30,32 @@ const AtMentionsButton = (props: Props): JSX.Element => {
         }
     };
 
-    return (
+    const tooltip = (
+        <Tooltip id='recentMentions'>
+            <FormattedMessage
+                id='channel_header.recentMentions'
+                defaultMessage='Recent mentions'
+            />
+        </Tooltip>
+    );
 
-        // tool tip needed
-        <IconButton
-            size={'sm'}
-            icon={'at'}
-            toggled={rhsState === RHSStates.MENTION}
-            onClick={mentionButtonClick}
-            inverted={true}
-            compact={true}
-            aria-label='Select to toggle a list of recent mentions.' // proper wording and translation needed
-        />
+    return (
+        <OverlayTrigger
+            trigger={['hover']}
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='bottom'
+            overlay={isRhsOpen ? <></> : tooltip}
+        >
+            <IconButton
+                size={'sm'}
+                icon={'at'}
+                toggled={rhsState === RHSStates.MENTION}
+                onClick={mentionButtonClick}
+                inverted={true}
+                compact={true}
+                aria-label='Select to toggle a list of recent mentions.' // proper wording and translation needed
+            />
+        </OverlayTrigger>
     );
 };
 

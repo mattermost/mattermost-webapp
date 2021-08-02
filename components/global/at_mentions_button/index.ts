@@ -11,7 +11,7 @@ import {
     showMentions,
     closeRightHandSide,
 } from 'actions/views/rhs';
-import {getRhsState} from 'selectors/rhs';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store/index';
 
 import AtMentionsButton from './at_mentions_button';
@@ -21,6 +21,7 @@ type Props = ComponentProps<typeof AtMentionsButton>;
 function mapStateToProps(state: GlobalState): Omit<Props, 'actions'> {
     return {
         rhsState: getRhsState(state),
+        isRhsOpen: getIsRhsOpen(state),
     };
 }
 

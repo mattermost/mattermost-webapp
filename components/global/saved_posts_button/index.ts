@@ -12,7 +12,7 @@ import {
     closeRightHandSide,
 } from 'actions/views/rhs';
 
-import {getRhsState} from 'selectors/rhs';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store/index';
 
 import SavedPostsButton from './saved_posts_button';
@@ -22,6 +22,7 @@ type Props = ComponentProps<typeof SavedPostsButton>;
 function mapStateToProps(state: GlobalState): Omit<Props, 'actions'> {
     return {
         rhsState: getRhsState(state),
+        isRhsOpen: getIsRhsOpen(state),
     };
 }
 
