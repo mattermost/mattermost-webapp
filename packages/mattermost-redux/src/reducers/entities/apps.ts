@@ -30,8 +30,10 @@ function mainForms(state: AppCommandFormMap = {}, action: GenericAction): AppCom
         return {};
     case AppsTypes.RECEIVED_APP_FORM: {
         const {form, location} = action.data;
-        const newState = JSON.parse(JSON.stringify(state));
-        newState[location] = form;
+        const newState = {
+            ...state,
+            [location]: form,
+        };
         return newState;
     }
     default:
@@ -63,8 +65,10 @@ function rhsForms(state: AppCommandFormMap = {}, action: GenericAction): AppComm
         return {};
     case AppsTypes.RECEIVED_APP_RHS_FORM: {
         const {form, location} = action.data;
-        const newState = JSON.parse(JSON.stringify(state));
-        newState[location] = form;
+        const newState = {
+            ...state,
+            [location]: form,
+        };
         return newState;
     }
     default:

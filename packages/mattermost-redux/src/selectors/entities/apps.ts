@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {AppBinding, AppCommandFormMap} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {ClientConfig} from 'mattermost-redux/types/config';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -53,20 +53,10 @@ export const makeRHSAppBindingSelector = (location: string) => {
     );
 };
 
-export const getAppCommandForm = createSelector(
-    'getAppCommandForm',
-    (state: GlobalState) => state.entities.apps.main.forms,
-    (state: GlobalState, location: string) => location,
-    (formMap: AppCommandFormMap, location: string) => {
-        return formMap[location];
-    },
-);
+export const getAppCommandForm = (state: GlobalState, location: string) => {
+    return state.entities.apps.main.forms[location];
+};
 
-export const getAppRHSCommandForm = createSelector(
-    'getAppCommandForm',
-    (state: GlobalState) => state.entities.apps.rhs.forms,
-    (state: GlobalState, location: string) => location,
-    (formMap: AppCommandFormMap, location: string) => {
-        return formMap[location];
-    },
-);
+export const getAppRHSCommandForm = (state: GlobalState, location: string) => {
+    return state.entities.apps.rhs.forms[location];
+};

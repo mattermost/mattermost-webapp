@@ -4,8 +4,6 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {useRouteMatch} from 'react-router-dom';
-
 import {
     ChannelTypes,
     EmojiTypes,
@@ -1417,7 +1415,7 @@ function handleRefreshAppsBindings() {
         doDispatch(fetchAppBindings(getCurrentChannelId(state)));
 
         const rhsPost = getSelectedPost(state);
-        const {params: {threadIdentifier}} = useRouteMatch();
+        const threadIdentifier = new URL(window.location.href).searchParams.get('threadIdentifier');
         let selectedThread;
         if (threadIdentifier) {
             selectedThread = getThread(state, threadIdentifier);
