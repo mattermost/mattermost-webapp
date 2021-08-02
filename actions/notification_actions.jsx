@@ -14,6 +14,8 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
+import {isThreadOpen} from 'selectors/views/threads';
+
 import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
@@ -168,7 +170,15 @@ export function sendDesktopNotification(post, msgProps) {
         // the window itself is not active
         const activeChannel = getCurrentChannel(state);
         const channelId = channel ? channel.id : null;
-        const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
+
+        let notify = false;
+        if (isCrtReply) {
+            notify = !isThreadOpen(state, post.root_id);
+        } else {
+            notify = activeChannel && activeChannel.id !== channelId;
+        }
+        notify = notify || !state.views.browser.focused;
+
         const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
 
         if (notify) {

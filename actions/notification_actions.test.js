@@ -220,6 +220,7 @@ describe('notification_actions', () => {
                         currentTeamId: 'team_id',
                     },
                     channels: {
+                        currentChannelId: 'channel_id',
                         channels: {
                             channel_id: {
                                 id: 'channel_id',
@@ -228,6 +229,10 @@ describe('notification_actions', () => {
                             },
                             muted_channel_id: {
                                 id: 'muted_channel_id',
+                                team_id: 'team_id',
+                            },
+                            another_channel_id: {
+                                id: 'another_channel_id',
                                 team_id: 'team_id',
                             },
                         },
@@ -264,6 +269,14 @@ describe('notification_actions', () => {
                     browser: {
                         focused: false,
                     },
+                    threads: {
+                        selectedThreadIdInTeam: {
+                            team_id: 'another_root_id',
+                        },
+                    },
+                    rhs: {
+                        isSidebarOpen: true,
+                    },
                 },
             };
         });
@@ -280,6 +293,25 @@ describe('notification_actions', () => {
                         title: 'Utopia',
                     }),
                 );
+            });
+        });
+
+        test('should not notify user when tab and channel are active', async () => {
+            const store = testConfigureStore(baseState);
+            baseState.views.browser.focused = true;
+
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(spy).not.toHaveBeenCalled();
+            });
+        });
+
+        test('should notify user when tab is active but the channel is not', async () => {
+            const store = testConfigureStore(baseState);
+            baseState.views.browser.focused = true;
+            baseState.entities.channels.currentChannelId = 'another_channel_id';
+
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(spy).toHaveBeenCalled();
             });
         });
 
@@ -425,6 +457,20 @@ describe('notification_actions', () => {
                 nock(Client4.getBaseRoute()).
                     get((uri) => uri.includes('/users/current_user_id/teams/team_id/threads/root_id?extended=false')).
                     reply(500, thread);
+
+                const store = testConfigureStore(baseState);
+                return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                    expect(spy).not.toHaveBeenCalled();
+                });
+            });
+
+            test('should not notify user on crt reply when the tab is active and the thread is open', () => {
+                nock(Client4.getBaseRoute()).
+                    get((uri) => uri.includes('/users/current_user_id/teams/team_id/threads/root_id?extended=false')).
+                    reply(200, thread);
+
+                baseState.views.threads.selectedThreadIdInTeam.team_id = 'root_id';
+                baseState.views.browser.focused = true;
 
                 const store = testConfigureStore(baseState);
                 return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
