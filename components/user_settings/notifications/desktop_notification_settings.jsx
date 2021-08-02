@@ -201,7 +201,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                                 />
                                 <FormattedMessage
                                     id='user.settings.notifications.threads.allActivity'
-                                    defaultMessage={'Notify my about threads I\'m following'}
+                                    defaultMessage={'Notify me about threads I\'m following'}
                                 />
                             </label>
                             <br/>

@@ -31,6 +31,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
         saving: false,
         focused: false,
         selectedSound: 'Bing',
+        isCollapsedThreadsEnabled: false,
     };
 
     test('should match snapshot, on max setting', () => {

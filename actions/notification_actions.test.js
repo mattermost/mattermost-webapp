@@ -13,10 +13,6 @@ import * as utils from 'utils/notifications';
 
 import {getNotifyLevel, sendDesktopNotification} from './notification_actions';
 
-// jest.mock('utils/notifications', () => ({
-//     showNotification: jest.fn(() => Promise.resolve(() => ({type: 'notification'}))),
-// }));
-
 describe('notification_actions', () => {
     describe('getNotifyLevel', () => {
         test.each([
