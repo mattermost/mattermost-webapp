@@ -5,7 +5,7 @@ import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
-import { UserProfile } from 'mattermost-redux/types/users';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import * as GlobalActions from 'actions/global_actions';
 import AboutBuildModal from 'components/about_build_modal';
@@ -35,7 +35,7 @@ type Props = {
     enablePluginMarketplace: boolean;
     pluginMenuItems: any;
     intl: IntlShape;
-    firstAdminVisitMarketplaceStatus: boolean,
+    firstAdminVisitMarketplaceStatus: boolean;
 };
 
 class ProductSwitcherMenu extends React.PureComponent<Props> {
@@ -67,7 +67,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
                 <Menu.Group>
-                <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
+                    <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                         <Menu.ItemLink
                             id='systemConsole'
                             show={!this.props.isMobile}
@@ -94,20 +94,20 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
                             showUnread={!this.props.firstAdminVisitMarketplaceStatus}
                         />
-                      <Menu.ItemExternalLink
-                        id='nativeAppLink'
-                        show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                        url={useSafeUrl(this.props.appDownloadLink)}
-                        text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
-                        icon={this.props.isMobile && <i className='fa fa-mobile'/>}
-                    />
-                    <Menu.ItemToggleModalRedux
-                        id='about'
-                        modalId={ModalIdentifiers.ABOUT}
-                        dialogType={AboutBuildModal}
-                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName})}
-                        icon={this.props.isMobile && <i className='fa fa-info'/>}
-                    />
+                        <Menu.ItemExternalLink
+                            id='nativeAppLink'
+                            show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
+                            url={useSafeUrl(this.props.appDownloadLink)}
+                            text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
+                            icon={this.props.isMobile && <i className='fa fa-mobile'/>}
+                        />
+                        <Menu.ItemToggleModalRedux
+                            id='about'
+                            modalId={ModalIdentifiers.ABOUT}
+                            dialogType={AboutBuildModal}
+                            text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName})}
+                            icon={this.props.isMobile && <i className='fa fa-info'/>}
+                        />
                     </TeamPermissionGate>
                 </Menu.Group>
             </Menu>

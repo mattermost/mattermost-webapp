@@ -8,8 +8,8 @@ import {Tooltip} from 'react-bootstrap';
 import Text from '@mattermost/compass-components/components/text';
 
 import classNames from 'classnames';
-import * as GlobalActions from 'actions/global_actions';
 
+import * as GlobalActions from 'actions/global_actions';
 import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -377,7 +377,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             />
                         </Menu.Header>
                     )}
-                     <Menu.Header>
+                    <Menu.Header>
                         <div className='status-wrapper status-selector'>
                             {profilePicture}
                             <Text>{this.props.currentUser.first_name + this.props.currentUser.last_name}</Text>

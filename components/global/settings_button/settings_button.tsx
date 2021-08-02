@@ -7,6 +7,7 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 
 const SettingsButton = (): JSX.Element | null => {
     return (
+
         // tool tip needed
         <IconButton
             size={'sm'}

@@ -4,7 +4,6 @@
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
-import classNames from 'classnames';
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';

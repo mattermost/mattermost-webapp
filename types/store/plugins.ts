@@ -3,11 +3,12 @@
 
 import React from 'react';
 
+import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
+
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
 import {FileInfo} from 'mattermost-redux//types/files';
 import {PostEmbed} from 'mattermost-redux/types/posts';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
-import { TIconGlyph } from '@mattermost/compass-components/foundations/icon';
 
 export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;

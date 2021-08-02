@@ -12,7 +12,7 @@ import {
     closeRightHandSide,
 } from 'actions/views/rhs';
 
-import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store/index';
 
 import SavedPostsButton from './saved_posts_button';

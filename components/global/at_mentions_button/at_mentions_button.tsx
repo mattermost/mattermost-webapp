@@ -28,6 +28,7 @@ const AtMentionsButton = (props: Props): JSX.Element => {
     };
 
     return (
+
         // tool tip needed
         <IconButton
             size={'sm'}

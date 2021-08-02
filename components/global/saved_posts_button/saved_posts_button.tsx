@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useSelector} from 'react-redux';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
-import {getRhsState} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
 type Props = {
@@ -30,6 +28,7 @@ const SavedPostsButton = (props: Props): JSX.Element | null => {
     };
 
     return (
+
         // tool tip needed
         <IconButton
             size={'sm'}
