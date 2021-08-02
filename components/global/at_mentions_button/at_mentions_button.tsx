@@ -2,15 +2,30 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useSelector} from 'react-redux';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
-import {getRhsState} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
-const AtMentionsButton = (): JSX.Element | null => {
-    const rhsState = useSelector(getRhsState);
+type Props = {
+    rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
+    actions: {
+        showMentions: () => void;
+        closeRightHandSide: () => void;
+    };
+};
+
+const AtMentionsButton = (props: Props): JSX.Element => {
+    const {rhsState, actions: {closeRightHandSide, showMentions}} = props;
+
+    const mentionButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if (rhsState === RHSStates.MENTION) {
+            closeRightHandSide();
+        } else {
+            showMentions();
+        }
+    };
 
     return (
         // tool tip needed
@@ -18,7 +33,7 @@ const AtMentionsButton = (): JSX.Element | null => {
             size={'sm'}
             icon={'at'}
             toggled={rhsState === RHSStates.MENTION}
-            onClick={(): void => {}} // currently needed to keep button from being disabled
+            onClick={mentionButtonClick}
             inverted={true}
             compact={true}
             aria-label='Select to toggle a list of recent mentions.' // proper wording and translation needed

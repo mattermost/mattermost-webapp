@@ -9,8 +9,25 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 import {getRhsState} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
-const SavedPostsButton = (): JSX.Element | null => {
-    const rhsState = useSelector(getRhsState);
+type Props = {
+    rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
+    actions: {
+        showFlaggedPosts: () => void;
+        closeRightHandSide: () => void;
+    };
+};
+
+const SavedPostsButton = (props: Props): JSX.Element | null => {
+    const {rhsState, actions: {closeRightHandSide, showFlaggedPosts}} = props;
+
+    const savedPostsButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if (rhsState === RHSStates.FLAG) {
+            closeRightHandSide();
+        } else {
+            showFlaggedPosts();
+        }
+    };
 
     return (
         // tool tip needed
@@ -18,7 +35,7 @@ const SavedPostsButton = (): JSX.Element | null => {
             size={'sm'}
             icon={'bookmark-outline'}
             toggled={rhsState === RHSStates.FLAG}
-            onClick={(): void => {}} // currently needed to keep button from being disabled
+            onClick={savedPostsButtonClick}
             inverted={true}
             compact={true}
             aria-label='Select to toggle a list of saved posts.' // proper wording and translation needed
