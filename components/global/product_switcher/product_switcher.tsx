@@ -1,17 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import IconButton from '@mattermost/compass-components/components/icon-button';
-import Text from '@mattermost/compass-components/components/text';
-import Flex from '@mattermost/compass-components/utilities/layout';
-import { TIconGlyph } from '@mattermost/compass-components/foundations/icon';
 import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
-import ProductSwitcherMenu from './product_switcher_menu';
+import IconButton from '@mattermost/compass-components/components/icon-button';
+import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
+import Heading from '@mattermost/compass-components/components/Heading';
+
+import {useClickOutsideRef, useCurrentProductId, useProducts} from '../hooks';
+import ProductSwitcherMenu from '../product_switcher_menu';
 
 interface SwitcherMenuProps {
     open: boolean;
@@ -23,6 +23,24 @@ interface SwitcherNavEntryProps {
     text: React.ReactNode;
     active: boolean;
 }
+
+const ProductSwitcherContainer = styled.nav`
+    display: flex;
+    align-items: center;
+
+    > * + * {
+        margin-left: 12px;
+    }
+`;
+
+const ProductBranding = styled.div`
+    display: flex;
+    align-items: center;
+
+    > * + * {
+        margin-left: 6px;
+    }
+`;
 
 const SwitcherMenu = styled.div<SwitcherMenuProps>`
     visibility: ${(props) => (props.open ? 'visible' : 'hidden')};
@@ -92,7 +110,7 @@ const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
             to={props.destination}
         >
 
-            <IconButton icon={props.icon} />
+            <IconButton icon={props.icon}/>
             <MenuItemTextContainer>
                 {props.text}
             </MenuItemTextContainer>
@@ -129,19 +147,29 @@ const ProductSwitcher = (): JSX.Element => {
     });
 
     return (
-        <div ref={menuRef}>
-            <Flex row>
-                <IconButton
-                    icon={'view-grid-outline'}
-                    onClick={handleClick}
-                    size={'sm'}
-                    toggled={switcherOpen}
-                    inverted={true}
+        <ProductSwitcherContainer ref={menuRef}>
+            <IconButton
+                icon={'products'}
+                onClick={handleClick}
+                size={'sm'}
+                compact={true}
+                toggled={switcherOpen}
+                inverted={true}
+                aria-label='Select to open product switch menu.'
+            />
+            <ProductBranding>
+                <Icon
+                    size={20}
+                    glyph={'product-channels'}
                 />
-
-                <IconButton size={'md'} icon={'mattermost'} />
-                <Text>{'Channels'}</Text>
-            </Flex>
+                <Heading
+                    element='h1'
+                    size={200}
+                    margin='none'
+                >
+                    {'Channels'}
+                </Heading>
+            </ProductBranding>
             <SwitcherMenu
                 open={switcherOpen}
             >
@@ -160,7 +188,7 @@ const ProductSwitcher = (): JSX.Element => {
                 {productItems}
                 <ProductSwitcherMenu id='ProductSwitcherMenu'/>
             </SwitcherMenu>
-        </div>
+        </ProductSwitcherContainer>
     );
 };
 

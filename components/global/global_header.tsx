@@ -1,32 +1,77 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import ThemeProvider, {lightTheme} from '@mattermost/compass-components/utilities/theme';
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import Flex from '@mattermost/compass-components/utilities/layout';
 
 import styled from 'styled-components';
 
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
-import GlobalSearchNav from './global_search_nav';
-import GlobalIconsWrapper from './global_icons_wrapper';
-import StatusDropdown from 'components/status_dropdown';
-
 import Pluggable from 'plugins/pluggable';
 
+import StatusDropdown from 'components/status_dropdown';
+
+import GlobalSearchNav from './global_search_nav';
 import ProductSwitcher from './product_switcher';
+import HistoryButtons from './history_buttons';
+import UserGuideDropdown from './user_guide_dropdown';
+import AtMentionsButton from './at_mentions_button/';
+import SavedPostsButton from './saved_posts_button/';
+import SettingsButton from './settings_button//';
+
 import {useCurrentProductId, useProducts} from './hooks';
 
-const HeaderContainer = styled.div`
+import './global_header.scss';
+
+const GlobalHeaderContainer = styled.header`
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-shrink: 0;
     align-items: center;
     justify-content: space-between;
     height: 40px;
-    background: var(--sidebar-teambar-bg);
-    color: var(--sidebar-text);
+    background: var(--global-header-background);
+    border-bottom: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
+    color: rgba(var(--global-header-text-rgb), 0.64);
+    padding: 0 16px 0 12px;
+
+    > * + * {
+        margin-left: 12px;
+    }
+`;
+
+const LeftControls = styled.div`
+    display: flex;
+    align-items: center;
+    height: 40px;
+    flex-shrink: 0;
+
+    > * + * {
+        margin-left: 12px;
+    }
+`;
+
+const CenterControls = styled.div`
+    display: flex;
+    align-items: center;
+    height: 40px;
+    justify-content: center;
+    flex-grow: 1;
+
+    > * + * {
+        margin-left: 8px;
+    }
+`;
+
+const RightControls = styled.div`
+    display: flex;
+    align-items: center;
+    height: 40px;
+    flex-shrink: 0;
+
+    > * + * {
+        margin-left: 8px;
+    }
 `;
 
 const GlobalHeader = (): JSX.Element | null => {
@@ -50,39 +95,38 @@ const GlobalHeader = (): JSX.Element | null => {
         return null;
     }
 
-    // temporary, theming will be connected to the webapp in a separate pr
-    const theme = {
-        ...lightTheme,
-        noStyleReset: true,
-        noFontFaces: true,
-        noDefaultStyle: true,
-        background: {
-            ...lightTheme.background,
-            shape: 'var(--sidebar-teambar-bg)',
-        },
-    };
-
     return (
-        <ThemeProvider theme={theme}>
-            <HeaderContainer>
+        <GlobalHeaderContainer>
+            <LeftControls>
                 <ProductSwitcher/>
-                    {/* {currentProductID !== null &&
-                        <Pluggable
-                            pluggableName={'Product'}
-                            subComponentName={'headerComponent'}
-                            pluggableId={currentProductID}
-                        />
-                    } */}
-                {currentProductID === null &&
-                <GlobalSearchNav/>}
-                <Flex row alignment="center">
-                    <GlobalIconsWrapper/>
-                    <StatusDropdown
-                        globalHeader={true}
+                <HistoryButtons/>
+            </LeftControls>
+            <CenterControls>
+                { currentProductID !== null &&
+                    <Pluggable
+                        pluggableName={'Product'}
+                        subComponentName={'headerComponent'}
+                        pluggableId={currentProductID}
                     />
-                </Flex>
-            </HeaderContainer>
-        </ThemeProvider>
+                }
+                { currentProductID === null &&
+                    <>
+                        <GlobalSearchNav/>
+                        <UserGuideDropdown/>
+                    </>
+                }
+            </CenterControls>
+            <RightControls>
+                { currentProductID === null &&
+                    <>
+                        <AtMentionsButton/>
+                        <SavedPostsButton/>
+                        <SettingsButton/>
+                    </>
+                }
+                <StatusDropdown globalHeader={true}/>
+            </RightControls>
+        </GlobalHeaderContainer>
     );
 };
 
