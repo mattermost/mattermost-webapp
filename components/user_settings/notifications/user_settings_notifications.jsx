@@ -23,6 +23,7 @@ function getNotificationsStateFromProps(props) {
     const user = props.user;
 
     let desktop = NotificationLevels.MENTION;
+    let desktopThreads = NotificationLevels.ALL;
     let sound = 'true';
     let desktopNotificationSound = 'Bing';
     let comments = 'never';
@@ -38,6 +39,9 @@ function getNotificationsStateFromProps(props) {
     if (user.notify_props) {
         if (user.notify_props.desktop) {
             desktop = user.notify_props.desktop;
+        }
+        if (user.notify_props.desktop_threads) {
+            desktopThreads = user.notify_props.desktop_threads;
         }
         if (user.notify_props.desktop_sound) {
             sound = user.notify_props.desktop_sound;
@@ -100,6 +104,7 @@ function getNotificationsStateFromProps(props) {
 
     return {
         desktopActivity: desktop,
+        desktopThreads,
         enableEmail,
         pushActivity,
         pushStatus,
@@ -156,6 +161,7 @@ export default class NotificationsTab extends React.PureComponent {
             data.desktop_notification_sound = this.state.desktopNotificationSound;
         }
         data.desktop = this.state.desktopActivity;
+        data.desktop_threads = this.state.desktopThreads;
         data.push = this.state.pushActivity;
         data.push_status = this.state.pushStatus;
         data.comments = this.state.notifyCommentsLevel;
@@ -930,6 +936,7 @@ export default class NotificationsTab extends React.PureComponent {
                     <div className='divider-dark first'/>
                     <DesktopNotificationSettings
                         activity={this.state.desktopActivity}
+                        threads={this.state.desktopThreads}
                         sound={this.state.desktopSound}
                         updateSection={this.handleUpdateSection}
                         setParentState={this.setStateValue}
@@ -939,6 +946,7 @@ export default class NotificationsTab extends React.PureComponent {
                         error={this.state.serverError}
                         active={this.props.activeSection === 'desktop'}
                         selectedSound={this.state.desktopNotificationSound}
+                        isCollapsedThreadsEnabled={this.props.isCollapsedThreadsEnabled}
                     />
                     <div className='divider-light'/>
                     <EmailNotificationSetting

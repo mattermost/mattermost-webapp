@@ -5,9 +5,10 @@ import semver from 'semver';
 
 import {logError} from 'mattermost-redux/actions/errors';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
+import {getThread} from 'mattermost-redux/actions/threads';
 import {getCurrentChannel, getMyChannelMember, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeammateNameDisplaySetting, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
@@ -22,10 +23,30 @@ import {stripMarkdown} from 'utils/markdown';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
 
+export function getNotifyLevel(isCrtReply, userSettings, channelSettings) {
+    let notifyLevel = userSettings?.desktop;
+
+    if (isCrtReply) {
+        if ([NotificationLevels.NONE, NotificationLevels.ALL].includes(notifyLevel)) {
+            return notifyLevel;
+        }
+
+        return userSettings?.desktop_threads || NotificationLevels.ALL;
+    }
+    notifyLevel = channelSettings?.desktop || NotificationLevels.DEFAULT;
+
+    if (notifyLevel === NotificationLevels.DEFAULT) {
+        notifyLevel = userSettings?.desktop || NotificationLevels.ALL;
+    }
+
+    return notifyLevel;
+}
+
 export function sendDesktopNotification(post, msgProps) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
+        const isCrtReply = isCollapsedThreadsEnabled(state) && post.root_id !== '';
 
         if ((currentUserId === post.user_id && post.props.from_webhook !== 'true')) {
             return;
@@ -58,10 +79,16 @@ export function sendDesktopNotification(post, msgProps) {
             return;
         }
 
-        let notifyLevel = member && member.notify_props ? member.notify_props.desktop : NotificationLevels.DEFAULT;
-        if (notifyLevel === NotificationLevels.DEFAULT) {
-            notifyLevel = user && user.notify_props ? user.notify_props.desktop : NotificationLevels.ALL;
+        // if collapsedThreads is enabled and the post received is a Reply
+        // and the thread is not a UserThread (AKA followed thread) do not notify
+        if (isCrtReply) {
+            const thread = await dispatch(getThread(user.id, channel.team_id, post.root_id, false));
+            if (thread.error) {
+                return;
+            }
         }
+
+        const notifyLevel = getNotifyLevel(isCrtReply, user?.notify_props, member?.notify_props);
 
         if (notifyLevel === NotificationLevels.NONE) {
             return;
