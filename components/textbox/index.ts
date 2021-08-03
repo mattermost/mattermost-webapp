@@ -54,7 +54,7 @@ const makeMapStateToProps = () => {
             currentTeamId: teamId,
             profilesInChannel: profilesWithLastViewAtInChannel,
             autocompleteGroups,
-            priorityProfiles: getProfilesForThread(state, {rootId: ownProps.rootId ?? ''}),
+            priorityProfiles: getProfilesForThread(state, ownProps.rootId ?? ''),
         };
     };
 };

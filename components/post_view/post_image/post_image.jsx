@@ -6,7 +6,7 @@ import React from 'react';
 
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
-import ViewImageModal from 'components/view_image';
+import FilePreviewModal from 'components/file_preview_modal';
 
 export default class PostImage extends React.PureComponent {
     static propTypes = {
@@ -49,7 +49,7 @@ export default class PostImage extends React.PureComponent {
                                 showLoader={true}
                                 onClick={this.showModal}
                             />
-                            <ViewImageModal
+                            <FilePreviewModal
                                 show={this.state.showModal}
                                 onModalDismissed={this.hideModal}
                                 post={this.props.post}
