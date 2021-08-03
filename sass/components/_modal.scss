@@ -518,7 +518,7 @@
 
             img {
                 max-width: 100%;
-                max-height: 91vh;
+                max-height: calc(100vh - 72px - 96px);
             }
 
             .spinner {

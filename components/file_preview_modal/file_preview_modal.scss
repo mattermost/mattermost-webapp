@@ -1,0 +1,42 @@
+@import 'compass/utilities';
+@import 'compass/css3';
+@import 'sass/utils/variables';
+@import 'sass/utils/functions';
+
+.file-preview-modal {
+    padding-left: 0 !important;
+    &__body {
+        height: 100vh;
+        padding: 0;
+    }
+
+    &__main-ctr {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+    }
+
+    &__content {
+        display: flex;
+        height: calc(100% - 72px);
+        align-items: center;
+        justify-content: center;
+        padding: 48px;
+        background: rgba(0, 0, 0, 0.9);
+
+        .pdf {
+            width: max-content;
+            height: 91.5vh;
+            margin: 0 auto;
+        }
+
+        @media screen and (max-width: 768px) {
+            height: calc(100% - 72px - 72px);
+        }
+    }
+
+    &__scrollable {
+        overflow: auto;
+    }
+}

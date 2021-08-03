@@ -1,0 +1,6 @@
+.image_preview {
+    &__image {
+        max-height: calc(100vh - 72px - 96px);
+        border-radius: 8px;
+    }
+}

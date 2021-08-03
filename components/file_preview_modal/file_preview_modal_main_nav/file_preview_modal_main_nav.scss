@@ -1,0 +1,21 @@
+.file_preview_modal_main_nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__next {
+        display: flex;
+        align-items: center;
+        border: unset;
+        margin-left: 12px;
+        background: transparent;
+    }
+
+    &__prev {
+        display: flex;
+        align-items: center;
+        border: unset;
+        margin-right: 12px;
+        background: transparent;
+    }
+}

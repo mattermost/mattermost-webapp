@@ -3040,6 +3040,7 @@
   "file_attachment.thumbnail": "file thumbnail",
   "file_info_preview.size": "Size ",
   "file_info_preview.type": "File type ",
+  "file_preview_modal_main_nav.file": "{count, number} of {total, number}",
   "file_search_result_item.copy_link": "Copy link",
   "file_search_result_item.download": "Download",
   "file_search_result_item.more_actions": "More Actions",
