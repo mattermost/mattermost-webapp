@@ -15,19 +15,25 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
         </h4>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Channels organize conversations across different topics. **Public channels** are open to everyone on your team."
+            defaultMessage="Channels organize conversations across different topics."
+            id="sidebar.tutorialChannelTypes.channels"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Public channels** are open to everyone on your team."
             id="sidebar.tutorialChannelTypes.public"
           />
         </p>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Private channels** are for sensitive conversations between selected members."
+            defaultMessage="**Private channels** are for sensitive conversations between invited members."
             id="sidebar.tutorialChannelTypes.private"
           />
         </p>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Direct messages** are for private conversations between a small group of up to seven people."
+            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
             id="sidebar.tutorialChannelTypes.direct"
           />
         </p>
@@ -53,19 +59,25 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
         </h4>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Channels organize conversations across different topics. **Public channels** are open to everyone on your team."
+            defaultMessage="Channels organize conversations across different topics."
+            id="sidebar.tutorialChannelTypes.channels"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Public channels** are open to everyone on your team."
             id="sidebar.tutorialChannelTypes.public"
           />
         </p>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Private channels** are for sensitive conversations between selected members."
+            defaultMessage="**Private channels** are for sensitive conversations between invited members."
             id="sidebar.tutorialChannelTypes.private"
           />
         </p>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Direct messages** are for private conversations between a small group of up to seven people."
+            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
             id="sidebar.tutorialChannelTypes.direct"
           />
         </p>
@@ -91,19 +103,25 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
         </h4>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Channels organize conversations across different topics. **Public channels** are open to everyone on your team."
+            defaultMessage="Channels organize conversations across different topics."
+            id="sidebar.tutorialChannelTypes.channels"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Public channels** are open to everyone on your team."
             id="sidebar.tutorialChannelTypes.public"
           />
         </p>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Private channels** are for sensitive conversations between selected members."
+            defaultMessage="**Private channels** are for sensitive conversations between invited members."
             id="sidebar.tutorialChannelTypes.private"
           />
         </p>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Direct messages** are for private conversations between a small group of up to seven people."
+            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
             id="sidebar.tutorialChannelTypes.direct"
           />
         </p>
@@ -129,19 +147,25 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
         </h4>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Channels organize conversations across different topics. **Public channels** are open to everyone on your team."
+            defaultMessage="Channels organize conversations across different topics."
+            id="sidebar.tutorialChannelTypes.channels"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Public channels** are open to everyone on your team."
             id="sidebar.tutorialChannelTypes.public"
           />
         </p>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Private channels** are for sensitive conversations between selected members."
+            defaultMessage="**Private channels** are for sensitive conversations between invited members."
             id="sidebar.tutorialChannelTypes.private"
           />
         </p>
         <p>
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="**Direct messages** are for private conversations between a small group of up to seven people."
+            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
             id="sidebar.tutorialChannelTypes.direct"
           />
         </p>

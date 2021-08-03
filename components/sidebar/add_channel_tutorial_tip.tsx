@@ -45,11 +45,7 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
                 <p>
                     <FormattedMarkdownMessage
                         id='sidebar.tutorialAddChannel.preAdds'
-                        defaultMessage={'We’ve added you to two channels: **{townsquare}** and **{offtopic}**.'}
-                        values={{
-                            townsquare: townSquareDisplayName,
-                            offtopic: offTopicDisplayName,
-                        }}
+                        defaultMessage={'We’ve added you to two channels:'}
                     />
                 </p>
                 <p>

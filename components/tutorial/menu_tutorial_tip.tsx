@@ -26,7 +26,7 @@ const MenuTutorialTip = ({toggleFunc, onBottom}: Props) => {
             <p>
                 <FormattedMarkdownMessage
                     id='sidebar_header.tutorial.body1'
-                    defaultMessage='Use this menu to **Invite People** to your team and access **Team Settings** if you’re a System Admin.'
+                    defaultMessage='Use this menu to **Invite People** to your team and access **Team Settings** if you’re an Admin.'
                 />
             </p>
         </div>,

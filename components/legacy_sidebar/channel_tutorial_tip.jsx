@@ -35,20 +35,26 @@ export default class ChannelTutorialTip extends React.PureComponent {
                 </h4>
                 <p>
                     <FormattedMarkdownMessage
+                        id='sidebar.tutorialChannelTypes.channels'
+                        defaultMessage={'Channels organize conversations across different topics.'}
+                    />
+                </p>
+                <p>
+                    <FormattedMarkdownMessage
                         id='sidebar.tutorialChannelTypes.public'
-                        defaultMessage={'Channels organize conversations across different topics. **Public channels** are open to everyone on your team.'}
+                        defaultMessage={'**Public channels** are open to everyone on your team.'}
                     />
                 </p>
                 <p>
                     <FormattedMarkdownMessage
                         id='sidebar.tutorialChannelTypes.private'
-                        defaultMessage={'**Private channels** are for sensitive conversations between selected members.'}
+                        defaultMessage={'**Private channels** are for sensitive conversations between invited members.'}
                     />
                 </p>
                 <p>
                     <FormattedMarkdownMessage
                         id='sidebar.tutorialChannelTypes.direct'
-                        defaultMessage={'**Direct messages** are for private conversations between a small group of up to seven people.'}
+                        defaultMessage={'**Direct messages** are for private conversations between individuals or small groups.'}
                     />
                 </p>
             </div>,

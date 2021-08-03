@@ -1218,13 +1218,13 @@ class CreatePost extends React.PureComponent {
                 <p>
                     <FormattedMarkdownMessage
                         id='create_post.tutorialTip1'
-                        defaultMessage='Type your first message and select **Enter** to send it. Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages.'
+                        defaultMessage='Type your first message and select **Enter** to send it.'
                     />
                 </p>
                 <p>
                     <FormattedMarkdownMessage
                         id='create_post.tutorialTip2'
-                        defaultMessage='Click the **Attachment** button to upload an image or a file.'
+                        defaultMessage='Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages.'
                     />
                 </p>
             </div>,
