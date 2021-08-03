@@ -46,7 +46,7 @@ function makeMapStateToProps() {
         let lastViewedAt;
         let userThread: UserThread | null = null;
         if (selected) {
-            posts = getPostsForThread(state, {rootId: selected.id});
+            posts = getPostsForThread(state, selected.id);
             userThread = getThread(state, selected.id);
             lastViewedAt = getThreadLastViewedAt(state, selected.id);
         }
