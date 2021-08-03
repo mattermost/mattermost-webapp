@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 
 import Search from 'components/search';
@@ -94,7 +94,6 @@ const GlobalSearchNav = (props: Props): JSX.Element => {
             />
         </Flex>
     );
-
-}
+};
 
 export default GlobalSearchNav;

@@ -2,26 +2,31 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 
 const SettingsButton = (): JSX.Element | null => {
     const tooltip = (
         <Tooltip id='recentMentions'>
-            "Message settings"
+            <FormattedMessage
+                id='channel_header.flagged'
+                defaultMessage='Saved posts'
+            />
         </Tooltip>
     );
 
     return (
-
         <OverlayTrigger
             trigger={['hover']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='bottom'
             overlay={tooltip}
-        >          
+        >
             <IconButton
                 size={'sm'}
                 icon={'settings-outline'}
