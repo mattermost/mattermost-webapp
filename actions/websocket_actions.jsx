@@ -1414,8 +1414,16 @@ function handleRefreshAppsBindings() {
 
         doDispatch(fetchAppBindings(getCurrentChannelId(state)));
 
+        const siteURL = state.entities.general.config.SiteURL;
+        const currentURL = window.location.href;
+        let threadIdentifier;
+        if (currentURL.startsWith(siteURL)) {
+            const parts = currentURL.substr(siteURL.length + (siteURL.endsWith('/') ? 0 : 1)).split('/');
+            if (parts.length === 3 && parts[1] === 'threads') {
+                threadIdentifier = parts[2];
+            }
+        }
         const rhsPost = getSelectedPost(state);
-        const threadIdentifier = new URL(window.location.href).searchParams.get('threadIdentifier');
         let selectedThread;
         if (threadIdentifier) {
             selectedThread = getThread(state, threadIdentifier);

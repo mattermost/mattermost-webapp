@@ -17,6 +17,10 @@ import {bindClientFunc} from './helpers';
 
 export function fetchAppBindings(channelID: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        if (!channelID) {
+            return {data: true};
+        }
+
         const state = getState();
         const channel = getChannel(state, channelID);
         const userID = getCurrentUserId(state);
