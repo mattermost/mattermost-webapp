@@ -1212,7 +1212,7 @@ class CreatePost extends React.PureComponent {
                 <h4>
                     <FormattedMessage
                         id='create_post.tutorialTip.title'
-                        defaultMessage='Sending Messages'
+                        defaultMessage='Send a message'
                     />
                 </h4>
                 <p>

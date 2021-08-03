@@ -87,6 +87,15 @@
         }
     }
 
+    &.tip-overlay--add-channels {
+        .arrow {
+            top: 84px;
+            left: -10px;
+            border-right-color: $white;
+            border-left-width: 0;
+        }
+    }
+
     h4 {
         margin: 5px 0 15px;
         font-size: em(16px);
@@ -168,8 +177,15 @@
     &.tip-overlay--sidebar {
         @include opacity(0.8);
 
-        top: 8px;
+        top: 10px;
         right: 21px;
+    }
+
+    &.tip-overlay--add-channels {
+        top: -6px;
+        right: -6px;
+        padding: 0 0 24px 24px;
+        cursor: pointer;
     }
 }
 

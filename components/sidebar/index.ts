@@ -12,7 +12,6 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
-
 import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
@@ -34,7 +33,6 @@ function mapStateToProps(state: GlobalState) {
         canCreatePrivateChannel = haveICurrentChannelPermission(state, Permissions.CREATE_PRIVATE_CHANNEL);
         canJoinPublicChannel = haveICurrentChannelPermission(state, Permissions.JOIN_PUBLIC_CHANNELS);
     }
-
     return {
         teamId: currentTeam ? currentTeam.id : '',
         canCreatePrivateChannel,

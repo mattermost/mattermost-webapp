@@ -9,7 +9,7 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
       <div>
         <h4>
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Channels"
+            defaultMessage="Organize conversations in channels"
             id="sidebar.tutorialChannelTypes.title"
           />
         </h4>
@@ -47,7 +47,7 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
       <div>
         <h4>
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Channels"
+            defaultMessage="Organize conversations in channels"
             id="sidebar.tutorialChannelTypes.title"
           />
         </h4>
@@ -85,7 +85,7 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
       <div>
         <h4>
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Channels"
+            defaultMessage="Organize conversations in channels"
             id="sidebar.tutorialChannelTypes.title"
           />
         </h4>
@@ -123,7 +123,7 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
       <div>
         <h4>
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Channels"
+            defaultMessage="Organize conversations in channels"
             id="sidebar.tutorialChannelTypes.title"
           />
         </h4>

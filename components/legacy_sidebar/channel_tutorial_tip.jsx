@@ -30,7 +30,7 @@ export default class ChannelTutorialTip extends React.PureComponent {
                 <h4>
                     <FormattedMessage
                         id='sidebar.tutorialChannelTypes.title'
-                        defaultMessage='Channels'
+                        defaultMessage='Organize conversations in channels'
                     />
                 </h4>
                 <p>

@@ -24,6 +24,9 @@ type Props = {
     unreadFilterEnabled: boolean;
     canCreateChannel: boolean;
     showUnreadsCategory: boolean;
+    townSquareDisplayName: string;
+    offTopicDisplayName: string;
+    showTutorialTip: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
         goBack: () => void;
@@ -85,6 +88,9 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 canJoinPublicChannel={this.props.canJoinPublicChannel}
                 handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
                 unreadFilterEnabled={this.props.unreadFilterEnabled}
+                townSquareDisplayName={this.props.townSquareDisplayName}
+                offTopicDisplayName={this.props.offTopicDisplayName}
+                showTutorialTip={this.props.showTutorialTip}
             />
         );
 

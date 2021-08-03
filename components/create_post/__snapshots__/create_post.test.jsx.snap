@@ -111,7 +111,7 @@ exports[`components/create_post Show tutorial 1`] = `
             <div>
               <h4>
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Sending Messages"
+                  defaultMessage="Send a message"
                   id="create_post.tutorialTip.title"
                 />
               </h4>
