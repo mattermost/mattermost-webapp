@@ -10,9 +10,13 @@ exports[`components/VersionBar should match snapshot - bar rendered after server
         defaultMessage="A new version of Mattermost is available."
         id="version_bar.new"
       />
-       
       <a
         onClick={[Function]}
+        style={
+          Object {
+            "marginLeft": ".5rem",
+          }
+        }
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Refresh the app now"

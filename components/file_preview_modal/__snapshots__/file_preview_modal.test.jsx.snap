@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ViewImageModal should fall back to default preview if plugin does not need to override preview component 1`] = `
+exports[`components/FilePreviewModal should fall back to default preview if plugin does not need to override preview component 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -84,7 +84,7 @@ exports[`components/ViewImageModal should fall back to default preview if plugin
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot for external file 1`] = `
+exports[`components/FilePreviewModal should match snapshot for external file 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -168,7 +168,7 @@ exports[`components/ViewImageModal should match snapshot for external file 1`] =
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot on onModalShown and onModalHidden 1`] = `
+exports[`components/FilePreviewModal should match snapshot on onModalShown and onModalHidden 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -276,7 +276,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot on onModalShown and onModalHidden 2`] = `
+exports[`components/FilePreviewModal should match snapshot on onModalShown and onModalHidden 2`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -384,7 +384,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot when plugin overrides the preview component 1`] = `
+exports[`components/FilePreviewModal should match snapshot when plugin overrides the preview component 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -473,7 +473,7 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -561,7 +561,7 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded and showing footer 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded and showing footer 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -649,7 +649,7 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded with .js file 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded with .js file 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -737,7 +737,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded with .m4a file 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -825,7 +825,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded with .mov file 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded with .mov file 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -913,7 +913,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded with footer 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded with footer 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -1021,7 +1021,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded with image 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded with image 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -1109,7 +1109,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded with left and right arrows 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded with left and right arrows 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -1217,7 +1217,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded with left and right arrows 2`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded with left and right arrows 2`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -1325,7 +1325,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded with left and right arrows 3`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded with left and right arrows 3`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -1433,7 +1433,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loaded with other file 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loaded with other file 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -1521,7 +1521,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, loading 1`] = `
+exports[`components/FilePreviewModal should match snapshot, loading 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"
@@ -1605,7 +1605,7 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
 </Modal>
 `;
 
-exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = `
+exports[`components/FilePreviewModal should match snapshot, modal not shown 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewImageModalLabel"

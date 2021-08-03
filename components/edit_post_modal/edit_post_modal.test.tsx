@@ -37,7 +37,6 @@ const defaultPost: Post = {
     user_id: '1',
     channel_id: '5',
     root_id: '123',
-    parent_id: '123',
     original_id: '123',
     message: 'test',
     type: 'system_add_remove',

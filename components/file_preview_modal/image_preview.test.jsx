@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ImagePreview from 'components/view_image/image_preview';
+import ImagePreview from 'components/file_preview_modal/image_preview';
 
 describe('components/view_image/ImagePreview', () => {
     const baseProps = {
