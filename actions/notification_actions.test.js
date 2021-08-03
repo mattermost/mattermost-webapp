@@ -226,7 +226,7 @@ describe('notification_actions', () => {
                                 name: 'team',
                             },
                         },
-                        myMembers: {}
+                        myMembers: {},
                     },
                     channels: {
                         currentChannelId: 'channel_id',
@@ -294,6 +294,7 @@ describe('notification_actions', () => {
         test('should notify user', async () => {
             const store = testConfigureStore(baseState);
             const pushSpy = jest.spyOn(browserHistory, 'push');
+            const focus = window.focus;
             window.focus = jest.fn();
 
             return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
@@ -309,6 +310,7 @@ describe('notification_actions', () => {
 
                 expect(pushSpy).toHaveBeenCalledWith('/team/channels/utopia');
                 expect(window.focus).toHaveBeenCalled();
+                window.focus = focus;
             });
         });
 
@@ -496,6 +498,7 @@ describe('notification_actions', () => {
 
             test('should notify user on crt reply with crt on thread is followed', () => {
                 const pushSpy = jest.spyOn(browserHistory, 'push');
+                const focus = window.focus;
                 window.focus = jest.fn();
 
                 nock(Client4.getBaseRoute()).
@@ -504,7 +507,6 @@ describe('notification_actions', () => {
 
                 const store = testConfigureStore(baseState);
                 return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
-                    expect(spy).toHaveBeenCalled();
                     expect(spy).toHaveBeenCalledWith({
                         body: '@username: Where is Jessica Hyde?',
                         requireInteraction: false,
@@ -517,6 +519,7 @@ describe('notification_actions', () => {
 
                     expect(pushSpy).toHaveBeenCalledWith('/team/pl/post_id');
                     expect(window.focus).toHaveBeenCalled();
+                    window.focus = focus;
                 });
             });
 
