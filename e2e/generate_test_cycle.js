@@ -4,10 +4,11 @@
 /* eslint-disable no-await-in-loop, no-console */
 
 /*
- * This command, which is normally used in CI, runs Cypress test in full or partial
- * depending on test metadata and environment capabilities.
+ * This command, which is normally used in CI, generates test cycle in full or partial
+ * depending on test metadata and environment capabilities into the Test Automation Dashboard.
+ * Such generated test cycle is then used to run each spec file by "node run_test_cycle.js".
  *
- * Usage: [ENVIRONMENT] node run_tests.js [options]
+ * Usage: [ENVIRONMENT] node generate_test_cycle.js [options]
  *
  * Options:
  *   --stage=[stage]
@@ -34,20 +35,23 @@
  *   CI_BASE_URL                : Test server base URL in CI
  *
  * Example:
- * 1. "node run_tests.js"
- *      - will run all the specs on default test environment, except those matching skipped metadata
- * 2. "node run_tests.js --stage='@prod'"
- *      - will run all production tests, except those matching skipped metadata
- * 3. "node run_tests.js --stage='@prod' --invert"
- *      - will run all non-production tests
- * 4. "BROWSER='chrome' HEADLESS='false' node run_tests.js --stage='@prod' --group='@channel,@messaging'"
- *      - will run spec files matching stage and group values in Chrome (headed)
- * 5. "node run_tests.js --stage='@prod' --exclude-group='@enterprise'"
- *      - will run all production tests except @enterprise group
+ * 1. "node generate_test_cycle.js"
+ *      - will create test cycle based on default test environment, except those matching skipped metadata
+ * 2. "node generate_test_cycle.js --stage='@prod'"
+ *      - will create test cycle for production tests, except those matching skipped metadata
+ * 3. "node generate_test_cycle.js --stage='@prod' --invert"
+ *      - will create test cycle for all non-production tests
+ * 4. "BROWSER='chrome' HEADLESS='false' node generate_test_cycle.js --stage='@prod' --group='@channel,@messaging'"
+ *      - will create test cycle for spec files matching stage and group values in Chrome (headed)
+ * 5. "node generate_test_cycle.js --stage='@prod' --exclude-group='@enterprise'"
+ *      - will create test cycle for all production tests except @enterprise group
  *      - typical test run for Team Edition
+ * 6. "node generate_test_cycle.js --stage='@prod' --sort-first='@elasticsearch' --sort-last='@mfa'"
+ *      - will create test cycle for all production tests with specs specifically ordered as first and last
  */
 
 const os = require('os');
+
 const chalk = require('chalk');
 
 const {createAndStartCycle} = require('./utils/dashboard');

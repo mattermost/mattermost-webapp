@@ -52,7 +52,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -69,7 +69,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -154,7 +154,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
             regenerateHelpText="This is help text for the regenerate button."
             regenerateText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Regenerate"
                 id="admin.regenerate"
               />
@@ -197,7 +197,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -269,7 +269,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -367,7 +367,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -384,7 +384,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -469,7 +469,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
             regenerateHelpText="This is help text for the regenerate button."
             regenerateText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Regenerate"
                 id="admin.regenerate"
               />
@@ -512,7 +512,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />

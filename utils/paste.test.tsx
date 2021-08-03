@@ -20,7 +20,7 @@ describe('Paste.getTable', () => {
             types: ['text/plain'],
         };
 
-        expect(getTable(badClipboardData)).toBe(false);
+        expect(getTable(badClipboardData)).toBe(null);
     });
 
     test('returns false without table in the clipboard', () => {
@@ -30,7 +30,7 @@ describe('Paste.getTable', () => {
             getData: () => '<p>There is no table here</p>',
         };
 
-        expect(getTable(badClipboardData)).toBe(false);
+        expect(getTable(badClipboardData)).toBe(null);
     });
 
     test('returns table from valid clipboard data', () => {

@@ -26,7 +26,7 @@ import AppsFormSelectField from './apps_form_select_field';
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
 
-export type Props = {
+export interface Props {
     field: AppField;
     name: string;
     errorText?: React.ReactNode;
@@ -35,7 +35,7 @@ export type Props = {
     value: AppSelectOption | string | boolean | number | null;
     onChange: (name: string, value: any) => void;
     autoFocus?: boolean;
-    listComponent?: React.ComponentClass;
+    listComponent?: React.ComponentProps<typeof AutocompleteSelector>['listComponent'];
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
@@ -113,11 +113,11 @@ export default class AppsFormField extends React.PureComponent<Props> {
         }
 
         const helpText = field.description;
-        let helpTextContent: React.ReactNode = helpText;
+        let helpTextContent: React.ReactNode = <Markdown message={helpText}/>;
         if (errorText) {
             helpTextContent = (
                 <React.Fragment>
-                    {helpText}
+                    <Markdown message={helpText}/>
                     <div className='error-text mt-3'>
                         {errorText}
                     </div>

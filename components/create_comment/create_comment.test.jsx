@@ -510,7 +510,11 @@ describe('components/CreateComment', () => {
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
+        expect(onSubmit).toHaveBeenCalledWith({
+            message: '/fakecommand other text',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}],
+        }, {ignoreSlash: false});
         expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
 
         wrapper.instance().handleChange({
@@ -521,7 +525,11 @@ describe('components/CreateComment', () => {
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
+        expect(onSubmit).toHaveBeenCalledWith({
+            message: 'some valid text',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}],
+        }, {ignoreSlash: false});
     });
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
@@ -925,14 +933,22 @@ describe('components/CreateComment', () => {
 
             await wrapper.instance().handleSubmit({preventDefault});
 
-            expect(onSubmitWithError).toHaveBeenCalledWith({ignoreSlash: false});
+            expect(onSubmitWithError).toHaveBeenCalledWith({
+                message: '/fakecommand other text',
+                uploadsInProgress: [],
+                fileInfos: [{}, {}, {}],
+            }, {ignoreSlash: false});
             expect(preventDefault).toHaveBeenCalled();
             expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
 
             wrapper.setProps({onSubmit});
             await wrapper.instance().handleSubmit({preventDefault});
 
-            expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: true});
+            expect(onSubmit).toHaveBeenCalledWith({
+                message: '/fakecommand other text',
+                uploadsInProgress: [],
+                fileInfos: [{}, {}, {}],
+            }, {ignoreSlash: true});
             expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
         });
 

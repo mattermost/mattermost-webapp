@@ -47,7 +47,7 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
       <PreviousIcon
         additionalClassName={null}
       />
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Previous"
         id="generic.previous"
       />
@@ -55,7 +55,7 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
   }
   className="productNotices"
   confirmButtonText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Done"
       id="generic.done"
     />
@@ -123,7 +123,7 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
   className="productNotices"
   confirmButtonText={
     <React.Fragment>
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Next"
         id="generic.next"
       />
@@ -188,7 +188,7 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
       />
     </span>
     <AdminEyeIcon />
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Visible to Admins only"
       id="inProduct_notices.adminOnlyMessage"
     />

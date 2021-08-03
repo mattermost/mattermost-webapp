@@ -55,4 +55,6 @@ describe('Selectors.Integrations', () => {
         const autocompleteCommandsForTeam = [command3];
         assert.deepEqual(getAutocompleteCommandsList(testState), autocompleteCommandsForTeam);
     });
+
+    TestHelper.tearDown();
 });

@@ -141,7 +141,8 @@ function createPost({
 /* eslint-enable react/prop-types */
 
 describe('components/create_post', () => {
-    jest.useFakeTimers();
+    jest.useFakeTimers('legacy');
+
     beforeEach(() => {
         jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
     });
