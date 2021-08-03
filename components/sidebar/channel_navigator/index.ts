@@ -10,7 +10,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getInt, shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-
 import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, Preferences, TutorialSteps} from 'utils/constants';

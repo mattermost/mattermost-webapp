@@ -10,8 +10,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {Constants} from 'utils/constants';
 
 type Props = {
-    townSquareDisplayName?: string,
-    offTopicDisplayName?: string,
+    townSquareDisplayName?: string;
+    offTopicDisplayName?: string;
 }
 
 export default class ChannelTutorialTip extends React.PureComponent<Props> {
@@ -25,7 +25,6 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
         if (this.props.offTopicDisplayName) {
             offTopicDisplayName = this.props.offTopicDisplayName;
         }
-
 
         const screens = [];
 
@@ -84,5 +83,3 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
         );
     }
 }
-
-

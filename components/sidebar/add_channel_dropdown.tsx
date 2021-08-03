@@ -8,7 +8,8 @@ import {FormattedMessage, IntlShape, injectIntl} from 'react-intl';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
-import AddChannelTutorialTip from './add_channel_tutorial_tip'
+
+import AddChannelTutorialTip from './add_channel_tutorial_tip';
 
 type Props = {
     intl: IntlShape;
@@ -111,10 +112,12 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
 
         let tutorialTip = null;
         if (this.props.showTutorialTip) {
-            tutorialTip = <AddChannelTutorialTip
-                townSquareDisplayName={this.props.townSquareDisplayName}
-                offTopicDisplayName={this.props.offTopicDisplayName}
-            />
+            tutorialTip = (
+                <AddChannelTutorialTip
+                    townSquareDisplayName={this.props.townSquareDisplayName}
+                    offTopicDisplayName={this.props.offTopicDisplayName}
+                />
+            );
         }
 
         return (
