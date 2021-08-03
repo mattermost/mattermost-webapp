@@ -7,9 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding @cloud_only
+// Group: @onboarding
 
-describe('Cloud Onboarding - Sysadmin', () => {
+describe('Onboarding - Sysadmin', () => {
     let townSquarePage;
     let sysadmin;
 
@@ -37,6 +37,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
             'notification_setup',
             'team_setup',
             'invite_members',
+            'enter_support_email',
             'hide',
             'skip',
         ];
@@ -73,7 +74,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
             cy.get('.Card.complete .CompleteProfileStep').should('exist');
 
             // * Step counter should increment
-            cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 4 steps complete');
+            cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 5 steps complete');
         });
     });
 
@@ -131,7 +132,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.Card.complete .TeamProfileStep').should('exist');
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 4 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 5 steps complete');
     });
 
     it('MM-T3331_2 Sysadmin - Set team name and team icon - no name provided', () => {

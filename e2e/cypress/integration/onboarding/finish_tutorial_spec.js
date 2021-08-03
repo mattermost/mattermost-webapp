@@ -7,20 +7,17 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding
+// Group: @onboarding
 // Skip:  @electron @chrome @firefox
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
-import {generateRandomUser} from '../../../../support/api/user';
+import * as TIMEOUTS from '../../fixtures/timeouts';
+import {generateRandomUser} from '../../support/api/user';
 
 describe('Onboarding', () => {
     let testTeam;
     const {username, email, password} = generateRandomUser();
 
     before(() => {
-        // * Check if server has license for Cloud
-        cy.apiRequireLicenseForFeature('Cloud');
-
         // # Disable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
 
@@ -67,13 +64,10 @@ describe('Onboarding', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
-        // # Go through the initial tutorial
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
-        cy.get('#tutorialNextButton').should('be.visible').click();
-        cy.get('#tutorialIntroTwo').findByText('How Mattermost Works:').should('be.visible');
-        cy.get('#tutorialNextButton').should('be.visible').click();
-        cy.get('#tutorialIntroThree').findByText('You\'re all set').should('be.visible');
-        cy.get('#tutorialNextButton').should('be.visible').click();
+        // # Switch channels to temporarily hide onboarding flow
+        cy.reload(false);
+        cy.get('.SidebarLink:contains(Off-Topic)').should('be.visible').click();
+        cy.get('.SidebarLink:contains(Town Square)').should('be.visible').click();
 
         // # Click and complete the Message box tutorial (pulsating tooltip)
         cy.get('#tipButton').should('be.visible').click();
@@ -107,8 +101,5 @@ describe('Onboarding', () => {
         cy.get('.active', {timeout: TIMEOUTS.HALF_MIN}).within(() => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
-
-        // # Assert that the tutorials do not appear
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('not.exist');
     });
 });

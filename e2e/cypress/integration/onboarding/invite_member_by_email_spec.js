@@ -7,16 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding @cloud_only
+// Group: @onboarding
 
-describe('Cloud Onboarding - Sysadmin invite members by email', () => {
+describe('Onboarding - Sysadmin invite members by email', () => {
     let teamId;
     let townSquarePage;
     let sysadmin;
 
     before(() => {
-        cy.apiRequireLicenseForFeature('Cloud');
-
         cy.apiInitSetup().then(({team}) => {
             teamId = team.id;
             townSquarePage = `/${team.name}/channels/town-square`;
@@ -39,6 +37,7 @@ describe('Cloud Onboarding - Sysadmin invite members by email', () => {
             'notification_setup',
             'team_setup',
             'invite_members',
+            'enter_support_email',
             'hide',
             'skip',
         ];
