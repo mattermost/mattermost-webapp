@@ -46,7 +46,12 @@ describe('Notifications', () => {
             // # Remove mention notification (for initial channel).
             cy.apiLogin(user1);
             cy.visit(testTeam1TownSquareUrl);
+            cy.postMessage('hello');
             cy.get('#sidebar-left').get('.unread-title').click();
+
+            // * Wait for some time, then verify that the badge is removed before logging out.
+            cy.wait(TIMEOUTS.ONE_SEC);
+            cy.get('.badge').should('not.exist');
             cy.apiLogout();
         });
     });

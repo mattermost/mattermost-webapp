@@ -242,7 +242,7 @@ describe('Integrations', () => {
 
             // * Verify message on the main channel is from current user and properly formatted with lower opacity
             cy.get(`#post_${postId}`).should('have.class', 'current--user').within(() => {
-                cy.get('button').should('have.text', user1.username);
+                cy.findByLabelText(user1.username).should('exist');
                 cy.get('p').should('have.text', message).and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
             });
         });
