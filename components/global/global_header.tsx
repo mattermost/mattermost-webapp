@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
-import {lightTheme} from '@mattermost/compass-components/utilities/theme';
 import {useSelector} from 'react-redux';
 
 import styled from 'styled-components';
@@ -95,18 +94,6 @@ const GlobalHeader = (): JSX.Element | null => {
     if (!enabled) {
         return null;
     }
-
-    // temporary, theming will be connected to the webapp in a separate pr
-    const theme = {
-        ...lightTheme,
-        noStyleReset: true,
-        noFontFaces: true,
-        noDefaultStyle: true,
-        background: {
-            ...lightTheme.background,
-            shape: 'var(--sidebar-teambar-bg)',
-        },
-    };
 
     return (
         <GlobalHeaderContainer>

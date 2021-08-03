@@ -351,6 +351,10 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 })}
             >
                 <div className='status-wrapper status-selector'>
+                    <CustomStatusEmoji
+                        showTooltip={false}
+                        emojiStyle={{marginLeft: 0}}
+                    />
                     {profilePicture}
                     <button
                         className='status style--none'
@@ -377,13 +381,20 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             />
                         </Menu.Header>
                     )}
-                    <Menu.Header>
-                        <div className='status-wrapper status-selector'>
+                    {this.props.globalHeader && (
+                        <Menu.Header>
                             {profilePicture}
-                            <Text>{this.props.currentUser.first_name + this.props.currentUser.last_name}</Text>
-                            <Text color={'secondary'}>{'@' + this.props.currentUser.username}</Text>
-                        </div>
-                    </Menu.Header>
+                            <div className={'username-wrapper'}>
+                                <Text margin={'none'}>{`${this.props.currentUser.first_name} ${this.props.currentUser.last_name}`}</Text>
+                                <Text
+                                    margin={'none'}
+                                    color={'secondary'}
+                                >
+                                    {'@' + this.props.currentUser.username}
+                                </Text>
+                            </div>
+                        </Menu.Header>
+                    )}
                     <Menu.Group>
                         <Menu.ItemAction
                             show={this.isUserOutOfOffice()}
