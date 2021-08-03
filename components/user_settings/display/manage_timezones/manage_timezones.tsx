@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect, {ValueType} from 'react-select';
+import {Timezone} from 'timezones.json'
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -21,9 +22,8 @@ type Props = {
     useAutomaticTimezone: boolean;
     automaticTimezone: string;
     manualTimezone: string;
-    timezones: string[];
+    timezones: Timezone[];
     actions: Actions;
-
 }
 type SelectedOption = {
     value: string;
@@ -44,7 +44,6 @@ type State = {
 export default class ManageTimezones extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
-
         this.state = {
             useAutomaticTimezone: props.useAutomaticTimezone,
             automaticTimezone: props.automaticTimezone,
@@ -156,10 +155,10 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         this.setState({manualTimezone: e.target.value});
     };
     render() {
-        const timeOptions = this.props.timezones.map((timeString) => {
+        const timeOptions = this.props.timezones.map((timeObject) => {
             return {
-                value: timeString,
-                label: timeString,
+                value: timeObject.text,
+                label: timeObject.value,
             };
         },
         );
