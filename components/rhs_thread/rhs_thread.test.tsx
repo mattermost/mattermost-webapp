@@ -26,7 +26,6 @@ describe('components/RhsThread', () => {
         purpose: '',
         creator_id: '',
         scheme_id: '',
-        isCurrent: false,
         teammate_id: '',
         status: '',
     });

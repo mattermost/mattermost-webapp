@@ -35,10 +35,8 @@ export type Channel = {
     last_post_at: number;
     total_msg_count: number;
     total_msg_count_root: number;
-    extra_update_at: number;
     creator_id: string;
     scheme_id: string;
-    isCurrent?: boolean;
     teammate_id?: string;
     status?: string;
     group_constrained: boolean;
