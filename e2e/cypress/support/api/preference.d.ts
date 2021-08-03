@@ -58,7 +58,7 @@ declare namespace Cypress {
         apiSaveClockDisplayModeTo24HourPreference(is24Hour: boolean): Chainable<Response>;
 
         /**
-         * Save cloud onboarding preference.
+         * Save onboarding preference.
          * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
          * @param {string} userId - User ID
          * @param {string} name - options are complete_profile, team_setup, invite_members or hide
@@ -66,9 +66,9 @@ declare namespace Cypress {
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
-         *   cy.apiSaveCloudOnboardingPreference('user-id', 'hide', 'true');
+         *   cy.apiSaveOnboardingPreference('user-id', 'hide', 'true');
          */
-        apiSaveCloudOnboardingPreference(userId: string, name: string, value: string): Chainable<Response>;
+        apiSaveOnboardingPreference(userId: string, name: string, value: string): Chainable<Response>;
 
         /**
          * Save DM channel show preference.

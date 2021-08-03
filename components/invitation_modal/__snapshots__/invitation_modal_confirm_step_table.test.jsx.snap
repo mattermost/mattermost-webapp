@@ -10,7 +10,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepTable should matc
     <div
       className="people-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="People"
         id="invitation-modal.confirm.people-header"
       />
@@ -18,7 +18,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepTable should matc
     <div
       className="details-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Details"
         id="invitation-modal.confirm.details-header"
       />

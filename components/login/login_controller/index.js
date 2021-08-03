@@ -36,6 +36,8 @@ function mapStateToProps(state) {
     const enableSignUpWithOpenId = config.EnableSignUpWithOpenId === 'true';
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const samlLoginButtonText = config.SamlLoginButtonText;
+    const gitlabButtonText = config.GitLabButtonText;
+    const gitlabButtonColor = config.GitLabButtonColor;
     const openidButtonText = config.OpenIdButtonText;
     const openidButtonColor = config.OpenIdButtonColor;
 
@@ -75,6 +77,8 @@ function mapStateToProps(state) {
         experimentalPrimaryTeam,
         ldapLoginFieldName,
         samlLoginButtonText,
+        gitlabButtonText,
+        gitlabButtonColor,
         openidButtonText,
         openidButtonColor,
         siteName,

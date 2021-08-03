@@ -47,7 +47,7 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
         >
           channel_display_name
         </span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage=" Members"
           id="channel_members_modal.members"
         />
@@ -58,7 +58,7 @@ exports[`components/ChannelMembersModal should match snapshot 1`] = `
         id="showInviteModal"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage=" Add Members"
           id="channel_members_modal.addNew"
         />
@@ -143,7 +143,7 @@ exports[`components/ChannelMembersModal should match snapshot with archived chan
         >
           channel_display_name
         </span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage=" Members"
           id="channel_members_modal.members"
         />

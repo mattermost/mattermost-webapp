@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import React, {HTMLAttributes} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
@@ -109,7 +111,7 @@ type State = {
     userScrolledToBottom: boolean;
 }
 
-export default class ThreadViewer extends React.PureComponent<Props, State> {
+export default class ThreadViewer extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
     private containerRef: React.RefObject<HTMLDivElement>;
@@ -201,7 +203,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             selected,
         } = this.props;
 
-        if (this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
+        if (selected && this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
             return getThread(
                 currentUserId,
                 currentTeamId,
@@ -241,7 +243,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         const curPostsArray = this.props.posts || [];
 
         const reconnected = this.props.socketConnectionStatus && !prevProps.socketConnectionStatus;
-        const selectedChanged = this.props.selected.id !== prevProps.selected.id;
+        const selectedChanged = this.props.selected && this.props.selected.id !== prevProps.selected?.id;
 
         if (reconnected || selectedChanged) {
             this.onInit(reconnected);
@@ -612,7 +614,15 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         }
 
         if (this.state.isLoading) {
-            return <LoadingScreen style={{height: '100%'}}/>;
+            return (
+                <LoadingScreen
+                    style={{
+                        display: 'grid',
+                        placeContent: 'center',
+                        flex: '1',
+                    }}
+                />
+            );
         }
 
         return (

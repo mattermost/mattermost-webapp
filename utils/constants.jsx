@@ -37,10 +37,10 @@ import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlig
 import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
 
 // eslint-disable-line import/order
-import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
+import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/base16/solarized-dark.css';
 
 // eslint-disable-line import/order
-import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
+import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/base16/solarized-light.css'; // eslint-disable-line import/order
 
 export const SettingsTypes = {
     TYPE_TEXT: 'text',
@@ -103,6 +103,10 @@ export const Preferences = {
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
+    GLOBAL_HEADER_DISPLAY: 'global_header_display',
+    GLOBAL_HEADER_DISPLAY_ON: 'global_header_display_on',
+    GLOBAL_HEADER_DISPLAY_OFF: 'global_header_display_off',
+    GLOBAL_HEADER_DISPLAY_DEFAULT: 'global_header_display_off',
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
@@ -438,10 +442,9 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
-    INTRO_SCREENS: 0,
-    POST_POPOVER: 1,
-    CHANNEL_POPOVER: 2,
-    MENU_POPOVER: 3,
+    POST_POPOVER: 0,
+    CHANNEL_POPOVER: 1,
+    MENU_POPOVER: 2,
     FINISHED: 999,
 };
 
@@ -750,6 +753,7 @@ export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
     COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
     CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
+    PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
 };
 
 export const BillingSchemes = {
@@ -1101,6 +1105,8 @@ export const Constants = {
         'error',
         'help',
         'plugins',
+        'playbooks',
+        'boards',
     ],
     RESERVED_USERNAMES: [
         'valet',

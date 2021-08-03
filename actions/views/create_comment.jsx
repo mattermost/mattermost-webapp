@@ -39,8 +39,16 @@ export function clearCommentDraftUploads() {
     });
 }
 
+// Temporarily store draft manually in localStorage since the current version of redux-persist
+// we're on will not save the draft quickly enough on page unload.
 export function updateCommentDraft(rootId, draft) {
-    return setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, draft);
+    const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
+    if (draft) {
+        localStorage.setItem(key, JSON.stringify(draft));
+    } else {
+        localStorage.removeItem(key);
+    }
+    return setGlobalItem(key, draft);
 }
 
 export function makeOnMoveHistoryIndex(rootId, direction) {
@@ -77,7 +85,6 @@ export function submitPost(channelId, rootId, draft) {
             message: draft.message,
             channel_id: channelId,
             root_id: rootId,
-            parent_id: rootId,
             pending_post_id: `${userId}:${time}`,
             user_id: userId,
             create_at: time,
@@ -116,7 +123,6 @@ export function submitCommand(channelId, rootId, draft) {
             channel_id: channelId,
             team_id: teamId,
             root_id: rootId,
-            parent_id: rootId,
         };
 
         let {message} = draft;
@@ -146,8 +152,7 @@ export function submitCommand(channelId, rootId, draft) {
 }
 
 export function makeOnSubmit(channelId, rootId, latestPostId) {
-    return (options = {}) => async (dispatch, getState) => {
-        const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
+    return (draft, options = {}) => async (dispatch, getState) => {
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));

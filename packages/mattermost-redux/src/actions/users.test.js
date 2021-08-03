@@ -22,7 +22,16 @@ describe('Actions.Users', () => {
     });
 
     beforeEach(() => {
-        store = configureStore();
+        store = configureStore({
+            entities: {
+                general: {
+                    config: {
+                        FeatureFlagCollapsedThreads: 'true',
+                        CollapsedThreads: 'always_on',
+                    },
+                },
+            },
+        });
     });
 
     afterAll(() => {
