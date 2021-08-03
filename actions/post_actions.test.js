@@ -42,6 +42,7 @@ jest.mock('actions/storage', () => {
 
 jest.mock('utils/user_agent', () => ({
     isIosClassic: jest.fn().mockReturnValueOnce(true).mockReturnValue(false),
+    isDesktopApp: jest.fn().mockReturnValue(false),
 }));
 
 const POST_CREATED_TIME = Date.now();
