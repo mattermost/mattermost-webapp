@@ -41,7 +41,6 @@ export type Channel = {
     isCurrent?: boolean;
     teammate_id?: string;
     status?: string;
-    fake?: boolean;
     group_constrained: boolean;
     shared?: boolean;
     props?: Record<string, any>;

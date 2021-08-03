@@ -44,7 +44,6 @@ describe('components/threading/ThreadViewer', () => {
         isCurrent: false,
         teammate_id: '',
         status: '',
-        fake: false,
     });
 
     const actions = {

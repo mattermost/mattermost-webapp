@@ -29,7 +29,6 @@ describe('components/RhsThread', () => {
         isCurrent: false,
         teammate_id: '',
         status: '',
-        fake: false,
     });
 
     const actions = {
