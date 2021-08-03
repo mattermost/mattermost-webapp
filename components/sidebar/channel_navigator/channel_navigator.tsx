@@ -12,6 +12,8 @@ import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 import AddChannelDropdown from '../add_channel_dropdown';
 import ChannelFilter from '../channel_filter';
+import InviteMembersButton from '../invite_members_button';
+import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
 
 type Props = {
     canGoForward: boolean;
@@ -94,6 +96,8 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
             />
         );
 
+        const inviteMembersUserIcon = (<InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>);
+
         let layout;
         if (isDesktopApp()) {
             const historyArrows = (
@@ -126,6 +130,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                             {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
                             {historyArrows}
                         </div>
+                        {inviteMembersUserIcon}
                         {addChannelDropdown}
                     </div>
                 </div>
@@ -135,6 +140,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 <div className={'SidebarChannelNavigator webapp'}>
                     {!this.props.showUnreadsCategory && <ChannelFilter/>}
                     {jumpToButton}
+                    {inviteMembersUserIcon}
                     {addChannelDropdown}
                 </div>
             );

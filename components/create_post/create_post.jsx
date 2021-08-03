@@ -704,7 +704,7 @@ class CreatePost extends React.PureComponent {
         post.pending_post_id = `${userId}:${time}`;
         post.user_id = userId;
         post.create_at = time;
-        post.parent_id = this.state.parentId;
+        post.root_id = this.state.parentId;
         post.metadata = {};
         post.props = {};
         if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {

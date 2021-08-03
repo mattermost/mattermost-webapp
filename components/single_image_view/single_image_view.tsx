@@ -12,7 +12,7 @@ import {
     getFileType,
 } from 'utils/utils';
 
-import ViewImageModal from 'components/view_image';
+import FilePreviewModal from 'components/file_preview_modal';
 
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
@@ -182,7 +182,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
 
         if (loaded) {
             viewImageModal = (
-                <ViewImageModal
+                <FilePreviewModal
                     show={this.state.showPreviewModal}
                     onModalDismissed={this.showPreviewModal}
                     fileInfos={[fileInfo]}
