@@ -182,7 +182,14 @@ export function sendDesktopNotification(post, msgProps) {
         const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
 
         if (notify) {
-            dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
+            const updatedState = getState();
+            let url = Utils.getChannelURL(updatedState, channel, teamId);
+
+            if (isCrtReply) {
+                url = Utils.getPermalinkURL(updatedState, teamId, post.id);
+            }
+
+            dispatch(notifyMe(title, body, channel, teamId, !sound, soundName, url));
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
@@ -192,7 +199,7 @@ export function sendDesktopNotification(post, msgProps) {
     };
 }
 
-const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch, getState) => {
+const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (dispatch) => {
     // handle notifications in desktop app >= 4.3.0
     if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
         const msg = {
@@ -223,7 +230,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch,
             silent,
             onClick: () => {
                 window.focus();
-                browserHistory.push(Utils.getChannelURL(getState(), channel, teamId));
+                browserHistory.push(url);
             },
         }).catch((error) => {
             dispatch(logError(error));

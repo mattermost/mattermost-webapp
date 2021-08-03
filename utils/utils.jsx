@@ -216,6 +216,11 @@ export function getTeamRelativeUrl(team) {
     return '/' + team.name;
 }
 
+export function getPermalinkURL(state, teamId, postId) {
+    const team = getTeam(state, teamId);
+    return `${getTeamRelativeUrl(team)}/pl/${postId}`;
+}
+
 export function getChannelURL(state, channel, teamId) {
     let notificationURL;
     if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {

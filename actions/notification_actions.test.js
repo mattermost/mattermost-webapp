@@ -8,6 +8,7 @@ import TestHelper from 'mattermost-redux/test/test_helper';
 
 import testConfigureStore from 'tests/test_store';
 
+import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
 
@@ -184,6 +185,7 @@ describe('notification_actions', () => {
             msgProps = {
                 post: JSON.stringify(post),
                 channel_display_name: 'Utopia',
+                team_id: 'team_id',
             };
 
             baseState = {
@@ -218,6 +220,13 @@ describe('notification_actions', () => {
                     },
                     teams: {
                         currentTeamId: 'team_id',
+                        teams: {
+                            team_id: {
+                                id: 'team_id',
+                                name: 'team',
+                            },
+                        },
+                        myMembers: {}
                     },
                     channels: {
                         currentChannelId: 'channel_id',
@@ -226,6 +235,7 @@ describe('notification_actions', () => {
                                 id: 'channel_id',
                                 team_id: 'team_id',
                                 display_name: 'Utopia',
+                                name: 'utopia',
                             },
                             muted_channel_id: {
                                 id: 'muted_channel_id',
@@ -283,16 +293,22 @@ describe('notification_actions', () => {
 
         test('should notify user', async () => {
             const store = testConfigureStore(baseState);
+            const pushSpy = jest.spyOn(browserHistory, 'push');
+            window.focus = jest.fn();
 
             return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
-                expect(spy).toHaveBeenCalledWith(
-                    expect.objectContaining({
-                        body: '@username: Where is Jessica Hyde?',
-                        requireInteraction: false,
-                        silent: true,
-                        title: 'Utopia',
-                    }),
-                );
+                expect(spy).toHaveBeenCalledWith({
+                    body: '@username: Where is Jessica Hyde?',
+                    requireInteraction: false,
+                    silent: true,
+                    title: 'Utopia',
+                    onClick: expect.any(Function),
+                });
+
+                spy.mock.calls[0][0].onClick();
+
+                expect(pushSpy).toHaveBeenCalledWith('/team/channels/utopia');
+                expect(window.focus).toHaveBeenCalled();
             });
         });
 
@@ -479,6 +495,9 @@ describe('notification_actions', () => {
             });
 
             test('should notify user on crt reply with crt on thread is followed', () => {
+                const pushSpy = jest.spyOn(browserHistory, 'push');
+                window.focus = jest.fn();
+
                 nock(Client4.getBaseRoute()).
                     get((uri) => uri.includes('/users/current_user_id/teams/team_id/threads/root_id?extended=false')).
                     reply(200, thread);
@@ -486,6 +505,18 @@ describe('notification_actions', () => {
                 const store = testConfigureStore(baseState);
                 return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
                     expect(spy).toHaveBeenCalled();
+                    expect(spy).toHaveBeenCalledWith({
+                        body: '@username: Where is Jessica Hyde?',
+                        requireInteraction: false,
+                        silent: true,
+                        title: 'Utopia',
+                        onClick: expect.any(Function),
+                    });
+
+                    spy.mock.calls[0][0].onClick();
+
+                    expect(pushSpy).toHaveBeenCalledWith('/team/pl/post_id');
+                    expect(window.focus).toHaveBeenCalled();
                 });
             });
 
