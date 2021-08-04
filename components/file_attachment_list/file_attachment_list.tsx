@@ -13,7 +13,7 @@ import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
-import ViewImageModal from 'components/view_image';
+import FilePreviewModal from 'components/file_preview_modal';
 
 export type Props = {
 
@@ -120,7 +120,7 @@ export default class FileAttachmentList extends React.PureComponent<Props, State
                 >
                     {postFiles}
                 </div>
-                <ViewImageModal
+                <FilePreviewModal
                     show={this.state.showPreviewModal}
                     onModalDismissed={this.hidePreviewModal}
                     startIndex={this.state.startImgIndex}

@@ -24,7 +24,7 @@ function makeMapStateToProps() {
         const channel = getSelectedChannel(state);
         let posts: Post[] = [];
         if (selected) {
-            posts = getPostsForThread(state, {rootId: selected.id});
+            posts = getPostsForThread(state, selected.id);
         }
 
         return {
