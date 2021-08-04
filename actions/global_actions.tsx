@@ -181,7 +181,7 @@ export function showLeavePrivateChannelModal(channel: Channel) {
 
 export function showMobileSubMenuModal(elements: any[]) { // TODO Use more specific type
     const submenuModalData = {
-        ModalId: ModalIdentifiers.MOBILE_SUBMENU,
+        modalId: ModalIdentifiers.MOBILE_SUBMENU,
         dialogType: SubMenuModal,
         dialogProps: {
             elements,
@@ -232,7 +232,7 @@ export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: 
 
 let lastTimeTypingSent = 0;
 export function emitLocalUserTypingEvent(channelId: string, parentPostId: string) {
-    const userTyping = async (actionDispatch: DispatchFunc, actionGetState: GetStateFunc) => {
+    const userTyping = async (_: DispatchFunc, actionGetState: GetStateFunc) => {
         const state = actionGetState();
         const config = getConfig(state);
         const t = Date.now();
