@@ -20,13 +20,6 @@ describe('Messaging', () => {
         cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
 
-        // # Update config
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: true,
-            },
-        });
-
         // # Login as test user and visit the newly created test channel
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
