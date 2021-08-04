@@ -18,7 +18,6 @@ import TeamMembersModal from 'components/team_members_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
 import RemoveNextStepsModal from 'components/sidebar/sidebar_next_steps/remove_next_steps_modal';
 
-
 import {browserHistory} from 'utils/browser_history';
 import {
     ModalIdentifiers,
