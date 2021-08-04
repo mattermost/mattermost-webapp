@@ -44,8 +44,8 @@ function ThemeThumbnail({
                     <rect style={{fill: centerChannelColor}} x='55' y='75' width='52' height='6' rx='3'/>
                     <rect style={{fill: centerChannelBg}} x='56' y='76' width='50' height='4' rx='2'/>
                 </g>
-                <rect style={{fill: newMessageSeparator}} x='71' y='65' width='22' height='5' rx='2.5'/>
-                <rect style={{fill: buttonBg}} x='50' y='32' width='62' height='1'/>
+                <rect style={{fill: buttonBg}} x='71' y='65' width='22' height='5' rx='2.5'/>
+                <rect style={{fill: newMessageSeparator}} x='50' y='32' width='62' height='1'/>
                 <g style={{fill: centerChannelColor}}>
                     <rect x='55' y='5' width='52' height='4' rx='2'/>
                     <rect x='55' y='14' width='52' height='4' rx='2'/>
