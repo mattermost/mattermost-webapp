@@ -177,6 +177,9 @@
     &.tip-overlay--header--left {
         top: 8px;
         right: 8px;
+        padding: 0 0 12px 12px;
+        // needs to be over the top of the dropdown trigger
+        z-index: 1;
     }
 
     &.tip-overlay--sidebar {
