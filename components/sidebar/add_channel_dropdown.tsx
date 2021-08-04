@@ -127,7 +127,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                     placement='top'
                     overlay={tooltip}
                 >
-                    <React.Fragment>
+                    <>
                         <button
                             className='AddChannelDropdown_dropdownButton'
                             aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
@@ -135,7 +135,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                             <i className='icon-plus'/>
                         </button>
                         {tutorialTip}
-                    </React.Fragment>
+                    </>
                 </OverlayTrigger>
                 <Menu
                     id='AddChannelDropdown'
