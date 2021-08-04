@@ -224,6 +224,7 @@
         &.status--online {
             color: var(--online-indicator);
         }
+
         &.status--away {
             color: var(--away-indicator);
         }
@@ -231,12 +232,15 @@
         .dnd--icon {
             fill: var(--dnd-indicator);
         }
+
         .online--icon {
             fill: var(--online-indicator);
         }
+
         .away--icon {
             fill: var(--away-indicator);
         }
+
         .offline--icon {
             fill: var(--center-channel-color);
         }
