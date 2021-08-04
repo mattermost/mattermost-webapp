@@ -5872,24 +5872,24 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         options: [
                             {
-                                value: 'default',
-                                display_name: 'Mattermost',
-                                display_name_default: 'Mattermost',
+                                value: 'sapphire',
+                                display_name: 'Sapphire',
+                                display_name_default: 'Sapphire',
                             },
                             {
-                                value: 'organization',
-                                display_name: 'Organization',
-                                display_name_default: 'Organization',
+                                value: 'quartz',
+                                display_name: 'Quartz',
+                                display_name_default: 'Quartz',
                             },
                             {
-                                value: 'mattermostDark',
-                                display_name: 'Mattermost Dark',
-                                display_name_default: 'Mattermost Dark',
+                                value: 'indigo',
+                                display_name: 'Indigo',
+                                display_name_default: 'Indigo',
                             },
                             {
-                                value: 'windows10',
-                                display_name: 'Windows Dark',
-                                display_name_default: 'Windows Dark',
+                                value: 'onyx',
+                                display_name: 'Onyx',
+                                display_name_default: 'Onyx',
                             },
                         ],
                         isHidden: it.not(it.licensed), // E10 and higher
