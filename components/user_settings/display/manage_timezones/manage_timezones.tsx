@@ -157,8 +157,8 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
     render() {
         const timeOptions = this.props.timezones.map((timeObject) => {
             return {
-                value: timeObject.text,
-                label: timeObject.value,
+                value: timeObject.utc[0],
+                label: timeObject.text,
             };
         },
         );
