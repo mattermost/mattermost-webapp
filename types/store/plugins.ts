@@ -12,6 +12,7 @@ export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;
 
     components: {
+        Product: ProductComponent[];
         [componentName: string]: PluginComponent[];
     };
 
@@ -74,3 +75,14 @@ export type PostWillRenderEmbedPluginComponent = {
     match: (arg: PostEmbed) => boolean;
     toggleable: boolean;
 }
+
+export type ProductComponent = {
+    id: string;
+    pluginId: string;
+    switcherIcon: React.ReactNode;
+    switcherText: React.ReactNode;
+    baseURL: string;
+    switcherLinkURL: string;
+    mainComponent: React.ReactNode;
+    headerComponent: React.ReactNode;
+};

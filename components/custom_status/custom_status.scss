@@ -126,6 +126,22 @@
     }
 }
 
+.status-dropdown-menu-global-header {
+    .Menu__content {
+        left: -200px;
+    }
+
+    .status-wrapper {
+        height: auto;
+
+        .status {
+            svg {
+                top: 0;
+            }
+        }
+    }
+}
+
 .status-dropdown-menu,
 .StatusModal__input {
     .input-clear-x {
