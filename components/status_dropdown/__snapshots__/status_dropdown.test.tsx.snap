@@ -10,19 +10,6 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
   <div
     className="status-wrapper status-selector"
   >
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginLeft": 0,
-        }
-      }
-      showTooltip={false}
-      spanStyle={Object {}}
-      tooltipDirection="top"
-      userID=""
-    />
-                        
     <button
       aria-label="Set a status"
       className="status style--none"
@@ -159,19 +146,6 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
   <div
     className="status-wrapper status-selector"
   >
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginLeft": 0,
-        }
-      }
-      showTooltip={false}
-      spanStyle={Object {}}
-      tooltipDirection="top"
-      userID=""
-    />
-                        
     <button
       aria-label="Set a status"
       className="status style--none"
@@ -214,43 +188,10 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         id="status-menu-custom-status"
         modalId="custom_status"
         show={true}
-        sibling={
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                bsClass="tooltip"
-                id="clear-custom-status"
-                placement="right"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Clear"
-                  id="status_dropdown.custom_status.tooltip_clear"
-                />
-              </Tooltip>
-            }
-            placement="top"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="style--none input-clear-x"
-              id="custom_status__clear"
-              onClick={[Function]}
-            >
-              <i
-                className="icon icon-close-circle"
-              />
-            </button>
-          </OverlayTrigger>
-        }
       >
-        <span>
+        <span
+          className="custom_status__container"
+        >
           <span
             className="custom_status__icon"
           >
@@ -282,6 +223,39 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
           time="2021-05-03T23:59:59.000Z"
           withinBrackets={true}
         />
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={400}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              id="clear-custom-status"
+              placement="right"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Clear"
+                id="status_dropdown.custom_status.tooltip_clear"
+              />
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <button
+            className="style--none input-clear-x"
+            id="custom_status__clear"
+            onClick={[Function]}
+          >
+            <i
+              className="icon icon-close-circle"
+            />
+          </button>
+        </OverlayTrigger>
       </MenuItemToggleModalRedux>
     </MenuGroup>
     <MenuGroup>
@@ -380,19 +354,6 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
   <div
     className="status-wrapper status-selector"
   >
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginLeft": 0,
-        }
-      }
-      showTooltip={false}
-      spanStyle={Object {}}
-      tooltipDirection="top"
-      userID=""
-    />
-                        
     <button
       aria-label="Set a status"
       className="status style--none"
@@ -436,7 +397,9 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         modalId="custom_status"
         show={true}
       >
-        <span>
+        <span
+          className="custom_status__container"
+        >
           <span
             className="custom_status__icon"
           >
@@ -548,19 +511,6 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
   <div
     className="status-wrapper status-selector"
   >
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginLeft": 0,
-        }
-      }
-      showTooltip={false}
-      spanStyle={Object {}}
-      tooltipDirection="top"
-      userID=""
-    />
-                        
     <button
       aria-label="Set a status"
       className="status style--none"
@@ -603,9 +553,10 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         id="status-menu-custom-status"
         modalId="custom_status"
         show={true}
-        sibling={false}
       >
-        <span>
+        <span
+          className="custom_status__container"
+        >
           <span
             className="custom_status__icon"
           >
@@ -717,19 +668,6 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
   <div
     className="status-wrapper status-selector"
   >
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginLeft": 0,
-        }
-      }
-      showTooltip={false}
-      spanStyle={Object {}}
-      tooltipDirection="top"
-      userID=""
-    />
-                        
     <button
       aria-label="Set a status"
       className="status style--none"
@@ -773,7 +711,9 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         modalId="custom_status"
         show={true}
       >
-        <span>
+        <span
+          className="custom_status__container"
+        >
           <span
             className="custom_status__icon"
           >
@@ -888,19 +828,6 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
   <div
     className="status-wrapper status-selector"
   >
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginLeft": 0,
-        }
-      }
-      showTooltip={false}
-      spanStyle={Object {}}
-      tooltipDirection="top"
-      userID=""
-    />
-                        
     <Memo(Avatar)
       size="lg"
       url="http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944"
@@ -1041,19 +968,6 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
   <div
     className="status-wrapper status-selector"
   >
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginLeft": 0,
-        }
-      }
-      showTooltip={false}
-      spanStyle={Object {}}
-      tooltipDirection="top"
-      userID=""
-    />
-                        
     <button
       aria-label="Set a status"
       className="status style--none"

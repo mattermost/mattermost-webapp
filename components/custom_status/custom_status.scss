@@ -132,16 +132,18 @@
     }
 
     .username-wrapper {
-        padding: 0 16px;
+        padding: 0 12px;
     }
 
     .MenuHeader {
-        overflow: visible;
+        height: 50px;
         padding: 0 16px;
     }
 
     .status-wrapper {
+        display: flex;
         height: auto;
+        align-items: center;
 
         .status {
             svg {

@@ -14,7 +14,7 @@ import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon';
-import Avatar from 'components/widgets/users/avatar';
+import Avatar, {TAvatarSizeToken} from 'components/widgets/users/avatar/avatar';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -165,13 +165,13 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.props.actions.openModal(resetStatusModalData);
     };
 
-    renderProfilePicture = (): ReactNode => {
+    renderProfilePicture = (size: TAvatarSizeToken): ReactNode => {
         if (!this.props.profilePicture) {
             return null;
         }
         return (
             <Avatar
-                size={this.props.globalHeader ? 'sm' : 'lg'}
+                size={size}
                 url={this.props.profilePicture}
             />
         );
@@ -270,9 +270,8 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     dialogType={CustomStatusModal}
                     className='MenuItem__primary-text custom_status__row'
                     id={'status-menu-custom-status'}
-                    sibling={clearButton}
                 >
-                    <span>
+                    <span className='custom_status__container'>
                         <span className='custom_status__icon'>
                             {customStatusEmoji}
                         </span>
@@ -283,6 +282,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                         {pulsatingDot}
                     </span>
                     {expiryTime}
+                    {clearButton}
                 </Menu.ItemToggleModalRedux>
             </Menu.Group>
         );
@@ -290,7 +290,6 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
 
     render = (): JSX.Element => {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
-        const profilePicture = this.renderProfilePicture();
         const dropdownIcon = this.renderDropdownIcon();
         const {isTimedDNDEnabled} = this.props;
 
@@ -351,11 +350,13 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 })}
             >
                 <div className='status-wrapper status-selector'>
-                    <CustomStatusEmoji
-                        showTooltip={false}
-                        emojiStyle={{marginLeft: 0}}
-                    />
-                    {profilePicture}
+                    {this.props.globalHeader &&
+                        <CustomStatusEmoji
+                            showTooltip={false}
+                            emojiStyle={{marginRight: '6px'}}
+                        />
+                    }
+                    {this.renderProfilePicture(this.props.globalHeader ? 'sm' : 'lg')}
                     <button
                         className='status style--none'
                         aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
@@ -383,12 +384,12 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     )}
                     {this.props.globalHeader && (
                         <Menu.Header>
-                            {profilePicture}
+                            {this.renderProfilePicture('lg')}
                             <div className={'username-wrapper'}>
                                 <Text margin={'none'}>{`${this.props.currentUser.first_name} ${this.props.currentUser.last_name}`}</Text>
                                 <Text
                                     margin={'none'}
-                                    color={'secondary'}
+                                    color={'disabled'}
                                 >
                                     {'@' + this.props.currentUser.username}
                                 </Text>
