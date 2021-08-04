@@ -18,6 +18,7 @@ import TeamMembersModal from 'components/team_members_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
 import RemoveNextStepsModal from 'components/sidebar/sidebar_next_steps/remove_next_steps_modal';
 
+
 import {browserHistory} from 'utils/browser_history';
 import {
     ModalIdentifiers,
@@ -27,11 +28,12 @@ import {
 import CloseIcon from 'components/widgets/icons/close_icon';
 import * as Utils from 'utils/utils';
 
+import DownloadSection from './download_section';
+
 import {getAnalyticsCategory} from './step_helpers';
 import IncidentsSvg from './images/incidents.svg';
 import DocumentsSvg from './images/documents.svg';
 import PluginsSvg from './images/plugins.svg';
-import DownloadSection from './download_section';
 
 const openAdminConsole = (isAdmin: boolean) => {
     trackEvent(getAnalyticsCategory(isAdmin), 'click_admin_console');

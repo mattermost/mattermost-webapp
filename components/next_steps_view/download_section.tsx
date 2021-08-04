@@ -123,3 +123,4 @@ const downloadLatest = (isAdmin: boolean) => {
 };
 
 export default DownloadSection;
+
