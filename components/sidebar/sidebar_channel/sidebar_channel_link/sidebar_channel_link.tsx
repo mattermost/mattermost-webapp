@@ -22,7 +22,7 @@ import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import ChannelTutorialTip from 'components/legacy_sidebar/channel_tutorial_tip';
+import ChannelTutorialTip from 'components/sidebar/channel_tutorial_tip';
 
 type Props = {
     channel: Channel;
