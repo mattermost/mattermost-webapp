@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils';
+import {isDesktopApp, isWindows, isMac} from 'utils/user_agent';
+import {isMobile} from 'utils/utils';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import downloadApps from 'images/download-app.svg';
@@ -18,7 +18,7 @@ type Props = {
 }
 
 function DownloadSection(props: Props): JSX.Element | null {
-    if (Utils.isMobile()) {
+    if (isMobile()) {
         return (
             <div className='NextStepsView__tipsMobileMessage'>
                 <Card expanded={true}>
@@ -32,7 +32,7 @@ function DownloadSection(props: Props): JSX.Element | null {
                 </Card>
             </div>
         );
-    } else if (!UserAgent.isDesktopApp()) {
+    } else if (!isDesktopApp()) {
         return (
             <div className='NextStepsView__download'>
                 <img src={downloadApps}/>
@@ -69,7 +69,7 @@ function DownloadSection(props: Props): JSX.Element | null {
 }
 
 const getDownloadButtonString = () => {
-    if (UserAgent.isWindows()) {
+    if (isWindows()) {
         return (
             <FormattedMessage
                 id='next_steps_view.tips.getForWindows'
@@ -78,7 +78,7 @@ const getDownloadButtonString = () => {
         );
     }
 
-    if (UserAgent.isMac()) {
+    if (isMac()) {
         return (
             <FormattedMessage
                 id='next_steps_view.tips.getForMac'
@@ -105,13 +105,13 @@ const seeAllApps = (isAdmin: boolean) => {
 const downloadLatest = (isAdmin: boolean) => {
     const baseLatestURL = 'https://latest.mattermost.com/mattermost-desktop-';
 
-    if (UserAgent.isWindows()) {
+    if (isWindows()) {
         trackEvent(getAnalyticsCategory(isAdmin), 'click_download_app', {app: 'windows'});
         window.open(`${baseLatestURL}exe`, '_blank');
         return;
     }
 
-    if (UserAgent.isMac()) {
+    if (isMac()) {
         trackEvent(getAnalyticsCategory(isAdmin), 'click_download_app', {app: 'mac'});
         window.open(`${baseLatestURL}dmg`, '_blank');
         return;
