@@ -327,10 +327,6 @@
         padding: 2em 1em;
         text-align: center;
 
-        .primary-message {
-            font-size: 1.25em;
-        }
-
         .secondary-message {
             @include opacity(0.8);
 

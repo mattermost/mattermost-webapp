@@ -223,6 +223,9 @@ export function handleAllThreadsInChannelMarkedRead(dispatch: DispatchFunc, getS
     const state = getState();
     const threadsInChannel = getThreadsInChannel(state, channelId);
     const channel = getChannel(state, channelId);
+    if (channel == null) {
+        return;
+    }
     const teamId = channel.team_id;
     const actions = [];
 

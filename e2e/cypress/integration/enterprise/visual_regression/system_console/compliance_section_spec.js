@@ -16,12 +16,6 @@ describe('System Console - Compliance', () => {
     const testCases = [
         {
             section: 'Compliance',
-            header: 'Data Retention Policy',
-            sidebar: 'Data Retention Policy',
-            url: 'admin_console/compliance/data_retention',
-        },
-        {
-            section: 'Compliance',
             header: 'Compliance Export (Beta)',
             sidebar: 'Compliance Export (Beta)',
             url: 'admin_console/compliance/export',
