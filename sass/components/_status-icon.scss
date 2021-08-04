@@ -169,6 +169,10 @@
         fill: var(--away-indicator);
     }
 
+    .offline--icon {
+        fill: var(--sidebar-text);
+    }
+
     svg {
         max-height: 14px;
         backface-visibility: hidden;
