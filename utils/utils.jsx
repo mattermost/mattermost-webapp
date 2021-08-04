@@ -18,7 +18,7 @@ import {
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
-import {Posts} from 'mattermost-redux/constants';
+import {Posts, Preferences} from 'mattermost-redux/constants';
 import {
     getChannel,
     getChannelsNameMapInTeam,
@@ -595,27 +595,8 @@ export function applyTheme(theme) {
         changeCss('.emoji-picker .emoji-picker__header, .emoji-picker .emoji-picker__header .emoji-picker__header-close-button', 'color:' + theme.sidebarHeaderTextColor);
     }
 
-    let dndIndicator;
-    if (theme.dndIndicator) {
-        dndIndicator = theme.dndIndicator;
-    } else {
-        switch (theme.type) {
-        case 'Organization':
-            dndIndicator = Constants.THEMES.organization.dndIndicator;
-            break;
-        case 'Mattermost Dark':
-            dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
-            break;
-        case 'Windows Dark':
-            dndIndicator = Constants.THEMES.windows10.dndIndicator;
-            break;
-        default:
-            dndIndicator = Constants.THEMES.default.dndIndicator;
-            break;
-        }
-    }
-    changeCss('.app__body .status.status--dnd', 'color:' + dndIndicator);
-    changeCss('.app__body .status .dnd--icon', 'fill:' + dndIndicator);
+    changeCss('.app__body .status.status--dnd', 'color:' + theme.dndIndicator);
+    changeCss('.app__body .status .dnd--icon', 'fill:' + theme.dndIndicator);
 
     // Including 'mentionBj' for backwards compatability (old typo)
     const mentionBg = theme.mentionBg || theme.mentionBj;
@@ -968,7 +949,7 @@ export function applyTheme(theme) {
 }
 
 export function resetTheme() {
-    applyTheme(Constants.THEMES.default);
+    applyTheme(Preferences.THEMES.sapphire);
 }
 
 export function changeCss(className, classValue) {
