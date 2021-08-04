@@ -281,7 +281,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         id="marketplaceModal"
         modalId="plugin_marketplace"
         show={true}
-        showUnread={true}
         text="Marketplace"
       />
     </Connect(TeamPermissionGate)>
