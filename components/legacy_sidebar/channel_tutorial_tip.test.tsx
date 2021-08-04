@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelTutorialTip from './channel_tutorial_tip.jsx';
+import ChannelTutorialTip from './channel_tutorial_tip';
 
 describe('component/legacy_sidebar/ChannelTutorialTip', () => {
     const defaultProps = {

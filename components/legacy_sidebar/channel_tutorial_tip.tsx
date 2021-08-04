@@ -2,20 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class ChannelTutorialTip extends React.PureComponent {
-    static propTypes = {
-        townSquareDisplayName: PropTypes.string,
-        offTopicDisplayName: PropTypes.string,
-        openLhs: PropTypes.func,
-    }
+type Props = {
+    townSquareDisplayName?: string;
+    offTopicDisplayName?: string;
+    openLhs: () => void;
+}
 
+export default class ChannelTutorialTip extends React.PureComponent<Props> {
     componentDidMount() {
         if (this.props.townSquareDisplayName || this.props.offTopicDisplayName) {
             this.props.openLhs();

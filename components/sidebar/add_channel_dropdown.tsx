@@ -80,14 +80,14 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         );
 
         return (
-            <React.Fragment>
+            <>
                 <Menu.Group>
                     {joinPublicChannel}
                     {createChannel}
                     {createDirectMessage}
                 </Menu.Group>
                 {createCategory}
-            </React.Fragment>
+            </>
         );
     }
 

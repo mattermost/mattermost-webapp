@@ -12,7 +12,7 @@ import {intlShape} from 'utils/react_intl';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
-import ChannelTutorialTip from '../channel_tutorial_tip.jsx';
+import ChannelTutorialTip from '../channel_tutorial_tip';
 
 class SidebarChannel extends React.PureComponent {
     static propTypes = {

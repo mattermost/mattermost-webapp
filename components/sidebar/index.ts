@@ -12,6 +12,7 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
+
 import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
