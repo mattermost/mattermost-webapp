@@ -48,7 +48,8 @@
                 height: 13px;
                 max-height: initial;
 
-                &.offline--icon {
+                &.offline--icon,
+                .offline--icon {
                     fill: var(--sidebar-text);
                 }
             }
@@ -86,6 +87,22 @@
             position: relative;
             top: 2px;
             max-height: 11px;
+        }
+
+        .dnd--icon {
+            fill: var(--dnd-indicator);
+        }
+
+        .online--icon {
+            fill: var(--online-indicator);
+        }
+
+        .away--icon {
+            fill: var(--away-indicator);
+        }
+
+        .offline--icon {
+            fill: var(--center-channel-color);
         }
     }
 }
@@ -157,22 +174,6 @@
         text-align: center;
     }
 
-    .dnd--icon {
-        fill: var(--dnd-indicator);
-    }
-
-    .online--icon {
-        fill: var(--online-indicator);
-    }
-
-    .away--icon {
-        fill: var(--away-indicator);
-    }
-
-    .offline--icon {
-        fill: var(--sidebar-text);
-    }
-
     svg {
         max-height: 14px;
         backface-visibility: hidden;
@@ -223,17 +224,29 @@
         &.status--online {
             color: var(--online-indicator);
         }
-
-        .online--icon {
-            fill: var(--online-indicator);
-        }
-
         &.status--away {
             color: var(--away-indicator);
         }
 
+        .dnd--icon {
+            fill: var(--dnd-indicator);
+        }
+        .online--icon {
+            fill: var(--online-indicator);
+        }
         .away--icon {
             fill: var(--away-indicator);
+        }
+        .offline--icon {
+            fill: var(--center-channel-color);
+        }
+    }
+
+    .sidebar--left {
+        .status {
+            .offline--icon {
+                fill: var(--sidebar-text);
+            }
         }
     }
 }
