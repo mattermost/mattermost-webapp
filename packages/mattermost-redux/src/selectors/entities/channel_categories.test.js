@@ -144,9 +144,7 @@ describe('makeFilterAutoclosedDMs', () => {
                 },
             },
             general: {
-                config: {
-                    CloseUnusedDirectMessages: 'true',
-                },
+                config: {},
             },
             posts: {
                 posts: {},
