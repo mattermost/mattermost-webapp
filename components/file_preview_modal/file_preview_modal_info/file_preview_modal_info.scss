@@ -23,30 +23,32 @@
     }
 
     &__file-name {
+        overflow: hidden;
+        max-width: 30vw;
         margin: 0;
+        font-size: 1.6rem;
         font-weight: 600;
         line-height: 24px;
-        max-width: 30vw;
-        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-size: 1.6rem;
     }
-    &__row{
+
+    &__row {
+        overflow: hidden;
+        max-width: 30vw;
         font-size: 1.4rem;
         font-weight: 400;
-        text-transform: capitalize;
-        max-width: 30vw;
-        overflow: hidden;
         text-overflow: ellipsis;
+        text-transform: capitalize;
         white-space: nowrap;
     }
-    &__user-name{
-        text-transform: capitalize;
+
+    &__user-name {
+        margin: unset;
         font-size: 1.6rem;
         font-weight: 600;
         line-height: 20px;
-        margin: unset;
+        text-transform: capitalize;
     }
 
     &__channel {
@@ -63,10 +65,11 @@
                 border-radius: 50%;
             }
         }
+
         &__channel {
-            margin-left: unset;
-            max-width: calc(100vw - 150px);
             overflow: hidden;
+            max-width: calc(100vw - 150px);
+            margin-left: unset;
             text-overflow: ellipsis;
             white-space: nowrap;
         }

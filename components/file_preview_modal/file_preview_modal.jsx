@@ -399,9 +399,9 @@ export default class FilePreviewModal extends React.PureComponent {
                                     canDownloadFiles={this.props.canDownloadFiles || false}
                                     isExternalFile={isExternalFile}
                                     onGetPublicLink={this.handleGetPublicLink}
-                                    handlePrev={(e) => this.handlePrev(e)}
-                                    handleNext={(e) => this.handleNext(e)}
-                                    handleModalClose={() => this.handleModalClose()}
+                                    handlePrev={this.handlePrev}
+                                    handleNext={this.handleNext}
+                                    handleModalClose={this.handleModalClose}
                                 />
                             </Modal.Title>
                             <div
@@ -419,9 +419,9 @@ export default class FilePreviewModal extends React.PureComponent {
                                     canDownloadFiles={this.props.canDownloadFiles || false}
                                     isExternalFile={isExternalFile}
                                     onGetPublicLink={this.handleGetPublicLink}
-                                    handlePrev={(e) => this.handlePrev(e)}
-                                    handleNext={(e) => this.handleNext(e)}
-                                    handleModalClose={() => this.handleModalClose()}
+                                    handlePrev={this.handlePrev}
+                                    handleNext={this.handleNext}
+                                    handleModalClose={this.handleModalClose}
                                 />
                             }
                         </div>

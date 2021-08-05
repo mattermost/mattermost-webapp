@@ -5,10 +5,10 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -29,9 +29,15 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -39,45 +45,41 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <LoadingImagePreview
-              containerClass="view-image__loading"
-              loading="Loading"
-              progress={0}
-            />
-          </div>
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <LoadingImagePreview
+            containerClass="view-image__loading"
+            loading="Loading"
+            progress={0}
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -89,10 +91,10 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -113,9 +115,15 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -123,45 +131,41 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <LoadingImagePreview
-              containerClass="view-image__loading"
-              loading="Loading"
-              progress={0}
-            />
-          </div>
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/undefined?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={true}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <LoadingImagePreview
+            containerClass="view-image__loading"
+            loading="Loading"
+            progress={0}
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/undefined?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={true}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -173,10 +177,10 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -197,9 +201,15 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -207,71 +217,47 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "gif",
-                  "id": "file_id_1",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id_1?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={3}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <ImagePreview
+            canDownloadFiles={true}
+            fileInfo={
+              Object {
+                "extension": "gif",
+                "id": "file_id_1",
               }
-            />
-          </div>
+            }
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id_1?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={3}
-        />
       </div>
     </div>
-    <a
-      className="modal-prev-bar"
-      href="#"
-      id="previewArrowLeft"
-      onClick={[Function]}
-    >
-      <i
-        className="image-control image-prev"
-      />
-    </a>
-    <a
-      className="modal-next-bar"
-      href="#"
-      id="previewArrowRight"
-      onClick={[Function]}
-    >
-      <i
-        className="image-control image-next"
-      />
-    </a>
   </ModalBody>
 </Modal>
 `;
@@ -281,10 +267,10 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -305,9 +291,15 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -315,71 +307,47 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <AudioVideoPreview
-              fileInfo={
-                Object {
-                  "extension": "wma",
-                  "id": "file_id_2",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={1}
+            fileURL="/api/v4/files/file_id_2?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={3}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <AudioVideoPreview
+            fileInfo={
+              Object {
+                "extension": "wma",
+                "id": "file_id_2",
               }
-              fileUrl="/api/v4/files/file_id_2"
-            />
-          </div>
+            }
+            fileUrl="/api/v4/files/file_id_2"
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={1}
-          fileURL="/api/v4/files/file_id_2?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={3}
-        />
       </div>
     </div>
-    <a
-      className="modal-prev-bar"
-      href="#"
-      id="previewArrowLeft"
-      onClick={[Function]}
-    >
-      <i
-        className="image-control image-prev"
-      />
-    </a>
-    <a
-      className="modal-next-bar"
-      href="#"
-      id="previewArrowRight"
-      onClick={[Function]}
-    >
-      <i
-        className="image-control image-next"
-      />
-    </a>
   </ModalBody>
 </Modal>
 `;
@@ -389,10 +357,10 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -413,9 +381,15 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -423,50 +397,46 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <component
-              fileInfo={
-                Object {
-                  "extension": "jpg",
-                  "id": "file_id",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <component
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
               }
-              onModalDismissed={[MockFunction]}
-              post={Object {}}
-            />
-          </div>
+            }
+            onModalDismissed={[MockFunction]}
+            post={Object {}}
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -478,10 +448,10 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -502,9 +472,15 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -512,49 +488,45 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "jpg",
-                  "id": "file_id",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <ImagePreview
+            canDownloadFiles={true}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
               }
-            />
-          </div>
+            }
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -566,10 +538,10 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -590,9 +562,15 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -600,49 +578,45 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "jpg",
-                  "id": "file_id",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <ImagePreview
+            canDownloadFiles={true}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
               }
-            />
-          </div>
+            }
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -654,10 +628,10 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image modal-code"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal modal-code"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -678,9 +652,15 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -688,21 +668,37 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
+        >
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
         <div
-          className="modal-image__background"
+          className="file-preview-modal__content file-preview-modal__content-scrollable"
         >
           <div
-            className="modal-image__content"
+            className="file-preview-modal__scrollable"
           >
             <CodePreview
               fileInfo={
@@ -715,22 +711,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
             />
           </div>
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -742,10 +722,10 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -766,9 +746,15 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -776,49 +762,45 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <AudioVideoPreview
-              fileInfo={
-                Object {
-                  "extension": "m4a",
-                  "id": "file_id",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <AudioVideoPreview
+            fileInfo={
+              Object {
+                "extension": "m4a",
+                "id": "file_id",
               }
-              fileUrl="/api/v4/files/file_id"
-            />
-          </div>
+            }
+            fileUrl="/api/v4/files/file_id"
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -830,10 +812,10 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -854,9 +836,15 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -864,49 +852,45 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <AudioVideoPreview
-              fileInfo={
-                Object {
-                  "extension": "mov",
-                  "id": "file_id",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <AudioVideoPreview
+            fileInfo={
+              Object {
+                "extension": "mov",
+                "id": "file_id",
               }
-              fileUrl="/api/v4/files/file_id"
-            />
-          </div>
+            }
+            fileUrl="/api/v4/files/file_id"
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -918,10 +902,10 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -942,9 +926,15 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -952,71 +942,47 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "gif",
-                  "id": "file_id_1",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id_1?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={3}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <ImagePreview
+            canDownloadFiles={true}
+            fileInfo={
+              Object {
+                "extension": "gif",
+                "id": "file_id_1",
               }
-            />
-          </div>
+            }
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id_1?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={3}
-        />
       </div>
     </div>
-    <a
-      className="modal-prev-bar"
-      href="#"
-      id="previewArrowLeft"
-      onClick={[Function]}
-    >
-      <i
-        className="image-control image-prev"
-      />
-    </a>
-    <a
-      className="modal-next-bar"
-      href="#"
-      id="previewArrowRight"
-      onClick={[Function]}
-    >
-      <i
-        className="image-control image-next"
-      />
-    </a>
   </ModalBody>
 </Modal>
 `;
@@ -1026,10 +992,10 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1050,9 +1016,15 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -1060,49 +1032,45 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "jpg",
-                  "id": "file_id",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <ImagePreview
+            canDownloadFiles={true}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
               }
-            />
-          </div>
+            }
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -1114,10 +1082,10 @@ exports[`components/FilePreviewModal should match snapshot, loaded with left and
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1138,9 +1106,15 @@ exports[`components/FilePreviewModal should match snapshot, loaded with left and
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -1148,71 +1122,47 @@ exports[`components/FilePreviewModal should match snapshot, loaded with left and
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <ImagePreview
-              canDownloadFiles={true}
-              fileInfo={
-                Object {
-                  "extension": "gif",
-                  "id": "file_id_1",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id_1?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={3}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <ImagePreview
+            canDownloadFiles={true}
+            fileInfo={
+              Object {
+                "extension": "gif",
+                "id": "file_id_1",
               }
-            />
-          </div>
+            }
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id_1?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={3}
-        />
       </div>
     </div>
-    <a
-      className="modal-prev-bar"
-      href="#"
-      id="previewArrowLeft"
-      onClick={[Function]}
-    >
-      <i
-        className="image-control image-prev"
-      />
-    </a>
-    <a
-      className="modal-next-bar"
-      href="#"
-      id="previewArrowRight"
-      onClick={[Function]}
-    >
-      <i
-        className="image-control image-next"
-      />
-    </a>
   </ModalBody>
 </Modal>
 `;
@@ -1438,10 +1388,10 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1462,9 +1412,15 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -1472,49 +1428,45 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <Connect(FileInfoPreview)
-              fileInfo={
-                Object {
-                  "extension": "other",
-                  "id": "file_id",
-                }
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <Connect(FileInfoPreview)
+            fileInfo={
+              Object {
+                "extension": "other",
+                "id": "file_id",
               }
-              fileUrl="/api/v4/files/file_id"
-            />
-          </div>
+            }
+            fileUrl="/api/v4/files/file_id"
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -1526,10 +1478,10 @@ exports[`components/FilePreviewModal should match snapshot, loading 1`] = `
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1550,9 +1502,15 @@ exports[`components/FilePreviewModal should match snapshot, loading 1`] = `
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -1560,45 +1518,41 @@ exports[`components/FilePreviewModal should match snapshot, loading 1`] = `
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <LoadingImagePreview
-              containerClass="view-image__loading"
-              loading="Loading"
-              progress={0}
-            />
-          </div>
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <LoadingImagePreview
+            containerClass="view-image__loading"
+            loading="Loading"
+            progress={0}
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>
@@ -1610,10 +1564,10 @@ exports[`components/FilePreviewModal should match snapshot, modal not shown 1`] 
   animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
-  backdrop={true}
+  backdrop={false}
   bsClass="modal"
-  className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  className="modal-image file-preview-modal"
+  dialogClassName="a11y__modal modal-image file-preview-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1634,9 +1588,15 @@ exports[`components/FilePreviewModal should match snapshot, modal not shown 1`] 
   restoreFocus={true}
   role="dialog"
   show={false}
+  style={
+    Object {
+      "padding-left": 0,
+    }
+  }
 >
   <ModalBody
     bsClass="modal-body"
+    className="file-preview-modal__body"
     componentClass="div"
   >
     <div
@@ -1644,45 +1604,41 @@ exports[`components/FilePreviewModal should match snapshot, modal not shown 1`] 
       onClick={[Function]}
     >
       <div
+        className="file-preview-modal__main-ctr"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <ModalTitle
           bsClass="modal-title"
-          className="hide"
-          componentClass="h1"
+          componentClass="div"
           id="viewImageModalLabel"
-        />
-        <div
-          className="modal-image__background"
         >
-          <div
-            className="modal-image__content"
-          >
-            <LoadingImagePreview
-              containerClass="view-image__loading"
-              loading="Loading"
-              progress={0}
-            />
-          </div>
+          <Memo(FilePreviewModalHeader)
+            canDownloadFiles={true}
+            enablePublicLink={true}
+            fileIndex={0}
+            fileURL="/api/v4/files/file_id?download=1"
+            handleModalClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            isExternalFile={false}
+            isMobile={false}
+            onGetPublicLink={[Function]}
+            post={Object {}}
+            showPublicLink={true}
+            totalFiles={1}
+          />
+        </ModalTitle>
+        <div
+          className="file-preview-modal__content"
+        >
+          <LoadingImagePreview
+            containerClass="view-image__loading"
+            loading="Loading"
+            progress={0}
+          />
         </div>
-        <PopoverBar
-          canDownloadFiles={true}
-          enablePublicLink={true}
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id?download=1"
-          filename=""
-          handleZoomIn={[Function]}
-          handleZoomOut={[Function]}
-          handleZoomReset={[Function]}
-          isExternalFile={false}
-          onGetPublicLink={[Function]}
-          scale={1}
-          showPublicLink={true}
-          showZoomControls={false}
-          totalFiles={1}
-        />
       </div>
     </div>
   </ModalBody>

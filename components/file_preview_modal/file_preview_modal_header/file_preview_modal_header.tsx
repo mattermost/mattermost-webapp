@@ -8,7 +8,6 @@ import './file_preview_modal_header.scss';
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainNav from '../file_preview_modal_main_nav/file_preview_modal_main_nav';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
-import * as Utils from 'utils/utils.jsx';
 
 interface Props {
     isMobile: boolean;
@@ -30,28 +29,26 @@ interface Props {
     className?: string;
 }
 
-const FilePreviewModalHeader: React.FC<Props> = (props: Props) => {
-    const keysToBeRemoved = ['fileIndex', 'totalFiles', 'post'];
-    const actionProps = Utils.deleteKeysFromObject({...props}, keysToBeRemoved);
+const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, ...actionProps}: Props) => {
     return (
         <div className='file-preview-modal-header'>
-            {!props.isMobile &&
+            {!actionProps.isMobile &&
             <FilePreviewModalInfo
                 showFileName={true}
-                post={props.post}
-                filename={props.filename}
+                post={post}
+                filename={actionProps.filename}
             />
             }
             <FilePreviewModalMainNav
-                totalFiles={props.totalFiles}
-                fileIndex={props.fileIndex}
-                handlePrev={props.handlePrev}
-                handleNext={props.handleNext}
+                totalFiles={totalFiles}
+                fileIndex={fileIndex}
+                handlePrev={actionProps.handlePrev}
+                handleNext={actionProps.handleNext}
             />
             <FilePreviewModalMainActions
                 {...actionProps}
-                showPublicLink={!props.isMobile}
-                showDownload={!props.isMobile}
+                showPublicLink={!actionProps.isMobile}
+                showDownload={!actionProps.isMobile}
             />
         </div>
     );

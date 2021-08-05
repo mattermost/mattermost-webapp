@@ -16,11 +16,11 @@ interface DownloadLinkProps {
 }
 
 interface Props {
-    showClose: boolean;
-    showDownload: boolean;
+    showClose?: boolean;
+    showDownload?: boolean;
+    showPublicLink?: boolean;
     filename: string;
     fileURL: string;
-    showPublicLink?: boolean;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
     isExternalFile: boolean;
@@ -100,7 +100,7 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
                 className='file-preview-modal-main-actions__action-item'
                 target='_blank'
                 rel='noopener noreferrer'
-                {...downloadLinkProps}
+                download={props.filename}
             >
                 <i className='icon icon-download-outline'/>
             </a>

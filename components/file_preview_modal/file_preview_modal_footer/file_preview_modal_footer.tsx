@@ -5,7 +5,6 @@ import React, {memo} from 'react';
 import Post from '../../post_view/post/post';
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
-import * as Utils from '../../../utils/utils';
 
 import './file_preview_modal_footer.scss';
 
@@ -26,15 +25,13 @@ interface Props {
     className?: string;
 }
 
-const FilePreviewModalFooter: React.FC<Props> = (props: Props) => {
-    const keysToBeRemoved = ['fileIndex', 'totalFiles', 'post'];
-    const actionProps = Utils.deleteKeysFromObject({...props}, keysToBeRemoved);
+const FilePreviewModalFooter: React.FC<Props> = ({post, ...actionProps}: Props) => {
     return (
         <div className='file-preview-modal-footer'>
             <FilePreviewModalInfo
                 showFileName={false}
-                post={props.post}
-                filename={props.filename}
+                post={post}
+                filename={actionProps.filename}
             />
             <FilePreviewModalMainActions
                 {...actionProps}
