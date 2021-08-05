@@ -980,6 +980,13 @@ export default class Client4 {
         );
     };
 
+    getScheduleStatus = (userId: string) => {
+        return this.doFetch<UserStatus>(
+            `${this.getUserRoute(userId)}/status/schedule`,
+            {method: 'get'},
+        );
+    }
+
     updateStatus = (status: UserStatus) => {
         return this.doFetch<UserStatus>(
             `${this.getUserRoute(status.user_id)}/status`,
