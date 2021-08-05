@@ -4,6 +4,8 @@
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
+import IconButton from '@mattermost/compass-components/components/icon-button';
+
 import {Permissions} from 'mattermost-redux/constants';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -62,10 +64,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
         const {formatMessage} = this.props.intl;
 
         return (
-            <Menu
-                id={this.props.id}
-                ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
-            >
+            <>
                 <Menu.Group>
                     <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                         <Menu.ItemLink
@@ -73,7 +72,13 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             show={!this.props.isMobile}
                             to='/admin_console'
                             text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
-                            icon={this.props.isMobile && <i className='fa fa-wrench'/>}
+                            icon={
+                                <IconButton
+                                    className={'product-switcher-icon'}
+                                    size={'sm'}
+                                    icon='application-cog'
+                                />
+                            }
                         />
                     </SystemPermissionGate>
                     <Menu.ItemLink
@@ -81,6 +86,13 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                         show={showIntegrations}
                         to={'/' + this.props.teamName + '/integrations'}
                         text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
+                        icon={
+                            <IconButton
+                                className={'product-switcher-icon'}
+                                size={'sm'}
+                                icon='webhook-incoming'
+                            />
+                        }
                     />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
@@ -93,24 +105,43 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             dialogType={MarketplaceModal}
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
                             showUnread={!this.props.firstAdminVisitMarketplaceStatus}
+                            icon={
+                                <IconButton
+                                    className={'product-switcher-icon'}
+                                    size={'sm'}
+                                    icon='apps'
+                                />
+                            }
                         />
                         <Menu.ItemExternalLink
                             id='nativeAppLink'
                             show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
                             url={useSafeUrl(this.props.appDownloadLink)}
                             text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
-                            icon={this.props.isMobile && <i className='fa fa-mobile'/>}
+                            icon={
+                                <IconButton
+                                    className={'product-switcher-icon'}
+                                    size={'sm'}
+                                    icon='download-outline'
+                                />
+                            }
                         />
                         <Menu.ItemToggleModalRedux
                             id='about'
                             modalId={ModalIdentifiers.ABOUT}
                             dialogType={AboutBuildModal}
                             text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName})}
-                            icon={this.props.isMobile && <i className='fa fa-info'/>}
+                            icon={
+                                <IconButton
+                                    className={'product-switcher-icon'}
+                                    size={'sm'}
+                                    icon='information-outline'
+                                />
+                            }
                         />
                     </TeamPermissionGate>
                 </Menu.Group>
-            </Menu>
+            </>
         );
     }
 }

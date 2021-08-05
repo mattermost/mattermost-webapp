@@ -63,6 +63,7 @@ type Props = {
 type State = {
     openUp: boolean;
     width: number;
+    isStatusSet: boolean;
 };
 
 export default class StatusDropdown extends React.PureComponent <Props, State> {
@@ -79,6 +80,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.state = {
             openUp: false,
             width: 0,
+            isStatusSet: false,
         };
     }
 
@@ -206,12 +208,11 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.props.actions.setStatusDropdown(open);
     }
 
-    renderCustomStatus = (): ReactNode => {
+    renderCustomStatus = (isStatusSet: boolean | undefined): ReactNode => {
         if (!this.props.isCustomStatusEnabled) {
             return null;
         }
-        const {customStatus, isCustomStatusExpired} = this.props;
-        const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0) && !isCustomStatusExpired;
+        const {customStatus} = this.props;
         const customStatusText = isStatusSet ? customStatus?.text : localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
         const customStatusEmoji = isStatusSet ? (
             <span className='d-flex'>
@@ -291,7 +292,8 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
     render = (): JSX.Element => {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const dropdownIcon = this.renderDropdownIcon();
-        const {isTimedDNDEnabled} = this.props;
+        const {isTimedDNDEnabled, customStatus, isCustomStatusExpired} = this.props;
+        const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0) && !isCustomStatusExpired;
 
         const setOnline = needsConfirm ? () => this.showStatusChangeConfirmation('online') : this.setOnline;
         const setDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setDnd;
@@ -314,7 +316,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 } as any;
             }));
 
-        const customStatusComponent = this.renderCustomStatus();
+        const customStatusComponent = this.renderCustomStatus(isStatusSet);
 
         let timedDND = (
             <Menu.ItemSubMenu
@@ -347,6 +349,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 open={this.props.isStatusDropdownOpen}
                 className={classNames('status-dropdown-menu', {
                     'status-dropdown-menu-global-header': this.props.globalHeader,
+                    active: this.props.isStatusDropdownOpen || isStatusSet,
                 })}
             >
                 <div className='status-wrapper status-selector'>
@@ -433,6 +436,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     <Menu.Group>
                         <Menu.ItemToggleModalRedux
                             id='accountSettings'
+                            accessibilityLabel='Account Settings'
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}

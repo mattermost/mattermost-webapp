@@ -6,10 +6,10 @@ import {useSelector} from 'react-redux';
 
 import styled from 'styled-components';
 
+import StatusDropdown from 'components/status_dropdown';
+import * as Utils from 'utils/utils.jsx';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import Pluggable from 'plugins/pluggable';
-
-import StatusDropdown from 'components/status_dropdown';
 
 import GlobalSearchNav from './global_search_nav';
 import ProductSwitcher from './product_switcher';
@@ -78,6 +78,7 @@ const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
+    const isMobile = Utils.isMobile();
 
     useEffect(() => {
         const root = document.querySelector('#root');
@@ -95,7 +96,7 @@ const GlobalHeader = (): JSX.Element | null => {
         return null;
     }
 
-    return (
+    return isMobile ? null : (
         <GlobalHeaderContainer>
             <LeftControls>
                 <ProductSwitcher/>

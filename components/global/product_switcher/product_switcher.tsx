@@ -11,10 +11,8 @@ import Heading from '@mattermost/compass-components/components/heading';
 
 import {useClickOutsideRef, useCurrentProductId, useProducts} from '../hooks';
 import ProductSwitcherMenu from '../product_switcher_menu';
-
-interface SwitcherMenuProps {
-    open: boolean;
-}
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 interface SwitcherNavEntryProps {
     destination: string;
@@ -39,25 +37,6 @@ const ProductBranding = styled.div`
     > * + * {
         margin-left: 6px;
     }
-`;
-
-const SwitcherMenu = styled.div<SwitcherMenuProps>`
-    visibility: ${(props) => (props.open ? 'visible' : 'hidden')};
-    position: absolute;
-    top: 35px;
-    left: 5px;
-    margin-left: 12px;
-    z-index: 1000;
-    background: var(--center-channel-bg);
-    display: flex;
-    flex-direction: column;
-    width: 273px;
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
-    border-radius: 4px;
-    padding-top: 14px;
-    padding-bottom: 5px;
-    color: var(--center-channel-color);
 `;
 
 const SwitcherMenuDescriptiveText = styled.div`
@@ -87,6 +66,14 @@ const MenuItem = styled(Link)`
         text-decoration: none;
         color: inherit;
     }
+
+    i {
+        color: var(--sidebar-bg);
+    }
+    
+    button {
+        padding: 0 6px;
+    }
 `;
 
 const MenuItemTextContainer = styled.div`
@@ -100,7 +87,7 @@ const MenuItemTextContainer = styled.div`
 const LinkIcon = styled.i`
     width: 14px;
     height: 14px;
-    color: rgba(var(--center-channel-color-rgb), 0.56);
+    color: var(--sidebar-bg);
 `;
 
 const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
@@ -146,31 +133,35 @@ const ProductSwitcher = (): JSX.Element => {
     });
 
     return (
-        <ProductSwitcherContainer ref={menuRef}>
-            <IconButton
-                icon={'products'}
-                onClick={handleClick}
-                size={'sm'}
-                compact={true}
-                toggled={switcherOpen}
-                inverted={true}
-                aria-label='Select to open product switch menu.'
-            />
-            <ProductBranding>
-                <Icon
-                    size={20}
-                    glyph={'product-channels'}
+        <MenuWrapper
+            open={switcherOpen}
+        >
+            <ProductSwitcherContainer>
+                <IconButton
+                    icon={'products'}
+                    onClick={handleClick}
+                    size={'sm'}
+                    compact={true}
+                    toggled={switcherOpen}
+                    inverted={true}
+                    aria-label='Select to open product switch menu.'
                 />
-                <Heading
-                    element='h1'
-                    size={200}
-                    margin='none'
-                >
-                    {'Channels'}
-                </Heading>
-            </ProductBranding>
-            <SwitcherMenu
-                open={switcherOpen}
+                <ProductBranding>
+                    <Icon
+                        size={20}
+                        glyph={'product-channels'}
+                    />
+                    <Heading
+                        element='h1'
+                        size={200}
+                        margin='none'
+                    >
+                        {'Channels'}
+                    </Heading>
+                </ProductBranding>
+            </ProductSwitcherContainer>
+            <Menu
+                ariaLabel={'switcherOpen'}
             >
                 <SwitcherMenuDescriptiveText>
                     <FormattedMessage
@@ -180,14 +171,14 @@ const ProductSwitcher = (): JSX.Element => {
                 </SwitcherMenuDescriptiveText>
                 <SwitcherNavEntry
                     destination={'/'}
-                    icon={'mattermost'}
+                    icon={'product-channels'}
                     text={'Channels'}
                     active={currentProductID === null}
                 />
                 {productItems}
                 <ProductSwitcherMenu id='ProductSwitcherMenu'/>
-            </SwitcherMenu>
-        </ProductSwitcherContainer>
+            </Menu>
+        </MenuWrapper>
     );
 };
 

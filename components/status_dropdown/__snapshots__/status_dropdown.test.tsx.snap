@@ -99,6 +99,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -139,7 +140,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
 exports[`components/StatusDropdown should match snapshot with custom status and expiry 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -307,6 +308,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -347,7 +349,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
 exports[`components/StatusDropdown should match snapshot with custom status enabled 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -464,6 +466,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -504,7 +507,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
 exports[`components/StatusDropdown should match snapshot with custom status expired 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -621,6 +624,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -661,7 +665,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
 exports[`components/StatusDropdown should match snapshot with custom status pulsating dot enabled 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -781,6 +785,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -921,6 +926,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -961,7 +967,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
 exports[`components/StatusDropdown should match snapshot with status dropdown open 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -1057,6 +1063,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),

@@ -12,10 +12,10 @@ import Constants from 'utils/constants';
 
 const SettingsButton = (): JSX.Element | null => {
     const tooltip = (
-        <Tooltip id='recentMentions'>
+        <Tooltip id='channelPreferences'>
             <FormattedMessage
-                id='channel_header.flagged'
-                defaultMessage='Saved posts'
+                id='channel_header.channelPreferences'
+                defaultMessage='Channel Preferences'
             />
         </Tooltip>
     );

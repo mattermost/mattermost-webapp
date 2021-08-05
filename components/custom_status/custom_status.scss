@@ -127,6 +127,13 @@
 }
 
 .status-dropdown-menu-global-header {
+    padding: 5px;
+    border-radius: 4px;
+
+    &.active {
+        background: var(--sidebar-text-08);
+    }
+
     .Menu__content {
         left: -200px;
     }
