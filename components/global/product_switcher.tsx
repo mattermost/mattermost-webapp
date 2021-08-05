@@ -104,7 +104,7 @@ const ProductSwitcher = (): JSX.Element => {
     return (
         <div ref={menuRef}>
             <IconButton
-                icon={'view-grid-outline'}
+                icon={'products'}
                 onClick={handleClick}
                 size={'sm'}
                 toggled={switcherOpen}
