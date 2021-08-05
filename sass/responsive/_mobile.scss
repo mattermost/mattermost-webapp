@@ -626,6 +626,9 @@
                     }
 
                     i.icon {
+                        width: auto;
+                        margin: 0;
+
                         &::before {
                             margin: 0;
                         }
