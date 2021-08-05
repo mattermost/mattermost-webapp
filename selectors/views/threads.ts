@@ -16,7 +16,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {DATE_LINE, makeCombineUserActivityPosts, START_OF_NEW_MESSAGES} from 'mattermost-redux/utils/post_list';
+import {DATE_LINE, makeCombineUserActivityPosts, START_OF_NEW_MESSAGES, CREATE_COMMENT} from 'mattermost-redux/utils/post_list';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
@@ -31,7 +31,7 @@ interface PostFilterOptions {
     lastViewedAt?: number;
 }
 
-export function getSelectedThreadIdInTeam(state: GlobalState) {
+export function getSelectedThreadIdInTeam(state: GlobalState): ViewsState['threads']['selectedThreadIdInTeam'] {
     return state.views.threads.selectedThreadIdInTeam;
 }
 
@@ -91,7 +91,7 @@ export const isThreadManuallyUnread = (state: GlobalState, threadId: $ID<UserThr
 
 // Returns a selector that, given the state and an object containing an array of postIds and an optional
 // timestamp of when the channel was last read, returns a memoized array of postIds interspersed with
-// day indicators and an optional new message indicator.
+// day indicators, an optional new message indicator and create comment.
 export function makeFilterRepliesAndAddSeparators() {
     const getPostsForIds = makeGetPostsForIds();
 
@@ -153,6 +153,8 @@ export function makeFilterRepliesAndAddSeparators() {
 
                 out.push(post.id);
             }
+
+            out.push(CREATE_COMMENT);
 
             // Flip it back to newest to oldest
             return out.reverse();

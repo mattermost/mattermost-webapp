@@ -15,6 +15,7 @@ import {isUserActivityPost, shouldFilterJoinLeavePost, isFromWebhook} from 'matt
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import * as types from 'mattermost-redux/types';
 export const COMBINED_USER_ACTIVITY = 'user-activity-';
+export const CREATE_COMMENT = 'create-comment';
 export const DATE_LINE = 'date-';
 export const START_OF_NEW_MESSAGES = 'start-of-new-messages';
 export const MAX_COMBINED_SYSTEM_POSTS = 100;
@@ -136,7 +137,7 @@ export function makeCombineUserActivityPosts() {
             for (let i = 0; i < postIds.length; i++) {
                 const postId = postIds[i];
 
-                if (postId === START_OF_NEW_MESSAGES || postId.startsWith(DATE_LINE)) {
+                if (postId === START_OF_NEW_MESSAGES || postId.startsWith(DATE_LINE) || isCreateComment(postId)) {
                     // Not a post, so it won't be combined
                     out.push(postId);
 
@@ -186,6 +187,10 @@ export function isStartOfNewMessages(item: string) {
     return item === START_OF_NEW_MESSAGES;
 }
 
+export function isCreateComment(item: string) {
+    return item === CREATE_COMMENT;
+}
+
 export function isDateLine(item: string) {
     return item.startsWith(DATE_LINE);
 }
@@ -206,7 +211,7 @@ export function getFirstPostId(items: string[]) {
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
 
-        if (isStartOfNewMessages(item) || isDateLine(item)) {
+        if (isStartOfNewMessages(item) || isDateLine(item) || isCreateComment(item)) {
             // This is not a post at all
             continue;
         }
@@ -229,7 +234,7 @@ export function getLastPostId(items: string[]) {
     for (let i = items.length - 1; i >= 0; i--) {
         const item = items[i];
 
-        if (isStartOfNewMessages(item) || isDateLine(item)) {
+        if (isStartOfNewMessages(item) || isDateLine(item) || isCreateComment(item)) {
             // This is not a post at all
             continue;
         }
@@ -252,7 +257,7 @@ export function getLastPostIndex(postIds: string[]) {
     let index = 0;
     for (let i = postIds.length - 1; i > 0; i--) {
         const item = postIds[i];
-        if (!isStartOfNewMessages(item) && !isDateLine(item)) {
+        if (!isStartOfNewMessages(item) && !isDateLine(item) && !isCreateComment(item)) {
             index = i;
             break;
         }

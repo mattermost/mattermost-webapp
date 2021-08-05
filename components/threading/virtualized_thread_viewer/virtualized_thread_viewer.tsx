@@ -11,7 +11,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {Posts} from 'mattermost-redux/constants';
-import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
+import {isDateLine, isStartOfNewMessages, isCreateComment} from 'mattermost-redux/utils/post_list';
 
 import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
@@ -273,7 +273,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             }
         }
 
-        if (!isDateLine(itemId) && !isStartOfNewMessages(itemId)) {
+        if (!isDateLine(itemId) && !isStartOfNewMessages(itemId) && !isCreateComment(itemId)) {
             a11Index++;
         }
 
@@ -281,23 +281,28 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         const isFirstPost = itemId === this.props.selected.id;
 
         return (
-            <div
-                style={style}
-                className={className}
-            >
-                <Row
-                    a11Index={a11Index}
-                    currentUserId={this.props.currentUserId}
-                    isFirstPost={isFirstPost}
-                    isLastPost={isLastPost}
-                    listId={itemId}
-                    onCardClick={this.props.onCardClick}
-                    onCardClickPost={this.props.onCardClickPost}
-                    previousPostId={getPreviousPostId(data, index)}
-                    teamId={this.props.teamId}
-                    timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
-                />
-                {isLastPost && (
+            <>
+                {!isCreateComment(itemId) && (
+                    <div
+                        style={style}
+                        className={className}
+                    >
+                        <Row
+                            a11Index={a11Index}
+                            currentUserId={this.props.currentUserId}
+                            isFirstPost={isFirstPost}
+                            isLastPost={isLastPost}
+                            listId={itemId}
+                            onCardClick={this.props.onCardClick}
+                            onCardClickPost={this.props.onCardClickPost}
+                            previousPostId={getPreviousPostId(data, index)}
+                            teamId={this.props.teamId}
+                            timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
+                        />
+                    </div>
+                )}
+
+                {isCreateComment(itemId) && (
                     <CreateComment
                         focusOnMount={this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0)}
                         channelId={this.props.channel.id}
@@ -312,7 +317,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                         threadId={this.props.selected.id}
                     />
                 )}
-            </div>
+            </>
         );
     };
 
