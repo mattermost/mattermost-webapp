@@ -5,7 +5,7 @@ exports[`admin_console/system_roles should match snapshot 1`] = `
   className="wrapper--fixed"
 >
   <FormattedAdminHeader
-    defaultMessage="System Roles (Beta)"
+    defaultMessage="System Roles"
     id="admin.permissions.systemRoles"
     values={Object {}}
   />
