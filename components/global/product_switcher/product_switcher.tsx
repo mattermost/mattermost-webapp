@@ -70,7 +70,7 @@ const MenuItem = styled(Link)`
     i {
         color: var(--sidebar-bg);
     }
-    
+
     button {
         padding: 0 6px;
     }
