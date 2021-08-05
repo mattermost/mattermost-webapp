@@ -12,7 +12,7 @@ interface ComponentProps {
     emojiName: string;
     size?: number;
     emojiStyle?: React.CSSProperties;
-    onClick?: (event: React.MouseEvent) => void;
+    onClick?: () => void;
 }
 
 const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => {

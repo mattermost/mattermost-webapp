@@ -21,7 +21,7 @@ interface ComponentProps {
     spanStyle?: React.CSSProperties;
     emojiStyle?: React.CSSProperties;
     userID?: string;
-    onClick?: (event: React.MouseEvent) => void;
+    onClick?: () => void;
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {

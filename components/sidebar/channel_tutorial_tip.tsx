@@ -22,10 +22,8 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
     }
 
     render = () => {
-        const screens = [];
-
-        screens.push(
-            <div>
+        const screens = [
+            <div key='first-screen'>
                 <h4>
                     <FormattedMessage
                         id='sidebar.tutorialChannelTypes.title'
@@ -57,7 +55,7 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
                     />
                 </p>
             </div>,
-        );
+        ];
 
         return (
             <TutorialTip

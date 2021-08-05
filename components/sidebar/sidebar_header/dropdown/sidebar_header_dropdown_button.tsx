@@ -7,8 +7,6 @@ import styled from 'styled-components';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {OpenModalData} from 'actions/views/modals';
-
 import {localizeMessage} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import MenuIcon from 'components/widgets/icons/menu_icon';
@@ -47,7 +45,7 @@ type Props = {
     teamId: string;
     currentUser: UserProfile;
     teamDisplayName: string;
-    openModal: (modalData: OpenModalData) => void;
+    openModal: (modalData: any) => void;
     globalHeaderEnabled: boolean;
 };
 
@@ -133,7 +131,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent<Pro
                                         verticalAlign: 'top',
                                         marginLeft: 2,
                                     }}
-                                    onClick={this.handleCustomStatusEmojiClick}
+                                    onClick={this.handleCustomStatusEmojiClick as unknown as () => void}
                                 />
                             </div>
                         }

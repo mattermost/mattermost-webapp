@@ -13,12 +13,10 @@ import UserSettingsModal from 'components/user_settings/modal';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
 
-import {OpenModalData} from 'actions/views/modals';
-
 import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button';
 
 type Actions = {
-    openModal: (modalData: OpenModalData) => void;
+    openModal: (openModalData: any) => void;
 }
 
 type Props = {

@@ -26,10 +26,8 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
             offTopicDisplayName = this.props.offTopicDisplayName;
         }
 
-        const screens = [];
-
-        screens.push(
-            <div>
+        const screens = [
+            <div key='first-screen'>
                 <h4>
                     <FormattedMessage
                         id='sidebar.tutorialAddChannel.title'
@@ -67,7 +65,7 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
                     />
                 </p>
             </div>,
-        );
+        ];
 
         return (
             <TutorialTip
