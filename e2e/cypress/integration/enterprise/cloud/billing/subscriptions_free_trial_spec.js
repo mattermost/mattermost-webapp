@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @cloud_only
+// Group: @cloud_only @cloud_trial
+// Skip:  @headless @electron // run on Chrome (headed) only
 
 describe('System Console - Subscriptions section', () => {
     before(() => {
@@ -18,38 +19,24 @@ describe('System Console - Subscriptions section', () => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
 
-        cy.intercept('**/api/v4/cloud/subscription').as('forNonExistanceOfTrailTag');
         gotoSubscriptionScreen();
     });
 
     beforeEach(() => {
-        cy.intercept('**/api/v4/cloud/subscription').as('forVisibilityOfTrailTag');
-        cy.visit('/admin_console/billing/subscription');
-    });
-
-    it('MM-37054 - Non Existance of Trail tag on Subscription screen', () => {
-        // * Check for non existance of Trail tag
-        cy.wait('@forNonExistanceOfTrailTag').then((resObj) => {
-            expect(resObj.response.statusCode).to.equal(200);
-            const modifiedRes = {...resObj.response.body, ...resObj.response.body.is_free_trial = 'false'};
-            cy.intercept('**/api/v4/cloud/subscription', modifiedRes).as('nonExistanceTrailTag');
-            cy.contains('span', 'Trial').should('not.exist');
-            cy.wait('@nonExistanceTrailTag', {timeout: 5000}).then((xhr) => expect(xhr.response.statusCode).to.equal(200));
+        // # Click on close button of subscribe window if exist
+        cy.get('body').then(($body) => {
+            if ($body.find('#closeIcon').length > 0) {
+                cy.get('#closeIcon').parent().click();
+            }
         });
     });
 
-    it('MM-37054 - Visibility of Trail tag on Subscription screen', () => {
+    it('MM-T4118 - Visibility of Trail tag on Subscription screen', () => {
         // * Check for visibility of Trail tag
-        cy.wait('@forVisibilityOfTrailTag').then((res) => {
-            expect(res.response.statusCode).to.equal(200);
-            const modifiedRes = {...res.response.body, ...res.response.body.is_free_trial = 'true'};
-            cy.intercept('**/api/v4/cloud/subscription', modifiedRes).as('visibleTrailTag');
-            cy.contains('span', 'Trial').should('be.visible');
-            cy.wait('@visibleTrailTag', {timeout: 5000}).then((xhr) => expect(xhr.response.statusCode).to.equal(200));
-        });
+        cy.contains('span', 'Trial', {timeout: 10000}).should('be.visible');
     });
 
-    it('MM-37054 - User Count on Subscription screen', () => {
+    it('MM-T4119 - User Count on Subscription screen', () => {
         // * Check for User count
         cy.request('/api/v4/analytics/old?name=standard&team_id=').then((response) => {
             cy.get('.PlanDetails__userCount > span').invoke('text').then((text) => {
@@ -59,18 +46,26 @@ describe('System Console - Subscriptions section', () => {
         });
     });
 
-    it('MM-37054 - Contact Sales navigation from Subscription screen', () => {
+    it('MM-T4126 - Contact Sales navigation from Subscription screen', () => {
         // * Check for Contact Sales navigation
-        cy.contains('span', 'Contact Sales').parent().then((link) => {
-            const getHref = () => link.prop('href');
-            cy.wrap({href: getHref}).invoke('href').should('contains', '/contact-us');
-            cy.wrap(link).should('have.attr', 'target', '_blank');
-            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-            cy.request(link.prop('href')).its('status').should('eq', 200);
-        });
+        cy.window().
+            its('store').
+            invoke('getState').
+            then((state) => {
+                const currentiuserid = state.entities.users.currentUserId;
+                const email = encodeURIComponent(state.entities.users.profiles[currentiuserid].email);
+                const name = encodeURIComponent(`${state.entities.users.profiles[currentiuserid].first_name} ${state.entities.users.profiles[currentiuserid].last_name}`);
+                cy.contains('span', 'Contact Sales').parent().then((link) => {
+                    const getHref = () => link.prop('href');
+                    cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${email}&name=${name}&inquiry=sales&inquiry-issue=trial_questions`);
+                    cy.wrap(link).should('have.attr', 'target', '_blank');
+                    cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
+                    cy.request(link.prop('href')).its('status').should('eq', 200);
+                });
+            });
     });
 
-    it('MM-37054 - "See how billing works" navigation from Subscription screen', () => {
+    it('MM-T4121 - "See how billing works" navigation from Subscription screen', () => {
         // * Check for See how billing works navigation
         cy.contains('span', 'See how billing works').parent().then((link) => {
             const getHref = () => link.prop('href');
@@ -81,7 +76,7 @@ describe('System Console - Subscriptions section', () => {
         });
     });
 
-    it('MM-37054 - "Subscribe now" navigation and closing of Subscribe window', () => {
+    it('MM-T4122 - "Subscribe now" navigation and closing of Subscribe window', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -112,7 +107,7 @@ describe('System Console - Subscriptions section', () => {
         });
     });
 
-    it('MM-37054 - "See how billing works" navigation from Subscribe screen', () => {
+    it('MM-37054 - "See how billing works" navigation from Subscribe window', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -129,7 +124,7 @@ describe('System Console - Subscriptions section', () => {
         });
     });
 
-    it('MM-37054 - "Contact Support" navigation from Subscribe screen', () => {
+    it('MM-37054 - "Contact Support" navigation from Subscribe window', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -137,16 +132,24 @@ describe('System Console - Subscriptions section', () => {
         cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
 
         // * Check for Contact Support navigation
-        cy.contains('span', 'Contact Support').parent().then((link) => {
-            const getHref = () => link.prop('href');
-            cy.wrap({href: getHref}).invoke('href').should('contains', '/contact-us');
-            cy.wrap(link).should('have.attr', 'target', '_new');
-            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-            cy.request(link.prop('href')).its('status').should('eq', 200);
-        });
+        cy.window().
+            its('store').
+            invoke('getState').
+            then((state) => {
+                const currentiuserid = state.entities.users.currentUserId;
+                const supportemail = encodeURIComponent(state.entities.users.profiles[currentiuserid].email);
+                const supportname = encodeURIComponent(`${state.entities.users.profiles[currentiuserid].first_name} ${state.entities.users.profiles[currentiuserid].last_name}`);
+                cy.contains('span', 'Contact Support').parent().then((link) => {
+                    const getHref = () => link.prop('href');
+                    cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${supportemail}&name=${supportname}&inquiry=technical`);
+                    cy.wrap(link).should('have.attr', 'target', '_new');
+                    cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
+                    cy.request(link.prop('href')).its('status').should('eq', 200);
+                });
+            });
     });
 
-    it('MM-37054 - "Contact Sales" navigation from Subscribe screen', () => {
+    it('MM-37054 - "Contact Sales" navigation from Subscribe window', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -154,16 +157,24 @@ describe('System Console - Subscriptions section', () => {
         cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
 
         // * Check for Contact Sales navigation
-        cy.contains('span', 'Contact Sales').parent().then((link) => {
-            const getHref = () => link.prop('href');
-            cy.wrap({href: getHref}).invoke('href').should('contains', '/contact-us');
-            cy.wrap(link).should('have.attr', 'target', '_new');
-            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-            cy.request(link.prop('href')).its('status').should('eq', 200);
-        });
+        cy.window().
+            its('store').
+            invoke('getState').
+            then((state) => {
+                const currentiuserid = state.entities.users.currentUserId;
+                const email = encodeURIComponent(state.entities.users.profiles[currentiuserid].email);
+                const name = encodeURIComponent(`${state.entities.users.profiles[currentiuserid].first_name} ${state.entities.users.profiles[currentiuserid].last_name}`);
+                cy.contains('span', 'Contact Sales').parent().then((link) => {
+                    const getHref = () => link.prop('href');
+                    cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${email}&name=${name}&inquiry=sales`);
+                    cy.wrap(link).should('have.attr', 'target', '_blank');
+                    cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
+                    cy.request(link.prop('href')).its('status').should('eq', 200);
+                });
+            });
     });
 
-    it('MM-37054 - Enabling of "Subscribe" button in Subscribe window', () => {
+    it('MM-T4128 - Enabling of "Subscribe" button in Subscribe window', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -187,7 +198,7 @@ describe('System Console - Subscriptions section', () => {
         cy.get('.RHS').find('button').should('be.enabled');
     });
 
-    it('MM-37054 - Disabling of Subscribe button for not having valid data in Manditory fields in Subscribe screen', () => {
+    it('MM-T4129 - Disabling of Subscribe button for not having valid data in Manditory fields in Subscribe screen', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -247,4 +258,3 @@ const gotoSubscriptionScreen = () => {
     cy.findByText('System Console').should('be.visible').click();
     cy.findByText('Subscription').should('be.visible').click();
 };
-
