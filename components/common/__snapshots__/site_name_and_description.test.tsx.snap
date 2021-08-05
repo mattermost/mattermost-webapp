@@ -7,7 +7,7 @@ exports[`/components/common/SiteNameAndDescription should match snapshot, defaul
   >
     Mattermost
   </h1>
-  <h4
+  <h3
     className="color--light"
     id="site_description"
   >
@@ -15,7 +15,7 @@ exports[`/components/common/SiteNameAndDescription should match snapshot, defaul
       defaultMessage="All team communication in one place, searchable and accessible anywhere"
       id="web.root.signup_info"
     />
-  </h4>
+  </h3>
 </Fragment>
 `;
 
@@ -26,11 +26,11 @@ exports[`/components/common/SiteNameAndDescription should match snapshot, with c
   >
     other_site
   </h1>
-  <h4
+  <h3
     className="color--light"
     id="site_description"
   >
     custom_description_text
-  </h4>
+  </h3>
 </Fragment>
 `;

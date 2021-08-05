@@ -54,7 +54,7 @@ const ThreadPane = ({
 
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: channelId}));
     const post = useSelector((state: GlobalState) => getPost(state, thread.id));
-    const postsInThread = useSelector((state: GlobalState) => getPostsForThread(state, {rootId: post.id}));
+    const postsInThread = useSelector((state: GlobalState) => getPostsForThread(state, post.id));
     const selectHandler = useCallback(() => select(), []);
     let unreadTimestamp = post.edit_at || post.create_at;
 

@@ -20,8 +20,7 @@ import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/us
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
-// import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
-// import {registerAdminConsolePlugin} from 'actions/admin_actions';
+import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
 import {getAllCustomEmojis} from './emojis';
 import {getClientConfig, setServerVersion} from './general';
@@ -131,6 +130,8 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
 
 function completeLogin(data: UserProfile): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const collapsedThreads = isCollapsedThreadsEnabled(state);
         dispatch({
             type: UserTypes.RECEIVED_ME,
             data,
@@ -142,7 +143,7 @@ function completeLogin(data: UserProfile): ActionFunc {
 
         try {
             const membersRequest: Promise<TeamMembership[]> = Client4.getMyTeamMembers();
-            const unreadsRequest = Client4.getMyTeamUnreads();
+            const unreadsRequest = Client4.getMyTeamUnreads(collapsedThreads);
 
             teamMembers = await membersRequest;
             const teamUnreads = await unreadsRequest;
@@ -155,6 +156,10 @@ function completeLogin(data: UserProfile): ActionFunc {
                     member.msg_count = u.msg_count;
                     member.mention_count_root = u.mention_count_root;
                     member.msg_count_root = u.msg_count_root;
+                    if (collapsedThreads) {
+                        member.thread_count = u.thread_count;
+                        member.thread_mention_count = u.thread_mention_count;
+                    }
                 }
             }
         } catch (error) {
@@ -228,7 +233,6 @@ export function loadMe(): ActionFunc {
             dispatch(getMyPreferences()),
             dispatch(getMyTeams()),
             dispatch(getMyTeamMembers()),
-            dispatch(getMyTeamUnreads()),
         ];
 
         // Sometimes the server version is set in one or the other
@@ -239,6 +243,9 @@ export function loadMe(): ActionFunc {
         }
 
         await Promise.all(promises);
+
+        const collapsedReplies = isCollapsedThreadsEnabled(getState());
+        dispatch(getMyTeamUnreads(collapsedReplies));
 
         const {currentUserId} = getState().entities.users;
         const user = getState().entities.users.profiles[currentUserId];
@@ -448,9 +455,7 @@ export function getProfilesNotInTeam(teamId: string, groupConstrained: boolean, 
             return {error};
         }
 
-        const receivedProfilesListActionType = groupConstrained ?
-            UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_TEAM_AND_REPLACE :
-            UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_TEAM;
+        const receivedProfilesListActionType = groupConstrained ? UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_TEAM_AND_REPLACE : UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_TEAM;
 
         dispatch(batchActions([
             {
@@ -574,9 +579,7 @@ export function getProfilesNotInChannel(teamId: string, channelId: string, group
             return {error};
         }
 
-        const receivedProfilesListActionType = groupConstrained ?
-            UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_CHANNEL_AND_REPLACE :
-            UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_CHANNEL;
+        const receivedProfilesListActionType = groupConstrained ? UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_CHANNEL_AND_REPLACE : UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_CHANNEL;
 
         dispatch(batchActions([
             {

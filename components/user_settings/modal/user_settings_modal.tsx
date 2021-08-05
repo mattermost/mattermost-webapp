@@ -176,6 +176,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
 
     handleKeyDown = (e: KeyboardEvent) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.A)) {
+            e.preventDefault();
             this.handleHide();
         }
     }
