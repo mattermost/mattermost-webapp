@@ -624,8 +624,9 @@
                         line-height: 32px;
                         text-align: left;
                     }
+
                     i.icon {
-                        &:before {
+                        &::before {
                             margin: 0;
                         }
                     }
