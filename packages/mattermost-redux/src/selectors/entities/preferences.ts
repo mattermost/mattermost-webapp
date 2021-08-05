@@ -7,7 +7,13 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
+<<<<<<< HEAD
 import {PreferenceType, Theme} from 'mattermost-redux/types/preferences';
+=======
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
+import {UserProfile} from 'mattermost-redux/types/users';
+>>>>>>> master
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
@@ -117,7 +123,7 @@ const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): T
     }
 
     // If no config.DefaultTheme or value doesn't refer to a valid theme name...
-    return Preferences.THEMES.default;
+    return Preferences.THEMES.sapphire;
 });
 
 export const getTheme: (state: GlobalState) => Theme = createShallowSelector(
@@ -201,6 +207,10 @@ export function isTimedDNDEnabled(state: GlobalState): boolean {
     return (
         getFeatureFlagValue(state, 'TimedDND') === 'true'
     );
+}
+
+export function getInviteMembersButtonLocation(state: GlobalState): string | undefined {
+    return getFeatureFlagValue(state, 'InviteMembersButton');
 }
 
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {

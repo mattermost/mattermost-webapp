@@ -187,7 +187,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }), Preferences.THEMES.default);
+            }), Preferences.THEMES.sapphire);
         });
 
         it('custom theme', () => {
@@ -437,13 +437,13 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).mentionHighlightLink, Preferences.THEMES.default.mentionHighlightLink);
+            }).mentionHighlightLink, Preferences.THEMES.sapphire.mentionHighlightLink);
         });
 
         it('system theme with missing colours', () => {
             const currentTeamId = '1234';
             const theme = {
-                type: Preferences.THEMES.mattermostDark.type,
+                type: Preferences.THEMES.indigo.type,
                 sidebarBg: '#ff0000',
             };
 
@@ -465,13 +465,13 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).sidebarText, Preferences.THEMES.mattermostDark.sidebarText);
+            }).sidebarText, Preferences.THEMES.indigo.sidebarText);
         });
 
         it('non-default system theme', () => {
             const currentTeamId = '1234';
             const theme = {
-                type: Preferences.THEMES.windows10.type,
+                type: Preferences.THEMES.onyx.type,
             };
 
             assert.equal(Selectors.getTheme({
@@ -492,7 +492,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).codeTheme, Preferences.THEMES.windows10.codeTheme);
+            }).codeTheme, Preferences.THEMES.onyx.codeTheme);
         });
 
         it('should return the server-configured theme by default', () => {
@@ -500,7 +500,7 @@ describe('Selectors.Preferences', () => {
                 entities: {
                     general: {
                         config: {
-                            DefaultTheme: 'mattermostDark',
+                            DefaultTheme: 'indigo',
                         },
                     },
                     teams: {
@@ -512,14 +512,14 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).codeTheme, Preferences.THEMES.mattermostDark.codeTheme);
+            }).codeTheme, Preferences.THEMES.indigo.codeTheme);
 
             // Opposite case
             assert.notEqual(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
-                            DefaultTheme: 'windows10',
+                            DefaultTheme: 'onyx',
                         },
                     },
                     teams: {
@@ -531,7 +531,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).codeTheme, Preferences.THEMES.mattermostDark.codeTheme);
+            }).codeTheme, Preferences.THEMES.indigo.codeTheme);
         });
 
         it('returns the "default" theme if the server-configured value is not present', () => {
@@ -551,7 +551,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).codeTheme, Preferences.THEMES.default.codeTheme);
+            }).codeTheme, Preferences.THEMES.sapphire.codeTheme);
         });
     });
 

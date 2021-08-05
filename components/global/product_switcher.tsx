@@ -1,29 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import IconButton from '@mattermost/compass-components/components/icon-button';
 import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {ChannelsIcon, SwitcherIcon} from './assets';
+import {ChannelsIcon} from './assets';
 import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
-
-interface SwitcherButtonProps {
-    open: boolean;
-}
-
-const SwitcherButton = styled.button<SwitcherButtonProps>`
-    margin-left: 17px;
-    margin-right: 17px;
-    background: ${(props) => (props.open ? 'var(--sidebar-text)' : 'transparent')};
-    fill: ${(props) => (props.open ? 'var(--button-bg)' : 'rgba(var(--sidebar-header-text-color-rgb), 0.64)')};
-    border: none;
-    border-radius: 4px;
-    outline: none;
-    width: 28px;
-    height: 28px;
-`;
 
 interface SwitcherMenuProps {
     open: boolean;
@@ -61,7 +46,7 @@ const MenuItem = styled(Link)`
         text-decoration: none;
         color: inherit;
     }
-    
+
     height: 40px;
     width: 273px;
     padding-left: 16px;
@@ -69,7 +54,7 @@ const MenuItem = styled(Link)`
     display: flex;
     align-items: center;
     cursor: pointer;
-    
+
     &:hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);
         text-decoration: none;
@@ -91,11 +76,15 @@ const LinkIcon = styled.i`
     color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
-const ProductSwitcher = () => {
+const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+
     const currentProductID = useCurrentProductId(products);
+
+    const handleClick = () => setSwitcherOpen(!switcherOpen);
+
     useClickOutsideRef(menuRef, () => {
         setSwitcherOpen(false);
     });
@@ -114,12 +103,13 @@ const ProductSwitcher = () => {
 
     return (
         <div ref={menuRef}>
-            <SwitcherButton
-                open={switcherOpen}
-                onClick={() => setSwitcherOpen(!switcherOpen)}
-            >
-                <SwitcherIcon/>
-            </SwitcherButton>
+            <IconButton
+                icon={'view-grid-outline'}
+                onClick={handleClick}
+                size={'sm'}
+                toggled={switcherOpen}
+                inverted={true}
+            />
             <SwitcherMenu
                 open={switcherOpen}
             >
