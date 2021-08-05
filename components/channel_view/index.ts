@@ -34,6 +34,7 @@ function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+    const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
 
     let channelRolesLoading = true;
     if (channel && channel.id) {
@@ -55,7 +56,7 @@ function mapStateToProps(state: GlobalState) {
         channelRolesLoading,
         deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
         focusedPostId: state.views.channel.focusedPostId,
-        showNextStepsEphemeral: state.views.nextSteps.show,
+        showNextStepsEphemeral: state.views.nextSteps.show && enableOnboardingFlow,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
         isCloud: getLicense(state).Cloud === 'true',
