@@ -684,20 +684,21 @@ describe('PostUtils.createAriaLabelForPost', () => {
                 ],
             },
             file_ids: ['test_file_id_1'],
+            is_pinned: true,
         };
         const author = 'test_author';
         const reactions = {
-            reaction1: 'reaction 1',
-            reaction2: 'reaction 2',
+            reaction1: {emoji_name: 'reaction 1'},
+            reaction2: {emoji_name: 'reaction 2'},
         };
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        expect(ariaLabel.indexOf(author)).toBeTruthy();
-        expect(ariaLabel.indexOf(testPost.message)).toBeTruthy();
-        expect(ariaLabel.indexOf('3 attachments')).toBeTruthy();
-        expect(ariaLabel.indexOf('2 reactions')).toBeTruthy();
-        expect(ariaLabel.indexOf('message is saved and pinned')).toBeTruthy();
+        expect(ariaLabel.indexOf(author)).not.toBe(-1);
+        expect(ariaLabel.indexOf(testPost.message)).not.toBe(-1);
+        expect(ariaLabel.indexOf('3 attachments')).not.toBe(-1);
+        expect(ariaLabel.indexOf('2 reactions')).not.toBe(-1);
+        expect(ariaLabel.indexOf('message is saved and pinned')).not.toBe(-1);
     });
 
     test('Should show that message is a reply', () => {
@@ -763,7 +764,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        expect(ariaLabel.indexOf('reaction') === -1).toBe(true);
+        expect(ariaLabel.indexOf('reaction')).toBe(-1);
     });
 });
 
