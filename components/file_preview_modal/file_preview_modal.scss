@@ -24,19 +24,27 @@
         justify-content: center;
         padding: 48px;
         background: rgba(0, 0, 0, 0.9);
-
-        .pdf {
-            width: max-content;
-            height: 91.5vh;
-            margin: 0 auto;
-        }
-
         @media screen and (max-width: 768px) {
-            height: calc(100% - 72px - 72px);
+            height: calc(100% - 108px);
+            padding: 0;
         }
+    }
+    &__content-scrollable {
+        padding: 0;
     }
 
     &__scrollable {
+        width: 100%;
         overflow: auto;
+        height: calc(100vh - 72px);
+        padding: 48px;
+        margin: 0 auto;
+        @media screen and (max-width: 768px) {
+            height: calc(100vh - 108px);
+            padding: 0;
+        }
+        .hljs{
+            border-radius: 8px;
+        }
     }
 }

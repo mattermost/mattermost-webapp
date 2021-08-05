@@ -32,6 +32,7 @@ const FilePreviewModalFooter: React.FC<Props> = (props: Props) => {
     return (
         <div className='file-preview-modal-footer'>
             <FilePreviewModalInfo
+                showFileName={false}
                 post={props.post}
                 filename={props.filename}
             />

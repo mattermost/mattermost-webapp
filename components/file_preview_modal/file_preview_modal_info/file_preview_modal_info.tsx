@@ -18,6 +18,7 @@ import Post from '../../post_view/post/post';
 import './file_preview_modal_info.scss';
 
 interface Props {
+    showFileName: boolean;
     filename: string;
     post: React.ComponentProps<typeof Post>;
 }
@@ -29,6 +30,29 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
     const channel = useSelector((state: GlobalState) => selectChannel(state, props.post.channel_id));
     const name = useSelector((state: GlobalState) => displayNameGetter(state, props.post.user_id, true));
 
+    let info;
+    if (props.showFileName) {
+        info = (
+            <>
+                <h5 className='file-preview-modal__file-name'>{props.filename}
+                </h5>
+                <span className='file-preview-modal__row'>
+                    {name}
+                    <span className='file-preview-modal__channel'>{' Shared in ~' + channel.name}</span>
+                </span>
+            </>
+        );
+    } else {
+        info = (
+            <>
+                <h5 className='file-preview-modal__user-name'>{name}
+                </h5>
+                <span className='file-preview-modal__channel'>{' Shared in ~' + channel.name}
+                </span>
+            </>
+        );
+    }
+
     return (
         <div className='file-preview-modal__info'>
             <Avatar
@@ -37,12 +61,7 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
                 className='file-preview-modal__avatar'
             />
             <div className='file-preview-modal__info-details'>
-                <h5 className='file-preview-modal__file-name'>
-                    {props.filename}
-                </h5>
-                <span>
-                    {name} <span className='file-preview-modal__channel'>{' shared in ~' + channel.name}</span>
-                </span>
+                {info}
             </div>
         </div>
     );

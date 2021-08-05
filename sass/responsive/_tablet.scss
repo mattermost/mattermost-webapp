@@ -26,7 +26,7 @@
             .modal-image {
                 .modal-image__wrapper {
                     img {
-                        max-height: calc(100vh - 100px);
+                        max-height: calc(100vh - 72px - 96px);
                     }
 
                     >div {
@@ -40,7 +40,7 @@
                 }
 
                 .modal-image__content {
-                    max-height: calc(100vh - 100px);
+                    //max-height: calc(100vh - 100px);
                 }
 
                 .modal-button-bar {

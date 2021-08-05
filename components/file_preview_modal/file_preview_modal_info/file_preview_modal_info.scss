@@ -23,15 +23,52 @@
     }
 
     &__file-name {
-        overflow: hidden;
         margin: 0;
         font-weight: 600;
         line-height: 24px;
+        max-width: 30vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1.6rem;
+    }
+    &__row{
+        font-size: 1.4rem;
+        font-weight: 400;
+        text-transform: capitalize;
+        max-width: 30vw;
+        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+    &__user-name{
+        text-transform: capitalize;
+        font-size: 1.6rem;
+        font-weight: 600;
+        line-height: 20px;
+        margin: unset;
+    }
 
     &__channel {
+        margin-left: 8px;
         opacity: 0.56;
+    }
+
+    @media screen and (max-width: 768px) {
+        &__avatar {
+            &.Avatar {
+                width: 32px;
+                min-width: 32px;
+                height: 32px;
+                border-radius: 50%;
+            }
+        }
+        &__channel {
+            margin-left: unset;
+            max-width: calc(100vw - 150px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }

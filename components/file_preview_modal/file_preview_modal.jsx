@@ -304,9 +304,9 @@ export default class FilePreviewModal extends React.PureComponent {
                     />
                 );
             } else if (fileType === FileTypes.PDF) {
-                modalImageClass = ' file-preview-modal__scrollable';
+                modalImageClass = ' file-preview-modal__content-scrollable';
                 content = (
-                    <div className='pdf'>
+                    <div className='file-preview-modal__scrollable'>
                         <React.Suspense fallback={null}>
                             <PDFPreview
                                 fileInfo={fileInfo}
@@ -317,12 +317,15 @@ export default class FilePreviewModal extends React.PureComponent {
                     </div>
                 );
             } else if (CodePreview.supports(fileInfo)) {
+                modalImageClass = ' file-preview-modal__content-scrollable';
                 dialogClassName += ' modal-code';
                 content = (
-                    <CodePreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
+                    <div className='file-preview-modal__scrollable'>
+                        <CodePreview
+                            fileInfo={fileInfo}
+                            fileUrl={fileUrl}
+                        />
+                    </div>
                 );
             } else {
                 content = (
@@ -406,19 +409,21 @@ export default class FilePreviewModal extends React.PureComponent {
                             >
                                 {content}
                             </div>
-                            <FilePreviewModalFooter
-                                post={this.props.post}
-                                showPublicLink={showPublicLink}
-                                filename={fileName}
-                                fileURL={fileDownloadUrl}
-                                enablePublicLink={this.props.enablePublicLink || false}
-                                canDownloadFiles={this.props.canDownloadFiles || false}
-                                isExternalFile={isExternalFile}
-                                onGetPublicLink={this.handleGetPublicLink}
-                                handlePrev={(e) => this.handlePrev(e)}
-                                handleNext={(e) => this.handleNext(e)}
-                                handleModalClose={() => this.handleModalClose()}
-                            />
+                            { this.state.isMobile &&
+                                <FilePreviewModalFooter
+                                    post={this.props.post}
+                                    showPublicLink={showPublicLink}
+                                    filename={fileName}
+                                    fileURL={fileDownloadUrl}
+                                    enablePublicLink={this.props.enablePublicLink || false}
+                                    canDownloadFiles={this.props.canDownloadFiles || false}
+                                    isExternalFile={isExternalFile}
+                                    onGetPublicLink={this.handleGetPublicLink}
+                                    handlePrev={(e) => this.handlePrev(e)}
+                                    handleNext={(e) => this.handleNext(e)}
+                                    handleModalClose={() => this.handleModalClose()}
+                                />
+                            }
                         </div>
                     </div>
                 </Modal.Body>

@@ -37,6 +37,7 @@ const FilePreviewModalHeader: React.FC<Props> = (props: Props) => {
         <div className='file-preview-modal-header'>
             {!props.isMobile &&
             <FilePreviewModalInfo
+                showFileName={true}
                 post={props.post}
                 filename={props.filename}
             />

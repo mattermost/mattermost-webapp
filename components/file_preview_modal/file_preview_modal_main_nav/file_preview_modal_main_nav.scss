@@ -2,6 +2,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: 600;
+    font-size: 1.6rem;
 
     &__next {
         display: flex;
@@ -9,6 +11,10 @@
         border: unset;
         margin-left: 12px;
         background: transparent;
+        font-weight: 600;
+        i {
+            font-size: 2.4rem;
+        }
     }
 
     &__prev {
@@ -17,5 +23,9 @@
         border: unset;
         margin-right: 12px;
         background: transparent;
+        font-weight: 600;
+        i {
+            font-size: 2.4rem;
+        }
     }
 }

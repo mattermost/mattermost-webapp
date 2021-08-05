@@ -10,6 +10,7 @@ describe('components/FilePreviewModalInfo', () => {
     test('should match snapshot when link is empty', () => {
         const wrapper = shallow<typeof FilePreviewModalInfo>(
             <FilePreviewModalInfo
+                showFileName={false}
                 post={{}}
                 filename={''}
             />,
