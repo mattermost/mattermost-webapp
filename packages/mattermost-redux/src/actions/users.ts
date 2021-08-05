@@ -18,8 +18,8 @@ import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/us
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
-import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
-import {registerAdminConsolePlugin} from 'actions/admin_actions';
+// import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
+// import {registerAdminConsolePlugin} from 'actions/admin_actions';
 
 import {getAllCustomEmojis} from './emojis';
 import {getClientConfig, setServerVersion} from './general';

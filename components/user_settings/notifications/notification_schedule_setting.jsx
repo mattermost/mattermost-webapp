@@ -70,7 +70,7 @@ class setNotificationSchedule extends React.PureComponent {
         };
     }
     async componentWillMount() {
-        const schedules = await Client4.getStatus(currentUserId);
+        const schedules = await Client4.getScheduleStatus(currentUserId);
         if (schedules.mode > 0) {
             this.setState({
                 enableCusotmDND: true,
@@ -142,8 +142,24 @@ class setNotificationSchedule extends React.PureComponent {
 
     handleSubmit = async () => {
         let nMode;
-        if (!this.state.enableCusotmDND) {
+        if (this.state.enableCusotmDND === false) {
             nMode = 0;
+            await this.setState({
+                sunStart: '',
+                monStart: '',
+                tueStart: '',
+                wedStart: '',
+                thuStart: '',
+                friStart: '',
+                satStart: '',
+                sunEnd: '',
+                monEnd: '',
+                tueEnd: '',
+                wedEnd: '',
+                thuEnd: '',
+                friEnd: '',
+                satEnd: '',
+            });
         } else {
             nMode = this.state.selectedOption.value;
         }
