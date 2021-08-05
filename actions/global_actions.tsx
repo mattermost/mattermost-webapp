@@ -203,7 +203,6 @@ export function sendEphemeralPost(message: string, channelId?: string, parentId?
             create_at: timestamp,
             update_at: timestamp,
             root_id: parentId,
-            parent_id: parentId,
             props: {},
         };
 
@@ -221,7 +220,6 @@ export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: 
         create_at: timestamp,
         update_at: timestamp,
         root_id: postRootId,
-        parent_id: postRootId,
         props: {
             username: user.username,
             addedUsername,

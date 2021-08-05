@@ -86,7 +86,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
           id="next_steps_view.nicelyDone"
         />
       </h1>
-      <h2
+      <p
         className="NextStepsView__transitionBottomText"
       >
         <img
@@ -96,7 +96,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
           defaultMessage="One moment"
           id="next_steps_view.oneMoment"
         />
-      </h2>
+      </p>
     </div>
   </div>
   <NextStepsTips
