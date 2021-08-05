@@ -714,7 +714,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        expect(ariaLabel.indexOf('reply')).toBeTruthy();
+        expect(ariaLabel.indexOf('replied')).not.toBe(-1);
     });
 
     test('Should translate emoji into {emoji-name} emoji', () => {
@@ -729,11 +729,11 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        expect(ariaLabel.indexOf('smile emoji')).toBeTruthy();
-        expect(ariaLabel.indexOf('+1 emoji')).toBeTruthy();
-        expect(ariaLabel.indexOf('non-potable water emoji')).toBeTruthy();
-        expect(ariaLabel.indexOf(':space emoji:')).toBeTruthy();
-        expect(ariaLabel.indexOf(':not_an_emoji:')).toBeTruthy();
+        expect(ariaLabel.indexOf('smile emoji')).not.toBe(-1);
+        expect(ariaLabel.indexOf('+1 emoji')).not.toBe(-1);
+        expect(ariaLabel.indexOf('non-potable water emoji')).not.toBe(-1);
+        expect(ariaLabel.indexOf(':space emoji:')).not.toBe(-1);
+        expect(ariaLabel.indexOf(':not_an_emoji:')).not.toBe(-1);
     });
 
     test('Generating aria label should not break if message is undefined', () => {
