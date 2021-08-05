@@ -7,14 +7,9 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-<<<<<<< HEAD
-import {PreferenceType, Theme} from 'mattermost-redux/types/preferences';
-=======
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Theme} from 'mattermost-redux/types/themes';
-import {UserProfile} from 'mattermost-redux/types/users';
->>>>>>> master
 import {GlobalState} from 'mattermost-redux/types/store';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
