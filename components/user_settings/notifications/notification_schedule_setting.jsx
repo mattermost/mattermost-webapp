@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactSelect from 'react-select';
 import TimePicker from 'rc-time-picker';
@@ -38,6 +39,13 @@ const state = getState();
 const currentUserId = getCurrentUserId(state);
 
 class setNotificationSchedule extends React.PureComponent {
+    static propTypes = {
+        updateSection: PropTypes.func,
+        activeSection: PropTypes.string,
+        saving: PropTypes.bool,
+        onCancel: PropTypes.func,
+        serverError: PropTypes.func,
+    };
     constructor(props) {
         super(props);
 
@@ -339,7 +347,38 @@ class setNotificationSchedule extends React.PureComponent {
     };
 
     renderMaxSettingView = () => {
+        const to = 'to';
         if (this.state.selectedOption.label === 'Custom Schedule') {
+            const weekInfo = [
+                {
+                    label: 'S',
+                    name: 'Sunday',
+                },
+                {
+                    label: 'M',
+                    name: 'Monday',
+                },
+                {
+                    label: 'T',
+                    name: 'Tuesday',
+                },
+                {
+                    label: 'W',
+                    name: 'Wednesday',
+                },
+                {
+                    label: 'T',
+                    name: 'Thursday',
+                },
+                {
+                    label: 'F',
+                    name: 'Friday',
+                },
+                {
+                    label: 'S',
+                    name: 'Saturday',
+                },
+            ];
             return (
                 <SettingItemMax
                     title={localizeMessage(
@@ -402,7 +441,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 }
                                                 className='weekday'
                                             />
-                                            <label htmlFor='sunEnable'>S</label>
+                                            <label htmlFor='sunEnable'>{weekInfo[0].label}</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
@@ -415,7 +454,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 }
                                                 className='weekday'
                                             />
-                                            <label htmlFor='monEnable'>M</label>
+                                            <label htmlFor='monEnable'>{weekInfo[1].label}</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
@@ -428,7 +467,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 }
                                                 className='weekday'
                                             />
-                                            <label htmlFor='tueEnable'>T</label>
+                                            <label htmlFor='tueEnable'>{weekInfo[2].label}</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
@@ -441,7 +480,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 }
                                                 className='weekday'
                                             />
-                                            <label htmlFor='wedEnable'>W</label>
+                                            <label htmlFor='wedEnable'>{weekInfo[3].label}</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
@@ -454,7 +493,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 }
                                                 className='weekday'
                                             />
-                                            <label htmlFor='thuEnable'>T</label>
+                                            <label htmlFor='thuEnable'>{weekInfo[4].label}</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
@@ -467,7 +506,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 }
                                                 className='weekday'
                                             />
-                                            <label htmlFor='friEnable'>F</label>
+                                            <label htmlFor='friEnable'>{weekInfo[5].label}</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
@@ -480,13 +519,13 @@ class setNotificationSchedule extends React.PureComponent {
                                                 }
                                                 className='weekday'
                                             />
-                                            <label htmlFor='satEnable'>S</label>
+                                            <label htmlFor='satEnable'>{weekInfo[6].label}</label>
                                         </div>
                                         <div className='form-time'>
                                             {this.state.sunEnable ? (
                                                 <div className='time-wrapper custom-time'>
                                                     <div className='week-name'>
-                                                        Sunday
+                                                        {weekInfo[0].name}
                                                     </div>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
@@ -514,7 +553,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             )
                                                         }
                                                     />
-                                                    <p>to</p>
+                                                    <p>{to}</p>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
@@ -548,7 +587,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             {this.state.monEnable ? (
                                                 <div className='time-wrapper custom-time'>
                                                     <div className='week-name'>
-                                                        Monday
+                                                        {weekInfo[1].name}
                                                     </div>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
@@ -576,7 +615,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             )
                                                         }
                                                     />
-                                                    <p>to</p>
+                                                    <p>{to}</p>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
@@ -610,7 +649,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             {this.state.tueEnable ? (
                                                 <div className='time-wrapper custom-time'>
                                                     <div className='week-name'>
-                                                        Tuesday
+                                                        {weekInfo[2].name}
                                                     </div>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
@@ -638,7 +677,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             )
                                                         }
                                                     />
-                                                    <p>to</p>
+                                                    <p>{to}</p>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND
                                                         }
@@ -673,7 +712,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             {this.state.wedEnable ? (
                                                 <div className='time-wrapper custom-time'>
                                                     <div className='week-name'>
-                                                        Wednesday
+                                                        {weekInfo[3].name}
                                                     </div>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
@@ -701,7 +740,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             )
                                                         }
                                                     />
-                                                    <p>to</p>
+                                                    <p>{to}</p>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
@@ -735,7 +774,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             {this.state.thuEnable ? (
                                                 <div className='time-wrapper custom-time'>
                                                     <div className='week-name'>
-                                                        Thursday
+                                                        {weekInfo[4].name}
                                                     </div>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
@@ -763,7 +802,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             )
                                                         }
                                                     />
-                                                    <p>to</p>
+                                                    <p>{to}</p>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
@@ -797,7 +836,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             {this.state.friEnable ? (
                                                 <div className='time-wrapper custom-time'>
                                                     <div className='week-name'>
-                                                        Friday
+                                                        {weekInfo[5].name}
                                                     </div>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
@@ -825,7 +864,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             )
                                                         }
                                                     />
-                                                    <p>to</p>
+                                                    <p>{to}</p>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
@@ -859,7 +898,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             {this.state.satEnable ? (
                                                 <div className='time-wrapper custom-time'>
                                                     <div className='week-name'>
-                                                        Saturday
+                                                        {weekInfo[6].name}
                                                     </div>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
@@ -887,7 +926,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             )
                                                         }
                                                     />
-                                                    <p>to</p>
+                                                    <p>{to}</p>
                                                     <TimePicker
                                                         disabled={!this.state.enableCusotmDND}
                                                         className='time-picker'
@@ -1005,7 +1044,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 />
                                             }
                                         />
-                                        <p>to</p>
+                                        <p>{to}</p>
                                         <TimePicker
                                             disabled={
                                                 !this.state.enableCusotmDND

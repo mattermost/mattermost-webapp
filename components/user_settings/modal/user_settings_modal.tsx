@@ -103,15 +103,25 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-
-        this.state = {
-            active_tab: props.isContentProductSettings ? 'notifications' : 'profile',
-            active_section: '',
-            showConfirmModal: false,
-            enforceFocus: true,
-            show: true,
-            resendStatus: '',
-        };
+        if (this.props.active_tab !== undefined && this.props.active_tab !== 'undefined') {
+            this.state = {
+                active_tab: this.props.active_tab,
+                active_section: this.props.active_section,
+                showConfirmModal: false,
+                enforceFocus: true,
+                show: true,
+                resendStatus: '',
+            };
+        } else {
+            this.state = {
+                active_tab: 'general',
+                active_section: '',
+                showConfirmModal: false,
+                enforceFocus: true,
+                show: true,
+                resendStatus: '',
+            };
+        }
         this.requireConfirm = false;
 
         // Used when settings want to override the default confirm modal with their own
@@ -133,20 +143,6 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                 this.setState({resendStatus: 'failure'});
             }
         });
-    }
-
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyDown);
-        if (this.props.active_tab !== undefined) {
-            this.setState({
-                active_tab: this.props.active_tab,
-                active_section: this.props.active_section,
-            });
-        } else {
-            this.setState({
-                active_tab: 'general',
-            });
-        }
     }
 
     componentWillUnmount() {
