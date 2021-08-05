@@ -3,6 +3,8 @@
 
 import {combineReducers} from 'redux';
 
+import {Timezone} from 'timezones.json';
+
 import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ClientLicense, ClientConfig} from 'mattermost-redux/types/config';
@@ -82,7 +84,7 @@ function license(state: ClientLicense = {}, action: GenericAction) {
     }
 }
 
-function timezones(state: string[] = [], action: GenericAction) {
+function timezones(state: Timezone[] = [], action: GenericAction) {
     switch (action.type) {
     case GeneralTypes.SUPPORTED_TIMEZONES_RECEIVED:
         return action.data;

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect, {ValueType} from 'react-select';
-import {Timezone} from 'timezones.json'
+import {Timezone} from 'timezones.json';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -23,6 +23,7 @@ type Props = {
     automaticTimezone: string;
     manualTimezone: string;
     timezones: Timezone[];
+    timezoneLabel: string;
     actions: Actions;
 }
 type SelectedOption = {
@@ -51,7 +52,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             manualTimezoneInput: props.manualTimezone,
             isSaving: false,
             openMenu: false,
-            selectedOption: {label: props.manualTimezone, value: props.manualTimezone},
+            selectedOption: {label: props.timezoneLabel, value: props.manualTimezone},
         };
     }
 
@@ -155,16 +156,15 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         this.setState({manualTimezone: e.target.value});
     };
     render() {
+        const {timezones} = this.props;
+        const {useAutomaticTimezone} = this.state;
+
         const timeOptions = this.props.timezones.map((timeObject) => {
             return {
                 value: timeObject.utc[0],
                 label: timeObject.text,
             };
-        },
-        );
-        const {timezones} = this.props;
-        const {useAutomaticTimezone} = this.state;
-
+        });
         let serverError;
         if (this.state.serverError) {
             serverError = <label className='has-error'>{this.state.serverError}</label>;

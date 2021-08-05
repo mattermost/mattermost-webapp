@@ -8,12 +8,11 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getSupportedTimezones} from 'mattermost-redux/actions/general';
-import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
-import {getConfig, getSupportedTimezones as getTimezones, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {autoUpdateTimezone, getTimezones} from 'mattermost-redux/actions/timezone';
+import {getConfig, getSupportedTimezones, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mattermost-redux/selectors/entities/preferences';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {getTimezoneLabel, getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {Preferences} from 'utils/constants';
@@ -24,11 +23,12 @@ import UserSettingsDisplay from './user_settings_display';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
-    const timezones = getTimezones(state);
+    const timezones = getSupportedTimezones(state);
     const currentUserId = getCurrentUserId(state);
     const userTimezone = getUserTimezone(state, currentUserId);
     const automaticTimezoneNotSet = userTimezone && userTimezone.useAutomaticTimezone && !userTimezone.automaticTimezone;
     const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
+    const timezoneLabel = getTimezoneLabel(state, userTimezone.manualTimezone);
     const allowCustomThemes = config.AllowCustomThemes === 'true';
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
     const defaultClientLocale = config.DefaultClientLocale as string;
@@ -46,6 +46,7 @@ function mapStateToProps(state: GlobalState) {
         enableThemeSelection,
         enableTimezone,
         timezones,
+        timezoneLabel,
         userTimezone,
         shouldAutoUpdateTimezone,
         currentUserTimezone: getUserCurrentTimezone(userTimezone) as string,
@@ -65,7 +66,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            getSupportedTimezones,
+            getTimezones,
             autoUpdateTimezone,
             savePreferences,
         }, dispatch),

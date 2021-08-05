@@ -125,7 +125,28 @@ describe('Actions.General', () => {
         nock(Client4.getBaseRoute()).
             get('/system/timezones').
             query(true).
-            reply(200, ['America/New_York', 'America/Los_Angeles']);
+            reply(200, [
+                {
+                    value: 'Caucasus Standard Time',
+                    abbr: 'CST',
+                    offset: 4,
+                    isdst: false,
+                    text: '(UTC+04:00) Yerevan',
+                    utc: [
+                        'Asia/Yerevan',
+                    ],
+                },
+                {
+                    value: 'Afghanistan Standard Time',
+                    abbr: 'AST',
+                    offset: 4.5,
+                    isdst: false,
+                    text: '(UTC+04:30) Kabul',
+                    utc: [
+                        'Asia/Kabul',
+                    ],
+                },
+            ]);
 
         await Actions.getSupportedTimezones()(store.dispatch, store.getState);
 
