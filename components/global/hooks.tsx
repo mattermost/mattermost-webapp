@@ -8,6 +8,9 @@ import {useLocation} from 'react-router';
 import {GlobalState} from 'types/store';
 import {ProductComponent} from 'types/store/plugins';
 import {getBasePath} from 'utils/url';
+import {Preferences} from 'utils/constants';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
 
@@ -52,3 +55,11 @@ export const useCurrentProductId = (products?: ProductComponent[]): string | nul
     return null;
 };
 
+
+export const useShowTutorialStep = (stepToShow: number): boolean => {
+    const currentUserId = useSelector<GlobalState, string>(getCurrentUserId);
+    const boundGetInt = (state: GlobalState) => getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0);
+
+    const step = useSelector<GlobalState, number>(boundGetInt);
+    return step === stepToShow;
+}
