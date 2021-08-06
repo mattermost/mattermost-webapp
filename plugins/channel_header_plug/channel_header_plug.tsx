@@ -9,7 +9,7 @@ import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
