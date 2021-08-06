@@ -111,19 +111,19 @@ exports[`components/create_post Show tutorial 1`] = `
             <div>
               <h4>
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Sending Messages"
+                  defaultMessage="Send a message"
                   id="create_post.tutorialTip.title"
                 />
               </h4>
               <p>
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Type here to write a message and press **Enter** to post it."
+                  defaultMessage="Type your first message and select **Enter** to send it."
                   id="create_post.tutorialTip1"
                 />
               </p>
               <p>
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Click the **Attachment** button to upload an image or a file."
+                  defaultMessage="Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages."
                   id="create_post.tutorialTip2"
                 />
               </p>

@@ -283,6 +283,16 @@
                                     margin: 0 7px;
                                 }
                             }
+
+                            > button {
+                                color: var(--sidebar-text);
+                            }
+
+                            &.active {
+                                > button {
+                                    color: var(--sidebar-text);
+                                }
+                            }
                         }
                     }
 
@@ -623,6 +633,15 @@
                         font-size: 15px;
                         line-height: 32px;
                         text-align: left;
+                    }
+
+                    i.icon {
+                        width: auto;
+                        margin: 0;
+
+                        &::before {
+                            margin: 0;
+                        }
                     }
                 }
 

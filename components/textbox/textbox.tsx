@@ -24,7 +24,7 @@ import * as Utils from 'utils/utils.jsx';
 type Props = {
     id: string;
     channelId: string;
-    rootId: string;
+    rootId?: string;
     tabIndex?: number;
     value: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;

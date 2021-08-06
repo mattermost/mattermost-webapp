@@ -21,7 +21,7 @@ import PopoverBar from './popover_bar';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class ViewImageModal extends React.PureComponent {
+export default class FilePreviewModal extends React.PureComponent {
     static propTypes = {
 
         /**
