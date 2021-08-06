@@ -493,7 +493,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     return (
         <div className='sidebar--right__content'>
-            {!globalHeaderEnabled && <div className='search-bar__container channel-header alt'>
+            {globalHeaderEnabled && !Utils.isMobile() ? null : <div className='search-bar__container channel-header alt'>
                 <div className='sidebar-right__table'>
                     {renderSearchBar()}
                     {renderMentionButton()}
