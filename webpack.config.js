@@ -289,6 +289,7 @@ var config = {
                 {from: 'images/browser-icons', to: 'images/browser-icons'},
                 {from: 'images/cloud', to: 'images'},
                 {from: 'images/welcome_illustration.png', to: 'images'},
+                {from: 'images/welcome_illustration_new.png', to: 'images'},
                 {from: 'images/logo_email_blue.png', to: 'images'},
                 {from: 'images/logo_email_gray.png', to: 'images'},
                 {from: 'images/forgot_password_illustration.png', to: 'images'},
