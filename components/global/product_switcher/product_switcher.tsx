@@ -101,7 +101,10 @@ const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
                 {props.text}
             </MenuItemTextContainer>
             {props.active &&
-                <LinkIcon className={'fa fa-check'}/>
+                <Icon
+                    size={16}
+                    glyph='check'
+                />
             }
         </MenuItem>
     );

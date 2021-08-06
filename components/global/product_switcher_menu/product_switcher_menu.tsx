@@ -4,6 +4,7 @@
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
+import Icon from '@mattermost/compass-components/foundations/icon';
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {Permissions} from 'mattermost-redux/constants';
@@ -73,10 +74,9 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             to='/admin_console'
                             text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
                             icon={
-                                <IconButton
-                                    className={'product-switcher-icon'}
-                                    size={'sm'}
-                                    icon='application-cog'
+                                <Icon
+                                    size={16}
+                                    glyph={'application-cog'}
                                 />
                             }
                         />
@@ -87,10 +87,9 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                         to={'/' + this.props.teamName + '/integrations'}
                         text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
                         icon={
-                            <IconButton
-                                className={'product-switcher-icon'}
-                                size={'sm'}
-                                icon='webhook-incoming'
+                            <Icon
+                                size={16}
+                                glyph={'webhook-incoming'}
                             />
                         }
                     />
@@ -106,10 +105,9 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
                             showUnread={!this.props.firstAdminVisitMarketplaceStatus}
                             icon={
-                                <IconButton
-                                    className={'product-switcher-icon'}
-                                    size={'sm'}
-                                    icon='apps'
+                                <Icon
+                                    size={16}
+                                    glyph={'apps'}
                                 />
                             }
                         />
@@ -119,10 +117,9 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             url={useSafeUrl(this.props.appDownloadLink)}
                             text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                             icon={
-                                <IconButton
-                                    className={'product-switcher-icon'}
-                                    size={'sm'}
-                                    icon='download-outline'
+                                <Icon
+                                    size={16}
+                                    glyph={'download-outline'}
                                 />
                             }
                         />
@@ -132,10 +129,9 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             dialogType={AboutBuildModal}
                             text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName})}
                             icon={
-                                <IconButton
-                                    className={'product-switcher-icon'}
-                                    size={'sm'}
-                                    icon='information-outline'
+                                <Icon
+                                    size={16}
+                                    glyph={'information-outline'}
                                 />
                             }
                         />
