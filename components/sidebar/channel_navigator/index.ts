@@ -5,10 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getInt, shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
+import {Constants, Preferences, TutorialSteps} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 
@@ -30,7 +34,15 @@ function goForward() {
 }
 
 function mapStateToProps(state: GlobalState) {
+    const config = getConfig(state);
+    const channelsByName = getChannelsNameMapInCurrentTeam(state);
+    const enableTutorial = config.EnableTutorial === 'true';
+    const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
+
     return {
+        townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
+        offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
+        showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.ADD_CHANNEL_POPOVER,
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
