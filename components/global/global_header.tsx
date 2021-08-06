@@ -78,7 +78,6 @@ const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
-    const isMobile = Utils.isMobile();
 
     useEffect(() => {
         const root = document.querySelector('#root');
@@ -96,7 +95,7 @@ const GlobalHeader = (): JSX.Element | null => {
         return null;
     }
 
-    return isMobile ? null : (
+    return (
         <GlobalHeaderContainer>
             <LeftControls>
                 <ProductSwitcher/>

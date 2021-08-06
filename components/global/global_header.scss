@@ -3,26 +3,42 @@
 // css feature flag: apply styling overrides to legacy layout when global header is enabled
 .feature-global-header {
     --global-header-background: var(--sidebar-teambar-bg);
-    --global-header-text: var(--sidebar-text);
+    --global-header-text: var(--sidebar-header-text-color);
     --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
-    --global-header-text-rgb: var(--sidebar-text-rgb);
+    --global-header-text-rgb: var(--sidebar-header-text-color-rgb);
 
-    .team-sidebar {
-        --sidebar-teambar-bg: var(--sidebar-header-bg);
-
-        height: calc(100% - 40px);
-        border-right: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
+    @media screen and (max-width: 768px) {
+        > header {
+            display: none;
+        }
     }
 
-    #SidebarContainer {
-        height: calc(100% - 40px);
+    @media screen and (min-width: 769px) {
+        .team-sidebar {
+            --sidebar-teambar-bg: var(--sidebar-header-bg);
+            --sidebar-header-text-color: var(--sidebar-text);
+            --sidebar-teambar-bg-rgb: var(--sidebar-header-bg-rgb);
+            --sidebar-header-text-color-rgb: var(--sidebar-text-rgb);
+
+            height: calc(100% - 40px);
+            border-right: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
+        }
+
+        #SidebarContainer {
+                height: calc(100% - 40px);
+        }
+
+        #lhsHeader {
+            --sidebar-header-bg: var(--sidebar-bg);
+            --sidebar-header-text-color: var(--sidebar-text);
+            --sidebar-header-bg-rgb: var(--sidebar-bg-rgb);
+            --sidebar-header-text-color-rgb: var(--sidebar-text-rgb);
+        }
+
+        .product-switcher-icon {
+            padding: 0 6px;
+        }
+
     }
 
-    #lhsHeader {
-        --sidebar-header-bg: var(--sidebar-bg);
-    }
-
-    .product-switcher-icon {
-        padding: 0 6px;
-    }
 }
