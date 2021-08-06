@@ -8,10 +8,7 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-type Props = {
-    onClick: () => void;
-}
-export default function ChannelTutorialTip(props: Props) {
+export default function ProductSwitcherTip() {
     const screens = [
         <div key='first-screen'>
             <h4>
@@ -38,7 +35,6 @@ export default function ChannelTutorialTip(props: Props) {
     return (
         <TutorialTip
             placement='right'
-            onClick={props.onClick}
             screens={screens}
             overlayClass='tip-overlay--product-switcher'
             telemetryTag='tutorial_tip_product_switcher'

@@ -26,7 +26,6 @@ type Props = {
     placement: string;
     overlayClass: string;
     telemetryTag?: string;
-    onClick?: () => void;
     actions: {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
@@ -57,11 +56,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private show = (): void => {
-        this.setState({show: true}, () => {
-            if (this.props.onClick) {
-                this.props.onClick();
-            }
-        });
+        this.setState({show: true});
     }
 
     private hide = (): void => {

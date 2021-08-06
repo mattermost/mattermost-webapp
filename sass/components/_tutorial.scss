@@ -105,12 +105,6 @@
             border-left-width: 0;
         }
     }
-    // for on top
-    //
-    // border-bottom-color: white;
-    // border-top-width: 0;
-    // margin-left: -10px;
-    // left: 130px;
 
     h4 {
         margin: 5px 0 15px;
@@ -214,8 +208,7 @@
 
     &.tip-overlay--product-switcher {
         right: unset;
-        // need to completely cover targeted button
-        padding: 4px 13px 21px 18px;
+        padding: 4px 4px 16px 18px;
         cursor: pointer;
     }
 }
