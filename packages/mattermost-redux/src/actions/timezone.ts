@@ -33,7 +33,7 @@ export function autoUpdateTimezone(deviceTimezone: string) {
     };
 }
 
-export function getTimezones() {
+export function getSupportedTimezones() {
     return async (dispatch: DispatchFunc) => {
         dispatch({type: GeneralTypes.SUPPORTED_TIMEZONES_RECEIVED, data: timezones});
     };

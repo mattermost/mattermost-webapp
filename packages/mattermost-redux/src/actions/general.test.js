@@ -121,41 +121,6 @@ describe('Actions.General', () => {
         assert.deepEqual(dataRetentionPolicy, responseData);
     });
 
-    it('getTimezones', async () => {
-        nock(Client4.getBaseRoute()).
-            get('/system/timezones').
-            query(true).
-            reply(200, [
-                {
-                    value: 'Caucasus Standard Time',
-                    abbr: 'CST',
-                    offset: 4,
-                    isdst: false,
-                    text: '(UTC+04:00) Yerevan',
-                    utc: [
-                        'Asia/Yerevan',
-                    ],
-                },
-                {
-                    value: 'Afghanistan Standard Time',
-                    abbr: 'AST',
-                    offset: 4.5,
-                    isdst: false,
-                    text: '(UTC+04:30) Kabul',
-                    utc: [
-                        'Asia/Kabul',
-                    ],
-                },
-            ]);
-
-        await Actions.getSupportedTimezones()(store.dispatch, store.getState);
-
-        await TestHelper.wait(100);
-        const {timezones} = store.getState().entities.general;
-        assert.equal(timezones.length > 0, true);
-        assert.equal(timezones.length === 0, false);
-    });
-
     it('getWarnMetricsStatus', async () => {
         const responseData = {
             metric1: true,

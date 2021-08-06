@@ -8,7 +8,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {autoUpdateTimezone, getTimezones} from 'mattermost-redux/actions/timezone';
+import {autoUpdateTimezone, getSupportedTimezones as getTimezones} from 'mattermost-redux/actions/timezone';
 import {getConfig, getSupportedTimezones, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mattermost-redux/selectors/entities/preferences';
