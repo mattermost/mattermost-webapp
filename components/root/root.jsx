@@ -6,8 +6,6 @@ import React from 'react';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import ThemeProvider, {lightTheme} from '@mattermost/compass-components/utilities/theme';
-
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
 import {setUrl} from 'mattermost-redux/actions/general';
@@ -31,6 +29,7 @@ import NeedsTeam from 'components/needs_team';
 import {makeAsyncComponent} from 'components/async_load';
 import GlobalHeader from 'components/global/global_header';
 import * as Utils from 'utils/utils.jsx';
+import CompassThemeProvider from 'components/compass_theme_provider';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
 const LazyLoginController = React.lazy(() => import('components/login/login_controller'));
@@ -282,12 +281,6 @@ export default class Root extends React.PureComponent {
             return <div/>;
         }
 
-        const theme = {
-            ...lightTheme,
-            noStyleReset: true,
-            noDefaultStyle: true,
-        };
-
         return (
             <IntlProvider>
                 <Switch>
@@ -367,7 +360,7 @@ export default class Root extends React.PureComponent {
                         from={'/_redirect/pl/:postid'}
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
-                    <ThemeProvider theme={theme}>
+                    <CompassThemeProvider theme={this.props.theme}>
                         <GlobalHeader/>
                         <Switch>
                             {this.props.products?.map((product) => (
@@ -406,7 +399,7 @@ export default class Root extends React.PureComponent {
                                 }}
                             />
                         </Switch>
-                    </ThemeProvider>
+                    </CompassThemeProvider>
                 </Switch>
             </IntlProvider>
         );
