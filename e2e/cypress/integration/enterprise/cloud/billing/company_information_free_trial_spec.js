@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @cloud_only
+// Group: @cloud_only @cloud_trial
+// Skip:  @headless @electron // run on Chrome (headed) only
 
 import {getRandomLetter} from '../../../../utils/index';
 
@@ -19,11 +20,72 @@ describe('System Console - Company Information section', () => {
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
+
+        gotoCompanyInformationScreen();
     });
 
-    it('MM-37051 - Adding the Company Information screen', () => {
+    beforeEach(() => {
+        // # Click on close button of subscribe window if exist
+        cy.get('body').then(($body) => {
+            if ($body.find('.cancel-button').length > 0) {
+                cy.get('.cancel-button').click();
+            }
+        });
+    });
+
+    it('MM-37051 - Save Info button should not be enabled if any one of the mandetory feild is filled invalid data', () => {
         const companyName = getRandomLetter(30);
-        gotoCompanyInformationScreen();
+
+        // # click on Add Company Information button
+        cy.contains('span', 'Add Company Information').parent().click();
+
+        // # enter valid compnany innformatioon
+        cy.get('#input_companyName').clear().type(companyName);
+        cy.get('#input_numEmployees').clear().type('10');
+        cy.get('#DropdownInput_country_dropdown').click();
+        cy.get("#DropdownInput_country_dropdown .DropDown__input > input[type='text']").type('India{enter}');
+        cy.get('#input_address').clear().type('test address');
+        cy.get('#input_address2').clear().type('test2');
+        cy.get('#input_city').clear().type('testcity');
+        cy.get('#input_state').clear().type('test');
+        cy.get('#input_postalCode').clear().type('44455');
+
+        // * check save button is enabled
+        cy.get('#saveSetting').should('be.enabled');
+
+        // # clear postal code
+        cy.get('#input_postalCode').clear();
+
+        // * check save button is disabled
+        cy.get('#saveSetting').should('be.disabled');
+
+        // # type valid postal code
+        cy.get('#input_postalCode').type('44456');
+
+        // * check save button is enabled
+        cy.get('#saveSetting').should('be.enabled');
+
+        // # clear city
+        cy.get('#input_city').clear();
+
+        // * check save button is disabled
+        cy.get('#saveSetting').should('be.disabled');
+
+        // #  type valid city
+        cy.get('#input_city').type('testcity');
+
+        // * check save button is  enabled
+        cy.get('#saveSetting').should('be.enabled');
+
+        // # clear company name
+        cy.get('#input_companyName').clear();
+
+        // * check save button is disabled
+        cy.get('#saveSetting').should('be.disabled');
+    });
+
+    it('MM-37051 - Adding the Company Information', () => {
+        const companyName = getRandomLetter(30);
 
         // # click on Add Company Information button
         cy.contains('span', 'Add Company Information').parent().click();
@@ -32,7 +94,7 @@ describe('System Console - Company Information section', () => {
         cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
         cy.get('#DropdownInput_country_dropdown').click();
-        cy.get(".DropDown__input > input[type='text']").type('India{enter}');
+        cy.get("#DropdownInput_country_dropdown .DropDown__input > input[type='text']").type('India{enter}');
         cy.get('#input_address').clear().type('Add test address');
         cy.get('#input_address2').clear().type('Add test address2');
         cy.get('#input_city').clear().type('Addtestcity');
@@ -61,9 +123,8 @@ describe('System Console - Company Information section', () => {
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(0).should('have.text', 'Add test address');
     });
 
-    it('MM-37051 - Save Info should persist the data and same persisted data should be displayed in Company Information screen', () => {
+    it('MM-37051 - Editing the Company Information', () => {
         const companyName = getRandomLetter(30);
-        cy.visit('/admin_console/billing/company_info');
 
         // # click on edit Company Information button
         cy.get('.CompanyInfoDisplay__companyInfo-editButton').click();
@@ -72,7 +133,7 @@ describe('System Console - Company Information section', () => {
         cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
         cy.get('#DropdownInput_country_dropdown').click();
-        cy.get(".DropDown__input > input[type='text']").type('India{enter}');
+        cy.get("#DropdownInput_country_dropdown .DropDown__input > input[type='text']").type('India{enter}');
         cy.get('#input_address').clear().type('test address');
         cy.get('#input_address2').clear().type('test2');
         cy.get('#input_city').clear().type('testcity');
@@ -102,8 +163,6 @@ describe('System Console - Company Information section', () => {
     });
 
     it('MM-37051 - Cancelling of editing of company information details', () => {
-        cy.visit('/admin_console/billing/company_info');
-
         // # click Add edit Information button
         cy.get('.CompanyInfoDisplay__companyInfo-editButton').click();
 
@@ -116,11 +175,40 @@ describe('System Console - Company Information section', () => {
         // # click Add Company Information button
         cy.get('.CompanyInfoDisplay__companyInfo-editButton').click();
 
+        // # enter company information functionality
+        cy.get('#input_companyName').clear().type('CancelcompanyName');
+        cy.get('#input_numEmployees').clear().type('11');
+        cy.get('#DropdownInput_country_dropdown').click();
+        cy.get("#DropdownInput_country_dropdown .DropDown__input > input[type='text']").type('Albania{enter}');
+        cy.get('#input_address').clear().type('canceltest address');
+        cy.get('#input_address2').clear().type('canceltest2');
+        cy.get('#input_city').clear().type('canceltestcity');
+        cy.get('#input_state').clear().type('canceltest');
+        cy.get('#input_postalCode').clear().type('560072');
+
         // # click cancel button
-        cy.contains('span', 'Cancel').parent().click();
+        cy.get('.cancel-button').click();
 
         // * check for visibility of Add Company Information button
         cy.get('.CompanyInfoDisplay__companyInfo-editButton').should('be.visible');
+
+        // * check for persisted company name
+        cy.get('.CompanyInfoDisplay__companyInfo-name').should('not.have.text', 'CancelcompanyName');
+
+        // * check for employee number
+        cy.get('.CompanyInfoDisplay__companyInfo-numEmployees > span').should('not.include.text', '11');
+
+        // * check for country
+        cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(3).should('not.have.text', 'Albania');
+
+        // * check for city,state and postol code
+        cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(2).should('not.have.text', 'canceltestcity, canceltest, 560072');
+
+        // * check for address 2
+        cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(1).should('not.have.text', 'canceltest2');
+
+        // * check for address 1
+        cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(0).should('not.have.text', 'canceltest address');
     });
 });
 
