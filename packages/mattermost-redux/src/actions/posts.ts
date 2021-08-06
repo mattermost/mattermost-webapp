@@ -5,13 +5,11 @@ import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-red
 import {General, Preferences, Posts} from '../constants';
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
 
-import {getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import {getCustomEmojisByName as selectCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
-import {parseNeededCustomEmojisFromText} from 'mattermost-redux/utils/emoji_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {Action, ActionResult, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
@@ -21,7 +19,6 @@ import {Post, PostList} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -32,6 +29,7 @@ import {
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 import {systemEmojis, getCustomEmojiByName, getCustomEmojisByName} from './emojis';
+import {selectChannel} from './channels';
 
 // receivedPost should be dispatched after a single post from the server. This typically happens when an existing post
 // is updated.
@@ -44,10 +42,11 @@ export function receivedPost(post: Post) {
 
 // receivedNewPost should be dispatched when receiving a newly created post or when sending a request to the server
 // to make a new post.
-export function receivedNewPost(post: Post) {
+export function receivedNewPost(post: Post, crtEnabled: boolean) {
     return {
         type: PostTypes.RECEIVED_NEW_POST,
         data: post,
+        features: {crtEnabled},
     };
 }
 
@@ -204,12 +203,14 @@ export function createPost(post: Post, files: any[] = []) {
             });
         }
 
+        const crtEnabled = isCollapsedThreadsEnabled(getState());
         actions.push({
             type: PostTypes.RECEIVED_NEW_POST,
             data: {
                 ...newPost,
                 id: pendingPostId,
             },
+            features: {crtEnabled},
         });
 
         dispatch(batchActions(actions, 'BATCH_CREATE_POST_INIT'));
@@ -315,7 +316,7 @@ export function createPostImmediately(post: Post, files: any[] = []) {
         dispatch(receivedNewPost({
             ...newPost,
             id: pendingPostId,
-        }));
+        }, isCollapsedThreadsEnabled(state)));
 
         try {
             const created = await Client4.createPost({...newPost, create_at: 0});
@@ -971,13 +972,6 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         promises.push(getProfilesByUsernames(Array.from(usernamesToLoad))(dispatch, getState));
     }
 
-    // Emojis used in the posts
-    const emojisToLoad = getNeededCustomEmojis(state, posts);
-
-    if (emojisToLoad && emojisToLoad.size > 0) {
-        promises.push(getCustomEmojisByName(Array.from(emojisToLoad))(dispatch, getState));
-    }
-
     return Promise.all(promises);
 }
 
@@ -1019,76 +1013,6 @@ export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[])
     return usernamesToLoad;
 }
 
-function buildPostAttachmentText(attachments: any[]) {
-    let attachmentText = '';
-
-    attachments.forEach((a) => {
-        if (a.fields && a.fields.length) {
-            a.fields.forEach((f: any) => {
-                attachmentText += ' ' + (f.value || '');
-            });
-        }
-
-        if (a.pretext) {
-            attachmentText += ' ' + a.pretext;
-        }
-
-        if (a.text) {
-            attachmentText += ' ' + a.text;
-        }
-    });
-
-    return attachmentText;
-}
-
-export function getNeededCustomEmojis(state: GlobalState, posts: Post[]): Set<string> {
-    if (getConfig(state).EnableCustomEmoji !== 'true') {
-        return new Set<string>();
-    }
-
-    // If post metadata is supported, custom emojis will have been provided as part of that
-    if (posts[0].metadata) {
-        return new Set<string>();
-    }
-
-    let customEmojisToLoad = new Set<string>();
-
-    let customEmojisByName: Map<string, CustomEmoji>; // Populate this lazily since it's relatively expensive
-    const nonExistentEmoji = state.entities.emojis.nonExistentEmoji;
-
-    posts.forEach((post) => {
-        if (post.message.includes(':')) {
-            if (!customEmojisByName) {
-                customEmojisByName = selectCustomEmojisByName(state);
-            }
-
-            const emojisFromPost = parseNeededCustomEmojisFromText(post.message, systemEmojis, customEmojisByName, nonExistentEmoji);
-
-            if (emojisFromPost.size > 0) {
-                customEmojisToLoad = new Set([...customEmojisToLoad, ...emojisFromPost]);
-            }
-        }
-
-        const props = post.props;
-        if (props && props.attachments && props.attachments.length) {
-            if (!customEmojisByName) {
-                customEmojisByName = selectCustomEmojisByName(state);
-            }
-
-            const attachmentText = buildPostAttachmentText(props.attachments);
-
-            if (attachmentText) {
-                const emojisFromAttachment = parseNeededCustomEmojisFromText(attachmentText, systemEmojis, customEmojisByName, nonExistentEmoji);
-
-                if (emojisFromAttachment.size > 0) {
-                    customEmojisToLoad = new Set([...customEmojisToLoad, ...emojisFromAttachment]);
-                }
-            }
-        }
-    });
-
-    return customEmojisToLoad;
-}
 export type ExtendedPost = Post & { system_post_ids?: string[] };
 
 export function removePost(post: ExtendedPost) {
@@ -1239,6 +1163,26 @@ export function moveHistoryIndexForward(index: number) {
             data: index,
         });
 
+        return {data: true};
+    };
+}
+
+/**
+ * Ensures thread-replies in channels correctly follow CRT:ON/OFF
+ */
+export function resetReloadPostsInChannel() {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        dispatch({
+            type: PostTypes.RESET_POSTS_IN_CHANNEL,
+        });
+
+        const currentChannelId = getCurrentChannelId(getState());
+        if (currentChannelId) {
+            // wait for channel to be fully deselected; prevent stuck loading screen
+            // full state-change/reconciliation will cause prefetchChannelPosts to reload posts
+            await dispatch(selectChannel('')); // do not remove await
+            dispatch(selectChannel(currentChannelId));
+        }
         return {data: true};
     };
 }

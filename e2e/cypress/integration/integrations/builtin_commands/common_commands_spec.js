@@ -234,16 +234,12 @@ describe('Integrations', () => {
         cy.uiWaitUntilMessagePostedIncludes(message);
 
         cy.getLastPostId().then((postId) => {
-            // * Verify RHS message is from current user and properly formatted with lower opacity
-            cy.get(`#rhsPost_${postId}`).should('have.class', 'current--user').within(() => {
-                cy.get('button').should('have.text', user1.username);
-                cy.get('p').should('have.text', message).and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
-            });
-
-            // * Verify message on the main channel is from current user and properly formatted with lower opacity
-            cy.get(`#post_${postId}`).should('have.class', 'current--user').within(() => {
-                cy.get('button').should('have.text', user1.username);
-                cy.get('p').should('have.text', message).and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
+            // * Verify the message, both in RHS and center, is from current user and properly formatted with lower opacity
+            [`#rhsPost_${postId}`, `#post_${postId}`].forEach((selector) => {
+                cy.get(selector).should('have.class', 'current--user').within(() => {
+                    cy.findByLabelText(user1.username).should('exist');
+                    cy.findByText(message).should('be.visible').and('have.css', 'color', 'rgba(63, 67, 80, 0.6)');
+                });
             });
         });
     });

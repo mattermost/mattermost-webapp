@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {updateMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import UserSettingsNotifications from './user_settings_notifications.jsx';
 
@@ -18,6 +19,7 @@ function mapStateToProps(state) {
     return {
         sendPushNotifications,
         enableAutoResponder,
+        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
     };
 }
 

@@ -7,9 +7,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     makeGetMessageInHistoryItem,
-    makeGetCommentCountForPost,
     getPost,
-    getPostIdsInChannel,
+    makeGetPostIdsForThread,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {
@@ -32,7 +31,7 @@ import * as Utils from 'utils/utils.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
 
 export function clearCommentDraftUploads() {
-    return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (key, value) => {
+    return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key, value) => {
         if (value) {
             return {...value, uploadsInProgress: []};
         }
@@ -40,8 +39,16 @@ export function clearCommentDraftUploads() {
     });
 }
 
+// Temporarily store draft manually in localStorage since the current version of redux-persist
+// we're on will not save the draft quickly enough on page unload.
 export function updateCommentDraft(rootId, draft) {
-    return setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, draft);
+    const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
+    if (draft) {
+        localStorage.setItem(key, JSON.stringify(draft));
+    } else {
+        localStorage.removeItem(key);
+    }
+    return setGlobalItem(key, draft);
 }
 
 export function makeOnMoveHistoryIndex(rootId, direction) {
@@ -78,7 +85,6 @@ export function submitPost(channelId, rootId, draft) {
             message: draft.message,
             channel_id: channelId,
             root_id: rootId,
-            parent_id: rootId,
             pending_post_id: `${userId}:${time}`,
             user_id: userId,
             create_at: time,
@@ -117,7 +123,6 @@ export function submitCommand(channelId, rootId, draft) {
             channel_id: channelId,
             team_id: teamId,
             root_id: rootId,
-            parent_id: rootId,
         };
 
         let {message} = draft;
@@ -147,8 +152,7 @@ export function submitCommand(channelId, rootId, draft) {
 }
 
 export function makeOnSubmit(channelId, rootId, latestPostId) {
-    return (options = {}) => async (dispatch, getState) => {
-        const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
+    return (draft, options = {}) => async (dispatch, getState) => {
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));
@@ -163,19 +167,27 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
         if (isReaction && emojiMap.has(isReaction[2])) {
             dispatch(submitReaction(latestPostId, isReaction[1], isReaction[2]));
         } else if (message.indexOf('/') === 0 && !options.ignoreSlash) {
-            await dispatch(submitCommand(channelId, rootId, draft));
+            try {
+                await dispatch(submitCommand(channelId, rootId, draft));
+            } catch (err) {
+                dispatch(updateCommentDraft(rootId, draft));
+                throw err;
+            }
         } else {
             dispatch(submitPost(channelId, rootId, draft));
         }
     };
 }
 
-function makeGetCurrentUsersLatestPost(channelId, rootId) {
+function makeGetCurrentUsersLatestReply() {
+    const getPostIdsInThread = makeGetPostIdsForThread();
     return createSelector(
+        'makeGetCurrentUsersLatestReply',
         getCurrentUserId,
-        (state) => getPostIdsInChannel(state, channelId),
+        getPostIdsInThread,
         (state) => (id) => getPost(state, id),
-        (userId, postIds, getPostById) => {
+        (_state, rootId) => rootId,
+        (userId, postIds, getPostById, rootId) => {
             let lastPost = null;
 
             if (!postIds) {
@@ -212,14 +224,13 @@ function makeGetCurrentUsersLatestPost(channelId, rootId) {
     );
 }
 
-export function makeOnEditLatestPost(channelId, rootId) {
-    const getCurrentUsersLatestPost = makeGetCurrentUsersLatestPost(channelId, rootId);
-    const getCommentCount = makeGetCommentCountForPost();
+export function makeOnEditLatestPost(rootId) {
+    const getCurrentUsersLatestPost = makeGetCurrentUsersLatestReply();
 
     return () => (dispatch, getState) => {
         const state = getState();
 
-        const lastPost = getCurrentUsersLatestPost(state);
+        const lastPost = getCurrentUsersLatestPost(state, rootId);
 
         if (!lastPost) {
             return {data: false};
@@ -227,7 +238,6 @@ export function makeOnEditLatestPost(channelId, rootId) {
 
         return dispatch(PostActions.setEditingPost(
             lastPost.id,
-            getCommentCount(state, {post: lastPost}),
             'reply_textbox',
             Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
             true,

@@ -16,7 +16,6 @@ exports[`components/threading/global_threads/thread_item should report total num
       Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
-      capitalize={true}
       className="alt-hidden"
       day="numeric"
       units={
@@ -31,7 +30,7 @@ exports[`components/threading/global_threads/thread_item should report total num
       useTime={false}
     />
   </h1>
-  <span
+  <div
     className="menu-anchor alt-visible"
   >
     <Memo(ThreadMenu)
@@ -42,7 +41,7 @@ exports[`components/threading/global_threads/thread_item should report total num
     >
       <SimpleTooltip
         content={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Actions"
             id="threading.threadItem.menu"
           />
@@ -58,11 +57,21 @@ exports[`components/threading/global_threads/thread_item should report total num
         </Memo(Button)>
       </SimpleTooltip>
     </Memo(ThreadMenu)>
-  </span>
+  </div>
   <div
+    aria-readonly="true"
     className="preview"
+    dir="auto"
+    onClick={[Function]}
+    tabIndex={0}
   >
     <Connect(Markdown)
+      imageProps={
+        Object {
+          "onImageHeightChanged": [Function],
+          "onImageLoaded": [Function],
+        }
+      }
       message="test msg"
       options={
         Object {
@@ -85,7 +94,7 @@ exports[`components/threading/global_threads/thread_item should report total num
         ]
       }
     />
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}"
       id="threading.numReplies"
       values={
@@ -123,7 +132,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
-      capitalize={true}
       className="alt-hidden"
       day="numeric"
       units={
@@ -138,7 +146,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       useTime={false}
     />
   </h1>
-  <span
+  <div
     className="menu-anchor alt-visible"
   >
     <Memo(ThreadMenu)
@@ -149,7 +157,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
     >
       <SimpleTooltip
         content={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Actions"
             id="threading.threadItem.menu"
           />
@@ -165,11 +173,21 @@ exports[`components/threading/global_threads/thread_item should report unread me
         </Memo(Button)>
       </SimpleTooltip>
     </Memo(ThreadMenu)>
-  </span>
+  </div>
   <div
+    aria-readonly="true"
     className="preview"
+    dir="auto"
+    onClick={[Function]}
+    tabIndex={0}
   >
     <Connect(Markdown)
+      imageProps={
+        Object {
+          "onImageHeightChanged": [Function],
+          "onImageLoaded": [Function],
+        }
+      }
       message="test msg"
       options={
         Object {
@@ -192,7 +210,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
         ]
       }
     />
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="{newReplies, plural, =1 {# new reply} other {# new replies}}"
       id="threading.numNewReplies"
       values={
@@ -228,7 +246,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
-      capitalize={true}
       className="alt-hidden"
       day="numeric"
       units={
@@ -243,7 +260,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       useTime={false}
     />
   </h1>
-  <span
+  <div
     className="menu-anchor alt-visible"
   >
     <Memo(ThreadMenu)
@@ -254,7 +271,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
     >
       <SimpleTooltip
         content={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Actions"
             id="threading.threadItem.menu"
           />
@@ -270,11 +287,21 @@ exports[`components/threading/global_threads/thread_item should report unread me
         </Memo(Button)>
       </SimpleTooltip>
     </Memo(ThreadMenu)>
-  </span>
+  </div>
   <div
+    aria-readonly="true"
     className="preview"
+    dir="auto"
+    onClick={[Function]}
+    tabIndex={0}
   >
     <Connect(Markdown)
+      imageProps={
+        Object {
+          "onImageHeightChanged": [Function],
+          "onImageLoaded": [Function],
+        }
+      }
       message="test msg"
       options={
         Object {
@@ -297,7 +324,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
         ]
       }
     />
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="{newReplies, plural, =1 {# new reply} other {# new replies}}"
       id="threading.numNewReplies"
       values={

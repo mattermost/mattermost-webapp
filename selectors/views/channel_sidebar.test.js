@@ -3,11 +3,74 @@
 
 import {Preferences} from 'mattermost-redux/constants';
 
+import mergeObjects from 'mattermost-redux/test/merge_objects';
+
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import {TestHelper} from 'utils/test_helper';
 
 import * as Selectors from './channel_sidebar';
+
+describe('isUnreadFilterEnabled', () => {
+    const preferenceKey = getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION);
+
+    const baseState = {
+        entities: {
+            general: {
+                config: {
+                    LegacySidebarEnabled: 'false',
+                },
+            },
+            preferences: {
+                myPreferences: {
+                    [preferenceKey]: {value: 'false'},
+                },
+            },
+        },
+        views: {
+            channelSidebar: {
+                unreadFilterEnabled: false,
+            },
+        },
+    };
+
+    test('should return false when filter is disabled', () => {
+        const state = baseState;
+
+        expect(Selectors.isUnreadFilterEnabled(state)).toBe(false);
+    });
+
+    test('should return true when filter is enabled and unreads aren\'t separate', () => {
+        const state = mergeObjects(baseState, {
+            views: {
+                channelSidebar: {
+                    unreadFilterEnabled: true,
+                },
+            },
+        });
+
+        expect(Selectors.isUnreadFilterEnabled(state)).toBe(true);
+    });
+
+    test('should return false when unreads are separate', () => {
+        const state = mergeObjects(baseState, {
+            entities: {
+                preferences: {
+                    myPreferences: {
+                        [preferenceKey]: {value: 'true'},
+                    },
+                },
+            },
+            views: {
+                channelSidebar: {
+                    unreadFilterEnabled: true,
+                },
+            },
+        });
+
+        expect(Selectors.isUnreadFilterEnabled(state)).toBe(false);
+    });
+});
 
 describe('getUnreadChannels', () => {
     const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});
@@ -517,7 +580,7 @@ describe('getDisplayedChannels', () => {
     });
 });
 
-describe('makeGetFilteredChannelsForCategory', () => {
+describe('makeGetFilteredChannelIdsForCategory', () => {
     const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});
     const readChannel = {id: 'readChannel', delete_at: 0, total_msg_count: 10, last_post_at: 300};
     const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, total_msg_count: 10, last_post_at: 100};
@@ -591,10 +654,10 @@ describe('makeGetFilteredChannelsForCategory', () => {
             },
         };
 
-        const getFilteredChannelsForCategory = Selectors.makeGetFilteredChannelsForCategory();
+        const getFilteredChannelIdsForCategory = Selectors.makeGetFilteredChannelIdsForCategory();
 
-        expect(getFilteredChannelsForCategory(state, category1)).toEqual([currentChannel, unreadChannel1]);
-        expect(getFilteredChannelsForCategory(state, category2)).toEqual([readChannel, unreadChannel2]);
+        expect(getFilteredChannelIdsForCategory(state, category1)).toEqual([currentChannel.id, unreadChannel1.id]);
+        expect(getFilteredChannelIdsForCategory(state, category2)).toEqual([readChannel.id, unreadChannel2.id]);
     });
 
     test('with the unreads category enabled, should not include unread channels', () => {
@@ -621,9 +684,9 @@ describe('makeGetFilteredChannelsForCategory', () => {
             },
         };
 
-        const getFilteredChannelsForCategory = Selectors.makeGetFilteredChannelsForCategory();
+        const getFilteredChannelIdsForCategory = Selectors.makeGetFilteredChannelIdsForCategory();
 
-        expect(getFilteredChannelsForCategory(state, category1)).toEqual([currentChannel, readChannel]);
+        expect(getFilteredChannelIdsForCategory(state, category1)).toEqual([currentChannel.id, readChannel.id]);
     });
 
     test('with the unreads category enabled, should not include the current channel if it was previously unread', () => {
@@ -659,8 +722,8 @@ describe('makeGetFilteredChannelsForCategory', () => {
             },
         };
 
-        const getFilteredChannelsForCategory = Selectors.makeGetFilteredChannelsForCategory();
+        const getFilteredChannelIdsForCategory = Selectors.makeGetFilteredChannelIdsForCategory();
 
-        expect(getFilteredChannelsForCategory(state, category1)).toEqual([readChannel]);
+        expect(getFilteredChannelIdsForCategory(state, category1)).toEqual([readChannel.id]);
     });
 });

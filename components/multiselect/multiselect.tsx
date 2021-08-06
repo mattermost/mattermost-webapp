@@ -285,8 +285,9 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             numRemainingText = (
                 <FormattedMessage
                     id='multiselect.numRemaining'
-                    defaultMessage='You can add {num, number} more. '
+                    defaultMessage='Up to {max, number} can be added at a time. You have {num, number} remaining.'
                     values={{
+                        max: this.props.maxValues,
                         num: this.props.maxValues - this.props.values.length,
                     }}
                 />
@@ -497,7 +498,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     </div>}
                 </div>
                 {this.props.saveButtonPosition === 'bottom' &&
-                <div className='channel-switcher__footer'>
+                <div className='multi-select__footer'>
                     <SaveButton
                         id='saveItems'
                         saving={this.props.saving}

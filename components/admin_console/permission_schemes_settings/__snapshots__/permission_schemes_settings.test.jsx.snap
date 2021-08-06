@@ -150,7 +150,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         <div
           className="no-team-schemes"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="No team override schemes created."
             id="admin.permissions.teamOverrideSchemesNoSchemes"
           />
@@ -220,7 +220,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           <div
             className="team-override-unavailable__inner"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}."
               id="admin.permissions.teamOverrideSchemesInProgress"
               values={
@@ -230,7 +230,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <FormattedMessage
+                    <Memo(MemoizedFormattedMessage)
                       defaultMessage="documentation"
                       id="admin.permissions.documentationLinkText"
                     />
@@ -335,7 +335,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
           <div
             className="team-override-unavailable__inner"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the {documentationLink}."
               id="admin.permissions.teamOverrideSchemesNoJobsEnabled"
               values={
@@ -345,7 +345,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <FormattedMessage
+                    <Memo(MemoizedFormattedMessage)
                       defaultMessage="documentation"
                       id="admin.permissions.documentationLinkText"
                     />

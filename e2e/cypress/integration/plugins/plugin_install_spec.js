@@ -15,7 +15,8 @@
  * under fixtures folder.
  */
 
-// Group: @system_console @plugin @not_cloud
+// Stage: @prod
+// Group: @system_console @plugin @not_cloud @timeout_error
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {demoPlugin} from '../../utils/plugins';
@@ -26,7 +27,7 @@ describe('Plugins Management', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
-        cy.apiUninstallAllPlugins();
+        cy.apiRemovePluginById(demoPlugin.id);
     });
 
     it('MM-T2400 Plugins Management', () => {
@@ -83,11 +84,13 @@ describe('Plugins Management', () => {
 
         // * Verify final disabled state
         verifyStatus(demoPlugin.id, 'This plugin is not enabled.');
-        cy.findByText('Enable').should('be.visible');
+        cy.findByTestId(demoPlugin.id).scrollIntoView().
+            findByText('Enable').should('be.visible');
     });
 });
 
 function verifyStatus(pluginId, message) {
     waitForAlertMessage(pluginId, message);
-    cy.findByText(message).should('be.visible');
+    cy.findByTestId(pluginId).scrollIntoView().
+        findByText(message).should('be.visible');
 }

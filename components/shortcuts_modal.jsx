@@ -411,7 +411,7 @@ class ShortcutsModal extends React.PureComponent {
                             <div className='col-sm-4'>
                                 <div className='section'>
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.navHeader)}</strong></h4>
+                                        <h3 className='section-title'><strong>{formatMessage(shortcuts.navHeader)}</strong></h3>
                                         {renderShortcut(formatMessage(shortcuts.navPrev))}
                                         {renderShortcut(formatMessage(shortcuts.navNext))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadPrev))}
@@ -431,7 +431,7 @@ class ShortcutsModal extends React.PureComponent {
                             <div className='col-sm-4'>
                                 <div className='section'>
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.msgHeader)}</strong></h4>
+                                        <h3 className='section-title'><strong>{formatMessage(shortcuts.msgHeader)}</strong></h3>
                                         <span><strong>{formatMessage(shortcuts.msgInputHeader)}</strong></span>
                                         <div className='subsection'>
                                             {renderShortcut(formatMessage(shortcuts.msgEdit))}
@@ -458,11 +458,11 @@ class ShortcutsModal extends React.PureComponent {
                             <div className='col-sm-4'>
                                 <div className='section'>
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.filesHeader)}</strong></h4>
+                                        <h3 className='section-title'><strong>{formatMessage(shortcuts.filesHeader)}</strong></h3>
                                         {renderShortcut(formatMessage(shortcuts.filesUpload))}
                                     </div>
                                     <div className='section--lower'>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.browserHeader)}</strong></h4>
+                                        <h3 className='section-title'><strong>{formatMessage(shortcuts.browserHeader)}</strong></h3>
                                         {renderShortcut(formatMessage(shortcuts.browserChannelPrev))}
                                         {renderShortcut(formatMessage(shortcuts.browserChannelNext))}
                                         {renderShortcut(formatMessage(shortcuts.browserFontIncrease))}

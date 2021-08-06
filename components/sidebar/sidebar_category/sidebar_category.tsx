@@ -8,7 +8,6 @@ import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
@@ -22,8 +21,11 @@ import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates} fro
 import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
+import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
+
 import SidebarChannel from '../sidebar_channel';
 import {SidebarCategoryHeader} from '../sidebar_category_header';
+import InviteMembersButton from '../invite_members_button';
 
 import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
@@ -32,7 +34,7 @@ import SidebarCategoryMenu from './sidebar_category_menu';
 type Props = {
     category: ChannelCategory;
     categoryIndex: number;
-    channels: Channel[];
+    channelIds: string[];
     setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     getChannelRef: (channelId: string) => HTMLLIElement | undefined;
@@ -102,14 +104,13 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         }
     }
 
-    renderChannel = (channel: Channel, index: number) => {
+    renderChannel = (channelId: string, index: number) => {
         const {setChannelRef, getChannelRef, category, draggingState} = this.props;
-
         return (
             <SidebarChannel
-                key={channel.id}
+                key={channelId}
                 channelIndex={index}
-                channelId={channel.id}
+                channelId={channelId}
                 setChannelRef={setChannelRef}
                 getChannelRef={getChannelRef}
                 isCategoryCollapsed={category.collapsed}
@@ -169,9 +170,9 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     renderNewDropBox = (isDraggingOver: boolean) => {
-        const {draggingState, category, isNewCategory, channels} = this.props;
+        const {draggingState, category, isNewCategory, channelIds} = this.props;
 
-        if (!isNewCategory || channels?.length) {
+        if (!isNewCategory || channelIds?.length) {
             return null;
         }
 
@@ -218,13 +219,13 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     showPlaceholder = () => {
-        const {channels, draggingState, category, isNewCategory} = this.props;
+        const {channelIds, draggingState, category, isNewCategory} = this.props;
 
         if (category.sorting === CategorySorting.Alphabetical ||
             category.sorting === CategorySorting.Recency ||
             isNewCategory) {
             // Always show the placeholder if the channel being dragged is from the current category
-            if (channels.find((channel) => channel.id === draggingState.id)) {
+            if (channelIds.find((id) => id === draggingState.id)) {
                 return true;
             }
 
@@ -238,7 +239,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         const {
             category,
             categoryIndex,
-            channels,
+            channelIds,
             isNewCategory,
         } = this.props;
 
@@ -246,11 +247,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             return null;
         }
 
-        if (category.type === CategoryTypes.FAVORITES && !channels?.length) {
+        if (category.type === CategoryTypes.FAVORITES && !channelIds?.length) {
             return null;
         }
 
-        const renderedChannels = channels.map(this.renderChannel);
+        const renderedChannels = channelIds.map(this.renderChannel);
 
         let categoryMenu: JSX.Element;
         let newLabel: JSX.Element;
@@ -310,7 +311,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </React.Fragment>
             );
 
-            if (!channels || !channels.length) {
+            if (!channelIds || !channelIds.length) {
                 isCollapsible = false;
             }
         } else {
@@ -335,6 +336,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 disableInteractiveElementBlocking={true}
             >
                 {(provided, snapshot) => {
+                    const inviteMembersButton = category.type === 'direct_messages' ? <InviteMembersButton buttonType={InviteMembersBtnLocations.LHS_BUTTON}/> : null;
                     return (
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {
@@ -390,6 +392,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                     );
                                 }}
                             </Droppable>
+                            {inviteMembersButton}
                         </div>
                     );
                 }}

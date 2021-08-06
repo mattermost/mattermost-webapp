@@ -29,7 +29,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
           className="style--none color--link"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Regenerate Token"
             id="installed_integrations.regenToken"
           />
@@ -38,7 +38,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
         <Link
           to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
           />
@@ -65,7 +65,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
       <span
         className="item-details__token"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Token: {token}"
           id="installed_integrations.token"
           values={
@@ -87,7 +87,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
       <span
         className="item-details__creation"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Created by {creator} on {createAt, date, full}"
           id="installed_integrations.creation"
           values={
@@ -132,7 +132,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
           className="style--none color--link"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Regenerate Token"
             id="installed_integrations.regenToken"
           />
@@ -141,7 +141,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
         <Link
           to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
           />
@@ -168,7 +168,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
       <span
         className="item-details__token"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Token: {token}"
           id="installed_integrations.token"
           values={
@@ -190,7 +190,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
       <span
         className="item-details__creation"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Created by {creator} on {createAt, date, full}"
           id="installed_integrations.creation"
           values={
@@ -246,7 +246,7 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
       <span
         className="item-details__token"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Token: {token}"
           id="installed_integrations.token"
           values={
@@ -268,7 +268,7 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
       <span
         className="item-details__creation"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Created by {creator} on {createAt, date, full}"
           id="installed_integrations.creation"
           values={
@@ -298,7 +298,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
         <strong
           className="item-details__name"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Unnamed Slash Command"
             id="installed_commands.unnamed_command"
           />
@@ -316,7 +316,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
       <span
         className="item-details__token"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Token: {token}"
           id="installed_integrations.token"
           values={
@@ -338,7 +338,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
       <span
         className="item-details__creation"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Created by {creator} on {createAt, date, full}"
           id="installed_integrations.creation"
           values={

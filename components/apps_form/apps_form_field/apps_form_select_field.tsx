@@ -81,6 +81,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
                     placeholder={placeholder}
                     value={value}
                     onChange={this.onChange as any} // types are not working correctly for multiselect
+                    isDisabled={field.readonly}
                     {...commonProps}
                 />
             </div>
@@ -104,6 +105,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
                     placeholder={placeholder}
                     value={value}
                     onChange={this.onChange as any} // types are not working correctly for multiselect
+                    isDisabled={field.readonly}
                     {...commonProps}
                 />
             </div>

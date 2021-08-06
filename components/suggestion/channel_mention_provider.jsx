@@ -14,15 +14,19 @@ import {Constants} from 'utils/constants';
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
-class ChannelMentionSuggestion extends Suggestion {
+export class ChannelMentionSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
 
         const channelName = item.channel.display_name;
-        const channelIcon = (<span className='suggestion-list__icon suggestion-list__icon--large'><i className='icon icon--no-spacing icon-globe'/></span>);
+        const channelIcon = (
+            <span className='suggestion-list__icon suggestion-list__icon--large'>
+                <i className={`icon icon--no-spacing icon-${item.channel.type === Constants.OPEN_CHANNEL ? 'globe' : 'lock'}`}/>
+            </span>
+        );
 
-        let className = 'mentions__name no-flex';
+        let className = 'suggestion-list__item';
         if (isSelection) {
             className += ' suggestion--selected';
         }
@@ -36,12 +40,12 @@ class ChannelMentionSuggestion extends Suggestion {
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
-                <div className='d-flex align-items-center'>
-                    {channelIcon}
-                    <span>
+                {channelIcon}
+                <div className='suggestion-list__ellipsis'>
+                    <span className='suggestion-list__main'>
                         {channelName}
                     </span>
-                    <span className='mention__channelname ml-2'>
+                    <span className='ml-2'>
                         {description}
                     </span>
                 </div>

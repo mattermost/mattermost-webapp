@@ -7,7 +7,7 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
   <div
     className="card-body"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="This is a test card body message"
       id="test-id"
     />
@@ -19,7 +19,7 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
       className="NextStepsView__button NextStepsView__finishButton primary"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="this is test button text"
         id="test-button-id"
       />
