@@ -26,24 +26,22 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
                 ...compassTheme.palette,
                 primary: {
                     ...compassTheme.palette.primary,
-                    main: theme.buttonBg,
-                    contrast: theme.sidebarText,
+                    main: theme.sidebarHeaderBg,
+                    contrast: theme.sidebarHeaderTextColor,
                 },
                 alert: {
                     ...compassTheme.palette.alert,
                     main: theme.dndIndicator,
-                    contrast: theme.buttonColor,
                 },
             },
             action: {
                 ...compassTheme.action,
-                hover: theme.centerChannelColor,
-                disabled: theme.sidebarText,
+                hover: theme.sidebarHeaderTextColor,
+                disabled: theme.sidebarHeaderTextColor,
             },
             text: {
                 ...compassTheme.text,
-                primary: theme.buttonColor,
-                contrast: theme.sidebarText,
+                primary: theme.sidebarHeaderTextColor,
             },
         });
     }, [theme]);
