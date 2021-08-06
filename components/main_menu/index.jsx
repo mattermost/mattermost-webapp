@@ -7,7 +7,6 @@ import {bindActionCreators} from 'redux';
 import {
     getConfig,
     getLicense,
-    getFirstAdminVisitMarketplaceStatus,
     getSubscriptionStats as selectSubscriptionStats,
 } from 'mattermost-redux/selectors/entities/general';
 import {

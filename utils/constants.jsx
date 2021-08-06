@@ -442,7 +442,8 @@ export const SocketEvents = {
 export const TutorialSteps = {
     POST_POPOVER: 0,
     CHANNEL_POPOVER: 1,
-    MENU_POPOVER: 2,
+    ADD_CHANNEL_POPOVER: 2,
+    MENU_POPOVER: 3,
     FINISHED: 999,
 };
 
