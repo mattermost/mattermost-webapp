@@ -1420,31 +1420,6 @@ export default class Client4 {
         );
     };
 
-    importTeam = (teamId: string, file: File, importFrom: string) => {
-        const formData = new FormData();
-        formData.append('file', file, file.name);
-        formData.append('filesize', file.size);
-        formData.append('importFrom', importFrom);
-
-        const request: any = {
-            method: 'post',
-            body: formData,
-        };
-
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
-
-        return this.doFetch<{
-            results: string;
-        }>(
-            `${this.getTeamRoute(teamId)}/import`,
-            request,
-        );
-    };
-
     getTeamIconUrl = (teamId: string, lastTeamIconUpdate: number) => {
         const params: any = {};
         if (lastTeamIconUpdate) {
