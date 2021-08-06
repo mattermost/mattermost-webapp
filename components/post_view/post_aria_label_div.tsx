@@ -17,7 +17,12 @@ type Props = React.HTMLProps<HTMLDivElement> & {
 }
 
 const PostAriaLabelDiv = React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => {
-    const {post, labelPrefix, ...otherProps} = props;
+    const {
+        children,
+        labelPrefix,
+        post,
+        ...otherProps
+    } = props;
 
     const intl = useIntl();
 
@@ -32,7 +37,9 @@ const PostAriaLabelDiv = React.forwardRef((props: Props, ref: React.Ref<HTMLDivE
             ref={ref}
             aria-label={ariaLabel}
             {...otherProps}
-        />
+        >
+            {children}
+        </div>
     );
 });
 
