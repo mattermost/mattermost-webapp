@@ -896,7 +896,7 @@ export function applyTheme(theme) {
 }
 
 export function resetTheme() {
-    applyTheme(Preferences.THEMES.sapphire);
+    applyTheme(Preferences.THEMES.denim);
 }
 
 export function changeCss(className, classValue) {
