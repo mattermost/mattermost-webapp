@@ -7,8 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {TIconGlyph} from '@mattermost/compass-components/foundations/icon/Icon.types';
-
 import {ChannelsIcon} from './assets';
 import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
 
