@@ -5,7 +5,6 @@ import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
 import Icon from '@mattermost/compass-components/foundations/icon';
-import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {UserProfile} from 'mattermost-redux/types/users';

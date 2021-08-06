@@ -84,12 +84,6 @@ const MenuItemTextContainer = styled.div`
     line-height: 20px;
 `;
 
-const LinkIcon = styled.i`
-    width: 14px;
-    height: 14px;
-    color: var(--sidebar-bg);
-`;
-
 const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
     return (
         <MenuItem

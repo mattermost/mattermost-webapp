@@ -7,7 +7,6 @@ import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import StatusDropdown from 'components/status_dropdown';
-import * as Utils from 'utils/utils.jsx';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import Pluggable from 'plugins/pluggable';
 
