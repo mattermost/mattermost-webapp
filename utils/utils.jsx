@@ -1531,10 +1531,6 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
     return otherUserId;
 }
 
-export function importSlack(teamId, file, success, error) {
-    Client4.importTeam(teamId, file, 'slack').then(success).catch(error);
-}
-
 export function windowWidth() {
     return window.innerWidth;
 }
