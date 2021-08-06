@@ -18,7 +18,7 @@ export function getUserTimezone(state: GlobalState, id: string) {
     return getTimezoneForUserProfile(profile);
 }
 
-export function getTimezoneForUserProfile(profile: UserProfile): UserTimezone {
+export function getTimezoneForUserProfile(profile: UserProfile) {
     if (profile && profile.timezone) {
         return {
             ...profile.timezone,
