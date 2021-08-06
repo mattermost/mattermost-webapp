@@ -28,7 +28,7 @@ function mapStateToProps(state: GlobalState) {
     const userTimezone = getUserTimezone(state, currentUserId);
     const automaticTimezoneNotSet = userTimezone && userTimezone.useAutomaticTimezone && !userTimezone.automaticTimezone;
     const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
-    const timezoneLabel = getTimezoneLabel(state, userTimezone.manualTimezone);
+    const timezoneLabel = getTimezoneLabel(state, currentUserId);
     const allowCustomThemes = config.AllowCustomThemes === 'true';
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
     const defaultClientLocale = config.DefaultClientLocale as string;

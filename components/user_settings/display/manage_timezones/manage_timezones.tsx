@@ -11,6 +11,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
+import {getTimezoneLabel} from 'mattermost-redux/utils/timezone_utils';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
@@ -52,7 +53,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             manualTimezoneInput: props.manualTimezone,
             isSaving: false,
             openMenu: false,
-            selectedOption: {label: props.timezoneLabel, value: props.manualTimezone},
+            selectedOption: {label: props.timezoneLabel, value: props.useAutomaticTimezone ? props.automaticTimezone : props.manualTimezone},
         };
     }
 
@@ -141,14 +142,19 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
     handleAutomaticTimezone = (e: React.ChangeEvent<HTMLInputElement>) => {
         const useAutomaticTimezone = e.target.checked;
         let automaticTimezone = '';
+        let timezoneLabel: string;
 
         if (useAutomaticTimezone) {
             automaticTimezone = getBrowserTimezone();
+            timezoneLabel = getTimezoneLabel(this.props.timezones, automaticTimezone);
+        } else {
+            timezoneLabel = getTimezoneLabel(this.props.timezones, this.props.manualTimezone);
         }
-
+        
         this.setState({
             useAutomaticTimezone,
             automaticTimezone,
+            selectedOption: {label: timezoneLabel, value: useAutomaticTimezone ? automaticTimezone : this.props.manualTimezone}
         });
     };
 
@@ -213,7 +219,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                     options={timeOptions}
                     clearable={false}
                     onChange={this.onChange}
-                    value={useAutomaticTimezone ? {label: this.state.automaticTimezone, value: this.state.automaticTimezone} : this.state.selectedOption}
+                    value={this.state.selectedOption}
                     aria-labelledby='changeInterfaceTimezoneLabel'
                     isDisabled={useAutomaticTimezone}
                 />

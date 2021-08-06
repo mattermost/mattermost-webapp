@@ -2,19 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {Timezone} from 'timezones.json';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 import {createSelector} from 'reselect';
 
 import {getSupportedTimezones} from './general';
+import {$ID} from 'mattermost-redux/types/utilities';
+import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
+import {getTimezoneLabel as getTimezoneLabelUtil} from 'mattermost-redux/utils/timezone_utils';
 
 export function getUserTimezone(state: GlobalState, id: string) {
     const profile = state.entities.users.profiles[id];
     return getTimezoneForUserProfile(profile);
 }
 
-export function getTimezoneForUserProfile(profile: UserProfile) {
+export function getTimezoneForUserProfile(profile: UserProfile): UserTimezone {
     if (profile && profile.timezone) {
         return {
             ...profile.timezone,
@@ -34,20 +38,23 @@ export function isTimezoneEnabled(state: GlobalState) {
     return config.ExperimentalTimezone === 'true';
 }
 
-export const getTimezoneLabel: (state: GlobalState, timezone: string) => string = createSelector(
+export const makeGetUserTimezone: (state: GlobalState, userId: string) => UserTimezone = createSelector(
+    'makeGetUserTimezone',
+    (state: GlobalState, userId: string) => getUser(state, userId),
+    (user: UserProfile) => {
+        return getTimezoneForUserProfile(user);
+    },
+);
+
+export const getTimezoneLabel: (state: GlobalState, userId: $ID<UserProfile>) => string = createSelector(
     'getTimezoneLabel',
     getSupportedTimezones,
-    (state: GlobalState, timezone: string): string => timezone,
-    (timezones: Timezone[], timezone: string) => {
-        for (let i = 0; i < timezones.length; i++) {
-            const zone = timezones[i];
-            for (let j = 0; j < zone.utc.length; j++) {
-                const utcZone = zone.utc[j];
-                if (utcZone.toLowerCase() === timezone.toLowerCase()) {
-                    return zone.text;
-                }
-            }
+    makeGetUserTimezone,
+    (timezones: Timezone[], timezoneObject: UserTimezone) => {
+        const timezone = getUserCurrentTimezone(timezoneObject);
+        if (!timezone) {
+            return '';
         }
-        return timezone;
+        return getTimezoneLabelUtil(timezones, timezone);
     },
 );

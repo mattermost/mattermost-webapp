@@ -11,13 +11,10 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {getTimezoneLabel} from 'mattermost-redux/selectors/entities/timezone';
 
 import ManageTimezones from './manage_timezones';
+import { getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
-}
-
-type OwnProps = {
-    manualTimezone: string;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -26,8 +23,9 @@ function mapDispatchToProps(dispatch: Dispatch) {
             updateMe,
         }, dispatch)};
 }
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const timezoneLabel = getTimezoneLabel(state, ownProps.manualTimezone);
+function mapStateToProps(state: GlobalState) {
+    const currentUserId = getCurrentUserId(state);
+    const timezoneLabel = getTimezoneLabel(state, currentUserId);
     return {
         timezones: getSupportedTimezones(state),
         timezoneLabel,
