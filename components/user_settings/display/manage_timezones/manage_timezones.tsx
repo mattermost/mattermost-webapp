@@ -150,11 +150,11 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         } else {
             timezoneLabel = getTimezoneLabel(this.props.timezones, this.props.manualTimezone);
         }
-        
+
         this.setState({
             useAutomaticTimezone,
             automaticTimezone,
-            selectedOption: {label: timezoneLabel, value: useAutomaticTimezone ? automaticTimezone : this.props.manualTimezone}
+            selectedOption: {label: timezoneLabel, value: useAutomaticTimezone ? automaticTimezone : this.props.manualTimezone},
         });
     };
 

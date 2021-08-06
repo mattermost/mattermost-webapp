@@ -10,8 +10,9 @@ import {getSupportedTimezones} from 'mattermost-redux/selectors/entities/general
 import {GlobalState} from 'mattermost-redux/types/store';
 import {getTimezoneLabel} from 'mattermost-redux/selectors/entities/timezone';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
 import ManageTimezones from './manage_timezones';
-import { getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;

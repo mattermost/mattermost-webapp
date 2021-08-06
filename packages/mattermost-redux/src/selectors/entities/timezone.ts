@@ -2,16 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {Timezone} from 'timezones.json';
+
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 import {createSelector} from 'reselect';
 
-import {getSupportedTimezones} from './general';
 import {$ID} from 'mattermost-redux/types/utilities';
-import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
-import {getTimezoneLabel as getTimezoneLabelUtil} from 'mattermost-redux/utils/timezone_utils';
+import {getUserCurrentTimezone, getTimezoneLabel as getTimezoneLabelUtil} from 'mattermost-redux/utils/timezone_utils';
+
+import {getSupportedTimezones} from './general';
 
 export function getUserTimezone(state: GlobalState, id: string) {
     const profile = state.entities.users.profiles[id];
