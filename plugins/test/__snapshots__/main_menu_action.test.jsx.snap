@@ -369,6 +369,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       text="Help"
     />
     <MenuItemAction
+      icon={false}
       id="gettingStarted"
       onClick={[Function]}
       show={true}
