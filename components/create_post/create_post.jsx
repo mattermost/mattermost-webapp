@@ -21,7 +21,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
-} from 'utils/post_utils.jsx';
+} from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
@@ -345,6 +345,7 @@ class CreatePost extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
         if (useGroupMentions) {
@@ -357,6 +358,7 @@ class CreatePost extends React.PureComponent {
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
+            this.saveDraft(prevProps);
             if (useGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
@@ -375,11 +377,21 @@ class CreatePost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
-        if (this.saveDraftFrame) {
-            const channelId = this.props.currentChannel.id;
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+        this.saveDraft();
+    }
+
+    unloadHandler = () => {
+        this.saveDraft();
+    }
+
+    saveDraft = (props = this.props) => {
+        if (this.saveDraftFrame && props.currentChannel) {
+            const channelId = props.currentChannel.id;
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
             clearTimeout(this.saveDraftFrame);
+            this.saveDraftFrame = null;
         }
     }
 
@@ -692,7 +704,7 @@ class CreatePost extends React.PureComponent {
         post.pending_post_id = `${userId}:${time}`;
         post.user_id = userId;
         post.create_at = time;
-        post.parent_id = this.state.parentId;
+        post.root_id = this.state.parentId;
         post.metadata = {};
         post.props = {};
         if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
@@ -1200,19 +1212,19 @@ class CreatePost extends React.PureComponent {
                 <h4>
                     <FormattedMessage
                         id='create_post.tutorialTip.title'
-                        defaultMessage='Sending Messages'
+                        defaultMessage='Send a message'
                     />
                 </h4>
                 <p>
                     <FormattedMarkdownMessage
                         id='create_post.tutorialTip1'
-                        defaultMessage='Type here to write a message and press **Enter** to post it.'
+                        defaultMessage='Type your first message and select **Enter** to send it.'
                     />
                 </p>
                 <p>
                     <FormattedMarkdownMessage
                         id='create_post.tutorialTip2'
-                        defaultMessage='Click the **Attachment** button to upload an image or a file.'
+                        defaultMessage='Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages.'
                     />
                 </p>
             </div>,

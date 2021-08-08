@@ -23,7 +23,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
-} from 'utils/post_utils.jsx';
+} from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import ConfirmModal from 'components/confirm_modal';
@@ -37,6 +37,7 @@ import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
+import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -287,6 +288,7 @@ class CreateComment extends React.PureComponent {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
+        window.addEventListener('beforeunload', this.saveDraft);
         if (useGroupMentions) {
             getChannelMemberCountsByGroup(channelId);
         }
@@ -303,12 +305,8 @@ class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
-
-        if (this.saveDraftFrame) {
-            clearTimeout(this.saveDraftFrame);
-
-            this.props.onUpdateCommentDraft(this.state.draft);
-        }
+        window.removeEventListener('beforeunload', this.saveDraft);
+        this.saveDraft();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -338,6 +336,14 @@ class CreateComment extends React.PureComponent {
                 this.props.scrollToBottom();
             }
             this.doInitialScrollToBottom = false;
+        }
+    }
+
+    saveDraft = () => {
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+            this.props.onUpdateCommentDraft(this.state.draft);
+            this.saveDraftFrame = null;
         }
     }
 
@@ -1229,15 +1235,6 @@ class CreateComment extends React.PureComponent {
             scrollbarClass = ' scroll';
         }
 
-        const textboxRef = this.textboxRef.current;
-        let suggestionListStyle = 'top';
-        if (textboxRef) {
-            const textboxPosTop = textboxRef.getInputBox().getBoundingClientRect().top;
-            if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
-                suggestionListStyle = 'bottom';
-            }
-        }
-
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
@@ -1277,7 +1274,7 @@ class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
-                                suggestionListStyle={suggestionListStyle}
+                                suggestionList={RhsSuggestionList}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}

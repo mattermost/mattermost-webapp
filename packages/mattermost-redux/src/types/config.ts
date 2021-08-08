@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CollapsedThreads} from '../constants/config';
+import {CollapsedThreads, InviteMembersBtnLocations} from '../constants/config';
 
 import {Dictionary} from './utilities';
+
+import {ThemeKey} from './themes';
 
 export type ClientConfig = {
     AboutLink: string;
@@ -26,6 +28,7 @@ export type ClientConfig = {
     BuildNumber: string;
     CloseUnusedDirectMessages: string;
     CollapsedThreads: CollapsedThreads;
+    InviteMembersBtnLocations: InviteMembersBtnLocations;
     CustomBrandText: string;
     CustomDescriptionText: string;
     CustomTermsOfServiceId: string;
@@ -37,7 +40,7 @@ export type ClientConfig = {
     DataRetentionFileRetentionDays: string;
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
-    DefaultTheme: 'default' | 'organization' | 'mattermostDark' | 'windows10';
+    DefaultTheme: ThemeKey;
     DesktopLatestVersion: string;
     DesktopMinVersion: string;
     DiagnosticId: string;
@@ -148,6 +151,8 @@ export type ClientConfig = {
     MaxNotificationsPerChannel: string;
     MinimumHashtagLength: string;
     NoAccounts: string;
+    GitLabButtonText: string;
+    GitLabButtonColor: string;
     OpenIdButtonText: string;
     OpenIdButtonColor: string;
     PasswordMinimumLength: string;

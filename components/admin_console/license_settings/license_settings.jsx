@@ -67,11 +67,12 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (!this.props.enterpriseReady) {
+        if (this.props.enterpriseReady) {
+            this.props.actions.getPrevTrialLicense();
+        } else {
             this.reloadPercentage();
         }
         this.props.actions.getLicenseConfig();
-        this.props.actions.getPrevTrialLicense();
         AdminActions.getStandardAnalytics();
     }
 

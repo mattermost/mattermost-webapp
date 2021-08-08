@@ -18,7 +18,7 @@ export const contactSalesCard = (
     contactSalesLink: any,
     isFreeTrial: boolean,
     trialQuestionsLink: any,
-    subscriptionPlan: string | null,
+    subscriptionPlan: string | undefined,
     onUpgradeMattermostCloud: () => void,
     productsLength: number,
 ) => {

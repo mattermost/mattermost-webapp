@@ -61,10 +61,6 @@
     h1 {
         margin: 8px 0 24px;
         font-size: 28px;
-
-        strong {
-            font-weight: 400;
-        }
     }
 
     h2 {
@@ -193,7 +189,7 @@
     }
 
     .item_error {
-        background-color: var(--error-text-08);
+        background-color: rgba(var(--error-text-rgb), 0.08);
     }
 
     .error_text {
@@ -223,6 +219,6 @@
         height: 100%;
         align-items: center;
         justify-content: center;
-        background-color: var(--error-text-12);
+        background-color: rgba(var(--error-text-rgb), 0.12);
     }
 }

@@ -34,7 +34,6 @@ function mapStateToProps(state: GlobalState) {
         canCreatePrivateChannel = haveICurrentChannelPermission(state, Permissions.CREATE_PRIVATE_CHANNEL);
         canJoinPublicChannel = haveICurrentChannelPermission(state, Permissions.JOIN_PUBLIC_CHANNELS);
     }
-
     return {
         teamId: currentTeam ? currentTeam.id : '',
         canCreatePrivateChannel,

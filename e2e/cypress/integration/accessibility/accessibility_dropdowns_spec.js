@@ -14,16 +14,11 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Verify Accessibility Support in Dropdown Menus', () => {
     let siteName;
-    let isCloudLicensed;
     let testTeam;
 
     before(() => {
         cy.apiGetConfig().then(({config}) => {
             siteName = config.TeamSettings.SiteName;
-        });
-
-        cy.apiGetClientLicense().then((data) => {
-            isCloudLicensed = data.isCloudLicensed;
         });
 
         cy.apiCreateCustomAdmin().then(({sysadmin}) => {
@@ -122,7 +117,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
             {id: 'marketplaceModal', label: 'Marketplace dialog'},
             {id: 'systemConsole', text: 'System Console'},
             {id: 'helpLink', text: 'Help', directLink: true},
-            {id: 'gettingStarted', text: 'Getting Started', shouldSkip: !isCloudLicensed},
+            {id: 'gettingStarted', text: 'Getting Started'},
             {id: 'keyboardShortcuts', text: 'Keyboard Shortcuts'},
             {id: 'reportLink', text: 'Report a Problem', directLink: true},
             {id: 'nativeAppLink', text: 'Download Apps', directLink: true},

@@ -234,7 +234,9 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                             <MattermostLogo/>
                         </div>
                         <div>
-                            <h3 className='about-modal__title'>{'Mattermost'} {title}</h3>
+                            <h3 className='about-modal__title'>
+                                <strong>{'Mattermost'} {title}</strong>
+                            </h3>
                             <p className='about-modal__subtitle pb-2'>{subTitle}</p>
                             <div className='form-group less'>
                                 <div>
