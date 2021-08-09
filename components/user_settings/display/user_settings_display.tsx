@@ -962,7 +962,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {collapsedReplyThreads}
                     {channelDisplayModeSection}
                     {languagesSection}
-                    {this.props.globalHeaderEnabled && showGlobalHeader}
+                    {this.props.globalHeaderAllowed && showGlobalHeader}
                 </div>
             </div>
         );
