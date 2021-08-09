@@ -541,7 +541,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                 );
             }
 
-            const isFocused = comPost.id && comPost.id === this.props.highlightedPostId;
+            const isFocused = Boolean(comPost.id && comPost.id === this.props.highlightedPostId);
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
 
             items.push(

@@ -7,7 +7,6 @@ import {bindActionCreators} from 'redux';
 import {
     getConfig,
     getLicense,
-    getFirstAdminVisitMarketplaceStatus,
     getSubscriptionStats as selectSubscriptionStats,
 } from 'mattermost-redux/selectors/entities/general';
 import {
@@ -110,7 +109,6 @@ function mapStateToProps(state) {
         showNextSteps: showNextSteps(state),
         isCloud,
         subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
-        firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
     };
 }
 

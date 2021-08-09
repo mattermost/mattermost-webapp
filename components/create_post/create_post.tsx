@@ -20,7 +20,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
-} from 'utils/post_utils.jsx';
+} from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -1272,19 +1272,19 @@ class CreatePost extends React.PureComponent<Props, State> {
                 <h4>
                     <FormattedMessage
                         id='create_post.tutorialTip.title'
-                        defaultMessage='Sending Messages'
+                        defaultMessage='Send a message'
                     />
                 </h4>
                 <p>
                     <FormattedMarkdownMessage
                         id='create_post.tutorialTip1'
-                        defaultMessage='Type here to write a message and press **Enter** to post it.'
+                        defaultMessage='Type your first message and select **Enter** to send it.'
                     />
                 </p>
                 <p>
                     <FormattedMarkdownMessage
                         id='create_post.tutorialTip2'
-                        defaultMessage='Click the **Attachment** button to upload an image or a file.'
+                        defaultMessage='Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages.'
                     />
                 </p>
             </div>,

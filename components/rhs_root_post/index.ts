@@ -2,35 +2,41 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {makeGetDisplayName, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/types/posts';
+
+import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
+
+import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {isEmbedVisible} from 'selectors/posts';
-import {getEmojiMap} from 'selectors/emojis';
+
+import {GlobalState} from 'types/store';
+import {FakePost} from 'types/store/rhs';
+
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 
-import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis.js';
-
 import RhsRootPost from './rhs_root_post.jsx';
 
-function mapStateToProps(state, ownProps) {
-    const getReactionsForPost = makeGetReactionsForPost();
-    const getDisplayName = makeGetDisplayName();
+interface OwnProps {
+    post: Post | FakePost;
+    teamId: string;
+}
 
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
     const channel = getChannel(state, ownProps.post.channel_id);
-    const emojiMap = getEmojiMap(state);
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
     const user = getUser(state, ownProps.post.user_id);
@@ -38,9 +44,6 @@ function mapStateToProps(state, ownProps) {
 
     return {
         isBot,
-        author: getDisplayName(state, ownProps.post.user_id),
-        reactions: getReactionsForPost(state, ownProps.post.id),
-        emojiMap,
         enableEmojiPicker,
         enablePostUsernameOverride,
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
@@ -55,7 +58,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             markPostAsUnread,

@@ -25,7 +25,8 @@ export type PostType = 'system_add_remove' |
 'system_join_leave' |
 'system_leave_channel' |
 'system_purpose_change' |
-'system_remove_from_channel';
+'system_remove_from_channel' |
+'system_combined_user_activity';
 
 export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph';
 
@@ -67,7 +68,7 @@ export type Post = {
     hashtags: string;
     pending_post_id: string;
     reply_count: number;
-    file_ids?: any[];
+    file_ids?: string[];
     metadata: PostMetadata;
     failed?: boolean;
     user_activity_posts?: Post[];
@@ -79,6 +80,11 @@ export type Post = {
     is_following?: boolean;
     exists?: boolean;
 };
+
+export type UserActivityPost = Post & {
+    system_post_ids: string[];
+    user_activity_posts: Post[];
+}
 
 export type PostList = {
     order: Array<$ID<Post>>;
