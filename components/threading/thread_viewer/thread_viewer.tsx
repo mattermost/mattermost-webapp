@@ -198,7 +198,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
                     <div>
                         {this.props.selected && (
                             <DeferredThreadViewerVirt
-                                key={`${this.props.selected.id}${this.props.highlightedPostId ?? ''}`}
+                                key={this.props.selected.id}
                                 channel={this.props.channel}
                                 onCardClick={this.handleCardClick}
                                 onCardClickPost={this.handleCardClickPost}
