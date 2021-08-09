@@ -12,6 +12,7 @@
     @media screen and (max-width: 768px) {
         height: 44px;
         padding: 8px;
-        grid-template-columns: 100% 0%;
+        display: flex;
+        justify-content: flex-start;
     }
 }

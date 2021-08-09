@@ -16,29 +16,24 @@ interface DownloadLinkProps {
 }
 
 interface Props {
+    usedInside?: 'Header' | 'Footer';
+    showOnlyClose?: boolean;
     showClose?: boolean;
-    showDownload?: boolean;
-    showPublicLink?: boolean;
     filename: string;
     fileURL: string;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
-    isExternalFile: boolean;
     onGetPublicLink?: () => void;
-    handlePrev: () => void;
-    handleNext: () => void;
     handleModalClose: () => void;
-    children?: string;
-    disabled?: boolean;
-    className?: string;
 }
 
 const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
+    const tooltipPlacement = props.usedInside === 'Header' ? 'bottom' : 'top';
     const closeButton = (
         <OverlayTrigger
             delayShow={Constants.OVERLAY_TIME_DELAY}
             key='publicLink'
-            placement='bottom'
+            placement={tooltipPlacement}
             overlay={
                 <Tooltip id='close-icon-tooltip'>
                     <FormattedMessage
@@ -60,7 +55,7 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
         <OverlayTrigger
             delayShow={Constants.OVERLAY_TIME_DELAY}
             key='filePreviewPublicLink'
-            placement='bottom'
+            placement={tooltipPlacement}
             overlay={
                 <Tooltip id='link-variant-icon-tooltip'>
                     <FormattedMessage
@@ -73,7 +68,7 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
             <a
                 href='#'
                 className='file-preview-modal-main-actions__action-item'
-                onClick={props.handleModalClose}
+                onClick={props.onGetPublicLink}
             >
                 <i className='icon icon-link-variant'/>
             </a>
@@ -85,7 +80,7 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
         <OverlayTrigger
             delayShow={Constants.OVERLAY_TIME_DELAY}
             key='download'
-            placement='bottom'
+            placement={tooltipPlacement}
             overlay={
                 <Tooltip id='download-icon-tooltip'>
                     <FormattedMessage
@@ -108,17 +103,17 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
     );
     return (
         <div className='file-preview-modal-main-actions__actions'>
-            {props.showPublicLink && publicLink}
-            {props.showDownload && download}
+            {!props.showOnlyClose && props.enablePublicLink && publicLink}
+            {!props.showOnlyClose && props.canDownloadFiles && download}
             {props.showClose && closeButton}
         </div>
     );
 };
 
 FilePreviewModalMainActions.defaultProps = {
+    showOnlyClose: false,
+    usedInside: 'Header',
     showClose: true,
-    showDownload: true,
-    showPublicLink: true,
 };
 
 export default memo(FilePreviewModalMainActions);

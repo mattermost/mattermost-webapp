@@ -114,7 +114,7 @@ export default class CodePreview extends React.PureComponent {
         const highlighted = SyntaxHighlighting.highlight(this.state.lang, this.state.code);
 
         return (
-            <div className='post-code'>
+            <div className='post-code code-preview'>
                 <span className='post-code__language'>
                     {`${this.props.fileInfo.name} - ${language}`}
                 </span>

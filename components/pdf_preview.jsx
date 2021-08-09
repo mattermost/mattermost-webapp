@@ -231,7 +231,7 @@ export default class PDFPreview extends React.PureComponent {
         return (
             <div
                 ref={this.container}
-                className='post-code'
+                className='post-code pdf-preview'
             >
                 {pdfCanvases}
             </div>

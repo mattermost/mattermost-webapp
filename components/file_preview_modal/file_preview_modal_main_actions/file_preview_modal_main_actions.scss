@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 .file-preview-modal-main-actions {
     &__actions {
         display: flex;
@@ -11,8 +13,26 @@
     }
 
     &__action-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         border: unset;
-        margin-left: 10px;
+        margin-left: 8px;
         background: transparent;
+        height: 40px;
+        width: 40px;
+        overflow: hidden;
+        @include border-radius(4px);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        &.active {
+            background: rgba(255, 255, 255, 0.16);
+        }
+        &:first-child{
+            margin-left: unset;
+        }
     }
 }

@@ -270,6 +270,12 @@ export default class FilePreviewModal extends React.PureComponent {
         this.props.onModalDismissed();
         this.setState({scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length)});
     }
+    handleBgClose = (e) => {
+        if (e.currentTarget === e.target) {
+            this.handleModalClose();
+        }
+    }
+
 
     render() {
         if (this.props.fileInfos.length < 1 || this.props.fileInfos.length - 1 < this.state.imageIndex) {
@@ -306,7 +312,10 @@ export default class FilePreviewModal extends React.PureComponent {
             } else if (fileType === FileTypes.PDF) {
                 modalImageClass = ' file-preview-modal__content-scrollable';
                 content = (
-                    <div className='file-preview-modal__scrollable'>
+                    <div
+                        className='file-preview-modal__scrollable'
+                        onClick={this.handleBgClose}
+                    >
                         <React.Suspense fallback={null}>
                             <PDFPreview
                                 fileInfo={fileInfo}
@@ -317,15 +326,14 @@ export default class FilePreviewModal extends React.PureComponent {
                     </div>
                 );
             } else if (CodePreview.supports(fileInfo)) {
-                modalImageClass = ' file-preview-modal__content-scrollable';
+                // modalImageClass = ' file-preview-modal__content-scrollable';
                 dialogClassName += ' modal-code';
                 content = (
-                    <div className='file-preview-modal__scrollable'>
-                        <CodePreview
-                            fileInfo={fileInfo}
-                            fileUrl={fileUrl}
-                        />
-                    </div>
+                    <CodePreview
+                        fileInfo={fileInfo}
+                        fileUrl={fileUrl}
+                        className='file-preview-modal__code-preview'
+                    />
                 );
             } else {
                 content = (
@@ -406,6 +414,7 @@ export default class FilePreviewModal extends React.PureComponent {
                             </Modal.Title>
                             <div
                                 className={'file-preview-modal__content' + modalImageClass}
+                                onClick={this.handleBgClose}
                             >
                                 {content}
                             </div>

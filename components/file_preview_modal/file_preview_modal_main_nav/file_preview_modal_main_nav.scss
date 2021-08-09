@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 .file_preview_modal_main_nav {
     display: flex;
     align-items: center;
@@ -5,13 +7,26 @@
     font-size: 1.6rem;
     font-weight: 600;
 
-    &__next {
+    &__next, &__prev {
         display: flex;
         align-items: center;
+        justify-content: center;
         border: unset;
         margin-left: 12px;
         background: transparent;
         font-weight: 600;
+        height: 40px;
+        width: 40px;
+        overflow: hidden;
+        @include border-radius(4px);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        &.active {
+            background: rgba(255, 255, 255, 0.16);
+        }
 
         i {
             font-size: 2.4rem;
@@ -19,15 +34,11 @@
     }
 
     &__prev {
-        display: flex;
-        align-items: center;
-        border: unset;
+        margin-left: unset;
         margin-right: 12px;
-        background: transparent;
-        font-weight: 600;
-
-        i {
-            font-size: 2.4rem;
-        }
+    }
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        margin-left: -24px;
     }
 }

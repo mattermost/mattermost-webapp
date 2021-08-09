@@ -28,10 +28,7 @@ export default function ImagePreview({fileInfo, canDownloadFiles}) {
     return (
         <a
             className='image_preview'
-            href={fileUrl}
-            target='_blank'
-            rel='noopener noreferrer'
-            download={!isExternalFile}
+            href='#'
         >
             <img
                 className='image_preview__image'

@@ -2,5 +2,8 @@
     &__image {
         max-height: calc(100vh - 72px - 96px);
         border-radius: 8px;
+        @media screen and (max-width: 768px) {
+            border-radius: 0px;
+        }
     }
 }

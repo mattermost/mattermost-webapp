@@ -443,6 +443,26 @@
                     margin: 0;
                 }
             }
+            .code-preview{
+                display: flex;
+                flex-direction: column;
+                height: calc(100vh - 168px);
+                border-radius: 8px;
+                @media screen and (max-width: 768px) {
+                    border-radius: 0;
+                    height: calc(100vh - 108px);
+                    .post-code__language{
+                        top: 0
+                    }
+                }
+                .hljs {
+                    margin: 0;
+                }
+            }
+            .pdf-preview{
+                display: flex;
+                flex-direction: column;
+            }
 
             audio,
             canvas,
@@ -459,6 +479,7 @@
             // override canvas for PDF zooming
             canvas {
                 max-height: 100%;
+                margin: 0;
             }
 
             .modal-close {

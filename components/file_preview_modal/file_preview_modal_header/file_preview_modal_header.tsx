@@ -24,14 +24,18 @@ interface Props {
     handlePrev: () => void;
     handleNext: () => void;
     handleModalClose: () => void;
-    children?: string;
-    disabled?: boolean;
-    className?: string;
 }
 
 const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, ...actionProps}: Props) => {
+    const actions = (
+        <FilePreviewModalMainActions
+            {...actionProps}
+            showOnlyClose={actionProps.isMobile}
+            usedInside={actionProps.isMobile ? 'Footer' : 'Header'}
+        />);
     return (
         <div className='file-preview-modal-header'>
+            {actionProps.isMobile && actions}
             {!actionProps.isMobile &&
             <FilePreviewModalInfo
                 showFileName={true}
@@ -45,11 +49,7 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, .
                 handlePrev={actionProps.handlePrev}
                 handleNext={actionProps.handleNext}
             />
-            <FilePreviewModalMainActions
-                {...actionProps}
-                showPublicLink={!actionProps.isMobile}
-                showDownload={!actionProps.isMobile}
-            />
+            {!actionProps.isMobile && actions}
         </div>
     );
 };
