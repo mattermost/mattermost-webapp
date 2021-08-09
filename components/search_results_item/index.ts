@@ -2,14 +2,18 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
+
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/types/posts';
+
 import {isPostFlagged} from 'mattermost-redux/utils/post_utils';
 
 import {
@@ -19,16 +23,20 @@ import {
     setRhsExpanded,
 } from 'actions/views/rhs';
 
-import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {GlobalState} from 'types/store';
+
 import {getDisplayNameByUser} from 'utils/utils.jsx';
 
 import SearchResultsItem from './search_results_item.jsx';
 
+interface OwnProps {
+    post: Post;
+}
+
 function mapStateToProps() {
-    const createAriaLabelForPost = makeCreateAriaLabelForPost();
     const getReplyCount = makeGetCommentCountForPost();
 
-    return (state, ownProps) => {
+    return (state: GlobalState, ownProps: OwnProps) => {
         const {post} = ownProps;
         const config = getConfig(state);
         const preferences = getMyPreferences(state);
@@ -39,7 +47,6 @@ function mapStateToProps() {
 
         return {
             currentTeamName: getCurrentTeam(state).name,
-            createAriaLabel: createAriaLabelForPost(state, post),
             channelId: channel.id,
             channelName: channel.display_name,
             channelType: channel.type,
@@ -53,7 +60,7 @@ function mapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             closeRightHandSide,

@@ -340,9 +340,9 @@
 
         display: inline-block;
         padding: 0 8px;
-        border: 1px solid;
-        background: $primary-color;
-        color: $white;
+        border: 1px solid rgba(var(--sidebar-header-text-color-rgb), 0.5);
+        background: var(--sidebar-header-bg);
+        color: var(--sidebar-header-text-color);
         font-size: 12px;
         line-height: 25px;
         text-align: center;

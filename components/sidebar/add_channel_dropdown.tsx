@@ -9,6 +9,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 
+import AddChannelTutorialTip from './add_channel_tutorial_tip';
+
 type Props = {
     intl: IntlShape;
     canCreateChannel: boolean;
@@ -18,6 +20,9 @@ type Props = {
     showCreateCategoryModal: () => void;
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
+    townSquareDisplayName: string;
+    offTopicDisplayName: string;
+    showTutorialTip: boolean;
 };
 
 type State = {
@@ -75,14 +80,14 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         );
 
         return (
-            <React.Fragment>
+            <>
                 <Menu.Group>
                     {joinPublicChannel}
                     {createChannel}
                     {createDirectMessage}
                 </Menu.Group>
                 {createCategory}
-            </React.Fragment>
+            </>
         );
     }
 
@@ -105,6 +110,16 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             </Tooltip>
         );
 
+        let tutorialTip = null;
+        if (this.props.showTutorialTip) {
+            tutorialTip = (
+                <AddChannelTutorialTip
+                    townSquareDisplayName={this.props.townSquareDisplayName}
+                    offTopicDisplayName={this.props.offTopicDisplayName}
+                />
+            );
+        }
+
         return (
             <MenuWrapper className='AddChannelDropdown'>
                 <OverlayTrigger
@@ -112,12 +127,15 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                     placement='top'
                     overlay={tooltip}
                 >
-                    <button
-                        className='AddChannelDropdown_dropdownButton'
-                        aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
-                    >
-                        <i className='icon-plus'/>
-                    </button>
+                    <>
+                        <button
+                            className='AddChannelDropdown_dropdownButton'
+                            aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
+                        >
+                            <i className='icon-plus'/>
+                        </button>
+                        {tutorialTip}
+                    </>
                 </OverlayTrigger>
                 <Menu
                     id='AddChannelDropdown'
