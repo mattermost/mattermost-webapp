@@ -28,7 +28,9 @@
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
         "EnableLatex": false,
-        "EnableLegacySidebar": false
+        "EnableLegacySidebar": false,
+        "ThreadAutoFollow": true,
+        "CollapsedThreads": "disabled"
     },
     "TeamSettings": {
         "SiteName": "Mattermost",

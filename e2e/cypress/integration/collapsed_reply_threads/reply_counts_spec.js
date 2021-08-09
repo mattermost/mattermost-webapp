@@ -1,6 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+//
+//  Group: @collapsed_reply_threads
+
 describe('Reply counts', () => {
     let testTeam;
     let testUser;
@@ -9,6 +17,14 @@ describe('Reply counts', () => {
     let rootPost;
 
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ThreadAutoFollow: true,
+                CollapsedThreads: 'default_off',
+            },
+        });
+
+        // # Create new channel and other user, and add other user to channel
         cy.apiInitSetup({loginAfter: true, promoteNewUserAsAdmin: true}).then(({team, channel, user}) => {
             testTeam = team;
             testUser = user;
@@ -21,46 +37,67 @@ describe('Reply counts', () => {
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id);
 
+                    // # Post a message as other user
                     cy.postMessageAs({sender: otherUser, message: 'Root post', channelId: testChannel.id}).then((post) => {
                         rootPost = post;
                     });
                 });
             });
+
+            // # Visit the channel
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 
-    beforeEach(() => {
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-    });
-
     it('should show number of replies in thread', () => {
+        // # Thread footer should not exist
         cy.get(`#post_${rootPost.id}`).find('.ThreadFooter').should('not.exist');
 
+        // # Post a root post as current user
         cy.postMessageAs({sender: testUser, message: 'reply!', channelId: testChannel.id, rootId: rootPost.id});
 
+        // # Get last root post
         cy.get(`#post_${rootPost.id}`).
-            get('.ThreadFooter').should('exist').
+
+            // * Get Thread footer
+            get('.ThreadFooter').
             within(() => {
+                // * Reply button in Thread Footer should say '1 reply'
                 cy.get('.ReplyButton').should('have.text', '1 reply');
+
+                // * 2 avatars/participants should show in Thread Footer
                 cy.get('.Avatar').should('have.lengthOf', 2);
             });
 
+        // # Visit global threads
         cy.visit(`/${testTeam.name}/threads`);
 
+        // * The sole thread item should have text in footer saying '1 reply'
         cy.get('article.ThreadItem').find('.activity').should('have.text', '1 reply');
 
+        // # Visit the channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Post another reply as current user
         cy.postMessageAs({sender: testUser, message: 'another reply!', channelId: testChannel.id, rootId: rootPost.id});
 
+        // # Get last root post
         cy.get(`#post_${rootPost.id}`).
-            get('.ThreadFooter').should('exist').
+
+            // # Get Thread footer
+            get('.ThreadFooter').
             within(() => {
+                // * Reply button in thread footer should say '2 replies'
                 cy.get('.ReplyButton').should('have.text', '2 replies');
+
+                // * 2 avatars/participants should show in Thread Footer
                 cy.get('.Avatar').should('have.lengthOf', 2);
             });
 
+        // # Visit global threads
         cy.visit(`/${testTeam.name}/threads`);
 
+        // * The sole thread item should have text in footer saying '2 replies'
         cy.get('article.ThreadItem').find('.activity').should('have.text', '2 replies');
     });
 });

@@ -34,44 +34,6 @@ Cypress.Commands.add('toAccountSettingsModal', () => {
     cy.get('#accountSettingsModal').should('be.visible');
 });
 
-/**
- * Change the message display setting
- * @param {String} setting - as 'STANDARD' or 'COMPACT'
- */
-
-Cypress.Commands.add('uiChangeGenericDisplaySetting', (setting, option) => {
-    cy.toAccountSettingsModal();
-    cy.get('#displayButton').click();
-
-    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
-    cy.get(setting).scrollIntoView();
-    cy.get(setting).click();
-    cy.get('.section-max').scrollIntoView();
-
-    cy.get(option).check().should('be.checked');
-
-    cy.get('#saveSetting').click();
-    cy.get('#accountSettingsHeader > .close').click();
-});
-
-Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => {
-    const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
-    cy.uiChangeGenericDisplaySetting('#message_displayTitle', SETTINGS[setting]);
-});
-
-Cypress.Commands.add('uiChangeCRTDisplaySetting', (setting = 'OFF') => {
-    const SETTINGS = {
-        ON: '#collapsed_reply_threadsFormatA',
-        OFF: '#collapsed_reply_threadsFormatB',
-    };
-
-    cy.uiChangeGenericDisplaySetting('#collapsed_reply_threadsTitle', SETTINGS[setting]);
-
-    if (setting === 'ON') {
-        cy.uiCloseModal('You\'re accessing an early beta of Collapsed Reply Threads');
-    }
-});
-
 // ***********************************************************
 // Key Press
 // ***********************************************************

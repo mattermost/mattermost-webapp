@@ -43,5 +43,17 @@ declare namespace Cypress {
          * @param {String} lastname - expected user lastname
          */
         verifyAccountNameSettings(firstname: string, lastname: string): Chainable;
+
+        /**
+         * Navigate to account display settings and change collapsed reply threads setting
+         * @param {String} setting -  ON or OFF
+         */
+        uiChangeCRTDisplaySetting(setting: string): Chainable;
+
+        /**
+         * Navigate to account display settings and change message display setting
+         * @param {String} setting -  COMPACT or STANDARD
+         */
+        uiChangeMessageDisplaySetting(setting: string): Chainable;
     }
 }
