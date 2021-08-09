@@ -29,7 +29,6 @@ import {
 import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {
     getCurrentTeamId,
-    getCurrentTeamMembership,
     getMyTeams,
     getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
@@ -58,7 +57,6 @@ import {
 } from 'mattermost-redux/types/utilities';
 
 import {
-    canManageMembersOldPermissions,
     completeDirectChannelInfo,
     completeDirectGroupInfo,
     newCompleteDirectChannelInfo,
@@ -745,10 +743,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
 export const canManageChannelMembers: (state: GlobalState) => boolean = createSelector(
     'canManageChannelMembers',
     getCurrentChannel,
-    getCurrentUser,
-    getCurrentTeamMembership,
     getMyCurrentChannelMembership,
-    getConfig,
     getLicense,
     hasNewPermissions,
     (state: GlobalState): boolean => haveICurrentChannelPermission(state,
@@ -759,10 +754,7 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
     ),
     (
         channel: Channel,
-        user: UserProfile,
-        teamMembership: TeamMembership,
         channelMembership: ChannelMembership | undefined,
-        config: Partial<ClientConfig>,
         license: any,
         newPermissions: boolean,
         managePrivateMembers: boolean,
@@ -793,8 +785,12 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
         if (!channelMembership) {
             return false;
         }
+    
+        if (license.IsLicensed !== 'true') {
+            return true;
+        }
 
-        return canManageMembersOldPermissions(channel, user, teamMembership, channelMembership, config, license);
+        return true;
     },
 );
 

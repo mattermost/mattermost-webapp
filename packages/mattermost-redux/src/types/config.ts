@@ -264,7 +264,6 @@ export type ServiceSettings = {
     EnableIncomingWebhooks: boolean;
     EnableOutgoingWebhooks: boolean;
     EnableCommands: boolean;
-    EnableOnlyAdminIntegrations: boolean;
     EnablePostUsernameOverride: boolean;
     EnablePostIconOverride: boolean;
     EnableLinkPreviews: boolean;
@@ -296,9 +295,6 @@ export type ServiceSettings = {
     EnableGifPicker: boolean;
     GfycatApiKey: string;
     GfycatApiSecret: string;
-    RestrictCustomEmojiCreation: string;
-    RestrictPostDelete: string;
-    AllowEditPost: string;
     PostEditTimeLimit: number;
     TimeBetweenUserTypingUpdatesMilliseconds: number;
     EnablePostSearch: boolean;
@@ -315,9 +311,6 @@ export type ServiceSettings = {
     ExperimentalGroupUnreadChannels: string;
     ExperimentalChannelOrganization: boolean;
     ExperimentalDataPrefetch: boolean;
-    ImageProxyType: string;
-    ImageProxyURL: string;
-    ImageProxyOptions: string;
     EnableAPITeamDeletion: boolean;
     ExperimentalEnableHardenedMode: boolean;
     ExperimentalStrictCSRFEnforcement: boolean;
@@ -335,7 +328,6 @@ export type ServiceSettings = {
 export type TeamSettings = {
     SiteName: string;
     MaxUsersPerTeam: number;
-    EnableTeamCreation: boolean;
     EnableCustomUserStatuses: boolean;
     EnableUserCreation: boolean;
     EnableOpenServer: boolean;
@@ -345,14 +337,6 @@ export type TeamSettings = {
     CustomBrandText: string;
     CustomDescriptionText: string;
     RestrictDirectMessage: string;
-    RestrictTeamInvite: string;
-    RestrictPublicChannelManagement: string;
-    RestrictPrivateChannelManagement: string;
-    RestrictPublicChannelCreation: string;
-    RestrictPrivateChannelCreation: string;
-    RestrictPublicChannelDeletion: string;
-    RestrictPrivateChannelDeletion: string;
-    RestrictPrivateChannelManageMembers: string;
     UserStatusAwayTimeout: number;
     MaxChannelsPerTeam: number;
     MaxNotificationsPerChannel: number;

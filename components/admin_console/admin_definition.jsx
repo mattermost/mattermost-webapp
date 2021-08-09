@@ -5168,17 +5168,6 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_PERMISSION,
-                        key: 'ServiceSettings.EnableOnlyAdminIntegrations',
-                        label: t('admin.service.integrationAdmin'),
-                        label_default: 'Restrict managing integrations to Admins:',
-                        help_text: t('admin.service.integrationAdminDesc'),
-                        help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
-                        permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                        isHidden: it.licensed,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnablePostUsernameOverride',
                         label: t('admin.service.overrideTitle'),
