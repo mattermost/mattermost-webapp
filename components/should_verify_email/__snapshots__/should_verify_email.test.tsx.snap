@@ -14,7 +14,7 @@ exports[`components/ShouldVerifyEmail should match snapshot 1`] = `
       <h3
         data-testid="emailVerifyAlmost"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="{siteName}: You are almost done"
           id="email_verify.almost"
           values={
@@ -28,7 +28,7 @@ exports[`components/ShouldVerifyEmail should match snapshot 1`] = `
         <p
           data-testid="emailVerifyNotVerifiedBody"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Please verify your email address. Check your inbox for an email."
             id="email_verify.notVerifiedBody"
           />
@@ -38,7 +38,7 @@ exports[`components/ShouldVerifyEmail should match snapshot 1`] = `
           data-testid="emailVerifyResend"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Resend Email"
             id="email_verify.resend"
           />

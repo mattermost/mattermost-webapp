@@ -3,11 +3,74 @@
 
 import {Preferences} from 'mattermost-redux/constants';
 
+import mergeObjects from 'mattermost-redux/test/merge_objects';
+
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import {TestHelper} from 'utils/test_helper';
 
 import * as Selectors from './channel_sidebar';
+
+describe('isUnreadFilterEnabled', () => {
+    const preferenceKey = getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION);
+
+    const baseState = {
+        entities: {
+            general: {
+                config: {
+                    LegacySidebarEnabled: 'false',
+                },
+            },
+            preferences: {
+                myPreferences: {
+                    [preferenceKey]: {value: 'false'},
+                },
+            },
+        },
+        views: {
+            channelSidebar: {
+                unreadFilterEnabled: false,
+            },
+        },
+    };
+
+    test('should return false when filter is disabled', () => {
+        const state = baseState;
+
+        expect(Selectors.isUnreadFilterEnabled(state)).toBe(false);
+    });
+
+    test('should return true when filter is enabled and unreads aren\'t separate', () => {
+        const state = mergeObjects(baseState, {
+            views: {
+                channelSidebar: {
+                    unreadFilterEnabled: true,
+                },
+            },
+        });
+
+        expect(Selectors.isUnreadFilterEnabled(state)).toBe(true);
+    });
+
+    test('should return false when unreads are separate', () => {
+        const state = mergeObjects(baseState, {
+            entities: {
+                preferences: {
+                    myPreferences: {
+                        [preferenceKey]: {value: 'true'},
+                    },
+                },
+            },
+            views: {
+                channelSidebar: {
+                    unreadFilterEnabled: true,
+                },
+            },
+        });
+
+        expect(Selectors.isUnreadFilterEnabled(state)).toBe(false);
+    });
+});
 
 describe('getUnreadChannels', () => {
     const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});

@@ -38,7 +38,7 @@ import {
     setEditingPost,
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';

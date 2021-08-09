@@ -26,6 +26,12 @@ describe('Actions.Preferences', () => {
                 users: {
                     currentUserId: TestHelper.basicUser.id,
                 },
+                general: {
+                    config: {
+                        FeatureFlagCollapsedThreads: 'true',
+                        CollapsedThreads: 'always_on',
+                    },
+                },
             },
         });
     });

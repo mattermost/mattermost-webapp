@@ -5,7 +5,7 @@ exports[`components/CommentedOnFilesMessage Snapshot when no files 1`] = `""`;
 exports[`components/CommentedOnFilesMessage should match snapshot for multiple files 1`] = `
 <span>
   image_3.png
-  <FormattedMessage
+  <MemoizedFormattedMessage
     defaultMessage=" plus {count, number} other {count, plural, one {file} other {files}}"
     id="post_body.plusMore"
     values={

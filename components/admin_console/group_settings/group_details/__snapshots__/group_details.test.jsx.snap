@@ -12,7 +12,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         className="fa fa-angle-left back"
         to="/admin_console/user_management/groups"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Group Configuration"
         id="admin.group_settings.group_detail.group_configuration"
       />
@@ -30,7 +30,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         <div
           className="banner__content"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Configure default teams and channels and view users belonging to this group."
             id="admin.group_settings.group_detail.introBanner"
           />
@@ -57,7 +57,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 id="add_team_or_channel"
                 type="button"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Add Team or Channel"
                   id="admin.group_settings.group_details.add_team_or_channel"
                 />
@@ -165,7 +165,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         className="fa fa-angle-left back"
         to="/admin_console/user_management/groups"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Group Configuration"
         id="admin.group_settings.group_detail.group_configuration"
       />
@@ -183,7 +183,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         <div
           className="banner__content"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Configure default teams and channels and view users belonging to this group."
             id="admin.group_settings.group_detail.introBanner"
           />
@@ -210,7 +210,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 id="add_team_or_channel"
                 type="button"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Add Team or Channel"
                   id="admin.group_settings.group_details.add_team_or_channel"
                 />
@@ -317,7 +317,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         className="fa fa-angle-left back"
         to="/admin_console/user_management/groups"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Group Configuration"
         id="admin.group_settings.group_detail.group_configuration"
       />
@@ -335,7 +335,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         <div
           className="banner__content"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Configure default teams and channels and view users belonging to this group."
             id="admin.group_settings.group_detail.introBanner"
           />
@@ -362,7 +362,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 id="add_team_or_channel"
                 type="button"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Add Team or Channel"
                   id="admin.group_settings.group_details.add_team_or_channel"
                 />
@@ -458,7 +458,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         className="fa fa-angle-left back"
         to="/admin_console/user_management/groups"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Group Configuration"
         id="admin.group_settings.group_detail.group_configuration"
       />
@@ -476,7 +476,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
         <div
           className="banner__content"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Configure default teams and channels and view users belonging to this group."
             id="admin.group_settings.group_detail.introBanner"
           />
@@ -503,7 +503,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
                 id="add_team_or_channel"
                 type="button"
               >
-                <FormattedMessage
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Add Team or Channel"
                   id="admin.group_settings.group_details.add_team_or_channel"
                 />

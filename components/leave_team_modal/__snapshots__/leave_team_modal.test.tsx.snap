@@ -41,7 +41,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       componentClass="h1"
       id="leaveTeamModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Leave the team?"
         id="leave_team_modal.title"
       />
@@ -72,7 +72,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       onClick={[MockFunction]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="No"
         id="leave_team_modal.no"
       />
@@ -83,7 +83,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Yes"
         id="leave_team_modal.yes"
       />
