@@ -448,6 +448,11 @@ export const TutorialSteps = {
     FINISHED: 999,
 };
 
+export const TopLevelProducts = {
+    BOARDS: 'Boards',
+    PLAYBOOKS: 'Playbooks',
+};
+
 export const RecommendedNextSteps = {
     COMPLETE_PROFILE: 'complete_profile',
     TEAM_SETUP: 'team_setup',
