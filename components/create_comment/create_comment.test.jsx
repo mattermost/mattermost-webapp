@@ -509,7 +509,11 @@ describe('components/CreateComment', () => {
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
+        expect(onSubmit).toHaveBeenCalledWith({
+            message: '/fakecommand other text',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}],
+        }, {ignoreSlash: false});
 
         wrapper.instance().handleChange({
             target: {value: 'some valid text'},
@@ -517,7 +521,11 @@ describe('components/CreateComment', () => {
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
+        expect(onSubmit).toHaveBeenCalledWith({
+            message: 'some valid text',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}],
+        }, {ignoreSlash: false});
     });
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
@@ -919,13 +927,22 @@ describe('components/CreateComment', () => {
 
             await wrapper.instance().handleSubmit({preventDefault});
 
-            expect(onSubmitWithError).toHaveBeenCalledWith({ignoreSlash: false});
+            expect(onSubmitWithError).toHaveBeenCalledWith({
+                message: '/fakecommand other text',
+                uploadsInProgress: [],
+                fileInfos: [{}, {}, {}],
+            }, {ignoreSlash: false});
             expect(preventDefault).toHaveBeenCalled();
 
             wrapper.setProps({onSubmit});
             await wrapper.instance().handleSubmit({preventDefault});
 
-            expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: true});
+            expect(onSubmit).toHaveBeenCalledWith({
+                message: '/fakecommand other text',
+                uploadsInProgress: [],
+                fileInfos: [{}, {}, {}],
+            }, {ignoreSlash: true});
+            expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
         });
 
         it('should update global draft state if invalid slash command error occurs', async () => {

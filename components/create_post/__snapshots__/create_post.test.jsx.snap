@@ -109,20 +109,20 @@ exports[`components/create_post Show tutorial 1`] = `
           Array [
             <div>
               <h4>
-                <FormattedMessage
-                  defaultMessage="Sending Messages"
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Send a message"
                   id="create_post.tutorialTip.title"
                 />
               </h4>
               <p>
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Type here to write a message and press **Enter** to post it."
+                  defaultMessage="Type your first message and select **Enter** to send it."
                   id="create_post.tutorialTip1"
                 />
               </p>
               <p>
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Click the **Attachment** button to upload an image or a file."
+                  defaultMessage="Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages."
                   id="create_post.tutorialTip2"
                 />
               </p>
@@ -161,7 +161,7 @@ exports[`components/create_post Show tutorial 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -308,7 +308,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -418,7 +418,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -565,7 +565,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -712,7 +712,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -859,7 +859,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />

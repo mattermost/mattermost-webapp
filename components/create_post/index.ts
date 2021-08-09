@@ -156,6 +156,17 @@ type Actions = {
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
 }
 
+// Temporarily store draft manually in localStorage since the current version of redux-persist
+// we're on will not save the draft quickly enough on page unload.
+function setDraft(key: string, value: PostDraft) {
+    if (value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    } else {
+        localStorage.removeItem(key);
+    }
+    return setGlobalItem(key, value);
+}
+
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
@@ -165,7 +176,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             moveHistoryIndexForward,
             addReaction,
             removeReaction,
-            setDraft: setGlobalItem,
+            setDraft,
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,

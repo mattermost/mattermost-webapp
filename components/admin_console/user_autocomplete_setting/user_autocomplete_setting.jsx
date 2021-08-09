@@ -57,7 +57,7 @@ export default class UserAutocompleteSetting extends React.PureComponent {
                         onChange={this.handleChange}
                         onItemSelected={this.handleUserSelected}
                         listComponent={SuggestionList}
-                        listStyle='bottom'
+                        listPosition='bottom'
                         providers={this.userSuggestionProviders}
                         disabled={this.props.disabled}
                         requiredCharacters={0}

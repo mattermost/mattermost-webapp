@@ -226,6 +226,10 @@ export class ParsedCommand {
         }
 
         if (!this.binding) {
+            if (autocompleteMode) {
+                return this;
+            }
+
             return this.asError(this.intl.formatMessage({
                 id: 'apps.error.parser.no_match',
                 defaultMessage: '`{command}`: No matching command found in this workspace.',
@@ -234,13 +238,22 @@ export class ParsedCommand {
             }));
         }
 
-        this.form = this.binding.form;
-        if (!this.form) {
-            const fetched = await this.formsCache.getForm(this.location, this.binding);
-            if (fetched?.error) {
-                return this.asError(fetched.error);
+        if (!autocompleteMode && this.binding.bindings?.length) {
+            return this.asError(this.intl.formatMessage({
+                id: 'apps.error.parser.execute_non_leaf',
+                defaultMessage: 'You must select a subcommand.',
+            }));
+        }
+
+        if (!this.binding.bindings?.length) {
+            this.form = this.binding?.form;
+            if (!this.form) {
+                const fetched = await this.formsCache.getForm(this.location, this.binding);
+                if (fetched?.error) {
+                    return this.asError(fetched.error);
+                }
+                this.form = fetched?.form;
             }
-            this.form = fetched?.form;
         }
 
         return this;
@@ -456,7 +469,7 @@ export class ParsedCommand {
                     if (this.incompleteStart === this.i - 1) {
                         return this.asError(this.intl.formatMessage({
                             id: 'apps.error.parser.empty_value',
-                            defaultMessage: 'empty values are not allowed',
+                            defaultMessage: 'Empty values are not allowed.',
                         }));
                     }
                     this.i++;
@@ -496,7 +509,7 @@ export class ParsedCommand {
                     if (this.incompleteStart === this.i - 1) {
                         return this.asError(this.intl.formatMessage({
                             id: 'apps.error.parser.empty_value',
-                            defaultMessage: 'empty values are not allowed',
+                            defaultMessage: 'Empty values are not allowed.',
                         }));
                     }
                     this.i++;
@@ -975,7 +988,10 @@ export class AppCommandParser {
     // fetchForm unconditionaly retrieves the form for the given binding (subcommand)
     private fetchForm = async (binding: AppBinding): Promise<{form?: AppForm; error?: string} | undefined> => {
         if (!binding.call) {
-            return undefined;
+            return {error: this.intl.formatMessage({
+                id: 'apps.error.parser.missing_call',
+                defaultMessage: 'Missing binding call.',
+            })};
         }
 
         const payload = createCallRequest(
@@ -1319,11 +1335,11 @@ export class AppCommandParser {
         });
         return [{
             Complete: '',
-            Suggestion: this.intl.formatMessage({
+            Suggestion: '',
+            Hint: this.intl.formatMessage({
                 id: 'apps.suggestion.dynamic.error',
                 defaultMessage: 'Dynamic select error',
             }),
-            Hint: '',
             IconData: COMMAND_SUGGESTION_ERROR,
             Description: errMsg,
         }];

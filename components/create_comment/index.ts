@@ -53,7 +53,6 @@ function makeMapStateToProps() {
         const err = state.requests.posts.createPost.error || {};
 
         const draft = getPostDraft(state, StoragePrefixes.COMMENT_DRAFT, ownProps.rootId);
-        const enableAddButton = draft.message.trim().length !== 0 || draft.fileInfos.length !== 0;
 
         const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ? getAllChannelStats(state)[ownProps.channelId].member_count : 1;
         const messageInHistory = getMessageInHistoryItem(state);
@@ -77,7 +76,6 @@ function makeMapStateToProps() {
         return {
             draft,
             messageInHistory,
-            enableAddButton,
             channelMembersCount,
             codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
@@ -108,13 +106,14 @@ function makeOnUpdateCommentDraft(rootId: string) {
 
 type Actions = {
     clearCommentDraftUploads: () => void;
-    onUpdateCommentDraft: (draft?: PostDraft & {props?: any}) => void;
+    onUpdateCommentDraft: (draft?: PostDraft) => void;
     updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
-    onSubmit: (options: {ignoreSlash: boolean}) => void;
+    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
     onResetHistoryIndex: () => void;
     onMoveHistoryIndexBack: () => void;
     onMoveHistoryIndexForward: () => void;
     onEditLatestPost: () => ActionResult;
+    resetCreatePostRequest: () => void;
     getChannelTimezones: (channelId: string) => Promise<ActionResult>;
     emitShortcutReactToLastPostFrom: (location: string) => void;
     setShowPreview: (showPreview: boolean) => void;
@@ -122,8 +121,8 @@ type Actions = {
 }
 
 function makeMapDispatchToProps() {
-    let onUpdateCommentDraft: (draft?: PostDraft & {props?: any}) => void;
-    let onSubmit: (options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onUpdateCommentDraft: (draft?: PostDraft) => void;
+    let onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onEditLatestPost: () => ActionFunc;

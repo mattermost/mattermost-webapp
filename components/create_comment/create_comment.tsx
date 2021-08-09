@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
@@ -19,7 +21,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
-} from 'utils/post_utils.jsx';
+} from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import ConfirmModal from 'components/confirm_modal';
@@ -44,7 +46,11 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {FileInfo} from 'mattermost-redux/types/files';
 
+import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
+
 const KeyCodes = Constants.KeyCodes;
+
+const CreateCommentDraftTimeoutMilliseconds = 500;
 
 type Props = {
 
@@ -81,7 +87,7 @@ type Props = {
     /**
       * Whether the submit button is enabled
       */
-    enableAddButton: boolean;
+    enableAddButton?: boolean;
 
     /**
       * Force message submission on CTRL/CMD + ENTER
@@ -114,7 +120,7 @@ type Props = {
     /**
       * Called when comment draft needs to be updated
       */
-    onUpdateCommentDraft: (draft?: PostDraft & {props?: any}) => void;
+    onUpdateCommentDraft: (draft?: PostDraft) => void;
 
     /**
       * Called when comment draft needs to be updated for an specific root ID
@@ -124,7 +130,7 @@ type Props = {
     /**
       * Called when submitting the comment
       */
-    onSubmit: (options: {ignoreSlash: boolean}) => void;
+    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
 
     /**
       * Called when resetting comment message history index
@@ -154,7 +160,7 @@ type Props = {
     /**
       * Reset state of createPost request
       */
-    resetCreatePostRequest?: () => void;
+    resetCreatePostRequest: () => void;
 
     /**
       * Set if channel is read only
@@ -248,7 +254,7 @@ type State = {
     scrollbarWidth: number;
     mentions: string[];
     memberNotifyCount: number;
-    draft?: PostDraft & {caretPosition?: number; props?: any};
+    draft?: PostDraft;
     rootId?: string;
     messageInHistory?: string;
     createPostErrorId?: string;
@@ -263,7 +269,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     private draftsForPost: {[postID: string]: PostDraft | null} = {};
     private doInitialScrollToBottom = false;
 
-    private saveDraftFrame?: number;
+    private saveDraftFrame?: number | null;
 
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
@@ -321,6 +327,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
+        window.addEventListener('beforeunload', this.saveDraft);
         if (useGroupMentions) {
             getChannelMemberCountsByGroup(channelId);
         }
@@ -337,12 +344,8 @@ class CreateComment extends React.PureComponent<Props, State> {
         this.props.resetCreatePostRequest?.();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
-
-        if (this.saveDraftFrame) {
-            cancelAnimationFrame(this.saveDraftFrame);
-
-            this.props.onUpdateCommentDraft(this.state.draft);
-        }
+        window.removeEventListener('beforeunload', this.saveDraft);
+        this.saveDraft();
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
@@ -372,6 +375,14 @@ class CreateComment extends React.PureComponent<Props, State> {
                 this.props.scrollToBottom();
             }
             this.doInitialScrollToBottom = false;
+        }
+    }
+
+    saveDraft = () => {
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+            this.props.onUpdateCommentDraft(this.state.draft);
+            this.saveDraftFrame = null;
         }
     }
 
@@ -479,7 +490,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             newMessage = `:${emojiAlias}: `;
         } else {
             const {message} = draft;
-            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition || 0, message);
 
             // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
             newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece} ` : `${firstPiece} :${emojiAlias}: ${lastPiece} `;
@@ -552,13 +563,13 @@ class CreateComment extends React.PureComponent<Props, State> {
         const notificationsToChannel = enableConfirmNotificationsToChannel && useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
-        let mentions = [];
+        let mentions: string[] = [];
         const notContainsAtChannel = !containsAtChannel(draft.message);
         if (enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
             // Groups mentioned in users text
-            mentions = groupsMentionedInText(draft.message, groupsWithAllowReference);
-            if (mentions.length > 0) {
-                mentions = mentions.
+            const mentionGroups = groupsMentionedInText(draft.message, groupsWithAllowReference);
+            if (mentionGroups.length > 0) {
+                mentions = mentionGroups.
                     map((group) => {
                         const mappedValue = channelMemberCountsByGroup[group.id];
                         if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
@@ -664,7 +675,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         const options = {ignoreSlash};
 
         try {
-            await this.props.onSubmit(options);
+            await this.props.onSubmit(draft, options);
 
             this.setState({
                 postError: null,
@@ -679,7 +690,11 @@ class CreateComment extends React.PureComponent<Props, State> {
             return;
         }
 
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+        }
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
+        this.draftsForPost[this.props.rootId] = null;
     }
 
     commentMsgKeyPress = (e: React.KeyboardEvent) => {
@@ -695,8 +710,8 @@ class CreateComment extends React.PureComponent<Props, State> {
         } = postMessageOnKeyPress(
             e,
             this.state.draft!.message,
-            ctrlSend,
-            codeBlockOnCtrlEnter,
+            Boolean(ctrlSend),
+            Boolean(codeBlockOnCtrlEnter),
             0,
             0,
             this.state.caretPosition,
@@ -760,11 +775,11 @@ class CreateComment extends React.PureComponent<Props, State> {
         const updatedDraft = {...draft, message};
 
         if (this.saveDraftFrame) {
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
         }
-        this.saveDraftFrame = requestAnimationFrame(() => {
+        this.saveDraftFrame = window.setTimeout(() => {
             this.props.onUpdateCommentDraft(updatedDraft);
-        });
+        }, CreateCommentDraftTimeoutMilliseconds);
 
         this.setState({draft: updatedDraft, serverError}, () => {
             if (this.props.scrollToBottom) {
@@ -1015,8 +1030,13 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     shouldEnableAddButton = () => {
-        if (this.props.enableAddButton) {
-            return true;
+        const {draft} = this.state;
+        if (draft) {
+            const message = draft.message ? draft.message.trim() : '';
+            const fileInfos = draft.fileInfos ? draft.fileInfos : [];
+            if (message.trim().length !== 0 || fileInfos.length !== 0) {
+                return true;
+            }
         }
 
         return isErrorInvalidSlashCommand(this.state.serverError);
@@ -1273,15 +1293,6 @@ class CreateComment extends React.PureComponent<Props, State> {
             scrollbarClass = ' scroll';
         }
 
-        const textboxRef = this.textboxRef.current;
-        let suggestionListStyle = 'top';
-        if (textboxRef) {
-            const textboxPosTop = textboxRef.getInputBox().getBoundingClientRect().top;
-            if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
-                suggestionListStyle = 'bottom';
-            }
-        }
-
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
@@ -1319,7 +1330,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
-                                suggestionListStyle={suggestionListStyle}
+                                suggestionList={RhsSuggestionList}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                                 useChannelMentions={this.props.useChannelMentions}

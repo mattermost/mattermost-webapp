@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -14,18 +13,19 @@ import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
+import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
-import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 
 type Props = {
     id: string;
     channelId: string;
     rootId?: string;
+    tabIndex?: number;
     value: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (e: KeyboardEvent) => void;
@@ -38,8 +38,9 @@ type Props = {
     onKeyUp?: (e: KeyboardEvent) => void;
     onBlur?: (e: FocusEvent) => void;
     supportsCommands: boolean;
-    handlePostError?: (message: React.ReactNode) => void;
-    suggestionListStyle?: string;
+    handlePostError?: (message: JSX.Element | null) => void;
+    suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
+    suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
     emojiEnabled?: boolean;
     isRHS?: boolean;
     characterLimit: number;
@@ -73,6 +74,7 @@ export default class Textbox extends React.PureComponent<Props> {
         isRHS: false,
         listenForMentionKeyClick: false,
         inputComponent: AutosizeTextarea,
+        suggestionList: SuggestionList,
     };
 
     constructor(props: Props) {
@@ -266,7 +268,7 @@ export default class Textbox extends React.PureComponent<Props> {
 
             preview = (
                 <div
-                    tabIndex={0}
+                    tabIndex={this.props.tabIndex || 0}
                     ref={this.preview}
                     className='form-control custom-textarea textbox-preview-area'
                     onKeyPress={this.props.onKeyPress}
@@ -306,8 +308,8 @@ export default class Textbox extends React.PureComponent<Props> {
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={this.props.inputComponent}
-                    listComponent={SuggestionList}
-                    listStyle={this.props.suggestionListStyle}
+                    listComponent={this.props.suggestionList}
+                    listPosition={this.props.suggestionListPosition}
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
                     value={this.props.value}
@@ -324,4 +326,3 @@ export default class Textbox extends React.PureComponent<Props> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
@@ -18,7 +20,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
-} from 'utils/post_utils.jsx';
+} from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -57,6 +59,8 @@ import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
 const KeyCodes = Constants.KeyCodes;
+
+const CreatePostDraftTimeoutMilliseconds = 500;
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str: string) {
@@ -316,8 +320,8 @@ class CreatePost extends React.PureComponent<Props, State> {
     private lastBlurAt = 0;
     private lastChannelSwitchAt = 0;
     private draftsForChannel: {[channelID: string]: PostDraft | null} = {}
-    private lastOrientation: string | undefined;
-    private saveDraftFrame: number | undefined;
+    private lastOrientation?: string;
+    private saveDraftFrame?: number | null;
 
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
@@ -376,6 +380,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
         if (useGroupMentions) {
@@ -388,6 +393,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
+            this.saveDraft(prevProps);
             if (useGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
@@ -406,11 +412,21 @@ class CreatePost extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
+        window.addEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
-        if (this.saveDraftFrame) {
-            const channelId = this.props.currentChannel.id;
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
-            cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraft();
+    }
+
+    unloadHandler = () => {
+        this.saveDraft();
+    }
+
+    saveDraft = (props = this.props) => {
+        if (this.saveDraftFrame && props.currentChannel) {
+            const channelId = props.currentChannel.id;
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            clearTimeout(this.saveDraftFrame);
+            this.saveDraftFrame = null;
         }
     }
 
@@ -569,7 +585,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
 
         if (this.saveDraftFrame) {
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
         }
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
@@ -617,13 +633,13 @@ class CreatePost extends React.PureComponent<Props, State> {
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
-        let mentions = [];
+        let mentions: string[] = [];
         const notContainsAtChannel = !containsAtChannel(this.state.message);
         if (this.props.enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
             // Groups mentioned in users text
-            mentions = groupsMentionedInText(this.state.message, groupsWithAllowReference);
-            if (mentions.length > 0) {
-                mentions = mentions.
+            const mentionGroups = groupsMentionedInText(this.state.message, groupsWithAllowReference);
+            if (mentionGroups.length > 0) {
+                mentions = mentionGroups.
                     map((group) => {
                         const mappedValue = channelMemberCountsByGroup[group.id];
                         if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
@@ -797,8 +813,8 @@ class CreatePost extends React.PureComponent<Props, State> {
         } = postMessageOnKeyPress(
             e,
             this.state.message,
-            ctrlSend,
-            codeBlockOnCtrlEnter,
+            Boolean(ctrlSend),
+            Boolean(codeBlockOnCtrlEnter),
             Date.now(),
             this.lastChannelSwitchAt,
             this.state.caretPosition,
@@ -859,12 +875,12 @@ class CreatePost extends React.PureComponent<Props, State> {
             message,
         };
         if (this.saveDraftFrame) {
-            cancelAnimationFrame(this.saveDraftFrame);
+            clearTimeout(this.saveDraftFrame);
         }
 
-        this.saveDraftFrame = requestAnimationFrame(() => {
+        this.saveDraftFrame = window.setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        });
+        }, CreatePostDraftTimeoutMilliseconds);
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -1256,19 +1272,19 @@ class CreatePost extends React.PureComponent<Props, State> {
                 <h4>
                     <FormattedMessage
                         id='create_post.tutorialTip.title'
-                        defaultMessage='Sending Messages'
+                        defaultMessage='Send a message'
                     />
                 </h4>
                 <p>
                     <FormattedMarkdownMessage
                         id='create_post.tutorialTip1'
-                        defaultMessage='Type here to write a message and press **Enter** to post it.'
+                        defaultMessage='Type your first message and select **Enter** to send it.'
                     />
                 </p>
                 <p>
                     <FormattedMarkdownMessage
                         id='create_post.tutorialTip2'
-                        defaultMessage='Click the **Attachment** button to upload an image or a file.'
+                        defaultMessage='Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages.'
                     />
                 </p>
             </div>,

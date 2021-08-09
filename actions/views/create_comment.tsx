@@ -42,8 +42,16 @@ export function clearCommentDraftUploads() {
     });
 }
 
+// Temporarily store draft manually in localStorage since the current version of redux-persist
+// we're on will not save the draft quickly enough on page unload.
 export function updateCommentDraft(rootId: string, draft?: PostDraft | null) {
-    return setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, draft);
+    const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
+    if (draft) {
+        localStorage.setItem(key, JSON.stringify(draft));
+    } else {
+        localStorage.removeItem(key);
+    }
+    return setGlobalItem(key, draft);
 }
 
 export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
@@ -68,7 +76,7 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
     };
 }
 
-export function submitPost(channelId: string, rootId: string, draft: PostDraft & {props?: any}) {
+export function submitPost(channelId: string, rootId: string, draft: PostDraft) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
@@ -81,7 +89,6 @@ export function submitPost(channelId: string, rootId: string, draft: PostDraft &
             message: draft.message,
             channel_id: channelId,
             root_id: rootId,
-            parent_id: rootId,
             pending_post_id: `${userId}:${time}`,
             user_id: userId,
             create_at: time,
@@ -121,7 +128,6 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
             channel_id: channelId,
             team_id: teamId,
             root_id: rootId,
-            parent_id: rootId,
         };
 
         let {message} = draft;
@@ -151,8 +157,7 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
 }
 
 export function makeOnSubmit(channelId: string, rootId: string, latestPostId: string) {
-    return (options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
-        const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
+    return (draft: PostDraft, options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));

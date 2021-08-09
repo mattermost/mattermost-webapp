@@ -54,7 +54,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
         componentClass="h1"
         id="newChannelModalLabel"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="New Channel"
           id="channel_modal.modalTitle"
         />
@@ -75,7 +75,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
             className="col-sm-3 form__label control-label"
             id="channelModalTypeLabel"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Type"
               id="channel_modal.type"
             />
@@ -95,11 +95,11 @@ exports[`components/NewChannelModal should match snapshot, display only private 
                   <LockIcon
                     className="icon icon__lock icon--body type-icon"
                   />
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Private"
                     id="channel_modal.privateName"
                   />
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage=" - Only invited members can join this channel"
                     id="channel_modal.privateHint"
                   />
@@ -115,7 +115,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
             className="col-sm-3 form__label control-label"
             htmlFor="newChannelName"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name"
               id="channel_modal.name"
             />
@@ -147,7 +147,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
                 className="color--link style--none"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Edit"
                   id="channel_modal.edit"
                 />
@@ -166,7 +166,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
               className="form__label control-label"
               htmlFor="newChannelPurpose"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Purpose"
                 id="channel_modal.purpose"
               />
@@ -174,7 +174,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -195,7 +195,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Describe how this channel should be used."
                 id="channel_modal.descriptionHelp"
               />
@@ -212,7 +212,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
               className="form__label control-label"
               htmlFor="newChannelHeader"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Header"
                 id="channel_modal.header"
               />
@@ -220,7 +220,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -241,7 +241,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
                 id="channel_modal.headerHelp"
               />
@@ -260,7 +260,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           onClick={[MockFunction]}
           type="button"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="channel_modal.cancel"
           />
@@ -271,7 +271,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           onClick={[Function]}
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Create Channel"
             id="channel_modal.createNew"
           />
@@ -336,7 +336,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
         componentClass="h1"
         id="newChannelModalLabel"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="New Channel"
           id="channel_modal.modalTitle"
         />
@@ -357,7 +357,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
             className="col-sm-3 form__label control-label"
             id="channelModalTypeLabel"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Type"
               id="channel_modal.type"
             />
@@ -377,11 +377,11 @@ exports[`components/NewChannelModal should match snapshot, display only public c
                   <GlobeIcon
                     className="icon icon__globe icon--body type-icon"
                   />
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage="Public"
                     id="channel_modal.publicName"
                   />
-                  <FormattedMessage
+                  <MemoizedFormattedMessage
                     defaultMessage=" - Anyone can join this channel"
                     id="channel_modal.publicHint"
                   />
@@ -397,7 +397,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
             className="col-sm-3 form__label control-label"
             htmlFor="newChannelName"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name"
               id="channel_modal.name"
             />
@@ -429,7 +429,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
                 className="color--link style--none"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Edit"
                   id="channel_modal.edit"
                 />
@@ -448,7 +448,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
               className="form__label control-label"
               htmlFor="newChannelPurpose"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Purpose"
                 id="channel_modal.purpose"
               />
@@ -456,7 +456,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -477,7 +477,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Describe how this channel should be used."
                 id="channel_modal.descriptionHelp"
               />
@@ -494,7 +494,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
               className="form__label control-label"
               htmlFor="newChannelHeader"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Header"
                 id="channel_modal.header"
               />
@@ -502,7 +502,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -523,7 +523,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
                 id="channel_modal.headerHelp"
               />
@@ -542,7 +542,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           onClick={[MockFunction]}
           type="button"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="channel_modal.cancel"
           />
@@ -553,7 +553,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           onClick={[Function]}
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Create Channel"
             id="channel_modal.createNew"
           />
@@ -618,7 +618,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
         componentClass="h1"
         id="newChannelModalLabel"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="New Channel"
           id="channel_modal.modalTitle"
         />
@@ -639,7 +639,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
             className="col-sm-3 form__label control-label"
             id="channelModalTypeLabel"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Type"
               id="channel_modal.type"
             />
@@ -669,11 +669,11 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Public"
                       id="channel_modal.publicName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                     />
@@ -698,11 +698,11 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Private"
                       id="channel_modal.privateName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                     />
@@ -719,7 +719,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
             className="col-sm-3 form__label control-label"
             htmlFor="newChannelName"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name"
               id="channel_modal.name"
             />
@@ -751,7 +751,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
                 className="color--link style--none"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Edit"
                   id="channel_modal.edit"
                 />
@@ -770,7 +770,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               className="form__label control-label"
               htmlFor="newChannelPurpose"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Purpose"
                 id="channel_modal.purpose"
               />
@@ -778,7 +778,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -799,7 +799,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Describe how this channel should be used."
                 id="channel_modal.descriptionHelp"
               />
@@ -816,7 +816,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               className="form__label control-label"
               htmlFor="newChannelHeader"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Header"
                 id="channel_modal.header"
               />
@@ -824,7 +824,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -845,7 +845,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
                 id="channel_modal.headerHelp"
               />
@@ -864,7 +864,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           onClick={[MockFunction]}
           type="button"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="channel_modal.cancel"
           />
@@ -875,7 +875,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           onClick={[Function]}
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Create Channel"
             id="channel_modal.createNew"
           />
@@ -940,7 +940,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
         componentClass="h1"
         id="newChannelModalLabel"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="New Channel"
           id="channel_modal.modalTitle"
         />
@@ -961,7 +961,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
             className="col-sm-3 form__label control-label"
             id="channelModalTypeLabel"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Type"
               id="channel_modal.type"
             />
@@ -991,11 +991,11 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Public"
                       id="channel_modal.publicName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                     />
@@ -1020,11 +1020,11 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Private"
                       id="channel_modal.privateName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                     />
@@ -1041,7 +1041,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
             className="col-sm-3 form__label control-label"
             htmlFor="newChannelName"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name"
               id="channel_modal.name"
             />
@@ -1073,7 +1073,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
                 className="color--link style--none"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Edit"
                   id="channel_modal.edit"
                 />
@@ -1092,7 +1092,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               className="form__label control-label"
               htmlFor="newChannelPurpose"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Purpose"
                 id="channel_modal.purpose"
               />
@@ -1100,7 +1100,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -1121,7 +1121,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Describe how this channel should be used."
                 id="channel_modal.descriptionHelp"
               />
@@ -1138,7 +1138,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               className="form__label control-label"
               htmlFor="newChannelHeader"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Header"
                 id="channel_modal.header"
               />
@@ -1146,7 +1146,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -1167,7 +1167,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
                 id="channel_modal.headerHelp"
               />
@@ -1186,7 +1186,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           onClick={[MockFunction]}
           type="button"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="channel_modal.cancel"
           />
@@ -1197,7 +1197,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           onClick={[Function]}
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Create Channel"
             id="channel_modal.createNew"
           />
@@ -1262,7 +1262,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
         componentClass="h1"
         id="newChannelModalLabel"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="New Channel"
           id="channel_modal.modalTitle"
         />
@@ -1283,7 +1283,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             className="col-sm-3 form__label control-label"
             id="channelModalTypeLabel"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Type"
               id="channel_modal.type"
             />
@@ -1313,11 +1313,11 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Public"
                       id="channel_modal.publicName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                     />
@@ -1342,11 +1342,11 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Private"
                       id="channel_modal.privateName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                     />
@@ -1363,7 +1363,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             className="col-sm-3 form__label control-label"
             htmlFor="newChannelName"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name"
               id="channel_modal.name"
             />
@@ -1390,7 +1390,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             <p
               className="input__help error"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Display name must have at least 2 characters."
                 id="channel_modal.displayNameError"
               />
@@ -1404,7 +1404,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
                 className="color--link style--none"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Edit"
                   id="channel_modal.edit"
                 />
@@ -1423,7 +1423,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               className="form__label control-label"
               htmlFor="newChannelPurpose"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Purpose"
                 id="channel_modal.purpose"
               />
@@ -1431,7 +1431,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -1452,7 +1452,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Describe how this channel should be used."
                 id="channel_modal.descriptionHelp"
               />
@@ -1469,7 +1469,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               className="form__label control-label"
               htmlFor="newChannelHeader"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Header"
                 id="channel_modal.header"
               />
@@ -1477,7 +1477,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -1498,7 +1498,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
                 id="channel_modal.headerHelp"
               />
@@ -1517,7 +1517,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           onClick={[MockFunction]}
           type="button"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="channel_modal.cancel"
           />
@@ -1528,7 +1528,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           onClick={[Function]}
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Create Channel"
             id="channel_modal.createNew"
           />
@@ -1593,7 +1593,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
         componentClass="h1"
         id="newChannelModalLabel"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="New Channel"
           id="channel_modal.modalTitle"
         />
@@ -1614,7 +1614,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             className="col-sm-3 form__label control-label"
             id="channelModalTypeLabel"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Type"
               id="channel_modal.type"
             />
@@ -1644,11 +1644,11 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Public"
                       id="channel_modal.publicName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                     />
@@ -1673,11 +1673,11 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Private"
                       id="channel_modal.privateName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                     />
@@ -1694,7 +1694,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             className="col-sm-3 form__label control-label"
             htmlFor="newChannelName"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name"
               id="channel_modal.name"
             />
@@ -1726,7 +1726,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
                 className="color--link style--none"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Edit"
                   id="channel_modal.edit"
                 />
@@ -1745,7 +1745,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               className="form__label control-label"
               htmlFor="newChannelPurpose"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Purpose"
                 id="channel_modal.purpose"
               />
@@ -1753,7 +1753,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -1774,7 +1774,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Describe how this channel should be used."
                 id="channel_modal.descriptionHelp"
               />
@@ -1791,7 +1791,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               className="form__label control-label"
               htmlFor="newChannelHeader"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Header"
                 id="channel_modal.header"
               />
@@ -1799,7 +1799,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -1820,7 +1820,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
                 id="channel_modal.headerHelp"
               />
@@ -1853,7 +1853,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           onClick={[MockFunction]}
           type="button"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="channel_modal.cancel"
           />
@@ -1864,7 +1864,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           onClick={[Function]}
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Create Channel"
             id="channel_modal.createNew"
           />
@@ -1929,7 +1929,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
         componentClass="h1"
         id="newChannelModalLabel"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="New Channel"
           id="channel_modal.modalTitle"
         />
@@ -1950,7 +1950,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
             className="col-sm-3 form__label control-label"
             id="channelModalTypeLabel"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Type"
               id="channel_modal.type"
             />
@@ -1980,11 +1980,11 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                     <GlobeIcon
                       className="icon icon__globe icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Public"
                       id="channel_modal.publicName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Anyone can join this channel"
                       id="channel_modal.publicHint"
                     />
@@ -2009,11 +2009,11 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                     <LockIcon
                       className="icon icon__lock icon--body type-icon"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Private"
                       id="channel_modal.privateName"
                     />
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage=" - Only invited members can join this channel"
                       id="channel_modal.privateHint"
                     />
@@ -2030,7 +2030,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
             className="col-sm-3 form__label control-label"
             htmlFor="newChannelName"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name"
               id="channel_modal.name"
             />
@@ -2062,7 +2062,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
                 className="color--link style--none"
                 onClick={[Function]}
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Edit"
                   id="channel_modal.edit"
                 />
@@ -2081,7 +2081,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               className="form__label control-label"
               htmlFor="newChannelPurpose"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Purpose"
                 id="channel_modal.purpose"
               />
@@ -2089,7 +2089,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -2110,7 +2110,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Describe how this channel should be used."
                 id="channel_modal.descriptionHelp"
               />
@@ -2127,7 +2127,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               className="form__label control-label"
               htmlFor="newChannelHeader"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Header"
                 id="channel_modal.header"
               />
@@ -2135,7 +2135,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
             <label
               className="form__label light"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="(optional)"
                 id="channel_modal.optional"
               />
@@ -2156,7 +2156,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
             <p
               className="input__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Set text that will appear in the header of the channel beside the channel name. For example, include frequently used links by typing [Link Title](http://example.com)."
                 id="channel_modal.headerHelp"
               />
@@ -2175,7 +2175,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           onClick={[MockFunction]}
           type="button"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="channel_modal.cancel"
           />
@@ -2186,7 +2186,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           onClick={[Function]}
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Create Channel"
             id="channel_modal.createNew"
           />

@@ -5,15 +5,12 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Action, ActionFunc} from 'mattermost-redux/types/actions';
-
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import NextStepsView from 'components/next_steps_view';
 import PostView from 'components/post_view';
-import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -27,18 +24,12 @@ type Props = {
             postid?: string;
         };
     };
-    showTutorial: boolean;
-    showNextSteps: boolean;
-    showNextStepsTips: boolean;
-    isOnboardingHidden: boolean;
     showNextStepsEphemeral: boolean;
     channelIsArchived: boolean;
     viewArchivedChannels: boolean;
     isCloud: boolean;
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
-        setShowNextStepsView: (show: boolean) => Action;
-        getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
     };
 };
 
@@ -47,7 +38,6 @@ type State = {
     url: string;
     focusedPostId?: string;
     deferredPostView: any;
-    showNextSteps: boolean;
 };
 
 export default class ChannelView extends React.PureComponent<Props, State> {
@@ -80,10 +70,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
             updatedState = {...updatedState, focusedPostId};
         }
 
-        if (props.showNextSteps !== state.showNextSteps) {
-            updatedState = {...updatedState, showNextSteps: props.showNextSteps};
-        }
-
         if (Object.keys(updatedState).length) {
             return updatedState;
         }
@@ -99,7 +85,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
             channelId: props.channelId,
             focusedPostId: props.match.params.postid,
             deferredPostView: ChannelView.createDeferredPostView(),
-            showNextSteps: props.showNextSteps,
         };
 
         this.channelViewRef = React.createRef();
@@ -111,13 +96,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     onClickCloseChannel = () => {
         this.props.actions.goToLastViewedChannel();
-    }
-
-    async componentDidMount() {
-        await this.props.actions.getProfiles();
-        if ((this.props.showNextSteps || this.props.showNextStepsTips) && !this.props.isOnboardingHidden) {
-            this.props.actions.setShowNextStepsView(true);
-        }
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -143,23 +121,12 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 this.props.actions.goToLastViewedChannel();
             }
         }
-
-        if (this.props.match.url !== prevProps.match.url && this.props.showNextStepsEphemeral) {
-            this.props.actions.setShowNextStepsView(false);
-        }
     }
 
     render() {
         const {channelIsArchived} = this.props;
-        if (this.props.showTutorial && !this.props.isCloud) {
-            return (
-                <TutorialView
-                    isRoot={false}
-                />
-            );
-        }
 
-        if (this.props.showNextStepsEphemeral && this.props.isCloud) {
+        if (this.props.showNextStepsEphemeral) {
             return (
                 <NextStepsView/>
             );
