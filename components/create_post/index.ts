@@ -2,7 +2,21 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
+import {GlobalState} from 'types/store/index.js';
+
+import {Post} from 'mattermost-redux/types/posts.js';
+
+import {FileInfo} from 'mattermost-redux/types/files.js';
+
+import {ActionResult, GenericAction} from 'mattermost-redux/types/actions.js';
+
+import {CommandArgs} from 'mattermost-redux/types/integrations.js';
+
+import {PostDraft} from 'types/store/rhs.js';
+
+import {ModalData} from 'types/actions.js';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -43,12 +57,16 @@ import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
 
-import CreatePost from './create_post.jsx';
+import CreatePost from './create_post';
+
+type OwnProps = {
+    readOnlyChannel?: boolean;
+}
 
 function makeMapStateToProps() {
-    const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST);
+    const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST as any);
 
-    return (state, ownProps) => {
+    return (state: GlobalState, ownProps: OwnProps) => {
         const config = getConfig(state);
         const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
@@ -86,13 +104,13 @@ function makeMapStateToProps() {
             draft,
             latestReplyablePostId,
             locale: getCurrentLocale(state),
-            currentUsersLatestPost: getCurrentUsersLatestPost(state),
+            currentUsersLatestPost: getCurrentUsersLatestPost(state, ''),
             readOnlyChannel: ownProps.readOnlyChannel || (!isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL),
             canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
             enableGifPicker,
             enableConfirmNotificationsToChannel,
-            maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
+            maxPostSize: parseInt(config.MaxPostSize || '', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
             userIsOutOfOffice,
             rhsExpanded: getIsRhsExpanded(state),
             emojiMap: getEmojiMap(state),
@@ -110,15 +128,37 @@ function makeMapStateToProps() {
     };
 }
 
-function onSubmitPost(post, fileInfos) {
-    return (dispatch) => {
-        dispatch(createPost(post, fileInfos));
+function onSubmitPost(post: Post, fileInfos: FileInfo[]) {
+    return (dispatch: Dispatch<GenericAction>) => {
+        dispatch(createPost(post, fileInfos) as any);
     };
+}
+
+type Actions = {
+    setShowPreview: (showPreview: boolean) => void;
+    addMessageIntoHistory: (message: string) => void;
+    moveHistoryIndexBack: (index: string) => Promise<void>;
+    moveHistoryIndexForward: (index: string) => Promise<void>;
+    addReaction: (postId: string, emojiName: string) => void;
+    onSubmitPost: (post: Post, fileInfos: FileInfo[]) => void;
+    removeReaction: (postId: string, emojiName: string) => void;
+    clearDraftUploads: (prefix: string, action: (key: string, value?: PostDraft) => PostDraft | undefined) => void;
+    runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
+    runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
+    setDraft: (name: string, value: PostDraft | null) => void;
+    setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
+    selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
+    openModal: (modalData: ModalData) => void;
+    executeCommand: (message: string, args: CommandArgs) => ActionResult;
+    getChannelTimezones: (channelId: string) => ActionResult;
+    scrollPostListToBottom: () => void;
+    emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
+    getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
 }
 
 // Temporarily store draft manually in localStorage since the current version of redux-persist
 // we're on will not save the draft quickly enough on page unload.
-function setDraft(key, value) {
+function setDraft(key: string, value: PostDraft) {
     if (value) {
         localStorage.setItem(key, JSON.stringify(value));
     } else {
@@ -127,9 +167,9 @@ function setDraft(key, value) {
     return setGlobalItem(key, value);
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             addMessageIntoHistory,
             onSubmitPost,
             moveHistoryIndexBack,

@@ -148,6 +148,7 @@ export type ClientConfig = {
     LockTeammateNameDisplay: string;
     ManagedResourcePaths: string;
     MaxFileSize: string;
+    MaxPostSize: string;
     MaxNotificationsPerChannel: string;
     MinimumHashtagLength: string;
     NoAccounts: string;
