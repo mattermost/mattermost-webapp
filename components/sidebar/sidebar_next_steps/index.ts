@@ -7,6 +7,7 @@ import {Dispatch, bindActionCreators} from 'redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {getSteps} from '../../next_steps_view/steps';
 
@@ -30,6 +31,7 @@ function makeMapStateToProps() {
         currentUserId: getCurrentUserId(state),
         preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
         isAdmin: isCurrentUserSystemAdmin(state),
+        enableOnboardingFlow: getConfig(state).EnableOnboardingFlow === 'true',
     });
 }
 
