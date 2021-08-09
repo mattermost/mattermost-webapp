@@ -98,7 +98,7 @@
     }
 }
 
-.AlertBanner--system {
+.AlertBanner--sys {
     &.danger {
         border-color: rgba(var(--sys-error-text-color-rgb), 0.24);
         background: rgba(var(--sys-error-text-color-rgb), 0.08);
