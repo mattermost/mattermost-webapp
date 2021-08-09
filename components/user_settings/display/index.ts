@@ -16,9 +16,9 @@ import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mat
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
-import {Preferences} from 'utils/constants';
-
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {GlobalState} from 'types/store';
+import {Preferences} from 'utils/constants';
 
 import UserSettingsDisplay from './user_settings_display';
 
@@ -59,6 +59,7 @@ function mapStateToProps(state: GlobalState) {
         collapsedReplyThreadsAllowUserPreference: isCollapsedThreadsAllowed(state) && getConfig(state).CollapsedThreads as string !== 'always_on',
         collapsedReplyThreads: getCollapsedThreadsPreference(state),
         linkPreviewDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+        globalHeaderEnabled: getGlobalHeaderEnabled(state),
     };
 }
 
