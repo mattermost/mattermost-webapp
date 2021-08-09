@@ -12,140 +12,9 @@ import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
 
-import {getNotifyLevel, sendDesktopNotification} from './notification_actions';
+import {sendDesktopNotification} from './notification_actions';
 
 describe('notification_actions', () => {
-    describe('getNotifyLevel', () => {
-        test.each([
-
-            // should return default values
-            [
-                {
-                    isCrtReply: false,
-                    userSettings: undefined,
-                    channelSettings: undefined,
-                },
-                NotificationLevels.ALL,
-            ],
-            [
-                {
-                    isCrtReply: true,
-                    userSettings: undefined,
-                    channelSettings: undefined,
-                },
-                NotificationLevels.ALL,
-            ],
-
-            // should return user defined settings when no channel specific settings
-            [
-                {
-                    isCrtReply: false,
-                    userSettings: {desktop: NotificationLevels.NONE},
-                    channelSettings: undefined,
-                },
-                NotificationLevels.NONE,
-            ],
-            [
-                {
-                    isCrtReply: false,
-                    userSettings: {desktop: NotificationLevels.ALL},
-                    channelSettings: undefined,
-                },
-                NotificationLevels.ALL,
-            ],
-            [
-                {
-                    isCrtReply: false,
-                    userSettings: {desktop: NotificationLevels.MENTION},
-                    channelSettings: undefined,
-                },
-                NotificationLevels.MENTION,
-            ],
-
-            // should return channel specific settings when it's not a crt reply
-            [
-                {
-                    isCrtReply: false,
-                    userSettings: {desktop: NotificationLevels.ALL},
-                    channelSettings: {desktop: NotificationLevels.NONE},
-                },
-                NotificationLevels.NONE,
-            ],
-            [
-                {
-                    isCrtReply: false,
-                    userSettings: {desktop: NotificationLevels.ALL},
-                    channelSettings: {desktop: NotificationLevels.MENTION},
-                },
-                NotificationLevels.MENTION,
-            ],
-            [
-                {
-                    isCrtReply: false,
-                    userSettings: {desktop: NotificationLevels.MENTION},
-                    channelSettings: {desktop: NotificationLevels.ALL},
-                },
-                NotificationLevels.ALL,
-            ],
-
-            // channel settings do not matter when it's a crt reply
-            [
-                {
-                    isCrtReply: true,
-                    userSettings: {desktop: NotificationLevels.NONE, desktop_threads: NotificationLevels.ALL},
-                    channelSettings: {desktop: NotificationLevels.ALL},
-                },
-                NotificationLevels.NONE,
-            ],
-            [
-                {
-                    isCrtReply: true,
-                    userSettings: {desktop: NotificationLevels.ALL, desktop_threads: NotificationLevels.MENTION},
-                    channelSettings: {desktop: NotificationLevels.ALL},
-                },
-                NotificationLevels.ALL,
-            ],
-
-            // dekstop_threads setting is respected only when desktop setting is set to MENTION
-            [
-                {
-                    isCrtReply: true,
-                    userSettings: {desktop: NotificationLevels.MENTION, desktop_threads: NotificationLevels.ALL},
-                    channelSettings: {desktop: NotificationLevels.NONE},
-                },
-                NotificationLevels.ALL,
-            ],
-            [
-                {
-                    isCrtReply: true,
-                    userSettings: {desktop: NotificationLevels.MENTION, desktop_threads: NotificationLevels.MENTION},
-                    channelSettings: {desktop: NotificationLevels.NONE},
-                },
-                NotificationLevels.MENTION,
-            ],
-
-            // should return default ALL for crt replies
-            [
-                {
-                    isCrtReply: true,
-                    userSettings: {desktop: NotificationLevels.MENTION},
-                    channelSettings: {desktop: NotificationLevels.NONE},
-                },
-                NotificationLevels.ALL,
-            ],
-            [
-                {
-                    isCrtReply: true,
-                    userSettings: {desktop: NotificationLevels.MENTION},
-                    channelSettings: {desktop: NotificationLevels.NONE},
-                },
-                NotificationLevels.ALL,
-            ],
-        ])('should return appropriate notify level', ({isCrtReply, userSettings, channelSettings}, expected) => {
-            expect(getNotifyLevel(isCrtReply, userSettings, channelSettings)).toBe(expected);
-        });
-    });
-
     describe('sendDesktopNotification', () => {
         let baseState;
         let channelSettings;
@@ -446,49 +315,14 @@ describe('notification_actions', () => {
         });
 
         describe('CollapsedThreads: true', () => {
-            const thread = {
-                id: 'root_id',
-                participants: [
-                    {id: 'current_user_id'},
-                    {id: 'user_id'},
-                ],
-                post: {
-                    id: 'root_id',
-                },
-                unread_replies: 0,
-                unread_mentions: 0,
-            };
-
-            beforeAll(() => {
-                TestHelper.initBasic(Client4);
-            });
-
             beforeEach(() => {
                 crt.value = 'on';
             });
 
-            afterAll(() => {
-                TestHelper.tearDown();
-            });
-
-            test('should not notify user on crt reply with crt on but not a followed thread', () => {
-                nock(Client4.getBaseRoute()).
-                    get((uri) => uri.includes('/users/current_user_id/teams/team_id/threads/root_id?extended=false')).
-                    reply(500, thread);
-
-                const store = testConfigureStore(baseState);
-                return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
-                    expect(spy).not.toHaveBeenCalled();
-                });
-            });
-
             test('should not notify user on crt reply when the tab is active and the thread is open', () => {
-                nock(Client4.getBaseRoute()).
-                    get((uri) => uri.includes('/users/current_user_id/teams/team_id/threads/root_id?extended=false')).
-                    reply(200, thread);
-
                 baseState.views.threads.selectedThreadIdInTeam.team_id = 'root_id';
                 baseState.views.browser.focused = true;
+                msgProps.mentions = JSON.stringify(['current_user_id']);
 
                 const store = testConfigureStore(baseState);
                 return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
@@ -496,59 +330,33 @@ describe('notification_actions', () => {
                 });
             });
 
-            test('should notify user on crt reply with crt on thread is followed', () => {
+            test('should not notify user on crt reply when desktop is MENTION and there is no mention', () => {
+                userSettings.desktop = NotificationLevels.MENTION;
+
+                msgProps.mentions = JSON.stringify([]);
+
+                const store = testConfigureStore(baseState);
+                return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                    expect(spy).not.toHaveBeenCalled();
+                });
+            });
+
+            test('should redirect to permalink when CRT in on and the post is a thread', () => {
                 const pushSpy = jest.spyOn(browserHistory, 'push');
                 const focus = window.focus;
                 window.focus = jest.fn();
 
-                nock(Client4.getBaseRoute()).
-                    get((uri) => uri.includes('/users/current_user_id/teams/team_id/threads/root_id?extended=false')).
-                    reply(200, thread);
-
-                const store = testConfigureStore(baseState);
-                return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
-                    expect(spy).toHaveBeenCalledWith({
-                        body: '@username: Where is Jessica Hyde?',
-                        requireInteraction: false,
-                        silent: true,
-                        title: 'Utopia',
-                        onClick: expect.any(Function),
-                    });
-
-                    spy.mock.calls[0][0].onClick();
-
-                    expect(pushSpy).toHaveBeenCalledWith('/team/pl/post_id');
-                    expect(window.focus).toHaveBeenCalled();
-                    window.focus = focus;
-                });
-            });
-
-            test('should not notify user on crt reply when desktop_threads is MENTION and there is no mention', () => {
-                nock(Client4.getBaseRoute()).
-                    get((uri) => uri.includes('/users/current_user_id/teams/team_id/threads/root_id?extended=false')).
-                    reply(200, thread);
-
                 userSettings.desktop = NotificationLevels.MENTION;
-                userSettings.desktop_threads = NotificationLevels.MENTION;
-
-                const store = testConfigureStore(baseState);
-                return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
-                    expect(spy).not.toHaveBeenCalled();
-                });
-            });
-
-            test('should notify user on crt reply when desktop_threads is MENTION and there are mentions', () => {
-                nock(Client4.getBaseRoute()).
-                    get((uri) => uri.includes('/users/current_user_id/teams/team_id/threads/root_id?extended=false')).
-                    reply(200, thread);
-
-                userSettings.desktop = NotificationLevels.MENTION;
-                userSettings.desktop_threads = NotificationLevels.MENTION;
                 msgProps.mentions = JSON.stringify(['current_user_id']);
 
                 const store = testConfigureStore(baseState);
                 return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
                     expect(spy).toHaveBeenCalled();
+                    spy.mock.calls[0][0].onClick();
+
+                    expect(pushSpy).toHaveBeenCalledWith('/team/pl/post_id');
+                    expect(window.focus).toHaveBeenCalled();
+                    window.focus = focus;
                 });
             });
         });
