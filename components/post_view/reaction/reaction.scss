@@ -15,10 +15,10 @@
     padding: 0 5px;
     border: 1px solid transparent;
     margin: 0 4px 4px 0;
-    background: v(center-channel-color-08);
-    color: v(center-channel-color-64);
+    background: rgba(var(--center-channel-color-rgb), 0.08);
+    color: rgba(var(--center-channel-color-rgb), 0.64);
     cursor: pointer;
-    fill: v(center-channel-color-56);
+    fill: rgba(var(--center-channel-color-rgb), 0.56);
     font-size: 11px;
     font-weight: 600;
     transition:
@@ -33,14 +33,14 @@
 
     &:not(.Reaction--reacted) {
         &:hover {
-            border-color: v(center-channel-color-16);
+            border-color: rgba(var(--center-channel-color-rgb), 0.16);
             background-color: v(center-channel-bg);
-            color: v(center-channel-color-72);
-            fill: v(center-channel-color-72);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+            fill: rgba(var(--center-channel-color-rgb), 0.72);
         }
 
         &:active {
-            background-color: v(button-bg-08);
+            background-color: rgba(var(--button-bg-rgb), 0.08);
             color: v(button-bg);
             fill: v(button-bg);
         }
@@ -78,7 +78,7 @@
     &.Reaction--reacted,
     &.Reaction--reacting {
         border-color: v(button-bg);
-        background-color: v(button-bg-08);
+        background-color: rgba(var(--button-bg-rgb), 0.08);
         color: v(button-bg);
 
         &:hover {
@@ -87,7 +87,7 @@
         }
 
         &:active {
-            background-color: v(button-bg-08);
+            background-color: rgba(var(--button-bg-rgb), 0.08);
             color: v(button-bg);
             fill: v(button-bg);
         }

@@ -2526,7 +2526,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableLinkPreviews',
                         label: t('admin.customization.enableLinkPreviewsTitle'),
-                        label_default: 'Enable Link Previews:',
+                        label_default: 'Enable website link previews:',
                         help_text: t('admin.customization.enableLinkPreviewsDesc'),
                         help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
@@ -2535,7 +2535,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ServiceSettings.RestrictLinkPreviews',
                         label: t('admin.customization.restrictLinkPreviewsTitle'),
-                        label_default: 'Disable link previews from these domains:',
+                        label_default: 'Disable website link previews from these domains:',
                         help_text: t('admin.customization.restrictLinkPreviewsDesc'),
                         help_text_default: 'Link previews and image link previews will not be shown for the above list of comma-separated domains.',
                         placeholder: t('admin.customization.restrictLinkPreviewsExample'),
@@ -2544,6 +2544,15 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                             it.configIsFalse('ServiceSettings', 'EnableLinkPreviews'),
                         ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnablePermalinkPreviews',
+                        label: t('admin.customization.enablePermalinkPreviewsTitle'),
+                        label_default: 'Enable message link previews:',
+                        help_text: t('admin.customization.enablePermalinkPreviewsDesc'),
+                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](https://docs.mattermost.com/messaging/sharing-messages.html) for details.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5871,6 +5880,11 @@ const AdminDefinition = {
                         help_text_default: 'Set a default theme that applies to all new users on the system.',
                         help_text_markdown: true,
                         options: [
+                            {
+                                value: 'denim',
+                                display_name: 'Denim',
+                                display_name_default: 'Denim',
+                            },
                             {
                                 value: 'sapphire',
                                 display_name: 'Sapphire',

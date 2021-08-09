@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'dynamic-virtualized-list';
-import {injectIntl} from 'react-intl';
 
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
@@ -13,14 +12,15 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
-import {getPreviousPostId, getLatestPostId, getNewMessageIndex} from 'utils/post_utils.jsx';
-import {intlShape} from 'utils/react_intl';
+import {getPreviousPostId, getLatestPostId, getNewMessageIndex} from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 import ToastWrapper from 'components/toast_wrapper';
+
+import LatestPostReader from './latest_post_reader';
 
 const OVERSCAN_COUNT_BACKWARD = 80;
 const OVERSCAN_COUNT_FORWARD = 80;
@@ -44,7 +44,7 @@ const virtListStyles = {
 
 const OFFSET_TO_SHOW_TOAST = -50;
 
-class PostList extends React.PureComponent {
+export default class PostList extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -84,11 +84,7 @@ class PostList extends React.PureComponent {
         loadingNewerPosts: PropTypes.bool,
         loadingOlderPosts: PropTypes.bool,
 
-        intl: intlShape.isRequired,
-
         latestPostTimeStamp: PropTypes.number,
-
-        latestAriaLabelFunc: PropTypes.func,
 
         lastViewedAt: PropTypes.string,
 
@@ -550,11 +546,7 @@ class PostList extends React.PureComponent {
     }
 
     render() {
-        const channelId = this.props.channelId;
-        let ariaLabel;
-        if (this.props.latestAriaLabelFunc && this.props.postListIds.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) >= 0) {
-            ariaLabel = this.props.latestAriaLabelFunc(this.props.intl);
-        }
+        const {channelId} = this.props;
         const {dynamicListStyle} = this.state;
 
         return (
@@ -594,12 +586,7 @@ class PostList extends React.PureComponent {
                             id='postListContent'
                             className='post-list__content'
                         >
-                            <span
-                                className='sr-only'
-                                aria-live='polite'
-                            >
-                                {ariaLabel}
-                            </span>
+                            <LatestPostReader postIds={this.props.postListIds}/>
                             <AutoSizer>
                                 {({height, width}) => (
                                     <React.Fragment>
@@ -637,5 +624,3 @@ class PostList extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(PostList);

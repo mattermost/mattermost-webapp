@@ -187,7 +187,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }), Preferences.THEMES.sapphire);
+            }), Preferences.THEMES.denim);
         });
 
         it('custom theme', () => {
@@ -437,7 +437,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).mentionHighlightLink, Preferences.THEMES.sapphire.mentionHighlightLink);
+            }).mentionHighlightLink, Preferences.THEMES.denim.mentionHighlightLink);
         });
 
         it('system theme with missing colours', () => {
@@ -551,7 +551,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).codeTheme, Preferences.THEMES.sapphire.codeTheme);
+            }).codeTheme, Preferences.THEMES.denim.codeTheme);
         });
     });
 
