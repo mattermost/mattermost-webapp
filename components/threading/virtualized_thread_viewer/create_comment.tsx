@@ -13,7 +13,7 @@ import Constants from 'utils/constants';
 
 type Props = {
     focusOnMount: boolean;
-    channelId?: string;
+    channelId: string;
     channelIsArchived: boolean;
     channelType: string;
     isDeleted: boolean;
@@ -72,7 +72,6 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
             <GenericCreateComment
                 focusOnMount={focusOnMount}
                 channelId={channelId}
-                isFakeDeletedPost={isFakeDeletedPost}
                 latestPostId={latestPostId}
                 onHeightChange={onHeightChange}
                 rootDeleted={isDeleted}

@@ -241,7 +241,7 @@ type Props = {
     getChannelMemberCountsByGroup: (channelID: string) => void;
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
-    onHeightChange?: () => void;
+    onHeightChange?: (height: number, maxHeight: number) => void;
     focusOnMount?: boolean;
 }
 
