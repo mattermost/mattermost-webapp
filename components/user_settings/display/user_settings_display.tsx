@@ -102,7 +102,7 @@ type Props = {
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
-    globalHeaderEnabled: boolean;
+    globalHeaderAllowed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getSupportedTimezones: () => void;
