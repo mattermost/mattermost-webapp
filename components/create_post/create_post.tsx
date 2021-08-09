@@ -633,13 +633,13 @@ class CreatePost extends React.PureComponent<Props, State> {
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
-        let mentions = [];
+        let mentions: string[] = [];
         const notContainsAtChannel = !containsAtChannel(this.state.message);
         if (this.props.enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
             // Groups mentioned in users text
-            mentions = groupsMentionedInText(this.state.message, groupsWithAllowReference);
-            if (mentions.length > 0) {
-                mentions = mentions.
+            const mentionGroups = groupsMentionedInText(this.state.message, groupsWithAllowReference);
+            if (mentionGroups.length > 0) {
+                mentions = mentionGroups.
                     map((group) => {
                         const mappedValue = channelMemberCountsByGroup[group.id];
                         if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
@@ -813,8 +813,8 @@ class CreatePost extends React.PureComponent<Props, State> {
         } = postMessageOnKeyPress(
             e,
             this.state.message,
-            ctrlSend,
-            codeBlockOnCtrlEnter,
+            Boolean(ctrlSend),
+            Boolean(codeBlockOnCtrlEnter),
             Date.now(),
             this.lastChannelSwitchAt,
             this.state.caretPosition,

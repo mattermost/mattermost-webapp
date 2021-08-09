@@ -490,7 +490,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             newMessage = `:${emojiAlias}: `;
         } else {
             const {message} = draft;
-            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition || 0, message);
 
             // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
             newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece} ` : `${firstPiece} :${emojiAlias}: ${lastPiece} `;
@@ -563,13 +563,13 @@ class CreateComment extends React.PureComponent<Props, State> {
         const notificationsToChannel = enableConfirmNotificationsToChannel && useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
-        let mentions = [];
+        let mentions: string[] = [];
         const notContainsAtChannel = !containsAtChannel(draft.message);
         if (enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
             // Groups mentioned in users text
-            mentions = groupsMentionedInText(draft.message, groupsWithAllowReference);
-            if (mentions.length > 0) {
-                mentions = mentions.
+            const mentionGroups = groupsMentionedInText(draft.message, groupsWithAllowReference);
+            if (mentionGroups.length > 0) {
+                mentions = mentionGroups.
                     map((group) => {
                         const mappedValue = channelMemberCountsByGroup[group.id];
                         if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
@@ -710,8 +710,8 @@ class CreateComment extends React.PureComponent<Props, State> {
         } = postMessageOnKeyPress(
             e,
             this.state.draft!.message,
-            ctrlSend,
-            codeBlockOnCtrlEnter,
+            Boolean(ctrlSend),
+            Boolean(codeBlockOnCtrlEnter),
             0,
             0,
             this.state.caretPosition,
