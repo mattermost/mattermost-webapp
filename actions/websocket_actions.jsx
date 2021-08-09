@@ -40,6 +40,7 @@ import {
     handleFollowChanged,
     handleThreadArrived,
     handleAllThreadsInChannelMarkedRead,
+    updateThreadRead,
 } from 'mattermost-redux/actions/threads';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -76,7 +77,7 @@ import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 
 import {getSelectedChannelId} from 'selectors/rhs';
-import {isThreadOpen} from 'selectors/views/threads';
+import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
@@ -807,6 +808,10 @@ function handleDeleteTeamEvent(msg) {
             {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
         ]));
 
+        if (browserHistory.location?.pathname === `/admin_console/user_management/teams/${deletedTeam.id}`) {
+            return;
+        }
+
         if (newTeamId) {
             dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
             const globalState = getState();
@@ -964,7 +969,7 @@ export async function handleUserRemovedEvent(msg) {
     const channelId = msg.broadcast.channel_id || msg.data.channel_id;
     const userId = msg.broadcast.user_id || msg.data.user_id;
     const channel = getChannel(state, channelId);
-    if (channel && !haveISystemPermission(state, {permission: Permissions.VIEW_MEMBERS}) && !haveITeamPermission(state, {permission: Permissions.VIEW_MEMBERS, team: channel.team_id})) {
+    if (channel && !haveISystemPermission(state, {permission: Permissions.VIEW_MEMBERS}) && !haveITeamPermission(state, channel.team_id, Permissions.VIEW_MEMBERS)) {
         dispatch(batchActions([
             {
                 type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
@@ -1454,12 +1459,42 @@ function handleThreadReadChanged(msg) {
 
 function handleThreadUpdated(msg) {
     return (doDispatch, doGetState) => {
+        let threadData;
         try {
-            const threadData = JSON.parse(msg.data.thread);
-            handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
+            threadData = JSON.parse(msg.data.thread);
         } catch {
             // invalid JSON
+            return;
         }
+
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const currentTeamId = getCurrentTeamId(state);
+
+        let lastViewedAt;
+        if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
+            lastViewedAt = Date.now();
+
+            // Sometimes `Date.now()` was generating a timestamp before the
+            // last_reply_at of the thread, thus marking the thread as unread
+            // instead of read. Here we set the timestamp to after the
+            // last_reply_at if this happens.
+            if (lastViewedAt < threadData.last_reply_at) {
+                lastViewedAt = threadData.last_reply_at + 1;
+            }
+
+            // prematurely update thread data as read
+            // so we won't flash the indicators when
+            // we mark the thread as read on the server
+            threadData.last_viewed_at = lastViewedAt;
+            threadData.unread_mentions = 0;
+            threadData.unread_replies = 0;
+
+            // mark thread as read on the server
+            dispatch(updateThreadRead(currentUserId, currentTeamId, threadData.id, lastViewedAt));
+        }
+
+        handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
     };
 }
 
@@ -1467,7 +1502,7 @@ function handleThreadFollowChanged(msg) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const thread = getThread(state, msg.data.thread_id);
-        if (!thread && msg.data.state) {
+        if (!thread && msg.data.state && msg.data.reply_count) {
             await doDispatch(fetchThread(getCurrentUserId(state), getCurrentTeamId(state), msg.data.thread_id, true));
         }
         handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);

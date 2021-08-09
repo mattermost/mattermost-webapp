@@ -8,17 +8,21 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
     }
   }
 >
-  <div
+  <PostAriaLabelDiv
     aria-atomic={true}
-    aria-label=""
     className="a11y__section post post--highlight post--pinned-or-flagged-highlight post--pinned-or-flagged  other--root  "
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
-    onFocus={[Function]}
     onMouseLeave={[Function]}
     onMouseOver={[Function]}
     onTouchStart={[Function]}
+    post={
+      Object {
+        "id": "post1",
+        "is_pinned": false,
+      }
+    }
     role="listitem"
     tabIndex="0"
   >
@@ -59,12 +63,12 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -76,7 +80,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
         />
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </ContextProvider>
 `;
 
@@ -88,17 +92,21 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
     }
   }
 >
-  <div
+  <PostAriaLabelDiv
     aria-atomic={true}
-    aria-label=""
     className="a11y__section post post--pinned-or-flagged  other--root  "
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
-    onFocus={[Function]}
     onMouseLeave={[Function]}
     onMouseOver={[Function]}
     onTouchStart={[Function]}
+    post={
+      Object {
+        "id": "post1",
+        "is_pinned": false,
+      }
+    }
     role="listitem"
     tabIndex="0"
   >
@@ -139,12 +147,12 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -156,7 +164,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
         />
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </ContextProvider>
 `;
 
@@ -168,17 +176,21 @@ exports[`Post should not remove post--highlight class after timeout so the class
     }
   }
 >
-  <div
+  <PostAriaLabelDiv
     aria-atomic={true}
-    aria-label=""
     className="a11y__section post post--highlight  other--root  "
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
-    onFocus={[Function]}
     onMouseLeave={[Function]}
     onMouseOver={[Function]}
     onTouchStart={[Function]}
+    post={
+      Object {
+        "id": "post1",
+        "is_pinned": false,
+      }
+    }
     role="listitem"
     tabIndex="0"
   >
@@ -219,12 +231,12 @@ exports[`Post should not remove post--highlight class after timeout so the class
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -236,7 +248,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
         />
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </ContextProvider>
 `;
 
@@ -248,17 +260,21 @@ exports[`Post should not remove post--highlight class after timeout so the class
     }
   }
 >
-  <div
+  <PostAriaLabelDiv
     aria-atomic={true}
-    aria-label=""
     className="a11y__section post  other--root  "
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
-    onFocus={[Function]}
     onMouseLeave={[Function]}
     onMouseOver={[Function]}
     onTouchStart={[Function]}
+    post={
+      Object {
+        "id": "post1",
+        "is_pinned": false,
+      }
+    }
     role="listitem"
     tabIndex="0"
   >
@@ -299,12 +315,12 @@ exports[`Post should not remove post--highlight class after timeout so the class
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -316,6 +332,6 @@ exports[`Post should not remove post--highlight class after timeout so the class
         />
       </div>
     </div>
-  </div>
+  </PostAriaLabelDiv>
 </ContextProvider>
 `;

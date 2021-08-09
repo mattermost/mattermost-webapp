@@ -3,20 +3,21 @@
 
     > svg {
         position: fixed;
-        left: 0;
         bottom: 0;
+        left: 0;
     }
 }
 
 .NextStepsView__viewWrapper {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    transition: left 0.5s ease-in;
-    overflow-y: auto;
-    overflow-x: hidden;
     display: flex;
+    width: 100%;
+    height: 100%;
     flex-direction: column;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    transition: left 0.5s ease-in;
 }
 
 .NextStepsView__mainView {
@@ -34,8 +35,8 @@
 .NextStepsView__transitionView {
     left: 100vw;
     display: flex;
-    opacity: 0;
     justify-content: center;
+    opacity: 0;
 
     &.transitioning {
         left: 0;
@@ -69,30 +70,32 @@
 
 .NextStepsView__header {
     .close-icon {
-        cursor: pointer;
         width: 40px;
         height: 40px;
+        cursor: pointer;
+
         svg {
-            fill: var(--center-channel-color-56);
-            padding: 4px;
             width: 40px;
             height: 40px;
+            padding: 4px;
             border-radius: 4px;
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
 
             &:hover {
-                fill: var(--center-channel-color-72);
-                background: var(--center-channel-color-08);
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                fill: rgba(var(--center-channel-color-rgb), 0.72);
             }
 
             &:active {
+                background: rgba(var(--button-bg-rgb), 0.08);
                 fill: var(--button-bg);
-                background: var(--button-bg-08);
             }
         }
     }
-    padding: 32px 40px 24px 40px;
+
     display: flex;
     flex-grow: 0;
+    padding: 32px 40px 24px 40px;
 }
 
 .NextStepsView__header-headerText {
@@ -100,17 +103,17 @@
 }
 
 .NextStepsView__header-headerTopText {
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -0.02em;
     margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 40px;
 }
 
 .NextStepsView__header-headerBottomText {
-    font-size: 16px;
-    line-height: 24px;
     margin-top: 8px;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    font-size: 20px;
+    line-height: 24px;
 }
 
 .NextStepsView__header-logo {
@@ -133,19 +136,22 @@
         }
 
         .NextStepsView__cardHeaderBadge {
-            color: var(--button-color);
             background-color: var(--sidebar-text-active-border);
+            color: var(--button-color);
         }
     }
+
     .Card.complete {
         border-color: transparent;
+        background-color: transparent;
         box-shadow: none;
         transition-property: box-shadow, border-color;
-        background-color: transparent;
+
         &:hover {
             border-color: transparent;
             box-shadow: none;
         }
+
         & + .Card {
             margin-top: 12px;
             transition-property: box-shadow, border-color, margin;
@@ -153,7 +159,6 @@
 
         .Card__header {
             border-color: transparent;
-
             transition: all 0.3s ease-in-out;
         }
 
@@ -168,10 +173,11 @@
 
             i {
                 align-self: center;
+                color: var(--online-indicator);
                 font-size: 26px;
                 line-height: 26px;
-                color: var(--online-indicator);
                 transition: all 0.3s ease-in-out;
+
                 &::before {
                     margin: 0;
                 }
@@ -181,15 +187,15 @@
 }
 
 .NextStepsView__body-graphic {
-    flex: 1 0 25%;
     z-index: 2;
     min-width: 192px;
+    flex: 1 0 25%;
 
     > svg {
-        width: 120%;
-        margin-top: -33%;
         position: relative;
         top: 33%;
+        width: 120%;
+        margin-top: -33%;
     }
 }
 
@@ -199,39 +205,38 @@
 
 .NextStepsView__cardHeader {
     display: flex;
+    width: 100%;
+    padding: 13px;
     border: none;
     background: none;
-    padding: 13px;
-    width: 100%;
 
     > span {
-        margin-left: 14px;
-        font-size: 14px;
-        line-height: 20px;
-        font-weight: 600;
-        color: var(--center-channel-color);
         align-self: center;
+        margin-left: 14px;
+        color: var(--center-channel-color);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
     }
 }
 
 .NextStepsView__cardHeaderBadge {
+    display: flex;
     width: 26px;
     height: 26px;
-    background-color: var(--center-channel-color-16);
-    color: var(--center-channel-color);
-    border-radius: 14px;
-    display: flex;
     justify-content: center;
-
-    transition-property: color, background-color;
+    background-color: rgba(var(--center-channel-color-rgb), 0.16);
+    border-radius: 14px;
+    color: var(--center-channel-color);
     transition-duration: 200ms;
+    transition-property: color, background-color;
     transition-timing-function: ease-in-out;
 
     span {
         align-self: center;
         font-size: 14px;
-        line-height: 14px;
         font-weight: 600;
+        line-height: 14px;
     }
 }
 
@@ -242,17 +247,17 @@
 
     button {
         padding: 10px 16px;
-        font-weight: 600;
         font-size: 12px;
+        font-weight: 600;
         line-height: 9px;
     }
 }
 
 .NextStepsView__finishButton {
     padding: 12px 20px;
-    line-height: 14px;
     font-size: 14px;
     font-weight: 600;
+    line-height: 14px;
 }
 
 .NextStepsView__button {
@@ -261,8 +266,8 @@
 
     &.secondary {
         background: var(--center-channel-bg);
-        color: var(--button-bg);
         box-shadow: inset 0 0 0 1px var(--button-bg);
+        color: var(--button-bg);
 
         &:hover:not(.disabled) {
             background: rgba(var(--button-bg-rgb), 0.04);
@@ -277,8 +282,8 @@
         }
 
         &.disabled {
-            color: rgba(var(--center-channel-color-rgb), 0.32);
             box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.32);
+            color: rgba(var(--center-channel-color-rgb), 0.32);
         }
     }
 
@@ -299,8 +304,8 @@
         }
 
         &.disabled {
-            color: rgba(var(--center-channel-color-rgb), 0.32);
             background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.32);
         }
     }
 
@@ -325,6 +330,7 @@
         }
     }
 }
+
 .NextStepsView__wizardButtons {
     display: flex;
     justify-content: flex-end;
@@ -346,20 +352,20 @@
 }
 
 .NextStepsView__transitionTopText {
-    text-align: center;
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 32px;
     margin-top: 12px;
     margin-bottom: 0;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+    text-align: center;
 }
 
 .NextStepsView__transitionBottomText {
-    text-align: center;
-    font-size: 14px;
-    line-height: 20px;
     margin-top: 12px;
     margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
 
     > img {
         height: 20px;
@@ -374,14 +380,14 @@
 .NextStepsView__nextStepsCards {
     display: flex;
     width: 100%;
-    margin-top: 88px;
-    padding: 0 40px;
     flex-wrap: wrap;
+    padding: 0 40px;
+    margin-top: 88px;
 
     .Card {
         flex: 0 0 310px;
-        margin-bottom: 24px;
         margin-right: 24px;
+        margin-bottom: 24px;
     }
 
     .Card + .Card {
@@ -390,21 +396,21 @@
     }
 
     .Card__image {
-        padding-bottom: 12px;
-        height: auto;
-        width: fit-content;
         display: flex;
+        width: fit-content;
+        height: auto;
         flex-direction: column;
+        padding-bottom: 12px;
     }
 
     .Card__body {
+        display: flex;
+        overflow: visible;
+        height: auto;
+        flex-direction: column;
         padding: 32px;
         border: none;
         margin: 0;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        overflow: visible;
 
         > span {
             display: block;
@@ -412,12 +418,12 @@
         }
     }
 
-    h3 {
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
-        color: var(--center-channel-color);
+    h4 {
         margin: 0 0 12px 0;
+        color: var(--center-channel-color);
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
     }
 
     .dropdown-menu {
@@ -426,12 +432,12 @@
     }
 
     .NextStepsView__button {
-        margin-top: 16px;
         width: max-content;
+        margin-top: 16px;
 
         i {
-            margin-left: 4px;
             margin-right: -4px;
+            margin-left: 4px;
         }
     }
 
@@ -441,10 +447,10 @@
 }
 
 .NextStepsView__download {
-    margin-top: 40px;
-    padding: 32px 72px;
     display: flex;
     align-content: center;
+    padding: 32px 72px;
+    margin-top: 40px;
 
     > img {
         object-fit: contain;
@@ -453,11 +459,12 @@
 
 .NextStepsView__downloadText {
     margin-left: 40px;
-    h3 {
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
+
+    h4 {
         color: var(--center-channel-color);
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
     }
 }
 
@@ -466,18 +473,18 @@
 }
 
 .NextStepsView__downloadForPlatformButton {
-    font-size: 12px;
-    line-height: 9px;
-    font-weight: 600;
     padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 9px;
 }
 
 .NextStepsView__downloadAnyButton {
-    font-size: 12px;
-    line-height: 9px;
-    font-weight: 600;
     padding: 10px 16px;
     margin-left: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 9px;
 }
 
 .NextStepsView__tipsMobileMessage {
@@ -486,12 +493,12 @@
 
 .NextStepsView__tipsMobileMessage .Card__body {
     display: flex;
-    color: var(--center-channel-color);
+    height: auto;
     align-content: center;
+    padding: 0;
     border: none;
     margin: 20px;
-    padding: 0;
-    height: auto;
+    color: var(--center-channel-color);
 
     i {
         margin: 0;
@@ -500,9 +507,9 @@
     }
 
     span {
+        align-self: center;
         margin-left: 10px;
         font-weight: 600;
-        align-self: center;
     }
 }
 
@@ -521,8 +528,8 @@
         flex-direction: column;
 
         .Card {
-            flex-basis: auto;
             max-width: unset;
+            flex-basis: auto;
             margin-right: 0;
         }
 
@@ -542,8 +549,8 @@
     }
 
     .NextStepsView__body-graphic {
-        flex: 0 0 0%;
         min-width: 0;
+        flex: 0 0 0%;
     }
 
     .NextStepsView__body-main {
@@ -562,8 +569,8 @@
         }
 
         .NextStepsView__downloadAnyButton {
-            margin-left: 0;
             margin-top: 16px;
+            margin-left: 0;
         }
 
         .NextStepsView__downloadForPlatformButton {
@@ -595,13 +602,16 @@
         flex: 1 1 100%;
         padding: 0 12px;
     }
-    .NextStepsView__nextStepsCards, .NextStepsView__download, .NextStepsView__tipsMobileMessage {
+
+    .NextStepsView__nextStepsCards,
+    .NextStepsView__download,
+    .NextStepsView__tipsMobileMessage {
         padding: 0 12px;
     }
 
     .NextStepsView__transitionBody > svg {
-        max-width: 85%;
         left: 10%;
+        max-width: 85%;
     }
 
     .NextStepsView__nextStepsCards .Card {
@@ -627,8 +637,8 @@
         }
 
         .NextStepsView__downloadText {
-            margin-left: 0;
             margin-top: 24px;
+            margin-left: 0;
         }
     }
 }

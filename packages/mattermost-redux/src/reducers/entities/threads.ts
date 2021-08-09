@@ -1,15 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {combineReducers} from 'redux';
-
-import {TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, PostTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team, TeamUnread} from 'mattermost-redux/types/teams';
+import {Post} from 'mattermost-redux/types/posts';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
-export const threadsReducer = (state: ThreadsState['threads'] = {}, action: GenericAction) => {
+type ExtraData = {
+    threadsToDelete?: UserThread[];
+}
+
+export const threadsReducer = (state: ThreadsState['threads'] = {}, action: GenericAction, extra: ExtraData) => {
     switch (action.type) {
     case ThreadTypes.RECEIVED_THREADS: {
         const {threads} = action.data;
@@ -20,6 +24,18 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
                 return results;
             }, {}),
         };
+    }
+    case PostTypes.POST_REMOVED: {
+        const post = action.data;
+
+        if (post.root_id || !state[post.id]) {
+            return state;
+        }
+
+        const nextState = {...state};
+        Reflect.deleteProperty(nextState, post.id);
+
+        return nextState;
     }
     case ThreadTypes.RECEIVED_THREAD: {
         const {thread} = action.data;
@@ -57,6 +73,27 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
             },
         };
     }
+    case PostTypes.RECEIVED_NEW_POST: {
+        const post: Post = action.data;
+        const thread: UserThread | undefined = state[post.root_id];
+        if (post.root_id && thread) {
+            const participants = thread.participants || [];
+            const nextThread = {...thread};
+            if (!participants.find((user: UserProfile | {id: string}) => user.id === post.user_id)) {
+                nextThread.participants = [...participants, {id: post.user_id}];
+            }
+
+            if (post.reply_count) {
+                nextThread.reply_count = post.reply_count;
+            }
+
+            return {
+                ...state,
+                [post.root_id]: nextThread,
+            };
+        }
+        return state;
+    }
     case ThreadTypes.ALL_TEAM_THREADS_READ: {
         return Object.entries(state).reduce<ThreadsState['threads']>((newState, [id, thread]) => {
             newState[id] = {
@@ -69,12 +106,57 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
+    case ChannelTypes.LEAVE_CHANNEL: {
+        if (!extra.threadsToDelete || extra.threadsToDelete.length === 0) {
+            return state;
+        }
+
+        let threadDeleted = false;
+
+        // Remove entries for any thread in the channel
+        const nextState = {...state};
+        for (const thread of extra.threadsToDelete) {
+            Reflect.deleteProperty(nextState, thread.id);
+            threadDeleted = true;
+        }
+
+        if (!threadDeleted) {
+            // Nothing was actually removed
+            return state;
+        }
+
+        return nextState;
     }
+    }
+
     return state;
 };
 
-export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, action: GenericAction) => {
+export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, action: GenericAction, extra: ExtraData) => {
     switch (action.type) {
+    case PostTypes.POST_REMOVED: {
+        const post = action.data;
+        if (post.root_id) {
+            return state;
+        }
+
+        const teamId = Object.keys(state).
+            find((id) => state[id].indexOf(post.id) !== -1);
+
+        if (!teamId) {
+            return state;
+        }
+
+        const index = state[teamId].indexOf(post.id);
+
+        return {
+            ...state,
+            [teamId]: [
+                ...state[teamId].slice(0, index),
+                ...state[teamId].slice(index + 1),
+            ],
+        };
+    }
     case ThreadTypes.RECEIVED_THREADS: {
         const nextSet = new Set(state[action.data.team_id]);
 
@@ -115,10 +197,38 @@ export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, 
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
+    case ChannelTypes.LEAVE_CHANNEL: {
+        if (!extra.threadsToDelete || extra.threadsToDelete.length === 0) {
+            return state;
+        }
+
+        const teamId = action.data.team_id;
+
+        let threadDeleted = false;
+
+        // Remove entries for any thread in the channel
+        const nextState = {...state};
+        for (const thread of extra.threadsToDelete) {
+            if (nextState[teamId]) {
+                const index = nextState[teamId].indexOf(thread.id);
+                nextState[teamId] = [...nextState[teamId].slice(0, index), ...nextState[teamId].slice(index + 1)];
+                threadDeleted = true;
+            }
+        }
+
+        if (!threadDeleted) {
+            // Nothing was actually removed
+            return state;
+        }
+
+        return nextState;
     }
+    }
+
     return state;
 };
-export const countsReducer = (state: ThreadsState['counts'] = {}, action: GenericAction) => {
+
+export const countsReducer = (state: ThreadsState['counts'] = {}, action: GenericAction, extra: ExtraData) => {
     switch (action.type) {
     case ThreadTypes.ALL_TEAM_THREADS_READ: {
         const counts = state[action.data.team_id] ?? {};
@@ -129,6 +239,21 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
                 total_unread_mentions: 0,
                 total_unread_threads: 0,
             },
+        };
+    }
+    case TeamTypes.RECEIVED_MY_TEAM_UNREADS: {
+        const members = action.data;
+        return {
+            ...state,
+            ...members.reduce((result: ThreadsState['counts'], member: TeamUnread) => {
+                result[member.team_id] = {
+                    ...state[member.team_id],
+                    total_unread_threads: member.thread_count || 0,
+                    total_unread_mentions: member.thread_mention_count || 0,
+                };
+
+                return result;
+            }, {}),
         };
     }
     case ThreadTypes.READ_CHANGED_THREAD: {
@@ -185,17 +310,84 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
     }
 
     case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    case ChannelTypes.LEAVE_CHANNEL: {
+        if (!extra.threadsToDelete || extra.threadsToDelete.length === 0) {
+            return state;
+        }
+
+        const teamId = action.data.team_id;
+
+        const {unreadMentions, unreadThreads} = extra.threadsToDelete.reduce((curr, item: UserThread) => {
+            curr.unreadMentions += item.unread_mentions;
+            curr.unreadThreads = item.unread_replies > 0 ? curr.unreadThreads + 1 : curr.unreadThreads;
+            return curr;
+        }, {unreadMentions: 0, unreadThreads: 0});
+
+        const {total, total_unread_mentions: totalUnreadMentions, total_unread_threads: totalUnreadThreads} = state[teamId];
+
         return {
-            total: 0,
-            total_unread_threads: 0,
-            total_unread_mentions: 0,
+            ...state,
+            [teamId]: {
+                total: Math.max(total - extra.threadsToDelete.length, 0),
+                total_unread_mentions: Math.max(totalUnreadMentions - unreadMentions, 0),
+                total_unread_threads: Math.max(totalUnreadThreads - unreadThreads, 0),
+            },
         };
+    }
     }
     return state;
 };
 
-export default combineReducers({
-    threads: threadsReducer,
-    threadsInTeam: threadsInTeamReducer,
-    counts: countsReducer,
-});
+function getThreadsOfChannel(threads: ThreadsState['threads'], channelId: string) {
+    const threadsToDelete: UserThread[] = [];
+    for (const rootId of Object.keys(threads)) {
+        if (
+            threads[rootId] &&
+            threads[rootId].post &&
+            threads[rootId].post.channel_id === channelId
+        ) {
+            threadsToDelete.push(threads[rootId]);
+        }
+    }
+
+    return threadsToDelete;
+}
+
+// custom combineReducers function
+// enables passing data between reducers
+function reducer(state: ThreadsState = {threads: {}, threadsInTeam: {}, counts: {}}, action: GenericAction): ThreadsState {
+    const extra: ExtraData = {};
+
+    // acting as a 'middleware'
+    if (action.type === ChannelTypes.LEAVE_CHANNEL) {
+        if (!action.data.viewArchivedChannels) {
+            extra.threadsToDelete = getThreadsOfChannel(state.threads, action.data.id);
+        }
+    }
+
+    const nextState = {
+
+        // Object mapping thread ids to thread objects
+        threads: threadsReducer(state.threads, action, extra),
+
+        // Object mapping teams ids to thread ids
+        threadsInTeam: threadsInTeamReducer(state.threadsInTeam, action, extra),
+
+        // Object mapping teams ids to unread counts
+        counts: countsReducer(state.counts, action, extra),
+    };
+
+    if (
+        state.threads === nextState.threads &&
+        state.threadsInTeam === nextState.threadsInTeam &&
+        state.counts === nextState.counts
+    ) {
+        // None of the children have changed so don't even let the parent object change
+        return state;
+    }
+
+    return nextState;
+}
+
+export default reducer;

@@ -63,8 +63,8 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             return {data: true};
         case '/leave': {
             // /leave command not supported in reply threads.
-            if (args.channel_id && (args.root_id || args.parent_id)) {
-                dispatch(GlobalActions.sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.parent_id));
+            if (args.channel_id && args.root_id) {
+                dispatch(GlobalActions.sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.root_id));
                 return {data: true};
             }
             const channel = getCurrentChannel(state) || {};
@@ -114,7 +114,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             const createErrorMessage = (errMessage: string) => {
                 return {error: {message: errMessage}};
             };
-            const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, intlShim, args.channel_id, args.root_id);
+            const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, intlShim, args.channel_id, args.team_id, args.root_id);
             if (parser.isAppCommand(msg)) {
                 try {
                     const {call, errorMessage} = await parser.composeCallFromCommand(msg);

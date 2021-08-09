@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useCallback} from 'react';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+
 import {createSelector} from 'reselect';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -10,7 +12,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem} from 'actions/storage';
 
-export const currentUserAndTeamSuffix = createSelector([
+export const currentUserAndTeamSuffix = createSelector('currentUserAndTeamSuffix', [
     getCurrentUserId,
     getCurrentTeamId,
 ], (
@@ -20,7 +22,7 @@ export const currentUserAndTeamSuffix = createSelector([
     return `:${userId}:${teamId}`;
 });
 
-export const currentUserSuffix = createSelector([
+export const currentUserSuffix = createSelector('currentUserSuffix', [
     getCurrentUserId,
 ], (
     userId,
@@ -42,8 +44,11 @@ export function useGlobalState<TVal>(
     const dispatch = useDispatch();
     const storedKey = `${name}${suffix}`;
 
+    const value = useSelector(makeGetGlobalItem(storedKey, initialValue), shallowEqual);
+    const setValue = useCallback((newValue) => dispatch(setGlobalItem(storedKey, newValue)), [storedKey]);
+
     return [
-        useSelector(makeGetGlobalItem(storedKey, initialValue)),
-        (newValue) => dispatch(setGlobalItem(storedKey, newValue)),
+        value,
+        setValue,
     ];
 }

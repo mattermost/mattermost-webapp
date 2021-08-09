@@ -38,7 +38,7 @@ import {
     setEditingPost,
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
@@ -49,7 +49,6 @@ import DotMenu from './dot_menu';
 
 type Props = {
     post: Post;
-    commentCount?: number;
     isFlagged?: boolean;
     handleCommentClick: React.EventHandler<React.MouseEvent>;
     handleCardClick?: (post: Post) => void;
@@ -131,7 +130,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 type Actions = {
     flagPost: (postId: string) => void;
     unflagPost: (postId: string) => void;
-    setEditingPost: (postId?: string, commentCount?: number, refocusId?: string, title?: string, isRHS?: boolean) => void;
+    setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     pinPost: (postId: string) => void;
     unpinPost: (postId: string) => void;
     openModal: (postId: any) => void;

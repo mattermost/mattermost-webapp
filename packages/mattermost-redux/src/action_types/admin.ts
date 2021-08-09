@@ -19,6 +19,10 @@ export default keyMirror({
     UPDATE_CONFIG_SUCCESS: null,
     UPDATE_CONFIG_FAILURE: null,
 
+    PATCH_CONFIG_REQUEST: null,
+    PATCH_CONFIG_SUCCESS: null,
+    PATCH_CONFIG_FAILURE: null,
+
     RELOAD_CONFIG_REQUEST: null,
     RELOAD_CONFIG_SUCCESS: null,
     RELOAD_CONFIG_FAILURE: null,
@@ -122,6 +126,8 @@ export default keyMirror({
     REMOVE_LICENSE_REQUEST: null,
     REMOVE_LICENSE_SUCCESS: null,
     REMOVE_LICENSE_FAILURE: null,
+
+    PREV_TRIAL_LICENSE_SUCCESS: null,
 
     GET_ANALYTICS_REQUEST: null,
     GET_ANALYTICS_SUCCESS: null,

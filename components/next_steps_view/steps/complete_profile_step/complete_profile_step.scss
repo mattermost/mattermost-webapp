@@ -2,12 +2,12 @@
     display: flex;
     padding: 24px 40px;
 
-    h3 {
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 20px;
-        color: var(--center-channel-color);
+    h4 {
         margin: 0;
+        color: var(--center-channel-color);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
     }
 }
 
@@ -20,14 +20,14 @@
 }
 
 .CompleteProfileStep__fullName {
-    margin-left: 64px;
-    flex-grow: 0.75;
     max-width: 600px;
+    flex-grow: 0.75;
+    margin-left: 64px;
 
     .Input_wrapper {
+        padding: 0 16px;
         font-size: 14px;
         line-height: 38px;
-        padding: 0 16px;
     }
 
     .Input {
@@ -45,19 +45,19 @@
 }
 
 .CompleteProfileStep__pictureError {
+    padding: 0 40px;
+    color: var(--error-text);
     font-size: 12px;
     line-height: 16px;
-    color: var(--error-text);
-    padding: 0 40px;
 
     > span {
         margin-left: 4px;
     }
 
     i {
+        margin-top: -2px;
         font-size: 14px;
         vertical-align: middle;
-        margin-top: -2px;
     }
 }
 
@@ -68,9 +68,9 @@
     }
 
     .CompleteProfileStep__fullName {
-        margin-left: 0;
-        margin-top: 32px;
         max-width: unset;
+        margin-top: 32px;
+        margin-left: 0;
 
         .Input_container {
             margin-top: 20px;

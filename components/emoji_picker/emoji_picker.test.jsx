@@ -43,6 +43,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         getCustomEmojis: jest.fn(),
         incrementEmojiPickerPage: jest.fn(),
         searchCustomEmojis: jest.fn(),
+        setUserSkinTone: jest.fn(),
     };
 
     const customEmojis = new Map();
@@ -68,6 +69,8 @@ describe('components/emoji_picker/EmojiPicker', () => {
         actions,
         filter: '',
         handleFilterChange: jest.fn(),
+        userSkinTone: 'default',
+        currentTeamName: 'testTeam',
     };
 
     test('Recent category should not exist if there are no recent emojis', () => {
@@ -80,11 +83,11 @@ describe('components/emoji_picker/EmojiPicker', () => {
         };
 
         // Nine categories as there is no recent caterogry
-        expect(wrapper.find(EmojiPickerCategory).length).toBe(9);
+        expect(wrapper.find(EmojiPickerCategory).length).toBe(10);
         expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
 
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(1);
-        expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'people'}).length).toBe(1);
+        expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'smileys-emotion'}).length).toBe(1);
     });
 
     test('Recent category should exist if there are recent emojis', () => {
@@ -103,10 +106,10 @@ describe('components/emoji_picker/EmojiPicker', () => {
             offsetHeight: 200,
         };
 
-        // 10 categories as there is recent caterogry
-        expect(wrapper.find(EmojiPickerCategory).length).toBe(10);
+        // 11 categories as there is recent caterogry
+        expect(wrapper.find(EmojiPickerCategory).length).toBe(11);
         expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
-        expect(wrapper.find(EmojiPickerCategory).find({category: 'recent'}).length).toBe(1);
+        expect(wrapper.find(EmojiPickerCategory).find({category: {name: 'recent'}}).length).toBe(1);
 
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(2);
         expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'recent'}).length).toBe(1);
@@ -132,14 +135,12 @@ describe('components/emoji_picker/EmojiPicker', () => {
         expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'hidden'});
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(2);
 
-        jest.runOnlyPendingTimers();
-        wrapper.update();
-        jest.runOnlyPendingTimers();
+        setTimeout(() => {
+            expect(wrapper.state('renderAllCategories')).toEqual(true);
+            expect(wrapper.find(EmojiPickerCategorySection).length).toBe(10);
 
-        expect(wrapper.state('renderAllCategories')).toEqual(true);
-        expect(wrapper.find(EmojiPickerCategorySection).length).toBe(10);
-
-        //oveflow hidden to not show the scroll bar
-        expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'auto'});
+            //oveflow hidden to not show the scroll bar
+            expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'auto'});
+        }, 1000);
     });
 });

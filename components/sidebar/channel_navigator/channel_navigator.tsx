@@ -12,6 +12,8 @@ import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 import AddChannelDropdown from '../add_channel_dropdown';
 import ChannelFilter from '../channel_filter';
+import InviteMembersButton from '../invite_members_button';
+import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
 
 type Props = {
     canGoForward: boolean;
@@ -24,6 +26,9 @@ type Props = {
     unreadFilterEnabled: boolean;
     canCreateChannel: boolean;
     showUnreadsCategory: boolean;
+    townSquareDisplayName: string;
+    offTopicDisplayName: string;
+    showTutorialTip: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
         goBack: () => void;
@@ -85,8 +90,13 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 canJoinPublicChannel={this.props.canJoinPublicChannel}
                 handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
                 unreadFilterEnabled={this.props.unreadFilterEnabled}
+                townSquareDisplayName={this.props.townSquareDisplayName}
+                offTopicDisplayName={this.props.offTopicDisplayName}
+                showTutorialTip={this.props.showTutorialTip}
             />
         );
+
+        const inviteMembersUserIcon = (<InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>);
 
         let layout;
         if (isDesktopApp()) {
@@ -120,6 +130,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                             {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
                             {historyArrows}
                         </div>
+                        {inviteMembersUserIcon}
                         {addChannelDropdown}
                     </div>
                 </div>
@@ -129,6 +140,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 <div className={'SidebarChannelNavigator webapp'}>
                     {!this.props.showUnreadsCategory && <ChannelFilter/>}
                     {jumpToButton}
+                    {inviteMembersUserIcon}
                     {addChannelDropdown}
                 </div>
             );

@@ -14,6 +14,7 @@ import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
+import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
@@ -24,6 +25,7 @@ import * as ChannelUtils from 'utils/channel_utils.jsx';
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
+import InviteMembersButton from '../invite_members_button';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
 
@@ -70,6 +72,8 @@ type Props = {
     draggingState: DraggingState;
     multiSelectedChannelIds: string[];
     showUnreadsCategory: boolean;
+    collapsedThreads: boolean;
+    hasUnreadThreads: boolean;
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -79,6 +83,7 @@ type Props = {
         moveChannelsInSidebar: (categoryId: string, targetIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
+        switchToGlobalThreads: () => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
@@ -176,10 +181,6 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
-        if (!this.props.currentChannelId) {
-            return null;
-        }
-
         return channelIds.find((channelId) => {
             return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
         });
@@ -292,12 +293,27 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannelIds().reverse());
     }
 
+    navigateByChannelId = (id: string) => {
+        if (this.props.collapsedThreads && id === '') {
+            this.props.actions.switchToGlobalThreads();
+        } else {
+            this.props.actions.switchToChannelById(id);
+        }
+    }
+
     navigateChannelShortcut = (e: KeyboardEvent) => {
         if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
             const curChannelId = this.props.currentChannelId;
+
+            if (this.props.collapsedThreads) {
+                // threads set channel id to ''
+                // add it to allChannelIds
+                allChannelIds.unshift('');
+            }
+
             let curIndex = -1;
             for (let i = 0; i < allChannelIds.length; i++) {
                 if (allChannelIds[i] === curChannelId) {
@@ -311,7 +327,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                 nextIndex = curIndex - 1;
             }
             const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
-            this.props.actions.switchToChannelById(nextChannelId);
+            this.navigateByChannelId(nextChannelId);
             this.scrollToChannel(nextChannelId);
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             this.props.handleOpenMoreDirectChannelsModal(e);
@@ -323,6 +339,15 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
+            const unreadChannelIds = [...this.props.unreadChannelIds];
+
+            if (this.props.collapsedThreads) {
+                allChannelIds.unshift('');
+
+                if (this.props.hasUnreadThreads) {
+                    unreadChannelIds.unshift('');
+                }
+            }
 
             let direction = 0;
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
@@ -334,13 +359,13 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             const nextIndex = ChannelUtils.findNextUnreadChannelId(
                 this.props.currentChannelId,
                 allChannelIds,
-                this.props.unreadChannelIds,
+                unreadChannelIds,
                 direction,
             );
 
             if (nextIndex !== -1) {
                 const nextChannelId = allChannelIds[nextIndex];
-                this.props.actions.switchToChannelById(nextChannelId);
+                this.navigateByChannelId(nextChannelId);
                 this.scrollToChannel(nextChannelId);
             }
         }
@@ -504,47 +529,50 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         return (
 
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
-            <div
-                id='sidebar-left'
-                role='application'
-                aria-label={ariaLabel}
-                className={classNames('SidebarNavContainer a11y__region', {
-                    disabled: this.props.isUnreadFilterEnabled,
-                })}
-                data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
-                data-a11y-sort-order='7'
-                onTransitionEnd={this.onTransitionEnd}
-            >
-                <UnreadChannelIndicator
-                    name='Top'
-                    show={this.state.showTopUnread}
-                    onClick={this.scrollToFirstUnreadChannel}
-                    extraClass='nav-pills__unread-indicator-top'
-                    content={above}
-                />
-                <UnreadChannelIndicator
-                    name='Bottom'
-                    show={this.state.showBottomUnread}
-                    onClick={this.scrollToLastUnreadChannel}
-                    extraClass='nav-pills__unread-indicator-bottom'
-                    content={below}
-                />
-                <Scrollbars
-                    ref={this.scrollbar}
-                    autoHide={true}
-                    autoHideTimeout={500}
-                    autoHideDuration={500}
-                    renderThumbHorizontal={renderThumbHorizontal}
-                    renderThumbVertical={renderThumbVertical}
-                    renderTrackVertical={renderTrackVertical}
-                    renderView={renderView}
-                    onScroll={this.onScroll}
-                    style={{position: 'absolute'}}
+            <>
+                <GlobalThreadsLink/>
+                <div
+                    id='sidebar-left'
+                    role='application'
+                    aria-label={ariaLabel}
+                    className={classNames('SidebarNavContainer a11y__region', {
+                        disabled: this.props.isUnreadFilterEnabled,
+                    })}
+                    data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
+                    data-a11y-sort-order='7'
+                    onTransitionEnd={this.onTransitionEnd}
                 >
-                    <GlobalThreadsLink/>
-                    {channelList}
-                </Scrollbars>
-            </div>
+                    <UnreadChannelIndicator
+                        name='Top'
+                        show={this.state.showTopUnread}
+                        onClick={this.scrollToFirstUnreadChannel}
+                        extraClass='nav-pills__unread-indicator-top'
+                        content={above}
+                    />
+                    <UnreadChannelIndicator
+                        name='Bottom'
+                        show={this.state.showBottomUnread}
+                        onClick={this.scrollToLastUnreadChannel}
+                        extraClass='nav-pills__unread-indicator-bottom'
+                        content={below}
+                    />
+                    <Scrollbars
+                        ref={this.scrollbar}
+                        autoHide={true}
+                        autoHideTimeout={500}
+                        autoHideDuration={500}
+                        renderThumbHorizontal={renderThumbHorizontal}
+                        renderThumbVertical={renderThumbVertical}
+                        renderTrackVertical={renderTrackVertical}
+                        renderView={renderView}
+                        onScroll={this.onScroll}
+                        style={{position: 'absolute'}}
+                    >
+                        {channelList}
+                    </Scrollbars>
+                    <InviteMembersButton buttonType={InviteMembersBtnLocations.STICKY}/>
+                </div>
+            </>
         );
     }
 }

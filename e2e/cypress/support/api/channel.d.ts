@@ -51,7 +51,7 @@ declare namespace Cypress {
          * @returns {Channel} `out.channel` as `Channel`
          *
          * @example
-         *   cy.apiCreateDirectChannel('user-1-id', 'user-2-id').then(({channel}) => {
+         *   cy.apiCreateDirectChannel(['user-1-id', 'user-2-id']).then(({channel}) => {
          *       // do something with channel
          *   });
          */
@@ -64,7 +64,7 @@ declare namespace Cypress {
          * @returns {Channel} `out.channel` as `Channel`
          *
          * @example
-         *   cy.apiCreateGroupChannel('user-1-id', 'user-2-id', 'current-user-id').then(({channel}) => {
+         *   cy.apiCreateGroupChannel(['user-1-id', 'user-2-id', 'current-user-id']).then(({channel}) => {
          *       // do something with channel
          *   });
          */
