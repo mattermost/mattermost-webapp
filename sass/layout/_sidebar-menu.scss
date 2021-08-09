@@ -9,7 +9,8 @@
     height: 100%;
     padding: 0 0 2em;
     border-right: $border-gray;
-    background: #fafafa;
+    background: var(--sidebar-bg);
+    color: rgba(var(--sidebar-text-rgb), 0.8);
     -webkit-overflow-scrolling: touch;
 
     .icon {
@@ -21,6 +22,7 @@
         svg {
             max-width: 16px;
             max-height: 16px;
+            fill: var(--sidebar-text);
         }
     }
 
@@ -33,6 +35,7 @@
 
         display: none;
         padding: 0 15px;
+        background: var(--sidebar-header-bg);
 
         a {
             color: $white;

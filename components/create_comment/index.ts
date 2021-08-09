@@ -2,7 +2,13 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
+import {GlobalState} from 'types/store/index.js';
+
+import {PostDraft} from 'types/store/rhs.js';
+
+import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -32,12 +38,18 @@ import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selecto
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 
-import CreateComment from './create_comment.jsx';
+import CreateComment from './create_comment';
+
+type OwnProps = {
+    rootId: string;
+    channelId: string;
+    latestPostId: string;
+}
 
 function makeMapStateToProps() {
-    const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT);
+    const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
 
-    return (state, ownProps) => {
+    return (state: GlobalState, ownProps: OwnProps) => {
         const err = state.requests.posts.createPost.error || {};
 
         const draft = getPostDraft(state, StoragePrefixes.COMMENT_DRAFT, ownProps.rootId);
@@ -73,7 +85,7 @@ function makeMapStateToProps() {
             enableEmojiPicker,
             enableGifPicker,
             locale: getCurrentLocale(state),
-            maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
+            maxPostSize: parseInt(config.MaxPostSize || '', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
             rhsExpanded: getIsRhsExpanded(state),
             badConnection,
             isTimezoneEnabled,
@@ -88,26 +100,42 @@ function makeMapStateToProps() {
     };
 }
 
-function makeOnUpdateCommentDraft(rootId) {
-    return (draft) => updateCommentDraft(rootId, draft);
+function makeOnUpdateCommentDraft(rootId: string) {
+    return (draft?: PostDraft) => updateCommentDraft(rootId, draft);
+}
+
+type Actions = {
+    clearCommentDraftUploads: () => void;
+    onUpdateCommentDraft: (draft?: PostDraft) => void;
+    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
+    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
+    onResetHistoryIndex: () => void;
+    onMoveHistoryIndexBack: () => void;
+    onMoveHistoryIndexForward: () => void;
+    onEditLatestPost: () => ActionResult;
+    resetCreatePostRequest: () => void;
+    getChannelTimezones: (channelId: string) => Promise<ActionResult>;
+    emitShortcutReactToLastPostFrom: (location: string) => void;
+    setShowPreview: (showPreview: boolean) => void;
+    getChannelMemberCountsByGroup: (channelID: string) => void;
 }
 
 function makeMapDispatchToProps() {
-    let onUpdateCommentDraft;
-    let onSubmit;
-    let onMoveHistoryIndexBack;
-    let onMoveHistoryIndexForward;
-    let onEditLatestPost;
+    let onUpdateCommentDraft: (draft?: PostDraft) => void;
+    let onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onEditLatestPost: () => ActionFunc;
 
     function onResetHistoryIndex() {
         return resetHistoryIndex(Posts.MESSAGE_TYPES.COMMENT);
     }
 
-    let rootId;
-    let channelId;
-    let latestPostId;
+    let rootId: string;
+    let channelId: string;
+    let latestPostId: string;
 
-    return (dispatch, ownProps) => {
+    return (dispatch: Dispatch, ownProps: OwnProps) => {
         if (rootId !== ownProps.rootId) {
             onUpdateCommentDraft = makeOnUpdateCommentDraft(ownProps.rootId);
             onMoveHistoryIndexBack = makeOnMoveHistoryIndex(ownProps.rootId, -1);
@@ -126,7 +154,7 @@ function makeMapDispatchToProps() {
         channelId = ownProps.channelId;
         latestPostId = ownProps.latestPostId;
 
-        return bindActionCreators({
+        return bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             clearCommentDraftUploads,
             onUpdateCommentDraft,
             updateCommentDraftWithRootId: updateCommentDraft,

@@ -275,7 +275,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     <SearchResultsItem
                         key={item.id}
                         compactDisplay={props.compactDisplay}
-                        post={item}
+                        post={item as Post}
                         matches={props.matches[item.id]}
                         term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={props.isMentionSearch}

@@ -29,9 +29,12 @@ import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
+import {PostDraft} from 'types/store/rhs';
+import {GlobalState} from 'types/store';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 export function clearCommentDraftUploads() {
-    return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key, value) => {
+    return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, value: PostDraft) => {
         if (value) {
             return {...value, uploadsInProgress: []};
         }
@@ -41,7 +44,7 @@ export function clearCommentDraftUploads() {
 
 // Temporarily store draft manually in localStorage since the current version of redux-persist
 // we're on will not save the draft quickly enough on page unload.
-export function updateCommentDraft(rootId, draft) {
+export function updateCommentDraft(rootId: string, draft?: PostDraft | null) {
     const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
     if (draft) {
         localStorage.setItem(key, JSON.stringify(draft));
@@ -51,13 +54,13 @@ export function updateCommentDraft(rootId, draft) {
     return setGlobalItem(key, draft);
 }
 
-export function makeOnMoveHistoryIndex(rootId, direction) {
-    const getMessageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT);
+export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
+    const getMessageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
 
-    return () => (dispatch, getState) => {
+    return () => (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
         if (draft.message !== '' && draft.message !== getMessageInHistory(getState())) {
-            return;
+            return {data: true};
         }
 
         if (direction === -1) {
@@ -69,11 +72,12 @@ export function makeOnMoveHistoryIndex(rootId, direction) {
         const nextMessageInHistory = getMessageInHistory(getState());
 
         dispatch(updateCommentDraft(rootId, {...draft, message: nextMessageInHistory}));
+        return {data: true};
     };
 }
 
-export function submitPost(channelId, rootId, draft) {
-    return async (dispatch, getState) => {
+export function submitPost(channelId: string, rootId: string, draft: PostDraft) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
         const userId = getCurrentUserId(state);
@@ -103,18 +107,19 @@ export function submitPost(channelId, rootId, draft) {
     };
 }
 
-export function submitReaction(postId, action, emojiName) {
-    return (dispatch) => {
+export function submitReaction(postId: string, action: string, emojiName: string) {
+    return (dispatch: DispatchFunc) => {
         if (action === '+') {
             dispatch(PostActions.addReaction(postId, emojiName));
         } else if (action === '-') {
             dispatch(removeReaction(postId, emojiName));
         }
+        return {data: true};
     };
 }
 
-export function submitCommand(channelId, rootId, draft) {
-    return async (dispatch, getState) => {
+export function submitCommand(channelId: string, rootId: string, draft: PostDraft) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
         const teamId = getCurrentTeamId(state);
@@ -151,8 +156,8 @@ export function submitCommand(channelId, rootId, draft) {
     };
 }
 
-export function makeOnSubmit(channelId, rootId, latestPostId) {
-    return (draft, options = {}) => async (dispatch, getState) => {
+export function makeOnSubmit(channelId: string, rootId: string, latestPostId: string) {
+    return (draft: PostDraft, options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));
@@ -176,6 +181,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
         } else {
             dispatch(submitPost(channelId, rootId, draft));
         }
+        return {data: true};
     };
 }
 
@@ -185,7 +191,7 @@ function makeGetCurrentUsersLatestReply() {
         'makeGetCurrentUsersLatestReply',
         getCurrentUserId,
         getPostIdsInThread,
-        (state) => (id) => getPost(state, id),
+        (state) => (id: string) => getPost(state, id),
         (_state, rootId) => rootId,
         (userId, postIds, getPostById, rootId) => {
             let lastPost = null;
@@ -224,10 +230,10 @@ function makeGetCurrentUsersLatestReply() {
     );
 }
 
-export function makeOnEditLatestPost(rootId) {
+export function makeOnEditLatestPost(rootId: string) {
     const getCurrentUsersLatestPost = makeGetCurrentUsersLatestReply();
 
-    return () => (dispatch, getState) => {
+    return () => (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
         const lastPost = getCurrentUsersLatestPost(state, rootId);
