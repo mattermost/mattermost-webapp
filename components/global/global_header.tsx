@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import ThemeProvider, {lightTheme} from '@mattermost/compass-components/utilities/theme';
 import React from 'react';
 import {useSelector} from 'react-redux';
 
@@ -32,7 +33,7 @@ const ProfileWrapper = styled.div`
     margin-right: 20px;
 `;
 
-const GlobalHeader = () => {
+const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
@@ -41,27 +42,41 @@ const GlobalHeader = () => {
         return null;
     }
 
+    // temporary, theming will be connected to the webapp in a separate pr
+    const theme = {
+        ...lightTheme,
+        noStyleReset: true,
+        noFontFaces: true,
+        noDefaultStyle: true,
+        background: {
+            ...lightTheme.background,
+            shape: 'var(--sidebar-teambar-bg)',
+        },
+    };
+
     return (
-        <HeaderContainer>
-            <ProductSwitcher/>
-            <AppSpectificContent>
-                {currentProductID !== null &&
-                    <Pluggable
-                        pluggableName={'Product'}
-                        subComponentName={'headerComponent'}
-                        pluggableId={currentProductID}
+        <ThemeProvider theme={theme}>
+            <HeaderContainer>
+                <ProductSwitcher/>
+                <AppSpectificContent>
+                    {currentProductID !== null &&
+                        <Pluggable
+                            pluggableName={'Product'}
+                            subComponentName={'headerComponent'}
+                            pluggableId={currentProductID}
+                        />
+                    }
+                    {/*currentProductID === null &&
+                       This is where the header content for the webapp will go
+                    */}
+                </AppSpectificContent>
+                <ProfileWrapper>
+                    <StatusDropdown
+                        globalHeader={true}
                     />
-                }
-                {/*currentProductID === null &&
-                   This is where the header content for the webapp will go
-                */}
-            </AppSpectificContent>
-            <ProfileWrapper>
-                <StatusDropdown
-                    globalHeader={true}
-                />
-            </ProfileWrapper>
-        </HeaderContainer>
+                </ProfileWrapper>
+            </HeaderContainer>
+        </ThemeProvider>
     );
 };
 

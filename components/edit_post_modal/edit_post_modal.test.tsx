@@ -57,6 +57,8 @@ const defaultProps = {
     intl: jest.genMockFromModule<IntlShape>('react-intl'),
     canEditPost: true,
     canDeletePost: true,
+    codeBlockOnCtrlEnter: false,
+    ctrlSend: false,
     useChannelMentions: true,
     shouldShowPreview: true,
     maxPostSize: 100,
@@ -85,7 +87,7 @@ function createEditPost(
         canEditPost = true,
         canDeletePost = true,
         useChannelMentions = true,
-        ctrlSend = undefined,
+        ctrlSend = false,
         channelId,
         config = {EnableEmojiPicker: 'true', EnableGifPicker: 'true'},
         editingPost = {post: {...defaultPost}, show: false, postId: '1'},
@@ -104,7 +106,8 @@ function createEditPost(
             shouldShowPreview={false}
             canDeletePost={canDeletePost}
             channelId={channelId}
-            ctrlSend={ctrlSend || false}
+            codeBlockOnCtrlEnter={false}
+            ctrlSend={ctrlSend}
             config={config}
             editingPost={editingPost}
             actions={actions}

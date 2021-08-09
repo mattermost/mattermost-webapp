@@ -22,7 +22,7 @@ import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import SidebarTutorialTip from 'components/legacy_sidebar/sidebar_tutorial_tip';
+import ChannelTutorialTip from 'components/sidebar/channel_tutorial_tip';
 
 type Props = {
     channel: Channel;
@@ -174,7 +174,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         let tutorialTip: JSX.Element | null = null;
         if (showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) {
             tutorialTip = (
-                <SidebarTutorialTip
+                <ChannelTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}
                     offTopicDisplayName={this.props.offTopicDisplayName}
                     openLhs={actions.openLhs}

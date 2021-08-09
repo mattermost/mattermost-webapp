@@ -67,7 +67,6 @@ class MainMenu extends React.PureComponent {
         daysLeftOnTrial: PropTypes.number,
         isCloud: PropTypes.bool,
         subscriptionStats: PropTypes.object,
-        firstAdminVisitMarketplaceStatus: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -352,7 +351,6 @@ class MainMenu extends React.PureComponent {
                             show={!this.props.mobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
-                            showUnread={!this.props.firstAdminVisitMarketplaceStatus}
                         />
                     </TeamPermissionGate>
                     <Menu.ItemLink
@@ -386,6 +384,7 @@ class MainMenu extends React.PureComponent {
                         show={this.props.showGettingStarted}
                         onClick={() => this.props.actions.unhideNextSteps()}
                         text={formatMessage({id: this.props.showNextStepsTips ? 'sidebar_next_steps.tipsAndNextSteps' : 'navbar_dropdown.gettingStarted', defaultMessage: this.props.showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
+                        icon={this.props.mobile && <i className={`icon ${this.props.showNextStepsTips ? 'icon-lightbulb-outline' : 'icon-play'}`}/>}
                     />
                     <Menu.ItemAction
                         id='keyboardShortcuts'

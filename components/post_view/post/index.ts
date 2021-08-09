@@ -2,24 +2,35 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, makeIsPostCommentMention, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/types/posts';
+
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
 
+import {GlobalState} from 'types/store';
+
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
-import {areConsecutivePostsBySameUser, makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {areConsecutivePostsBySameUser} from 'utils/post_utils';
 
-import Post from './post.jsx';
+import PostComponent from './post';
+
+interface OwnProps {
+    post?: Post;
+    postId: string;
+    previousPostId?: string;
+}
 
 // isFirstReply returns true when the given post a comment that isn't part of the same thread as the previous post.
-export function isFirstReply(post, previousPost) {
+export function isFirstReply(post: Post, previousPost: Post): boolean {
     if (post.root_id) {
         if (previousPost) {
             // Returns true as long as the previous post is part of a different thread
@@ -37,9 +48,8 @@ export function isFirstReply(post, previousPost) {
 function makeMapStateToProps() {
     const getReplyCount = makeGetCommentCountForPost();
     const isPostCommentMention = makeIsPostCommentMention();
-    const createAriaLabelForPost = makeCreateAriaLabelForPost();
 
-    return (state, ownProps) => {
+    return (state: GlobalState, ownProps: OwnProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
         const channel = getChannel(state, post.channel_id);
 
@@ -58,9 +68,8 @@ function makeMapStateToProps() {
 
         return {
             post,
-            createAriaLabel: createAriaLabelForPost(state, post),
             currentUserId: getCurrentUserId(state),
-            isFirstReply: isFirstReply(post, previousPost),
+            isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
             consecutivePostByUser,
             previousPostIsComment,
             hasReplies: getReplyCount(state, post) > 0,
@@ -74,7 +83,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             selectPost,
@@ -84,4 +93,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(Post);
+export default connect(makeMapStateToProps, mapDispatchToProps)(PostComponent);
