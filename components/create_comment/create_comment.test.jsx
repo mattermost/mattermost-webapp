@@ -3,12 +3,13 @@
 
 import React from 'react';
 
+import CreateComment from 'components/create_comment/create_comment';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import Constants from 'utils/constants';
 
-import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import Textbox from 'components/textbox';
@@ -371,9 +372,9 @@ describe('components/CreateComment', () => {
         );
 
         wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
-        expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+        expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
 
-        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
     });
 
     test('set showPostDeletedModal true when createPostErrorId === api.post.create_post.root_id.app_error', () => {
@@ -506,8 +507,6 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>,
         );
 
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
-
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
         expect(onSubmit).toHaveBeenCalledWith({
@@ -515,13 +514,10 @@ describe('components/CreateComment', () => {
             uploadsInProgress: [],
             fileInfos: [{}, {}, {}],
         }, {ignoreSlash: false});
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
 
         wrapper.instance().handleChange({
             target: {value: 'some valid text'},
         });
-
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
@@ -929,8 +925,6 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
-            expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
-
             await wrapper.instance().handleSubmit({preventDefault});
 
             expect(onSubmitWithError).toHaveBeenCalledWith({
@@ -939,7 +933,6 @@ describe('components/CreateComment', () => {
                 fileInfos: [{}, {}, {}],
             }, {ignoreSlash: false});
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
 
             wrapper.setProps({onSubmit});
             await wrapper.instance().handleSubmit({preventDefault});

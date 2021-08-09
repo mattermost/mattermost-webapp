@@ -1,11 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RhsRootPost from 'components/rhs_root_post/rhs_root_post.jsx';
 import EmojiMap from 'utils/emoji_map';
@@ -13,7 +12,7 @@ import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import {Locations} from 'utils/constants';
 
-jest.mock('utils/post_utils.jsx', () => ({
+jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
     isSystemMessage: jest.fn().mockReturnValue(false),
     fromAutoResponder: jest.fn().mockReturnValue(false),
@@ -66,7 +65,7 @@ describe('components/RhsRootPost', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...baseProps}/>,
         );
 
@@ -78,7 +77,7 @@ describe('components/RhsRootPost', () => {
             ...baseProps,
             isFlagged: true,
         };
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...props}/>,
         );
 
@@ -93,7 +92,7 @@ describe('components/RhsRootPost', () => {
                 state: Posts.POST_DELETED,
             },
         };
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...props}/>,
         );
 
@@ -109,7 +108,7 @@ describe('components/RhsRootPost', () => {
                 isFlagged: true,
             },
         };
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...props}/>,
         );
 
@@ -117,7 +116,7 @@ describe('components/RhsRootPost', () => {
     });
 
     test('should match snapshot on CRT enabled', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost
                 {...baseProps}
                 collapsedThreadsEnabled={true}
@@ -128,7 +127,7 @@ describe('components/RhsRootPost', () => {
     });
 
     test('should show pointer when alt is held down', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...baseProps}/>,
         );
 
@@ -145,7 +144,7 @@ describe('components/RhsRootPost', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...props}/>,
         );
 
@@ -157,7 +156,7 @@ describe('components/RhsRootPost', () => {
     });
 
     test('should call markPostAsUnread when post is alt+clicked on', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...baseProps}/>,
         );
 
@@ -176,7 +175,7 @@ describe('components/RhsRootPost', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...props}/>,
         );
 
@@ -190,7 +189,7 @@ describe('components/RhsRootPost', () => {
     });
 
     test('should pass props correctly to PostFlagIcon', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...baseProps}/>,
         );
 
@@ -202,7 +201,7 @@ describe('components/RhsRootPost', () => {
     });
 
     test('should pass props correctly to PostPreHeader', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsRootPost {...baseProps}/>,
         );
 

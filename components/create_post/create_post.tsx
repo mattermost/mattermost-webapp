@@ -3,10 +3,9 @@
 
 /* eslint-disable max-lines */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -21,9 +20,8 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
-} from 'utils/post_utils.jsx';
+} from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
-import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
@@ -33,6 +31,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
+import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import CallButton from 'components/call_button';
 import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
@@ -40,258 +39,297 @@ import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
+import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
+import {Channel, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
+import {PostDraft} from 'types/store/rhs';
+import {Post, PostMetadata} from 'mattermost-redux/types/posts';
+import EmojiMap from 'utils/emoji_map';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {CommandArgs} from 'mattermost-redux/types/integrations';
+import {Group} from 'mattermost-redux/types/groups';
+import {ModalData} from 'types/actions';
+import {FileInfo} from 'mattermost-redux/types/files';
+import {Emoji} from 'mattermost-redux/types/emojis';
+import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
 
 // Temporary fix for IE-11, see MM-13423
-function trimRight(str) {
-    if (String.prototype.trimRight) {
+function trimRight(str: string) {
+    if (String.prototype.trimRight as any) {
         return str.trimRight();
     }
 
     return str.replace(/\s*$/, '');
 }
 
-class CreatePost extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
+    /**
          *  ref passed from channelView for EmojiPickerOverlay
          */
-        getChannelView: PropTypes.func,
+    getChannelView?: () => void;
+
+    /**
+  *  Data used in notifying user for @all and @channel
+  */
+    currentChannelMembersCount: number;
+
+    /**
+  *  Data used in multiple places of the component
+  */
+    currentChannel: Channel;
+
+    /**
+  *  Data used in executing commands for channel actions passed down to client4 function
+  */
+    currentTeamId: string;
+
+    /**
+  *  Data used for posting message
+  */
+    currentUserId: string;
+
+    /**
+  * Force message submission on CTRL/CMD + ENTER
+  */
+    codeBlockOnCtrlEnter?: boolean;
+
+    /**
+  *  Flag used for handling submit
+  */
+    ctrlSend?: boolean;
+
+    /**
+  *  Flag used for adding a class center to Postbox based on user pref
+  */
+    fullWidthTextBox?: boolean;
+
+    /**
+  *  Data used for deciding if tutorial tip is to be shown
+  */
+    showTutorialTip: boolean;
+
+    /**
+  *  Data used populating message state when triggered by shortcuts
+  */
+    messageInHistoryItem?: string;
+
+    /**
+  *  Data used for populating message state from previous draft
+  */
+    draft: PostDraft;
+
+    /**
+  *  Data used dispatching handleViewAction ex: edit post
+  */
+    latestReplyablePostId?: string;
+    locale: string;
+
+    /**
+  *  Data used for calling edit of post
+  */
+    currentUsersLatestPost?: Post | null;
+
+    /**
+  *  Set if the channel is read only.
+  */
+    readOnlyChannel?: boolean;
+
+    /**
+  * Whether or not file upload is allowed.
+  */
+    canUploadFiles: boolean;
+
+    /**
+  * Whether to show the emoji picker.
+  */
+    enableEmojiPicker: boolean;
+
+    /**
+  * Whether to show the gif picker.
+  */
+    enableGifPicker: boolean;
+
+    /**
+  * Whether to check with the user before notifying the whole channel.
+  */
+    enableConfirmNotificationsToChannel: boolean;
+
+    /**
+  * The maximum length of a post
+  */
+    maxPostSize: number;
+    emojiMap: EmojiMap;
+
+    /**
+  * If our connection is bad
+  */
+    badConnection: boolean;
+
+    /**
+  * Whether to display a confirmation modal to reset status.
+  */
+    userIsOutOfOffice: boolean;
+    rhsExpanded: boolean;
+
+    /**
+  * To check if the timezones are enable on the server.
+  */
+    isTimezoneEnabled: boolean;
+
+    canPost: boolean;
+
+    /**
+  * To determine if the current user can send special channel mentions
+  */
+    useChannelMentions: boolean;
+
+    intl: IntlShape;
+
+    /**
+  * Should preview be showed
+  */
+    shouldShowPreview: boolean;
+
+    actions: {
 
         /**
-         *  Data used in notifying user for @all and @channel
-         */
-        currentChannelMembersCount: PropTypes.number,
+      * Set show preview for textbox
+      */
+        setShowPreview: (showPreview: boolean) => void;
 
         /**
-         *  Data used in multiple places of the component
-         */
-        currentChannel: PropTypes.object,
+      *  func called after message submit.
+      */
+        addMessageIntoHistory: (message: string) => void;
 
         /**
-         *  Data used in executing commands for channel actions passed down to client4 function
-         */
-        currentTeamId: PropTypes.string,
+      *  func called for navigation through messages by Up arrow
+      */
+        moveHistoryIndexBack: (index: string) => Promise<void>;
 
         /**
-         *  Data used for posting message
-         */
-        currentUserId: PropTypes.string,
+      *  func called for navigation through messages by Down arrow
+      */
+        moveHistoryIndexForward: (index: string) => Promise<void>;
 
         /**
-         * Force message submission on CTRL/CMD + ENTER
-         */
-        codeBlockOnCtrlEnter: PropTypes.bool,
+      *  func called for adding a reaction
+      */
+        addReaction: (postId: string, emojiName: string) => void;
 
         /**
-         *  Flag used for handling submit
-         */
-        ctrlSend: PropTypes.bool,
+      *  func called for posting message
+      */
+        onSubmitPost: (post: Post, fileInfos: FileInfo[]) => void;
 
         /**
-         *  Flag used for adding a class center to Postbox based on user pref
-         */
-        fullWidthTextBox: PropTypes.bool,
+      *  func called for removing a reaction
+      */
+        removeReaction: (postId: string, emojiName: string) => void;
 
         /**
-         *  Data used for deciding if tutorial tip is to be shown
-         */
-        showTutorialTip: PropTypes.bool.isRequired,
+      *  func called on load of component to clear drafts
+      */
+        clearDraftUploads: (prefix: string, action: (key: string, value?: PostDraft) => PostDraft | undefined) => void;
 
         /**
-         *  Data used populating message state when triggered by shortcuts
-         */
-        messageInHistoryItem: PropTypes.string,
+      * hooks called before a message is sent to the server
+      */
+        runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
 
         /**
-         *  Data used for populating message state from previous draft
-         */
-        draft: PropTypes.shape({
-            message: PropTypes.string.isRequired,
-            uploadsInProgress: PropTypes.array.isRequired,
-            fileInfos: PropTypes.array.isRequired,
-        }).isRequired,
+      * hooks called before a slash command is sent to the server
+      */
+        runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
 
         /**
-         *  Data used dispatching handleViewAction ex: edit post
-         */
-        latestReplyablePostId: PropTypes.string,
-        locale: PropTypes.string.isRequired,
+      *  func called for setting drafts
+      */
+        setDraft: (name: string, value: PostDraft | null) => void;
 
         /**
-         *  Data used for calling edit of post
-         */
-        currentUsersLatestPost: PropTypes.object,
+      *  func called for editing posts
+      */
+        setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
-         *  Set if the channel is read only.
-         */
-        readOnlyChannel: PropTypes.bool,
+      *  func called for opening the last replayable post in the RHS
+      */
+        selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
 
         /**
-         * Whether or not file upload is allowed.
-         */
-        canUploadFiles: PropTypes.bool.isRequired,
+      * Function to open a modal
+      */
+        openModal: (modalData: ModalData) => void;
+
+        executeCommand: (message: string, args: CommandArgs) => ActionResult;
 
         /**
-         * Whether to show the emoji picker.
-         */
-        enableEmojiPicker: PropTypes.bool.isRequired,
+      * Function to get the users timezones in the channel
+      */
+        getChannelTimezones: (channelId: string) => ActionResult;
+        scrollPostListToBottom: () => void;
 
         /**
-         * Whether to show the gif picker.
-         */
-        enableGifPicker: PropTypes.bool.isRequired,
+      * Function to set or unset emoji picker for last message
+      */
+        emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
 
-        /**
-         * Whether to check with the user before notifying the whole channel.
-         */
-        enableConfirmNotificationsToChannel: PropTypes.bool.isRequired,
+        getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
+    };
 
-        /**
-         * The maximum length of a post
-         */
-        maxPostSize: PropTypes.number.isRequired,
-        emojiMap: PropTypes.object.isRequired,
+    groupsWithAllowReference: Map<string, Group> | null;
+    channelMemberCountsByGroup: ChannelMemberCountsByGroup;
+    useGroupMentions: boolean;
+}
 
-        /**
-         * If our connection is bad
-         */
-        badConnection: PropTypes.bool.isRequired,
+type State = {
+    message: string;
+    caretPosition: number;
+    submitting: boolean;
+    showPostDeletedModal: boolean;
+    showEmojiPicker: boolean;
+    showConfirmModal: boolean;
+    channelTimezoneCount: number;
+    uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
+    renderScrollbar: boolean;
+    scrollbarWidth: number;
+    currentChannel: Channel;
+    mentions: string[];
+    memberNotifyCount: number;
+    errorClass: string | null;
+    serverError: (ServerError & {submittedMessage?: string}) | null;
+    postError?: React.ReactNode;
+}
 
-        /**
-         * Whether to display a confirmation modal to reset status.
-         */
-        userIsOutOfOffice: PropTypes.bool.isRequired,
-        rhsExpanded: PropTypes.bool.isRequired,
-
-        /**
-         * To check if the timezones are enable on the server.
-         */
-        isTimezoneEnabled: PropTypes.bool.isRequired,
-
-        canPost: PropTypes.bool.isRequired,
-
-        /**
-         * To determine if the current user can send special channel mentions
-         */
-        useChannelMentions: PropTypes.bool.isRequired,
-
-        intl: intlShape.isRequired,
-
-        /**
-         * Should preview be showed
-         */
-        shouldShowPreview: PropTypes.bool.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-             * Set show preview for textbox
-             */
-            setShowPreview: PropTypes.func.isRequired,
-
-            /**
-             *  func called after message submit.
-             */
-            addMessageIntoHistory: PropTypes.func.isRequired,
-
-            /**
-             *  func called for navigation through messages by Up arrow
-             */
-            moveHistoryIndexBack: PropTypes.func.isRequired,
-
-            /**
-             *  func called for navigation through messages by Down arrow
-             */
-            moveHistoryIndexForward: PropTypes.func.isRequired,
-
-            /**
-             *  func called for adding a reaction
-             */
-            addReaction: PropTypes.func.isRequired,
-
-            /**
-             *  func called for posting message
-             */
-            onSubmitPost: PropTypes.func.isRequired,
-
-            /**
-             *  func called for removing a reaction
-             */
-            removeReaction: PropTypes.func.isRequired,
-
-            /**
-             *  func called on load of component to clear drafts
-             */
-            clearDraftUploads: PropTypes.func.isRequired,
-
-            /**
-             * hooks called before a message is sent to the server
-             */
-            runMessageWillBePostedHooks: PropTypes.func.isRequired,
-
-            /**
-             * hooks called before a slash command is sent to the server
-             */
-            runSlashCommandWillBePostedHooks: PropTypes.func.isRequired,
-
-            /**
-             *  func called for setting drafts
-             */
-            setDraft: PropTypes.func.isRequired,
-
-            /**
-             *  func called for editing posts
-             */
-            setEditingPost: PropTypes.func.isRequired,
-
-            /**
-             *  func called for opening the last replayable post in the RHS
-             */
-            selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired,
-
-            /**
-             * Function to open a modal
-             */
-            openModal: PropTypes.func.isRequired,
-
-            executeCommand: PropTypes.func.isRequired,
-
-            /**
-             * Function to get the users timezones in the channel
-             */
-            getChannelTimezones: PropTypes.func.isRequired,
-            scrollPostListToBottom: PropTypes.func.isRequired,
-
-            /**
-             * Function to set or unset emoji picker for last message
-             */
-            emitShortcutReactToLastPostFrom: PropTypes.func,
-
-            getChannelMemberCountsByGroup: PropTypes.func,
-        }).isRequired,
-
-        groupsWithAllowReference: PropTypes.object,
-        channelMemberCountsByGroup: PropTypes.object,
-        useGroupMentions: PropTypes.bool.isRequired,
-    }
-
+class CreatePost extends React.PureComponent<Props, State> {
     static defaultProps = {
         latestReplyablePostId: '',
     }
 
-    static getDerivedStateFromProps(props, state) {
-        let updatedState = {currentChannel: props.currentChannel};
+    private lastBlurAt = 0;
+    private lastChannelSwitchAt = 0;
+    private draftsForChannel: {[channelID: string]: PostDraft | null} = {}
+    private lastOrientation?: string;
+    private saveDraftFrame?: number | null;
+
+    private topDiv: React.RefObject<HTMLFormElement>;
+    private textboxRef: React.RefObject<TextboxClass>;
+    private fileUploadRef: React.RefObject<FileUploadClass>;
+    private createPostControlsRef: React.RefObject<HTMLSpanElement>;
+
+    static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
+        let updatedState: Partial<State> = {currentChannel: props.currentChannel};
         if (props.currentChannel.id !== state.currentChannel.id) {
             updatedState = {
                 ...updatedState,
@@ -303,7 +341,7 @@ class CreatePost extends React.PureComponent {
         return updatedState;
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             message: this.props.draft.message,
@@ -319,17 +357,14 @@ class CreatePost extends React.PureComponent {
             currentChannel: props.currentChannel,
             mentions: [],
             memberNotifyCount: 0,
+            errorClass: null,
+            serverError: null,
         };
 
-        this.lastBlurAt = 0;
-        this.lastChannelSwitchAt = 0;
-        this.draftsForChannel = {};
-        this.lastOrientation = null;
-
-        this.topDiv = React.createRef();
-        this.textboxRef = React.createRef();
-        this.fileUploadRef = React.createRef();
-        this.createPostControlsRef = React.createRef();
+        this.topDiv = React.createRef<HTMLFormElement>();
+        this.textboxRef = React.createRef<TextboxClass>();
+        this.fileUploadRef = React.createRef<FileUploadClass>();
+        this.createPostControlsRef = React.createRef<HTMLSpanElement>();
     }
 
     componentDidMount() {
@@ -353,7 +388,7 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
@@ -395,7 +430,7 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    setShowPreview = (newPreviewValue) => {
+    setShowPreview = (newPreviewValue: boolean) => {
         this.props.actions.setShowPreview(newPreviewValue);
     }
 
@@ -423,7 +458,7 @@ class CreatePost extends React.PureComponent {
         const LANDSCAPE_ANGLE = 90;
         let orientation = 'portrait';
         if (window.orientation) {
-            orientation = Math.abs(window.orientation) === LANDSCAPE_ANGLE ? 'landscape' : 'portrait';
+            orientation = Math.abs(window.orientation as number) === LANDSCAPE_ANGLE ? 'landscape' : 'portrait';
         }
 
         if (window.screen.orientation) {
@@ -431,13 +466,13 @@ class CreatePost extends React.PureComponent {
         }
 
         if (this.lastOrientation && orientation !== this.lastOrientation && (document.activeElement || {}).id === 'post_textbox') {
-            this.textboxRef.current.blur();
+            this.textboxRef.current?.blur();
         }
 
         this.lastOrientation = orientation;
     }
 
-    handlePostError = (postError) => {
+    handlePostError = (postError: React.ReactNode) => {
         this.setState({postError});
     }
 
@@ -449,7 +484,7 @@ class CreatePost extends React.PureComponent {
         this.handleEmojiClose();
     }
 
-    doSubmit = async (e) => {
+    doSubmit = async (e?: React.FormEvent) => {
         const channelId = this.props.currentChannel.id;
         if (e) {
             e.preventDefault();
@@ -468,7 +503,7 @@ class CreatePost extends React.PureComponent {
             ignoreSlash = true;
         }
 
-        const post = {};
+        const post = {} as Post;
         post.file_ids = [];
         post.message = message;
 
@@ -495,9 +530,10 @@ class CreatePost extends React.PureComponent {
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
         if (post.message.indexOf('/') === 0 && !ignoreSlash) {
             this.setState({message: '', postError: null});
-            let args = {};
-            args.channel_id = channelId;
-            args.team_id = this.props.currentTeamId;
+            let args: CommandArgs = {
+                channel_id: channelId,
+                team_id: this.props.currentTeamId,
+            };
 
             const hookResult = await this.props.actions.runSlashCommandWillBePostedHooks(post.message, args);
 
@@ -548,14 +584,17 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
-        clearTimeout(this.saveDraftFrame);
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+        }
+
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
     }
 
-    handleNotifyAllConfirmation = (e) => {
+    handleNotifyAllConfirmation = () => {
         this.hideNotifyAllModal();
-        this.doSubmit(e);
+        this.doSubmit();
     }
 
     hideNotifyAllModal = () => {
@@ -576,12 +615,12 @@ class CreatePost extends React.PureComponent {
         return '';
     };
 
-    isStatusSlashCommand = (command) => {
+    isStatusSlashCommand = (command: string) => {
         return command === 'online' || command === 'away' ||
             command === 'dnd' || command === 'offline';
     };
 
-    handleSubmit = async (e) => {
+    handleSubmit = async (e: React.FormEvent) => {
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
@@ -594,13 +633,13 @@ class CreatePost extends React.PureComponent {
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
-        let mentions = [];
+        let mentions: string[] = [];
         const notContainsAtChannel = !containsAtChannel(this.state.message);
         if (this.props.enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
             // Groups mentioned in users text
-            mentions = groupsMentionedInText(this.state.message, groupsWithAllowReference);
-            if (mentions.length > 0) {
-                mentions = mentions.
+            const mentionGroups = groupsMentionedInText(this.state.message, groupsWithAllowReference);
+            if (mentionGroups.length > 0) {
+                mentions = mentionGroups.
                     map((group) => {
                         const mappedValue = channelMemberCountsByGroup[group.id];
                         if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
@@ -637,8 +676,8 @@ class CreatePost extends React.PureComponent {
         const status = this.getStatusFromSlashCommand();
         if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
             const resetStatusModalData = {
-                ModalId: ModalIdentifiers.RESET_STATUS,
-                dialogType: ResetStatusModal,
+                modalId: ModalIdentifiers.RESET_STATUS,
+                dialogType: ResetStatusModal as any,
                 dialogProps: {newStatus: status},
             };
 
@@ -651,7 +690,7 @@ class CreatePost extends React.PureComponent {
         if (trimRight(this.state.message) === '/header') {
             const editChannelHeaderModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
-                dialogType: EditChannelHeaderModal,
+                dialogType: EditChannelHeaderModal as any,
                 dialogProps: {channel: updateChannel},
             };
 
@@ -665,7 +704,7 @@ class CreatePost extends React.PureComponent {
         if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
             const editChannelPurposeModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
-                dialogType: EditChannelPurposeModal,
+                dialogType: EditChannelPurposeModal as any,
                 dialogProps: {channel: updateChannel},
             };
 
@@ -684,7 +723,7 @@ class CreatePost extends React.PureComponent {
         await this.doSubmit(e);
     }
 
-    sendMessage = async (originalPost) => {
+    sendMessage = async (originalPost: Post) => {
         const {
             actions,
             currentChannel,
@@ -704,8 +743,7 @@ class CreatePost extends React.PureComponent {
         post.pending_post_id = `${userId}:${time}`;
         post.user_id = userId;
         post.create_at = time;
-        post.root_id = this.state.parentId;
-        post.metadata = {};
+        post.metadata = {} as PostMetadata;
         post.props = {};
         if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
@@ -737,7 +775,7 @@ class CreatePost extends React.PureComponent {
         return {data: true};
     }
 
-    sendReaction(isReaction) {
+    sendReaction(isReaction: RegExpExecArray) {
         const channelId = this.props.currentChannel.id;
         const action = isReaction[1];
         const emojiName = isReaction[2];
@@ -764,10 +802,28 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    postMsgKeyPress = (e) => {
+    postMsgKeyPress = (e: React.KeyboardEvent<Element>) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
-        const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition);
+        const {
+            allowSending,
+            withClosedCodeBlock,
+            ignoreKeyPress,
+            message,
+        } = postMessageOnKeyPress(
+            e,
+            this.state.message,
+            Boolean(ctrlSend),
+            Boolean(codeBlockOnCtrlEnter),
+            Date.now(),
+            this.lastChannelSwitchAt,
+            this.state.caretPosition,
+        ) as {
+            allowSending: boolean;
+            withClosedCodeBlock?: boolean;
+            ignoreKeyPress?: boolean;
+            message?: string;
+        };
 
         if (ignoreKeyPress) {
             e.preventDefault();
@@ -800,7 +856,7 @@ class CreatePost extends React.PureComponent {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e) => {
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
 
@@ -818,23 +874,27 @@ class CreatePost extends React.PureComponent {
             ...this.props.draft,
             message,
         };
-        clearTimeout(this.saveDraftFrame);
-        this.saveDraftFrame = setTimeout(() => {
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+        }
+
+        this.saveDraftFrame = window.setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
         }, CreatePostDraftTimeoutMilliseconds);
         this.draftsForChannel[channelId] = draft;
     }
 
-    pasteHandler = (e) => {
-        if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
+    pasteHandler = (e: ClipboardEvent) => {
+        if (!e.clipboardData || !e.clipboardData.items || (e.target && (e.target as any).id !== 'post_textbox')) {
             return;
         }
 
         const {clipboardData} = e;
-        const table = getTable(clipboardData);
+        let table = getTable(clipboardData);
         if (!table) {
             return;
         }
+        table = table as HTMLTableElement;
 
         e.preventDefault();
 
@@ -856,7 +916,7 @@ class CreatePost extends React.PureComponent {
         this.focusTextbox();
     }
 
-    handleUploadStart = (clientIds, channelId) => {
+    handleUploadStart = (clientIds: string[], channelId: string) => {
         const uploadsInProgress = [
             ...this.props.draft.uploadsInProgress,
             ...clientIds,
@@ -875,13 +935,13 @@ class CreatePost extends React.PureComponent {
         this.focusTextbox();
     }
 
-    handleUploadProgress = ({clientId, name, percent, type}) => {
-        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name, type}};
+    handleUploadProgress = (filePreviewInfo: FilePreviewInfo) => {
+        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [filePreviewInfo.clientId]: filePreviewInfo};
         this.setState({uploadsProgressPercent});
     }
 
-    handleFileUploadComplete = (fileInfos, clientIds, channelId) => {
-        const draft = {...this.draftsForChannel[channelId]};
+    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], channelId: string) => {
+        const draft = {...this.draftsForChannel[channelId]!};
 
         // remove each finished file from uploads
         for (let i = 0; i < clientIds.length; i++) {
@@ -902,15 +962,15 @@ class CreatePost extends React.PureComponent {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
     }
 
-    handleUploadError = (err, clientId, channelId) => {
-        const draft = {...this.draftsForChannel[channelId]};
+    handleUploadError = (err: string | ServerError, clientId: string, channelId: string) => {
+        const draft = {...this.draftsForChannel[channelId]!};
 
         let serverError = err;
-        if (typeof err === 'string') {
-            serverError = new Error(err);
+        if (typeof serverError === 'string') {
+            serverError = new Error(serverError);
         }
 
-        if (clientId !== -1 && draft.uploadsInProgress) {
+        if (draft.uploadsInProgress) {
             const index = draft.uploadsInProgress.indexOf(clientId);
 
             if (index !== -1) {
@@ -927,8 +987,8 @@ class CreatePost extends React.PureComponent {
         this.setState({serverError});
     }
 
-    removePreview = (id) => {
-        let modifiedDraft = {};
+    removePreview = (id: string) => {
+        let modifiedDraft = {} as PostDraft;
         const draft = {...this.props.draft};
         const channelId = this.props.currentChannel.id;
 
@@ -967,7 +1027,7 @@ class CreatePost extends React.PureComponent {
         this.handleFileUploadChange();
     }
 
-    focusTextboxIfNecessary = (e) => {
+    focusTextboxIfNecessary = (e: KeyboardEvent) => {
         // Focus should go to the RHS when it is expanded
         if (this.props.rhsExpanded) {
             return;
@@ -985,7 +1045,7 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    documentKeyHandler = (e) => {
+    documentKeyHandler = (e: KeyboardEvent) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
@@ -1029,18 +1089,18 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    handleMouseUpKeyUp = (e) => {
+    handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
         const caretPosition = Utils.getCaretPosition(e.target);
         this.setState({
             caretPosition,
         });
     }
 
-    handleSelect = (e) => {
-        Utils.adjustSelection(this.textboxRef.current.getInputBox(), e);
+    handleSelect = (e: React.SyntheticEvent) => {
+        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (e: React.KeyboardEvent) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
@@ -1070,7 +1130,7 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    editLastPost = (e) => {
+    editLastPost = (e: React.KeyboardEvent) => {
         e.preventDefault();
 
         const lastPost = this.props.currentUsersLatestPost;
@@ -1090,7 +1150,7 @@ class CreatePost extends React.PureComponent {
         this.props.actions.setEditingPost(lastPost.id, 'post_textbox', type);
     }
 
-    replyToLastPost = (e) => {
+    replyToLastPost = (e: React.KeyboardEvent) => {
         e.preventDefault();
         const latestReplyablePostId = this.props.latestReplyablePostId;
         const replyBox = document.getElementById('reply_textbox');
@@ -1102,28 +1162,28 @@ class CreatePost extends React.PureComponent {
         }
     }
 
-    loadPrevMessage = (e) => {
+    loadPrevMessage = (e: React.KeyboardEvent) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
     }
 
-    loadNextMessage = (e) => {
+    loadNextMessage = (e: React.KeyboardEvent) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
     }
 
-    applyHotkeyMarkdown = (e) => {
+    applyHotkeyMarkdown = (e: React.KeyboardEvent) => {
         const res = Utils.applyHotkeyMarkdown(e);
 
         this.setState({
             message: res.message,
         }, () => {
-            const textbox = this.textboxRef.current.getInputBox();
+            const textbox = this.textboxRef.current?.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
         });
     }
 
-    reactToLastMessage = (e) => {
+    reactToLastMessage = (e: KeyboardEvent) => {
         e.preventDefault();
 
         const {rhsExpanded, actions: {emitShortcutReactToLastPostFrom}} = this.props;
@@ -1159,8 +1219,8 @@ class CreatePost extends React.PureComponent {
         this.setState({showEmojiPicker: false});
     }
 
-    setMessageAndCaretPostion = (newMessage, newCaretPosition) => {
-        const textbox = this.textboxRef.current.getInputBox();
+    setMessageAndCaretPostion = (newMessage: string, newCaretPosition: number) => {
+        const textbox = this.textboxRef.current?.getInputBox();
 
         this.setState({
             message: newMessage,
@@ -1170,8 +1230,8 @@ class CreatePost extends React.PureComponent {
         });
     }
 
-    handleEmojiClick = (emoji) => {
-        const emojiAlias = (emoji.short_names && emoji.short_names[0]) || emoji.name;
+    handleEmojiClick = (emoji: Emoji) => {
+        const emojiAlias = ('short_names' in emoji && emoji.short_names && emoji.short_names[0]) || emoji.name;
 
         if (!emojiAlias) {
             //Oops.. There went something wrong
@@ -1194,7 +1254,7 @@ class CreatePost extends React.PureComponent {
         this.handleEmojiClose();
     }
 
-    handleGifClick = (gif) => {
+    handleGifClick = (gif: string) => {
         if (this.state.message === '') {
             this.setState({message: gif});
         } else {
@@ -1232,7 +1292,6 @@ class CreatePost extends React.PureComponent {
 
         return (
             <TutorialTip
-                id='postTextboxTipMessage'
                 placement='top'
                 screens={screens}
                 overlayClass='tip-overlay--chat'
@@ -1245,7 +1304,7 @@ class CreatePost extends React.PureComponent {
         return this.state.message.trim().length !== 0 || this.props.draft.fileInfos.length !== 0;
     }
 
-    handleHeightChange = (height, maxHeight) => {
+    handleHeightChange = (height: number, maxHeight: number) => {
         this.setState({
             renderScrollbar: height > maxHeight,
         });
@@ -1269,8 +1328,8 @@ class CreatePost extends React.PureComponent {
         const {formatMessage} = this.props.intl;
         const {renderScrollbar, channelTimezoneCount, mentions, memberNotifyCount} = this.state;
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
-        let notifyAllMessage = '';
-        let notifyAllTitle = '';
+        let notifyAllMessage: React.ReactNode = '';
+        let notifyAllTitle: React.ReactNode = '';
         if (mentions.includes('@all') || mentions.includes('@channel')) {
             notifyAllTitle = (
                 <FormattedMessage
@@ -1372,7 +1431,6 @@ class CreatePost extends React.PureComponent {
         if (this.state.serverError) {
             serverError = (
                 <MessageSubmitError
-                    id='postServerError'
                     error={this.state.serverError}
                     submittedMessage={this.state.serverError.submittedMessage}
                     handleSubmit={this.handleSubmit}
@@ -1505,14 +1563,14 @@ class CreatePost extends React.PureComponent {
             >
                 <div
                     className={'post-create' + attachmentsDisabled + scrollbarClass}
-                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} : undefined}
+                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as any : undefined}
                 >
                     <div className='post-create-body'>
                         <div
                             role='application'
                             id='centerChannelFooter'
                             aria-label={ariaLabelMessageInput}
-                            tabIndex='-1'
+                            tabIndex={-1}
                             className='post-body__cell a11y__region'
                             data-a11y-sort-order='2'
                         >
@@ -1549,7 +1607,7 @@ class CreatePost extends React.PureComponent {
                                 {emojiPicker}
                                 <a
                                     role='button'
-                                    tabIndex='0'
+                                    tabIndex={0}
                                     aria-label={formatMessage({
                                         id: 'create_post.send_message',
                                         defaultMessage: 'Send a message',
