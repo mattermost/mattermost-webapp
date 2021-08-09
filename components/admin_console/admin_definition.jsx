@@ -5872,6 +5872,11 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         options: [
                             {
+                                value: 'denim',
+                                display_name: 'Denim',
+                                display_name_default: 'Denim',
+                            },
+                            {
                                 value: 'sapphire',
                                 display_name: 'Sapphire',
                                 display_name_default: 'Sapphire',
