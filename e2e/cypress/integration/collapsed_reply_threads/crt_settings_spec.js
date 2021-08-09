@@ -9,7 +9,7 @@
 //
 //  Group: @collapsed_reply_threads
 
-describe('CRT Settings', () => {
+describe('CollapsedReplyThreads', () => {
     let testTeam;
 
     before(() => {

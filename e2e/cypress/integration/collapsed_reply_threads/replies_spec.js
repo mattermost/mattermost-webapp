@@ -9,7 +9,7 @@
 //
 //  Group: @collapsed_reply_threads
 
-describe('Reply counts', () => {
+describe('CollapsedReplyThreads', () => {
     let testTeam;
     let testUser;
     let otherUser;
@@ -43,10 +43,12 @@ describe('Reply counts', () => {
                     });
                 });
             });
-
-            // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
+    });
+
+    beforeEach(() => {
+        // # Visit the channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
     it('should show number of replies in thread', () => {
@@ -99,5 +101,27 @@ describe('Reply counts', () => {
 
         // * The sole thread item should have text in footer saying '2 replies'
         cy.get('article.ThreadItem').find('.activity').should('have.text', '2 replies');
+    });
+
+    it('Emoji reaction - type +:+1:', () => {
+        // # Create a root post
+        cy.postMessage('Hello!');
+
+        cy.getLastPostId().then((postId) => {
+            // # Click on post to open the thread in RHS
+            cy.get(`#post_${postId}`).click();
+
+            // # Type "+:+1:" in comment box to react to the post with a thumbs-up and post
+            cy.postMessageReplyInRHS('+:+1:');
+
+            // * Thumbs-up reaction displays as reaction on post
+            cy.get(`#${postId}_message`).within(() => {
+                cy.findByLabelText('reactions').should('be.visible');
+                cy.findByLabelText('remove reaction +1').should('be.visible');
+            });
+
+            // # Close RHS
+            cy.closeRHS();
+        });
     });
 });

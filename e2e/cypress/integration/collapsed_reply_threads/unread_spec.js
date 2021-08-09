@@ -9,7 +9,7 @@
 //
 //  Group: @collapsed_reply_threads
 
-describe('Read/Unread Threads', () => {
+describe('CollapsedReplyThreads', () => {
     let testTeam;
     let testUser;
     let otherUser;
