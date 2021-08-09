@@ -28,7 +28,7 @@ function mainForms(state: AppCommandFormMap = {}, action: GenericAction): AppCom
     switch (action.type) {
     case AppsTypes.RECEIVED_APP_BINDINGS:
         return {};
-    case AppsTypes.RECEIVED_APP_FORM: {
+    case AppsTypes.RECEIVED_APP_COMMAND_FORM: {
         const {form, location} = action.data;
         const newState = {
             ...state,
@@ -63,7 +63,7 @@ function rhsForms(state: AppCommandFormMap = {}, action: GenericAction): AppComm
     switch (action.type) {
     case AppsTypes.RECEIVED_APP_RHS_BINDINGS:
         return {};
-    case AppsTypes.RECEIVED_APP_RHS_FORM: {
+    case AppsTypes.RECEIVED_APP_RHS_COMMAND_FORM: {
         const {form, location} = action.data;
         const newState = {
             ...state,

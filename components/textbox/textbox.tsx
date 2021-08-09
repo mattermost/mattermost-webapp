@@ -129,10 +129,9 @@ export default class Textbox extends React.PureComponent<Props> {
             this.props.currentTeamId !== prevProps.currentTeamId ||
             this.props.priorityProfiles !== prevProps.priorityProfiles) {
             // Update channel id for AtMentionProvider.
-            const providers = this.suggestionProviders;
-            for (let i = 0; i < providers.length; i++) {
-                if (providers[i] instanceof AtMentionProvider) {
-                    (providers[i] as AtMentionProvider).setProps({
+            for (const provider of this.suggestionProviders) {
+                if (provider instanceof AtMentionProvider) {
+                    provider.setProps({
                         currentUserId: this.props.currentUserId,
                         profilesInChannel: this.props.profilesInChannel,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
@@ -148,18 +147,17 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentTeamId !== prevProps.currentTeamId ||
             this.props.rootId !== prevProps.rootId) {
-            // Update channel id for AtMentionProvider.
-            const providers = this.suggestionProviders;
-            for (let i = 0; i < providers.length; i++) {
-                if (providers[i] instanceof CommandProvider) {
-                    (providers[i] as CommandProvider).setProps({
+            // Update channel id for CommandProvider and AppCommandProvider.
+            for (const provider of this.suggestionProviders) {
+                if (provider instanceof CommandProvider) {
+                    provider.setProps({
                         teamId: this.props.currentTeamId,
                         channelId: this.props.channelId,
                         rootId: this.props.rootId,
                     });
                 }
-                if (providers[i] instanceof AppCommandProvider) {
-                    (providers[i] as AppCommandProvider).setProps({
+                if (provider instanceof AppCommandProvider) {
+                    provider.setProps({
                         teamId: this.props.currentTeamId,
                         channelId: this.props.channelId,
                         rootId: this.props.rootId,

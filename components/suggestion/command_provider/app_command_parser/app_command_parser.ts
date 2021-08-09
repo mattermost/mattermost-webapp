@@ -1026,9 +1026,9 @@ export class AppCommandParser {
 
         const fetched = await this.fetchForm(binding);
         if (fetched?.form) {
-            let actionType: string = AppsTypes.RECEIVED_APP_FORM;
+            let actionType: string = AppsTypes.RECEIVED_APP_COMMAND_FORM;
             if (this.rootPostID) {
-                actionType = AppsTypes.RECEIVED_APP_RHS_FORM;
+                actionType = AppsTypes.RECEIVED_APP_RHS_COMMAND_FORM;
             }
             this.store.dispatch({
                 data: {form: fetched.form, location: key},
