@@ -1,20 +1,20 @@
 @charset 'UTF-8';
 
 .status-wrapper {
+    position: relative;
     display: inline-block;
     height: 32px;
-    position: relative;
     align-self: center;
 
     .sidebar--left & {
-        height: 36px;
         width: 36px;
+        height: 36px;
 
         .status {
-            bottom: -5px;
-            height: 19px;
             right: -6px;
+            bottom: -5px;
             width: 19px;
+            height: 19px;
 
             &.status-edit {
                 .fa {
@@ -28,39 +28,44 @@
             }
 
             .icon__container {
-                &:after {
-                    border-radius: 20px;
-                    content: '';
-                    height: 10px;
-                    left: 4px;
+                &::after {
                     position: absolute;
                     top: 4px;
+                    left: 4px;
                     width: 10px;
+                    height: 10px;
+                    border-radius: 20px;
+                    content: '';
                 }
             }
 
             svg {
-                height: 13px;
-                left: 0;
-                max-height: initial;
                 position: relative;
-                top: 0;
-                width: 13px;
                 z-index: 1;
+                top: 0;
+                left: 0;
+                width: 13px;
+                height: 13px;
+                max-height: initial;
+
+                &.offline--icon,
+                .offline--icon {
+                    fill: var(--sidebar-text);
+                }
             }
         }
     }
 
     .status {
-        border-radius: 100px;
-        bottom: -4px;
-        height: 15px;
-        line-height: 0;
-        margin: 0;
         position: absolute;
-        right: -3px;
         top: auto;
+        right: -3px;
+        bottom: -4px;
         width: 15px;
+        height: 15px;
+        margin: 0;
+        border-radius: 100px;
+        line-height: 0;
 
         .modal & {
             bottom: -6px;
@@ -71,21 +76,38 @@
 
             i {
                 @include opacity(1);
-                font-size: 10px;
+
                 position: relative;
                 top: 4px;
+                font-size: 10px;
             }
         }
 
         svg {
-            max-height: 11px;
             position: relative;
             top: 2px;
+            max-height: 11px;
+        }
+
+        .dnd--icon {
+            fill: var(--dnd-indicator);
+        }
+
+        .online--icon {
+            fill: var(--online-indicator);
+        }
+
+        .away--icon {
+            fill: var(--away-indicator);
+        }
+
+        .offline--icon {
+            fill: var(--center-channel-color);
         }
     }
 }
 
-.status-selector:hover>.status {
+.status-selector:hover > .status {
     opacity: 0;
     visibility: hidden;
 
@@ -97,7 +119,7 @@
     }
 }
 
-.status-selector>.status {
+.status-selector > .status {
     opacity: 1;
     visibility: visible;
 
@@ -109,7 +131,7 @@
     }
 }
 
-.status-selector>.status-edit {
+.status-selector > .status-edit {
     opacity: 0;
     visibility: hidden;
 
@@ -121,7 +143,7 @@
     }
 }
 
-.status-selector:hover>.status-edit {
+.status-selector:hover > .status-edit {
     opacity: 1;
     visibility: visible;
 
@@ -134,45 +156,22 @@
 }
 
 .status {
-    display: inline-block;
-    margin: 0 7px 0 1px;
     position: relative;
     top: 2px;
+    display: inline-block;
     width: 15px;
+    margin: 0 7px 0 1px;
 
     &.status--group {
+        top: 0;
+        width: 15px;
+        height: 15px;
+        margin: 0 9px 0 -1px;
         border-radius: 2px;
         font-size: 10px;
         font-weight: 600;
-        height: 15px;
         line-height: 14px;
-        margin: 0 9px 0 -1px;
         text-align: center;
-        width: 15px;
-        top: 0;
-
-        .mentions__name & {
-            background-color: rgba(var(--center-channel-color-rgb), 0.32);
-            flex: 0 0 17px;
-            height: 18px;
-            left: 0;
-            line-height: 18px;
-            margin-left: 0;
-            text-align: center;
-            width: 17px;
-        }
-    }
-
-    .dnd--icon {
-        fill: var(--dnd-indicator);
-    }
-
-    .online--icon {
-        fill: var(--online-indicator);
-    }
-
-    .away--icon {
-        fill: var(--away-indicator);
     }
 
     svg {
@@ -183,7 +182,7 @@
     i,
     path,
     ellipse {
-        @include opacity(.5);
+        @include opacity(0.5);
 
         &.online--icon,
         &.away--icon,
@@ -206,31 +205,52 @@
     .online--icon > svg {
         fill: var(--online-indicator);
     }
+
     .away--icon > svg {
         fill: var(--away-indicator);
     }
+
     .dnd--icon > svg {
         fill: var(--dnd-indicator);
     }
+
     .offline--icon {
         fill: rgba(var(--center-channel-color-rgb), 0.56);
     }
 }
 
-.app__body{
-    .status{
-        &.status--online{
+.app__body {
+    .status {
+        &.status--online {
             color: var(--online-indicator);
-        }
-        .online--icon{
-            fill: var(--online-indicator);
         }
 
         &.status--away {
             color: var(--away-indicator);
         }
+
+        .dnd--icon {
+            fill: var(--dnd-indicator);
+        }
+
+        .online--icon {
+            fill: var(--online-indicator);
+        }
+
         .away--icon {
             fill: var(--away-indicator);
+        }
+
+        .offline--icon {
+            fill: var(--center-channel-color);
+        }
+    }
+
+    .sidebar--left {
+        .status {
+            .offline--icon {
+                fill: var(--sidebar-text);
+            }
         }
     }
 }

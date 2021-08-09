@@ -13,14 +13,12 @@ import {
     markChannelAsReadOnServer,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import {updateThreadRead} from 'mattermost-redux/actions/threads';
 
 import {WebsocketEvents} from 'mattermost-redux/constants';
 
 import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
@@ -67,6 +65,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
         }
 
         const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+        const isCRTReply = collapsedThreadsEnabled && post.root_id;
 
         actions.push(
             PostActions.receivedNewPost(post, collapsedThreadsEnabled),
@@ -78,12 +77,17 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
                     now: Date.now(),
                 },
             },
-            ...setChannelReadAndViewed(dispatch, getState, post, websocketMessageProps, fetchedChannelMember),
         );
 
+        const isCRTReplyByCurrentUser = isCRTReply && post.user_id === getCurrentUserId(state);
+        if (!isCRTReplyByCurrentUser) {
+            actions.push(
+                ...setChannelReadAndViewed(dispatch, getState, post, websocketMessageProps, fetchedChannelMember),
+            );
+        }
         dispatch(batchActions(actions));
 
-        if (collapsedThreadsEnabled && post.root_id) {
+        if (isCRTReply) {
             dispatch(setThreadRead(post));
         }
 
@@ -143,24 +147,14 @@ export function setThreadRead(post: Post) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
-        const currentUserId = getCurrentUserId(state);
         const thread = getThread(state, post.root_id);
-        const currentTeamId = getCurrentTeamId(state);
 
         // mark a thread as read (when the user is viewing the thread)
-        if (
-            thread &&
-            post.user_id !== currentUserId &&
-            !isSystemMessage(post) &&
-            !isFromWebhook(post) &&
-            isThreadOpen(state, thread.id)
-        ) {
+        if (thread && isThreadOpen(state, thread.id)) {
             // update the new messages line (when there are no previous unreads)
             if (thread.last_reply_at < getThreadLastViewedAt(state, thread.id)) {
                 dispatch(updateThreadLastOpened(thread.id, post.create_at));
             }
-
-            dispatch(updateThreadRead(currentUserId, currentTeamId, thread.id, post.create_at + 1));
         }
 
         return {data: true};

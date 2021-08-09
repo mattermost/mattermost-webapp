@@ -5,6 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ProfilePopover from 'components/profile_popover/profile_popover';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
 import Pluggable from '../../plugins/pluggable';
 
 describe('components/ProfilePopover', () => {
@@ -25,6 +26,7 @@ describe('components/ProfilePopover', () => {
         teamUrl: '',
         canManageAnyChannelMembersInCurrentTeam: true,
         isCustomStatusEnabled: true,
+        isCustomStatusExpired: false,
         actions: {
             getMembershipForEntities: jest.fn(),
             openDirectChannelToUserId: jest.fn(),
@@ -107,5 +109,57 @@ describe('components/ProfilePopover', () => {
         };
         expect(wrapper.find(Pluggable).first().props()).toEqual({...pluggableProps, pluggableName: 'PopoverUserAttributes'});
         expect(wrapper.find(Pluggable).last().props()).toEqual({...pluggableProps, pluggableName: 'PopoverUserActions'});
+    });
+
+    test('should match snapshot with custom status', () => {
+        const customStatus = {
+            emoji: 'calendar',
+            text: 'In a meeting',
+            duration: CustomStatusDuration.TODAY,
+            expires_at: '2021-05-03T23:59:59.000Z',
+        };
+        const props = {
+            ...baseProps,
+            customStatus,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom status not set but can set', () => {
+        const props = {
+            ...baseProps,
+            user: {
+                ...baseProps.user,
+                id: '',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom status expired', () => {
+        const customStatus = {
+            emoji: 'calendar',
+            text: 'In a meeting',
+            duration: CustomStatusDuration.TODAY,
+            expires_at: '2021-05-03T23:59:59.000Z',
+        };
+        const props = {
+            ...baseProps,
+            isCustomStatusExpired: true,
+            customStatus,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

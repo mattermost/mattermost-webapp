@@ -8,7 +8,7 @@ exports[`components/UserList should match default snapshot 1`] = `
     key="no-users-found"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="No users found"
         id="user_list.notFound"
       />

@@ -1,44 +1,41 @@
 @charset "UTF-8";
 
-h1 {
+h1.markdown__heading {
     font-size: 28px;
 }
 
-h2 {
+h2.markdown__heading {
     font-size: 25px;
 }
 
-h3 {
+h3.markdown__heading {
     font-size: 22px;
 }
 
-h4 {
+h4.markdown__heading {
     font-size: 19px;
 }
 
-h5 {
+h5.markdown__heading {
     font-size: 15px;
 }
 
-h6 {
+h6.markdown__heading {
     font-size: 1em;
 }
 
-.markdown__link {
-}
-
 .markdown__heading {
+    margin: 10px 0;
     font-weight: 700;
     line-height: 1.5;
-    margin: 10px 0;
 
     &:first-child {
         margin: 5px 0 10px;
     }
 
     .emoticon {
-        min-height: 1.5em;
         min-width: 1.5em;
+        min-height: 1.5em;
         vertical-align: top;
     }
 }
@@ -54,24 +51,25 @@ h6 {
 #post-list,
 #rhsContainer {
     .markdown-inline-img {
-        -moz-force-broken-image-icon: 1;
-        margin: 5px 2px;
         max-height: 500px;
+        margin: 5px 2px;
+        -moz-force-broken-image-icon: 1;
+
         @include border-radius(4px);
     }
 
     div.markdown-inline-img {
-        min-width: 50px;
         display: inline-block;
         width: 100%;
+        min-width: 50px;
         vertical-align: top;
     }
 
     .post {
         &.post--system {
             .markdown-inline-img {
-                max-width: 200px;
                 width: auto;
+                max-width: 200px;
             }
         }
     }
@@ -87,9 +85,11 @@ h6 {
 
     .markdown-inline-img--hover {
         border: 1px solid transparent;
+
         &:hover {
-            @include single-transition(all, .1s, linear);
+            @include single-transition(all, 0.1s, linear);
             @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
+
             z-index: 2;
         }
     }
@@ -101,18 +101,20 @@ h6 {
     .markdown-inline-img--scaled-down {
         max-height: 18px;
         margin: 2px;
+
         @include border-radius(2px);
 
         &:hover {
-            @include single-transition(all, .1s, linear);
+            @include single-transition(all, 0.1s, linear);
             @include box-shadow(0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1));
+
             z-index: 2;
         }
     }
 
     .markdown-inline-img--scaled-down-loading {
-        margin: 2px;
         height: 18px;
+        margin: 2px;
         visibility: hidden;
     }
 
@@ -129,9 +131,10 @@ h6 {
 #channelHeaderDescription,
 #header-popover {
     .markdown-inline-img {
-        -moz-force-broken-image-icon: 1;
-        margin: 2px;
         max-height: 18px;
+        margin: 2px;
+        -moz-force-broken-image-icon: 1;
+
         @include border-radius(2px);
     }
 
@@ -144,8 +147,9 @@ h6 {
         border: 1px solid transparent;
 
         &:hover {
-            @include single-transition(all, .1s, linear);
+            @include single-transition(all, 0.1s, linear);
             @include box-shadow(0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1));
+
             z-index: 2;
         }
     }
@@ -160,22 +164,22 @@ h6 {
     }
 
     .broken-image {
-        border-radius: unset;
         max-height: 18px;
+        border-radius: unset;
     }
 }
 
 .post-code {
+    position: relative;
     overflow-x: auto;
     overflow-y: hidden;
-    position: relative;
 
     code {
+        position: relative;
+        display: block;
+        padding: 0;
         background-color: inherit;
         font-size: 13px;
-        display: block;
-        position: relative;
-        padding: 0;
         text-align: left;
     }
 
@@ -191,57 +195,62 @@ h6 {
 
     .post-code__line-numbers {
         @include user-select(none);
-        border-right: 1px solid #CCCCCC;
-        color: #CCCCCC;
-        font-family: Menlo, Monaco, Consolas, "Courier New", monospace; // Match the fonts that code elements use
-        margin-right: 12px;
+
         min-width: 36px;
         padding-right: 4px;
+        border-right: 1px solid #ccc;
+        margin-right: 12px;
+        color: #ccc;
+        font-family: Menlo, Monaco, Consolas, "Courier New", monospace; // Match the fonts that code elements use
     }
 
     .hljs {
-        border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
-        border-radius: .25em;
-        display: flex;
-        font-size: 13px;
-        margin: 5px 0;
-        padding: 6.5px;
         position: relative;
+        display: flex;
+        flex-direction: row;
+        padding: 6.5px;
+        border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
+        margin: 5px 0;
+        border-radius: 0.25em;
+        font-size: 13px;
+        overflow-x: auto;
         visibility: visible;
         white-space: pre;
-        flex-direction: row;
     }
 }
 
 .post-code__language {
     @include opacity(0);
-    @include transition(opacity, .6s);
+    @include transition(opacity, 0.6s);
     @include unselectable;
+
+    position: absolute;
+    z-index: 5;
+    top: 5px;
+    right: 0;
+    padding: 4px 10px 5px;
     background: #21586d;
     border-radius: 0 0 0 2px;
     color: $white;
-    padding: 4px 10px 5px;
-    position: absolute;
-    right: 0;
-    top: 5px;
-    z-index: 5;
 }
 
 .post-code__search-highlighting {
+    position: absolute;
     color: transparent;
     pointer-events: none;
-    position: absolute;
+
     @include user-select(none);
 }
 
 .post__body {
     hr {
-        @include opacity(.2);
-        background-color: #e7e7e7;
-        border: 0 none;
+        @include opacity(0.2);
+
         height: 4px;
-        margin: 15px 0 16px;
         padding: 0;
+        border: 0 none;
+        margin: 15px 0 16px;
+        background-color: #e7e7e7;
     }
 
     .codespan__pre-wrap {
@@ -252,18 +261,18 @@ h6 {
 }
 
 .markdown__table {
-    background: $white;
     margin: 5px 0 10px;
+    background: $white;
 
     th,
     td {
-        border: 1px solid #ddd;
         padding: 6px 13px;
+        border: 1px solid #ddd;
     }
 
     a {
-        word-break: initial;
         white-space: nowrap;
+        word-break: initial;
     }
 
     tbody tr {
@@ -276,49 +285,50 @@ h6 {
 }
 
 ol.markdown__list {
-    counter-reset: list;
     display: table;
     padding: 0;
+    counter-reset: list;
 
     > li {
-        counter-increment: list;
         display: table-row;
+        counter-increment: list;
 
         &::before {
-            content: counter(list) ".";
-            padding-right: 8px;
             display: table-cell;
+            padding-right: 8px;
+            content: counter(list) ".";
             text-align: right;
         }
     }
 }
 
 blockquote {
-    border: none;
-    font-size: inherit;
-    margin-bottom: 0;
-    padding: 10px 10px 10px 38px;
     position: relative;
+    padding: 10px 10px 10px 38px;
+    border: none;
+    margin-bottom: 0;
+    font-size: inherit;
 
-    &:before {
-        @include opacity(.6);
-        content: '\f10d';
+    &::before {
+        @include opacity(0.6);
+
+        position: absolute;
+        top: 5px;
+        left: 8px;
         display: inline-block;
+        content: '\f10d';
         font-family: FontAwesome, sans-serif;
         font-size: 20px;
         font-style: normal;
         font-weight: normal;
-        left: 8px;
-        position: absolute;
         text-decoration: inherit;
-        top: 5px;
     }
 }
 
 pre {
-    color: inherit;
-    margin: 5px 0;
     padding: 0;
+    margin: 5px 0;
+    color: inherit;
 }
 
 code {
@@ -330,15 +340,15 @@ code {
 
 .help {
     code {
-        background: rgba(51,51,51,0.1);
+        background: rgba(51, 51, 51, 0.1);
     }
 
     .hljs {
+        display: block;
+        padding: 0.5em;
         background: #f8f8f8;
         color: #333;
-        display: block;
         overflow-x: auto;
-        padding: 0.5em;
     }
 
     .container {
@@ -346,7 +356,7 @@ code {
     }
 
     .links {
-        font-size: 1.2em;
         margin-top: 30px;
+        font-size: 1.2em;
     }
 }

@@ -25,7 +25,7 @@ exports[`components/SearchHint should match snapshot, with searchType 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages from a user"
           id="search_list_option.from"
         />
@@ -50,7 +50,7 @@ exports[`components/SearchHint should match snapshot, with searchType 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages in a channel"
           id="search_list_option.in"
         />
@@ -75,7 +75,7 @@ exports[`components/SearchHint should match snapshot, with searchType 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages on a date"
           id="search_list_option.on"
         />
@@ -100,7 +100,7 @@ exports[`components/SearchHint should match snapshot, with searchType 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages before a date"
           id="search_list_option.before"
         />
@@ -125,7 +125,7 @@ exports[`components/SearchHint should match snapshot, with searchType 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages after a date"
           id="search_list_option.after"
         />
@@ -150,7 +150,7 @@ exports[`components/SearchHint should match snapshot, with searchType 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Exclude search terms"
           id="search_list_option.exclude"
         />
@@ -175,7 +175,7 @@ exports[`components/SearchHint should match snapshot, with searchType 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages with phrases"
           id="search_list_option.phrases"
         />
@@ -190,7 +190,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
   <h4
     className="search-hint__title"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Search options"
       id="search_bar.usage.title"
     />
@@ -218,7 +218,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages from a user"
           id="search_list_option.from"
         />
@@ -243,7 +243,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages in a channel"
           id="search_list_option.in"
         />
@@ -268,7 +268,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages on a date"
           id="search_list_option.on"
         />
@@ -293,7 +293,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages before a date"
           id="search_list_option.before"
         />
@@ -318,7 +318,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages after a date"
           id="search_list_option.after"
         />
@@ -343,7 +343,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Exclude search terms"
           id="search_list_option.exclude"
         />
@@ -368,7 +368,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages with phrases"
           id="search_list_option.phrases"
         />
@@ -383,7 +383,7 @@ exports[`components/SearchHint should match snapshot, without searchType 1`] = `
   className="search-hint__search-type-selector"
 >
   <div>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="What are you searching for?"
       id="search_bar.usage.search_type_question"
     />
@@ -398,7 +398,7 @@ exports[`components/SearchHint should match snapshot, without searchType 1`] = `
       <i
         className="icon icon-message-text-outline"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Messages"
         id="search_bar.usage.search_type_messages"
       />
@@ -410,7 +410,7 @@ exports[`components/SearchHint should match snapshot, without searchType 1`] = `
       <i
         className="icon icon-file-document-outline"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Files"
         id="search_bar.usage.search_type_files"
       />
@@ -444,7 +444,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages from a user"
           id="search_list_option.from"
         />
@@ -469,7 +469,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages in a channel"
           id="search_list_option.in"
         />
@@ -494,7 +494,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages on a date"
           id="search_list_option.on"
         />
@@ -519,7 +519,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages before a date"
           id="search_list_option.before"
         />
@@ -544,7 +544,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages after a date"
           id="search_list_option.after"
         />
@@ -569,7 +569,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Exclude search terms"
           id="search_list_option.exclude"
         />
@@ -594,7 +594,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       <div
         className="search-hint__suggestion-list__value"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Messages with phrases"
           id="search_list_option.phrases"
         />

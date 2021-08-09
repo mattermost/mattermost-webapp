@@ -13,13 +13,14 @@ import {UserThread} from 'mattermost-redux/types/threads';
 
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
-import {getSelectedPostId} from 'selectors/rhs';
+import {getIsRhsOpen, getSelectedPostId} from 'selectors/rhs';
 
 export function getSelectedThreadIdInTeam(state: GlobalState) {
     return state.views.threads.selectedThreadIdInTeam;
 }
 
 export const getSelectedThreadIdInCurrentTeam: (state: GlobalState) => ViewsState['threads']['selectedThreadIdInTeam'][$ID<Team>] = createSelector(
+    'getSelectedThreadIdInCurrentTeam',
     getCurrentTeamId,
     getSelectedThreadIdInTeam,
     (
@@ -31,6 +32,7 @@ export const getSelectedThreadIdInCurrentTeam: (state: GlobalState) => ViewsStat
 );
 
 export const getSelectedThreadInCurrentTeam: (state: GlobalState) => UserThread | null = createSelector(
+    'getSelectedThreadInCurrentTeam',
     getCurrentTeamId,
     getSelectedThreadIdInTeam,
     getThreads,
@@ -46,27 +48,27 @@ export const getSelectedThreadInCurrentTeam: (state: GlobalState) => UserThread 
 
 export function makeGetThreadLastViewedAt(): (state: GlobalState, threadId: $ID<Post>) => number {
     return createSelector(
+        'makeGetThreadLastViewedAt',
         (state: GlobalState, threadId: $ID<Post>) => state.views.threads.lastViewedAt[threadId],
         getThreads,
         (_state, threadId) => threadId,
         (lastViewedAt, threads, threadId) => {
-            if (lastViewedAt) {
+            if (typeof lastViewedAt === 'number') {
                 return lastViewedAt;
             }
 
-            return threads[threadId]?.last_viewed_at || 0;
+            return threads[threadId]?.last_viewed_at;
         },
     );
 }
 
-export const getOpenThreadId: (state: GlobalState) => $ID<UserThread> | null = createSelector(
-    getSelectedThreadIdInCurrentTeam,
-    getSelectedPostId,
-    (selectedThreadId, selectedPostId) => {
-        return selectedPostId || selectedThreadId;
-    },
-);
-
 export const isThreadOpen = (state: GlobalState, threadId: $ID<UserThread>): boolean => {
-    return threadId === getOpenThreadId(state);
+    return (
+        threadId === getSelectedThreadIdInCurrentTeam(state) ||
+        (getIsRhsOpen(state) && threadId === getSelectedPostId(state))
+    );
+};
+
+export const isThreadManuallyUnread = (state: GlobalState, threadId: $ID<UserThread>): boolean => {
+    return state.views.threads.manuallyUnread[threadId] || false;
 };

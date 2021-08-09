@@ -24,7 +24,7 @@ type Actions = {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
-    const canManageOthersSlashCommands = haveITeamPermission(state, {team: ownProps.team.id, permission: Permissions.MANAGE_OTHERS_SLASH_COMMANDS});
+    const canManageOthersSlashCommands = haveITeamPermission(state, ownProps.team.id, Permissions.MANAGE_OTHERS_SLASH_COMMANDS);
 
     return {
         canManageOthersSlashCommands,

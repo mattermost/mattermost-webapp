@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import classNames from 'classnames';
 
 import {
@@ -24,6 +24,7 @@ import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
 import {setSelectedThreadId} from 'actions/views/threads';
+import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
@@ -31,16 +32,15 @@ import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
+import NextStepsView from 'components/next_steps_view';
 
 import {useThreadRouting} from '../hooks';
 import ChatIllustration from '../common/chat_illustration';
-import BalloonIllustration from '../common/balloon_illustration';
 
 import ThreadViewer from '../thread_viewer';
 
 import ThreadList, {ThreadFilter, FILTER_STORAGE_KEY} from './thread_list';
 import ThreadPane from './thread_pane';
-import ThreadItem from './thread_item';
 
 import './global_threads.scss';
 
@@ -56,14 +56,21 @@ const GlobalThreads = () => {
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
-    const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id));
-    const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id));
+    const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
+    const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
+    const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null;
 
     useEffect(() => {
+        dispatch(suppressRHS);
         dispatch(selectChannel(''));
         loadProfilesForSidebar();
+
+        // unsuppresses RHS on navigating away (unmount)
+        return () => {
+            dispatch(unsuppressRHS);
+        };
     }, []);
 
     useEffect(() => {
@@ -81,6 +88,21 @@ const GlobalThreads = () => {
             clear();
         }
     }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
+
+    // cleanup on unmount
+    useEffect(() => {
+        return () => {
+            dispatch(setSelectedThreadId(currentTeamId, ''));
+        };
+    }, []);
+
+    const handleSelectUnread = useCallback(() => {
+        setFilter(ThreadFilter.unread);
+    }, []);
+
+    if (showNextStepsEphemeral) {
+        return <NextStepsView/>;
+    }
 
     return (
         <div
@@ -126,25 +148,10 @@ const GlobalThreads = () => {
                         currentFilter={filter}
                         setFilter={setFilter}
                         someUnread={Boolean(numUnread)}
-                    >
-                        {(filter === 'unread' ? unreadThreadIds : threadIds).map((id) => (
-                            <ThreadItem
-                                key={id}
-                                threadId={id}
-                                isSelected={threadIdentifier === id}
-                            />
-                        ))}
-                        {filter === 'unread' && !numUnread && isEmpty(unreadThreadIds) ? (
-                            <NoResultsIndicator
-                                expanded={true}
-                                iconGraphic={BalloonIllustration}
-                                title={formatMessage({
-                                    id: 'globalThreads.threadList.noUnreadThreads',
-                                    defaultMessage: 'No unread threads',
-                                })}
-                            />
-                        ) : null}
-                    </ThreadList>
+                        selectedThreadId={threadIdentifier}
+                        ids={threadIds}
+                        unreadIds={unreadThreadIds}
+                    />
                     {selectedThread && selectedPost ? (
                         <ThreadPane
                             thread={selectedThread}
@@ -181,7 +188,8 @@ const GlobalThreads = () => {
                                 link: (chunks) => (
                                     <Link
                                         key='single'
-                                        to={url}
+                                        to={`${url}/${unreadThreadIds[0]}`}
+                                        onClick={handleSelectUnread}
                                     >
                                         {chunks}
                                     </Link>

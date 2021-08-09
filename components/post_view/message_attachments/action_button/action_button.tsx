@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
 import {PostAction, PostActionOption} from 'mattermost-redux/types/integration_actions';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 

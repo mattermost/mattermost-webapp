@@ -123,6 +123,7 @@ export default class EmbeddedBinding extends React.PureComponent<Props> {
                 <ShowMore
                     isAttachmentText={true}
                     text={embed.description}
+                    maxHeight={200}
                 >
                     <Markdown
                         message={embed.description}

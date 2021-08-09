@@ -10,12 +10,12 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
     <div
       className="CompleteProfileStep__profilePicture"
     >
-      <h3>
-        <FormattedMessage
+      <h4>
+        <MemoizedFormattedMessage
           defaultMessage="Add a photo"
           id="next_steps_view.complete_profile_step.addAPhoto"
         />
-      </h3>
+      </h4>
       <PictureSelector
         defaultSrc="/api/v4/users/user_id/image/default"
         name="CompleteProfileStep__profilePicture"
@@ -27,12 +27,12 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
     <div
       className="CompleteProfileStep__fullName"
     >
-      <h3>
-        <FormattedMessage
+      <h4>
+        <MemoizedFormattedMessage
           defaultMessage="Enter your name"
           id="next_steps_view.complete_profile_step.enterYourName"
         />
-      </h3>
+      </h4>
       <Input
         info="Your name will be displayed with your messages"
         name="fullName"
@@ -52,7 +52,7 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
       disabled={true}
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save profile"
         id="next_steps_view.complete_profile_step.saveProfile"
       />

@@ -4,13 +4,14 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {createSelector} from 'reselect';
+
 import {removeReaction} from 'mattermost-redux/actions/posts';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
-import {getCurrentUserId, makeGetProfilesForReactions, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 import Constants from 'mattermost-redux/constants/general';
@@ -26,7 +27,6 @@ import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
 import {addReaction} from 'actions/post_actions.jsx';
 
 import * as Emoji from 'utils/emoji.jsx';
-import {getSortedUsers} from 'utils/utils.jsx';
 
 import Reaction from './reaction';
 
@@ -37,14 +37,20 @@ type Props = {
 };
 
 function makeMapStateToProps() {
-    const getProfilesForReactions = makeGetProfilesForReactions();
+    const didCurrentUserReact = createSelector(
+        'didCurrentUserReact',
+        getCurrentUserId,
+        (state: GlobalState, reactions: ReactionType[]) => reactions,
+        (currentUserId: string, reactions: ReactionType[]) => {
+            return reactions.some((reaction) => reaction.user_id === currentUserId);
+        },
+    );
 
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
         const config = getConfig(state);
         const license = getLicense(state);
-        const me = getCurrentUser(state);
+        const currentUser = getCurrentUser(state);
 
-        const profiles = getProfilesForReactions(state, ownProps.reactions);
         let emoji;
         if (Emoji.EmojiIndicesByAlias.has(ownProps.emojiName)) {
             emoji = Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(ownProps.emojiName) as number];
@@ -61,24 +67,21 @@ function makeMapStateToProps() {
         const channelIsArchived = channel.delete_at !== 0;
         const teamId = channel.team_id;
         const currentUserId = getCurrentUserId(state);
-        const teammateNameDisplaySetting = getTeammateNameDisplaySetting(state);
         let canAddReaction = false;
         let canRemoveReaction = false;
 
         if (!channelIsArchived) {
-            canAddReaction = checkReactionAction(state, teamId, ownProps.post.channel_id, channel.name, config, license, me, Permissions.REMOVE_REACTION);
-            canRemoveReaction = checkReactionAction(state, teamId, ownProps.post.channel_id, channel.name, config, license, me, Permissions.ADD_REACTION);
+            canAddReaction = checkReactionAction(state, teamId, ownProps.post.channel_id, channel.name, config, license, currentUser, Permissions.REMOVE_REACTION);
+            canRemoveReaction = checkReactionAction(state, teamId, ownProps.post.channel_id, channel.name, config, license, currentUser, Permissions.ADD_REACTION);
         }
 
         return {
-            profiles,
-            otherUsersCount: ownProps.reactions.length - profiles.length,
             currentUserId,
             reactionCount: ownProps.reactions.length,
             canAddReaction,
             canRemoveReaction,
             emojiImageUrl,
-            sortedUsers: getSortedUsers(ownProps.reactions, currentUserId, profiles, teammateNameDisplaySetting),
+            currentUserReacted: didCurrentUserReact(state, ownProps.reactions),
         };
     };
 }
@@ -103,7 +106,7 @@ function checkReactionAction(
     user: UserProfile,
     permission: string,
 ) {
-    if (!haveIChannelPermission(state, {team: teamId, channel: channelId, permission})) {
+    if (!haveIChannelPermission(state, teamId, channelId, permission)) {
         return false;
     }
 

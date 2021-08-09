@@ -13,7 +13,7 @@ type Props = {
     combinedId: string;
 }
 
-export function makeMapStateToProps() {
+function makeMapStateToProps() {
     const generateCombinedPost = makeGenerateCombinedPost();
 
     return (state: GlobalState, ownProps: Props) => {

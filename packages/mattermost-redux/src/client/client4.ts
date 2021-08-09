@@ -1136,6 +1136,13 @@ export default class Client4 {
         );
     };
 
+    unarchiveTeam = (teamId: string) => {
+        return this.doFetch<Team>(
+            `${this.getTeamRoute(teamId)}/restore`,
+            {method: 'post'},
+        );
+    }
+
     updateTeam = (team: Team) => {
         this.trackEvent('api', 'api_teams_update_name', {team_id: team.id});
 
@@ -1234,9 +1241,9 @@ export default class Client4 {
         );
     };
 
-    getMyTeamUnreads = () => {
+    getMyTeamUnreads = (includeCollapsedThreads = false) => {
         return this.doFetch<TeamUnread[]>(
-            `${this.getUserRoute('me')}/teams/unread`,
+            `${this.getUserRoute('me')}/teams/unread${buildQueryString({include_collapsed_threads: includeCollapsedThreads})}`,
             {method: 'get'},
         );
     };
@@ -1410,31 +1417,6 @@ export default class Client4 {
         return this.doFetch<TeamInviteWithError>(
             `${this.getTeamRoute(teamId)}/invite-guests/email?graceful=true`,
             {method: 'post', body: JSON.stringify({emails, channels: channelIds, message})},
-        );
-    };
-
-    importTeam = (teamId: string, file: File, importFrom: string) => {
-        const formData = new FormData();
-        formData.append('file', file, file.name);
-        formData.append('filesize', file.size);
-        formData.append('importFrom', importFrom);
-
-        const request: any = {
-            method: 'post',
-            body: formData,
-        };
-
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
-
-        return this.doFetch<{
-            results: string;
-        }>(
-            `${this.getTeamRoute(teamId)}/import`,
-            request,
         );
     };
 
@@ -2651,7 +2633,8 @@ export default class Client4 {
     };
 
     getSystemEmojiImageUrl = (filename: string) => {
-        return `${this.url}/static/emoji/${filename}.png`;
+        const extension = filename.endsWith('.png') ? '' : '.png';
+        return `${this.url}/static/emoji/${filename}${extension}`;
     };
 
     getCustomEmojiImageUrl = (id: string) => {
@@ -2839,6 +2822,13 @@ export default class Client4 {
     updateConfig = (config: AdminConfig) => {
         return this.doFetch<AdminConfig>(
             `${this.getBaseRoute()}/config`,
+            {method: 'put', body: JSON.stringify(config)},
+        );
+    };
+
+    patchConfig = (config: AdminConfig) => {
+        return this.doFetch<AdminConfig>(
+            `${this.getBaseRoute()}/config/patch`,
             {method: 'put', body: JSON.stringify(config)},
         );
     };
@@ -3143,6 +3133,13 @@ export default class Client4 {
             {method: 'delete'},
         );
     };
+
+    getPrevTrialLicense = () => {
+        return this.doFetch<ClientLicense>(
+            `${this.getBaseRoute()}/trial-license/prev`,
+            {method: 'get'},
+        );
+    }
 
     getAnalytics = (name = 'standard', teamId = '') => {
         return this.doFetch<AnalyticsRow[]>(
@@ -3635,7 +3632,7 @@ export default class Client4 {
 
     subscribeCloudProduct = (productId: string) => {
         return this.doFetch<CloudCustomer>(
-            `${this.getCloudRoute()}/cloud/subscription`,
+            `${this.getCloudRoute()}/subscription`,
             {method: 'put', body: JSON.stringify({product_id: productId})},
         );
     }

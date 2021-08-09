@@ -43,7 +43,7 @@ type Actions = {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
-    const canManageTeamMembers = haveITeamPermission(state, {team: ownProps.teamId, permission: Permissions.MANAGE_TEAM_ROLES});
+    const canManageTeamMembers = haveITeamPermission(state, ownProps.teamId, Permissions.MANAGE_TEAM_ROLES);
 
     const searchTerm = state.views.search.modalSearch;
 

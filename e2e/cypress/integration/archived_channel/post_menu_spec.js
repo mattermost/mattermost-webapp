@@ -55,11 +55,14 @@ describe('Archived channels', () => {
             // # Archive the channel
             cy.uiArchiveChannel();
 
+            // # Wait until a system message is posted that the channel has been archived
+            cy.uiWaitUntilMessagePostedIncludes('archived the channel');
+
             // # Click on post dot menu
             cy.clickPostDotMenu(postId);
 
             // * Copy link menu item should be visible
-            cy.findByText('Copy Link').should('be.visible');
+            cy.findByText('Copy Link').scrollIntoView().should('be.visible');
 
             // * Reply post menu item should be visible
             cy.findByText('Reply').should('be.visible');

@@ -222,7 +222,7 @@ function generateRandomUser(prefix = 'user') {
 Cypress.Commands.add('apiCreateUser', ({
     prefix = 'user',
     bypassTutorial = true,
-    hideCloudOnboarding = true,
+    hideOnboarding = true,
     user = null,
 } = {}) => {
     const newUser = user || generateRandomUser(prefix);
@@ -243,8 +243,8 @@ Cypress.Commands.add('apiCreateUser', ({
             cy.apiSaveTutorialStep(createdUser.id, '999');
         }
 
-        if (hideCloudOnboarding) {
-            cy.apiSaveCloudOnboardingPreference(createdUser.id, 'hide', 'true');
+        if (hideOnboarding) {
+            cy.apiSaveOnboardingPreference(createdUser.id, 'hide', 'true');
         }
 
         return cy.wrap({user: {...createdUser, password: newUser.password}});
@@ -253,12 +253,11 @@ Cypress.Commands.add('apiCreateUser', ({
 
 Cypress.Commands.add('apiCreateGuestUser', ({
     prefix = 'guest',
-    hideCloudOnboarding = true,
-    activate = true,
+    bypassTutorial = true,
+    hideOnboarding = true,
 } = {}) => {
-    return cy.apiCreateUser({prefix, hideCloudOnboarding}).then(({user}) => {
+    return cy.apiCreateUser({prefix, bypassTutorial, hideOnboarding}).then(({user}) => {
         cy.apiDemoteUserToGuest(user.id);
-        cy.externalActivateUser(user.id, activate);
 
         return cy.wrap({guest: user});
     });

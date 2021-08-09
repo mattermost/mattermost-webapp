@@ -6,12 +6,13 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
   id="tipButton"
   onClick={[Function]}
 >
-  <img
-    alt="tutorial tip"
-    className="tip-button"
+  <PulsatingDot
     onClick={[Function]}
-    src={null}
-    width="35"
+    targetRef={
+      Object {
+        "current": null,
+      }
+    }
   />
   <Overlay
     animation={[Function]}
@@ -73,15 +74,15 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
             id="tipNextButton"
             onClick={[Function]}
           >
-            <FormattedMessage
-              defaultMessage="Next"
-              id="tutorial_tip.next"
+            <MemoizedFormattedMessage
+              defaultMessage="Got it"
+              id="tutorial_tip.ok"
             />
           </button>
           <div
             className="tip-opt"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Seen this before? "
               id="tutorial_tip.seen"
             />
@@ -89,7 +90,7 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
               href="#"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Opt out of these tips."
                 id="tutorial_tip.out"
               />

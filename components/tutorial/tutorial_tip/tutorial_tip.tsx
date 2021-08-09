@@ -7,8 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
-import tutorialGif from 'images/tutorialTip.gif';
-import tutorialGifWhite from 'images/tutorialTipWhite.gif';
+import PulsatingDot from 'components/widgets/pulsating_dot';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
@@ -135,19 +134,12 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     public render(): JSX.Element {
-        const buttonText = this.state.currentScreen === this.props.screens.length - 1 ?
-            (
-                <FormattedMessage
-                    id='tutorial_tip.ok'
-                    defaultMessage='Okay'
-                />
-            ) :
-            (
-                <FormattedMessage
-                    id='tutorial_tip.next'
-                    defaultMessage='Next'
-                />
-            );
+        const buttonText = (
+            <FormattedMessage
+                id='tutorial_tip.ok'
+                defaultMessage='Got it'
+            />
+        );
 
         const dots = [];
         if (this.props.screens.length > 1) {
@@ -169,24 +161,15 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             }
         }
 
-        let tutorialGifImage = tutorialGif;
-        if (this.props.overlayClass === 'tip-overlay--header' || this.props.overlayClass === 'tip-overlay--sidebar' || this.props.overlayClass === 'tip-overlay--header--up') {
-            tutorialGifImage = tutorialGifWhite;
-        }
-
         return (
             <div
                 id='tipButton'
                 className={'tip-div ' + this.props.overlayClass}
                 onClick={this.show}
             >
-                <img
-                    alt={'tutorial tip'}
-                    className='tip-button'
-                    src={tutorialGifImage}
-                    width='35'
+                <PulsatingDot
                     onClick={this.show}
-                    ref={this.targetRef}
+                    targetRef={this.targetRef}
                 />
 
                 <Overlay

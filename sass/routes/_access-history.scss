@@ -2,9 +2,9 @@
 
 .access-history__table {
     display: table;
-    line-height: 1.6;
-    padding-top: 15px;
     width: 100%;
+    padding-top: 15px;
+    line-height: 1.6;
 
     &:first-child {
         padding: 0;
@@ -16,17 +16,17 @@
     }
 
     .access__date {
+        width: 190px;
         font-size: 15px;
         font-weight: 600;
-        width: 190px;
     }
 
     .access__report {
-        border-bottom: 1px solid #ddd;
         padding-bottom: 15px;
+        border-bottom: 1px solid #ddd;
     }
 
     .report__info {
-        @include opacity(.8);
+        @include opacity(0.8);
     }
 }

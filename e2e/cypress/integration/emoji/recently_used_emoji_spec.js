@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @emoji
+// Group: @emoji @timeout_error
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -34,7 +33,9 @@ describe('Recent Emoji', () => {
         cy.get('.emoji-picker__item').eq(firstEmoji).click().wait(TIMEOUTS.HALF_SEC);
 
         // # Submit post
-        cy.get('#create_post').submit().wait(TIMEOUTS.HALF_SEC);
+        const message = 'hi';
+        cy.get('#post_textbox').should('be.visible').and('have.value', ':sweat_smile: ').type(`${message} {enter}`);
+        cy.uiWaitUntilMessagePostedIncludes(message);
 
         // # Post reaction to post
         cy.clickPostReactionIcon();
@@ -46,13 +47,13 @@ describe('Recent Emoji', () => {
         cy.get('#emojiPickerButton').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Assert first emoji should equal with second recent emoji
-        cy.get('.emoji-picker__item').eq(firstEmoji + 2).find('img').then(($el) => {
-            cy.get('.emoji-picker__item').eq(1).find('img').should('have.attr', 'class', $el.attr('class'));
-        });
+        cy.get('.emoji-picker__item').eq(firstEmoji + 2).find('img').then((first) => {
+            cy.get('.emoji-picker__item').eq(1).find('img').should('have.attr', 'class', first.attr('class'));
 
-        // * Assert second emoji should equal with first recent emoji
-        cy.get('.emoji-picker__item').eq(secondEmoji + 1).find('img').then(($el) => {
-            cy.get('.emoji-picker__item').eq(0).find('img').should('have.attr', 'class', $el.attr('class'));
+            // * Assert second emoji should equal with first recent emoji
+            cy.get('.emoji-picker__item').eq(secondEmoji + 1).find('img').then((second) => {
+                cy.get('.emoji-picker__item').eq(0).find('img').should('have.attr', 'class', second.attr('class'));
+            });
         });
     });
 });

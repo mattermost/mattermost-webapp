@@ -18,7 +18,9 @@ import {StatusOK} from 'mattermost-redux/types/client4';
 
 import store from 'stores/redux_store.jsx';
 
-import Constants from 'utils/constants';
+import CollapsedReplyThreadsModal from 'components/collapsed_reply_threads_modal';
+
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal';
@@ -74,7 +76,9 @@ export type Props = {
     onHide: () => void;
     onExit: () => void;
     intl: IntlShape;
+    collapsedThreads: boolean;
     actions: {
+        openModal: (params: {modalId: string; dialogType: any}) => void;
         sendVerificationEmail: (email: string) => Promise<{
             data: StatusOK;
             error: {
@@ -95,6 +99,7 @@ type State = {
 
 class UserSettingsModal extends React.PureComponent<Props, State> {
     private requireConfirm: boolean;
+    private showCRTBetaModal: boolean;
     private customConfirmAction: ((handleConfirm: () => void) => void) | null;
     private modalBodyRef: React.RefObject<Modal>;
     private afterConfirm: (() => void) | null;
@@ -116,6 +121,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
         };
 
         this.requireConfirm = false;
+        this.showCRTBetaModal = false;
 
         // Used when settings want to override the default confirm modal with their own
         // If set by a child, it will be called in place of showing the regular confirm
@@ -151,10 +157,19 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as any;
             el.scrollTop = 0;
         }
+
+        // we use the showCRTBetaModal to track change of collapsedThreads between states
+        // but NOT when both prev and current collapsedThreads prop is the same
+        if (this.props.collapsedThreads && !prevProps.collapsedThreads) {
+            this.showCRTBetaModal = true;
+        } else if (!this.props.collapsedThreads && prevProps.collapsedThreads) {
+            this.showCRTBetaModal = false;
+        }
     }
 
     handleKeyDown = (e: KeyboardEvent) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.A)) {
+            e.preventDefault();
             this.handleHide();
         }
     }
@@ -179,6 +194,13 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
         });
         this.props.onHide();
         this.props.onExit();
+
+        if (this.showCRTBetaModal) {
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL,
+                dialogType: CollapsedReplyThreadsModal,
+            });
+        }
     }
 
     // Called to hide the settings pane when on mobile

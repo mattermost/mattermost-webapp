@@ -9,7 +9,7 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
           className="advisor-icon"
           src={null}
         />
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Enterprise license is expired and some features may be disabled."
           id="announcement_bar.error.license_expired"
         />
@@ -30,7 +30,7 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
         className="advisor-icon"
         src={null}
       />
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Enterprise license is expired and some features may be disabled."
         id="announcement_bar.error.license_expired"
       />
@@ -49,7 +49,7 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
           className="advisor-icon"
           src={null}
         />
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Enterprise license is expired and some features may be disabled."
           id="announcement_bar.error.license_expired"
         />
@@ -70,7 +70,7 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
         className="advisor-icon"
         src={null}
       />
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Enterprise license is expired and some features may be disabled."
         id="announcement_bar.error.license_expired"
       />
@@ -88,7 +88,7 @@ exports[`components/ConfigurationBar should match snapshot, expired, regular use
         className="advisor-icon"
         src={null}
       />
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details."
         id="announcement_bar.error.past_grace"
       />
