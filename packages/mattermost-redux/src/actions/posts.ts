@@ -1134,7 +1134,7 @@ export function addMessageIntoHistory(message: string) {
     };
 }
 
-export function resetHistoryIndex(index: number) {
+export function resetHistoryIndex(index: string) {
     return async (dispatch: DispatchFunc) => {
         dispatch({
             type: PostTypes.RESET_HISTORY_INDEX,
@@ -1145,7 +1145,7 @@ export function resetHistoryIndex(index: number) {
     };
 }
 
-export function moveHistoryIndexBack(index: number) {
+export function moveHistoryIndexBack(index: string) {
     return async (dispatch: DispatchFunc) => {
         dispatch({
             type: PostTypes.MOVE_HISTORY_INDEX_BACK,
@@ -1156,7 +1156,7 @@ export function moveHistoryIndexBack(index: number) {
     };
 }
 
-export function moveHistoryIndexForward(index: number) {
+export function moveHistoryIndexForward(index: string) {
     return async (dispatch: DispatchFunc) => {
         dispatch({
             type: PostTypes.MOVE_HISTORY_INDEX_FORWARD,
