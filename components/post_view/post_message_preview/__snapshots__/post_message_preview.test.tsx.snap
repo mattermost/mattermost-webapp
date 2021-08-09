@@ -70,7 +70,7 @@ exports[`PostMessagePreview should render correctly 1`] = `
       className="post__preview-footer"
     >
       <p>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Originally posted in ~{channel}"
           id="post_message_preview.channel"
           values={
