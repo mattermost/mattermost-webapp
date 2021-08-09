@@ -1,11 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import nock from 'nock';
-
-import {Client4} from 'mattermost-redux/client';
-import TestHelper from 'mattermost-redux/test/test_helper';
-
 import testConfigureStore from 'tests/test_store';
 
 import {browserHistory} from 'utils/browser_history';
