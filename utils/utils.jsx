@@ -18,7 +18,7 @@ import {
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
-import {Posts} from 'mattermost-redux/constants';
+import {Posts, Preferences} from 'mattermost-redux/constants';
 import {
     getChannel,
     getChannelsNameMapInTeam,
@@ -59,6 +59,15 @@ import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_lin
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
+
+const CLICKABLE_ELEMENTS = [
+    'a',
+    'button',
+    'img',
+    'svg',
+    'audio',
+    'video',
+];
 
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -588,7 +597,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.3));
+        changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.16));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
         changeCss('.app__body .input-group-addon, .app__body .channel-intro .channel-intro__content, .app__body .webhooks__container', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
@@ -616,6 +625,7 @@ export function applyTheme(theme) {
         changeCss('body', 'scrollbar-arrow-color:' + theme.centerChannelColor);
         changeCss('.app__body .post-create__container .post-create-body .btn-file svg, .app__body .post.post--compact .post-image__column .post-image__details svg, .app__body .modal .about-modal .about-modal__logo svg, .app__body .status svg, .app__body .edit-post__actions .icon svg', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .scrollbar--horizontal, .app__body .scrollbar--vertical', 'background:' + changeOpacity(theme.centerChannelColor, 0.5));
+        changeCss('.app__body .post-list__new-messages-below', 'background:' + changeColor(theme.centerChannelColor, 0.5));
         changeCss('.app__body .post.post--comment .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('@media(min-width: 768px){.app__body .post.post--compact.same--root.post--comment .post__content', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .post.post--comment.current--user .post__body', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
@@ -847,7 +857,7 @@ export function applyTheme(theme) {
 }
 
 export function resetTheme() {
-    applyTheme(Constants.THEMES.default);
+    applyTheme(Preferences.THEMES.denim);
 }
 
 export function changeCss(className, classValue) {
@@ -1043,16 +1053,17 @@ export function offsetTopLeft(el) {
     return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
 }
 
-export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 'top') {
+export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
     if (!textArea || !(textArea instanceof HTMLElement)) {
         return {
             pixelsToMoveX: 0,
             pixelsToMoveY: 0,
         };
     }
+
     const caretCoordinatesInTxtArea = getCaretXYCoordinate(textArea);
     const caretXCoordinateInTxtArea = caretCoordinatesInTxtArea.x;
-    let caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
+    const caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
     const viewportWidth = getViewportSize().w;
 
     const suggestionBoxWidth = getSuggestionBoxWidth(textArea);
@@ -1071,16 +1082,15 @@ export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 
         // stick the suggestion list to the very right of the TextArea
         pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
     }
-    const txtAreaLineHeight = Number(getComputedStyle(textArea)?.lineHeight.replace('px', ''));
-    if (boxLocation === 'bottom') {
-        // Add the line height and 4 extra px so it looks less tight
-        caretYCoordinateInTxtArea += txtAreaLineHeight + 4;
-    }
-    return {
-        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
 
-        // if the suggestion box was invoked from the first line in the post box, stick to the top of the post box
-        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea > txtAreaLineHeight ? caretYCoordinateInTxtArea : 0),
+    return {
+
+        // The rough location of the caret in the textbox
+        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
+        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea),
+
+        // The line height of the textbox is needed so that the SuggestionList can adjust its position to be below the current line in the textbox
+        lineHeight: Number(getComputedStyle(textArea)?.lineHeight.replace('px', '')),
     };
 }
 
@@ -1480,10 +1490,6 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
     }
 
     return otherUserId;
-}
-
-export function importSlack(teamId, file, success, error) {
-    Client4.importTeam(teamId, file, 'slack').then(success).catch(error);
 }
 
 export function windowWidth() {
@@ -2137,4 +2143,58 @@ export function deleteKeysFromObject(value, keys) {
         delete value[key];
     }
     return value;
+}
+
+export function isSelection() {
+    const selection = window.getSelection();
+    return selection.type === 'Range';
+}
+
+/*
+ * Returns false when the element clicked or its ancestors
+ * is a potential click target (link, button, image, etc..)
+ * but not the events currentTarget
+ * and true in any other case.
+ *
+ * @param {string} selector - CSS selector of elements not eligible for click
+ * @returns {function}
+ */
+export function makeIsEligibleForClick(selector = '') {
+    return (event) => {
+        const currentTarget = event.currentTarget;
+        let node = event.target;
+
+        if (isSelection()) {
+            return false;
+        }
+
+        if (node === currentTarget) {
+            return true;
+        }
+
+        // in the case of a react Portal
+        if (!currentTarget.contains(node)) {
+            return false;
+        }
+
+        // traverses the targets parents up to currentTarget to see
+        // if any of them is a potentially clickable element
+        while (node) {
+            if (!node || node === currentTarget) {
+                break;
+            }
+
+            if (
+                CLICKABLE_ELEMENTS.includes(node.tagName.toLowerCase()) ||
+                node.getAttribute('role') === 'button' ||
+                (selector && node.matches(selector))
+            ) {
+                return false;
+            }
+
+            node = node.parentNode;
+        }
+
+        return true;
+    };
 }
