@@ -6001,17 +6001,6 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableLegacySidebar',
-                        label: t('admin.experimental.enableLegacySidebar.title'),
-                        label_default: 'Enable Legacy Sidebar',
-                        help_text: t('admin.experimental.enableLegacySidebar.desc'),
-                        help_text_default: 'When enabled, users cannot access new sidebar features including custom, collapsible categories and unread channel filtering. We recommend only enabling the legacy sidebar if users are experiencing breaking changes or bugs.',
-                        help_text_markdown: true,
-                        isHidden: it.licensedForFeature('Cloud'),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'ServiceSettings.CollapsedThreads',
                         label: t('admin.experimental.collapsedThreads.title'),
