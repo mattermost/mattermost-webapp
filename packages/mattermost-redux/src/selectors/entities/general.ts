@@ -6,7 +6,7 @@ import {createSelector} from 'reselect';
 import {General} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {ClientConfig, FeatureFlags} from 'mattermost-redux/types/config';
+import {ClientConfig, FeatureFlags, ClientLicense} from 'mattermost-redux/types/config';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
@@ -21,7 +21,7 @@ export function getFeatureFlagValue(state: GlobalState, key: keyof FeatureFlags)
     return getConfig(state)?.[`FeatureFlag${key}` as keyof Partial<ClientConfig>];
 }
 
-export function getLicense(state: GlobalState): any {
+export function getLicense(state: GlobalState): ClientLicense {
     return state.entities.general.license;
 }
 
