@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import HelpLinks from 'components/help/components/help_links';
+import {HelpLink} from 'components/help/types';
 
 export default function Attaching(): JSX.Element {
     return (
@@ -166,54 +167,7 @@ export default function Attaching(): JSX.Element {
                     defaultMessage='Mattermost supports a maximum of five attached files per post, each with a maximum file size of 50Mb.'
                 />
             </p>
-            <p className='links'>
-                <FormattedMessage
-                    id='help.learnMore'
-                    defaultMessage='Learn more about:'
-                />
-            </p>
-            <ul>
-                <li>
-                    <Link to='/help/messaging'>
-                        <FormattedMessage
-                            id='help.link.messaging'
-                            defaultMessage='Basic Messaging'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/composing'>
-                        <FormattedMessage
-                            id='help.link.composing'
-                            defaultMessage='Composing Messages and Replies'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/mentioning'>
-                        <FormattedMessage
-                            id='help.link.mentioning'
-                            defaultMessage='Mentioning Teammates'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/formatting'>
-                        <FormattedMessage
-                            id='help.link.formatting'
-                            defaultMessage='Formatting Messages Using Markdown'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/commands'>
-                        <FormattedMessage
-                            id='help.link.commands'
-                            defaultMessage='Executing Commands'
-                        />
-                    </Link>
-                </li>
-            </ul>
+            <HelpLinks excludedLinks={[HelpLink.Attaching]}/>
         </div>
     );
 }

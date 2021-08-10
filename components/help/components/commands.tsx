@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import HelpLinks from 'components/help/components/help_links';
+import {HelpLink} from 'components/help/types';
 
 export default function HelpCommands(): JSX.Element {
     return (
@@ -91,61 +92,7 @@ export default function HelpCommands(): JSX.Element {
                 />
             </p>
 
-            <p>
-                <FormattedMarkdownMessage
-                    id='help.commands.custom2'
-                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the **System Console** > **Integrations** > **Webhooks and Commands**. Learn about configuring custom slash commands on the [developer slash command documentation page](!http://docs.mattermost.com/developer/slash-commands.html).'
-                />
-            </p>
-
-            <p className='links'>
-                <FormattedMessage
-                    id='help.learnMore'
-                    defaultMessage='Learn more about:'
-                />
-            </p>
-            <ul>
-                <li>
-                    <Link to='/help/messaging'>
-                        <FormattedMessage
-                            id='help.link.messaging'
-                            defaultMessage='Basic Messaging'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/composing'>
-                        <FormattedMessage
-                            id='help.link.composing'
-                            defaultMessage='Composing Messages and Replies'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/mentioning'>
-                        <FormattedMessage
-                            id='help.link.mentioning'
-                            defaultMessage='Mentioning Teammates'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/formatting'>
-                        <FormattedMessage
-                            id='help.link.formatting'
-                            defaultMessage='Formatting Messages Using Markdown'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/attaching'>
-                        <FormattedMessage
-                            id='help.link.attaching'
-                            defaultMessage='Attaching Files'
-                        />
-                    </Link>
-                </li>
-            </ul>
+            <HelpLinks excludedLinks={[HelpLink.Commands]}/>
         </div>
     );
 }

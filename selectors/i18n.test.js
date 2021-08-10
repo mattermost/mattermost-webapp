@@ -102,8 +102,6 @@ describe('selectors/i18n', () => {
                 setWindowLocaleQueryParameter('ko');
 
                 expect(getCurrentLocale(state)).toEqual('ko');
-
-                resetWindowLocationSearch();
             });
 
             test('returns DefaultClientLocale if locale from query parameter is not valid', () => {
@@ -124,8 +122,6 @@ describe('selectors/i18n', () => {
                 setWindowLocaleQueryParameter('invalid_locale');
 
                 expect(getCurrentLocale(state)).toEqual('fr');
-
-                resetWindowLocationSearch();
             });
 
             test('returns user locale when logged in and locale is provided in query parameter', () => {
@@ -150,8 +146,6 @@ describe('selectors/i18n', () => {
                 setWindowLocaleQueryParameter('ko');
 
                 expect(getCurrentLocale(state)).toEqual('de');
-
-                resetWindowLocationSearch();
             });
         });
     });
