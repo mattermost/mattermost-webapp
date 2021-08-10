@@ -18,6 +18,7 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import PulsatingDot from 'components/widgets/pulsating_dot';
 import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
@@ -241,7 +242,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             );
 
         const pulsatingDot = !isStatusSet && this.props.showCustomStatusPulsatingDot && (
-            <span className='pulsating_dot'/>
+            <PulsatingDot/>
         );
 
         const expiryTime = isStatusSet && customStatus?.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR &&

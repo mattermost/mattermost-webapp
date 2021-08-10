@@ -169,6 +169,7 @@
         height: 2.4rem;
         flex: 1 1 auto;
         padding: 0 1.6rem;
+        font-family: Metropolis, sans-serif;
         font-size: 1.6rem;
         font-weight: 600;
 
@@ -179,10 +180,11 @@
         overflow: hidden;
         height: 2.4rem;
         padding: 0 8px;
-        border-left: 1px solid v(center-channel-color-16);
+        border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         margin: 0 0 0 8px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
         cursor: pointer;
+        font-family: "Open Sans", sans-serif;
         font-size: 12px;
         font-weight: normal;
         line-height: 2.4rem;
@@ -217,7 +219,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 16px 0 0;
-        border-bottom: 1px solid v(center-channel-color-08);
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
         background: rgba(var(--center-channel-color-rgb), 0.04);
         color: inherit;
         white-space: nowrap;

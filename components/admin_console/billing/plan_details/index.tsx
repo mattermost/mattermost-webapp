@@ -16,7 +16,7 @@ import './plan_details.scss';
 
 type PlanDetailsProps = {
     isFreeTrial: boolean;
-    subscriptionPlan: string | null;
+    subscriptionPlan: string | undefined;
 }
 /* eslint-disable react/prop-types */
 const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial, subscriptionPlan}) => {

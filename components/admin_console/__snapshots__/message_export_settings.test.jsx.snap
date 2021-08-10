@@ -11,7 +11,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
   >
     <AdminHeader>
       <MemoizedFormattedMessage
-        defaultMessage="Compliance Export (Beta)"
+        defaultMessage="Compliance Export"
         id="admin.complianceExport.title"
       />
     </AdminHeader>
@@ -185,7 +185,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
   >
     <AdminHeader>
       <MemoizedFormattedMessage
-        defaultMessage="Compliance Export (Beta)"
+        defaultMessage="Compliance Export"
         id="admin.complianceExport.title"
       />
     </AdminHeader>
@@ -456,7 +456,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
   >
     <AdminHeader>
       <MemoizedFormattedMessage
-        defaultMessage="Compliance Export (Beta)"
+        defaultMessage="Compliance Export"
         id="admin.complianceExport.title"
       />
     </AdminHeader>
@@ -630,7 +630,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
   >
     <AdminHeader>
       <MemoizedFormattedMessage
-        defaultMessage="Compliance Export (Beta)"
+        defaultMessage="Compliance Export"
         id="admin.complianceExport.title"
       />
     </AdminHeader>

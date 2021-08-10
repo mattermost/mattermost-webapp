@@ -25,7 +25,7 @@ type Props = {
     id: string;
     channelId: string;
     rootId?: string;
-    tabIndex: number;
+    tabIndex?: number;
     value: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (e: KeyboardEvent) => void;
@@ -40,7 +40,7 @@ type Props = {
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
-    suggestionListStyle?: string;
+    suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
     emojiEnabled?: boolean;
     isRHS?: boolean;
     characterLimit: number;
@@ -249,7 +249,7 @@ export default class Textbox extends React.PureComponent<Props> {
 
             preview = (
                 <div
-                    tabIndex={0}
+                    tabIndex={this.props.tabIndex || 0}
                     ref={this.preview}
                     className='form-control custom-textarea textbox-preview-area'
                     onKeyPress={this.props.onKeyPress}
@@ -290,7 +290,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={this.props.inputComponent}
                     listComponent={this.props.suggestionList}
-                    listStyle={this.props.suggestionListStyle}
+                    listPosition={this.props.suggestionListPosition}
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
                     value={this.props.value}

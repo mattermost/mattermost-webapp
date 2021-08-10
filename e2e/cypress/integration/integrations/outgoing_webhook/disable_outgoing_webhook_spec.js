@@ -67,6 +67,7 @@ describe('Integrations', () => {
         cy.visit('/admin_console/integrations/integration_management');
         cy.findByTestId('ServiceSettings.EnableOutgoingWebhooksfalse').click().should('be.checked');
         cy.get('#saveSetting').click();
+        cy.get('#saveSetting').should('be.disabled');
 
         // * Assert from API that outgoing webhook has been disabled
         cy.apiAdminLogin();

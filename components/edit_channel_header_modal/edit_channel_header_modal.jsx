@@ -232,7 +232,7 @@ export default class EditChannelHeaderModal extends React.PureComponent {
                                 onKeyPress={this.handleKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 supportsCommands={false}
-                                suggestionListStyle='bottom'
+                                suggestionListPosition='bottom'
                                 createMessage={localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
                                 previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                                 handlePostError={this.handlePostError}
