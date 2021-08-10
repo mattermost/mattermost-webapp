@@ -102,7 +102,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             show={!this.props.isMobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
-                            showUnread={!this.props.firstAdminVisitMarketplaceStatus}
                             icon={
                                 <Icon
                                     size={16}

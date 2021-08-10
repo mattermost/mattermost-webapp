@@ -29,6 +29,7 @@ type Props = {
     townSquareDisplayName: string;
     offTopicDisplayName: string;
     showTutorialTip: boolean;
+    globalHeaderEnabled: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
         goBack: () => void;
@@ -128,7 +129,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                         <div className='SidebarContainer_rightContainer'>
                             {!this.props.showUnreadsCategory && <ChannelFilter/>}
                             {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
-                            {historyArrows}
+                            {!this.props.globalHeaderEnabled && historyArrows}
                         </div>
                         {inviteMembersUserIcon}
                         {addChannelDropdown}
