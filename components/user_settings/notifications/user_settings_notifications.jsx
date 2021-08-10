@@ -291,7 +291,6 @@ export default class NotificationsTab extends React.PureComponent {
     createPushNotificationSection = () => {
         if (this.props.activeSection === 'push') {
             const inputs = [];
-            let extraInfo = null;
             let submit = null;
 
             if (this.props.sendPushNotifications) {
