@@ -7,7 +7,8 @@ import {t} from 'utils/i18n';
 
 import FeatureDiscovery from '../index';
 
-import DataRetentionSVG from './images/data_retention_svg';
+// import DataRetentionSVG from './images/data_retention_svg';
+import DataRetentionSVG from './images/data_retention_svg_new';
 
 const DataRetentionFeatureDiscovery: React.FC = () => {
     return (
