@@ -283,6 +283,16 @@
                                     margin: 0 7px;
                                 }
                             }
+
+                            > button {
+                                color: var(--sidebar-text);
+                            }
+
+                            &.active {
+                                > button {
+                                    color: var(--sidebar-text);
+                                }
+                            }
                         }
                     }
 
