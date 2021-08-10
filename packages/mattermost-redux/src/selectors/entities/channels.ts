@@ -16,7 +16,7 @@ import {
     getMyChannelMemberships,
     getMyCurrentChannelMembership,
 } from 'mattermost-redux/selectors/entities/common';
-import {getConfig, getLicense, hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {
     getFavoritesPreferences,
@@ -743,9 +743,6 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
 export const canManageChannelMembers: (state: GlobalState) => boolean = createSelector(
     'canManageChannelMembers',
     getCurrentChannel,
-    getMyCurrentChannelMembership,
-    getLicense,
-    hasNewPermissions,
     (state: GlobalState): boolean => haveICurrentChannelPermission(state,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
     ),
@@ -754,9 +751,6 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
     ),
     (
         channel: Channel,
-        channelMembership: ChannelMembership | undefined,
-        license: any,
-        newPermissions: boolean,
         managePrivateMembers: boolean,
         managePublicMembers: boolean,
     ): boolean => {
@@ -772,22 +766,10 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
             return false;
         }
 
-        if (newPermissions) {
-            if (channel.type === General.OPEN_CHANNEL) {
-                return managePublicMembers;
-            } else if (channel.type === General.PRIVATE_CHANNEL) {
-                return managePrivateMembers;
-            }
-
-            return true;
-        }
-
-        if (!channelMembership) {
-            return false;
-        }
-
-        if (license.IsLicensed !== 'true') {
-            return true;
+        if (channel.type === General.OPEN_CHANNEL) {
+            return managePublicMembers;
+        } else if (channel.type === General.PRIVATE_CHANNEL) {
+            return managePrivateMembers;
         }
 
         return true;
@@ -1477,7 +1459,7 @@ export const getMyFirstChannelForTeams: (state: GlobalState) => RelationOneToOne
 export const getRedirectChannelNameForTeam = (state: GlobalState, teamId: string): string => {
     const defaultChannelForTeam = getDefaultChannelForTeams(state)[teamId];
     const myFirstChannelForTeam = getMyFirstChannelForTeams(state)[teamId];
-    const canIJoinPublicChannelsInTeam = !hasNewPermissions(state) || haveITeamPermission(state,
+    const canIJoinPublicChannelsInTeam = haveITeamPermission(state,
         teamId,
         Permissions.JOIN_PUBLIC_CHANNELS,
     );

@@ -203,34 +203,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
 </li>
 `;
 
-exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on default channel show with enable X to close 1`] = `
-<li
-  className=""
-  key="town-square"
->
-  <SidebarChannelButtonOrLink
-    badge={false}
-    channelId="test-channel-id"
-    channelIsArchived={false}
-    channelIsShared={false}
-    channelName="town-square"
-    channelStatus="test"
-    channelType="O"
-    displayName="Channel display name"
-    handleClose={null}
-    hasDraft={false}
-    link="/current-team/channels/town-square"
-    membersCount={8}
-    rowClass="sidebar-item"
-    showUnreadForMsgs={true}
-    teammateDeletedAt={1}
-    teammateId="teammate-id"
-    unreadMentions={0}
-    unreadMsgs={0}
-  />
-</li>
-`;
-
 exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on fake channel show 1`] = `
 <li
   className=""
@@ -278,34 +250,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
-    showUnreadForMsgs={true}
-    teammateDeletedAt={1}
-    teammateId="teammate-id"
-    unreadMentions={0}
-    unreadMsgs={0}
-  />
-</li>
-`;
-
-exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on group channel show with enable X to close 1`] = `
-<li
-  className=""
-  key="channel-name"
->
-  <SidebarChannelButtonOrLink
-    badge={false}
-    channelId="test-channel-id"
-    channelIsArchived={false}
-    channelIsShared={false}
-    channelName="channel-name"
-    channelStatus="test"
-    channelType="P"
-    displayName="Channel display name"
-    handleClose={[Function]}
-    hasDraft={false}
-    link="/current-team/channels/channel-name"
-    membersCount={8}
-    rowClass="sidebar-item has-close"
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
@@ -371,34 +315,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
 </li>
 `;
 
-exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on private channel show with enable X to close 1`] = `
-<li
-  className=""
-  key="channel-name"
->
-  <SidebarChannelButtonOrLink
-    badge={false}
-    channelId="test-channel-id"
-    channelIsArchived={false}
-    channelIsShared={false}
-    channelName="channel-name"
-    channelStatus="test"
-    channelType="P"
-    displayName="Channel display name"
-    handleClose={[Function]}
-    hasDraft={false}
-    link="/current-team/channels/channel-name"
-    membersCount={8}
-    rowClass="sidebar-item has-close"
-    showUnreadForMsgs={true}
-    teammateDeletedAt={1}
-    teammateId="teammate-id"
-    unreadMentions={0}
-    unreadMsgs={0}
-  />
-</li>
-`;
-
 exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on public channel show 1`] = `
 <li
   className=""
@@ -418,34 +334,6 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
-    showUnreadForMsgs={true}
-    teammateDeletedAt={1}
-    teammateId="teammate-id"
-    unreadMentions={0}
-    unreadMsgs={0}
-  />
-</li>
-`;
-
-exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on public channel show with enable X to close 1`] = `
-<li
-  className=""
-  key="channel-name"
->
-  <SidebarChannelButtonOrLink
-    badge={false}
-    channelId="test-channel-id"
-    channelIsArchived={false}
-    channelIsShared={false}
-    channelName="channel-name"
-    channelStatus="test"
-    channelType="O"
-    displayName="Channel display name"
-    handleClose={[Function]}
-    hasDraft={false}
-    link="/current-team/channels/channel-name"
-    membersCount={8}
-    rowClass="sidebar-item has-close"
     showUnreadForMsgs={true}
     teammateDeletedAt={1}
     teammateId="teammate-id"
