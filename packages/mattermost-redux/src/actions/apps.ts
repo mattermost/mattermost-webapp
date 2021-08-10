@@ -21,6 +21,7 @@ export function fetchAppBindings(userID: string, channelID: string): ActionFunc 
         return dispatch(bindClientFunc({
             clientFunc: () => Client4.getAppsBindings(userID, channelID, teamID),
             onSuccess: AppsTypes.RECEIVED_APP_BINDINGS,
+            onFailure: AppsTypes.FAILED_TO_FETCH_APP_BINDINGS,
         }));
     };
 }

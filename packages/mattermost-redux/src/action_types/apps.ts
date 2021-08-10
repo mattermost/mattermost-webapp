@@ -7,4 +7,5 @@ import keyMirror from 'mattermost-redux/utils/key_mirror';
 // susceptible to breaking changes without pushing the major version of this package.
 export default keyMirror({
     RECEIVED_APP_BINDINGS: null,
+    FAILED_TO_FETCH_APP_BINDINGS: null,
 });

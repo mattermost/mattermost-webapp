@@ -184,7 +184,14 @@ export function reconnect(includeWebSocket = true) {
         timestamp: Date.now(),
     });
 
-    loadPluginsIfNecessary();
+    const state = getState();
+    const currentTeamId = state.entities.teams.currentTeamId;
+
+    loadPluginsIfNecessary().then(() => {
+        if (currentTeamId) {
+            dispatch(handleRefreshAppsBindings());
+        }
+    });
 
     Object.values(pluginReconnectHandlers).forEach((handler) => {
         if (handler && typeof handler === 'function') {
@@ -192,15 +199,12 @@ export function reconnect(includeWebSocket = true) {
         }
     });
 
-    const state = getState();
-    const currentTeamId = state.entities.teams.currentTeamId;
     if (currentTeamId) {
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
 
         dispatch(loadChannelsForCurrentUser());
-        dispatch(handleRefreshAppsBindings());
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
@@ -1223,6 +1227,8 @@ function handleChannelViewedEvent(msg) {
 
 export function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
+    dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
+
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });

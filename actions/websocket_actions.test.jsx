@@ -845,18 +845,29 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             const mockComponent = 'mockRootComponent';
             registery.registerRootComponent(mockComponent);
 
-            const dispatchArg = store.dispatch.mock.calls[0][0];
+            let dispatchArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
+            expect(dispatchArg.data).toBe(manifest);
+
+            dispatchArg = store.dispatch.mock.calls[1][0];
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
             expect(dispatchArg.name).toBe('Root');
             expect(dispatchArg.data.component).toBe(mockComponent);
             expect(dispatchArg.data.pluginId).toBe(manifest.id);
 
+            expect(store.dispatch).toHaveBeenCalledTimes(2);
+
             // Assert handlePluginEnabled is idempotent
             mockScript.onload = undefined;
             handlePluginEnabled({data: {manifest}});
+
             expect(mockScript.onload).toBeUndefined();
 
-            expect(store.dispatch).toHaveBeenCalledTimes(1);
+            dispatchArg = store.dispatch.mock.calls[2][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
+            expect(dispatchArg.data).toBe(manifest);
+
+            expect(store.dispatch).toHaveBeenCalledTimes(3);
             expect(console.error).toHaveBeenCalledTimes(0);
         });
 
