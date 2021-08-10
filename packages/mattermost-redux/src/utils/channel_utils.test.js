@@ -16,7 +16,6 @@ import {
 } from 'mattermost-redux/utils/channel_utils';
 
 describe('ChannelUtils', () => {
-
     it('isAutoClosed', () => {
         const autoCloseEnabled = {CloseUnusedDirectMessages: 'true'};
         const autoCloseDisabled = {CloseUnusedDirectMessages: 'false'};

@@ -66,7 +66,7 @@ describe('PolicyRolesAdapter', () => {
         const teamPolicies = {
             restrictTeamInvite: 'all',
         };
-        
+
         policies = {
             ...teamPolicies,
         };

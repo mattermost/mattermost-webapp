@@ -45,7 +45,7 @@ import {ClientConfig} from 'mattermost-redux/types/config';
 import {Post} from 'mattermost-redux/types/posts';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {TeamMembership, Team} from 'mattermost-redux/types/teams';
+import {Team} from 'mattermost-redux/types/teams';
 import {UsersState, UserProfile} from 'mattermost-redux/types/users';
 import {
     $ID,
@@ -785,7 +785,7 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
         if (!channelMembership) {
             return false;
         }
-    
+
         if (license.IsLicensed !== 'true') {
             return true;
         }

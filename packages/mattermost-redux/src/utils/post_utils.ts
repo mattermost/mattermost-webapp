@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {General, Posts, Preferences, Permissions} from '../constants';
+import {Posts, Preferences, Permissions} from '../constants';
 import {hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 
@@ -56,24 +56,6 @@ export function isPostOwner(userId: $ID<UserProfile>, post: Post) {
 
 export function isEdited(post: Post): boolean {
     return post.edit_at > 0;
-}
-
-export function canDeletePost(state: GlobalState, config: any, license: any, teamId: $ID<Team>, channelId: $ID<Channel>, userId: $ID<UserProfile>, post: Post, isAdmin: boolean, isSystemAdmin: boolean): boolean {
-    if (!post) {
-        return false;
-    }
-
-    const isOwner = isPostOwner(userId, post);
-
-    if (hasNewPermissions(state)) {
-        const canDelete = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
-        if (!isOwner) {
-            return canDelete && haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
-        }
-        return canDelete;
-    }
-
-    return isOwner || isAdmin;
 }
 
 export function canEditPost(state: GlobalState, config: any, license: any, teamId: $ID<Team>, channelId: $ID<Channel>, userId: $ID<UserProfile>, post: Post): boolean {
