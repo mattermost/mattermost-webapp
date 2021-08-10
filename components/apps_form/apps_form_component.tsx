@@ -174,8 +174,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const res = await this.props.actions.submit(submission);
         this.setState({submitting: null});
 
-        this.setState({submitting: false});
-
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error;
