@@ -10,7 +10,6 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {$ID} from 'mattermost-redux/types/utilities';
-
 import {getPreferenceKey} from './preference_utils';
 
 export function isPostFlagged(postId: $ID<Post>, myPreferences: {
