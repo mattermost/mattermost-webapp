@@ -33,7 +33,7 @@
         white-space: nowrap;
     }
 
-    &__row {
+    &__file-details {
         overflow: hidden;
         max-width: 30vw;
         font-size: 1.4rem;
@@ -41,6 +41,11 @@
         text-overflow: ellipsis;
         text-transform: capitalize;
         white-space: nowrap;
+        color: rgba(255,255,255, 0.56);
+
+        &-user-name{
+            color: white;
+        }
     }
 
     &__user-name {
@@ -53,7 +58,6 @@
 
     &__channel {
         margin-left: 8px;
-        opacity: 0.56;
     }
 
     @media screen and (max-width: 768px) {

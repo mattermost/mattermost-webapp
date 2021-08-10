@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import FilePreviewModalInfo from './file_preview_modal_info';
 
 describe('components/FilePreviewModalInfo', () => {
-    test('should match snapshot when link is empty', () => {
+    test('should match snapshot', () => {
         const wrapper = shallow<typeof FilePreviewModalInfo>(
             <FilePreviewModalInfo
                 showFileName={false}

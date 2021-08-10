@@ -1,9 +1,9 @@
 .image_preview {
     &__image {
-        max-height: calc(100vh - 72px - 96px);
+        max-height: calc(100vh - 168px);
         border-radius: 8px;
         @media screen and (max-width: 768px) {
-            border-radius: 0px;
+            border-radius: 0;
         }
     }
 }

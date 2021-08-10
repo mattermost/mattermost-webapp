@@ -5,6 +5,10 @@ import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import './file_preview_modal_main_nav.scss';
+import {Tooltip} from 'react-bootstrap';
+
+import OverlayTrigger from '../../overlay_trigger';
+import Constants from '../../../utils/constants';
 
 interface Props {
     fileIndex: number;
@@ -15,23 +19,51 @@ interface Props {
 
 const FilePreviewModalMainNav: React.FC<Props> = (props: Props) => {
     const leftArrow = (
-        <button
-            id='previewArrowLeft'
-            className='file_preview_modal_main_nav__prev'
-            onClick={props.handlePrev}
+        <OverlayTrigger
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            key='publicLink'
+            placement='bottom'
+            overlay={
+                <Tooltip id='close-icon-tooltip'>
+                    <FormattedMessage
+                        id='generic.previous'
+                        defaultMessage='Close'
+                    />
+                </Tooltip>
+            }
         >
-            <i className='icon icon-chevron-left'/>
-        </button>
+            <button
+                id='previewArrowLeft'
+                className='file_preview_modal_main_nav__prev'
+                onClick={props.handlePrev}
+            >
+                <i className='icon icon-chevron-left'/>
+            </button>
+        </OverlayTrigger>
     );
 
     const rightArrow = (
-        <button
-            id='previewArrowRight'
-            className='file_preview_modal_main_nav__next'
-            onClick={props.handleNext}
+        <OverlayTrigger
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            key='publicLink'
+            placement='bottom'
+            overlay={
+                <Tooltip id='close-icon-tooltip'>
+                    <FormattedMessage
+                        id='generic.next'
+                        defaultMessage='Next'
+                    />
+                </Tooltip>
+            }
         >
-            <i className='icon icon-chevron-right'/>
-        </button>
+            <button
+                id='previewArrowRight'
+                className='file_preview_modal_main_nav__next'
+                onClick={props.handleNext}
+            >
+                <i className='icon icon-chevron-right'/>
+            </button>
+        </OverlayTrigger>
     );
     return (
         <div className='file_preview_modal_main_nav'>

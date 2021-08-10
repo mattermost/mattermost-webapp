@@ -3,6 +3,7 @@
 import React, {memo} from 'react';
 
 import {useSelector} from 'react-redux';
+import {FormattedMessage} from 'react-intl';
 
 import Avatar from '../../widgets/users/avatar/avatar';
 import {imageURLForUser} from '../../../utils/utils';
@@ -31,14 +32,23 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
     const name = useSelector((state: GlobalState) => displayNameGetter(state, props.post.user_id, true));
 
     let info;
+    const channelName = (
+        <FormattedMessage
+            id='file_preview_modal_info.shared_in'
+            defaultMessage='Shared in ~{name}'
+            values={{
+                name: channel.name,
+            }}
+        />
+    );
     if (props.showFileName) {
         info = (
             <>
                 <h5 className='file-preview-modal__file-name'>{props.filename}
                 </h5>
-                <span className='file-preview-modal__row'>
-                    {name}
-                    <span className='file-preview-modal__channel'>{' Shared in ~' + channel.name}</span>
+                <span className='file-preview-modal__file-details'>
+                    <span className='file-preview-modal__file-details-user-name'>{name}</span>
+                    <span className='file-preview-modal__channel'>{channelName}</span>
                 </span>
             </>
         );
@@ -47,7 +57,7 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
             <>
                 <h5 className='file-preview-modal__user-name'>{name}
                 </h5>
-                <span className='file-preview-modal__channel'>{' Shared in ~' + channel.name}
+                <span className='file-preview-modal__channel'>{channelName}
                 </span>
             </>
         );
