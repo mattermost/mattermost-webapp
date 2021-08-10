@@ -92,6 +92,13 @@ export default function HelpCommands(): JSX.Element {
                 />
             </p>
 
+            <p>
+                <FormattedMarkdownMessage
+                    id='help.commands.custom2'
+                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the **System Console** > **Integrations** > **Webhooks and Commands**. Learn about configuring custom slash commands on the [developer slash command documentation page](!http://docs.mattermost.com/developer/slash-commands.html).'
+                />
+            </p>
+
             <HelpLinks excludedLinks={[HelpLink.Commands]}/>
         </div>
     );

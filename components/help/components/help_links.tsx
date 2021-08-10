@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import * as I18n from 'i18n/i18n';
@@ -18,46 +18,66 @@ type Props = {
 
 type HelpLinkContent = {
     path: string;
-    label: string;
+    message: string;
 }
 
-const HELP_LINK_CONTENT: {[key in HelpLink]: HelpLinkContent} = {
-    [HelpLink.Messaging]: {
-        path: '/help/messaging',
-        label: 'Basic Messaging',
-    },
-    [HelpLink.Composing]: {
-        path: '/help/composing',
-        label: 'Composing Messages and Replies',
-    },
-    [HelpLink.Mentioning]: {
-        path: '/help/mentioning',
-        label: 'Mentioning Teammates',
-    },
-    [HelpLink.Formatting]: {
-        path: '/help/formatting',
-        label: 'Formatting Messages Using Markdown',
-    },
-    [HelpLink.Attaching]: {
-        path: '/help/attaching',
-        label: 'Attaching Files',
-    },
-    [HelpLink.Commands]: {
-        path: '/help/commands',
-        label: 'Executing Commands',
-    },
-};
-
 const HelpLinks: React.FC<Props> = ({excludedLinks = []}: Props) => {
-    const linksToBeRendered: HelpLink[] = Object.values(HelpLink).
-        filter((link: HelpLink) => !excludedLinks.includes(link));
-
     // If the current page has locale query param in it, we want to preserve it when navigating to any of the help pages
     let localeQueryParam = '';
     const currentLocaleFromQueryParam = useQuery().get('locale');
     if (currentLocaleFromQueryParam && I18n.isLanguageAvailable(currentLocaleFromQueryParam)) {
         localeQueryParam = `?locale=${currentLocaleFromQueryParam}`;
     }
+
+    const {formatMessage} = useIntl();
+
+    const HELP_LINK_CONTENT: {[key in HelpLink]: HelpLinkContent} = {
+        [HelpLink.Messaging]: {
+            path: '/help/messaging',
+            message: formatMessage({
+                id: 'help.link.messaging',
+                defaultMessage: 'Basic Messaging',
+            }),
+        },
+        [HelpLink.Composing]: {
+            path: '/help/composing',
+            message: formatMessage({
+                id: 'help.link.composing',
+                defaultMessage: 'Composing Messages and Replies',
+            }),
+        },
+        [HelpLink.Mentioning]: {
+            path: '/help/mentioning',
+            message: formatMessage({
+                id: 'help.link.mentioning',
+                defaultMessage: 'Mentioning Teammates',
+            }),
+        },
+        [HelpLink.Formatting]: {
+            path: '/help/formatting',
+            message: formatMessage({
+                id: 'help.link.formatting',
+                defaultMessage: 'Formatting Messages Using Markdown',
+            }),
+        },
+        [HelpLink.Attaching]: {
+            path: '/help/attaching',
+            message: formatMessage({
+                id: 'help.link.attaching',
+                defaultMessage: 'Attaching Files',
+            }),
+        },
+        [HelpLink.Commands]: {
+            path: '/help/commands',
+            message: formatMessage({
+                id: 'help.link.commands',
+                defaultMessage: 'Executing Commands',
+            }),
+        },
+    };
+
+    const linksToBeRendered: HelpLink[] = Object.values(HelpLink).
+        filter((link: HelpLink) => !excludedLinks.includes(link));
 
     return (
         <>
@@ -70,15 +90,12 @@ const HelpLinks: React.FC<Props> = ({excludedLinks = []}: Props) => {
             <ul>
                 {
                     linksToBeRendered.map((linkType: HelpLink) => {
-                        const {path, label}: HelpLinkContent = HELP_LINK_CONTENT[linkType];
+                        const {path, message}: HelpLinkContent = HELP_LINK_CONTENT[linkType];
 
                         return (
                             <li key={linkType}>
                                 <Link to={`${path}${localeQueryParam}`}>
-                                    <FormattedMessage
-                                        id={`help.link.${linkType.toLowerCase()}`}
-                                        defaultMessage={label}
-                                    />
+                                    {message}
                                 </Link>
                             </li>
                         );
