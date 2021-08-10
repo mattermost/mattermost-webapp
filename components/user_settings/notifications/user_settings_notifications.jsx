@@ -24,6 +24,7 @@ function getNotificationsStateFromProps(props) {
 
     let desktop = NotificationLevels.MENTION;
     let desktopThreads = NotificationLevels.ALL;
+    let emailThreads = NotificationLevels.ALL;
     let sound = 'true';
     let desktopNotificationSound = 'Bing';
     let comments = 'never';
@@ -42,6 +43,9 @@ function getNotificationsStateFromProps(props) {
         }
         if (user.notify_props.desktop_threads) {
             desktopThreads = user.notify_props.desktop_threads;
+        }
+        if (user.notify_props.email_threads) {
+            emailThreads = user.notify_props.email_threads;
         }
         if (user.notify_props.desktop_sound) {
             sound = user.notify_props.desktop_sound;
@@ -105,6 +109,7 @@ function getNotificationsStateFromProps(props) {
     return {
         desktopActivity: desktop,
         desktopThreads,
+        emailThreads,
         enableEmail,
         pushActivity,
         pushStatus,
@@ -162,6 +167,7 @@ export default class NotificationsTab extends React.PureComponent {
         }
         data.desktop = this.state.desktopActivity;
         data.desktop_threads = this.state.desktopThreads;
+        data.email_threads = this.state.emailThreads;
         data.push = this.state.pushActivity;
         data.push_status = this.state.pushStatus;
         data.comments = this.state.notifyCommentsLevel;
@@ -958,6 +964,9 @@ export default class NotificationsTab extends React.PureComponent {
                         onChange={this.handleEmailRadio}
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
+                        isCollapsedThreadsEnabled={this.props.isCollapsedThreadsEnabled}
+                        setParentState={this.setStateValue}
+                        threads={this.state.emailThreads}
                     />
                     <div className='divider-light'/>
                     {pushNotificationSection}
