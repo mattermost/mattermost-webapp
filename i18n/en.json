@@ -848,8 +848,6 @@
   "admin.experimental.emailSettingsLoginButtonTextColor.title": "Email Login Button Text Color:",
   "admin.experimental.enableChannelViewedMessages.desc": "This setting determines whether `channel_viewed` WebSocket events are sent, which synchronize unread notifications across clients and devices. Disabling the setting in larger deployments may improve server performance.",
   "admin.experimental.enableChannelViewedMessages.title": "Enable Channel Viewed WebSocket Messages:",
-  "admin.experimental.enableLegacySidebar.desc": "When enabled, users cannot access new sidebar features including custom, collapsible categories and unread channel filtering. We recommend only enabling the legacy sidebar if users are experiencing breaking changes or bugs.",
-  "admin.experimental.enableLegacySidebar.title": "Enable Legacy Sidebar",
   "admin.experimental.enablePreviewFeatures.desc": "When true, preview features can be enabled from **Account Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Account Settings > Advanced > Preview pre-release features**.",
   "admin.experimental.enablePreviewFeatures.title": "Enable Preview Features:",
   "admin.experimental.enableSharedChannels.desc": "When true, users who have permission to manage shared channels can configure another Mattermost server to synchronize and share a channel. Disabling shared channels stops synchronizing the channel with the other Mattermost server, however the channel continues to function for local users per normal channel behavior.",
