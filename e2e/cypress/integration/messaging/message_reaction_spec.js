@@ -87,7 +87,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get(`#postReaction-${postId}-slightly_frowning_face`).
                 should('be.visible').
                 should('have.css', 'background-color').
-                and('eq', 'rgba(22, 109, 224, 0.08)');
+                and('eq', 'rgba(28, 88, 217, 0.08)');
         });
     });
 

@@ -233,7 +233,7 @@ describe('LDAP guest', () => {
 
 function gotoGuestAccessSettings() {
     cy.visit('/admin_console/authentication/guest_access');
-    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Guest Access (Beta)');
+    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Guest Access');
 }
 
 function gotoLDAPSettings() {
