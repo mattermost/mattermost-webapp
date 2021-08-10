@@ -9,7 +9,7 @@ import {Theme} from 'mattermost-redux/types/themes';
 
 type Props = {
     theme: Theme;
-    children?: React.ReactNode | React.ReactNode[];
+    children?: React.ReactNode;
 }
 
 const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {

@@ -10,12 +10,12 @@ import StatusDropdown from 'components/status_dropdown';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import Pluggable from 'plugins/pluggable';
 
-import GlobalSearchNav from './global_search_nav';
+import GlobalSearchNav from './global_search_nav/global_search_nav';
 import ProductSwitcher from './product_switcher';
 import HistoryButtons from './history_buttons';
 import UserGuideDropdown from './user_guide_dropdown';
-import AtMentionsButton from './at_mentions_button/';
-import SavedPostsButton from './saved_posts_button/';
+import AtMentionsButton from './at_mentions_button/at_mentions_button';
+import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button//';
 
 import {useCurrentProductId, useProducts} from './hooks';
@@ -101,14 +101,14 @@ const GlobalHeader = (): JSX.Element | null => {
                 <HistoryButtons/>
             </LeftControls>
             <CenterControls>
-                { currentProductID !== null &&
+                {currentProductID !== null &&
                     <Pluggable
                         pluggableName={'Product'}
                         subComponentName={'headerComponent'}
                         pluggableId={currentProductID}
                     />
                 }
-                { currentProductID === null &&
+                {currentProductID === null &&
                     <>
                         <GlobalSearchNav/>
                         <UserGuideDropdown/>
@@ -116,7 +116,7 @@ const GlobalHeader = (): JSX.Element | null => {
                 }
             </CenterControls>
             <RightControls>
-                { currentProductID === null &&
+                {currentProductID === null &&
                     <>
                         <AtMentionsButton/>
                         <SavedPostsButton/>

@@ -4,30 +4,27 @@
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
+import {closeRightHandSide, showMentions} from 'actions/views/rhs';
 import OverlayTrigger from 'components/overlay_trigger';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {GlobalState} from 'types/store';
 import Constants, {RHSStates} from 'utils/constants';
 
-type Props = {
-    rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
-    isRhsOpen?: boolean;
-    actions: {
-        showMentions: () => void;
-        closeRightHandSide: () => void;
-    };
-};
-
-const AtMentionsButton = (props: Props): JSX.Element => {
-    const {rhsState, isRhsOpen, actions: {closeRightHandSide, showMentions}} = props;
+const AtMentionsButton = (): JSX.Element => {
+    const dispatch = useDispatch();
+    const rhsState = useSelector((state: GlobalState) => getRhsState(state));
+    const isRhsOpen = useSelector((state: GlobalState) => getIsRhsOpen(state));
 
     const mentionButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (rhsState === RHSStates.MENTION) {
-            closeRightHandSide();
+            dispatch(closeRightHandSide());
         } else {
-            showMentions();
+            dispatch(showMentions());
         }
     };
 

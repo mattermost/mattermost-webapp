@@ -4,30 +4,27 @@
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
+import {closeRightHandSide, showFlaggedPosts} from 'actions/views/rhs';
 import OverlayTrigger from 'components/overlay_trigger';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {GlobalState} from 'types/store';
 import Constants, {RHSStates} from 'utils/constants';
 
-type Props = {
-    rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
-    isRhsOpen: boolean;
-    actions: {
-        showFlaggedPosts: () => void;
-        closeRightHandSide: () => void;
-    };
-};
-
-const SavedPostsButton = (props: Props): JSX.Element | null => {
-    const {rhsState, isRhsOpen, actions: {closeRightHandSide, showFlaggedPosts}} = props;
+const SavedPostsButton = (): JSX.Element | null => {
+    const dispatch = useDispatch();
+    const rhsState = useSelector((state: GlobalState) => getRhsState(state));
+    const isRhsOpen = useSelector((state: GlobalState) => getIsRhsOpen(state));
 
     const savedPostsButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (rhsState === RHSStates.FLAG) {
-            closeRightHandSide();
+            dispatch(closeRightHandSide());
         } else {
-            showFlaggedPosts();
+            dispatch(showFlaggedPosts());
         }
     };
 

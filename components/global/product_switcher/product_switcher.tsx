@@ -67,13 +67,13 @@ const MenuItem = styled(Link)`
         color: inherit;
     }
 
-    i {
-        color: var(--sidebar-bg);
-    }
-
     button {
         padding: 0 6px;
     }
+`;
+
+const StyledIcon = styled(Icon)`
+    color: var(--sidebar-bg);
 `;
 
 const MenuItemTextContainer = styled.div`
@@ -90,7 +90,7 @@ const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
             to={props.destination}
         >
 
-            <IconButton icon={props.icon}/>
+            <StyledIcon glyph={props.icon}/>
             <MenuItemTextContainer>
                 {props.text}
             </MenuItemTextContainer>
