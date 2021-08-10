@@ -102,6 +102,7 @@ type Props = {
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
+    globalHeaderAllowed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getSupportedTimezones: () => void;
@@ -961,7 +962,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {collapsedReplyThreads}
                     {channelDisplayModeSection}
                     {languagesSection}
-                    {showGlobalHeader}
+                    {this.props.globalHeaderAllowed && showGlobalHeader}
                 </div>
             </div>
         );
