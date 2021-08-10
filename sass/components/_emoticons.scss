@@ -82,9 +82,9 @@
     flex-direction: column;
     border: 1px solid;
     margin-right: 3px;
+    background: var(--center-channel-bg);
     border-radius: 4px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    background: var(--center-channel-bg);
 
     .emoji-picker__header {
         background: var(--sidebar-header-bg);
@@ -413,9 +413,9 @@
         height: 26px;
         padding: 4px 0 0 31px;
         border-width: 0;
+        background: var(--center-channel-bg);
         border-radius: inherit;
         font-size: 13px;
-        background: var(--center-channel-bg);
 
         &:focus {
             padding: 2px 0 0 30px;
@@ -578,8 +578,8 @@
     align-items: stretch;
     justify-content: flex-start;
     padding: 18px 0 18px 16px;
-    vertical-align: middle;
     background: var(--center-channel-bg);
+    vertical-align: middle;
 
     &.emoji-picker__preview-placeholder {
         padding: 12px;

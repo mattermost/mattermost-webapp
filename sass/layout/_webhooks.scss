@@ -109,8 +109,8 @@
             border-style: solid;
             border-left: none;
             margin: 5px 0 5px 20px;
-            border-radius: 0 4px 4px 0;
             background: var(--center-channel-bg);
+            border-radius: 0 4px 4px 0;
 
             &.attachment__content--permalink {
                 border-left-width: 1px;
@@ -374,10 +374,10 @@
                 border-width: 1px;
                 border-style: solid;
                 margin: 8px 8px 0 0;
+                background: var(--center-channel-bg);
                 font-size: 13px;
                 font-weight: 700;
                 outline: 0;
-                background: var(--center-channel-bg);
 
                 &[disabled] {
                     cursor: auto;

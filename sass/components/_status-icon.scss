@@ -64,9 +64,9 @@
         width: 15px;
         height: 15px;
         margin: 0;
+        background: var(--center-channel-bg);
         border-radius: 100px;
         line-height: 0;
-        background: var(--center-channel-bg);
 
         .modal & {
             bottom: -6px;
