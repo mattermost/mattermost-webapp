@@ -41,10 +41,10 @@
     .users-emails-input__control {
         min-height: 48px;
         padding: 3px;
-        border-color: var(--center-channel-color-20);
+        border-color: rgba(var(--center-channel-color-rgb), 0.2);
         background: var(--center-channel-bg);
         box-shadow: none;
-        color: var(--center-channel-color-64);
+        color: rgba(var(--center-channel-color-rgb), 0.64);
         transition: none;
 
         &--is-focused,
@@ -85,7 +85,7 @@
 
     .users-emails-input__placeholder {
         margin-left: 8px;
-        color: var(--center-channel-color-64);
+        color: rgba(var(--center-channel-color-rgb), 0.64);
     }
 
     .users-emails-input__input {
@@ -133,7 +133,7 @@
         cursor: pointer;
 
         &--no-matches {
-            color: var(--center-channel-color-56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
             text-align: center;
 
             span {
@@ -154,7 +154,7 @@
         }
 
         &--is-focused {
-            background: var(--button-bg-08);
+            background: rgba(var(--button-bg-rgb), 0.08);
         }
 
         &--no-matches:hover {
@@ -217,7 +217,7 @@
         align-items: center;
         padding: 4px;
         margin: 4px;
-        background: var(--center-channel-color-08);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
         border-radius: 16px;
         color: var(--center-channel-color);
 
@@ -238,13 +238,13 @@
             height: 24px;
             padding: 3px;
             margin-right: 4px;
-            background: var(--center-channel-color-56);
+            background: rgba(var(--center-channel-color-rgb), 0.56);
             border-radius: 16px;
 
             svg {
                 width: 18px;
                 height: 18px;
-                fill: var(--button-color-88);
+                fill: rgba(var(--button-color-rgb), 0.88);
             }
         }
 
@@ -270,11 +270,11 @@
         svg {
             width: 16px;
             height: 16px;
-            fill: var(--center-channel-color-64);
+            fill: rgba(var(--center-channel-color-rgb), 0.64);
             opacity: 0.6;
 
             &:hover {
-                fill: var(--center-channel-color-80);
+                fill: rgba(var(--center-channel-color-rgb), 0.8);
             }
         }
     }
