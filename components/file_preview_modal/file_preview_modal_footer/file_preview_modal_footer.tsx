@@ -20,9 +20,6 @@ interface Props {
     handlePrev: () => void;
     handleNext: () => void;
     handleModalClose: () => void;
-    children?: string;
-    disabled?: boolean;
-    className?: string;
 }
 
 const FilePreviewModalFooter: React.FC<Props> = ({post, ...actionProps}: Props) => {
