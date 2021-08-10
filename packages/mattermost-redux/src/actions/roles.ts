@@ -8,6 +8,8 @@ import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/act
 import {Role} from 'mattermost-redux/types/roles';
 
 import {bindClientFunc} from './helpers';
+import {hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
+
 export function getRolesByNames(rolesNames: string[]) {
     return bindClientFunc({
         clientFunc: Client4.getRolesByNames,
@@ -80,6 +82,14 @@ export function loadRolesIfNeeded(roles: Iterable<string>): ActionFunc {
         if (!state.entities.general.serverVersion) {
             dispatch(setPendingRoles(Array.from(pendingRoles)));
             setTimeout(() => dispatch(loadRolesIfNeeded([])), 500);
+            return {data: []};
+        }
+        console.log('outside that function');
+        if (!hasNewPermissions(state)) {
+            console.log('yo why am I here');
+            if (state.entities.roles.pending) {
+                await dispatch(setPendingRoles([]));
+            }
             return {data: []};
         }
         const loadedRoles = getRoles(state);
