@@ -57,12 +57,15 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         collapsedReplyThreads: '',
         collapsedReplyThreadsAllowUserPreference: true,
         allowCustomThemes: true,
+        availabilityStatusOnPosts: '',
         militaryTime: '',
         teammateNameDisplay: '',
         channelDisplayMode: '',
         messageDisplay: '',
         collapseDisplay: '',
         linkPreviewDisplay: '',
+        globalHeaderDisplay: '',
+        globalHeaderAllowed: true,
     };
 
     test('should match snapshot, no active section', () => {

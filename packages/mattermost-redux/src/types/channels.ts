@@ -92,6 +92,7 @@ export type ChannelsState = {
     channels: IDMappedObjects<Channel>;
     channelsInTeam: RelationOneToMany<Team, Channel>;
     myMembers: RelationOneToOne<Channel, ChannelMembership>;
+    roles: RelationOneToOne<Channel, Set<string>>;
     membersInChannel: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>;
     stats: RelationOneToOne<Channel, ChannelStats>;
     groupsAssociatedToChannel: any;

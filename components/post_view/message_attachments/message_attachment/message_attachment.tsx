@@ -263,7 +263,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                     className='attachment-field'
                     key={'attachment__field-' + i + '__' + nrTables}
                 >
-                    <Markdown message={field.value}/>
+                    <Markdown message={String(field.value)}/>
                 </td>,
             );
             rowPos += 1;
@@ -394,6 +394,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                     checkOverflow={this.state.checkOverflow}
                     isAttachmentText={true}
                     text={attachment.text}
+                    maxHeight={200}
                 >
                     <Markdown
                         message={attachment.text || ''}

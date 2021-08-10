@@ -41,7 +41,7 @@ exports[`components/team_settings_modal should match snapshot 1`] = `
       bsClass="modal-title"
       componentClass="h1"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Settings"
         id="team_settings_modal.title"
       />
@@ -69,12 +69,6 @@ exports[`components/team_settings_modal should match snapshot 1`] = `
                   "iconTitle": "Settings Icon",
                   "name": "general",
                   "uiName": "General",
-                },
-                Object {
-                  "icon": "icon fa fa-upload",
-                  "iconTitle": "Upload Icon",
-                  "name": "import",
-                  "uiName": "Import",
                 },
               ]
             }

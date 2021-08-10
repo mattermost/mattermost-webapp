@@ -14,16 +14,23 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
+import {openModal} from 'actions/views/modals';
+
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import PurchaseModal from 'components/purchase_modal';
+
 import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
 import {GlobalState} from 'types/store';
 import {
     Preferences,
     CloudBanners,
     TELEMETRY_CATEGORIES,
+    ModalIdentifiers,
+    TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {useQuery} from 'utils/http_utils';
 
 import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
@@ -40,10 +47,7 @@ import './billing_subscriptions.scss';
 
 const WARNING_THRESHOLD = 3;
 
-type Props = {
-};
-
-const BillingSubscriptions: React.FC<Props> = () => {
+const BillingSubscriptions: React.FC = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
     const userLimit = useSelector((state: GlobalState) => parseInt(getConfig(state).ExperimentalCloudUserLimit!, 10));
@@ -63,11 +67,33 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
+    const query = useQuery();
+    const actionQueryParam = query.get('action');
+
+    const product = useSelector((state: GlobalState) => {
+        if (state.entities.cloud.products && subscription) {
+            return state.entities.cloud.products[subscription?.product_id];
+        }
+        return undefined;
+    });
+
+    // show the upgrade section when is a free tier customer
+    const onUpgradeMattermostCloud = () => {
+        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
+        dispatch(openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        }));
+    };
+
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
+        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
+            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+        }
     }
 
     useEffect(() => {
@@ -85,6 +111,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
         if (analytics && shouldShowInfoBanner()) {
             trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'bannerview_user_limit_warning');
+        }
+
+        if (actionQueryParam === 'show_purchase_modal') {
+            onUpgradeMattermostCloud();
         }
     }, []);
 
@@ -124,12 +154,13 @@ const BillingSubscriptions: React.FC<Props> = () => {
     }
 
     const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
+    const productsLength = Object.keys(products).length;
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
             <FormattedAdminHeader
                 id='admin.billing.subscription.title'
-                defaultMessage='Subscriptions'
+                defaultMessage='Subscription'
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
@@ -139,14 +170,16 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
+                            subscriptionPlan={product?.sku}
                         />
                         <BillingSummary
                             isPaidTier={isPaidTier}
                             isFreeTrial={isFreeTrial}
                             daysLeftOnTrial={daysLeftOnTrial}
+                            onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, product?.sku, onUpgradeMattermostCloud, productsLength)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>

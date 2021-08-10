@@ -3,12 +3,13 @@
 
 import React from 'react';
 
+import CreateComment from 'components/create_comment/create_comment';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import Constants from 'utils/constants';
 
-import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import Textbox from 'components/textbox';
@@ -371,9 +372,9 @@ describe('components/CreateComment', () => {
         );
 
         wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
-        expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+        expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
 
-        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
     });
 
     test('set showPostDeletedModal true when createPostErrorId === api.post.create_post.root_id.app_error', () => {
@@ -463,15 +464,16 @@ describe('components/CreateComment', () => {
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, draft};
+        const scrollToBottom = jest.fn();
+        const props = {...baseProps, draft, scrollToBottom};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
+            <CreateComment
+                {...props}
+            />,
         );
 
         const testMessage = 'new msg';
-        const scrollToBottom = jest.fn();
-        wrapper.instance().scrollToBottom = scrollToBottom;
         wrapper.instance().handleChange({target: {value: testMessage}});
 
         // The callback won't we called until after a short delay
@@ -505,22 +507,25 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>,
         );
 
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
-
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
+        expect(onSubmit).toHaveBeenCalledWith({
+            message: '/fakecommand other text',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}],
+        }, {ignoreSlash: false});
 
         wrapper.instance().handleChange({
             target: {value: 'some valid text'},
         });
 
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
-
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: false});
+        expect(onSubmit).toHaveBeenCalledWith({
+            message: 'some valid text',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}],
+        }, {ignoreSlash: false});
     });
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
@@ -529,14 +534,15 @@ describe('components/CreateComment', () => {
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, draft};
+        const scrollToBottom = jest.fn();
+        const props = {...baseProps, draft, scrollToBottom};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
+            <CreateComment
+                {...props}
+            />,
         );
 
-        const scrollToBottom = jest.fn();
-        wrapper.instance().scrollToBottom = scrollToBottom;
         wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2, 3, 4]}});
         expect(scrollToBottom).toHaveBeenCalled();
     });
@@ -919,18 +925,23 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
-            expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
-
             await wrapper.instance().handleSubmit({preventDefault});
 
-            expect(onSubmitWithError).toHaveBeenCalledWith({ignoreSlash: false});
+            expect(onSubmitWithError).toHaveBeenCalledWith({
+                message: '/fakecommand other text',
+                uploadsInProgress: [],
+                fileInfos: [{}, {}, {}],
+            }, {ignoreSlash: false});
             expect(preventDefault).toHaveBeenCalled();
-            expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
 
             wrapper.setProps({onSubmit});
             await wrapper.instance().handleSubmit({preventDefault});
 
-            expect(onSubmit).toHaveBeenCalledWith({ignoreSlash: true});
+            expect(onSubmit).toHaveBeenCalledWith({
+                message: '/fakecommand other text',
+                uploadsInProgress: [],
+                fileInfos: [{}, {}, {}],
+            }, {ignoreSlash: true});
             expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
         });
 
@@ -1218,22 +1229,25 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
+        const scrollToBottom = jest.fn();
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps}/>,
+            <CreateComment
+                {...baseProps}
+                scrollToBottom={scrollToBottom}
+            />,
         );
 
-        wrapper.instance().scrollToBottom = jest.fn();
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+        expect(scrollToBottom).toBeCalledTimes(0);
         expect(wrapper.instance().doInitialScrollToBottom).toEqual(true);
 
         // should scroll to bottom on first component update
         wrapper.setState({draft: {...draft, message: 'new message'}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(scrollToBottom).toBeCalledTimes(1);
         expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
 
         // but not after the first update
         wrapper.setState({draft: {...draft, message: 'another message'}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(scrollToBottom).toBeCalledTimes(1);
         expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
     });
 
@@ -1244,24 +1258,25 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
+        const scrollToBottom = jest.fn();
         const wrapper = shallowWithIntl(
             <CreateComment
                 {...baseProps}
                 draft={draft}
+                scrollToBottom={scrollToBottom}
             />,
         );
 
-        wrapper.instance().scrollToBottom = jest.fn();
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+        expect(scrollToBottom).toBeCalledTimes(0);
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [1]}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(scrollToBottom).toBeCalledTimes(1);
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2]}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+        expect(scrollToBottom).toBeCalledTimes(2);
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [2]}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+        expect(scrollToBottom).toBeCalledTimes(2);
     });
 
     it('should be able to format a pasted markdown table', () => {

@@ -25,11 +25,13 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object,
         showTutorialTip: PropTypes.bool.isRequired,
+        enablePluginMarketplace: PropTypes.bool.isRequired,
         firstAdminVisitMarketplaceStatus: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
             getFirstAdminVisitMarketplaceStatus: PropTypes.func.isRequired,
         }).isRequired,
+        globalHeaderEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -52,6 +54,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
 
     handleKeyDown = (e) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
+            e.preventDefault();
             this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
         }
     }
@@ -79,7 +82,8 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
                     teamId={this.props.teamId}
                     openModal={this.props.actions.openModal}
                     getFirstAdminVisitMarketplaceStatus={this.props.actions.getFirstAdminVisitMarketplaceStatus}
-                    showUnread={isAdmin(this.props.currentUser.roles) && !this.props.firstAdminVisitMarketplaceStatus}
+                    showUnread={this.props.enablePluginMarketplace && isAdmin(this.props.currentUser.roles) && !this.props.firstAdminVisitMarketplaceStatus}
+                    globalHeaderEnabled={this.props.globalHeaderEnabled}
                 />
                 <MainMenu id='sidebarDropdownMenu'/>
             </MenuWrapper>

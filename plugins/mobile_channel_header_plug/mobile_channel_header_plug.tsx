@@ -10,7 +10,7 @@ import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/app
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';

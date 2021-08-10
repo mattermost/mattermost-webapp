@@ -4,7 +4,7 @@ exports[`components/MsgTyping should match snapshot, on multiple users typing 1`
 <span
   className="msg-typing"
 >
-  <FormattedMessage
+  <MemoizedFormattedMessage
     defaultMessage="{users} and {last} are typing..."
     id="msg_typing.areTyping"
     values={
@@ -27,7 +27,7 @@ exports[`components/MsgTyping should match snapshot, on one user typing 1`] = `
 <span
   className="msg-typing"
 >
-  <FormattedMessage
+  <MemoizedFormattedMessage
     defaultMessage="{user} is typing..."
     id="msg_typing.isTyping"
     values={

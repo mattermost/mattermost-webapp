@@ -147,6 +147,7 @@ describe('Actions.Groups', () => {
         const groupChannelResponse = {
             channel_id: 'o3tdawqxot8kikzq8bk54zggbc',
             group_id: '5rgoajywb3nfbdtyafbod47rya',
+            team_id: 'ge63nq31sbfy3duzq5f7yqn1kh',
             auto_add: true,
             create_at: 1542644105041,
             delete_at: 0,

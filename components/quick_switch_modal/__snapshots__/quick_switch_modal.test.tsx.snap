@@ -44,7 +44,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
       className="channel-switcher__header"
     >
       <h1>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Switch Channels"
           id="quick_switch_modal.switchChannels"
         />
@@ -75,12 +75,11 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         id="quickSwitchInput"
         isRHS={false}
         listComponent={[Function]}
-        listStyle="bottom"
+        listPosition="bottom"
         listenForMentionKeyClick={false}
         maxLength="64"
         onChange={[Function]}
         onItemSelected={[Function]}
-        onKeyDown={[Function]}
         onSuggestionsReceived={[Function]}
         openOnFocus={false}
         openWhenEmpty={true}
@@ -94,7 +93,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
             },
           ]
         }
-        renderDividers={false}
+        renderDividers={true}
         renderNoResults={false}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}

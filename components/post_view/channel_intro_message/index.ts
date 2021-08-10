@@ -6,17 +6,15 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getDirectTeammate, isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentChannel, getCurrentUserId, getUser, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
 import {get, getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-
 import {Preferences} from 'utils/constants';
-import {getDirectTeammate, getDisplayNameByUser} from 'utils/utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {GlobalState} from 'types/store';
@@ -31,7 +29,7 @@ function mapStateToProps(state: GlobalState) {
     const isReadOnly = isCurrentChannelReadOnly(state);
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state) || {};
-    const teammate = getDirectTeammate(state, channel.id) as UserProfile;
+    const teammate = getDirectTeammate(state, channel.id);
     const creator = getUser(state, channel.creator_id);
 
     let usersLimit = parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10);

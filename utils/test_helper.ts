@@ -269,7 +269,6 @@ export class TestHelper {
             id: 'id',
             is_pinned: false,
             message: 'post message',
-            parent_id: '',
             props: {},
             root_id: '',
             type: 'system_add_remove',

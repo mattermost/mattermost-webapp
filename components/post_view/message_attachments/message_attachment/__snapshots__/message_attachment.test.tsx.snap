@@ -61,6 +61,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
           <Connect(ShowMore)
             checkOverflow={0}
             isAttachmentText={true}
+            maxHeight={200}
             text="short text"
           >
             <Connect(Markdown)
@@ -205,6 +206,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
           <Connect(ShowMore)
             checkOverflow={0}
             isAttachmentText={true}
+            maxHeight={200}
             text="short text"
           >
             <Connect(Markdown)
@@ -272,6 +274,17 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
 </div>
 `;
 
+exports[`components/post_view/MessageAttachment should match snapshot and render a field with a number value 1`] = `
+<td
+  className="attachment-field"
+  key="attachment__field-0__1"
+>
+  <Connect(Markdown)
+    message="1234"
+  />
+</td>
+`;
+
 exports[`components/post_view/MessageAttachment should match snapshot when no footer is provided (even if footer_icon is provided) 1`] = `
 <div
   className="attachment attachment--pretext"
@@ -333,6 +346,7 @@ exports[`components/post_view/MessageAttachment should match snapshot when no fo
           <Connect(ShowMore)
             checkOverflow={0}
             isAttachmentText={true}
+            maxHeight={200}
             text="short text"
           >
             <Connect(Markdown)

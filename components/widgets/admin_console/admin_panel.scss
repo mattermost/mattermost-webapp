@@ -1,17 +1,15 @@
 @import 'compass/utilities';
 @import 'compass/css3';
-
 @import 'utils/module';
 
 .AdminPanel {
     @include border-radius($border-rad);
-    @include box-shadow(0 1px 2px 0 alpha-color($black, .5));
+    @include box-shadow(0 1px 2px 0 alpha-color($black, 0.5));
 
-    font-size: .95em;
-    margin: 2em 0 1em;
     padding: 0;
-
-    border: solid 1px alpha-color($black, .1);
+    border: solid 1px alpha-color($black, 0.1);
+    margin: 2em 0 1em;
+    font-size: 0.95em;
 
     .AdminPanel__content {
         padding: 10px 20px 20px;
@@ -21,7 +19,7 @@
         width: 100%;
 
         th {
-            border-bottom: solid 1px alpha-color($black, .1);
+            border-bottom: solid 1px alpha-color($black, 0.1);
         }
 
         td,
@@ -35,22 +33,22 @@
     }
 
     .header {
-        align-items: center;
-        background: $white;
         display: flex;
         flex-direction: row;
+        align-items: center;
         justify-content: space-between;
         padding: 20px;
+        background: $white;
 
         h3 {
+            padding: 0;
+            margin: 0;
             font-size: 18px;
             font-weight: normal;
-            margin: 0;
-            padding: 0;
         }
 
         .button {
-            self-align: end;
+            align-self: flex-end;
             margin-left: 10px;
 
             svg {

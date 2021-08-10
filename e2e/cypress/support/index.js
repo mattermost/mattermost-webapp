@@ -21,6 +21,7 @@ import './api_commands'; // soon to deprecate
 import './client';
 import './common_login_commands';
 import './db_commands';
+import './email';
 import './external_commands';
 import './extended_commands';
 import './fetch_commands';
@@ -178,7 +179,7 @@ function sysadminSetup(user) {
     cy.apiSaveCollapsePreviewsPreference('false');
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(user.id, '999');
-    cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
+    cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
     cy.apiUpdateUserStatus('online');
     cy.apiPatchMe({
         locale: 'en',

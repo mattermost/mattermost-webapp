@@ -48,7 +48,7 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
         <span
           className="post-image__uploadingTxt"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Uploading..."
             id="admin.plugin.uploading"
           />
@@ -131,7 +131,7 @@ exports[`component/file_preview/file_progress_preview snapshot for percent value
         <span
           className="post-image__uploadingTxt"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Uploading..."
             id="admin.plugin.uploading"
           />

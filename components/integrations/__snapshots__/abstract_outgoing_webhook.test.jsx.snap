@@ -8,12 +8,12 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
     <Link
       to="/test/integrations/outgoing_webhooks"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Outgoing Webhooks"
         id="installed_outgoing_webhooks.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="add"
       id="add"
     />
@@ -32,7 +32,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="displayName"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Title"
             id="add_outgoing_webhook.displayName"
           />
@@ -51,7 +51,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify a title, of up to 64 characters, for the webhook settings page."
               id="add_outgoing_webhook.displayName.help"
             />
@@ -65,7 +65,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="description"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Description"
             id="add_outgoing_webhook.description"
           />
@@ -84,7 +84,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Describe your outgoing webhook."
               id="add_outgoing_webhook.description.help"
             />
@@ -98,7 +98,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="contentType"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Content Type"
             id="add_outgoing_webhook.content_Type"
           />
@@ -125,7 +125,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify the content type by which to send the request."
               id="add_outgoing_webhook.contentType.help1"
             />
@@ -133,7 +133,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="For the server to encode the parameters in a URL format in the request body, select application/x-www-form-urlencoded."
               id="add_outgoing_webhook.contentType.help2"
             />
@@ -141,7 +141,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="For the server to format the request body as JSON, select application/json."
               id="add_outgoing_webhook.contentType.help3"
             />
@@ -155,7 +155,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="channelId"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Channel"
             id="add_outgoing_webhook.channel"
           />
@@ -172,7 +172,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="This field is optional if you specify at least one trigger word. Specify the public channel that delivers the payload to the webhook."
               id="add_outgoing_webhook.channel.help"
             />
@@ -186,7 +186,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="triggerWords"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Trigger Words (One Per Line)"
             id="add_outgoing_webhook.triggerWords"
           />
@@ -205,7 +205,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify the trigger words that send an HTTP POST request to your application.  The trigger can be for the channel, the outgoing webhook, or both. If you select only Channel, trigger words are optional. If you select both, the message must match both values."
               id="add_outgoing_webhook.triggerWords.help"
             />
@@ -219,7 +219,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="triggerWords"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Trigger When"
             id="add_outgoing_webhook.triggerWordsTriggerWhen"
           />
@@ -246,7 +246,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify when to trigger the outgoing webhook."
               id="add_outgoing_webhook.triggerWordsTriggerWhen.help"
             />
@@ -260,7 +260,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="control-label col-sm-4"
           htmlFor="callbackUrls"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Callback URLs (One Per Line)"
             id="add_outgoing_webhook.callbackUrls"
           />
@@ -279,7 +279,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Specify the URL that the messages will be sent to. If the URL is private, add it as a {link}."
               id="add_outgoing_webhook.callbackUrls.help"
               values={
@@ -289,7 +289,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <FormattedMessage
+                    <Memo(MemoizedFormattedMessage)
                       defaultMessage="trusted internal connection"
                       id="add_outgoing_webhook.callbackUrls.helpLinkText"
                     />
@@ -317,7 +317,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           className="btn btn-link btn-sm"
           to="/test/integrations/outgoing_webhooks"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_outgoing_webhook.cancel"
           />
@@ -330,7 +330,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
           spinningText="loading"
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="save"
             id="save"
           />

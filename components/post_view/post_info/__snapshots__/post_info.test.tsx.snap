@@ -108,7 +108,7 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral post 1`]
     <span
       className="post__visibility"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="(Only visible to you)"
         id="post_info.message.visible"
       />
@@ -165,7 +165,6 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
     data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   >
     <Connect(injectIntl(DotMenuClass))
-      commentCount={0}
       enableEmojiPicker={false}
       handleAddReactionClick={[Function]}
       handleCommentClick={[MockFunction]}
@@ -191,7 +190,6 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
             "reactions": Array [],
           },
           "original_id": "",
-          "parent_id": "",
           "pending_post_id": "",
           "props": Object {},
           "reply_count": 0,
@@ -206,13 +204,10 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       isFlagged={false}
       postId="e584uzbwwpny9kengqayx5ayzw"
     />
-    <CommentIcon
-      commentCount={0}
+    <Connect(CommentIcon)
       extraClass="pull-right"
       handleCommentClick={[MockFunction]}
-      location="CENTER"
       postId="e584uzbwwpny9kengqayx5ayzw"
-      searchStyle=""
     />
   </div>
 </div>
@@ -278,7 +273,6 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
     data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   >
     <Connect(injectIntl(DotMenuClass))
-      commentCount={0}
       enableEmojiPicker={true}
       handleAddReactionClick={[Function]}
       handleCommentClick={[MockFunction]}
@@ -304,7 +298,6 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
             "reactions": Array [],
           },
           "original_id": "",
-          "parent_id": "",
           "pending_post_id": "",
           "props": Object {},
           "reply_count": 0,
@@ -319,13 +312,10 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
       isFlagged={false}
       postId="e584uzbwwpny9kengqayx5ayzw"
     />
-    <CommentIcon
-      commentCount={0}
+    <Connect(CommentIcon)
       extraClass="pull-right"
       handleCommentClick={[MockFunction]}
-      location="CENTER"
       postId="e584uzbwwpny9kengqayx5ayzw"
-      searchStyle=""
     />
   </div>
 </div>

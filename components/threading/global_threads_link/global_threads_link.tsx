@@ -41,7 +41,7 @@ const GlobalThreadsLink = () => {
         if (isFeatureEnabled) {
             dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
         }
-    }, [currentTeamId]);
+    }, [currentTeamId, isFeatureEnabled]);
 
     if (!isFeatureEnabled || (unreadsOnly && !inGlobalThreads && !someUnreadThreads)) {
         // hide link if feature disabled or filtering unreads and there are no unread threads

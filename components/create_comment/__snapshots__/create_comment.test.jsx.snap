@@ -9,7 +9,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -27,7 +27,6 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -39,10 +38,9 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value=""
         />
@@ -70,7 +68,6 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         >
           <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -97,7 +94,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -121,7 +118,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -139,7 +136,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -151,10 +147,9 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value=""
         />
@@ -182,7 +177,6 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
         >
           <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -209,7 +203,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -233,7 +227,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -251,7 +245,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -263,10 +256,9 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
         />
@@ -357,7 +349,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -381,7 +373,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -399,7 +391,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           emojiEnabled={false}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -411,10 +402,9 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
         />
@@ -493,7 +483,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -517,7 +507,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -535,7 +525,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -547,10 +536,9 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value=""
         />
@@ -641,7 +629,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -665,7 +653,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
     className="post-create a11y__region"
     data-a11y-sort-order="4"
     role="form"
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <div
       className="post-create-body comment-create-body"
@@ -683,7 +671,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           emojiEnabled={true}
           handlePostError={[Function]}
           id="reply_textbox"
-          initialText=""
           isRHS={true}
           listenForMentionKeyClick={true}
           onBlur={[Function]}
@@ -695,10 +682,9 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onKeyUp={[Function]}
           onMouseUp={[Function]}
           onSelect={[Function]}
-          popoverMentionKeyClick={true}
           preview={false}
           rootId=""
-          suggestionListStyle="top"
+          suggestionList={[Function]}
           useChannelMentions={true}
           value="Test message"
         />
@@ -774,7 +760,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <span
           className="post-right-comments-upload-in-progress"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="File uploading"
             id="create_comment.file"
           />
@@ -813,7 +799,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
