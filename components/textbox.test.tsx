@@ -87,7 +87,7 @@ describe('components/TextBox', () => {
 
         // this mock function should be called when the textbox value is too long
         let gotError = false;
-        function handlePostError(msg: JSX.Element | null) {
+        function handlePostError(msg: React.ReactNode) {
             gotError = msg !== null;
         }
 
@@ -114,7 +114,7 @@ describe('components/TextBox', () => {
 
         // this mock function should be called when the textbox value is too long
         let gotError = false;
-        function handlePostError(msg: JSX.Element | null) {
+        function handlePostError(msg: React.ReactNode) {
             gotError = msg !== null;
         }
 
