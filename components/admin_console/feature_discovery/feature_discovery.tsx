@@ -87,7 +87,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
 
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-            `click_subscribe_from_feature_discovery`,
+            'click_subscribe_from_feature_discovery',
         );
 
         this.props.actions.openModal({

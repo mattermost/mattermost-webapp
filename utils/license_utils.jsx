@@ -66,5 +66,5 @@ export function isTrialLicense(license) {
 }
 
 export function isCloudLicense(license) {
-    return license?.Cloud === 'true'
+    return license?.Cloud === 'true';
 }
