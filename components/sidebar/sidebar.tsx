@@ -17,6 +17,7 @@ import * as Utils from 'utils/utils';
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
+import LegacySidebarHeader from './legacy_sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
 
 type Props = {
@@ -36,11 +37,13 @@ type Props = {
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
+    globalHeaderEnabled: boolean;
 };
 
 type State = {
     showDirectChannelsModal: boolean;
     isDragging: boolean;
+    isMobile: boolean;
 };
 
 export default class Sidebar extends React.PureComponent<Props, State> {
@@ -49,7 +52,13 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.state = {
             showDirectChannelsModal: false,
             isDragging: false,
+            isMobile: Utils.isMobile(),
         };
+    }
+
+    handleResize = () => {
+        const isMobile = Utils.isMobile();
+        this.setState({isMobile});
     }
 
     componentDidMount() {
@@ -59,6 +68,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
         window.addEventListener('click', this.handleClickClearChannelSelection);
         window.addEventListener('keydown', this.handleKeyDownClearChannelSelection);
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -70,6 +80,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         window.removeEventListener('click', this.handleClickClearChannelSelection);
         window.removeEventListener('keydown', this.handleKeyDownClearChannelSelection);
+        window.removeEventListener('resize', this.handleResize);
     }
 
     handleClickClearChannelSelection = (event: MouseEvent) => {
@@ -174,7 +185,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     dragging: this.state.isDragging,
                 })}
             >
-                <SidebarHeader/>
+                {this.props.globalHeaderEnabled && !this.state.isMobile ? <SidebarHeader/> : <LegacySidebarHeader/>}
                 <div
                     id='lhsNavigator'
                     role='application'

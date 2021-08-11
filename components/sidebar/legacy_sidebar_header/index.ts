@@ -4,34 +4,35 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'types/store';
-
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {openModal} from 'actions/views/modals';
-
+import {GlobalState} from 'types/store';
 import {Preferences, TutorialSteps} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
+import {openModal} from 'actions/views/modals';
 
-import SidebarHeaderDropdown from './sidebar_header_dropdown';
+import LegacySidebarHeader from './legacy_sidebar_header';
 
 function mapStateToProps(state: GlobalState) {
+    const config = getConfig(state);
     const currentTeam = getCurrentTeam(state);
     const currentUser = getCurrentUser(state);
+
+    const enableTutorial = config.EnableTutorial === 'true';
+
     const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
 
     return {
-        currentUser,
+        enableTutorial,
+        showTutorialTip,
         teamDescription: currentTeam.description,
         teamDisplayName: currentTeam.display_name,
         teamId: currentTeam.id,
-        showTutorialTip,
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
     };
 }
 
@@ -43,4 +44,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarHeaderDropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(LegacySidebarHeader);
