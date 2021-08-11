@@ -15,6 +15,10 @@
         flex-direction: column;
     }
 
+    &__title {
+        background: black;
+    }
+
     &__content {
         display: flex;
         height: calc(100% - 72px);
@@ -38,12 +42,18 @@
         overflow: auto;
         width: 100%;
         height: calc(100vh - 72px);
-        padding: 48px;
+        padding-top: 48px;
         margin: 0 auto;
 
         @media screen and (max-width: 768px) {
-            height: calc(100vh - 108px);
+            height: calc(100vh - 148px);
             padding: 0;
+        }
+    }
+
+    &__zoom-bar {
+        .modal .modal-image & {
+            background-color: rgba(var(--center-channel-color-rgb), 0.56);
         }
     }
 }

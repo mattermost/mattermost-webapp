@@ -11,15 +11,6 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {Constants, ZoomSettings} from 'utils/constants';
 
 export interface Props {
-    fileIndex: number;
-    totalFiles: number;
-    filename: string;
-    fileURL: string;
-    showPublicLink?: boolean;
-    enablePublicLink: boolean;
-    canDownloadFiles: boolean;
-    isExternalFile: boolean;
-    onGetPublicLink?: () => void;
     scale?: number;
     showZoomControls?: boolean;
     handleZoomIn?: () => void;
@@ -27,78 +18,8 @@ export interface Props {
     handleZoomReset?: () => void;
 }
 
-interface DownloadLinkProps {
-    download?: string;
-}
-
 export default class PopoverBar extends React.PureComponent<Props> {
-    static defaultProps: Partial<Props> = {
-        fileIndex: 0,
-        totalFiles: 0,
-        filename: '',
-        fileURL: '',
-        showPublicLink: true,
-    };
-
     render() {
-        let publicLink: React.ReactNode = '';
-        if (this.props.enablePublicLink && this.props.showPublicLink) {
-            publicLink = (
-                <span>
-                    <a
-                        href='#'
-                        className='public-link text'
-                        data-title='Public Image'
-                        onClick={this.props.onGetPublicLink}
-                    >
-                        <FormattedMessage
-                            id='view_image_popover.publicLink'
-                            defaultMessage='Get a public link'
-                        />
-                    </a>
-                    <span className='text'>{' | '}</span>
-                </span>
-            );
-        }
-
-        let downloadLinks = null;
-        if (this.props.canDownloadFiles) {
-            let downloadLinkText;
-            const downloadLinkProps: DownloadLinkProps = {};
-            if (this.props.isExternalFile) {
-                downloadLinkText = (
-                    <FormattedMessage
-                        id='view_image_popover.open'
-                        defaultMessage='Open'
-                    />
-                );
-            } else {
-                downloadLinkText = (
-                    <FormattedMessage
-                        id='view_image_popover.download'
-                        defaultMessage='Download'
-                    />
-                );
-
-                downloadLinkProps.download = this.props.filename;
-            }
-
-            downloadLinks = (
-                <span className='modal-bar-links'>
-                    {publicLink}
-                    <a
-                        href={this.props.fileURL}
-                        className='text'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        {...downloadLinkProps}
-                    >
-                        {downloadLinkText}
-                    </a>
-                </span>
-            );
-        }
-
         const zoomControls: React.ReactNode[] = [];
         let wrappedZoomControls: React.ReactNode = null;
         if (this.props.showZoomControls) {
@@ -225,24 +146,9 @@ export default class PopoverBar extends React.PureComponent<Props> {
             <div
                 data-testid='fileCountFooter'
                 ref='imageFooter'
-                className='modal-button-bar'
+                className='modal-button-bar file-preview-modal__zoom-bar'
             >
-                <div className='modal-column text'>
-                    <span className='modal-bar-file-count'>
-                        <FormattedMessage
-                            id='view_image_popover.file'
-                            defaultMessage='File {count, number} of {total, number}'
-                            values={{
-                                count: (this.props.fileIndex + 1),
-                                total: this.props.totalFiles,
-                            }}
-                        />
-                    </span>
-                </div>
                 {wrappedZoomControls}
-                <div className='modal-column text'>
-                    {downloadLinks}
-                </div>
             </div>
         );
     }

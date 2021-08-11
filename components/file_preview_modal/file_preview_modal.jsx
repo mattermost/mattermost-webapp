@@ -18,6 +18,7 @@ import ImagePreview from './image_preview';
 import './file_preview_modal.scss';
 import FilePreviewModalFooter from './file_preview_modal_footer/file_preview_modal_footer';
 import FilePreviewModalHeader from './file_preview_modal_header/file_preview_modal_header';
+import PopoverBar from './popover_bar';
 
 const PDFPreview = React.lazy(() => import('components/pdf_preview'));
 
@@ -292,6 +293,7 @@ export default class FilePreviewModal extends React.PureComponent {
 
         let content;
         let modalImageClass = '';
+        let zoomBar;
 
         if (this.state.loaded[this.state.imageIndex]) {
             if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
@@ -324,6 +326,24 @@ export default class FilePreviewModal extends React.PureComponent {
                             />
                         </React.Suspense>
                     </div>
+                );
+                zoomBar = (
+                    <PopoverBar
+                        showPublicLink={showPublicLink}
+                        fileIndex={this.state.imageIndex}
+                        totalFiles={this.props.fileInfos.length}
+                        filename={fileName}
+                        fileURL={fileDownloadUrl}
+                        enablePublicLink={this.props.enablePublicLink}
+                        canDownloadFiles={this.props.canDownloadFiles}
+                        isExternalFile={isExternalFile}
+                        onGetPublicLink={this.handleGetPublicLink}
+                        scale={this.state.scale[this.state.imageIndex]}
+                        showZoomControls={this.state.showZoomControls}
+                        handleZoomIn={this.handleZoomIn}
+                        handleZoomOut={this.handleZoomOut}
+                        handleZoomReset={this.handleZoomReset}
+                    />
                 );
             } else if (CodePreview.supports(fileInfo)) {
                 // modalImageClass = ' file-preview-modal__content-scrollable';
@@ -394,6 +414,7 @@ export default class FilePreviewModal extends React.PureComponent {
                             <Modal.Title
                                 componentClass='div'
                                 id='viewImageModalLabel'
+                                className='file-preview-modal__title'
                             >
                                 <FilePreviewModalHeader
                                     isMobile={this.state.isMobile}
@@ -411,6 +432,7 @@ export default class FilePreviewModal extends React.PureComponent {
                                     handleNext={this.handleNext}
                                     handleModalClose={this.handleModalClose}
                                 />
+                                {zoomBar}
                             </Modal.Title>
                             <div
                                 className={'file-preview-modal__content' + modalImageClass}
