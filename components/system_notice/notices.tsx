@@ -60,7 +60,7 @@ const notices: Notice[] = [
         body: (
             <FormattedMarkdownMessage
                 id='system_notice.body.permissions'
-                defaultMessage='Some policy and permission System Console settings have moved with the release of [advanced permissions](!https://about.mattermost.com/default-advanced-permissions) in Enterprise E10 and E20.'
+                defaultMessage='Some policy and permission System Console settings have moved with the release of [advanced permissions](!https://about.mattermost.com/default-advanced-permissions) into Mattermost Starter and Professional.'
             />
         ),
         allowForget: true,

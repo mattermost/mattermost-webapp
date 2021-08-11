@@ -5,6 +5,8 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
+import {TutorialSteps} from 'utils/constants';
+
 import IconButton from '@mattermost/compass-components/components/icon-button';
 import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 import Heading from '@mattermost/compass-components/components/heading';
