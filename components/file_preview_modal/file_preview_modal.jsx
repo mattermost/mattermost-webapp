@@ -14,10 +14,10 @@ import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 
-import FilePreviewModalHeader from './file_preview_modal_header';
 import ImagePreview from './image_preview';
 import './file_preview_modal.scss';
 import FilePreviewModalFooter from './file_preview_modal_footer/file_preview_modal_footer';
+import FilePreviewModalHeader from './file_preview_modal_header/file_preview_modal_header';
 
 const PDFPreview = React.lazy(() => import('components/pdf_preview'));
 
@@ -275,7 +275,6 @@ export default class FilePreviewModal extends React.PureComponent {
             this.handleModalClose();
         }
     }
-
 
     render() {
         if (this.props.fileInfos.length < 1 || this.props.fileInfos.length - 1 < this.state.imageIndex) {

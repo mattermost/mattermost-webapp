@@ -14,14 +14,15 @@
 
     &__action-item {
         display: flex;
-        justify-content: center;
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
         align-items: center;
+        justify-content: center;
         border: unset;
         margin-left: 8px;
         background: transparent;
-        height: 40px;
-        width: 40px;
-        overflow: hidden;
+
         @include border-radius(4px);
 
         &:hover {
@@ -31,7 +32,8 @@
         &.active {
             background: rgba(255, 255, 255, 0.16);
         }
-        &:first-child{
+
+        &:first-child {
             margin-left: unset;
         }
     }

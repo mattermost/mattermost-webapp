@@ -36,14 +36,14 @@
     &__file-details {
         overflow: hidden;
         max-width: 30vw;
+        color: rgba(255, 255, 255, 0.56);
         font-size: 1.4rem;
         font-weight: 400;
         text-overflow: ellipsis;
         text-transform: capitalize;
         white-space: nowrap;
-        color: rgba(255,255,255, 0.56);
 
-        &-user-name{
+        &-user-name {
             color: white;
         }
     }

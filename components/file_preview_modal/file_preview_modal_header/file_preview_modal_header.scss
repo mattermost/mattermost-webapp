@@ -10,9 +10,9 @@
     grid-template-columns: 1fr auto 1fr;
 
     @media screen and (max-width: 768px) {
-        height: 44px;
-        padding: 8px;
         display: flex;
+        height: 44px;
         justify-content: flex-start;
+        padding: 8px;
     }
 }
