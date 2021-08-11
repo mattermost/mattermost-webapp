@@ -12,7 +12,7 @@
 }
 
 .backstage-navbar__back {
-    color: var(--button-bg);
+    color: var(--sys-button-bg);
     text-decoration: none;
 
     .fa {
@@ -23,7 +23,7 @@
 
     &:hover,
     &:active {
-        color: var(--button-bg);
+        color: var(--sys-button-bg);
         text-decoration: underline;
     }
 }
