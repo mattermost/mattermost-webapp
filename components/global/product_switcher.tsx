@@ -7,8 +7,11 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
+import {TutorialSteps} from 'utils/constants';
+
 import {ChannelsIcon} from './assets';
-import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
+import {useClickOutsideRef, useCurrentProductId, useProducts, useShowTutorialStep} from './hooks';
+import ProductSwitcherTip from './product_switcher_tip';
 
 interface SwitcherMenuProps {
     open: boolean;
@@ -78,6 +81,7 @@ const LinkIcon = styled.i`
 
 const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
+    const showTutorialStep = useShowTutorialStep(TutorialSteps.PRODUCT_SWITCHER, products);
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -110,6 +114,7 @@ const ProductSwitcher = (): JSX.Element => {
                 toggled={switcherOpen}
                 inverted={true}
             />
+            {showTutorialStep && <ProductSwitcherTip/>}
             <SwitcherMenu
                 open={switcherOpen}
             >

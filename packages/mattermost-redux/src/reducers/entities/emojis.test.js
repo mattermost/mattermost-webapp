@@ -1,14 +1,143 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
-import {PostTypes} from 'mattermost-redux/action_types';
+import {EmojiTypes, PostTypes} from 'mattermost-redux/action_types';
 import {customEmoji as customEmojiReducer} from 'mattermost-redux/reducers/entities/emojis';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 describe('reducers/entities/emojis', () => {
     describe('customEmoji', () => {
+        describe('RECEIVED_CUSTOM_EMOJI', () => {
+            test('should add new emojis', () => {
+                let state = deepFreeze({});
+
+                state = customEmojiReducer(state, {
+                    type: EmojiTypes.RECEIVED_CUSTOM_EMOJI,
+                    data: {
+                        id: 'emoji1',
+                    },
+                });
+
+                expect(state).toEqual({
+                    emoji1: {id: 'emoji1'},
+                });
+
+                state = customEmojiReducer(state, {
+                    type: EmojiTypes.RECEIVED_CUSTOM_EMOJI,
+                    data: {
+                        id: 'emoji2',
+                    },
+                });
+
+                expect(state).toEqual({
+                    emoji1: {id: 'emoji1'},
+                    emoji2: {id: 'emoji2'},
+                });
+            });
+
+            test('should return the original state if the emoji is already loaded', () => {
+                const state = deepFreeze({
+                    emoji1: {id: 'emoji1'},
+                });
+
+                const nextState = customEmojiReducer(state, {
+                    type: EmojiTypes.RECEIVED_CUSTOM_EMOJI,
+                    data: {
+                        id: 'emoji1',
+                    },
+                });
+
+                expect(state).toBe(nextState);
+            });
+        });
+
+        describe('RECEIVED_CUSTOM_EMOJIS', () => {
+            test('should add new emojis', () => {
+                let state = deepFreeze({});
+
+                state = customEmojiReducer(state, {
+                    type: EmojiTypes.RECEIVED_CUSTOM_EMOJIS,
+                    data: [
+                        {
+                            id: 'emoji1',
+                        },
+                        {
+                            id: 'emoji2',
+                        },
+                    ],
+                });
+
+                expect(state).toEqual({
+                    emoji1: {id: 'emoji1'},
+                    emoji2: {id: 'emoji2'},
+                });
+
+                state = customEmojiReducer(state, {
+                    type: EmojiTypes.RECEIVED_CUSTOM_EMOJIS,
+                    data: [
+                        {
+                            id: 'emoji1',
+                        },
+                        {
+                            id: 'emoji3',
+                        },
+                    ],
+                });
+
+                expect(state).toEqual({
+                    emoji1: {id: 'emoji1'},
+                    emoji2: {id: 'emoji2'},
+                    emoji3: {id: 'emoji3'},
+                });
+            });
+
+            test('should return the original state if emojis are already loaded', () => {
+                const state = deepFreeze({
+                    emoji1: {id: 'emoji1'},
+                    emoji2: {id: 'emoji2'},
+                });
+
+                let nextState = customEmojiReducer(state, {
+                    type: EmojiTypes.RECEIVED_CUSTOM_EMOJIS,
+                    data: [
+                        {
+                            id: 'emoji1',
+                        },
+                    ],
+                });
+
+                expect(state).toBe(nextState);
+
+                nextState = customEmojiReducer(state, {
+                    type: EmojiTypes.RECEIVED_CUSTOM_EMOJIS,
+                    data: [
+                        {
+                            id: 'emoji1',
+                        },
+                        {
+                            id: 'emoji2',
+                        },
+                    ],
+                });
+
+                expect(state).toBe(nextState);
+            });
+
+            test('should return the original state if an empty array is received', () => {
+                const state = deepFreeze({
+                    emoji1: {id: 'emoji1'},
+                    emoji2: {id: 'emoji2'},
+                });
+
+                const nextState = customEmojiReducer(state, {
+                    type: EmojiTypes.RECEIVED_CUSTOM_EMOJIS,
+                    data: [],
+                });
+
+                expect(state).toBe(nextState);
+            });
+        });
+
         const testForSinglePost = (actionType) => () => {
             it('no post metadata', () => {
                 const state = deepFreeze({});
@@ -21,7 +150,7 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toBe(state);
             });
 
             it('no emojis in post metadata', () => {
@@ -36,7 +165,7 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toBe(state);
             });
 
             it('should save custom emojis', () => {
@@ -53,8 +182,8 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toBe(state);
+                expect(nextState).toEqual({
                     emoji1: {id: 'emoji1'},
                     emoji2: {id: 'emoji2'},
                 });
@@ -77,7 +206,7 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toBe(state);
             });
 
             it('should handle a mix of custom emojis that are and are not loaded', () => {
@@ -96,8 +225,8 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toBe(state);
+                expect(nextState).toEqual({
                     emoji1: {id: 'emoji1'},
                     emoji2: {id: 'emoji2'},
                 });
@@ -123,7 +252,7 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toBe(state);
             });
 
             it('no emojis in post metadata', () => {
@@ -142,7 +271,7 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toBe(state);
             });
 
             it('should save custom emojis', () => {
@@ -163,8 +292,8 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toBe(state);
+                expect(nextState).toEqual({
                     emoji1: {id: 'emoji1'},
                     emoji2: {id: 'emoji2'},
                 });
@@ -191,7 +320,7 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toBe(state);
             });
 
             it('should handle a mix of custom emojis that are and are not loaded', () => {
@@ -214,8 +343,8 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toBe(state);
+                expect(nextState).toEqual({
                     emoji1: {id: 'emoji1'},
                     emoji2: {id: 'emoji2'},
                 });
@@ -247,8 +376,8 @@ describe('reducers/entities/emojis', () => {
 
                 const nextState = customEmojiReducer(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toBe(state);
+                expect(nextState).toEqual({
                     emoji1: {id: 'emoji1'},
                     emoji2: {id: 'emoji2'},
                     emoji3: {id: 'emoji3'},
