@@ -8,7 +8,7 @@ type SvgProps = {
     height: number;
 }
 
-const ResetPasswordSvg = (props: SvgProps) => (
+const EmptyBillingHistorySvg = (props: SvgProps) => (
     <svg
         width={props.width ? props.width.toString() : '519'}
         height={props.height ? props.height.toString() : '396'}
@@ -314,4 +314,4 @@ const ResetPasswordSvg = (props: SvgProps) => (
 
 );
 
-export default ResetPasswordSvg;
+export default EmptyBillingHistorySvg;

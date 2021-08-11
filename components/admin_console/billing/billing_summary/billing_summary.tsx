@@ -11,7 +11,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import BlockableLink from 'components/admin_console/blockable_link';
 import OverlayTrigger from 'components/overlay_trigger';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
-import ResetPasswordSvg from 'components/common/svg_images_components/reset_password.svg';
+import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -19,7 +19,7 @@ import {Client4} from 'mattermost-redux/client';
 
 export const noBillingHistory = (
     <div className='BillingSummary__noBillingHistory'>
-        <ResetPasswordSvg
+        <EmptyBillingHistorySvg
             height={167}
             width={234}
         />

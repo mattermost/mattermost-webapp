@@ -15,7 +15,7 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import ResetPasswordSvg from 'components/common/svg_images_components/reset_password.svg';
+import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
 
 import {CloudLinks} from 'utils/constants';
 
@@ -29,7 +29,7 @@ const PAGE_LENGTH = 4;
 
 const noBillingHistorySection = (
     <div className='BillingHistory__noHistory'>
-        <ResetPasswordSvg
+        <EmptyBillingHistorySvg
             width={300}
             height={210}
         />

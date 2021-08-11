@@ -11,6 +11,7 @@ import AlertBanner from 'components/alert_banner';
 
 import {CloudLinks, CloudProducts} from 'utils/constants';
 import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud.svg';
+import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial.svg';
 
 export const contactSalesCard = (
     contactSalesLink: any,
@@ -162,10 +163,16 @@ export const contactSalesCard = (
                 }
             </div>
             <div className='PrivateCloudCard__image'>
-                <PrivateCloudSvg
-                    width={234}
-                    height={167}
-                />
+                {isFreeTrial ?
+                    <CloudTrialSvg
+                        width={234}
+                        height={167}
+                    /> :
+                    <PrivateCloudSvg
+                        width={234}
+                        height={167}
+                    />
+                }
             </div>
         </div>
     );
