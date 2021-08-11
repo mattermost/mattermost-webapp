@@ -14,13 +14,15 @@ describe('Cloud Onboarding', () => {
     let testUser;
     let otherUser;
     let testTeam;
-    let config;
+
+    // let config;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
 
-        cy.apiGetConfig().then((data) => {
-            ({config} = data);
+        // cy.apiGetConfig().then((_data) => {
+        cy.apiGetConfig().then(() => {
+            // ({config} = data);
         });
 
         // # Set Support Email setting
@@ -60,12 +62,12 @@ describe('Cloud Onboarding', () => {
         cy.get('#tipNextButton').click();
 
         // tip 2: channels
-//        cy.get('#create_post #tipButton').click();
-//
-//        cy.get('.tip-overlay').should('be.visible').
-//            and('contain', 'Type your first message and select Enter to send it.');
-//
-//        cy.get('#tipNextButton').click();
+        // cy.get('#create_post #tipButton').click();
+        //
+        // cy.get('.tip-overlay').should('be.visible').
+        //     and('contain', 'Type your first message and select Enter to send it.');
+        //
+        // cy.get('#tipNextButton').click();
 
         // tip 3: add channels
         // tip 4: admin
