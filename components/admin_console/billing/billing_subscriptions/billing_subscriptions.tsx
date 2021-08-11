@@ -9,10 +9,8 @@ import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';
 import AlertBanner from 'components/alert_banner';
 
-import privateCloudImage from 'images/private-cloud-image.svg';
-import freeTrialPrivateCloudImage from 'images/free-trial-private-cloud-image.svg';
-
 import {CloudLinks, CloudProducts} from 'utils/constants';
+import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud.svg';
 
 export const contactSalesCard = (
     contactSalesLink: any,
@@ -164,7 +162,10 @@ export const contactSalesCard = (
                 }
             </div>
             <div className='PrivateCloudCard__image'>
-                <img src={isFreeTrial ? freeTrialPrivateCloudImage : privateCloudImage}/>
+                <PrivateCloudSvg
+                    width={234}
+                    height={167}
+                />
             </div>
         </div>
     );
