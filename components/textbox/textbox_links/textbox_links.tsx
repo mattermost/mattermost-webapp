@@ -13,7 +13,7 @@ type Props = {
     characterLimit: number;
     previewMessageLink?: string;
     updatePreview?: (showPreview: boolean) => void;
-    message: string;
+    message?: string;
     isMarkdownPreviewEnabled: boolean;
 };
 
