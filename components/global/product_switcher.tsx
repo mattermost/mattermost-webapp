@@ -83,7 +83,7 @@ const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
             to={props.destination}
         >
 
-            <StyledIcon glyph={props.icon}/>
+            {props.icon}
             <MenuItemTextContainer>
                 {props.text}
             </MenuItemTextContainer>
