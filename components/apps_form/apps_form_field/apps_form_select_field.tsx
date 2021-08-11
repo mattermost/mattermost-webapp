@@ -141,6 +141,10 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
     }
 
     renderClearComponent = () => {
+        if (this.props.field.multiselect) {
+            return null;
+        }
+
         const clearableTooltip = (
             <Tooltip id={'InputClearTooltip'}>
                 <FormattedMessage
