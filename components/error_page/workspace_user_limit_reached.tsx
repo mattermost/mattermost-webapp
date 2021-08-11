@@ -8,8 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import computerWithAlert from 'images/cloud/computer-with-alert.svg';
 import mattermostCloud from 'images/cloud/mattermost-cloud.svg';
-import wavesBackground from 'images/cloud/waves.svg';
-import blueDots from 'images/cloud/blue.svg';
+import background from 'images/cloud/background.svg';
 
 const WorkspaceUserLimitReached: React.FC = () => {
     useEffect(() => {
@@ -46,11 +45,7 @@ const WorkspaceUserLimitReached: React.FC = () => {
             <div>
                 <img
                     className='waves'
-                    src={wavesBackground}
-                />
-                <img
-                    className='blue-dots'
-                    src={blueDots}
+                    src={background}
                 />
             </div>
         </div>

@@ -15,10 +15,7 @@ import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
-import upgradeImage from 'images/cloud/upgrade.svg';
-import wavesBackground from 'images/cloud/waves.svg';
-import blueDots from 'images/cloud/blue.svg';
-import LowerBlueDots from 'images/cloud/blue-lower.svg';
+import background from 'images/cloud/background.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
@@ -42,6 +39,7 @@ import ProcessPaymentSetup from './process_payment_setup';
 
 import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
 
 let stripePromise: Promise<Stripe | null>;
 
@@ -334,13 +332,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     paymentFooterText = () => {
         const normalPaymentText = (
-            <FormattedMessage
-                defaultMessage={'Payment begins: {beginDate}'}
-                id={'admin.billing.subscription.paymentBegins'}
-                values={{
-                    beginDate: getNextBillingDate(),
-                }}
-            />
+            <div className='normal-payment-text'>
+                <FormattedMessage
+                    defaultMessage={'Payment begins: {beginDate}'}
+                    id={'admin.billing.subscription.paymentBegins'}
+                    values={{
+                        beginDate: getNextBillingDate(),
+                    }}
+                />
+            </div>
         );
 
         let payment = normalPaymentText;
@@ -462,10 +462,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     <div className='title'>
                         {title}
                     </div>
-                    <img
-                        className='image'
-                        alt='upgrade'
-                        src={upgradeImage}
+                    <UpgradeSvg
+                        width={267}
+                        height={227}
                     />
                     <div className='footer-text'>
                         <FormattedMessage
@@ -686,15 +685,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             <div>
                                 <img
                                     className='waves'
-                                    src={wavesBackground}
-                                />
-                                <img
-                                    className='blue-dots'
-                                    src={blueDots}
-                                />
-                                <img
-                                    className='lower-blue-dots'
-                                    src={LowerBlueDots}
+                                    src={background}
                                 />
                             </div>
                         </div>
