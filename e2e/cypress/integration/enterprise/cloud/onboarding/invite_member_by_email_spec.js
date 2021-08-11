@@ -162,7 +162,7 @@ describe('Cloud Onboarding - Sysadmin invite members by email', () => {
         cy.get('.InviteMembersStep__invitationResults').should('contain', 'One or more email addresses are invalid');
     });
 
-    it('MM-T3332_3 Pressing next with empty input finishes the step', () => {
+    it('MM-T3332_4 Pressing next with empty input finishes the step', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 
