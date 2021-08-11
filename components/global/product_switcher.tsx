@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
-import Heading from '@mattermost/compass-components/components/heading';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -30,15 +29,6 @@ const ProductSwitcherContainer = styled.nav`
 
     > * + * {
         margin-left: 12px;
-    }
-`;
-
-const ProductBranding = styled.div`
-    display: flex;
-    align-items: center;
-
-    > * + * {
-        margin-left: 6px;
     }
 `;
 
@@ -148,19 +138,6 @@ const ProductSwitcher = (): JSX.Element => {
                         inverted={true}
                         aria-label='Select to open product switch menu.'
                     />
-                    <ProductBranding>
-                        <Icon
-                            size={20}
-                            glyph={'product-channels'}
-                        />
-                        <Heading
-                            element='h1'
-                            size={200}
-                            margin='none'
-                        >
-                            {'Channels'}
-                        </Heading>
-                    </ProductBranding>
                 </ProductSwitcherContainer>
                 <Menu
                     ariaLabel={'switcherOpen'}
