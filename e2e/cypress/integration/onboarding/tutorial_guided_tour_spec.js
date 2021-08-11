@@ -8,9 +8,9 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @onboarding @smoke @not_cloud
+// Group: @onboarding @smoke
 
-describe('Cloud Onboarding', () => {
+describe('Onboarding', () => {
     let testUser;
     let otherUser;
     let testTeam;
@@ -18,8 +18,6 @@ describe('Cloud Onboarding', () => {
     // let config;
 
     before(() => {
-        cy.shouldNotRunOnCloudEdition();
-
         // cy.apiGetConfig().then((_data) => {
         cy.apiGetConfig().then(() => {
             // ({config} = data);
