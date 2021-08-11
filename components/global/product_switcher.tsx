@@ -5,16 +5,17 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {TutorialSteps} from 'utils/constants';
-
 import IconButton from '@mattermost/compass-components/components/icon-button';
 import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 import Heading from '@mattermost/compass-components/components/heading';
 
-import {useClickOutsideRef, useCurrentProductId, useProducts} from '../hooks';
-import ProductSwitcherMenu from '../product_switcher_menu';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import {TutorialSteps} from 'utils/constants';
+
+import {useClickOutsideRef, useCurrentProductId, useProducts, useShowTutorialStep} from './hooks';
+import ProductSwitcherMenu from './product_switcher_menu';
+import ProductSwitcherTip from './product_switcher_tip';
 
 interface SwitcherNavEntryProps {
     destination: string;
@@ -108,6 +109,7 @@ const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
 
 const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
+    const showTutorialStep = useShowTutorialStep(TutorialSteps.PRODUCT_SWITCHER, products);
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -176,6 +178,7 @@ const ProductSwitcher = (): JSX.Element => {
                         active={currentProductID === null}
                     />
                     {productItems}
+                    {showTutorialStep && <ProductSwitcherTip/>}
                     <ProductSwitcherMenu id='ProductSwitcherMenu'/>
                 </Menu>
             </MenuWrapper>
