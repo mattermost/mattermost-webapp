@@ -9,7 +9,7 @@
 
 // Stage: @prod
 // Group: @onboarding @smoke
-const sel = {
+const selectors = {
     tip: '#tipButton',
     tipNext: '#tipNextButton',
     tipText: '.tip-overlay',
@@ -30,27 +30,27 @@ describe('Onboarding', () => {
 
     it('Takes the user through the steps of using the app', () => {
         // tip 1: post message
-        cy.get(`#create_post ${sel.tip}`).click();
-        cy.get(sel.tipText).should('be.visible').
+        cy.get(`#create_post ${selectors.tip}`).click();
+        cy.get(selectors.tipText).should('be.visible').
             and('contain', 'Send a message');
-        cy.get(sel.tipNext).click();
+        cy.get(selectors.tipNext).click();
 
         // tip 2: channels
-        cy.get(`#sidebarItem_town-square ${sel.tip}`).click();
-        cy.get(sel.tipText).should('be.visible').
+        cy.get(`#sidebarItem_town-square ${selectors.tip}`).click();
+        cy.get(selectors.tipText).should('be.visible').
             and('contain', 'Organize conversations in channels');
-        cy.get(sel.tipNext).click();
+        cy.get(selectors.tipNext).click();
 
         // tip 3: add channels
-        cy.get(`#lhsNavigator ${sel.tip}`).click();
-        cy.get(sel.tipText).should('be.visible').
+        cy.get(`#lhsNavigator ${selectors.tip}`).click();
+        cy.get(selectors.tipText).should('be.visible').
             and('contain', 'Create and join channels');
-        cy.get(sel.tipNext).click();
+        cy.get(selectors.tipNext).click();
 
         // tip 4: invite people/admin
-        cy.get(`#sidebarHeaderDropdownButton ${sel.tip}`).click();
-        cy.get(sel.tipText).should('be.visible').
+        cy.get(`#sidebarHeaderDropdownButton ${selectors.tip}`).click();
+        cy.get(selectors.tipText).should('be.visible').
             and('contain', 'Invite people');
-        cy.get(sel.tipNext).click();
+        cy.get(selectors.tipNext).click();
     });
 });
