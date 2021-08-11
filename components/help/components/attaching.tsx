@@ -26,7 +26,7 @@ export default function Attaching(): JSX.Element {
             <p>
                 <FormattedMessage
                     id='help.attaching.methods.description'
-                    defaultMessage='You have three ways to attach a file: dragging and dropping files, using the Attachment icon, or by copying and pasting files.'
+                    defaultMessage='There are three ways to attach a file: You can drag and drop files, use the Attachment icon, or copy and paste files.'
                 />
             </p>
             <h4 className='markdown__heading'>
