@@ -27,6 +27,7 @@ import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
 import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
@@ -61,6 +62,7 @@ const GlobalThreads = () => {
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null;
+    const globalHeaderEnabled = useSelector((state: GlobalState) => getGlobalHeaderEnabled(state));
 
     useEffect(() => {
         dispatch(suppressRHS);
@@ -120,7 +122,7 @@ const GlobalThreads = () => {
                     id: 'globalThreads.subtitle',
                     defaultMessage: 'Threads you’re participating in will automatically show here',
                 })}
-                right={<RHSSearchNav/>}
+                right={globalHeaderEnabled ? null : <RHSSearchNav/>}
             />
 
             {isEmpty(threadIds) ? (
