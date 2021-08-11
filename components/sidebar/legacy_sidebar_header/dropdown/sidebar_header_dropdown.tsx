@@ -26,7 +26,6 @@ type Props = {
     currentUser: UserProfile;
     showTutorialTip: boolean;
     actions: Actions;
-    globalHeaderEnabled: boolean;
 }
 
 export default class SidebarHeaderDropdown extends React.PureComponent<Props> {
@@ -72,7 +71,6 @@ export default class SidebarHeaderDropdown extends React.PureComponent<Props> {
                     teamDisplayName={this.props.teamDisplayName}
                     teamId={this.props.teamId}
                     openModal={this.props.actions.openModal}
-                    globalHeaderEnabled={this.props.globalHeaderEnabled}
                 />
                 <MainMenu id='sidebarDropdownMenu'/>
             </MenuWrapper>
