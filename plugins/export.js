@@ -10,6 +10,7 @@ import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import PurchaseModal from 'components/purchase_modal';
 
+import LoggedIn from 'components/logged_in';
 import Timestamp from 'components/timestamp';
 
 // The following import has intentional side effects. Do not remove without research.
@@ -38,4 +39,5 @@ window.Components = {
     Textbox,
     PurchaseModal,
     Timestamp,
+    LoggedIn,
 };
