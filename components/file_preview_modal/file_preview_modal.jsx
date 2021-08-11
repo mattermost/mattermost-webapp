@@ -320,6 +320,7 @@ export default class FilePreviewModal extends React.PureComponent {
                                 fileInfo={fileInfo}
                                 fileUrl={fileUrl}
                                 scale={this.state.scale[this.state.imageIndex]}
+                                handleBgClose={this.handleBgClose}
                             />
                         </React.Suspense>
                     </div>

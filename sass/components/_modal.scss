@@ -464,11 +464,6 @@
                 }
             }
 
-            .pdf-preview {
-                display: flex;
-                flex-direction: column;
-            }
-
             audio,
             canvas,
             progress,
@@ -488,7 +483,6 @@
             // override canvas for PDF zooming
             canvas {
                 max-height: 100%;
-                margin: 0;
             }
 
             .modal-close {
