@@ -3192,7 +3192,7 @@
   "help.attaching.icon.title": "Use the Attachment Icon",
   "help.attaching.limitations.description": "Mattermost supports up to five files attached per post. The default maximum file size is 100 MB (megabytes), but this can be changed by your System Admin. Image files can be a maximum size of 6048 pixels x 4032 pixels, or 24 MP (mega pixels), or a raw image file size of approximately 36 MB.",
   "help.attaching.limitations.title": "File Size Limitations",
-  "help.attaching.methods.description": "You have three ways to attach a file: dragging and dropping files, using the Attachment icon, or by copying and pasting files.",
+  "help.attaching.methods.description": "There are three ways to attach a file: You can drag and drop files, use the Attachment icon, or copy and paste files.",
   "help.attaching.methods.title": "Attachment Methods",
   "help.attaching.notSupported": "Other document formats (such as Word, Excel, or PPT) are not yet supported.",
   "help.attaching.pasting.description": "On Chrome and Edge browsers, you can upload files by pasting them from the system clipboard. This is not yet supported on other browsers.",
