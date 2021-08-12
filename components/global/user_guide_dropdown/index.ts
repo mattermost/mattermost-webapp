@@ -12,9 +12,9 @@ import UserGuideDropdown from './user_guide_dropdown';
 function mapStateToProps(state: GlobalState) {
     const {HelpLink, ReportAProblemLink, EnableAskCommunityLink} = getConfig(state);
     return {
-        helpLink: HelpLink!,
-        reportAProblemLink: ReportAProblemLink!,
-        enableAskCommunityLink: EnableAskCommunityLink!,
+        helpLink: HelpLink || '',
+        reportAProblemLink: ReportAProblemLink || '',
+        enableAskCommunityLink: EnableAskCommunityLink || '',
     };
 }
 

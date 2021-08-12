@@ -18,12 +18,14 @@ import {
 } from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {closeModal, openModal} from 'actions/views/modals';
-import {isModalOpen} from 'selectors/views/modals';
+
+import {useIsModalOpen} from '../hooks';
 
 const GlobalSearchNav = (): JSX.Element => {
     const dispatch = useDispatch();
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));
     const isRhsOpen = useSelector((state: GlobalState) => getIsRhsOpen(state));
+    const [, isQuickSwitcherOpenRef] = useIsModalOpen(ModalIdentifiers.QUICK_SWITCH);
 
     useEffect(() => {
         document.addEventListener('keydown', handleShortcut);
@@ -57,9 +59,7 @@ const GlobalSearchNav = (): JSX.Element => {
     };
 
     const toggleQuickSwitchModal = () => {
-        const isQuickSwitcherOpen = useSelector((state: GlobalState) => isModalOpen(state));
-
-        if (isQuickSwitcherOpen) {
+        if (isQuickSwitcherOpenRef.current) {
             dispatch(closeModal(ModalIdentifiers.QUICK_SWITCH));
         } else {
             dispatch(openModal({

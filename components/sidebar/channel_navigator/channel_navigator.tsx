@@ -20,6 +20,7 @@ type Props = {
     canGoBack: boolean;
     canJoinPublicChannel: boolean;
     showMoreChannelsModal: () => void;
+    invitePeopleModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
     handleOpenDirectMessagesModal: (e: Event) => void;
@@ -86,6 +87,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
             <AddChannelDropdown
                 showNewChannelModal={this.props.showNewChannelModal}
                 showMoreChannelsModal={this.props.showMoreChannelsModal}
+                invitePeopleModal={this.props.invitePeopleModal}
                 showCreateCategoryModal={this.props.showCreateCategoryModal}
                 canCreateChannel={this.props.canCreateChannel}
                 canJoinPublicChannel={this.props.canJoinPublicChannel}
