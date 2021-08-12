@@ -74,7 +74,7 @@ const SidebarHeader: React.FC = (): JSX.Element => {
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
-                    overlay={<Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip>}
+                    overlay={currentTeam.description?.length ? <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip> : <></>}
                 >
                     <SidebarHeading>
                         {currentTeam.display_name}
