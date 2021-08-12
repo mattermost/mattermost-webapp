@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import StatusDropdown from 'components/status_dropdown';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import Pluggable from 'plugins/pluggable';
-import * as UserAgent from 'utils/user_agent';
+import {isDesktopApp} from 'utils/user_agent';
 
 import GlobalSearchNav from './global_search_nav/global_search_nav';
 import ProductSwitcher from './product_switcher';
@@ -101,7 +101,7 @@ const GlobalHeader = (): JSX.Element | null => {
             <LeftControls>
                 <ProductSwitcher/>
                 <ProductBranding/>
-                {UserAgent.isDesktopApp() && <HistoryButtons/>}
+                {isDesktopApp() && <HistoryButtons/>}
             </LeftControls>
             <CenterControls>
                 {currentProductID !== null &&
