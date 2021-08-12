@@ -19,7 +19,6 @@ import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
-import {useCurrentProductId, useProducts} from '../hooks';
 
 type Props = {
     isMobile: boolean;
@@ -29,6 +28,7 @@ type Props = {
     siteName: string;
     currentUser: UserProfile;
     appDownloadLink: string;
+    isMessaging: boolean;
     enableCommands: boolean;
     enableIncomingWebhooks: boolean;
     enableOAuthServiceProvider: boolean;
@@ -41,6 +41,7 @@ type Props = {
     firstAdminVisitMarketplaceStatus: boolean;
 };
 
+// TODO: reqrite this to a functional component
 class ProductSwitcherMenu extends React.PureComponent<Props> {
     static defaultProps = {
         teamType: '',
@@ -53,10 +54,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const products = useProducts();
-        const currentProductID = useCurrentProductId(products);
-        const isMessaging = currentProductID === null;
-        const {currentUser} = this.props;
+        const {currentUser, isMessaging} = this.props;
 
         if (!currentUser) {
             return null;
