@@ -63,6 +63,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
 
         const {formatMessage} = this.props.intl;
 
+        // TODO: Ensure that clicking ItemLink menu items also closes the global header menu.
         return (
             <>
                 <Menu.Group>
