@@ -272,12 +272,12 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                 <div className='InviteMembersStep'>
                     {this.props.isEmailInvitesEnabled &&
                         <div className='InviteMembersStep__emailInvitations'>
-                            <h3>
+                            <h4>
                                 <FormattedMessage
                                     id='next_steps_view.invite_members_step.sendInvitationsViaEmail'
                                     defaultMessage='Send invitations via email'
                                 />
-                            </h3>
+                            </h4>
                             <FormattedMessage
                                 id='next_steps_view.invite_members_step.youCanInviteUpTo'
                                 defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
@@ -336,7 +336,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                         </div>
                     }
                     <div className='InviteMembersStep__shareInviteLink'>
-                        <h3>
+                        <h4>
                             {this.props.isEmailInvitesEnabled &&
                                 <FormattedMessage
                                     id='next_steps_view.invite_members_step.orShareThisLink'
@@ -349,7 +349,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                     defaultMessage='Share this link to invite members'
                                 />
                             }
-                        </h3>
+                        </h4>
                         <div className='InviteMembersStep__shareLinkBlock'>
                             <input
                                 ref={this.inviteLinkRef}

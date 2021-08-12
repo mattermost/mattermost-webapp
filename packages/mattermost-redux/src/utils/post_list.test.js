@@ -987,7 +987,7 @@ describe('makeGenerateCombinedPost', () => {
 
         const result = generateCombinedPost(state, combinedId);
 
-        expect(result).toEqual({
+        expect(result).toMatchObject({
             id: combinedId,
             root_id: '',
             channel_id: 'channel1',
@@ -1016,7 +1016,6 @@ describe('makeGenerateCombinedPost', () => {
                     ],
                 },
             },
-            state: '',
             system_post_ids: ['post1', 'post2', 'post3'],
             type: Posts.POST_TYPES.COMBINED_USER_ACTIVITY,
             user_activity_posts: [
