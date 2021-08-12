@@ -3,20 +3,20 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations} from 'utils/constants';
-import * as PostUtils from 'utils/post_utils.jsx';
-import {intlShape} from 'utils/react_intl';
+import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
 import PostProfilePicture from 'components/post_profile_picture';
+import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
@@ -29,15 +29,13 @@ import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
-class RhsRootPost extends React.PureComponent {
+export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
-        author: PropTypes.string,
-        reactions: PropTypes.object,
         isFlagged: PropTypes.bool.isRequired,
         previewCollapsed: PropTypes.string,
         previewEnabled: PropTypes.bool,
@@ -59,7 +57,6 @@ class RhsRootPost extends React.PureComponent {
          * To check if the state of emoji for last message and from where it was emitted
          */
         shortcutReactToLastPostEmittedFrom: PropTypes.string,
-        intl: intlShape.isRequired,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
 
@@ -68,7 +65,6 @@ class RhsRootPost extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
-        emojiMap: PropTypes.object.isRequired,
         timestampProps: PropTypes.object,
         isBot: PropTypes.bool,
         collapsedThreadsEnabled: PropTypes.bool,
@@ -87,7 +83,6 @@ class RhsRootPost extends React.PureComponent {
             testStateObj: true,
             dropdownOpened: false,
             fileDropdownOpened: false,
-            currentAriaLabel: '',
         };
 
         this.postHeaderRef = React.createRef();
@@ -226,11 +221,6 @@ class RhsRootPost extends React.PureComponent {
         if (e.altKey) {
             this.props.actions.markPostAsUnread(this.props.post, 'RHS_ROOT');
         }
-    }
-
-    handlePostFocus = () => {
-        const {post, author, reactions, isFlagged, emojiMap} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl, emojiMap)});
     }
 
     getDotMenuRef = () => {
@@ -413,15 +403,14 @@ class RhsRootPost extends React.PureComponent {
         }
 
         return (
-            <div
+            <PostAriaLabelDiv
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
-                aria-label={this.state.currentAriaLabel}
                 onClick={this.handlePostClick}
-                onFocus={this.handlePostFocus}
                 data-a11y-sort-order='0'
+                post={post}
             >
                 <PostPreHeader
                     isFlagged={this.props.isFlagged}
@@ -476,9 +465,7 @@ class RhsRootPost extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-            </div>
+            </PostAriaLabelDiv>
         );
     }
 }
-
-export default injectIntl(RhsRootPost);

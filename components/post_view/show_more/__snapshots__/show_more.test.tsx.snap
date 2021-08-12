@@ -8,7 +8,7 @@ exports[`components/post_view/ShowMore should match snapshot 1`] = `
     className="post-message__text-container"
     style={
       Object {
-        "maxHeight": 600,
+        "maxHeight": 200,
       }
     }
   >
@@ -115,7 +115,7 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
     className="post-message__text-container"
     style={
       Object {
-        "maxHeight": 600,
+        "maxHeight": 200,
       }
     }
   />

@@ -1,62 +1,76 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {IntlShape} from 'react-intl';
+
 import {createSelector} from 'reselect';
 
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
+
+import {Permissions, Posts} from 'mattermost-redux/constants';
+
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetDisplayName, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {Permissions, Posts} from 'mattermost-redux/constants';
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
+
+import {Channel} from 'mattermost-redux/types/channels';
+import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {Group} from 'mattermost-redux/types/groups';
+import {Post} from 'mattermost-redux/types/posts';
+import {Reaction} from 'mattermost-redux/types/reactions';
+
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
-import {allAtMentions} from 'utils/text_formatting';
-
 import {getEmojiMap} from 'selectors/emojis';
+
+import {GlobalState} from 'types/store';
 
 import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
 import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
-import * as Utils from 'utils/utils.jsx';
+import {allAtMentions} from 'utils/text_formatting';
 import {isMobile} from 'utils/user_agent';
+import * as Utils from 'utils/utils';
 
 import * as Emoticons from './emoticons';
+import EmojiMap from './emoji_map';
 
 const CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS = 500;
 
-export function isSystemMessage(post) {
+export function isSystemMessage(post: Post): boolean {
     return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
 }
 
-export function fromAutoResponder(post) {
+export function fromAutoResponder(post: Post): boolean {
     return Boolean(post.type && (post.type === Constants.AUTO_RESPONDER));
 }
 
-export function isFromWebhook(post) {
+export function isFromWebhook(post: Post): boolean {
     return post.props && post.props.from_webhook === 'true';
 }
 
-export function isPostOwner(state, post) {
+export function isPostOwner(state: GlobalState, post: Post): boolean {
     return getCurrentUserId(state) === post.user_id;
 }
 
-export function isComment(post) {
+export function isComment(post: Post): boolean {
     if ('root_id' in post) {
         return post.root_id !== '' && post.root_id != null;
     }
     return false;
 }
 
-export function isEdited(post) {
+export function isEdited(post: Post): boolean {
     return post.edit_at > 0;
 }
 
-export function getImageSrc(src, hasImageProxy) {
+export function getImageSrc(src: string, hasImageProxy = false): string {
     if (!src) {
         return src;
     }
@@ -70,7 +84,7 @@ export function getImageSrc(src, hasImageProxy) {
     return src;
 }
 
-export function canDeletePost(state, post, channel) {
+export function canDeletePost(state: GlobalState, post: Post, channel: Channel): boolean {
     if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
     }
@@ -85,11 +99,18 @@ export function canDeletePost(state, post, channel) {
     return haveIChannelPermission(state, channel && channel.team_id, post.channel_id, Permissions.DELETE_OTHERS_POSTS);
 }
 
-export function canEditPost(state, post, license, config, channel, userId) {
-    return canEditPostRedux(state, config, license, channel && channel.team_id, channel && channel.id, userId, post);
+export function canEditPost(
+    state: GlobalState,
+    post: Post,
+    license?: ClientLicense,
+    config?: Partial<ClientConfig>,
+    channel?: Channel,
+    userId?: string,
+): boolean {
+    return canEditPostRedux(state, config, license, channel?.team_id ?? '', channel?.id ?? '', userId ?? '', post);
 }
 
-export function shouldShowDotMenu(state, post, channel) {
+export function shouldShowDotMenu(state: GlobalState, post: Post, channel: Channel): boolean {
     if (post && post.state === Posts.POST_DELETED) {
         return false;
     }
@@ -113,14 +134,14 @@ export function shouldShowDotMenu(state, post, channel) {
     return false;
 }
 
-export function containsAtChannel(text, options = {}) {
+export function containsAtChannel(text: string, options?: {checkAllMentions: boolean}): boolean {
     // Don't warn for slash commands
     if (!text || text.startsWith('/')) {
         return false;
     }
 
     let mentionsRegex;
-    if (options.checkAllMentions === true) {
+    if (options?.checkAllMentions) {
         mentionsRegex = new RegExp(Constants.SPECIAL_MENTIONS_REGEX);
     } else {
         mentionsRegex = new RegExp(Constants.ALL_MEMBERS_MENTIONS_REGEX);
@@ -130,18 +151,31 @@ export function containsAtChannel(text, options = {}) {
     return mentionsRegex.test(mentionableText);
 }
 
-export const groupsMentionedInText = (text, groups) => {
+export const groupsMentionedInText = (text: string, groups: Map<string, Group> | null): Group[] => {
     // Don't warn for slash commands
     if (!text || text.startsWith('/')) {
         return [];
     }
 
+    if (!groups) {
+        return [];
+    }
+
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
     const mentions = allAtMentions(mentionableText);
-    return (mentions.length > 0 && mentions.map((mention) => groups && groups.get(mention)).filter((trueVal) => trueVal)) || [];
+
+    const ret: Group[] = [];
+    for (const mention of mentions) {
+        const group = groups.get(mention);
+
+        if (group) {
+            ret.push(group);
+        }
+    }
+    return ret;
 };
 
-export function shouldFocusMainTextbox(e, activeElement) {
+export function shouldFocusMainTextbox(e: KeyboardEvent, activeElement: Element | null): boolean {
     if (!e) {
         return false;
     }
@@ -181,7 +215,7 @@ export function shouldFocusMainTextbox(e, activeElement) {
     return true;
 }
 
-function canAutomaticallyCloseBackticks(message) {
+function canAutomaticallyCloseBackticks(message: string) {
     const splitMessage = message.split('\n').filter((line) => line.trim() !== '');
     const lastPart = splitMessage[splitMessage.length - 1];
 
@@ -196,7 +230,7 @@ function canAutomaticallyCloseBackticks(message) {
     return {allowSending: true};
 }
 
-function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter, caretPosition) {
+function sendOnCtrlEnter(message: string, ctrlOrMetaKeyPressed: boolean, isSendMessageOnCtrlEnter: boolean, caretPosition: number) {
     const match = message.substring(0, caretPosition).match(Constants.TRIPLE_BACK_TICKS);
     if (isSendMessageOnCtrlEnter && ctrlOrMetaKeyPressed && (!match || match.length % 2 === 0)) {
         return {allowSending: true};
@@ -209,7 +243,15 @@ function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter
     return {allowSending: false};
 }
 
-export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter, now = 0, lastChannelSwitchAt = 0, caretPosition = 0) {
+export function postMessageOnKeyPress(
+    event: React.KeyboardEvent,
+    message: string,
+    sendMessageOnCtrlEnter: boolean,
+    sendCodeBlockOnCtrlEnter: boolean,
+    now = 0,
+    lastChannelSwitchAt = 0,
+    caretPosition = 0,
+): {allowSending: boolean; ignoreKeyPress?: boolean} {
     if (!event) {
         return {allowSending: false};
     }
@@ -247,7 +289,7 @@ export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, se
     return {allowSending: false};
 }
 
-export function isErrorInvalidSlashCommand(error) {
+export function isErrorInvalidSlashCommand(error: ServerError | null): boolean {
     if (error && error.server_error_id) {
         return error.server_error_id === 'api.command.execute_command.not_found.app_error';
     }
@@ -255,17 +297,17 @@ export function isErrorInvalidSlashCommand(error) {
     return false;
 }
 
-export function isIdNotPost(postId) {
+export function isIdNotPost(postId: string): boolean {
     return (
         PostListUtils.isStartOfNewMessages(postId) ||
         PostListUtils.isDateLine(postId) ||
-        PostListRowListIds[postId]
+        postId in PostListRowListIds
     );
 }
 
 // getOldestPostId returns the oldest valid post ID in the given list of post IDs. This function is copied from
 // mattermost-redux, except it also includes additional special IDs that are only used in the web app.
-export function getOldestPostId(postIds) {
+export function getOldestPostId(postIds: string[]): string {
     for (let i = postIds.length - 1; i >= 0; i--) {
         const item = postIds[i];
 
@@ -288,8 +330,8 @@ export function getOldestPostId(postIds) {
     return '';
 }
 
-export function getPreviousPostId(postIds, startIndex) {
-    for (var i = startIndex + 1; i < postIds.length; i++) {
+export function getPreviousPostId(postIds: string[], startIndex: number): string {
+    for (let i = startIndex + 1; i < postIds.length; i++) {
         const itemId = postIds[i];
 
         if (isIdNotPost(itemId)) {
@@ -313,7 +355,7 @@ export function getPreviousPostId(postIds, startIndex) {
 
 // getLatestPostId returns the most recent valid post ID in the given list of post IDs. This function is copied from
 // mattermost-redux, except it also includes additional special IDs that are only used in the web app.
-export function getLatestPostId(postIds) {
+export function getLatestPostId(postIds: string[]): string {
     for (let i = 0; i < postIds.length; i++) {
         const item = postIds[i];
 
@@ -336,24 +378,24 @@ export function getLatestPostId(postIds) {
     return '';
 }
 
-export function makeCreateAriaLabelForPost() {
+export function makeCreateAriaLabelForPost(): (state: GlobalState, post: Post) => (intl: IntlShape) => string {
     const getReactionsForPost = makeGetReactionsForPost();
     const getDisplayName = makeGetDisplayName();
 
     return createSelector(
         'makeCreateAriaLabelForPost',
-        (state, post) => post,
-        (state, post) => getDisplayName(state, post.user_id),
-        (state, post) => getReactionsForPost(state, post.id),
-        (state, post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
+        (state: GlobalState, post: Post) => post,
+        (state: GlobalState, post: Post) => getDisplayName(state, post.user_id),
+        (state: GlobalState, post: Post) => getReactionsForPost(state, post.id),
+        (state: GlobalState, post: Post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
         getEmojiMap,
         (post, author, reactions, isFlagged, emojiMap) => {
-            return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap);
+            return (intl: IntlShape) => createAriaLabelForPost(post, author, isFlagged, reactions ?? {}, intl, emojiMap);
         },
     );
 }
 
-export function createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap) {
+export function createAriaLabelForPost(post: Post, author: string, isFlagged: boolean, reactions: Record<string, Reaction>, intl: IntlShape, emojiMap: EmojiMap): string {
     const {formatMessage, formatTime, formatDate} = intl;
 
     let message = post.state === Posts.POST_DELETED ? formatMessage({
@@ -442,7 +484,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
             {
                 reactionCount: emojiNames.length,
             });
-        } else {
+        } else if (emojiNames.length === 1) {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.reaction',
                 defaultMessage: ', 1 reaction',
@@ -473,19 +515,19 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
 }
 
 // Splits text message based on the current caret position
-export function splitMessageBasedOnCaretPosition(caretPosition, message) {
+export function splitMessageBasedOnCaretPosition(caretPosition: number, message: string): {firstPiece: string; lastPiece: string} {
     const firstPiece = message.substring(0, caretPosition);
     const lastPiece = message.substring(caretPosition, message.length);
     return {firstPiece, lastPiece};
 }
 
-export function getNewMessageIndex(postListIds) {
+export function getNewMessageIndex(postListIds: string[]): number {
     return postListIds.findIndex(
         (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0,
     );
 }
 
-export function areConsecutivePostsBySameUser(post, previousPost) {
+export function areConsecutivePostsBySameUser(post: Post, previousPost: Post): boolean {
     if (!(post && previousPost)) {
         return false;
     }
@@ -502,9 +544,9 @@ export function areConsecutivePostsBySameUser(post, previousPost) {
 // the URL constructed is the URL of the channel instead.
 //
 // Note: In the case of DM_CHANNEL, users must be fetched beforehand.
-export function getPostURL(state, post) {
+export function getPostURL(state: GlobalState, post: Post): string {
     const channel = getChannel(state, post.channel_id);
-    const currentUserId = getCurrentUserId(state, post.channel_id);
+    const currentUserId = getCurrentUserId(state);
     const team = getTeam(state, channel.team_id || getCurrentTeamId(state));
 
     const postURI = isCollapsedThreadsEnabled(state) && isComment(post) ? '' : `/${post.id}`;
