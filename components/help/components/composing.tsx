@@ -48,13 +48,13 @@ export default function HelpComposing(): JSX.Element {
                 />
             </h4>
             <p>
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='help.composing.replies.description1'
                     defaultMessage='Select the **Reply** icon next to any message to open the right-hand sidebar to respond to a thread.'
                 />
             </p>
             <p>
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='help.composing.replies.description2'
                     defaultMessage='When composing a reply, select the **Expand Sidebar/Collapse Sidebar** icon in the top right corner of the right-hand sidebar to make conversations easier to read.'
                 />
