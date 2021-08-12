@@ -13,21 +13,24 @@ import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-import * as UserAgent from 'utils/user_agent';
-import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
-import {trackLoadTime} from 'actions/telemetry_actions.jsx';
-import * as GlobalActions from 'actions/global_actions';
-import BrowserStore from 'stores/browser_store';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
-import {initializePlugins} from 'plugins';
-import 'plugins/export.js';
-import Pluggable from 'plugins/pluggable';
-import Constants, {StoragePrefixes} from 'utils/constants';
+import * as GlobalActions from 'actions/global_actions';
+import {trackLoadTime} from 'actions/telemetry_actions.jsx';
+
+import {makeAsyncComponent} from 'components/async_load';
+import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
+import GlobalHeader from 'components/global/global_header';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
-import {makeAsyncComponent} from 'components/async_load';
-import GlobalHeader from 'components/global/global_header';
+
+import {initializePlugins} from 'plugins';
+import 'plugins/export.js';
+import Pluggable from 'plugins/pluggable';
+import BrowserStore from 'stores/browser_store';
+import Constants, {StoragePrefixes} from 'utils/constants';
+import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
@@ -359,7 +362,7 @@ export default class Root extends React.PureComponent {
                         from={'/_redirect/pl/:postid'}
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
-                    <>
+                    <CompassThemeProvider theme={this.props.theme}>
                         <GlobalHeader/>
                         <Switch>
                             {this.props.products?.map((product) => (
@@ -398,7 +401,7 @@ export default class Root extends React.PureComponent {
                                 }}
                             />
                         </Switch>
-                    </>
+                    </CompassThemeProvider>
                 </Switch>
             </IntlProvider>
         );

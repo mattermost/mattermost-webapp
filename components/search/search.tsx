@@ -68,7 +68,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut} = props;
+    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut, globalHeaderEnabled} = props;
 
     const intl = useIntl();
 
@@ -452,6 +452,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
                 searchType={searchType}
+                globalHeaderEnabled={globalHeaderEnabled}
                 clearSearchType={() => actions.updateSearchType('')}
             >
                 {!Utils.isMobile() && renderHintPopover()}
@@ -481,7 +482,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return (
             <div
                 id='searchbarContainer'
-                className='flex-child search-bar__container'
+                className={globalHeaderEnabled ? 'search-bar-container--global' : 'search-bar__container flex-child'}
             >
                 <div className='sidebar-right__table'>
                     {renderSearchBar()}
@@ -492,14 +493,14 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     return (
         <div className='sidebar--right__content'>
-            <div className='search-bar__container channel-header alt'>
+            {globalHeaderEnabled && !Utils.isMobile() ? null : <div className='search-bar__container channel-header alt'>
                 <div className='sidebar-right__table'>
                     {renderSearchBar()}
                     {renderMentionButton()}
                     {renderFlagBtn()}
                     <UserGuideDropdown/>
                 </div>
-            </div>
+            </div>}
             {props.searchVisible ? (
                 <SearchResults
                     isMentionSearch={props.isMentionSearch}
