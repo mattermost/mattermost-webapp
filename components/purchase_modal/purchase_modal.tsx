@@ -460,9 +460,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
-                    <div className='title'>
+                    <h2 className='title'>
                         {title}
-                    </div>
+                    </h2>
                     <UpgradeSvg
                         width={267}
                         height={227}

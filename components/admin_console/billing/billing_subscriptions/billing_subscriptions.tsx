@@ -165,12 +165,12 @@ export const contactSalesCard = (
             <div className='PrivateCloudCard__image'>
                 {isFreeTrial ?
                     <CloudTrialSvg
-                        width={234}
-                        height={167}
+                        width={170}
+                        height={123}
                     /> :
                     <PrivateCloudSvg
-                        width={234}
-                        height={167}
+                        width={170}
+                        height={123}
                     />
                 }
             </div>
