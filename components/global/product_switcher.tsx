@@ -125,10 +125,12 @@ const ProductSwitcher = (): JSX.Element => {
     });
 
     return (
-        <div ref={menuRef}>
+        <div
+            ref={menuRef}
+            onClick={handleClick}
+        >
             <MenuWrapper
                 open={switcherOpen}
-                onClick={handleClick}
             >
                 <ProductSwitcherContainer>
                     <IconButton
