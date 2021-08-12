@@ -10,9 +10,8 @@ import {BillingSchemes, CloudLinks, TrialPeriodDays} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import BlockableLink from 'components/admin_console/blockable_link';
 import OverlayTrigger from 'components/overlay_trigger';
-
-import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
-import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
+import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -20,9 +19,9 @@ import {Client4} from 'mattermost-redux/client';
 
 export const noBillingHistory = (
     <div className='BillingSummary__noBillingHistory'>
-        <img
-            className='BillingSummary__noBillingHistory-graphic'
-            src={noBillingHistoryGraphic}
+        <EmptyBillingHistorySvg
+            height={167}
+            width={234}
         />
         <div className='BillingSummary__noBillingHistory-title'>
             <FormattedMessage
@@ -54,7 +53,10 @@ export const noBillingHistory = (
 export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: () => void) => (
     <div className='UpgradeMattermostCloud'>
         <div className='UpgradeMattermostCloud__image'>
-            <img src={upgradeMattermostCloudImage}/>
+            <UpgradeSvg
+                width={234}
+                height={167}
+            />
         </div>
         <div className='UpgradeMattermostCloud__title'>
             <FormattedMessage
@@ -84,7 +86,10 @@ export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: () => v
 export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial: number) => (
     <div className='UpgradeMattermostCloud'>
         <div className='UpgradeMattermostCloud__image'>
-            <img src={upgradeMattermostCloudImage}/>
+            <UpgradeSvg
+                height={167}
+                width={234}
+            />
         </div>
         <div className='UpgradeMattermostCloud__title'>
             {daysLeftOnTrial > TrialPeriodDays.TRIAL_1_DAY &&
