@@ -430,6 +430,52 @@ describe('channels', () => {
             expect(nextState.channel231).toBe(undefined);
         });
     });
+
+    describe('RECEIVED_CHANNEL', () => {
+        test('should not store message count sent by server', () => {
+            const state = deepFreeze(channelsReducer({
+                channels: {
+                    channel1: {
+                        id: 'channel1',
+                    },
+                },
+            }, {}));
+
+            let nextState = channelsReducer(state, {
+                type: ChannelTypes.RECEIVED_CHANNEL,
+                data: {
+                    id: 'channel1',
+                    total_msg_count: 123,
+                    total_msg_count_root: 456,
+                },
+            });
+
+            expect(nextState.channels).toEqual({
+                channel1: {
+                    id: 'channel1',
+                },
+            });
+
+            nextState = channelsReducer(state, {
+                type: ChannelTypes.RECEIVED_CHANNEL,
+                data: {
+                    id: 'channel2',
+                    total_msg_count: 123,
+                    total_msg_count_root: 456,
+                },
+            });
+
+            expect(nextState.channels).toEqual({
+                channel1: {
+                    id: 'channel1',
+                },
+                channel2: {
+                    id: 'channel2',
+                },
+            });
+        });
+    });
+
     describe('RECEIVED_CHANNELS', () => {
         test('should not remove current channel', () => {
             const state = deepFreeze(channelsReducer({
@@ -576,6 +622,42 @@ describe('channels', () => {
                 team_id: 'team',
                 display_name: 'new for not_a_dm',
                 type: General.GM_CHANNEL,
+            });
+        });
+
+        test('should not store message count sent by server', () => {
+            const state = deepFreeze(channelsReducer({
+                channels: {
+                    channel1: {
+                        id: 'channel1',
+                    },
+                },
+            }, {}));
+
+            const nextState = channelsReducer(state, {
+                type: ChannelTypes.RECEIVED_CHANNELS,
+                data: [
+                    {
+                        id: 'channel1',
+                        total_msg_count: 123,
+                        total_msg_count_root: 456,
+                    },
+                    {
+                        id: 'channel2',
+                        total_msg_count: 123,
+                        total_msg_count_root: 456,
+                    },
+                ],
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState.channels).toEqual({
+                channel1: {
+                    id: 'channel1',
+                },
+                channel2: {
+                    id: 'channel2',
+                },
             });
         });
     });
