@@ -7,8 +7,10 @@ import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
 
 import './file_preview_modal_footer.scss';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 interface Props {
+    fileInfo: FileInfo;
     filename: string;
     post: React.ComponentProps<typeof Post>;
     fileURL: string;

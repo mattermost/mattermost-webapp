@@ -329,15 +329,6 @@ export default class FilePreviewModal extends React.PureComponent {
                 );
                 zoomBar = (
                     <PopoverBar
-                        showPublicLink={showPublicLink}
-                        fileIndex={this.state.imageIndex}
-                        totalFiles={this.props.fileInfos.length}
-                        filename={fileName}
-                        fileURL={fileDownloadUrl}
-                        enablePublicLink={this.props.enablePublicLink}
-                        canDownloadFiles={this.props.canDownloadFiles}
-                        isExternalFile={isExternalFile}
-                        onGetPublicLink={this.handleGetPublicLink}
                         scale={this.state.scale[this.state.imageIndex]}
                         showZoomControls={this.state.showZoomControls}
                         handleZoomIn={this.handleZoomIn}
@@ -424,6 +415,7 @@ export default class FilePreviewModal extends React.PureComponent {
                                     totalFiles={this.props.fileInfos?.length}
                                     filename={fileName}
                                     fileURL={fileDownloadUrl}
+                                    fileInfo={fileInfo}
                                     enablePublicLink={this.props.enablePublicLink || false}
                                     canDownloadFiles={this.props.canDownloadFiles || false}
                                     isExternalFile={isExternalFile}
@@ -446,6 +438,7 @@ export default class FilePreviewModal extends React.PureComponent {
                                     showPublicLink={showPublicLink}
                                     filename={fileName}
                                     fileURL={fileDownloadUrl}
+                                    fileInfo={fileInfo}
                                     enablePublicLink={this.props.enablePublicLink || false}
                                     canDownloadFiles={this.props.canDownloadFiles || false}
                                     isExternalFile={isExternalFile}

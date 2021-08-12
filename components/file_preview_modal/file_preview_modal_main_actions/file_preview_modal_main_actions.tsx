@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Tooltip} from 'react-bootstrap';
 
@@ -10,6 +11,12 @@ import OverlayTrigger from '../../overlay_trigger';
 import Constants from '../../../utils/constants';
 
 import './file_preview_modal_main_actions.scss';
+
+import {GlobalState} from '../../../types/store';
+import {getFilePublicLink} from 'mattermost-redux/actions/files';
+import {getFilePublicLink as selectFilePublicLink} from 'mattermost-redux/selectors/entities/files';
+import {copyToClipboard} from '../../../utils/utils';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 interface DownloadLinkProps {
     download?: string;
@@ -21,6 +28,7 @@ interface Props {
     showClose?: boolean;
     filename: string;
     fileURL: string;
+    fileInfo: FileInfo;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
     onGetPublicLink?: () => void;
@@ -29,6 +37,18 @@ interface Props {
 
 const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
     const tooltipPlacement = props.usedInside === 'Header' ? 'bottom' : 'top';
+    const selectedFilePublicLink = useSelector((state: GlobalState) => selectFilePublicLink(state)?.link);
+    const dispatch = useDispatch();
+    const [publicLinkCopied, setPublicLinkCopied] = useState(false);
+
+    useEffect(() => {
+        dispatch(getFilePublicLink(props.fileInfo.id));
+    }, [props.fileInfo]);
+    const copyPublicLink = () => {
+        copyToClipboard(selectedFilePublicLink);
+        setPublicLinkCopied(true);
+    };
+
     const closeButton = (
         <OverlayTrigger
             delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -51,24 +71,37 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
             </button>
         </OverlayTrigger>
     );
+    let publicTooltipMessage = (
+        <FormattedMessage
+            id='view_image_popover.publicLink'
+            defaultMessage='Get a public link'
+        />
+    );
+    if (publicLinkCopied) {
+        publicTooltipMessage = (
+            <FormattedMessage
+                id='file_preview_modal_main_actions.public_link-copied'
+                defaultMessage='Public link copied'
+            />
+        );
+    }
     const publicLink = (
         <OverlayTrigger
             delayShow={Constants.OVERLAY_TIME_DELAY}
             key='filePreviewPublicLink'
             placement={tooltipPlacement}
+            shouldUpdatePosition={true}
+            onExit={() => setPublicLinkCopied(false)}
             overlay={
                 <Tooltip id='link-variant-icon-tooltip'>
-                    <FormattedMessage
-                        id='view_image_popover.publicLink'
-                        defaultMessage='Get a public link'
-                    />
+                    {publicTooltipMessage}
                 </Tooltip>
             }
         >
             <a
                 href='#'
                 className='file-preview-modal-main-actions__action-item'
-                onClick={props.onGetPublicLink}
+                onClick={copyPublicLink}
             >
                 <i className='icon icon-link-variant'/>
             </a>

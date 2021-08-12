@@ -8,10 +8,12 @@ import './file_preview_modal_header.scss';
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainNav from '../file_preview_modal_main_nav/file_preview_modal_main_nav';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 interface Props {
     isMobile: boolean;
     fileIndex: number;
+    fileInfo: FileInfo;
     totalFiles: number;
     filename: string;
     post: React.ComponentProps<typeof Post>;

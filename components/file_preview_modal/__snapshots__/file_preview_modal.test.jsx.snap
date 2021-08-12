@@ -60,6 +60,12 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -148,6 +154,11 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "png",
+              }
+            }
             fileURL="/api/v4/files/undefined?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -236,6 +247,12 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "gif",
+                "id": "file_id_1",
+              }
+            }
             fileURL="/api/v4/files/file_id_1?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -328,6 +345,12 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={1}
+            fileInfo={
+              Object {
+                "extension": "wma",
+                "id": "file_id_2",
+              }
+            }
             fileURL="/api/v4/files/file_id_2?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -420,6 +443,12 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -513,6 +542,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -605,6 +640,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -697,6 +738,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "js",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -790,6 +837,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "m4a",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -882,6 +935,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "mov",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -974,6 +1033,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "gif",
+                "id": "file_id_1",
+              }
+            }
             fileURL="/api/v4/files/file_id_1?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -1066,6 +1131,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -1158,6 +1229,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "other",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -1250,6 +1327,12 @@ exports[`components/FilePreviewModal should match snapshot, loading 1`] = `
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}
@@ -1338,6 +1421,12 @@ exports[`components/FilePreviewModal should match snapshot, modal not shown 1`] 
             canDownloadFiles={true}
             enablePublicLink={true}
             fileIndex={0}
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
             fileURL="/api/v4/files/file_id?download=1"
             handleModalClose={[Function]}
             handleNext={[Function]}

@@ -84,6 +84,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
     defaultOverlayShown={false}
     delayShow={400}
     key="filePreviewPublicLink"
+    onExit={[Function]}
     overlay={
       <Tooltip
         bsClass="tooltip"
@@ -97,6 +98,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
       </Tooltip>
     }
     placement="bottom"
+    shouldUpdatePosition={true}
     trigger={
       Array [
         "hover",
@@ -107,6 +109,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
     <a
       className="file-preview-modal-main-actions__action-item"
       href="#"
+      onClick={[Function]}
     >
       <i
         className="icon icon-link-variant"

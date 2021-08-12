@@ -1,22 +1,54 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {shallow} from 'enzyme';
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
 import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
+import {GlobalState} from '../../../types/store';
+
+import {TestHelper} from '../../../utils/test_helper';
+
 import FilePreviewModalMainActions from './file_preview_modal_main_actions';
 
+const mockDispatch = jest.fn();
+let mockState: GlobalState;
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
+    useDispatch: () => mockDispatch,
+}));
+
 describe('components/file_preview_modal/file_preview_modal_main_actions/FilePreviewModalMainActions', () => {
-    const defaultProps = {
-        enablePublicLink: false,
-        canDownloadFiles: true,
-        fileURL: 'http://example.com/img.png',
-        filename: 'img.png',
-        handleModalClose: jest.fn(),
-    };
+    let defaultProps: ComponentProps<typeof FilePreviewModalMainActions>;
+    beforeEach(() => {
+        defaultProps = {
+            fileInfo: TestHelper.getFileInfoMock({}),
+            enablePublicLink: false,
+            canDownloadFiles: true,
+            fileURL: 'http://example.com/img.png',
+            filename: 'img.png',
+            handleModalClose: jest.fn(),
+        };
+
+        mockState = {
+            entities: {
+                general: {config: {}},
+                users: {profiles: {}},
+                channels: {channels: {}},
+                preferences: {
+                    myPreferences: {
+
+                    },
+                },
+                files: {
+                    filePublicLink: 'http://example.com/img.png',
+                },
+            },
+        } as GlobalState;
+    });
 
     test('should match snapshot with public links disabled', () => {
         const props = {
