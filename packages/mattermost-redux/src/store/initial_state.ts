@@ -13,7 +13,6 @@ const state: GlobalState = {
             deviceToken: '',
             license: {},
             serverVersion: '',
-            timezones: [],
             warnMetricsStatus: {},
             firstAdminVisitMarketplaceStatus: false,
         },

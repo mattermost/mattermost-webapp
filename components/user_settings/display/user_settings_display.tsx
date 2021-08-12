@@ -107,7 +107,6 @@ type Props = {
     globalHeaderAllowed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
-        getTimezones: () => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
     };
 }
@@ -146,10 +145,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             ...getDisplayStateFromProps(props),
             isSaving: false,
         };
-
-        if (props.timezones.length === 0) {
-            props.actions.getTimezones();
-        }
 
         this.prevSections = {
             theme: 'dummySectionName', // dummy value that should never match any section name

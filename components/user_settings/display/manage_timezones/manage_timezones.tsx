@@ -36,7 +36,6 @@ type State = {
     useAutomaticTimezone: boolean;
     automaticTimezone: string;
     manualTimezone: string;
-    manualTimezoneInput: string;
     isSaving: boolean;
     serverError?: string;
     openMenu: boolean;
@@ -50,7 +49,6 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             useAutomaticTimezone: props.useAutomaticTimezone,
             automaticTimezone: props.automaticTimezone,
             manualTimezone: props.manualTimezone,
-            manualTimezoneInput: props.manualTimezone,
             isSaving: false,
             openMenu: false,
             selectedOption: {label: props.timezoneLabel, value: props.useAutomaticTimezone ? props.automaticTimezone : props.manualTimezone},
@@ -60,23 +58,11 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
     onChange = (selectedOption: ValueType<SelectedOption>) => {
         if (selectedOption && 'value' in selectedOption) {
             this.setState({
-                manualTimezoneInput: selectedOption.value,
                 manualTimezone: selectedOption.value,
                 selectedOption,
             });
         }
     }
-
-    handleTimezoneSelected = (selected: string) => {
-        if (!selected) {
-            return;
-        }
-
-        this.setState({
-            manualTimezone: selected,
-            manualTimezoneInput: selected,
-        });
-    };
 
     timezoneNotChanged = () => {
         const {
@@ -143,18 +129,26 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         const useAutomaticTimezone = e.target.checked;
         let automaticTimezone = '';
         let timezoneLabel: string;
+        let selectedOptionValue: string;
 
         if (useAutomaticTimezone) {
             automaticTimezone = getBrowserTimezone();
             timezoneLabel = getTimezoneLabel(this.props.timezones, automaticTimezone);
+            selectedOptionValue = automaticTimezone;
         } else {
-            timezoneLabel = getTimezoneLabel(this.props.timezones, this.props.manualTimezone);
+            timezoneLabel = getTimezoneLabel(this.props.timezones, this.props.manualTimezone || getBrowserTimezone());
+            selectedOptionValue = this.props.manualTimezone || getBrowserTimezone();
+            if (!this.props.manualTimezone) {
+                this.setState({
+                    manualTimezone: getBrowserTimezone(),
+                });
+            }
         }
 
         this.setState({
             useAutomaticTimezone,
             automaticTimezone,
-            selectedOption: {label: timezoneLabel, value: useAutomaticTimezone ? automaticTimezone : this.props.manualTimezone},
+            selectedOption: {label: timezoneLabel, value: selectedOptionValue},
         });
     };
 

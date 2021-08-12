@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Timezone} from 'timezones.json';
-
 import {ClientConfig, ClientLicense, WarnMetricStatus} from './config';
 
 import {Dictionary} from './utilities';
@@ -16,7 +14,6 @@ export type GeneralState = {
     firstAdminVisitMarketplaceStatus: boolean;
     license: ClientLicense;
     serverVersion: string;
-    timezones: Timezone[];
     warnMetricsStatus: Dictionary<WarnMetricStatus>;
 };
 

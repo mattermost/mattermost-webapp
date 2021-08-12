@@ -3,10 +3,11 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import timezones from 'timezones.json';
+
 import {updateMe} from 'mattermost-redux/actions/users';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {getSupportedTimezones} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {getTimezoneLabel} from 'mattermost-redux/selectors/entities/timezone';
 
@@ -28,7 +29,7 @@ function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
     const timezoneLabel = getTimezoneLabel(state, currentUserId);
     return {
-        timezones: getSupportedTimezones(state),
+        timezones,
         timezoneLabel,
     };
 }

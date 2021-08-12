@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Timezone} from 'timezones.json';
-
 import {createSelector} from 'reselect';
 
 import {General} from 'mattermost-redux/constants';
@@ -25,10 +23,6 @@ export function getFeatureFlagValue(state: GlobalState, key: keyof FeatureFlags)
 
 export function getLicense(state: GlobalState): any {
     return state.entities.general.license;
-}
-
-export function getSupportedTimezones(state: GlobalState): Timezone[] {
-    return state.entities.general.timezones;
 }
 
 export function getCurrentUrl(state: GlobalState): string {

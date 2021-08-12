@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Timezone} from 'timezones.json';
+import timezones, {Timezone} from 'timezones.json';
 
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -11,8 +11,6 @@ import {createSelector} from 'reselect';
 
 import {$ID} from 'mattermost-redux/types/utilities';
 import {getUserCurrentTimezone, getTimezoneLabel as getTimezoneLabelUtil} from 'mattermost-redux/utils/timezone_utils';
-
-import {getSupportedTimezones} from './general';
 
 export function getUserTimezone(state: GlobalState, id: string) {
     const profile = state.entities.users.profiles[id];
@@ -49,7 +47,7 @@ export const makeGetUserTimezone: (state: GlobalState, userId: string) => UserTi
 
 export const getTimezoneLabel: (state: GlobalState, userId: $ID<UserProfile>) => string = createSelector(
     'getTimezoneLabel',
-    getSupportedTimezones,
+    () => timezones,
     makeGetUserTimezone,
     (timezones: Timezone[], timezoneObject: UserTimezone) => {
         const timezone = getUserCurrentTimezone(timezoneObject);
