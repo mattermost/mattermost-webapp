@@ -41,6 +41,7 @@
 }
 
 .custom_status__row {
+    position: relative;
     height: auto;
     font-size: inherit;
 
@@ -84,8 +85,8 @@
 
 #custom_status__clear {
     position: absolute;
-    top: 10px;
-    right: 21px;
+    top: 0;
+    right: 10px;
     width: auto;
     padding: 0;
     color: rgba(var(--center-channel-color-rgb), 0.52);

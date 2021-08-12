@@ -444,7 +444,13 @@ export const TutorialSteps = {
     CHANNEL_POPOVER: 1,
     ADD_CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
+    PRODUCT_SWITCHER: 4,
     FINISHED: 999,
+};
+
+export const TopLevelProducts = {
+    BOARDS: 'Boards',
+    PLAYBOOKS: 'Playbooks',
 };
 
 export const RecommendedNextSteps = {
