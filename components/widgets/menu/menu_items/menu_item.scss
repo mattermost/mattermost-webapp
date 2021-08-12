@@ -45,7 +45,7 @@
             white-space: normal;
 
             @media (max-width: 768px) {
-                margin: 0 0 4px 38px;
+                padding-left: 5px !important;
             }
         }
 
@@ -76,7 +76,6 @@
 
                 .icon {
                     @media (max-width: 768px) {
-                        position: relative;
                         top: 10px;
                     }
                 }
