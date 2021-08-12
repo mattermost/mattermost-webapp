@@ -65,9 +65,10 @@ const MenuItem = styled(Link)`
     }
 `;
 
-const StyledIcon = styled(Icon)`
-    color: var(--sidebar-bg);
-`;
+// temporarily commenting, this will come back
+// const StyledIcon = styled(Icon)`
+//    color: var(--sidebar-bg);
+//`;
 
 const MenuItemTextContainer = styled.div`
     margin-left: 8px;
