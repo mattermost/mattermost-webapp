@@ -32,23 +32,27 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
     height: 52px;
     padding: 0 16px;
 
-    h1 {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: var(--sidebar-header-text-color);
-
-        #SidebarContainer & {
-            font-family: Metropolis, sans-serif;
-        }
-    }
-
     .dropdown-menu {
         position: absolute;
         transform: translate(-100%, 4px);
         margin-left: 100%;
         min-width: 210px;
         max-width: 210px;
+    }
+`;
+
+const SidebarHeading = styled(Heading).attrs(() => ({
+    element: 'h1',
+    size: 200,
+    margin: 'none',
+}))`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--sidebar-header-text-color);
+
+    #SidebarContainer & {
+        font-family: Metropolis, sans-serif;
     }
 `;
 
@@ -72,13 +76,9 @@ const SidebarHeader: React.FC = (): JSX.Element => {
                     placement='bottom'
                     overlay={<Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip>}
                 >
-                    <Heading
-                        element='h1'
-                        size={200}
-                        margin='none'
-                    >
+                    <SidebarHeading>
                         {currentTeam.display_name}
-                    </Heading>
+                    </SidebarHeading>
                 </OverlayTrigger>
                 <MenuWrapper onToggle={handleMenuToggle}>
                     <IconButton
