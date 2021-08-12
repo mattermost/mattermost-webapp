@@ -78,19 +78,17 @@ const MenuItemTextContainer = styled.div`
     line-height: 20px;
 `;
 
-const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
+const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNavEntryProps) => {
     return (
         <MenuItem
-            to={props.destination}
-            onClick={props.onClick}
+            to={destination}
+            onClick={onClick}
         >
-            {typeof props.icon === 'string' ? (
-                <StyledIcon glyph={props.icon}/>
-            ) : props.icon}
+            <StyledIcon glyph={icon || 'none'}/>
             <MenuItemTextContainer>
-                {props.text}
+                {text}
             </MenuItemTextContainer>
-            {props.active &&
+            {active &&
                 <Icon
                     size={16}
                     glyph='check'
