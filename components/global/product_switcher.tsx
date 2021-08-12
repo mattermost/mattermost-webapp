@@ -140,6 +140,7 @@ const ProductSwitcher = (): JSX.Element => {
                         inverted={true}
                         aria-label='Select to open product switch menu.'
                     />
+                    {showTutorialStep && <ProductSwitcherTip/>}
                 </ProductSwitcherContainer>
                 <Menu
                     ariaLabel={'switcherOpen'}
@@ -158,7 +159,6 @@ const ProductSwitcher = (): JSX.Element => {
                         onClick={handleClick}
                     />
                     {productItems}
-                    {showTutorialStep && <ProductSwitcherTip/>}
                     <ProductSwitcherMenu id='ProductSwitcherMenu'/>
                 </Menu>
             </MenuWrapper>
