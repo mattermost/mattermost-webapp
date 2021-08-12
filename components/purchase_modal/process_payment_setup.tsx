@@ -10,18 +10,18 @@ import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited} from 'actions/telemetry_actions';
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
-import successSvg from 'images/cloud/payment_success.svg';
-import failedSvg from 'images/cloud/payment_fail.svg';
 import {t} from 'utils/i18n';
 import {getNextBillingDate} from 'utils/utils';
 
-import processSvg from 'images/cloud/processing_payment.svg';
-
-import './process_payment.css';
+import CreditCardSvg from 'components/common/svg_images_components/credit_card.svg';
+import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_sucess_standard.svg';
+import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed.svg';
 
 import {Product} from 'mattermost-redux/types/cloud';
 
 import IconMessage from './icon_message';
+
+import './process_payment.css';
 
 type Props = {
     billingDetails: BillingDetails | null;
@@ -173,7 +173,12 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                         formattedSubtitle={formattedSubtitle}
                         date={getNextBillingDate()}
                         error={error}
-                        icon={successSvg}
+                        icon={
+                            <PaymentSuccessStandardSvg
+                                width={444}
+                                height={313}
+                            />
+                        }
                         formattedButonText={formattedButonText}
                         buttonHandler={this.props.onClose}
                         className={'success'}
@@ -187,7 +192,12 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 subtitle={t('admin.billing.subscription.nextBillingDate')}
                 date={getNextBillingDate()}
                 error={error}
-                icon={successSvg}
+                icon={
+                    <PaymentSuccessStandardSvg
+                        width={444}
+                        height={313}
+                    />
+                }
                 buttonText={t('admin.billing.subscription.letsGo')}
                 buttonHandler={this.props.onClose}
                 className={'success'}
@@ -213,7 +223,12 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 <IconMessage
                     title={t('admin.billing.subscription.verifyPaymentInformation')}
                     subtitle={''}
-                    icon={processSvg}
+                    icon={
+                        <CreditCardSvg
+                            width={444}
+                            height={313}
+                        />
+                    }
                     footer={progressBar}
                 />
             );
@@ -232,7 +247,12 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 <IconMessage
                     title={t('admin.billing.subscription.paymentVerificationFailed')}
                     subtitle={t('admin.billing.subscription.paymentFailed')}
-                    icon={failedSvg}
+                    icon={
+                        <PaymentFailedSvg
+                            width={444}
+                            height={313}
+                        />
+                    }
                     error={error}
                     buttonText={t('admin.billing.subscription.goBackTryAgain')}
                     buttonHandler={this.handleGoBack}

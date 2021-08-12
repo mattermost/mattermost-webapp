@@ -28,6 +28,7 @@ import RadioButtonGroup from 'components/common/radio_group';
 import Badge from 'components/widgets/badges/badge';
 import OverlayTrigger from 'components/overlay_trigger';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
 
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
@@ -37,9 +38,9 @@ import PaymentForm from '../payment_form/payment_form';
 
 import ProcessPaymentSetup from './process_payment_setup';
 
-import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
-import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
+
+import './purchase.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
