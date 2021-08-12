@@ -38,19 +38,6 @@
         // adjust height of sidebar to account for GH
         #SidebarContainer {
             height: calc(100% - 40px);
-
-            .team__header .header__info {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0;
-
-                .sidebar-header-dropdown__icon {
-                    position: relative;
-                    top: unset;
-                    right: unset;
-                }
-            }
         }
 
         // use sidebar variables for lhs
