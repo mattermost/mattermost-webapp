@@ -161,7 +161,7 @@ const ProductSwitcher = (): JSX.Element => {
                     {showTutorialStep && <ProductSwitcherTip/>}
                     <ProductSwitcherMenu
                         id='ProductSwitcherMenu'
-                        isMessaging={currentProductId === null}
+                        isMessaging={currentProductID === null}
                     />
                 </Menu>
             </MenuWrapper>
