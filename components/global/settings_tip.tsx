@@ -28,7 +28,7 @@ export default function SettingsTip() {
 
     return (
         <TutorialTip
-            placement='right'
+            placement='bottom'
             screens={screens}
             overlayClass='tip-overlay--settings'
             telemetryTag='tutorial_tip_settings'

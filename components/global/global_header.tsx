@@ -120,13 +120,13 @@ const GlobalHeader = (): JSX.Element | null => {
                     </>
                 }
             </CenterControls>
-            {showSettingsTip && <SettingsTip/>}
             <RightControls>
                 {currentProductID === null &&
                     <>
                         <AtMentionsButton/>
                         <SavedPostsButton/>
                         <SettingsButton/>
+                        {showSettingsTip && <SettingsTip/>}
                     </>
                 }
                 <StatusDropdown globalHeader={true}/>
