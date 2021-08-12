@@ -68,39 +68,38 @@ export const useShowTutorialStep = (stepToShow: number, products?: ProductCompon
     const step = useSelector<GlobalState, number>(boundGetInt);
     const useThunkDispatch = () => useDispatch<typeof store.dispatch>();
 
-    const showTutorialStep = step === stepToShow;
-
+    if (step !== stepToShow) {
+        return false;
+    }
+    if (!products || !checkHasPlaybooks(products) || !checkHasBoards(products)) {
     // If user does not have access to these other products,
     // we do not want to show them the tutorial.
     // We wait until global_header is displayed to do it because it could happen that their
     // Mattermost instance gets Boards & Playbooks enabled after they complete the previous tip,
     // but before they get access to the global header,
     // and in that case we still want them to see the tutorial.
-    if (showTutorialStep && stepToShow === TutorialSteps.PRODUCT_SWITCHER) {
-        // If there are no products loaded yet,
-        // we can not be sure whether boards & playbooks are enabled.
-        if (!products) {
-            return showTutorialStep;
-        }
-
-        const hasPlaybooks = products.some((x) => x.switcherText === TopLevelProducts.PLAYBOOKS);
-        const hasBoards = products.some((x) => x.switcherText === TopLevelProducts.BOARDS);
-        if (!hasPlaybooks || !hasBoards) {
-            savePreferences(
-                currentUserId,
-                [{
-                    user_id: currentUserId,
-                    category: Preferences.TUTORIAL_STEP,
-                    name: currentUserId,
-                    value: (TutorialSteps.PRODUCT_SWITCHER + 1).toString(),
-                }],
-            )(useThunkDispatch);
-            return false;
-        }
+        savePreferences(
+            currentUserId,
+            [{
+                user_id: currentUserId,
+                category: Preferences.TUTORIAL_STEP,
+                name: currentUserId,
+                value: (TutorialSteps.PRODUCT_SWITCHER + 1).toString(),
+            }],
+        )(useThunkDispatch);
+        return false;
     }
 
-    return showTutorialStep;
+    return true;
 };
+
+function checkHasPlaybooks(products: ProductComponent[]): boolean {
+    return products.some((x) => x.switcherText === TopLevelProducts.PLAYBOOKS);
+}
+
+function checkHasBoards(products: ProductComponent[]): boolean {
+    return products.some((x) => x.switcherText === TopLevelProducts.BOARDS);
+}
 
 /**
  * Hook that returns the current open state of the specified modal
