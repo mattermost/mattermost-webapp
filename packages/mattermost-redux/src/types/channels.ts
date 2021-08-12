@@ -33,8 +33,6 @@ export type Channel = {
     header: string;
     purpose: string;
     last_post_at: number;
-    total_msg_count: number;
-    total_msg_count_root: number;
     creator_id: string;
     scheme_id: string;
     teammate_id?: string;
@@ -44,6 +42,20 @@ export type Channel = {
     props?: Record<string, any>;
     policy_id?: string | null;
 };
+
+export type ServerChannel = Channel & {
+    total_msg_count: number;
+    total_msg_count_root: number;
+}
+
+export type ChannelMessageCount = {
+
+    // The total number of posts in the channel, not including join/leave messages
+    total: number;
+
+    // The number of root posts in the channel, not including join/leave messages
+    root: number;
+}
 
 export type ChannelWithTeamData = Channel & {
     team_display_name: string;
@@ -97,6 +109,7 @@ export type ChannelsState = {
     manuallyUnread: RelationOneToOne<Channel, boolean>;
     channelModerations: RelationOneToOne<Channel, ChannelModeration[]>;
     channelMemberCountsByGroup: RelationOneToOne<Channel, ChannelMemberCountsByGroup>;
+    messageCounts: RelationOneToOne<Channel, ChannelMessageCount>;
 };
 
 export type ChannelModeration = {

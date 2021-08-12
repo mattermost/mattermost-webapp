@@ -29,6 +29,8 @@ import {
 import {Team} from 'mattermost-redux/types/teams';
 import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils';
 
+import messageCounts from './channels/message_counts';
+
 function removeMemberFromChannels(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};
     Object.keys(state).forEach((channel) => {
@@ -862,4 +864,7 @@ export default combineReducers({
 
     // object where every key is the channel id containing map of <group_id: ChannelMemberCountByGroup>
     channelMemberCountsByGroup,
+
+    // object where every key is the channel id mapping to an object containing the number of messages in the channel
+    messageCounts,
 });
