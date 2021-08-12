@@ -110,8 +110,8 @@
         .arrow {
             top: -10px;
             right: 44px;
-            border-bottom-color: $white;
             border-top-width: 0;
+            border-bottom-color: $white;
         }
     }
 
@@ -222,10 +222,10 @@
     }
 
     &.tip-overlay--settings {
-        margin: 0;
         top: 23px;
         right: 38px;
         padding: 10px;
+        margin: 0;
     }
 }
 

@@ -19,7 +19,7 @@ export default function SettingsTip() {
             </h4>
             <p>
                 <FormattedMarkdownMessage
-                    id='sidebar.tutorialSettings.switchProducts'
+                    id='sidebar.tutorialSettings.settings'
                     defaultMessage={'Set your availability, add a custom status, and access **Preferences** and **Account Settings** to configure your experience, including notification preferences and custom theme colors.'}
                 />
             </p>
