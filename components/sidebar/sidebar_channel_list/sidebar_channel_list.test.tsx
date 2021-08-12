@@ -100,7 +100,7 @@ describe('SidebarChannelList', () => {
         onDragStart: jest.fn(),
         onDragEnd: jest.fn(),
         showUnreadsCategory: false,
-        collapsedThreads: false,
+        collapsedThreads: true,
         hasUnreadThreads: false,
         actions: {
             switchToChannelById: jest.fn(),

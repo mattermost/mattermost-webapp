@@ -20,7 +20,7 @@ jest.mock('utils/browser_history', () => {
     };
 });
 
-jest.useFakeTimers();
+jest.useFakeTimers('legacy');
 
 describe('components/MoreChannels', () => {
     const searchResults = {

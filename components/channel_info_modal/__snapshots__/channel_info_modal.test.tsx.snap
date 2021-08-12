@@ -40,7 +40,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       componentClass="h1"
       id="channelInfoModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="About"
         id="channel_info.about"
       />
@@ -62,7 +62,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       <div
         className="info__label"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="URL:"
           id="channel_info.url"
         />
@@ -77,7 +77,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       className="about-modal__hash form-group pt-3"
     >
       <p>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="ID: "
           id="channel_info.id"
         />
@@ -128,7 +128,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       componentClass="h1"
       id="channelInfoModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="About"
         id="channel_info.about"
       />
@@ -150,7 +150,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       <div
         className="info__label"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Purpose:"
           id="channel_info.purpose"
         />
@@ -167,7 +167,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       <div
         className="info__label"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Header:"
           id="channel_info.header"
         />
@@ -198,7 +198,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       <div
         className="info__label"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="URL:"
           id="channel_info.url"
         />
@@ -213,7 +213,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       className="about-modal__hash form-group pt-3"
     >
       <p>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="ID: "
           id="channel_info.id"
         />

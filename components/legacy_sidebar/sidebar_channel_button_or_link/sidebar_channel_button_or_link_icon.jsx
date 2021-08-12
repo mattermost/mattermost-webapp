@@ -4,8 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Svg from 'react-inlinesvg';
-
 import {Constants} from 'utils/constants';
 
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
@@ -18,7 +16,6 @@ import BotIcon from 'components/widgets/icons/bot_icon';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {
-        botIconUrl: PropTypes.string,
         channelIsArchived: PropTypes.bool.isRequired,
         channelIsShared: PropTypes.bool.isRequired,
         channelType: PropTypes.string.isRequired,
@@ -29,25 +26,6 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         teammateDeletedAt: PropTypes.number,
         teammateIsBot: PropTypes.bool,
     };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            svgErrorUrl: null,
-        };
-    }
-
-    onSvgLoadError = () => {
-        this.setState({
-            svgErrorUrl: this.props.botIconUrl,
-        });
-    }
-
-    onSvgLoad = () => {
-        this.setState({
-            svgErrorUrl: null,
-        });
-    }
 
     render() {
         let icon = null;
@@ -84,23 +62,6 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
             } else if (this.props.teammateId && this.props.teammateIsBot) {
                 // Use default bot icon
                 icon = (<BotIcon className='icon icon__bot'/>);
-
-                // Attempt to display custom icon if botIconUrl has changed
-                // or if there was no error when loading custom svg
-                if (this.props.botIconUrl &&
-                    this.props.botIconUrl !== this.state.svgErrorUrl) {
-                    icon = (
-                        <span
-                            className='icon icon__bot'
-                        >
-                            <Svg
-                                src={this.props.botIconUrl}
-                                onLoad={this.onSvgLoad}
-                                onError={this.onSvgLoadError}
-                            />
-                        </span>
-                    );
-                }
             } else {
                 icon = (
                     <StatusIcon

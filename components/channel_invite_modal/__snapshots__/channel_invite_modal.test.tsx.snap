@@ -7,7 +7,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal channel-switcher"
+  dialogClassName="a11y__modal channel-invite"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   id="addUsersToChannelModal"
@@ -44,10 +44,10 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     role="application"
   >
     <div
-      className="channel-switcher__header"
+      className="channel-invite__header"
     >
       <h1>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Add people to {channel}"
           id="channel_invite.addNewMembers"
           values={
@@ -59,7 +59,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       </h1>
     </div>
     <div
-      className="channel-switcher__content"
+      className="channel-invite__content"
     >
       <MultiSelect
         ariaLabelRenderer={[Function]}
@@ -167,7 +167,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal channel-switcher"
+  dialogClassName="a11y__modal channel-invite"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   id="addUsersToChannelModal"
@@ -204,10 +204,10 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
     role="application"
   >
     <div
-      className="channel-switcher__header"
+      className="channel-invite__header"
     >
       <h1>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Add people to {channel}"
           id="channel_invite.addNewMembers"
           values={
@@ -219,7 +219,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
       </h1>
     </div>
     <div
-      className="channel-switcher__content"
+      className="channel-invite__content"
     >
       <MultiSelect
         ariaLabelRenderer={[Function]}

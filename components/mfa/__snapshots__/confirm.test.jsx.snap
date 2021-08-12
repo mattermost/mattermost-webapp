@@ -14,7 +14,7 @@ exports[`components/mfa/components/Confirm should match snapshot 1`] = `
       />
     </p>
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Your account is now secure. Next time you sign in, you will be asked to enter a code from the Google Authenticator app on your phone."
         id="mfa.confirm.secure"
       />
@@ -23,7 +23,7 @@ exports[`components/mfa/components/Confirm should match snapshot 1`] = `
       className="btn btn-primary"
       type="submit"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Okay"
         id="mfa.confirm.okay"
       />

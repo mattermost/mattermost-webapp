@@ -32,8 +32,8 @@ const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
     [NoResultsVariant.Mentions]: <MentionsIcon className='no-results__icon'/>,
     [NoResultsVariant.FlaggedPosts]: <FlagIcon className='no-results__icon'/>,
     [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
-    [NoResultsVariant.ChannelFiles]: <i className='icon icon-file-document-outline no-results__icon'/>,
-    [NoResultsVariant.ChannelFilesFiltered]: <i className='icon icon-file-document-outline no-results__icon'/>,
+    [NoResultsVariant.ChannelFiles]: <i className='icon icon-file-text-outline no-results__icon'/>,
+    [NoResultsVariant.ChannelFilesFiltered]: <i className='icon icon-file-text-outline no-results__icon'/>,
 };
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor} = {
@@ -112,9 +112,9 @@ const NoResultsIndicator = ({
             {iconGraphic}
 
             {title ? (
-                <div className={classNames('no-results__title', {'only-title': !subtitle})}>
+                <h3 className={classNames('no-results__title', {'only-title': !subtitle})}>
                     {title}
-                </div>
+                </h3>
             ) : null}
 
             {subtitle ? (

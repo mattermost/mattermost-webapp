@@ -126,6 +126,40 @@
     }
 }
 
+.status-dropdown-menu-global-header {
+    padding: 5px;
+    border-radius: 4px;
+
+    &.active {
+        background: var(--sidebar-text-08);
+    }
+
+    .Menu__content {
+        left: -200px;
+    }
+
+    .username-wrapper {
+        padding: 0 12px;
+    }
+
+    .MenuHeader {
+        height: 50px;
+        padding: 0 16px;
+    }
+
+    .status-wrapper {
+        display: flex;
+        height: auto;
+        align-items: center;
+
+        .status {
+            svg {
+                top: 0;
+            }
+        }
+    }
+}
+
 .status-dropdown-menu,
 .StatusModal__input {
     .input-clear-x {

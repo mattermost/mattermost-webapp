@@ -70,36 +70,32 @@ describe('Selectors.Posts', () => {
     it('should return single post with no children', () => {
         const getPostsForThread = Selectors.makeGetPostsForThread();
 
-        assert.deepEqual(getPostsForThread(testState, {channelId: '2', rootId: 'f'}), [posts.f]);
+        assert.deepEqual(getPostsForThread(testState, 'f'), [posts.f]);
     });
 
     it('should return post with children', () => {
         const getPostsForThread = Selectors.makeGetPostsForThread();
 
-        assert.deepEqual(getPostsForThread(testState, {channelId: '1', rootId: 'a'}), [posts.e, posts.c, posts.a]);
+        assert.deepEqual(getPostsForThread(testState, 'a'), [posts.e, posts.c, posts.a]);
     });
 
-    it('should return memoized result for identical props', () => {
+    it('should return memoized result for identical rootId', () => {
         const getPostsForThread = Selectors.makeGetPostsForThread();
 
-        const props = {channelId: '1', rootId: 'a'};
-        const result = getPostsForThread(testState, props);
+        const result = getPostsForThread(testState, 'a');
 
-        assert.equal(result, getPostsForThread(testState, props));
+        assert.equal(result, getPostsForThread(testState, 'a'));
     });
 
     it('should return memoized result for multiple selectors with different props', () => {
         const getPostsForThread1 = Selectors.makeGetPostsForThread();
         const getPostsForThread2 = Selectors.makeGetPostsForThread();
 
-        const props1 = {channelId: '1', rootId: 'a'};
-        const result1 = getPostsForThread1(testState, props1);
+        const result1 = getPostsForThread1(testState, 'a');
+        const result2 = getPostsForThread2(testState, 'b');
 
-        const props2 = {channelId: '1', rootId: 'b'};
-        const result2 = getPostsForThread2(testState, props2);
-
-        assert.equal(result1, getPostsForThread1(testState, props1));
-        assert.equal(result2, getPostsForThread2(testState, props2));
+        assert.equal(result1, getPostsForThread1(testState, 'a'));
+        assert.equal(result2, getPostsForThread2(testState, 'b'));
     });
 
     it('should return reactions for post', () => {
@@ -2450,7 +2446,7 @@ describe('makeGetProfilesForThread', () => {
             },
         };
 
-        assert.deepEqual(getProfilesForThread(state, {rootId: '1001'}), [user3, user2]);
+        assert.deepEqual(getProfilesForThread(state, '1001'), [user3, user2]);
     });
 
     it('should return empty array if profiles data does not exist', () => {
@@ -2476,6 +2472,6 @@ describe('makeGetProfilesForThread', () => {
             },
         };
 
-        assert.deepEqual(getProfilesForThread(state, {rootId: '1001'}), []);
+        assert.deepEqual(getProfilesForThread(state, '1001'), []);
     });
 });

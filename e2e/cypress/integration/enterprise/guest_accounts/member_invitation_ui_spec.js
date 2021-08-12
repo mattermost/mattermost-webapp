@@ -72,7 +72,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify Share Link Header and helper text
         cy.findByTestId('shareLink').should('be.visible').within(() => {
-            cy.get('h2 > span').should('have.text', 'Share This Link');
+            cy.findByRole('heading', {name: /share this link/i}).should('be.visible');
             cy.get('.help-text > span').should('have.text', 'Share this link to invite people to this team.');
         });
 
@@ -85,7 +85,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify Invite People field
         cy.findByTestId('searchAdd').should('be.visible').within(() => {
-            cy.get('h2 > span').should('have.text', 'Add or Invite People');
+            cy.findByText(/add or invite people/i).should('be.visible');
             cy.get('.help-text > span').should('have.text', 'Add existing members or send email invites to new members.');
         });
         cy.get('#inviteMembersButton').scrollIntoView().should('be.visible').and('be.disabled');

@@ -40,7 +40,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
       componentClass="h1"
       id="postDeletedModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Comment could not be posted"
         id="post_delete.notPosted"
       />
@@ -51,7 +51,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
     componentClass="div"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Someone deleted the message on which you tried to post a comment."
         id="post_delete.someone"
       />
@@ -68,7 +68,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Okay"
         id="post_delete.okay"
       />
@@ -117,7 +117,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
       componentClass="h1"
       id="postDeletedModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Comment could not be posted"
         id="post_delete.notPosted"
       />
@@ -128,7 +128,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
     componentClass="div"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Someone deleted the message on which you tried to post a comment."
         id="post_delete.someone"
       />
@@ -145,7 +145,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Okay"
         id="post_delete.okay"
       />
