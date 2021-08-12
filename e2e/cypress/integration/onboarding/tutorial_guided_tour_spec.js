@@ -29,28 +29,44 @@ describe('Onboarding', () => {
     });
 
     it('Takes the user through the steps of using the app', () => {
-        // tip 1: post message
+        // # Click the tip on posting messages
         cy.get(`#create_post ${selectors.tip}`).click();
+
+        // * Observe the help on posting messages is visible
         cy.get(selectors.tipText).should('be.visible').
             and('contain', 'Send a message');
+
+        // # Close the posting messages tip
         cy.get(selectors.tipNext).click();
 
-        // tip 2: channels
+        // # Click the tip on channels
         cy.get(`#sidebarItem_town-square ${selectors.tip}`).click();
+
+        // * Observe the help on channels is visible
         cy.get(selectors.tipText).should('be.visible').
             and('contain', 'Organize conversations in channels');
+
+        // # Close the channels tip
         cy.get(selectors.tipNext).click();
 
-        // tip 3: add channels
+        // # Click the tip on creating and joining channels
         cy.get(`#lhsNavigator ${selectors.tip}`).click();
+
+        // * Observe the help on creating and joining channels is visible
         cy.get(selectors.tipText).should('be.visible').
             and('contain', 'Create and join channels');
+
+        // # Close the creating and joining channels tip
         cy.get(selectors.tipNext).click();
 
-        // tip 4: invite people/admin
+        // # Click the tip on admin UI and inviting people
         cy.get(`#sidebarHeaderDropdownButton ${selectors.tip}`).click();
+
+        // * Observe the help on admin UI and inviting people is visible
         cy.get(selectors.tipText).should('be.visible').
             and('contain', 'Invite people');
+
+        // # Close the admin UI and inviting people tip
         cy.get(selectors.tipNext).click();
     });
 });
