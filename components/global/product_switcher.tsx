@@ -65,10 +65,9 @@ const MenuItem = styled(Link)`
     }
 `;
 
-// temporarily commenting, this will come back
-// const StyledIcon = styled(Icon)`
-//    color: var(--sidebar-bg);
-//`;
+const StyledIcon = styled(Icon)`
+    color: var(--sidebar-bg);
+`;
 
 const MenuItemTextContainer = styled.div`
     margin-left: 8px;
@@ -83,8 +82,9 @@ const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
         <MenuItem
             to={props.destination}
         >
-
-            {props.icon}
+            {typeof props.icon === 'string' ? (
+                <StyledIcon glyph={props.icon}/>
+            ) : props.icon}
             <MenuItemTextContainer>
                 {props.text}
             </MenuItemTextContainer>
