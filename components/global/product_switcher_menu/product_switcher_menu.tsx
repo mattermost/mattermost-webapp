@@ -19,6 +19,7 @@ import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
+import {useCurrentProductId, useProducts} from '../hooks';
 
 type Props = {
     isMobile: boolean;
@@ -52,6 +53,9 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
+        const products = useProducts();
+        const currentProductID = useCurrentProductId(products);
+        const isMessaging = currentProductID === null;
         const {currentUser} = this.props;
 
         if (!currentUser) {
@@ -81,35 +85,39 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             }
                         />
                     </SystemPermissionGate>
-                    <Menu.ItemLink
-                        id='integrations'
-                        show={showIntegrations}
-                        to={'/' + this.props.teamName + '/integrations'}
-                        text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
-                        icon={
-                            <Icon
-                                size={16}
-                                glyph={'webhook-incoming'}
-                            />
-                        }
-                    />
+                    {isMessaging && (
+                        <Menu.ItemLink
+                            id='integrations'
+                            show={showIntegrations}
+                            to={'/' + this.props.teamName + '/integrations'}
+                            text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
+                            icon={
+                                <Icon
+                                    size={16}
+                                    glyph={'webhook-incoming'}
+                                />
+                            }
+                        />
+                    )}
                     <TeamPermissionGate
                         teamId={this.props.teamId}
                         permissions={[Permissions.SYSCONSOLE_WRITE_PLUGINS]}
                     >
-                        <Menu.ItemToggleModalRedux
-                            id='marketplaceModal'
-                            modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
-                            show={!this.props.isMobile && this.props.enablePluginMarketplace}
-                            dialogType={MarketplaceModal}
-                            text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
-                            icon={
-                                <Icon
-                                    size={16}
-                                    glyph={'apps'}
-                                />
-                            }
-                        />
+                        {isMessaging && (
+                            <Menu.ItemToggleModalRedux
+                                id='marketplaceModal'
+                                modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
+                                show={!this.props.isMobile && this.props.enablePluginMarketplace}
+                                dialogType={MarketplaceModal}
+                                text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
+                                icon={
+                                    <Icon
+                                        size={16}
+                                        glyph={'apps'}
+                                    />
+                                }
+                            />
+                        )}
                         <Menu.ItemExternalLink
                             id='nativeAppLink'
                             show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
