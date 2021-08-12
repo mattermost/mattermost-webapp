@@ -49,6 +49,12 @@ export function sendDesktopNotification(post, msgProps) {
         if (msgProps.mentions) {
             mentions = JSON.parse(msgProps.mentions);
         }
+
+        if (msgProps.followers) {
+            const followers = JSON.parse(msgProps.followers) || [];
+            mentions = [...new Set([...followers, ...mentions])];
+        }
+
         const teamId = msgProps.team_id;
 
         let channel = makeGetChannel()(state, {id: post.channel_id});
