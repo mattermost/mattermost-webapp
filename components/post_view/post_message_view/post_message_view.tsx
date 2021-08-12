@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
@@ -16,6 +16,7 @@ import PostMarkdown from 'components/post_markdown';
 import Pluggable from 'plugins/pluggable';
 import ShowMore from 'components/post_view/show_more';
 import {TextFormattingOptions} from 'utils/text_formatting';
+import {AttachmentTextOverflowType} from 'components/post_view/show_more/show_more';
 
 type Props = {
     post: Post; /* The post to render the message for */
@@ -28,6 +29,8 @@ type Props = {
     theme: Theme; /* Logged in user's theme */
     pluginPostTypes?: any; /* Post type components from plugins */
     currentRelativeTeamUrl: string;
+    overflowType?: AttachmentTextOverflowType;
+    maxHeight?: number; /* The max height used by the show more component */
 }
 
 type State = {
@@ -43,6 +46,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
         options: {},
         isRHS: false,
         pluginPostTypes: {},
+        overflowType: undefined,
     };
 
     constructor(props: Props) {
@@ -116,6 +120,8 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
             compactDisplay,
             isRHS,
             theme,
+            overflowType,
+            maxHeight,
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {
@@ -153,6 +159,8 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
             <ShowMore
                 checkOverflow={this.state.checkOverflow}
                 text={message}
+                overflowType={overflowType}
+                maxHeight={maxHeight}
             >
                 <div
                     aria-readonly='true'

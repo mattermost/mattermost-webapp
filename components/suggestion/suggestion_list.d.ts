@@ -12,7 +12,7 @@ interface SuggestionItem {}
 interface Props {
     ariaLiveRef?: React.Ref<HTMLDivElement>;
     open: boolean;
-    location?: 'top' | 'bottom';
+    position?: 'top' | 'bottom';
     renderDividers?: boolean;
     renderNoResults?: boolean;
     onCompleteWord: (term: string, matchedPretext, e?: MouseEvent<HTMLDivElement>) => boolean;

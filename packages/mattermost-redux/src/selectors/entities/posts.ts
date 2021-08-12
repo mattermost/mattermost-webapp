@@ -350,12 +350,12 @@ export function makeGetPostsAroundPost(): (state: GlobalState, postId: $ID<Post>
 // That selector will take a props object (containing a rootId field) as its
 // only argument and will be memoized based on that argument.
 
-export function makeGetPostsForThread(): (state: GlobalState, props: {rootId: $ID<Post>}) => Post[] {
+export function makeGetPostsForThread(): (state: GlobalState, rootId: string) => Post[] {
     return createIdsSelector(
         'makeGetPostsForThread',
         getAllPosts,
-        (state: GlobalState, props: {rootId: $ID<Post>}) => state.entities.posts.postsInThread[props.rootId],
-        (state: GlobalState, props: {rootId: $ID<Post>}) => state.entities.posts.posts[props.rootId],
+        (state: GlobalState, rootId: string) => state.entities.posts.postsInThread[rootId],
+        (state: GlobalState, rootId: string) => state.entities.posts.posts[rootId],
         (posts, postsForThread, rootPost) => {
             const thread: Post[] = [];
 
@@ -378,7 +378,7 @@ export function makeGetPostsForThread(): (state: GlobalState, props: {rootId: $I
 }
 
 // The selector below filters current user if it exists. Excluding currentUser is just for convinience
-export function makeGetProfilesForThread(): (state: GlobalState, props: {rootId: $ID<Post>}) => UserProfile[] {
+export function makeGetProfilesForThread(): (state: GlobalState, rootId: string) => UserProfile[] {
     const getPostsForThread = makeGetPostsForThread();
     return createSelector(
         'makeGetProfilesForThread',

@@ -149,6 +149,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                 {tutorialTip}
                 <HeaderLine
                     id='headerInfo'
+                    className='header__info'
                 >
                     <VerticalStack>
                         {teamNameWithToolTip}

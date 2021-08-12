@@ -30,15 +30,12 @@
 }
 
 .no-results__title {
+    margin: 0;
     margin-bottom: 15px;
     color: var(--center-channel-color);
     font-size: 20px;
     font-weight: 600;
     line-height: 20px;
-
-    &.only-title {
-        font-size: 14px;
-    }
 }
 
 .no-results__icon {

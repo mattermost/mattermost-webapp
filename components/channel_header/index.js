@@ -39,6 +39,7 @@ import {
     showMentions,
     closeRightHandSide,
 } from 'actions/views/rhs';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
@@ -93,6 +94,7 @@ function makeMapStateToProps() {
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
+            globalHeaderEnabled: getGlobalHeaderEnabled(state),
         };
     };
 }

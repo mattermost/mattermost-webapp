@@ -4,14 +4,12 @@
 import React, {ReactFragment} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
+import {ServerError} from 'mattermost-redux/types/errors';
 
-interface ErrorMessage {
-    message: string | ReactFragment;
-}
+import {isErrorInvalidSlashCommand} from 'utils/post_utils';
 
 interface MessageSubmitErrorProps {
-    error: ErrorMessage;
+    error: ServerError;
     handleSubmit: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
     submittedMessage?: string;
 }
@@ -52,7 +50,7 @@ class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps> {
             return null;
         }
 
-        let errorContent = error.message;
+        let errorContent: string | ReactFragment = error.message;
         if (isErrorInvalidSlashCommand(error)) {
             errorContent = this.renderSlashCommandError();
         }

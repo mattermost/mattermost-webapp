@@ -1,5 +1,108 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/login/LoginController should match gitlab text and color props 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <div
+    className="col-sm-12"
+    id="login_section"
+  >
+    <div
+      className="signup-team__container undefined"
+    >
+      <div
+        className="signup__markdown"
+      />
+      <img
+        alt="signup team logo"
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <SiteNameAndDescription
+          customDescriptionText=""
+          siteName=""
+        />
+        <div>
+          <a
+            className="btn btn-custom-login gitlab"
+            href="/oauth/gitlab/login"
+            id="GitLabButton"
+            key="gitlab"
+            style={
+              Object {
+                "backgroundColor": "#00ff00",
+              }
+            }
+          >
+            <span>
+              <span
+                className="icon"
+              />
+              <span>
+                GitLab 2
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/login/LoginController should match openid text and color props 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <div
+    className="col-sm-12"
+    id="login_section"
+  >
+    <div
+      className="signup-team__container undefined"
+    >
+      <div
+        className="signup__markdown"
+      />
+      <img
+        alt="signup team logo"
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <SiteNameAndDescription
+          customDescriptionText=""
+          siteName=""
+        />
+        <div>
+          <a
+            className="btn btn-custom-login openid"
+            href="/oauth/openid/login"
+            id="OpenIdButton"
+            key="openid"
+            style={
+              Object {
+                "backgroundColor": "#87ceeb",
+              }
+            }
+          >
+            <span>
+              <span>
+                OpenID 2
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`components/login/LoginController should match snapshot 1`] = `
 <div>
   <Connect(AnnouncementBarController) />

@@ -16,14 +16,8 @@ describe('System Console - Compliance', () => {
     const testCases = [
         {
             section: 'Compliance',
-            header: 'Data Retention Policy',
-            sidebar: 'Data Retention Policy',
-            url: 'admin_console/compliance/data_retention',
-        },
-        {
-            section: 'Compliance',
-            header: 'Compliance Export (Beta)',
-            sidebar: 'Compliance Export (Beta)',
+            header: 'Compliance Export',
+            sidebar: 'Compliance Export',
             url: 'admin_console/compliance/export',
         },
         {
@@ -37,8 +31,8 @@ describe('System Console - Compliance', () => {
         },
         {
             section: 'Compliance',
-            header: 'Custom Terms of Service (Beta)',
-            sidebar: 'Custom Terms of Service (Beta)',
+            header: 'Custom Terms of Service',
+            sidebar: 'Custom Terms of Service',
             url: 'admin_console/compliance/custom_terms_of_service',
         },
     ];
