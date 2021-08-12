@@ -139,12 +139,12 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     />
                 </a>
                 {gettingTrialError}
-                <p className='trial-legal-terms'>
+                {!this.props.isCloud && <p className='trial-legal-terms'>
                     <FormattedMarkdownMessage
                         id='admin.license.trial-request.accept-terms'
                         defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
                     />
-                </p>
+                </p>}
             </React.Fragment>
         );
     }
