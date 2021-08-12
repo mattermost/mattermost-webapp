@@ -21,6 +21,7 @@ interface SwitcherNavEntryProps {
     icon: TIconGlyph;
     text: React.ReactNode;
     active: boolean;
+    onClick: () => void;
 }
 
 const ProductSwitcherContainer = styled.nav`
@@ -77,10 +78,11 @@ const MenuItemTextContainer = styled.div`
     line-height: 20px;
 `;
 
-const SwitcherNavEntry = ({icon, destination, text, active}: SwitcherNavEntryProps) => {
+const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNavEntryProps) => {
     return (
         <MenuItem
             to={destination}
+            onClick={onClick}
         >
             <StyledIcon glyph={icon || 'none'}/>
             <MenuItemTextContainer>
@@ -118,6 +120,7 @@ const ProductSwitcher = (): JSX.Element => {
                 icon={product.switcherIcon}
                 text={product.switcherText}
                 active={product.id === currentProductID}
+                onClick={handleClick}
             />
         );
     });
@@ -152,6 +155,7 @@ const ProductSwitcher = (): JSX.Element => {
                         icon={'product-channels'}
                         text={'Channels'}
                         active={currentProductID === null}
+                        onClick={handleClick}
                     />
                     {productItems}
                     {showTutorialStep && <ProductSwitcherTip/>}
