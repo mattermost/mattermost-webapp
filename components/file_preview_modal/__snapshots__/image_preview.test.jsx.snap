@@ -3,10 +3,7 @@
 exports[`components/view_image/ImagePreview should match snapshot, with preview 1`] = `
 <a
   className="image_preview"
-  download={true}
-  href="/api/v4/files/file_id_1?download=1"
-  rel="noopener noreferrer"
-  target="_blank"
+  href="#"
 >
   <img
     alt="preview url image"
@@ -26,10 +23,7 @@ exports[`components/view_image/ImagePreview should match snapshot, with preview,
 exports[`components/view_image/ImagePreview should match snapshot, without preview 1`] = `
 <a
   className="image_preview"
-  download={true}
-  href="/api/v4/files/file_id?download=1"
-  rel="noopener noreferrer"
-  target="_blank"
+  href="#"
 >
   <img
     alt="preview url image"

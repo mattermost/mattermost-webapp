@@ -68,14 +68,6 @@ describe('components/view_image/ImagePreview', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should download link for internal file', () => {
-        const wrapper = shallow(
-            <ImagePreview {...baseProps}/>,
-        );
-
-        expect(wrapper.find('a').prop('download')).toBe(true);
-    });
-
     test('should not download link for external file', () => {
         const props = {
             ...baseProps,
@@ -88,8 +80,7 @@ describe('components/view_image/ImagePreview', () => {
             <ImagePreview {...props}/>,
         );
 
-        expect(wrapper.find('a').prop('download')).toBe(false);
-        expect(wrapper.find('a').prop('href')).toBe(props.fileInfo.link);
+        expect(wrapper.find('a').prop('href')).toBe('#');
         expect(wrapper.find('img').prop('src')).toBe(props.fileInfo.link);
     });
 });

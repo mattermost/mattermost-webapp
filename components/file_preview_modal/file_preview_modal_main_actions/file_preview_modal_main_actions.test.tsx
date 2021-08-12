@@ -3,6 +3,10 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {Tooltip} from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
+
 import FilePreviewModalMainActions from './file_preview_modal_main_actions';
 
 describe('components/file_preview_modal/file_preview_modal_main_actions/FilePreviewModalMainActions', () => {
@@ -43,7 +47,10 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
         };
 
         const wrapper = shallow(<FilePreviewModalMainActions {...props}/>);
-        wrapper.find('a.public-link').first().simulate('click');
-        expect(mockOnClick).toHaveBeenCalled();
+        expect(wrapper.find(OverlayTrigger)).toHaveLength(3);
+        const overlayWrapper = wrapper.find(OverlayTrigger).last();
+        expect(overlayWrapper.prop('overlay').type).toEqual(Tooltip);
+
+        // expect(mockOnClick).toHaveBeenCalled();
     });
 });

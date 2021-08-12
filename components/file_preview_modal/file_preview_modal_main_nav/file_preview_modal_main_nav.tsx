@@ -21,7 +21,7 @@ const FilePreviewModalMainNav: React.FC<Props> = (props: Props) => {
     const leftArrow = (
         <OverlayTrigger
             delayShow={Constants.OVERLAY_TIME_DELAY}
-            key='publicLink'
+            key='previewArrowLeft'
             placement='bottom'
             overlay={
                 <Tooltip id='close-icon-tooltip'>
