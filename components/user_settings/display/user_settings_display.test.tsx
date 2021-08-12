@@ -63,7 +63,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             manualTimezone: '',
         },
         actions: {
-            getTimezones: jest.fn(),
             autoUpdateTimezone: jest.fn(),
             savePreferences: jest.fn(),
         },
