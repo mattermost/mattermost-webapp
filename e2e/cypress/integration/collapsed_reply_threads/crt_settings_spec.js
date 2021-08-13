@@ -38,7 +38,7 @@ describe('CollapsedReplyThreads', () => {
         // # Set CRT to on
         cy.uiChangeCRTDisplaySetting('ON');
 
-        // * Threads menu in sidebar should not be visible
+        // * Threads menu in sidebar should be visible
         cy.get('.SidebarGlobalThreads').should('exist');
 
         // # Visit global threads
