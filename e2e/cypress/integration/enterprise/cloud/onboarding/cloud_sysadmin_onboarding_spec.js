@@ -37,7 +37,6 @@ describe('Cloud Onboarding - Sysadmin', () => {
             'notification_setup',
             'team_setup',
             'invite_members',
-            'enter_support_email',
             'hide',
             'skip',
         ];
@@ -63,7 +62,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 5 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 4 steps complete');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .TeamProfileStep').should('be.visible');
@@ -78,7 +77,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '2 / 5 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '2 / 4 steps complete');
 
         // * Check to make sure card is expanded
         cy.findByText('We recommend enabling desktop notifications so you don’t miss any important communications.').should('be.visible');
@@ -86,7 +85,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByRole('button', {name: 'Set up notifications'}).should('be.visible').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '3 / 5 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '3 / 4 steps complete');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
@@ -95,19 +94,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('InviteMembersStep__finishButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '4 / 5 steps complete');
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .EnterSupportEmailStep').should('be.visible');
-
-        // # Enter email addresses
-        cy.get('#input_enter_support_email').should('be.visible').type('robot@gmail.com');
-
-        // # Click Finish button
-        cy.findByTestId('EnterSupportEmailStep__finishButton').should('be.visible').and('not.be.disabled').click();
-
-        // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '5 / 5 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '4 / 4 steps complete');
 
         // * Should show Tips and Next Steps
         cy.findByText('Tips & Next Steps').should('be.visible');
@@ -137,7 +124,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.Card__body.expanded .TeamProfileStep').should('exist').should('be.visible');
 
         // * Step counter should not increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 5 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 4 steps complete');
     });
 
     it('MM-T3328 Sysadmin - Skip Getting Started', () => {

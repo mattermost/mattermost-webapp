@@ -43,7 +43,7 @@ exports[`components/post_view/post_list_row should have class hideAnimation for 
 exports[`components/post_view/post_list_row should render channel intro message 1`] = `<Connect(ChannelIntroMessage) />`;
 
 exports[`components/post_view/post_list_row should render combined post 1`] = `
-<Connect(Connect(injectIntl(Post)))
+<Connect(Connect(Post))
   combinedId="user-activity-1234-5678"
   isLastPost={false}
   previousPostId="abcd"
@@ -98,7 +98,7 @@ exports[`components/post_view/post_list_row should render new messages line 1`] 
 `;
 
 exports[`components/post_view/post_list_row should render post 1`] = `
-<Connect(injectIntl(Post))
+<Connect(Post)
   isLastPost={false}
   postId="1234"
   previousPostId="abcd"

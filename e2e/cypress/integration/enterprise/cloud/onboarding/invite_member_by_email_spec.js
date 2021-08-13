@@ -141,4 +141,41 @@ describe('Cloud Onboarding - Sysadmin invite members by email', () => {
         // * Verify that the error message shows
         cy.get('.InviteMembersStep__invitationResults').should('contain', 'One or more email addresses are invalid');
     });
+
+    it('MM-T3332_3 Invite with invalid emails when next button is pressed', () => {
+        // * Make sure channel view has loaded
+        cy.url().should('include', townSquarePage);
+
+        // # Click Invite members to the team header
+        cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
+
+        // * Check to make sure card is expanded
+        cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
+
+        // # Enter email addresses
+        cy.get('#MultiInput_InviteMembersStep__membersListInput input').should('be.visible').type('bill.s.preston@wyldstallyns.com,theodoreloganwyldstallynscom,', {force: true});
+
+        // # Click Finish button
+        cy.findByTestId('InviteMembersStep__finishButton').should('be.visible').and('not.be.disabled').click();
+
+        // * Verify that the error message shows
+        cy.get('.InviteMembersStep__invitationResults').should('contain', 'One or more email addresses are invalid');
+    });
+
+    it('MM-T3332_4 Pressing next with empty input finishes the step', () => {
+        // * Make sure channel view has loaded
+        cy.url().should('include', townSquarePage);
+
+        // # Click Invite members to the team header
+        cy.get('button.NextStepsView__cardHeader:contains(Invite members to the team)').should('be.visible').click();
+
+        // * Check to make sure card is expanded
+        cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
+
+        // # Click Finish button
+        cy.findByTestId('InviteMembersStep__finishButton').should('be.visible').and('not.be.disabled').click();
+
+        // * Step counter should increment
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 5 steps complete');
+    });
 });

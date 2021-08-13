@@ -20,12 +20,17 @@ type Props = {
     canGoBack: boolean;
     canJoinPublicChannel: boolean;
     showMoreChannelsModal: () => void;
+    invitePeopleModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
     canCreateChannel: boolean;
     showUnreadsCategory: boolean;
+    townSquareDisplayName: string;
+    offTopicDisplayName: string;
+    showTutorialTip: boolean;
+    globalHeaderEnabled: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
         goBack: () => void;
@@ -82,11 +87,15 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
             <AddChannelDropdown
                 showNewChannelModal={this.props.showNewChannelModal}
                 showMoreChannelsModal={this.props.showMoreChannelsModal}
+                invitePeopleModal={this.props.invitePeopleModal}
                 showCreateCategoryModal={this.props.showCreateCategoryModal}
                 canCreateChannel={this.props.canCreateChannel}
                 canJoinPublicChannel={this.props.canJoinPublicChannel}
                 handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
                 unreadFilterEnabled={this.props.unreadFilterEnabled}
+                townSquareDisplayName={this.props.townSquareDisplayName}
+                offTopicDisplayName={this.props.offTopicDisplayName}
+                showTutorialTip={this.props.showTutorialTip}
             />
         );
 
@@ -122,7 +131,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                         <div className='SidebarContainer_rightContainer'>
                             {!this.props.showUnreadsCategory && <ChannelFilter/>}
                             {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
-                            {historyArrows}
+                            {!this.props.globalHeaderEnabled && historyArrows}
                         </div>
                         {inviteMembersUserIcon}
                         {addChannelDropdown}

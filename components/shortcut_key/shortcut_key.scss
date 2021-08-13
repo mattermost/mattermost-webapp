@@ -8,7 +8,7 @@
         line-height: 1;
 
         &.shortcut-key--contrast {
-            background-color: var(--center-channel-color-08);
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
             color: var(--center-channel-color);
         }
     }

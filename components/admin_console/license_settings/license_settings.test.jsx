@@ -29,7 +29,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             IssuedAt: '1517714643650',
             StartsAt: '1517714643650',
             ExpiresAt: '1620335443650',
-            SkuShortName: 'SkuName',
+            SkuShortName: 'E20',
             Name: 'LicenseName',
             Company: 'Mattermost Inc.',
             Users: '100',
@@ -184,6 +184,18 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         await instance.handleRemove({preventDefault: jest.fn()});
         expect(wrapper.state('removing')).toBe(false);
 
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot enterprise build with E20 license', () => {
+        const props = {...defaultProps, license: {...defaultProps.license, SkuShortName: 'E20'}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot enterprise build with E10 license', () => {
+        const props = {...defaultProps, license: {...defaultProps.license, SkuShortName: 'E10'}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });
