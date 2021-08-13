@@ -5,7 +5,9 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
   <div
     className="ThreadViewer"
   >
-    <div>
+    <div
+      className="post-right-comments-container"
+    >
       <DeferredRenderWrapper
         channel={
           Object {
