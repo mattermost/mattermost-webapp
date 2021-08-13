@@ -64,3 +64,7 @@ export function isTrialLicense(license) {
 
     return timeDiff === trialLicenseDuration;
 }
+
+export function isCloudLicense(license) {
+    return license?.Cloud === 'true';
+}
