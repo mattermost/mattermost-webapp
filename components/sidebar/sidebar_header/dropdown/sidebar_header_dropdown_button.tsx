@@ -34,7 +34,8 @@ const TeamName = styled.h1`
     font-weight: 600;
     font-size: 16px;
     line-height: 24px;
-    margin: 0 0 0 6px;
+    margin: 0;
+    margin-left: 6px;
     color: var(--sidebar-header-text-color);
 `;
 
@@ -59,7 +60,13 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent<Pro
     }
 
     render() {
-        const tutorialTip = this.props.showTutorialTip ? <MenuTutorialTip onBottom={false}/> : null;
+        let tutorialTip = null;
+
+        if (this.props.showTutorialTip) {
+            tutorialTip = (
+                <MenuTutorialTip onBottom={false}/>
+            );
+        }
 
         let teamNameWithToolTip = (
             <h1
@@ -104,9 +111,9 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent<Pro
                     id='headerInfo'
                     className='header__info'
                 >
-                    {this.props.globalHeaderEnabled ? teamNameWithToolTip : (
-                        <VerticalStack>
-                            {teamNameWithToolTip}
+                    <VerticalStack>
+                        {teamNameWithToolTip}
+                        {!this.props.globalHeaderEnabled &&
                             <div
                                 id='headerInfoContent'
                                 className='header__info__content'
@@ -127,8 +134,8 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent<Pro
                                     onClick={this.handleCustomStatusEmojiClick as unknown as () => void}
                                 />
                             </div>
-                        </VerticalStack>
-                    )}
+                        }
+                    </VerticalStack>
                     <button
                         className='style--none sidebar-header-dropdown__icon'
                         aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
