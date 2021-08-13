@@ -43,12 +43,4 @@ describe('Feature discovery', () => {
             testCallsToAction();
         });
     });
-
-    it('for on-prem prompts user to start trial', () => {
-        cy.shouldNotRunOnCloudEdition();
-
-        cy.get('li').contains('AD/LDAP').click();
-        cy.get("button[data-testid='featureDiscovery_primaryCallToAction']").should('contain', 'Start trial');
-        cy.get('.trial-legal-terms').should('contain', 'agree to');
-    });
 });
