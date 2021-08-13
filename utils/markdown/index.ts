@@ -24,7 +24,7 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
         gfm: true,
         tables: true,
         mangle: false,
-        inlineLatex: true,
+        inlinelatex: true,
     };
 
     return marked(text, markdownOptions).trim();
