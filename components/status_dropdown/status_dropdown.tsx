@@ -326,12 +326,13 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                 icon={<StatusDndIcon className={'dnd--icon'}/>}
                 direction={this.props.globalHeader ? 'left' : 'right'}
+                renderRight={this.props.globalHeader}
                 openUp={this.state.openUp}
                 id={'status-menu-dnd-timed'}
             />
         );
 
-        if (!isTimedDNDEnabled) {
+        if (isTimedDNDEnabled) {
             timedDND = (
                 <Menu.ItemAction
                     onClick={setDndUntimed}

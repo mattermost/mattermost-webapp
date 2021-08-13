@@ -127,11 +127,15 @@
 }
 
 .status-dropdown-menu-global-header {
-    padding: 5px;
+    padding: 4px 8px;
     border-radius: 4px;
 
-    &.active {
+    &:hover {
         background: var(--sidebar-text-08);
+    }
+
+    &.active {
+        background: var(--sidebar-text-16);
     }
 
     .Menu__content {
@@ -153,6 +157,9 @@
         align-items: center;
 
         .status {
+            background: var(--sidebar-header-bg);
+            color: var(--sidebar-header-text-color);
+
             svg {
                 top: 0;
             }

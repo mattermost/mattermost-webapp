@@ -89,14 +89,49 @@
     width: 100%;
 }
 
-.search__form--global {
+.search__form.search__form--global {
     background: var(--sidebar-text-08);
     border-radius: 4px;
-    color: var(--sidebar-text-72);
+
+    &:hover {
+        background: var(--sidebar-text-16);
+    }
+
+    &.active {
+        background: var(--sidebar-text-32);
+    }
+
+    &:focus-within {
+        background: var(--sidebar-text);
+
+        .search__font-icon {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+
+        .searchTypeBadge {
+            margin: 0 4px;
+            background: rgba(v(button-bg-rgb), 0.08);
+            color: v(button-bg);
+        }
+
+        .Global__search-bar {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+    }
+
+    .search-help-popover {
+        width: 432px;
+        max-width: 432px;
+    }
 
     .search__font-icon,
     .input-clear-x {
         color: var(--sidebar-text-72);
+    }
+
+    .searchTypeBadge {
+        background: var(--sidebar-text-08);
+        color: var(--sidebar-text);
     }
 }
 

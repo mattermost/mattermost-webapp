@@ -175,7 +175,7 @@ class MainMenu extends React.PureComponent {
                 })}
                 extraText={formatMessage({
                     id: 'navbar_dropdown.invitePeopleExtraText',
-                    defaultMessage: 'Add or invite people to the team',
+                    defaultMessage: 'Add or invite people to team',
                 })}
                 icon={this.props.mobile && <i className='fa fa-user-plus'/>}
             />
@@ -269,6 +269,7 @@ class MainMenu extends React.PureComponent {
                     />
                     <Menu.ItemToggleModalRedux
                         id='leaveTeam'
+                        className='destructive'
                         show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
                         modalId={ModalIdentifiers.LEAVE_TEAM}
                         dialogType={LeaveTeamModal}

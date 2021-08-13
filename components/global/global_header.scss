@@ -65,13 +65,21 @@
         .channel__wrap {
             &.move--left {
                 .channel-header {
-                    width: calc(100% - 400px);
+                    width: calc(100% - 500px);
                 }
             }
         }
 
         .product-switcher-icon {
             padding: 0 6px;
+        }
+    }
+
+    .MenuItem {
+        height: 36px;
+
+        .icon {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
         }
     }
 }

@@ -37,7 +37,7 @@ const SwitcherMenuDescriptiveText = styled.div`
     padding-left: 20px;
     font-weight: 600;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 32px;
 `;
 
 const MenuItem = styled(Link)`
@@ -66,7 +66,8 @@ const MenuItem = styled(Link)`
 `;
 
 const StyledIcon = styled(Icon)`
-    color: var(--sidebar-bg);
+    color: var(--button-bg);
+    font-size: 24px;
 `;
 
 const MenuItemTextContainer = styled.div`
@@ -135,7 +136,7 @@ const ProductSwitcher = (): JSX.Element => {
                         onClick={handleClick}
                         size={'sm'}
                         compact={true}
-                        toggled={switcherOpen}
+                        active={switcherOpen}
                         inverted={true}
                         aria-label='Select to open product switch menu.'
                     />

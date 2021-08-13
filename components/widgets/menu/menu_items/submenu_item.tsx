@@ -47,6 +47,8 @@ export type Props = {
     direction?: 'left' | 'right';
     openUp?: boolean;
     styleSelectableItem?: boolean;
+    renderLeft?: boolean;
+    renderRight?: boolean;
 }
 
 type State = {
@@ -145,7 +147,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, renderLeft, renderRight} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -202,6 +204,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                     ariaLabel={ariaLabel}
                                     root={false}
                                     direction={s.direction}
+                                    renderLeft={s.renderLeft}
+                                    renderRight={s.renderRight}
                                 />
                                 {s.text === selectedValueText && <span className='sorting-menu-checkbox'>
                                     <i className='icon-check'/>
@@ -233,7 +237,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     {id !== 'SidebarChannelMenu-moveToDivider' &&
                         <span
                             id={'channelHeaderDropdownIconLeft_' + id}
-                            className={classNames([`fa fa-angle-left SubMenu__icon-left${hasSubmenu && direction === 'left' ? '' : '-empty'}`, {mobile: isMobile}])}
+                            className={classNames([`fa fa-angle-left SubMenu__icon-left${(hasSubmenu && direction === 'left' && !renderRight) || renderLeft ? '' : '-empty'}`, {mobile: isMobile}])}
                             aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                         />}
                     {textProp}
@@ -241,7 +245,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     {id !== 'SidebarChannelMenu-moveToDivider' &&
                         <span
                             id={'channelHeaderDropdownIconRight_' + id}
-                            className={classNames([`fa fa-angle-right SubMenu__icon-right${hasSubmenu && direction === 'right' ? '' : '-empty'}`, {mobile: isMobile}])}
+                            className={classNames([`fa fa-angle-right SubMenu__icon-right${(hasSubmenu && direction === 'right' && !renderLeft) || renderRight ? '' : '-empty'}`, {mobile: isMobile}])}
                             aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                         />}
                     {subMenuContent}

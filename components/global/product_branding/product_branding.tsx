@@ -13,7 +13,7 @@ const ProductBrandingContainer = styled.div`
     align-items: center;
 
     > * + * {
-        margin-left: 6px;
+        margin-left: 8px;
     }
 `;
 

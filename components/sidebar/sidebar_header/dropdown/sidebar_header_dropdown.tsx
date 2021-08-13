@@ -3,11 +3,13 @@
 
 import React from 'react';
 
+import IconButton from '@mattermost/compass-components/components/icon-button';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import * as GlobalActions from 'actions/global_actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
-
-import {UserProfile} from 'mattermost-redux/types/users';
 
 import UserSettingsModal from 'components/user_settings/modal';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -65,15 +67,24 @@ export default class SidebarHeaderDropdown extends React.PureComponent<Props> {
             <MenuWrapper
                 className='main-menu'
             >
-                <SidebarHeaderDropdownButton
-                    showTutorialTip={this.props.showTutorialTip}
-                    teamDescription={this.props.teamDescription}
-                    currentUser={this.props.currentUser}
-                    teamDisplayName={this.props.teamDisplayName}
-                    teamId={this.props.teamId}
-                    openModal={this.props.actions.openModal}
-                    globalHeaderEnabled={this.props.globalHeaderEnabled}
-                />
+                {this.props.globalHeaderEnabled ?
+                    <IconButton
+                        size={'sm'}
+                        onClick={() => {}}
+                        inverted={true}
+                        compact={true}
+                        icon={'dots-vertical'}
+                    /> :
+                    <SidebarHeaderDropdownButton
+                        showTutorialTip={this.props.showTutorialTip}
+                        teamDescription={this.props.teamDescription}
+                        currentUser={this.props.currentUser}
+                        teamDisplayName={this.props.teamDisplayName}
+                        teamId={this.props.teamId}
+                        openModal={this.props.actions.openModal}
+                        globalHeaderEnabled={this.props.globalHeaderEnabled}
+                    />
+                }
                 <MainMenu id='sidebarDropdownMenu'/>
             </MenuWrapper>
         );
