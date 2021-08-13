@@ -70,45 +70,51 @@ const initialState = {
         },
         apps: {
             main: {
-                bindings: [{
-                    location: '/command',
-                    bindings: [{
-                        app_id: 'appid',
-                        label: 'appid',
+                bindings: [
+                    {
+                        location: '/command',
                         bindings: [
                             {
+                                location: '/command/appid',
                                 app_id: 'appid',
-                                label: 'custom',
-                                description: 'Run the command.',
-                                call: {
-                                    path: 'https://someserver.com/command',
-                                },
-                                form: {
-                                    fields: [
-                                        {
-                                            name: 'key1',
-                                            label: 'key1',
-                                            type: 'text',
-                                            position: 1,
+                                label: 'appid',
+                                bindings: [
+                                    {
+                                        location: '/command/appid/custom',
+                                        app_id: 'appid',
+                                        label: 'custom',
+                                        description: 'Run the command.',
+                                        call: {
+                                            path: 'https://someserver.com/command',
                                         },
-                                        {
-                                            name: 'key2',
-                                            label: 'key2',
-                                            type: 'static_select',
-                                            options: [
+                                        form: {
+                                            fields: [
                                                 {
-                                                    label: 'Value 2',
-                                                    value: 'value2',
+                                                    name: 'key1',
+                                                    label: 'key1',
+                                                    type: 'text',
+                                                    position: 1,
+                                                },
+                                                {
+                                                    name: 'key2',
+                                                    label: 'key2',
+                                                    type: 'static_select',
+                                                    options: [
+                                                        {
+                                                            label: 'Value 2',
+                                                            value: 'value2',
+                                                        },
+                                                    ],
                                                 },
                                             ],
                                         },
-                                    ],
-                                },
+                                    },
+                                ],
                             },
                         ],
-                    }],
-                    forms: {},
-                }],
+                    },
+                ],
+                forms: {},
             },
         },
     },
@@ -269,7 +275,7 @@ describe('executeCommand', () => {
                 context: {
                     app_id: 'appid',
                     channel_id: '123',
-                    location: '/command',
+                    location: '/command/appid/custom',
                     root_id: '',
                     team_id: '456',
                 },

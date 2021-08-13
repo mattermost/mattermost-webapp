@@ -28,12 +28,12 @@ export type PostType = 'system_add_remove' |
 'system_remove_from_channel' |
 'system_combined_user_activity';
 
-export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph';
+export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph' | 'permalink';
 
 export type PostEmbed = {
     type: PostEmbedType;
     url: string;
-    data: Record<string, OpenGraphMetadata>;
+    data?: OpenGraphMetadata | PostPreviewMetadata;
 };
 
 export type PostImage = {
@@ -150,4 +150,11 @@ export declare type OpenGraphMetadata = {
     site_name?: string;
     url?: string;
     images: OpenGraphMetadataImage[];
+};
+
+export declare type PostPreviewMetadata = {
+    post_id: string;
+    post?: Post;
+    channel_display_name: string;
+    team_name: string;
 };

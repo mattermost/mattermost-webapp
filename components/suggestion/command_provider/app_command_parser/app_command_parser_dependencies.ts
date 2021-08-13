@@ -68,7 +68,10 @@ export {getChannelByNameAndTeamName, getChannel, autocompleteChannels} from 'mat
 export {doAppCall} from 'actions/apps';
 import {sendEphemeralPost} from 'actions/global_actions';
 
-export {createCallRequest} from 'utils/apps';
+export {
+    createCallRequest,
+    filterEmptyOptions,
+} from 'utils/apps';
 
 import {
     isMac,
