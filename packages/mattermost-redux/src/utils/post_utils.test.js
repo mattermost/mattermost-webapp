@@ -96,22 +96,10 @@ describe('PostUtils', () => {
     });
 
     describe('canEditPost', () => {
-        const notLicensed = {IsLicensed: 'false'};
         const licensed = {IsLicensed: 'true'};
         const teamId = 'team-id';
         const channelId = 'channel-id';
-        const userId = 'user-id';
-
-        const state = {entities: {general: {serverVersion: ''}}};
-
-        it('should allow to edit my post without license', () => {
-            // Hasn't license
-            assert.ok(canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, {user_id: userId, type: 'normal'}));
-            assert.ok(!canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, {user_id: userId, type: 'system_test'}));
-            assert.ok(!canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, {user_id: 'other', type: 'normal'}));
-            assert.ok(!canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, {user_id: 'other', type: 'system_test'}));
-            assert.ok(!canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, null));
-        });
+        const userId = 'user-id';        
 
         it('should work with new permissions version', () => {
             let newVersionState = {
