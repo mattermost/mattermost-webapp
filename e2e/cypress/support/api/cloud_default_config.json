@@ -220,7 +220,8 @@
         "Enable": false
     },
     "ExperimentalSettings": {
-        "RestrictSystemAdmin": false
+        "RestrictSystemAdmin": true,
+        "CloudBilling": true
     },
     "DataRetentionSettings": {
         "EnableMessageDeletion": false,

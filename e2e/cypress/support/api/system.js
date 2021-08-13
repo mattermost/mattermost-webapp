@@ -120,6 +120,14 @@ export const getDefaultConfig = () => {
     };
 
     const isCloud = cypressEnv.serverEdition === Constants.ServerEdition.CLOUD;
+
+    if (isCloud) {
+        fromCypressEnv.CloudSettings = {
+            CWSUrl: cypressEnv.cwsUrl,
+            CWSAPIUrl: cypressEnv.cwsApiUrl,
+        };
+    }
+
     const defaultConfig = isCloud ? cloudDefaultConfig : onPremDefaultConfig;
 
     return merge(defaultConfig, fromCypressEnv);
