@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 // css feature flag: apply styling overrides to legacy layout when global header is enabled
 .feature-global-header {
@@ -6,13 +6,6 @@
     --global-header-text: var(--sidebar-header-text-color);
     --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
     --global-header-text-rgb: var(--sidebar-header-text-color-rgb);
-
-    @media screen and (max-width: 768px) {
-        // hide GH for mobile width and smaller
-        > header {
-            display: none;
-        }
-    }
 
     @media screen and (min-width: 769px) {
         > header {
