@@ -28,7 +28,7 @@ describe('CollapsedReplyThreads', () => {
         });
     });
 
-    it('should be able to toggle CRT on/off', () => {
+    it('MM-T4140 should be able to toggle CRT on/off', () => {
         // # Set CRT to off
         cy.uiChangeCRTDisplaySetting('OFF');
 

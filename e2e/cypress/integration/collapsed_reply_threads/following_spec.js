@@ -45,7 +45,7 @@ describe('CollapsedReplyThreads', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
-    it('should follow a thread after replying', () => {
+    it('MM-T4141_1 should follow a thread after replying', () => {
         // # Post message as other user
         cy.postMessageAs({
             sender: otherUser,
@@ -85,7 +85,7 @@ describe('CollapsedReplyThreads', () => {
         });
     });
 
-    it('should follow a thread after marking it as unread', () => {
+    it('MM-T4141_2 should follow a thread after marking it as unread', () => {
         // # Post a root post as other user
         cy.postMessageAs({
             sender: otherUser,
@@ -138,7 +138,7 @@ describe('CollapsedReplyThreads', () => {
         });
     });
 
-    it('clicking "Following" button in the footer should unfollow the thread', () => {
+    it('MM-T4141_3 clicking "Following" button in the footer should unfollow the thread', () => {
         // # Get last root post in channel
         cy.getLastPostId().then((rootId) => {
             // # Open the thread
@@ -170,7 +170,7 @@ describe('CollapsedReplyThreads', () => {
         });
     });
 
-    it('clicking "Follow" button in the footer should follow the thread', () => {
+    it('MM-T4141_4 clicking "Follow" button in the footer should follow the thread', () => {
         // # Get last root post in channel
         cy.getLastPostId().then((rootId) => {
             // # Open the thread

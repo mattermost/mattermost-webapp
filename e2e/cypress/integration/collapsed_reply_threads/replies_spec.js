@@ -51,11 +51,11 @@ describe('CollapsedReplyThreads', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
-    it('should show number of replies in thread', () => {
+    it('MM-T4142 should show number of replies in thread', () => {
         // # Thread footer should not exist
         cy.get(`#post_${rootPost.id}`).find('.ThreadFooter').should('not.exist');
 
-        // # Post a root post as current user
+        // # Post a reply post as current user
         cy.postMessageAs({sender: testUser, message: 'reply!', channelId: testChannel.id, rootId: rootPost.id});
 
         // # Get last root post
@@ -103,7 +103,7 @@ describe('CollapsedReplyThreads', () => {
         cy.get('article.ThreadItem').find('.activity').should('have.text', '2 replies');
     });
 
-    it('Emoji reaction - type +:+1:', () => {
+    it('MM-T4143 Emoji reaction - type +:+1:', () => {
         // # Create a root post
         cy.postMessage('Hello!');
 

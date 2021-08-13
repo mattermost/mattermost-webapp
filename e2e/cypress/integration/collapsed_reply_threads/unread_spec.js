@@ -45,7 +45,7 @@ describe('CollapsedReplyThreads', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
-    it('should show a new messages line for an unread thread', () => {
+    it('MM-T4144_1 should show a new messages line for an unread thread', () => {
         // # Post a root post as current user
         cy.postMessageAs({
             sender: testUser,
@@ -71,7 +71,7 @@ describe('CollapsedReplyThreads', () => {
         });
     });
 
-    it('should not show a new messages line after viewing the thread', () => {
+    it('MM-T4144_2 should not show a new messages line after viewing the thread', () => {
         // # Get last message in channel
         cy.getLastPostId().then((rootId) => {
             // # Click on message
