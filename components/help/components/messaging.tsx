@@ -18,54 +18,55 @@ export default function Messaging(): JSX.Element {
                 />
             </h1>
             <hr/>
+
             <p>
                 <FormattedMarkdownMessage
                     id='help.messaging.write'
-                    defaultMessage='**Write messages** using the text input box at the bottom of Mattermost. Press ENTER to send a message. Use SHIFT+ENTER to create a new line without sending a message.'
+                    defaultMessage='**Write Messages:** Use the text input box at the bottom of the Mattermost interface to write a message. Press ENTER to send the message. Use SHIFT+ENTER to create a new line without sending a message.'
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
                     id='help.messaging.reply'
-                    defaultMessage='**Reply to messages** by clicking the reply arrow next to the message text.'
+                    defaultMessage='**Reply to Messages:** Select the **Reply Arrow** icon next to the text input box.'
                 />
             </p>
             <p>
                 <img
-                    src='https://docs.mattermost.com/_images/replyIcon.PNG'
-                    alt='reply arrow'
+                    src='https://docs.mattermost.com/_images/reply-icon.png'
+                    alt='Reply Arrow icon'
                     className='markdown-inline-img'
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
                     id='help.messaging.notify'
-                    defaultMessage='**Notify teammates** when they are needed by typing `@username`.'
+                    defaultMessage='**Notify Teammates:** Type `@username` to get the attention of specific team members.'
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
                     id='help.messaging.format'
-                    defaultMessage='**Format your messages** using Markdown that supports text styling, headings, links, emoticons, code blocks, block quotes, tables, lists and in-line images.'
+                    defaultMessage='**Format Your Messages:** Use Markdown to include text styling, headings, links, emoticons, code blocks, block quotes, tables, lists, and in-line images in your messages. See the following table for common formatting examples.'
                 />
             </p>
             <p>
                 <img
-                    src='https://docs.mattermost.com/_images/messagesTable1.PNG'
-                    alt='markdown'
+                    src='https://docs.mattermost.com/_images/messagesTable1.png'
+                    alt='Use Markdown in your messages'
                     className='markdown-inline-img'
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
                     id='help.messaging.emoji'
-                    defaultMessage={'**Quickly add emoji** by typing ":", which will open an emoji autocomplete. If the existing emoji don\'t cover what you want to express, you can also create your own [Custom Emoji](!http://docs.mattermost.com/help/settings/custom-emoji.html).'}
+                    defaultMessage={'**Add Emoji:** Type ":" to open an emoji autocomplete. If the existing emojis don\'t say what you want to express, you can also create your own [Custom Emoji](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis).'}
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
                     id='help.messaging.attach'
-                    defaultMessage='**Attach files** by dragging and dropping into Mattermost or clicking the attachment icon in the text input box.'
+                    defaultMessage='**Attach Files:** Drag and drop files into Mattermost, or select the **Attachment** icon in the text input box.'
                 />
             </p>
             <HelpLinks excludedLinks={[HelpLink.Messaging]}/>

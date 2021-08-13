@@ -408,7 +408,7 @@ exports[`components/SearchHint should match snapshot, without searchType 1`] = `
       onClick={[Function]}
     >
       <i
-        className="icon icon-file-document-outline"
+        className="icon icon-file-text-outline"
       />
       <MemoizedFormattedMessage
         defaultMessage="Files"

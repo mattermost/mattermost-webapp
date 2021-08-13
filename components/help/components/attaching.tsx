@@ -25,89 +25,89 @@ export default function Attaching(): JSX.Element {
                 />
             </h2>
             <p>
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='help.attaching.methods.description'
-                    defaultMessage='Attach a file by drag and drop or by clicking the attachment icon in the message input box.'
+                    defaultMessage='There are three ways to attach a file. You can drag and drop files, use the **Attachment** icon, or copy and paste files.'
                 />
             </p>
             <h4 className='markdown__heading'>
                 <FormattedMessage
                     id='help.attaching.dragdrop.title'
-                    defaultMessage='Drag and Drop'
+                    defaultMessage='Drag and Drop Files'
                 />
             </h4>
             <p>
                 <FormattedMarkdownMessage
                     id='help.attaching.dragdrop.description'
-                    defaultMessage='Upload a file or selection of files by dragging the files from your computer into the right-hand sidebar or center pane. Dragging and dropping attaches the files to the message input box, then you can optionally type a message and press **ENTER** to post.'
+                    defaultMessage='Upload a file, or a selection of files, by dragging the files from your computer into the right-hand sidebar or center pane. Dragging and dropping attaches the files to the message input box, then you can optionally type a message and press **ENTER** to post the message.'
                 />
             </p>
             <h4 className='markdown__heading'>
                 <FormattedMessage
                     id='help.attaching.icon.title'
-                    defaultMessage='Attachment Icon'
+                    defaultMessage='Use the Attachment Icon'
                 />
             </h4>
             <p>
                 <FormattedMarkdownMessage
                     id='help.attaching.icon.description'
-                    defaultMessage='Alternatively, upload files by clicking the grey paperclip icon inside the message input box. This opens up your system file viewer where you can navigate to the desired files and then click **Open** to upload the files to the message input box. Optionally type a message and then press **ENTER** to post.'
+                    defaultMessage='Alternatively, upload files by selecting the **Attachment** icon inside the message input box. In the system file viewer, navigate to the desired files, then select **Open** to upload them to the message input box. Optionally type a message, then press **ENTER** to post the message.'
                 />
             </p>
             <h4 className='markdown__heading'>
                 <FormattedMessage
                     id='help.attaching.pasting.title'
-                    defaultMessage='Pasting Images'
+                    defaultMessage='Copy and Paste Files'
                 />
             </h4>
             <p>
                 <FormattedMessage
                     id='help.attaching.pasting.description'
-                    defaultMessage='On Chrome and Edge browsers, it is also possible to upload files by pasting them from the clipboard. This is not yet supported on other browsers.'
+                    defaultMessage='On Chrome and Edge browsers, you can upload files by pasting them from the system clipboard. This is not yet supported on other browsers.'
                 />
             </p>
 
             <h2 className='markdown__heading'>
                 <FormattedMessage
                     id='help.attaching.previewer.title'
-                    defaultMessage='File Previewer'
+                    defaultMessage='View Previewer'
                 />
             </h2>
             <p>
                 <FormattedMessage
                     id='help.attaching.previewer.description'
-                    defaultMessage='Mattermost has a built in file previewer that is used to view media, download files and share public links. Click the thumbnail of an attached file to open it in the file previewer.'
+                    defaultMessage='Mattermost has a built-in file previewer used to view media, download files, and to share public links. Select the thumbnail of an attached file to open it in the file previewer.'
                 />
             </p>
 
             <h4 className='markdown__heading'>
                 <FormattedMessage
                     id='help.attaching.publicLinks.title'
-                    defaultMessage='Sharing Public Links'
+                    defaultMessage='Share Public Links'
                 />
             </h4>
             <p>
                 <FormattedMarkdownMessage
                     id='help.attaching.publicLinks.description'
-                    defaultMessage='Public links allow you to share file attachments with people outside your Mattermost team. Open the file previewer by clicking on the thumbnail of an attachment, then click **Get Public Link**. This opens a dialog box with a link to copy. When the link is shared and opened by another user, the file will automatically download.'
+                    defaultMessage='Public links enable you to share file attachments with people outside your Mattermost team. Open the file previewer by selecting the thumbnail of an attachment, then select **Get a public link**. Copy the link provided. When the link is shared and opened by another user, the file automatically downloads.'
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
                     id='help.attaching.publicLinks2'
-                    defaultMessage='If **Get Public Link** is not visible in the file previewer and you prefer the feature enabled, you can request that your System Admin enable the feature from the System Console under **Security** > **Public Links**.'
+                    defaultMessage='If the **Get a public link** option is not visible in the file previewer, and you want this feature enabled, ask your System Admin to enable this feature in the System Console under **Site Configuration > Public Links**.'
                 />
             </p>
             <h4 className='markdown__heading'>
                 <FormattedMessage
                     id='help.attaching.downloading.title'
-                    defaultMessage='Downloading Files'
+                    defaultMessage='Download Files'
                 />
             </h4>
             <p>
                 <FormattedMarkdownMessage
                     id='help.attaching.downloading.description'
-                    defaultMessage='Download an attached file by clicking the download icon next to the file thumbnail or by opening the file previewer and clicking **Download**.'
+                    defaultMessage='Download an attached file by selecting the Download icon next to the file thumbnail, or by opening the file previewer and selecting **Download**.'
                 />
             </p>
             <h4 className='markdown__heading'>
@@ -119,14 +119,14 @@ export default function Attaching(): JSX.Element {
             <p>
                 <FormattedMessage
                     id='help.attaching.supported.description'
-                    defaultMessage='If you are trying to preview a media type that is not supported, the file previewer will open a standard media attachment icon. Supported media formats depend heavily on your browser and operating system, but the following formats are supported by Mattermost on most browsers:'
+                    defaultMessage='If you are trying to preview a media type that is not supported, the file previewer opens a standard media attachment icon. Supported media formats depend heavily on your browser and operating system. The following formats are supported by Mattermost on most browsers:'
                 />
             </p>
             <ul>
                 <li>
                     <FormattedMessage
                         id='help.attaching.supportedListItem1'
-                        defaultMessage='Images: BMP, GIF, JPG, JPEG, PNG'
+                        defaultMessage='Images: BMP, GIF, JPG, JPEG, PNG, SVG'
                     />
                 </li>
                 <li>
@@ -144,14 +144,14 @@ export default function Attaching(): JSX.Element {
                 <li>
                     <FormattedMessage
                         id='help.attaching.supportedListItem4'
-                        defaultMessage='Documents: PDF'
+                        defaultMessage='Documents: PDF, TXT'
                     />
                 </li>
             </ul>
             <p>
                 <FormattedMessage
                     id='help.attaching.notSupported'
-                    defaultMessage='Document preview (Word, Excel, PPT) is not yet supported.'
+                    defaultMessage='Other document formats (such as Word, Excel, or PPT) are not yet supported.'
                 />
             </p>
 
@@ -164,7 +164,7 @@ export default function Attaching(): JSX.Element {
             <p>
                 <FormattedMessage
                     id='help.attaching.limitations.description'
-                    defaultMessage='Mattermost supports a maximum of five attached files per post, each with a maximum file size of 50Mb.'
+                    defaultMessage='Mattermost supports up to five files attached per post. The default maximum file size is 100 MB (megabytes), but this can be changed by your System Admin. Image files can be a maximum size of 6048 pixels x 4032 pixels, or 24 MP (mega pixels), or a raw image file size of approximately 36 MB.'
                 />
             </p>
             <HelpLinks excludedLinks={[HelpLink.Attaching]}/>

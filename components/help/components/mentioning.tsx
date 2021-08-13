@@ -33,7 +33,7 @@ export default function Mentioning(): JSX.Element {
             <h4 className='markdown__heading'>
                 <FormattedMessage
                     id='help.mentioning.username.title'
-                    defaultMessage='@Username'
+                    defaultMessage='@Username Mentions'
                 />
             </h4>
             <p>
@@ -45,7 +45,7 @@ export default function Mentioning(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.mentioning.username.description2'
-                    defaultMessage='Type `@` to bring up a list of team members who can be mentioned. To filter the list, type the first few letters of any username, first name, last name, or nickname. The **Up** and **Down** arrow keys can then be used to scroll through entries in the list, and pressing **ENTER** will select which user to mention. Once selected, the username will automatically replace the full name or nickname. The following example sends a special mention notification to **alice** that alerts her of the channel and message where she has been mentioned. If **alice** is away from Mattermost and has [email notifications](!http://docs.mattermost.com/help/getting-started/configuring-notifications.html#email-notifications) turned on, then she will receive an email alert of her mention along with the message text.'
+                    defaultMessage='Type `@` to bring up a list of team members who can be mentioned. To filter the list, type the first few letters of any username, first name, last name, or nickname. Use the **Up** and **Down** keyboard arrow keys to scroll through entries in the list, then press **ENTER** to select the user to mention. Once selected, the username is automatically replaced with the full name or nickname. The following example sends a special mention notification to **alice** that alerts her of the channel and message where she has been mentioned. If **alice** is away from Mattermost and has [email notifications](!https://docs.mattermost.com/messaging/configuring-notifications.html#email-notifications) turned on, then she will receive an email alert for the mention along with the message text.'
                 />
             </p>
             <div className='post-code post-code--wrap'>
@@ -60,19 +60,19 @@ export default function Mentioning(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.mentioning.usernameCont'
-                    defaultMessage='If the user you mentioned does not belong to the channel, a System Message will be posted to let you know. This is a temporary message only seen by the person who triggered it. To add the mentioned user to the channel, go to the dropdown menu beside the channel name and select **Add Members**.'
+                    defaultMessage='If the user you mentioned is not a member of the channel, a System Message is posted to let you know. The System Message is a temporary message only seen by the person who triggered it. To add the mentioned user to the channel, go to the dropdown menu beside the channel name and select **Add Members**.'
                 />
             </p>
             <h4 className='markdown__heading'>
                 <FormattedMessage
                     id='help.mentioning.channel.title'
-                    defaultMessage='@Channel'
+                    defaultMessage='@Channel Mentions'
                 />
             </h4>
             <p>
                 <FormattedMarkdownMessage
                     id='help.mentioning.channel.description'
-                    defaultMessage='You can mention an entire channel by typing `@channel`. All members of the channel will receive a mention notification that behaves the same way as if the members had been mentioned personally.'
+                    defaultMessage='You can mention an entire channel by typing `@channel`. All members of the channel receive a mention notification that behaves the same way as if the members had been mentioned individually. The following example sends a special mention notification to everyone in the current channel to congratulate them on a job well done.'
                 />
             </p>
             <div className='post-code post-code--wrap'>
@@ -92,7 +92,7 @@ export default function Mentioning(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.mentioning.triggers.description'
-                    defaultMessage='In addition to being notified by @username and @channel, you can customize words that trigger mention notifications in **Account Settings** > **Notifications** > **Words that trigger mentions**. By default, you will receive mention notifications on your first name, and you can add more words by typing them into the input box separated by commas. This is useful if you want to be notified of all posts on certain topics, for example, "interviewing" or "marketing".'
+                    defaultMessage='In addition to being notified with @username and @channel mentions, you can configure Mattermost to trigger mention notifications based on specific words by going to **Account Settings > Notifications > Words That Trigger Mentions**. By default, you receive mention notifications on your first name. Add more words by typing them into the input box separated by commas. This is useful if you want to be notified of all posts on certain topics, for example, "interviewing" or "marketing".'
                 />
             </p>
             <h2 className='markdown__heading'>
@@ -104,7 +104,7 @@ export default function Mentioning(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.mentioning.recent.description'
-                    defaultMessage='Click `@` next to the search box to query for your most recent @mentions and words that trigger mentions. Click **Jump** next to a search result in the right-hand sidebar to jump the center pane to the channel and location of the message with the mention.'
+                    defaultMessage='Select `@` next to the Search box to query for your most recent @mentions and words that trigger mentions. Select **Jump** next to a search result in the right-hand sidebar to jump the center pane to the channel and location of the message with the mention.'
                 />
             </p>
             <HelpLinks excludedLinks={[HelpLink.Mentioning]}/>

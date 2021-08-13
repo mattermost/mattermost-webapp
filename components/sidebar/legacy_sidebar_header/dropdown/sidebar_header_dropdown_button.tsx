@@ -30,15 +30,6 @@ const VerticalStack = styled.div`
     flex-grow: 1;
 `;
 
-const TeamName = styled.h1`
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 24px;
-    margin: 0;
-    margin-left: 6px;
-    color: var(--sidebar-header-text-color);
-`;
-
 type Props = {
     showTutorialTip: boolean;
     teamDescription: string;
@@ -46,7 +37,6 @@ type Props = {
     currentUser: UserProfile;
     teamDisplayName: string;
     openModal: (modalData: any) => void;
-    globalHeaderEnabled: boolean;
 };
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent<Props> {
@@ -78,17 +68,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent<Pro
             </h1>
         );
 
-        if (this.props.globalHeaderEnabled) {
-            teamNameWithToolTip = (
-                <TeamName
-                    id='headerTeamName'
-                    data-teamid={this.props.teamId}
-                >
-                    {this.props.teamDisplayName}
-                </TeamName>
-            );
-        }
-
         if (this.props.teamDescription) {
             teamNameWithToolTip = (
                 <OverlayTrigger
@@ -113,28 +92,26 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent<Pro
                 >
                     <VerticalStack>
                         {teamNameWithToolTip}
-                        {!this.props.globalHeaderEnabled &&
+                        <div
+                            id='headerInfoContent'
+                            className='header__info__content'
+                        >
                             <div
-                                id='headerInfoContent'
-                                className='header__info__content'
+                                id='headerUsername'
+                                className='user__name'
                             >
-                                <div
-                                    id='headerUsername'
-                                    className='user__name'
-                                >
-                                    {'@' + this.props.currentUser.username}
-                                </div>
-                                <CustomStatusEmoji
-                                    showTooltip={true}
-                                    tooltipDirection='bottom'
-                                    emojiStyle={{
-                                        verticalAlign: 'top',
-                                        marginLeft: 2,
-                                    }}
-                                    onClick={this.handleCustomStatusEmojiClick as unknown as () => void}
-                                />
+                                {'@' + this.props.currentUser.username}
                             </div>
-                        }
+                            <CustomStatusEmoji
+                                showTooltip={true}
+                                tooltipDirection='bottom'
+                                emojiStyle={{
+                                    verticalAlign: 'top',
+                                    marginLeft: 2,
+                                }}
+                                onClick={this.handleCustomStatusEmojiClick as unknown as () => void}
+                            />
+                        </div>
                     </VerticalStack>
                     <button
                         className='style--none sidebar-header-dropdown__icon'
