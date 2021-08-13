@@ -187,3 +187,15 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
   </OverlayTrigger>
 </div>
 `;
+
+exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePreviewModalMainActions should match snapshot with public links enabled 2`] = `
+<a
+  className="file-preview-modal-main-actions__action-item"
+  href="#"
+  onClick={[Function]}
+>
+  <i
+    className="icon icon-link-variant"
+  />
+</a>
+`;

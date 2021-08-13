@@ -5,6 +5,8 @@ import React, {ComponentProps} from 'react';
 
 import {Tooltip} from 'react-bootstrap';
 
+import * as redux from 'react-redux';
+
 import OverlayTrigger from 'components/overlay_trigger';
 
 import {GlobalState} from '../../../types/store';
@@ -68,21 +70,21 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
 
         const wrapper = shallow(<FilePreviewModalMainActions {...props}/>);
         expect(wrapper).toMatchSnapshot();
+        const overlayWrapper = wrapper.find(OverlayTrigger).first();
+        expect(overlayWrapper.prop('overlay').type).toEqual(Tooltip);
+        expect(overlayWrapper.prop('children')).toMatchSnapshot();
     });
 
     test('should call public link callback', () => {
-        const mockOnClick = jest.fn();
+        const spy = jest.spyOn(redux, 'useSelector');
         const props = {
             ...defaultProps,
             enablePublicLink: true,
-            onGetPublicLink: mockOnClick,
         };
-
         const wrapper = shallow(<FilePreviewModalMainActions {...props}/>);
         expect(wrapper.find(OverlayTrigger)).toHaveLength(3);
-        const overlayWrapper = wrapper.find(OverlayTrigger).last();
-        expect(overlayWrapper.prop('overlay').type).toEqual(Tooltip);
-
-        // expect(mockOnClick).toHaveBeenCalled();
+        const overlayWrapper = wrapper.find(OverlayTrigger).first().children('a');
+        overlayWrapper.simulate('click');
+        expect(spy).toHaveBeenCalledTimes(1);
     });
 });

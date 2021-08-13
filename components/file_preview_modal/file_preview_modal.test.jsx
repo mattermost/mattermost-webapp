@@ -152,7 +152,7 @@ describe('components/FilePreviewModal', () => {
             loaded: [true],
             showCloseBtn: true,
         });
-        wrapper.instance().handleGetPublicLink();
+        wrapper.instance().handleModalClose();
 
         expect(newOnModalDismissed).toHaveBeenCalledTimes(1);
     });

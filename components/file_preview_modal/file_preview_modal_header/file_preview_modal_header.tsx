@@ -22,7 +22,6 @@ interface Props {
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
     isExternalFile: boolean;
-    onGetPublicLink?: () => void;
     handlePrev: () => void;
     handleNext: () => void;
     handleModalClose: () => void;

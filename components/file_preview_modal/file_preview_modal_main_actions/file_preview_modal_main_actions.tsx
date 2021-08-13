@@ -31,7 +31,6 @@ interface Props {
     fileInfo: FileInfo;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
-    onGetPublicLink?: () => void;
     handleModalClose: () => void;
 }
 

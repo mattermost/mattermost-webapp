@@ -7,7 +7,6 @@ import {Modal} from 'react-bootstrap';
 
 import {getFileDownloadUrl, getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import LoadingImagePreview from 'components/loading_image_preview';
-import * as GlobalActions from 'actions/global_actions';
 import Constants, {FileTypes, ZoomSettings} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import AudioVideoPreview from 'components/audio_video_preview';
@@ -226,12 +225,6 @@ export default class FilePreviewModal extends React.PureComponent {
         });
     }
 
-    handleGetPublicLink = () => {
-        this.handleModalClose();
-
-        GlobalActions.showGetPublicLinkModal(this.props.fileInfos[this.state.imageIndex].id);
-    }
-
     onMouseEnterImage = () => {
         this.setState({showCloseBtn: true});
     }
@@ -419,7 +412,6 @@ export default class FilePreviewModal extends React.PureComponent {
                                     enablePublicLink={this.props.enablePublicLink || false}
                                     canDownloadFiles={this.props.canDownloadFiles || false}
                                     isExternalFile={isExternalFile}
-                                    onGetPublicLink={this.handleGetPublicLink}
                                     handlePrev={this.handlePrev}
                                     handleNext={this.handleNext}
                                     handleModalClose={this.handleModalClose}
@@ -442,7 +434,6 @@ export default class FilePreviewModal extends React.PureComponent {
                                     enablePublicLink={this.props.enablePublicLink || false}
                                     canDownloadFiles={this.props.canDownloadFiles || false}
                                     isExternalFile={isExternalFile}
-                                    onGetPublicLink={this.handleGetPublicLink}
                                     handlePrev={this.handlePrev}
                                     handleNext={this.handleNext}
                                     handleModalClose={this.handleModalClose}
