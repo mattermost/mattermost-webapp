@@ -7,8 +7,6 @@ import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {Role} from 'mattermost-redux/types/roles';
 
-import {hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
-
 import {bindClientFunc} from './helpers';
 
 export function getRolesByNames(rolesNames: string[]) {
@@ -86,12 +84,6 @@ export function loadRolesIfNeeded(roles: Iterable<string>): ActionFunc {
             return {data: []};
         }
 
-        if (!hasNewPermissions(state)) {
-            if (state.entities.roles.pending) {
-                await dispatch(setPendingRoles([]));
-            }
-            return {data: []};
-        }
         const loadedRoles = getRoles(state);
         const newRoles = new Set<string>();
 
