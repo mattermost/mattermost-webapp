@@ -332,7 +332,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             />
         );
 
-        if (isTimedDNDEnabled) {
+        if (!isTimedDNDEnabled) {
             timedDND = (
                 <Menu.ItemAction
                     onClick={setDndUntimed}
