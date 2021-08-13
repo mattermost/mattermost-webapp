@@ -175,7 +175,6 @@
     "mini-css-extract-plugin": "1.4.1",
     "mmjstool": "github:mattermost/mattermost-utilities#40d7640e85385248773504548ef962037ac842ea",
     "nock": "13.0.11",
-    "pdf-parse": "1.1.1",
     "react-router-enzyme-context": "1.2.0",
     "redux-devtools-extension": "2.13.9",
     "redux-mock-store": "1.5.4",

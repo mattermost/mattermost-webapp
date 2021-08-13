@@ -21,24 +21,28 @@ describe('System Console - Billing History section', () => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
 
-        gotoBillingHistoryScreen();
+        // # Visit the billing history url
+        cy.visit('admin_console/billing/billing_history');
+
+        // * Check for billing history header
+        cy.get('.admin-console__header').should('be.visible').and('have.text', 'Billing History');
     });
 
-    it('MM-37053 - Finding the default "Cloud Starter" record in Billing History screen', () => {
+    it('MM-37053 Finding the default "Cloud Starter" record in billing history screen', () => {
         const currentDate = new Date();
 
-        // * check for default record in grid
-        cy.contains('td span', dayJs(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)).format('MM/DD/YYYY')).should('exist');
-        cy.contains('td div', 'Cloud Starter').should('exist');
-        cy.contains('td span', '$0.00').should('exist');
-        cy.contains('td span', 'Paid').should('exist');
+        // * Check for default record in grid
+        cy.contains('td:nth-of-type(1) span', dayJs(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)).format('MM/DD/YYYY')).should('exist');
+        cy.contains('td:nth-of-type(2) div', 'Cloud Starter').should('exist');
+        cy.contains('td:nth-of-type(3) span', '$0.00').should('exist');
+        cy.contains('td:nth-of-type(4) span', 'Paid').should('exist');
     });
 
-    it('MM-37053 - Validating the content of downloaded PDF in the Billing History screen', () => {
-        // * check for default record's length in grid
+    it('MM-37053 Validating the content of downloaded PDF in the billing history screen', () => {
+        // * Check for default record's length in grid
         cy.get('.BillingHistory__table-row').should('have.length', 1);
 
-        // * check the content from the downloaded pdf file
+        // * Check the content from the downloaded pdf file
         cy.get('.BillingHistory__table-invoice >a').then((link) => {
             cy.request({
                 url: link.prop('href'),
@@ -60,11 +64,4 @@ describe('System Console - Billing History section', () => {
         });
     });
 });
-
-const gotoBillingHistoryScreen = () => {
-    // # navigating to Billing History Screen
-    cy.get('.sidebar-header-dropdown__icon').click();
-    cy.findByText('System Console').should('be.visible').click();
-    cy.findByText('Billing History').should('be.visible').click();
-};
 
