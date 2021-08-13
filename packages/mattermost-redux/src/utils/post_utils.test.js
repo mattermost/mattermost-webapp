@@ -99,7 +99,7 @@ describe('PostUtils', () => {
         const licensed = {IsLicensed: 'true'};
         const teamId = 'team-id';
         const channelId = 'channel-id';
-        const userId = 'user-id';        
+        const userId = 'user-id';
 
         it('should work with new permissions version', () => {
             let newVersionState = {
