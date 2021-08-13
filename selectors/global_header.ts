@@ -12,6 +12,7 @@ const Preferences = Constants.Preferences;
 export function getGlobalHeaderEnabled(state: GlobalState): boolean {
     const featureFlagEnabled = getFeatureFlagValue(state, 'GlobalHeader') === 'true';
     const userPreferenceEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.GLOBAL_HEADER_DISPLAY, Preferences.GLOBAL_HEADER_DISPLAY_DEFAULT) === Preferences.GLOBAL_HEADER_DISPLAY_ON;
+    const isMobileView = isMobileViewPortSize() || isMobile();
 
-    return (!isMobileViewPortSize() || !isMobile()) && featureFlagEnabled && userPreferenceEnabled;
+    return !isMobileView && featureFlagEnabled && userPreferenceEnabled;
 }
