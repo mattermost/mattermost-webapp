@@ -46,6 +46,8 @@ iOS App:
     Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13F69
 */
 
+import Constants from './constants';
+
 const userAgent = () => window.navigator.userAgent;
 
 export function isChrome(): boolean {
@@ -101,6 +103,11 @@ export function isMobileApp(): boolean {
 // Returns true if and only if the user is using Mattermost from either the mobile app or the web browser on a mobile device.
 export function isMobile(): boolean {
     return isIos() || isAndroid();
+}
+
+// returns true if and only if the user is using Mattermost from a PC with a small viewport size of <= 768px
+export function isMobileWeb(): boolean {
+    return !isMobile() && window.visualViewport.width <= Constants.MOBILE_SCREEN_WIDTH;
 }
 
 export function isFirefox(): boolean {
