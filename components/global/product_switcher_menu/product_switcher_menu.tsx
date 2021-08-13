@@ -54,14 +54,14 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const {currentUser, isMessaging} = this.props;
+        const {currentUser, isMessaging, isMobile} = this.props;
 
         if (!currentUser) {
             return null;
         }
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
-        const showIntegrations = !this.props.isMobile && someIntegrationEnabled && this.props.canManageIntegrations;
+        const showIntegrations = !isMobile && someIntegrationEnabled && this.props.canManageIntegrations;
 
         const {formatMessage} = this.props.intl;
 
@@ -72,7 +72,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                     <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                         <Menu.ItemLink
                             id='systemConsole'
-                            show={!this.props.isMobile}
+                            show={!isMobile}
                             to='/admin_console'
                             text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
                             icon={
@@ -83,39 +83,35 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             }
                         />
                     </SystemPermissionGate>
-                    {isMessaging && (
-                        <Menu.ItemLink
-                            id='integrations'
-                            show={showIntegrations}
-                            to={'/' + this.props.teamName + '/integrations'}
-                            text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
-                            icon={
-                                <Icon
-                                    size={16}
-                                    glyph={'webhook-incoming'}
-                                />
-                            }
-                        />
-                    )}
+                    <Menu.ItemLink
+                        id='integrations'
+                        show={isMessaging && showIntegrations}
+                        to={'/' + this.props.teamName + '/integrations'}
+                        text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
+                        icon={
+                            <Icon
+                                size={16}
+                                glyph={'webhook-incoming'}
+                            />
+                        }
+                    />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
                         permissions={[Permissions.SYSCONSOLE_WRITE_PLUGINS]}
                     >
-                        {isMessaging && (
-                            <Menu.ItemToggleModalRedux
-                                id='marketplaceModal'
-                                modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
-                                show={!this.props.isMobile && this.props.enablePluginMarketplace}
-                                dialogType={MarketplaceModal}
-                                text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
-                                icon={
-                                    <Icon
-                                        size={16}
-                                        glyph={'apps'}
-                                    />
-                                }
-                            />
-                        )}
+                        <Menu.ItemToggleModalRedux
+                            id='marketplaceModal'
+                            modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
+                            show={isMessaging && !isMobile && this.props.enablePluginMarketplace}
+                            dialogType={MarketplaceModal}
+                            text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
+                            icon={
+                                <Icon
+                                    size={16}
+                                    glyph={'apps'}
+                                />
+                            }
+                        />
                         <Menu.ItemExternalLink
                             id='nativeAppLink'
                             show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
