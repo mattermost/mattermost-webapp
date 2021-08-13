@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export default function SettingsTip() {
