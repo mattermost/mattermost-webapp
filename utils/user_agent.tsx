@@ -105,7 +105,7 @@ export function isMobile(): boolean {
     return isIos() || isAndroid();
 }
 
-// returns true if and only if the user is using Mattermost from a PC with a small viewport size of <= 768px
+// returns true if and only if the user is using Mattermost within a viewport size of <= 768px
 export function isMobileViewPortSize(): boolean {
     return window.visualViewport.width <= Constants.MOBILE_SCREEN_WIDTH;
 }
