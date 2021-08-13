@@ -530,26 +530,26 @@
             border: 1px dashed rgba(var(--sidebar-text-rgb), 0.3);
             margin: 0 16px;
             border-radius: 4px;
-    
+
             > i {
                 color: rgba(var(--sidebar-text-rgb), 0.6);
                 font-size: 18px;
                 line-height: 16px;
             }
-    
+
             .SidebarCategory_newDropBox-label {
                 margin-left: 8px;
                 color: rgba(var(--sidebar-text-rgb), 0.72);
                 font-size: 12px;
                 line-height: 16px;
             }
-    
+
             &.animating {
                 transition-duration: 0.15s; /* collapse animation speed */
                 transition-property: height, padding, color;
                 transition-timing-function: ease-out;
             }
-    
+
             &.collapsed {
                 height: 0;
                 padding-top: 0;
