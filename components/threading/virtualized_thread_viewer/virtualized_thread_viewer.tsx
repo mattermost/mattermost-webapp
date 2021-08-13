@@ -256,7 +256,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     renderRow = ({data, itemId, style}: {data: any; itemId: any; style: any}) => {
         const index = data.indexOf(itemId);
         let className = '';
-        let a11Index = 0;
+        let a11yIndex = 0;
         const basePaddingClass = 'post-row__padding';
         const previousItemId = (index !== -1 && index < data.length - 1) ? data[index + 1] : '';
         const nextItemId = (index > 0 && index < data.length) ? data[index - 1] : '';
@@ -273,12 +273,12 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             }
         }
 
-        if (!isDateLine(itemId) && !isStartOfNewMessages(itemId) && !isCreateComment(itemId)) {
-            a11Index++;
-        }
-
         const isLastPost = itemId === this.props.lastPost.id;
-        const isFirstPost = itemId === this.props.selected.id;
+        const isRootPost = itemId === this.props.selected.id;
+
+        if (!isDateLine(itemId) && !isStartOfNewMessages(itemId) && !isCreateComment(itemId) && !isRootPost) {
+            a11yIndex++;
+        }
 
         return (
             <>
@@ -288,9 +288,9 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                         className={className}
                     >
                         <Row
-                            a11Index={a11Index}
+                            a11yIndex={a11yIndex}
                             currentUserId={this.props.currentUserId}
-                            isFirstPost={isFirstPost}
+                            isRootPost={isRootPost}
                             isLastPost={isLastPost}
                             listId={itemId}
                             onCardClick={this.props.onCardClick}

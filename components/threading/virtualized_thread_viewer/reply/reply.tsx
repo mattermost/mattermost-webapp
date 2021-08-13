@@ -13,7 +13,7 @@ import RhsComment from 'components/rhs_comment';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
 type Props = {
-    a11Index: number;
+    a11yIndex: number;
     currentUserId: string;
     isLastPost: boolean;
     onCardClick: (post: Post) => void;
@@ -26,7 +26,7 @@ type Props = {
 }
 
 function Reply({
-    a11Index,
+    a11yIndex,
     currentUserId,
     isLastPost,
     onCardClick,
@@ -45,7 +45,7 @@ function Reply({
 
     return (
         <RhsComment
-            a11Index={a11Index}
+            a11yIndex={a11yIndex}
             currentUserId={currentUserId}
             handleCardClick={onCardClick}
             isLastPost={isLastPost}

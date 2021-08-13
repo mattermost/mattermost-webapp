@@ -14,9 +14,9 @@ import RootPost from './root_post';
 import Reply from './reply';
 
 type Props = {
-    a11Index: number;
+    a11yIndex: number;
     currentUserId: string;
-    isFirstPost: boolean;
+    isRootPost: boolean;
     isLastPost: boolean;
     listId: string;
     onCardClick: (post: Post) => void;
@@ -27,9 +27,9 @@ type Props = {
 };
 
 function ThreadViewerRow({
-    a11Index,
+    a11yIndex,
     currentUserId,
-    isFirstPost,
+    isRootPost,
     isLastPost,
     listId,
     onCardClick,
@@ -52,10 +52,9 @@ function ThreadViewerRow({
     case PostListUtils.isStartOfNewMessages(listId):
         return <NewMessageSeparator separatorId={listId}/>;
 
-    case isFirstPost:
+    case isRootPost:
         return (
             <RootPost
-                a11Index={a11Index}
                 currentUserId={currentUserId}
                 id={listId}
                 isLastPost={isLastPost}
@@ -67,7 +66,7 @@ function ThreadViewerRow({
     default:
         return (
             <Reply
-                a11Index={a11Index}
+                a11yIndex={a11yIndex}
                 currentUserId={currentUserId}
                 id={listId}
                 isLastPost={isLastPost}

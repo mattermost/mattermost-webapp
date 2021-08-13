@@ -108,7 +108,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         cy.get('body').type('{uparrow}{downarrow}');
 
         // # Use up arrow keys and verify if results are highlighted sequentially
-        const total = count * 2; // # total number of expected posts in RHS
+        const total = (count * 2) + 1; // # total number of expected posts in RHS
         let row = total - 1; // # the row index which should be focused
 
         for (let index = count; index > 0; index--) {

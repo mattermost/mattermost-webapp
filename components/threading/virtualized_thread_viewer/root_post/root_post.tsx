@@ -9,7 +9,6 @@ import RhsRootPost from 'components/rhs_root_post';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
 type Props = {
-    a11Index: number;
     currentUserId: string;
     isLastPost: boolean;
     onCardClick: (post: Post) => void;
@@ -21,7 +20,6 @@ type Props = {
 }
 
 function RootPost({
-    a11Index,
     currentUserId,
     isLastPost,
     onCardClick,
@@ -33,7 +31,6 @@ function RootPost({
 }: Props) {
     return (
         <RhsRootPost
-            a11Index={a11Index}
             commentCount={post.reply_count}
             currentUserId={currentUserId}
             handleCardClick={onCardClick}
