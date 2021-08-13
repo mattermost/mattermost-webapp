@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import ChannelsInput from './channels_input.jsx';
+import ChannelsInput from './channels_input';
 
 describe('components/widgets/inputs/ChannelsInput', () => {
     test('should match snapshot', () => {

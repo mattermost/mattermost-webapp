@@ -132,7 +132,7 @@ export default class ChannelsInput extends React.PureComponent {
         }
     }
 
-    MultiValueRemove = ({children:React.Component[], innerProps}) => (
+    MultiValueRemove = ({children, innerProps}:{children: React.Component[], innerProps:any}) => (
         <div {...innerProps}>
             {children || <CloseCircleSolidIcon/>}
         </div>

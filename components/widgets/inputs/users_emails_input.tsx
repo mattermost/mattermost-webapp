@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {components, OptionsType, OptionTypeBase, Styles, ValueType} from 'react-select';
 import {Props as AsyncSelectProps} from 'react-select/async';
-import {NoticeProps} from 'react-select/src/components/Menu';
 
 import {AppSelectOption} from 'mattermost-redux/types/apps';
 
@@ -29,9 +28,7 @@ import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>; // eslint-disable-line global-require
+import AsyncSelect from 'react-select/lib/AsyncCreatable';
 
 type Option = {
     id?: string;
@@ -52,38 +49,16 @@ type UserEmailInputState = {
     options: Option[];
 }
 
-// type Props  = {
-//   placeholder: string;
-//   ariaLabel: string;
-//   usersLoader: (input:string, customCallback:(options:Option[]) => void) => Promise<void>;
-//   onChange: () => string;
-//   showError: boolean;
-//   errorMessageId: string;
-//   errorMessageDefault: string;
-//   errorMessageValues: object;
-//   value: object[]|string[];
-//   onInputChange: (input:string) => void;
-//   inputValue: string;
-//   noMatchMessageId: string;
-//   noMatchMessageDefault: string;
-//   validAddressMessageId: string;
-//   validAddressMessageDefault: string;
-//   loadingMessageId: string;
-//   loadingMessageDefault: string;
-//   emailInvitationsEnabled: boolean;
-//   extraErrorText: any;
 
 type Props = {
     placeholder: string;
     ariaLabel: string;
-
-    // usersLoader: (input: string, customCallback: (options: object) => void) => Promise<UserData>;
     usersLoader: (input: string, customCallback: (options: OptionsType<AppSelectOption>) => void) => Promise<void>;
     onChange: (input: Array<(Option| string)>) => string;
     showError: boolean;
     errorMessageId: string;
     errorMessageDefault: string;
-    errorMessageValues: unknown;
+    errorMessageValues: Record<string, string>;
     value: Array<(Option)>;
     onInputChange: (input: string) => void;
     inputValue: string;
@@ -172,7 +147,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         return (<LoadingSpinner text={text}/>);
     }
 
-    getOptionValue = (user:IOptionType) => {
+    getOptionValue = (user: IOptionType) => {
         return user.id || user.value;
     }
 
@@ -376,15 +351,9 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
                     defaultMenuIsOpen={false}
                     openMenuOnClick={false}
                     loadingMessage={
-                        // I don't think I can retain the same behavior here without refactoring
-                        // this function or some how changing the accepted types of `loadingMessage
-                        // property of `AsyncSelect` 
                         this.loadingMessage
                     }
                     onInputChange={
-                        // I have fiddled with the type signature for this function a lot, the way it
-                        // is now works for everything except for this. this property seems to requires a function
-                        // that will take a string as an input, but everything in our method is working on an object
                         this.handleInputChange
                     }
                     inputValue={this.props.inputValue}

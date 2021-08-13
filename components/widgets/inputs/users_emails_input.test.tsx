@@ -5,7 +5,7 @@ import {shallow} from 'enzyme';
 import React from 'react';
 
 //
-import UsersEmailsInput from './users_emails_input.jsx';
+import UsersEmailsInput from './users_emails_input';
 
 describe('components/widgets/inputs/UsersEmailsInput', () => {
     test('should match snapshot', () => {
