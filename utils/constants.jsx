@@ -445,6 +445,7 @@ export const TutorialSteps = {
     ADD_CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
     PRODUCT_SWITCHER: 4,
+    SETTINGS: 5,
     FINISHED: 999,
 };
 
