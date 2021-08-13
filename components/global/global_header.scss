@@ -15,6 +15,16 @@
     }
 
     @media screen and (min-width: 769px) {
+        // ensure the global header always sits on top of it's immediate sibling
+        > header {
+            z-index: 2;
+
+             + * {
+                position: relative;
+                z-index: 1;
+            }
+        }
+
         .team-sidebar {
             // use sidebar header variables for team sidebar
             --sidebar-teambar-bg: var(--sidebar-header-bg);

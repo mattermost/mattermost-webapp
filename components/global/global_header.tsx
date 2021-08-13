@@ -34,12 +34,6 @@ const GlobalHeaderContainer = styled.header`
     border-bottom: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
     color: rgba(var(--global-header-text-rgb), 0.64);
     padding: 0 16px 0 12px;
-    z-index: 2;
-
-    + * {
-        position: relative;
-        z-index: 1;
-    }
 
     > * + * {
         margin-left: 12px;
