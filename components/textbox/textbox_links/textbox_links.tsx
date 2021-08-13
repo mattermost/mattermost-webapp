@@ -2,11 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React, {MouseEvent} from 'react';
-import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
-
-import {getCurrentLocale} from 'selectors/i18n';
 
 type Props = {
     showPreview?: boolean;
@@ -15,6 +12,7 @@ type Props = {
     updatePreview?: (showPreview: boolean) => void;
     message?: string;
     isMarkdownPreviewEnabled: boolean;
+    currentLocale: string;
 };
 
 const TextboxLinks: React.FC<Props> = ({
@@ -24,9 +22,8 @@ const TextboxLinks: React.FC<Props> = ({
     updatePreview,
     message = '',
     isMarkdownPreviewEnabled,
+    currentLocale,
 }: Props) => {
-    const currentLocale: string = useSelector(getCurrentLocale);
-
     const togglePreview = (e: MouseEvent) => {
         e.preventDefault();
         updatePreview?.(!showPreview);

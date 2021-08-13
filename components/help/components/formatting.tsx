@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Markdown from 'components/markdown';
-import {getSiteURL} from 'utils/url';
 import HelpLinks from 'components/help/components/help_links';
 import {HelpLink} from 'components/help/types';
 
