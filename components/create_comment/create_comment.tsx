@@ -1285,7 +1285,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         if (readOnlyChannel) {
             createMessage = Utils.localizeMessage('create_post.read_only', 'This channel is read-only. Only members with permission can post here.');
         } else {
-            createMessage = Utils.localizeMessage('create_comment.addComment', 'Reply to this conversation...');
+            createMessage = Utils.localizeMessage('create_comment.addComment', 'Reply to this thread...');
         }
 
         let scrollbarClass = '';
