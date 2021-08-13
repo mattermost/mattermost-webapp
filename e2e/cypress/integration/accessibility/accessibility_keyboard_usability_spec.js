@@ -112,7 +112,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         let row = total - 1; // # the row index which should be focused
 
         for (let index = count; index > 0; index--) {
-            cy.get('#rhsContainer .post-right-comments-container').children('.post').eq(row).then(($el) => {
+            cy.get('#rhsContainer .post-right-comments-container .post').eq(row).then(($el) => {
                 // * Verify search result is highlighted
                 cy.get($el).should('have.class', 'a11y--active a11y--focused');
                 cy.get('body').type('{uparrow}');
@@ -122,7 +122,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
 
         // # Use down arrow keys and verify if posts are highlighted sequentially
         for (let index = count; index > 0; index--) {
-            cy.get('#rhsContainer .post-right-comments-container').children('.post').eq(row).then(($el) => {
+            cy.get('#rhsContainer .post-right-comments-container .post').eq(row).then(($el) => {
                 // * Verify search result is highlighted
                 cy.get($el).should('have.class', 'a11y--active a11y--focused');
                 cy.get('body').type('{downarrow}');

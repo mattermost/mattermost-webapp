@@ -195,7 +195,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         return (
             <>
                 <div className={classNames('ThreadViewer', this.props.className)}>
-                    <div>
+                    <div className='post-right-comments-container'>
                         {this.props.selected && (
                             <DeferredThreadViewerVirt
                                 key={this.props.selected.id}
