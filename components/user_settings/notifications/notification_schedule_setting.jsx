@@ -23,8 +23,6 @@ import './notification_schedule_setting.scss';
 import SettingItemMin from 'components/setting_item_min';
 import SettingItemMax from 'components/setting_item_max.jsx';
 
-import clockIcon from 'images/icons/clock-time-five.png';
-
 const timeFormat = 'h:mm A';
 const periodsOptions = [
     {value: 1, label: 'Every Day'},
@@ -538,10 +536,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.sunStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -565,10 +562,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.sunEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -600,10 +596,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.monStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -627,10 +622,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.monEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -662,10 +656,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.tueStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -690,10 +683,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.tueEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -725,10 +717,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.wedStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -752,10 +743,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.wedEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -787,10 +777,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.thuStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -814,10 +803,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.thuEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -849,10 +837,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.friStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -876,10 +863,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.friEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -911,10 +897,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.satStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -938,10 +923,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                         value={moment(this.state.satEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
-                                                            <img
-                                                                src={clockIcon}
-                                                                layout='fill'
-                                                            />
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
                                                         }
                                                         onChange={(
                                                             value,
@@ -1038,10 +1022,9 @@ class setNotificationSchedule extends React.PureComponent {
                                             value={moment(this.state.monStart, 'kk:mm')}
                                             minuteStep={30}
                                             inputIcon={
-                                                <img
-                                                    src={clockIcon}
-                                                    layout='fill'
-                                                />
+                                                <span className='time-icon'>
+                                                    <i className='icon-clock-outline'/>
+                                                </span>
                                             }
                                         />
                                         <p>{to}</p>
@@ -1062,10 +1045,9 @@ class setNotificationSchedule extends React.PureComponent {
                                             value={moment(this.state.monEnd, 'kk:mm')}
                                             minuteStep={30}
                                             inputIcon={
-                                                <img
-                                                    src={clockIcon}
-                                                    layout='fill'
-                                                />
+                                                <span className='time-icon'>
+                                                    <i className='icon-clock-outline'/>
+                                                </span>
                                             }
                                         />
                                     </div>
