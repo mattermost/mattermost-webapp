@@ -250,7 +250,7 @@
         .modal-title {
             overflow: hidden;
             max-width: calc(100% - 80px);
-            color: $bg--gray;
+            color: var(--sidebar-header-text-color);
             float: left;
             font-size: 17px;
             line-height: 27px;
@@ -326,10 +326,6 @@
     .no-channel-message {
         padding: 2em 1em;
         text-align: center;
-
-        .primary-message {
-            font-size: 1.25em;
-        }
 
         .secondary-message {
             @include opacity(0.8);

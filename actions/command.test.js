@@ -72,10 +72,12 @@ const initialState = {
             bindings: [{
                 location: '/command',
                 bindings: [{
+                    location: '/command/appid',
                     app_id: 'appid',
                     label: 'appid',
                     bindings: [
                         {
+                            location: '/command/appid/custom',
                             app_id: 'appid',
                             label: 'custom',
                             description: 'Run the command.',
@@ -191,11 +193,11 @@ describe('executeCommand', () => {
         test('should send message when command typed in reply threads', async () => {
             GlobalActions.sendEphemeralPost = jest.fn().mockReturnValue({type: 'someaction'});
 
-            const result = await store.dispatch(executeCommand('/leave', {channel_id: 'channel_id', parent_id: 'parent_id'}));
+            const result = await store.dispatch(executeCommand('/leave', {channel_id: 'channel_id', root_id: 'root_id'}));
 
             expect(GlobalActions.sendEphemeralPost).
                 toHaveBeenCalledWith('/leave is not supported in reply threads. Use it in the center channel instead.',
-                    'channel_id', 'parent_id');
+                    'channel_id', 'root_id');
 
             expect(result).toEqual({data: true});
         });
@@ -266,7 +268,7 @@ describe('executeCommand', () => {
                 context: {
                     app_id: 'appid',
                     channel_id: '123',
-                    location: '/command',
+                    location: '/command/appid/custom',
                     root_id: 'root_id',
                     team_id: '456',
                 },

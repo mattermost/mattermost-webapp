@@ -36,12 +36,10 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
       >
         <SimpleTooltip
           content="Mark all as read"
-          disabled={false}
           id="threadListMarkRead"
         >
           <Memo(Button)
             className="Button___large Button___icon"
-            disabled={false}
             onClick={[Function]}
           >
             <span

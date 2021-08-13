@@ -3,16 +3,16 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import {makeIsEligibleForClick} from 'utils/utils';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
+
 import PostProfilePicture from 'components/post_profile_picture';
+import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
@@ -22,23 +22,13 @@ import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 // When adding clickable targets within a root post, please add to/maintain the selector below
 const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment');
 
-class Post extends React.PureComponent {
+export default class Post extends React.PureComponent {
     static propTypes = {
 
         /**
          * The post to render
          */
         post: PropTypes.object.isRequired,
-
-        /**
-         * The corresponding UserThread
-         */
-        thread: PropTypes.object,
-
-        /**
-         * The function to create an aria-label
-         */
-        createAriaLabel: PropTypes.func.isRequired,
 
         /**
          * The logged in user ID
@@ -100,7 +90,6 @@ class Post extends React.PureComponent {
          */
         channelIsArchived: PropTypes.bool.isRequired,
 
-        intl: intlShape.isRequired,
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
             selectPostCard: PropTypes.func.isRequired,
@@ -130,7 +119,6 @@ class Post extends React.PureComponent {
             hover: false,
             alt: false,
             a11yActive: false,
-            currentAriaLabel: '',
             ariaHidden: true,
             fadeOutHighlight: false,
         };
@@ -165,13 +153,9 @@ class Post extends React.PureComponent {
         clearTimeout(this.highlightTimeout);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
-        }
-        if (this.props.post.state === Posts.POST_DELETED && prevProps.post.state !== Posts.POST_DELETED) {
-            // ensure deleted message content does not remain in stale aria-label
-            this.updateAriaLabel();
         }
     }
 
@@ -358,14 +342,6 @@ class Post extends React.PureComponent {
         });
     }
 
-    handlePostFocus = () => {
-        this.updateAriaLabel();
-    }
-
-    updateAriaLabel = () => {
-        this.setState({currentAriaLabel: this.props.createAriaLabel(this.props.intl)});
-    }
-
     render() {
         const {
             post,
@@ -409,21 +385,19 @@ class Post extends React.PureComponent {
 
         return (
             <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
-                <div
+                <PostAriaLabelDiv
                     ref={this.postRef}
                     id={'post_' + post.id}
                     data-testid='postView'
                     role='listitem'
                     className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
                     tabIndex='0'
-                    onFocus={this.handlePostFocus}
-                    onBlur={this.removeFocus}
                     onMouseOver={this.setHover}
                     onMouseLeave={this.unsetHover}
                     onTouchStart={this.setHover}
                     onClick={this.handlePostClick}
-                    aria-label={this.state.currentAriaLabel}
                     aria-atomic={true}
+                    post={post}
                 >
                     <PostPreHeader
                         isFlagged={this.props.isFlagged}
@@ -465,10 +439,8 @@ class Post extends React.PureComponent {
 
                         </div>
                     </div>
-                </div>
+                </PostAriaLabelDiv>
             </PostContext.Provider>
         );
     }
 }
-
-export default injectIntl(Post);

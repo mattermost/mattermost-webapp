@@ -275,7 +275,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     <SearchResultsItem
                         key={item.id}
                         compactDisplay={props.compactDisplay}
-                        post={item}
+                        post={item as Post}
                         matches={props.matches[item.id]}
                         term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={props.isMentionSearch}
@@ -355,7 +355,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     className={classNames([
                         'search-items-container post-list__table a11y__region',
                         {
-                            'no-results': (noResults && searchType === MESSAGES_SEARCH_TYPE) || (noFileResults && searchType === FILES_SEARCH_TYPE),
+                            'no-results': (noResults && searchType === MESSAGES_SEARCH_TYPE) || (noFileResults && (searchType === FILES_SEARCH_TYPE || isChannelFiles)),
                             'channel-files-container': isChannelFiles,
                         },
                     ])}

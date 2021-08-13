@@ -4,14 +4,11 @@
     width: 100%;
     max-width: 720px;
 
-    h2 {
+    h5 {
         margin-top: 0;
         margin-bottom: 12px;
-        font-size: 20px;
-
-        span {
-            font-weight: 400;
-        }
+        font-size: 16px;
+        font-weight: 600;
     }
 
     .share-link {
@@ -26,13 +23,13 @@
             height: 48px;
             flex-grow: 1;
             padding: 12px 14px;
-            border-top: 1px solid var(--center-channel-color-20);
+            border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
             border-right: 0;
-            border-bottom: 1px solid var(--center-channel-color-20);
-            border-left: 1px solid var(--center-channel-color-20);
-            background: var(--center-channel-color-04);
+            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
+            border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
+            background: rgba(var(--center-channel-color-rgb), 0.04);
             border-radius: 4px 0 0 4px;
-            color: var(--center-channel-color-56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
             font-size: 16px;
         }
 
@@ -51,11 +48,11 @@
             font-weight: 600;
 
             &:hover {
-                background: var(--button-bg-08);
+                background: rgba(var(--button-bg-rgb), 0.08);
             }
 
             &:active {
-                background: var(--button-bg-08);
+                background: rgba(var(--button-bg-rgb), 0.08);
             }
 
             span {
@@ -71,7 +68,7 @@
 
         .help-text {
             margin-top: 8px;
-            color: var(--center-channel-color-64);
+            color: rgba(var(--center-channel-color-rgb), 0.64);
         }
     }
 
@@ -91,7 +88,7 @@
 
         .help-text {
             margin-top: 8px;
-            color: var(--center-channel-color-64);
+            color: rgba(var(--center-channel-color-rgb), 0.64);
         }
     }
 
@@ -106,7 +103,7 @@
         hr {
             width: calc(100% - 40px);
             max-width: 720px;
-            border-color: var(--center-channel-color-08);
+            border-color: rgba(var(--center-channel-color-rgb), 0.08);
             margin: 45px 0;
         }
 
@@ -116,7 +113,7 @@
             display: inline-block;
             padding: 30px 12px;
             background: var(--center-channel-bg);
-            color: var(--center-channel-color-20);
+            color: rgba(var(--center-channel-color-rgb), 0.2);
             font-size: 20px;
             text-align: center;
         }
@@ -146,8 +143,8 @@
         }
 
         &.btn-inactive {
-            background: var(--center-channel-color-08);
-            color: var(--center-channel-color-56);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
         }
 
         &.btn-secondary {

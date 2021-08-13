@@ -67,12 +67,14 @@ exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] 
         <h3
           className="about-modal__title"
         >
-          Mattermost
-           
-          <MemoizedFormattedMessage
-            defaultMessage="Cloud"
-            id="about.cloudEdition"
-          />
+          <strong>
+            Mattermost
+             
+            <MemoizedFormattedMessage
+              defaultMessage="Cloud"
+              id="about.cloudEdition"
+            />
+          </strong>
         </h3>
         <p
           className="subtitle"
@@ -230,12 +232,14 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
         <h3
           className="about-modal__title"
         >
-          Mattermost
-           
-          <MemoizedFormattedMessage
-            defaultMessage="Enterprise Edition"
-            id="about.enterpriseEditione1"
-          />
+          <strong>
+            Mattermost
+             
+            <MemoizedFormattedMessage
+              defaultMessage="Enterprise Edition"
+              id="about.enterpriseEditione1"
+            />
+          </strong>
         </h3>
         <p
           className="about-modal__subtitle pb-2"
@@ -466,12 +470,14 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
         <h3
           className="about-modal__title"
         >
-          Mattermost
-           
-          <MemoizedFormattedMessage
-            defaultMessage="Team Edition"
-            id="about.teamEditiont0"
-          />
+          <strong>
+            Mattermost
+             
+            <MemoizedFormattedMessage
+              defaultMessage="Team Edition"
+              id="about.teamEditiont0"
+            />
+          </strong>
         </h3>
         <p
           className="about-modal__subtitle pb-2"
@@ -691,12 +697,14 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
         <h3
           className="about-modal__title"
         >
-          Mattermost
-           
-          <MemoizedFormattedMessage
-            defaultMessage="Team Edition"
-            id="about.teamEditiont0"
-          />
+          <strong>
+            Mattermost
+             
+            <MemoizedFormattedMessage
+              defaultMessage="Team Edition"
+              id="about.teamEditiont0"
+            />
+          </strong>
         </h3>
         <p
           className="about-modal__subtitle pb-2"
@@ -927,12 +935,14 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
         <h3
           className="about-modal__title"
         >
-          Mattermost
-           
-          <MemoizedFormattedMessage
-            defaultMessage="Team Edition"
-            id="about.teamEditiont0"
-          />
+          <strong>
+            Mattermost
+             
+            <MemoizedFormattedMessage
+              defaultMessage="Team Edition"
+              id="about.teamEditiont0"
+            />
+          </strong>
         </h3>
         <p
           className="about-modal__subtitle pb-2"

@@ -199,7 +199,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
         // * Verify the accessibility support in Add people Dialog`
         cy.get('#addUsersToChannelModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'channelInviteModalLabel').within(() => {
-            cy.get('.channel-switcher__header').should('be.visible').and('contain', `Add people to ${testChannel.display_name}`);
+            cy.get('.channel-invite__header').should('be.visible').and('contain', `Add people to ${testChannel.display_name}`);
             cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
             // * Verify the accessibility support in search input

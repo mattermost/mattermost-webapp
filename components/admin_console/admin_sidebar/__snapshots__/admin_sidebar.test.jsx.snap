@@ -59,7 +59,7 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
             sectionClass=""
             title={
               <Memo(MemoizedFormattedMessage)
-                defaultMessage="Plugins (Beta)"
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -180,7 +180,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="System Roles (Beta)"
+                  defaultMessage="System Roles"
                   id="admin.sidebar.systemRoles"
                 />
               }
@@ -278,7 +278,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Guest Access (Beta)"
+                  defaultMessage="Guest Access"
                   id="admin.sidebar.guest_access"
                 />
               }
@@ -292,7 +292,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             sectionClass=""
             title={
               <Memo(MemoizedFormattedMessage)
-                defaultMessage="Plugins (Beta)"
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -355,7 +355,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Compliance Export (Beta)"
+                  defaultMessage="Compliance Export"
                   id="admin.sidebar.complianceExport"
                 />
               }
@@ -369,7 +369,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Custom Terms of Service (Beta)"
+                  defaultMessage="Custom Terms of Service"
                   id="admin.sidebar.customTermsOfService"
                 />
               }
@@ -959,7 +959,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             sectionClass=""
             title={
               <Memo(MemoizedFormattedMessage)
-                defaultMessage="Plugins (Beta)"
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -1517,7 +1517,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="System Roles (Beta)"
+                  defaultMessage="System Roles"
                   id="admin.sidebar.systemRoles"
                 />
               }
@@ -2012,7 +2012,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Guest Access (Beta)"
+                  defaultMessage="Guest Access"
                   id="admin.sidebar.guest_access"
                 />
               }
@@ -2026,7 +2026,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             sectionClass=""
             title={
               <Memo(MemoizedFormattedMessage)
-                defaultMessage="Plugins (Beta)"
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -2159,7 +2159,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Compliance Export (Beta)"
+                  defaultMessage="Compliance Export"
                   id="admin.sidebar.complianceExport"
                 />
               }
@@ -2187,7 +2187,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Custom Terms of Service (Beta)"
+                  defaultMessage="Custom Terms of Service"
                   id="admin.sidebar.customTermsOfService"
                 />
               }
@@ -2357,7 +2357,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="System Roles (Beta)"
+                  defaultMessage="System Roles"
                   id="admin.sidebar.systemRoles"
                 />
               }
@@ -2455,7 +2455,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Compliance Export (Beta)"
+                  defaultMessage="Compliance Export"
                   id="admin.sidebar.complianceExport"
                 />
               }
@@ -2469,7 +2469,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Custom Terms of Service (Beta)"
+                  defaultMessage="Custom Terms of Service"
                   id="admin.sidebar.customTermsOfService"
                 />
               }

@@ -11,7 +11,7 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import {
     splitMessageBasedOnCaretPosition,
     postMessageOnKeyPress,
-} from 'utils/post_utils.jsx';
+} from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import {
     getTable,
@@ -46,8 +46,8 @@ export type Props = {
     canEditPost?: boolean;
     canDeletePost?: boolean;
     channelId: string;
-    codeBlockOnCtrlEnter?: boolean;
-    ctrlSend?: boolean;
+    codeBlockOnCtrlEnter: boolean;
+    ctrlSend: boolean;
     config: {
         EnableEmojiPicker: string;
         EnableGifPicker?: string;
@@ -331,7 +331,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         );
     };
 
-    handleEditKeyPress = (e: React.KeyboardEvent<Element>) => {
+    handleEditKeyPress = (e: React.KeyboardEvent) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
         const {allowSending, ignoreKeyPress} = postMessageOnKeyPress(e, this.state.editText, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition) as {allowSending: boolean; ignoreKeyPress?: boolean};
@@ -622,7 +622,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                                     'Edit the post...',
                                 )}
                                 supportsCommands={false}
-                                suggestionListStyle='bottom'
+                                suggestionListPosition='bottom'
                                 id='edit_textbox'
                                 ref={this.setEditboxRef}
                                 characterLimit={this.props.maxPostSize}

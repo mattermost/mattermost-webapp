@@ -57,7 +57,7 @@ const SearchHint = (props: Props): JSX.Element => {
                             className={classNames({highlighted: props.highlightedIndex === 1})}
                             onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
                         >
-                            <i className='icon icon-file-document-outline'/>
+                            <i className='icon icon-file-text-outline'/>
                             <FormattedMessage
                                 id='search_bar.usage.search_type_files'
                                 defaultMessage='Files'

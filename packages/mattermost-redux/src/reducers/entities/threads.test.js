@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {TeamTypes, ThreadTypes, PostTypes} from 'mattermost-redux/action_types';
+import {TeamTypes, ThreadTypes, PostTypes, ChannelTypes} from 'mattermost-redux/action_types';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 import threadsReducer from './threads';
@@ -228,5 +228,100 @@ describe('threads', () => {
         expect(nextState).toBe(state);
         expect(nextState.threads.t2).toBe(state.threads.t2);
         expect(nextState.threadsInTeam.a).toEqual(['t1', 't2']);
+    });
+    test('LEAVE_CHANNEL should remove threads that belong to that channel', () => {
+        const state = deepFreeze({
+            threadsInTeam: {
+                a: ['t1', 't2', 't3'],
+                b: ['t4', 't5', 't6'],
+            },
+            threads: {
+                t1: {
+                    id: 't1',
+                    unread_replies: 1,
+                    unread_mentions: 0,
+                    post: {
+                        channel_id: 'ch2',
+                    },
+                },
+                t2: {
+                    id: 't2',
+                    unread_replies: 1,
+                    unread_mentions: 1,
+                    post: {
+                        channel_id: 'ch1',
+                    },
+                },
+                t3: {
+                    id: 't3',
+                    unread_replies: 2,
+                    unread_mentions: 1,
+                    post: {
+                        channel_id: 'ch1',
+                    },
+                },
+                t4: {
+                    id: 't4',
+                    unread_replies: 1,
+                    unread_mentions: 0,
+                    post: {
+                        channel_id: 'ch3',
+                    },
+                },
+                t5: {
+                    id: 't5',
+                    unread_replies: 1,
+                    unread_mentions: 1,
+                    post: {
+                        channel_id: 'ch4',
+                    },
+                },
+                t6: {
+                    id: 't6',
+                    unread_replies: 0,
+                    unread_mentions: 0,
+                    post: {
+                        channel_id: 'ch5',
+                    },
+                },
+            },
+            counts: {
+                a: {
+                    total: 3,
+                    total_unread_threads: 3,
+                    total_unread_mentions: 2,
+                },
+                b: {
+                    total: 3,
+                    total_unread_threads: 2,
+                    total_unread_mentions: 0,
+                },
+            },
+        });
+
+        const nextState = threadsReducer(state, {
+            type: ChannelTypes.LEAVE_CHANNEL,
+            data: {id: 'ch1', team_id: 'a'},
+        });
+
+        expect(nextState).not.toBe(state);
+
+        expect(nextState.threads).toEqual({
+            t1: state.threads.t1,
+            t4: state.threads.t4,
+            t5: state.threads.t5,
+            t6: state.threads.t6,
+        });
+
+        expect(nextState.threadsInTeam.a).toEqual(['t1']);
+
+        expect(nextState.counts.a).toEqual({
+            total: 1,
+            total_unread_threads: 1,
+            total_unread_mentions: 0,
+        });
+
+        expect(nextState.threadsInTeam.b).toBe(state.threadsInTeam.b);
+        expect(nextState.counts.b).toBe(state.counts.b);
     });
 });

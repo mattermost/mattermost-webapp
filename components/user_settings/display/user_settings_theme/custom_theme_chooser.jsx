@@ -186,7 +186,7 @@ export default class CustomThemeChooser extends React.PureComponent {
             return;
         }
 
-        setThemeDefaults(theme);
+        theme = setThemeDefaults(theme);
 
         this.setState({
             copyTheme: JSON.stringify(theme),

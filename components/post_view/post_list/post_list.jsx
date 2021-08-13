@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -8,7 +7,7 @@ import PropTypes from 'prop-types';
 import LoadingScreen from 'components/loading_screen';
 import {PostRequestTypes} from 'utils/constants';
 
-import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
+import {getOldestPostId, getLatestPostId} from 'utils/post_utils';
 
 import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
 
@@ -59,8 +58,6 @@ export default class PostList extends React.PureComponent {
          * Used for syncing posts and is also passed down to virt list for newMessages indicator
          */
         latestPostTimeStamp: PropTypes.number,
-
-        latestAriaLabelFunc: PropTypes.func,
 
         /*
          * Used for handling the read logic when unmounting the component
@@ -298,14 +295,12 @@ export default class PostList extends React.PureComponent {
 
         return (
             <div
-                ref='postlist'
                 className='post-list-holder-by-time'
                 key={'postlist-' + this.props.channelId}
             >
                 <div className='post-list__table'>
                     <div
                         id='virtualizedPostListContent'
-                        ref='postListContent'
                         className='post-list__content'
                     >
                         <VirtPostList
@@ -319,7 +314,6 @@ export default class PostList extends React.PureComponent {
                             actions={this.actionsForPostList}
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
-                            latestAriaLabelFunc={this.props.latestAriaLabelFunc}
                             latestPostId={this.props.latestPostId}
                         />
                     </div>
@@ -328,4 +322,3 @@ export default class PostList extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

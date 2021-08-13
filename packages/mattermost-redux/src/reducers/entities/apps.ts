@@ -14,7 +14,7 @@ import {validateBindings} from 'mattermost-redux/utils/apps';
 export function bindings(state: AppBinding[] = [], action: GenericAction): AppBinding[] {
     switch (action.type) {
     case AppsTypes.RECEIVED_APP_BINDINGS: {
-        action.data.bindings = validateBindings(action.data.bindings);
+        action.data = validateBindings(action.data);
         return action.data;
     }
     default:

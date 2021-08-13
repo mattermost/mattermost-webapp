@@ -286,7 +286,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               Array [
                 Object {
                   "order": 0,
-                  "text": "Deutsch (Beta)",
+                  "text": "Deutsch",
                   "value": "de",
                 },
                 Object {
@@ -412,7 +412,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               Array [
                 Object {
                   "order": 0,
-                  "text": "Deutsch (Beta)",
+                  "text": "Deutsch",
                   "value": "de",
                 },
                 Object {

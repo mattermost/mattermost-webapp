@@ -70,12 +70,6 @@ exports[`components/team_settings_modal should match snapshot 1`] = `
                   "name": "general",
                   "uiName": "General",
                 },
-                Object {
-                  "icon": "icon fa fa-upload",
-                  "iconTitle": "Upload Icon",
-                  "name": "import",
-                  "uiName": "Import",
-                },
               ]
             }
             updateTab={[Function]}

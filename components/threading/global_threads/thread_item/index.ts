@@ -30,7 +30,7 @@ function makeMapStateToProps() {
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
             displayName: getDisplayName(state, post.user_id, true),
             post,
-            postsInThread: getPostsForThread(state, {rootId: post.id}),
+            postsInThread: getPostsForThread(state, post.id),
             thread: getThread(state, threadId),
         };
     };

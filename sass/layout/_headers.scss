@@ -38,7 +38,7 @@
             }
         }
 
-        .heading span {
+        .heading > span {
             overflow: hidden;
             line-height: 20px;
             text-overflow: ellipsis;
@@ -187,6 +187,7 @@
         a {
             padding: 10px 16px;
             border-left: 3px solid transparent;
+            background: rgba(var(--sidebar-text-rgb), 0.08);
 
             &:hover {
                 .fa {
@@ -227,10 +228,15 @@
     .heading {
         overflow: hidden;
         margin: 0 0 0 2px;
-        font-size: 14px;
+        font-family: Metropolis, sans-serif;
+        font-size: 16px;
         font-weight: 600;
         line-height: 16px;
         text-overflow: ellipsis;
+
+        .Badge {
+            font-family: "Open Sans", sans-serif;
+        }
     }
 
     .caret {
@@ -436,7 +442,7 @@
 
                 &:focus,
                 &:hover {
-                    color: v(center-channel-color-72);
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
                     text-decoration: none;
                 }
 
@@ -525,6 +531,8 @@
         .user-popover {
             overflow: hidden;
             max-width: calc(100% - 100px);
+            font-family: Metropolis, sans-serif;
+            font-size: 28px;
             font-weight: 600;
             text-overflow: ellipsis;
         }
@@ -543,7 +551,7 @@
 
     .channel-intro__title {
         margin-bottom: 15px;
-        font-size: 20px;
+        font-size: 28px;
         font-weight: 600;
     }
 
@@ -593,7 +601,11 @@
 
         &:hover {
             &::before {
-                background: var(--sidebar-text-08);
+                background: rgba(var(--sidebar-text-rgb), 0.08);
+            }
+
+            .user__name {
+                color: var(--sidebar-header-text-color);
             }
 
             .sidebar-header-dropdown {
@@ -725,8 +737,8 @@
 
             position: relative;
             width: 100%;
-            padding: 2px 16px 0 0;
-            color: $white;
+            padding: 2px 36px 0 0;
+            color: var(--sidebar-header-text-color);
 
             .sidebar-header-dropdown__icon {
                 @include single-transition(opacity, $transition-quick, ease-in-out);
@@ -738,7 +750,7 @@
                 width: 36px;
                 height: 36px;
                 border-radius: 36px;
-                fill: $white;
+                fill: var(--sidebar-header-text-color);
                 line-height: 36px;
                 text-align: center;
             }
@@ -753,7 +765,7 @@
         .user__name {
             display: block;
             overflow: hidden;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             text-decoration: none;
             text-overflow: ellipsis;
@@ -762,6 +774,7 @@
 
         .team__name {
             margin: 0;
+            font-family: Metropolis, sans-serif;
             line-height: 22px;
         }
 
@@ -771,6 +784,7 @@
             position: relative;
             top: -3px;
             padding-right: 4px;
+            color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
             font-size: 14px;
             font-weight: 400;
         }

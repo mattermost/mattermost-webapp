@@ -8,12 +8,13 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       className="signup-team-logo"
       src="logo.png"
     />
-    <h2>
+    <h5>
       <MemoizedFormattedMessage
         defaultMessage="Team URL"
         id="create_team.team_url.teamUrl"
+        tagName="strong"
       />
-    </h2>
+    </h5>
     <div
       className="form-group"
     >

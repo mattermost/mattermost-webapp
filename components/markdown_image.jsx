@@ -9,7 +9,7 @@ import Constants from 'utils/constants.jsx';
 import MarkdownImageExpand from 'components/markdown_image_expand';
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
-import ViewImageModal from 'components/view_image';
+import FilePreviewModal from 'components/file_preview_modal';
 
 import brokenImageIcon from 'images/icons/brokenimage.png';
 
@@ -160,7 +160,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 onImageLoaded={this.handleImageLoaded}
                             />
                             {!imageIsLink && extension &&
-                            <ViewImageModal
+                            <FilePreviewModal
                                 show={this.state.showModal}
                                 onModalDismissed={this.hideModal}
                                 postId={this.props.postId}

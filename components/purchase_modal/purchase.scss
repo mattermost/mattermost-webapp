@@ -21,7 +21,21 @@
         font-weight: 600;
 
         .footer-text {
+            color: rgba(var(--center-channel-color-rgb), 0.72);
             font-size: 14px;
+
+            .prorrated-payment-text {
+                div {
+                    display: inline-block;
+                    margin-right: 4px;
+                    font-family: "compass-icons";
+                    font-size: 16px;
+                }
+            }
+
+            a {
+                color: var(--button-bg);
+            }
         }
 
         .fineprint-text {
@@ -279,6 +293,10 @@
                 font-size: 14px;
                 font-weight: 400;
                 line-height: 20px;
+
+                a {
+                    color: var(--button-bg);
+                }
             }
 
             .monthly-text {
@@ -348,4 +366,17 @@
         top: 12px;
         right: 12px;
     }
+}
+
+.tooltipTitle {
+    font-weight: 700;
+}
+
+.tooltipText {
+    color: #9a9a9a !important;
+    text-align: left;
+}
+
+.proratedTooltip > .tooltip-inner {
+    min-width: 300px;
 }

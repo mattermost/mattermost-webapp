@@ -69,7 +69,7 @@ describe('Verify Accessibility Support in Different Images', () => {
         // * Verify image alt in Theme Images
         cy.get('#displaySettings').within(() => {
             cy.get('.appearance-section>div').children().each(($el) => {
-                cy.wrap($el).find('img').should('be.visible').invoke('attr', 'alt').should('not.be.empty');
+                cy.wrap($el).get('#denim-theme-icon').should('have.text', 'Denim theme icon');
             });
         });
     });

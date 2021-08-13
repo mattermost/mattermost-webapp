@@ -21,8 +21,11 @@ import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates} fro
 import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
+import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
+
 import SidebarChannel from '../sidebar_channel';
 import {SidebarCategoryHeader} from '../sidebar_category_header';
+import InviteMembersButton from '../invite_members_button';
 
 import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
@@ -103,7 +106,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
     renderChannel = (channelId: string, index: number) => {
         const {setChannelRef, getChannelRef, category, draggingState} = this.props;
-
         return (
             <SidebarChannel
                 key={channelId}
@@ -334,6 +336,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 disableInteractiveElementBlocking={true}
             >
                 {(provided, snapshot) => {
+                    const inviteMembersButton = category.type === 'direct_messages' ? <InviteMembersButton buttonType={InviteMembersBtnLocations.LHS_BUTTON}/> : null;
                     return (
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {
@@ -389,6 +392,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                     );
                                 }}
                             </Droppable>
+                            {inviteMembersButton}
                         </div>
                     );
                 }}

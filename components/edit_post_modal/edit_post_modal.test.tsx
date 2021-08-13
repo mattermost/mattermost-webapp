@@ -37,7 +37,6 @@ const defaultPost: Post = {
     user_id: '1',
     channel_id: '5',
     root_id: '123',
-    parent_id: '123',
     original_id: '123',
     message: 'test',
     type: 'system_add_remove',
@@ -58,6 +57,8 @@ const defaultProps = {
     intl: jest.genMockFromModule<IntlShape>('react-intl'),
     canEditPost: true,
     canDeletePost: true,
+    codeBlockOnCtrlEnter: false,
+    ctrlSend: false,
     useChannelMentions: true,
     shouldShowPreview: true,
     maxPostSize: 100,
@@ -86,7 +87,7 @@ function createEditPost(
         canEditPost = true,
         canDeletePost = true,
         useChannelMentions = true,
-        ctrlSend = undefined,
+        ctrlSend = false,
         channelId,
         config = {EnableEmojiPicker: 'true', EnableGifPicker: 'true'},
         editingPost = {post: {...defaultPost}, show: false, postId: '1'},
@@ -105,7 +106,8 @@ function createEditPost(
             shouldShowPreview={false}
             canDeletePost={canDeletePost}
             channelId={channelId}
-            ctrlSend={ctrlSend || false}
+            codeBlockOnCtrlEnter={false}
+            ctrlSend={ctrlSend}
             config={config}
             editingPost={editingPost}
             actions={actions}

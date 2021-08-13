@@ -69,7 +69,7 @@ describe('components/TextBox', () => {
                 onKeyUp={() => {}}
                 onBlur={() => {}}
                 handlePostError={() => {}}
-                suggestionListStyle='style'
+                suggestionListPosition='top'
                 emojiEnabled={true}
                 isRHS={true}
                 disabled={true}
@@ -87,7 +87,7 @@ describe('components/TextBox', () => {
 
         // this mock function should be called when the textbox value is too long
         let gotError = false;
-        function handlePostError(msg: JSX.Element | null) {
+        function handlePostError(msg: React.ReactNode) {
             gotError = msg !== null;
         }
 
@@ -114,7 +114,7 @@ describe('components/TextBox', () => {
 
         // this mock function should be called when the textbox value is too long
         let gotError = false;
-        function handlePostError(msg: JSX.Element | null) {
+        function handlePostError(msg: React.ReactNode) {
             gotError = msg !== null;
         }
 
