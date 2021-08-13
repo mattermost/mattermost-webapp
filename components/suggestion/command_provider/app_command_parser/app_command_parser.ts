@@ -72,6 +72,7 @@ export enum ParseState {
     EndQuotedValue = 'EndQuotedValue',
     EndTickedValue = 'EndTickedValue',
     Error = 'Error',
+    Rest = 'Rest',
 }
 
 interface FormsCache {
@@ -293,18 +294,48 @@ export class ParsedCommand {
                     // Positional parameter.
                     this.position++;
                     // eslint-disable-next-line no-loop-func
-                    const field = fields.find((f: AppField) => f.position === this.position);
+                    let field = fields.find((f: AppField) => f.position === this.position);
                     if (!field) {
-                        return this.asError(this.intl.formatMessage({
-                            id: 'apps.error.parser.no_argument_pos_x',
-                            defaultMessage: 'Unable to identify argument.',
-                        }));
+                        field = fields.find((f) => f.position === -1 && f.type === AppFieldTypes.TEXT);
+                        if (!field || this.values[field.name]) {
+                            return this.asError(this.intl.formatMessage({
+                                id: 'apps.error.parser.no_argument_pos_x',
+                                defaultMessage: 'Unable to identify argument.',
+                            }));
+                        }
+                        this.incompleteStart = this.i;
+                        this.incomplete = '';
+                        this.field = field;
+                        this.state = ParseState.Rest;
+                        break;
                     }
                     this.field = field;
                     this.state = ParseState.StartValue;
                     break;
                 }
                 }
+                break;
+            }
+
+            case ParseState.Rest: {
+                if (!this.field) {
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.missing_field_value',
+                        defaultMessage: 'Field value is missing.',
+                    }));
+                }
+
+                if (autocompleteMode && c === '') {
+                    return this;
+                }
+
+                if (c === '') {
+                    this.values[this.field.name] = this.incomplete;
+                    return this;
+                }
+
+                this.i++;
+                this.incomplete += c;
                 break;
             }
 
@@ -538,13 +569,13 @@ export class ParsedCommand {
                     (!autocompleteMode && this.incomplete !== 'true' && this.incomplete !== 'false'))) {
                     // reset back where the value started, and treat as a new parameter
                     this.i = this.incompleteStart;
-                    this.values![this.field.name] = 'true';
+                    this.values[this.field.name] = 'true';
                     this.state = ParseState.StartParameter;
                 } else {
                     if (autocompleteMode && c === '') {
                         return this;
                     }
-                    this.values![this.field.name] = this.incomplete;
+                    this.values[this.field.name] = this.incomplete;
                     this.incomplete = '';
                     this.incompleteStart = this.i;
                     if (c === '') {
@@ -1103,6 +1134,14 @@ export class AppCommandParser {
         case ParseState.EndTickedValue:
         case ParseState.TickValue:
             return this.getValueSuggestions(parsed, '`');
+        case ParseState.Rest: {
+            const execute = getExecuteSuggestion(parsed);
+            const value = await this.getValueSuggestions(parsed);
+            if (execute) {
+                return [execute, ...value];
+            }
+            return value;
+        }
         }
         return [];
     }

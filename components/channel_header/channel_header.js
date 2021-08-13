@@ -413,7 +413,7 @@ class ChannelHeader extends React.PureComponent {
         if (rhsState === RHSStates.CHANNEL_FILES) {
             channelFilesIconClass += ' channel-header__icon--active';
         }
-        const channelFilesIcon = <i className='icon icon-file-document-outline'/>;
+        const channelFilesIcon = <i className='icon icon-file-text-outline'/>;
 
         let pinnedIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
         if (rhsState === RHSStates.PIN) {
