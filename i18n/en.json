@@ -2827,7 +2827,7 @@
   "copy_url_context_menu.getChannelLink": "Copy Link",
   "create_category_modal.create": "Create",
   "create_category_modal.createCategory": "Create New Category",
-  "create_comment.addComment": "Reply to this conversation...",
+  "create_comment.addComment": "Reply to this thread...",
   "create_comment.comment": "Reply",
   "create_comment.commentTitle": "Comment",
   "create_comment.file": "File uploading",
