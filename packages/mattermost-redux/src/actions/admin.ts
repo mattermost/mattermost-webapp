@@ -67,18 +67,6 @@ export function updateConfig(config: Record<string, any>): ActionFunc {
     });
 }
 
-export function patchConfig(config: Record<string, any>): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.patchConfig,
-        onRequest: AdminTypes.PATCH_CONFIG_REQUEST,
-        onSuccess: [AdminTypes.RECEIVED_CONFIG, AdminTypes.PATCH_CONFIG_SUCCESS],
-        onFailure: AdminTypes.PATCH_CONFIG_FAILURE,
-        params: [
-            config,
-        ],
-    });
-}
-
 export function reloadConfig(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.reloadConfig,

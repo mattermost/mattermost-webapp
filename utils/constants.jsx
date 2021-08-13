@@ -459,7 +459,6 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
-    ENTER_SUPPORT_EMAIL: 'enter_support_email',
     HIDE: 'hide',
     SKIP: 'skip',
 };

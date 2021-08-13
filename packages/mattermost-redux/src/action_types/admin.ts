@@ -19,10 +19,6 @@ export default keyMirror({
     UPDATE_CONFIG_SUCCESS: null,
     UPDATE_CONFIG_FAILURE: null,
 
-    PATCH_CONFIG_REQUEST: null,
-    PATCH_CONFIG_SUCCESS: null,
-    PATCH_CONFIG_FAILURE: null,
-
     RELOAD_CONFIG_REQUEST: null,
     RELOAD_CONFIG_SUCCESS: null,
     RELOAD_CONFIG_FAILURE: null,

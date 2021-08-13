@@ -404,8 +404,8 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                         onClick={this.onFinish}
                     >
                         <FormattedMessage
-                            id='next_steps_view.invite_members_step.next'
-                            defaultMessage='Next'
+                            id='next_steps_view.invite_members_step.finish'
+                            defaultMessage='Finish'
                         />
                     </button>
                 </div>
