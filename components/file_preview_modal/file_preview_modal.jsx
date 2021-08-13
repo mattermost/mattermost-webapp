@@ -330,7 +330,6 @@ export default class FilePreviewModal extends React.PureComponent {
                     />
                 );
             } else if (CodePreview.supports(fileInfo)) {
-                // modalImageClass = ' file-preview-modal__content-scrollable';
                 dialogClassName += ' modal-code';
                 content = (
                     <CodePreview
