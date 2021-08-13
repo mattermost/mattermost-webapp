@@ -15,14 +15,6 @@
     }
 
     @media screen and (min-width: 769px) {
-        > header {
-            z-index: 2;
-        }
-
-        #channel_view {
-            z-index: 1;
-        }
-
         .team-sidebar {
             // use sidebar header variables for team sidebar
             --sidebar-teambar-bg: var(--sidebar-header-bg);

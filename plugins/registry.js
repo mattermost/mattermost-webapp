@@ -718,7 +718,7 @@ export default class PluginRegistry {
     //                     the global header when your route is active.
     // All parameters are required.
     // Returns a unique identifier.
-    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerComponent) {
+    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null) {
         const id = generateId();
 
         store.dispatch({
@@ -732,7 +732,8 @@ export default class PluginRegistry {
                 baseURL: '/' + standardizeRoute(baseURL),
                 switcherLinkURL: '/' + standardizeRoute(switcherLinkURL),
                 mainComponent,
-                headerComponent,
+                headerCentreComponent,
+                headerRightComponent,
             },
         });
 
