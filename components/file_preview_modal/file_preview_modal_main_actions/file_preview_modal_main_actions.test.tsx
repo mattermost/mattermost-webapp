@@ -5,13 +5,12 @@ import React, {ComponentProps} from 'react';
 
 import {Tooltip} from 'react-bootstrap';
 
-import * as redux from 'react-redux';
-
 import OverlayTrigger from 'components/overlay_trigger';
 
 import {GlobalState} from '../../../types/store';
 
 import {TestHelper} from '../../../utils/test_helper';
+import * as Utils from 'utils/utils';
 
 import FilePreviewModalMainActions from './file_preview_modal_main_actions';
 
@@ -76,7 +75,7 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
     });
 
     test('should call public link callback', () => {
-        const spy = jest.spyOn(redux, 'useSelector');
+        const spy = jest.spyOn(Utils, 'copyToClipboard');
         const props = {
             ...defaultProps,
             enablePublicLink: true,
@@ -84,6 +83,7 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
         const wrapper = shallow(<FilePreviewModalMainActions {...props}/>);
         expect(wrapper.find(OverlayTrigger)).toHaveLength(3);
         const overlayWrapper = wrapper.find(OverlayTrigger).first().children('a');
+        expect(spy).toHaveBeenCalledTimes(0);
         overlayWrapper.simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
     });
