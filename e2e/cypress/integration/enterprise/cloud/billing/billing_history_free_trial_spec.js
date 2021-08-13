@@ -17,10 +17,6 @@ describe('System Console - Billing History section', () => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
 
-        cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
-        });
-
         // # Visit the billing history url
         cy.visit('admin_console/billing/billing_history');
 
