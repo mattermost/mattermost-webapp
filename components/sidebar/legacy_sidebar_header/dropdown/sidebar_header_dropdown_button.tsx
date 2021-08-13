@@ -37,7 +37,6 @@ type Props = {
     currentUser: UserProfile;
     teamDisplayName: string;
     openModal: (modalData: any) => void;
-    globalHeaderEnabled: boolean;
 };
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent<Props> {
