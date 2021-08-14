@@ -339,15 +339,15 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                         componentClass='h1'
                         id='accountSettingsModalLabel'
                     >
-                        {this.props.globalHeaderEnabled || !this.props.isContentChannelPreferences ? (
-                            <FormattedMessage
-                                id='user.settings.modal.title'
-                                defaultMessage='Account Settings'
-                            />
-                        ) : (
+                        {this.props.globalHeaderEnabled && this.props.isContentChannelPreferences ? (
                             <FormattedMessage
                                 id='channel_header.channelPreferences'
                                 defaultMessage='Channel Preferences'
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='user.settings.modal.title'
+                                defaultMessage='Account Settings'
                             />
                         )}
                     </Modal.Title>
