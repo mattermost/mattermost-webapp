@@ -175,7 +175,7 @@ class MainMenu extends React.PureComponent {
                 })}
                 extraText={formatMessage({
                     id: 'navbar_dropdown.invitePeopleExtraText',
-                    defaultMessage: 'Add or invite people to the team',
+                    defaultMessage: 'Add people to the team',
                 })}
                 icon={this.props.mobile && <i className='fa fa-user-plus'/>}
             />

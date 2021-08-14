@@ -5921,6 +5921,16 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableOnboardingFlow',
+                        label: t('admin.experimental.enableOnboardingFlow.title'),
+                        label_default: 'Enable Onboarding:',
+                        help_text: t('admin.experimental.enableOnboardingFlow.desc'),
+                        help_text_default: 'When true, new users are shown steps to complete as part of an onboarding process',
+                        help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableUserTypingMessages',
                         label: t('admin.experimental.enableUserTypingMessages.title'),
                         label_default: 'Enable User Typing Messages:',
