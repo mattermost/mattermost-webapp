@@ -3,20 +3,24 @@
 
 import React from 'react';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership, TeamStats, GetTeamMembersOpts} from 'mattermost-redux/types/teams';
-import {Teams} from 'mattermost-redux/constants';
-
-import Constants from 'utils/constants';
-import * as UserAgent from 'utils/user_agent';
-
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 import TeamMembersDropdown from 'components/team_members_dropdown';
+import {Teams} from 'mattermost-redux/constants';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {GetTeamMembersOpts, TeamMembership, TeamStats} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {SearchModalFilters} from 'types/store/views';
+import Constants from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
 
 const USERS_PER_PAGE = 50;
 
 type Props = {
+    actionUserProps: {
+        [userId: string]: {
+            teamMember: TeamMembership;
+        };
+    };
     searchTerm: string;
     users: UserProfile[];
     teamMembers: {
@@ -24,6 +28,7 @@ type Props = {
     };
     currentTeamId: string;
     totalTeamMembers: number;
+    totalAdminsInTeam: number;
     canManageTeamMembers?: boolean;
     actions: {
         getTeamMembers: (teamId: string, page?: number, perPage?: number, options?: GetTeamMembersOpts) => Promise<{data: TeamMembership}>;
@@ -39,11 +44,13 @@ type Props = {
             data: boolean;
         }>;
         setModalSearchTerm: (term: string) => ActionResult;
+        setModalFilters: (filters: SearchModalFilters) => void;
     };
 }
 
 type State = {
     loading: boolean;
+    shouldShowOnlyAdminUsers: boolean;
 }
 
 export default class MemberListTeam extends React.PureComponent<Props, State> {
@@ -56,6 +63,7 @@ export default class MemberListTeam extends React.PureComponent<Props, State> {
 
         this.state = {
             loading: true,
+            shouldShowOnlyAdminUsers: false,
         };
     }
 
@@ -75,6 +83,8 @@ export default class MemberListTeam extends React.PureComponent<Props, State> {
 
     componentWillUnmount() {
         this.props.actions.setModalSearchTerm('');
+        this.props.actions.setModalFilters({});
+        this.setState({shouldShowOnlyAdminUsers: false});
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -139,48 +149,40 @@ export default class MemberListTeam extends React.PureComponent<Props, State> {
         this.props.actions.setModalSearchTerm(term);
     }
 
+    toggleShowOnlyAdminUsers= (shouldShowOnlyAdminUsers: boolean): void => {
+        let filters = {};
+        if (shouldShowOnlyAdminUsers) {
+            filters = {
+                roles: [Constants.PERMISSIONS_SYSTEM_ADMIN],
+                team_roles: [Constants.PERMISSIONS_TEAM_ADMIN],
+                channel_roles: [Constants.PERMISSIONS_CHANNEL_ADMIN],
+            };
+        }
+        this.props.actions.setModalFilters(filters);
+        this.setState({shouldShowOnlyAdminUsers});
+    }
+
     render() {
         let teamMembersDropdown = null;
         if (this.props.canManageTeamMembers) {
             teamMembersDropdown = [TeamMembersDropdown];
         }
 
-        const teamMembers = this.props.teamMembers;
-        const users = this.props.users;
-        const actionUserProps: {
-            [userId: string]: {
-                teamMember: TeamMembership;
-            };
-        } = {};
-
-        let usersToDisplay;
-        if (this.state.loading) {
-            usersToDisplay = null;
-        } else {
-            usersToDisplay = [];
-
-            for (let i = 0; i < users.length; i++) {
-                const user = users[i];
-
-                if (teamMembers[user.id] && user.delete_at === 0) {
-                    usersToDisplay.push(user);
-                    actionUserProps[user.id] = {
-                        teamMember: teamMembers[user.id],
-                    };
-                }
-            }
-        }
+        const total = this.state.shouldShowOnlyAdminUsers ? this.props.totalAdminsInTeam : this.props.totalTeamMembers;
 
         return (
             <SearchableUserList
-                users={usersToDisplay}
+                users={this.props.users}
                 usersPerPage={USERS_PER_PAGE}
-                total={this.props.totalTeamMembers}
+                total={total}
                 nextPage={this.nextPage}
                 search={this.search}
                 actions={teamMembersDropdown}
-                actionUserProps={actionUserProps}
+                actionUserProps={this.props.actionUserProps}
                 focusOnMount={!UserAgent.isMobile()}
+                canFilterUsersByRole={true}
+                shouldShowOnlyAdminUsers={this.state.shouldShowOnlyAdminUsers}
+                toggleShowOnlyAdminUsers={this.toggleShowOnlyAdminUsers}
             />
         );
     }

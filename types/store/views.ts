@@ -3,14 +3,20 @@
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import {Dictionary, RelationOneToOne, $ID} from 'mattermost-redux/types/utilities';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread} from 'mattermost-redux/types/threads';
+import {$ID, Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
 
 import {DraggingState} from '.';
+
+export type SearchModalFilters = {
+    roles?: string[];
+    channel_roles?: string[];
+    team_roles?: string[];
+}
 
 export type ViewsState = {
     admin: {
@@ -84,11 +90,7 @@ export type ViewsState = {
 
     search: {
         modalSearch: string;
-        modalFilters: {
-            roles?: string[];
-            channel_roles?: string[];
-            team_roles?: string[];
-        };
+        modalFilters: SearchModalFilters;
         systemUsersSearch: {
             term: string;
             team: string;

@@ -4,10 +4,11 @@
 import assert from 'assert';
 
 import {General, Preferences} from 'mattermost-redux/constants';
+import * as Selectors from 'mattermost-redux/selectors/entities/users';
+import TestHelper from 'mattermost-redux/test/test_helper';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import {sortByUsername} from 'mattermost-redux/utils/user_utils';
-import TestHelper from 'mattermost-redux/test/test_helper';
-import * as Selectors from 'mattermost-redux/selectors/entities/users';
+
 const searchProfilesMatchingWithTerm = Selectors.makeSearchProfilesMatchingWithTerm();
 const searchProfilesStartingWithTerm = Selectors.makeSearchProfilesStartingWithTerm();
 

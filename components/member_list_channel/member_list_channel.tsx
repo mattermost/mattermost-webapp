@@ -3,15 +3,14 @@
 
 import React from 'react';
 
+import ChannelMembersDropdown from 'components/channel_members_dropdown';
+import LoadingScreen from 'components/loading_screen';
+import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
+import {Channel, ChannelMembership, ChannelStats} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
-
+import {SearchModalFilters} from 'types/store/views';
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
-
-import ChannelMembersDropdown from 'components/channel_members_dropdown';
-import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
-import LoadingScreen from 'components/loading_screen';
 
 const USERS_PER_PAGE = 50;
 
@@ -28,12 +27,14 @@ export type Props = {
         };
     };
     totalChannelMembers: number;
+    totalAdminsInChannel: number;
     channel: Channel;
     actions: {
         searchProfiles: (term: string, options?: Record<string, unknown>) => Promise<{data: UserProfile[]}>;
         getChannelMembers: (channelId: string) => Promise<{data: ChannelMembership[]}>;
         getChannelStats: (channelId: string) => Promise<{data: ChannelStats}>;
         setModalSearchTerm: (term: string) => Promise<{data: boolean}>;
+        setModalFilters: (filters: SearchModalFilters | Record<string, never>) => void;
         loadProfilesAndTeamMembersAndChannelMembers: (
             page: number,
             perPage: number,
@@ -56,6 +57,7 @@ export type Props = {
 
 type State = {
     loading: boolean;
+    shouldShowOnlyAdminUsers: boolean;
 }
 
 export default class MemberListChannel extends React.PureComponent<Props, State> {
@@ -68,6 +70,7 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
 
         this.state = {
             loading: true,
+            shouldShowOnlyAdminUsers: false,
         };
     }
 
@@ -88,6 +91,8 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
 
     componentWillUnmount() {
         this.props.actions.setModalSearchTerm('');
+        this.props.actions.setModalFilters({});
+        this.setState({shouldShowOnlyAdminUsers: false});
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -108,7 +113,6 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
                     }
-
                     this.props.actions.loadStatusesForProfilesList(data);
                     this.props.actions.loadTeamMembersAndChannelMembersForProfilesList(data, this.props.currentTeamId, this.props.currentChannelId).then(({data: membersLoaded}) => {
                         if (membersLoaded) {
@@ -135,21 +139,38 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
         this.props.actions.setModalSearchTerm(term);
     }
 
+    toggleShowOnlyAdminUsers= (shouldShowOnlyAdminUsers: boolean): void => {
+        let filters = {};
+        if (shouldShowOnlyAdminUsers) {
+            filters = {
+                roles: [Constants.PERMISSIONS_SYSTEM_ADMIN],
+                team_roles: [Constants.PERMISSIONS_TEAM_ADMIN],
+                channel_roles: [Constants.PERMISSIONS_CHANNEL_ADMIN],
+            };
+        }
+        this.props.actions.setModalFilters(filters);
+        this.setState({shouldShowOnlyAdminUsers});
+    }
+
     render() {
         if (this.state.loading) {
             return (<LoadingScreen/>);
         }
         const channelIsArchived = this.props.channel.delete_at !== 0;
+        const total = this.state.shouldShowOnlyAdminUsers ? this.props.totalAdminsInChannel : this.props.totalChannelMembers;
         return (
             <SearchableUserList
                 users={this.props.usersToDisplay}
                 usersPerPage={USERS_PER_PAGE}
-                total={this.props.totalChannelMembers}
+                total={total}
                 nextPage={this.nextPage}
                 search={this.handleSearch}
                 actions={channelIsArchived ? [] : [ChannelMembersDropdown]}
                 actionUserProps={this.props.actionUserProps}
                 focusOnMount={!UserAgent.isMobile()}
+                canFilterUsersByRole={true}
+                shouldShowOnlyAdminUsers={this.state.shouldShowOnlyAdminUsers}
+                toggleShowOnlyAdminUsers={this.toggleShowOnlyAdminUsers}
             />
         );
     }

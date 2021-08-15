@@ -1,47 +1,45 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ComponentProps} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators, ActionCreatorsMapObject, Dispatch} from 'redux';
-
 import {intersectionBy} from 'lodash';
 
+import {ComponentProps} from 'react';
+
+import {connect} from 'react-redux';
+
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
+import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
+import {loadStatusesByIds, loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {loadProfilesForGroupChannels} from 'actions/user_actions.jsx';
+import {setModalSearchTerm} from 'actions/views/search';
+import {searchGroupChannels} from 'mattermost-redux/actions/channels';
 import {
     getProfiles,
     getProfilesInTeam,
     getTotalUsersStats,
     searchProfiles,
 } from 'mattermost-redux/actions/users';
-import {searchGroupChannels} from 'mattermost-redux/actions/channels';
+import {getAllChannels, getChannelsWithUserProfiles} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
     getProfiles as selectProfiles,
     getProfilesInCurrentChannel,
-    getProfilesInCurrentTeam,
-    makeSearchProfilesStartingWithTerm,
+    getProfilesInCurrentTeam, getTotalUsersStats as getTotalUsersStatsSelector,
+    getUser, makeSearchProfilesStartingWithTerm,
     searchProfilesInCurrentTeam,
-    getTotalUsersStats as getTotalUsersStatsSelector,
-    getUser,
 } from 'mattermost-redux/selectors/entities/users';
-
-import {getChannelsWithUserProfiles, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {sortByUsername, filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
+import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-
-import {Constants} from 'utils/constants';
-import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
-import {loadStatusesForProfilesList, loadStatusesByIds} from 'actions/status_actions.jsx';
-import {loadProfilesForGroupChannels} from 'actions/user_actions.jsx';
-import {setModalSearchTerm} from 'actions/views/search';
+import {filterProfilesStartingWithTerm, sortByUsername} from 'mattermost-redux/utils/user_utils';
 
 import {GlobalState} from 'types/store';
+import {Constants} from 'utils/constants';
 
 import MoreDirectChannels, {GroupChannel} from './more_direct_channels';
 

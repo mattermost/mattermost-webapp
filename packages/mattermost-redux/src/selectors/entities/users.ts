@@ -3,37 +3,23 @@
 
 /* eslint-disable max-lines */
 
-import {createSelector} from 'reselect';
-
 import {
     getCurrentChannelId,
     getCurrentUser,
     getCurrentUserId,
-    getMyCurrentChannelMembership,
-    getUsers,
-    getMembersInTeam,
     getMembersInChannel,
+    getMembersInTeam,
+    getMyCurrentChannelMembership,
+    getUsers
 } from 'mattermost-redux/selectors/entities/common';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getDirectShowPreferences, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-
-import {
-    displayUsername,
-    filterProfilesStartingWithTerm,
-    filterProfilesMatchingWithTerm,
-    isSystemAdmin,
-    includesAnAdminRole,
-    profileListToMap,
-    sortByUsername,
-    applyRolesFilters,
-} from 'mattermost-redux/utils/user_utils';
-
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Reaction} from 'mattermost-redux/types/reactions';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Group} from 'mattermost-redux/types/groups';
-import {UserProfile} from 'mattermost-redux/types/users';
+import { getConfig, getLicense } from 'mattermost-redux/selectors/entities/general';
+import { getDirectShowPreferences, getTeammateNameDisplaySetting } from 'mattermost-redux/selectors/entities/preferences';
+import { Channel, ChannelMembership } from 'mattermost-redux/types/channels';
+import { Group } from 'mattermost-redux/types/groups';
+import { Reaction } from 'mattermost-redux/types/reactions';
+import { GlobalState } from 'mattermost-redux/types/store';
+import { Team, TeamMembership } from 'mattermost-redux/types/teams';
+import { UserProfile } from 'mattermost-redux/types/users';
 import {
     $Email,
     $ID,
@@ -43,10 +29,15 @@ import {
     IDMappedObjects,
     RelationOneToMany,
     RelationOneToOne,
-    UsernameMappedObjects,
+    UsernameMappedObjects
 } from 'mattermost-redux/types/utilities';
+import {
+    applyRolesFilters, displayUsername, filterProfilesMatchingWithTerm, filterProfilesStartingWithTerm, includesAnAdminRole, isSystemAdmin, profileListToMap,
+    sortByUsername
+} from 'mattermost-redux/utils/user_utils';
+import { createSelector } from 'reselect';
 
-export {getCurrentUser, getCurrentUserId, getUsers};
+export { getCurrentUser, getCurrentUserId, getUsers };
 
 type Filters = {
     role?: string;

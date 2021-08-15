@@ -3,30 +3,23 @@
 
 /* eslint-disable max-lines */
 
-import {createSelector} from 'reselect';
-
 import {General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-
+import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 import {getCategoryInTeamByType} from 'mattermost-redux/selectors/entities/channel_categories';
 import {
     getCurrentChannelId,
-    getCurrentUser,
-    getUsers,
-    getMyChannelMemberships,
-    getMyCurrentChannelMembership,
+    getCurrentUser, getMyChannelMemberships,
+    getMyCurrentChannelMembership, getUsers,
 } from 'mattermost-redux/selectors/entities/common';
 import {getConfig, getLicense, hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {
     getFavoritesPreferences,
     getMyPreferences,
-    getTeammateNameDisplaySetting,
-    getVisibleTeammate,
-    getVisibleGroupIds,
-    isCollapsedThreadsEnabled,
+    getTeammateNameDisplaySetting, getVisibleGroupIds, getVisibleTeammate, isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
-import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission, haveICurrentChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {
     getCurrentTeamId,
     getCurrentTeamMembership,
@@ -40,14 +33,13 @@ import {
     getUserIdsInChannels,
     isCurrentUserSystemAdmin,
 } from 'mattermost-redux/selectors/entities/users';
-
-import {Channel, ChannelStats, ChannelMembership, ChannelModeration, ChannelMemberCountsByGroup, ChannelSearchOpts} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMemberCountsByGroup, ChannelMembership, ChannelModeration, ChannelSearchOpts, ChannelStats} from 'mattermost-redux/types/channels';
 import {ClientConfig} from 'mattermost-redux/types/config';
 import {Post} from 'mattermost-redux/types/posts';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {TeamMembership, Team} from 'mattermost-redux/types/teams';
-import {UsersState, UserProfile} from 'mattermost-redux/types/users';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {UserProfile, UsersState} from 'mattermost-redux/types/users';
 import {
     $ID,
     IDMappedObjects,
@@ -56,31 +48,13 @@ import {
     RelationOneToOne,
     UserIDMappedObjects,
 } from 'mattermost-redux/types/utilities';
-
 import {
-    canManageMembersOldPermissions,
-    completeDirectChannelInfo,
-    completeDirectGroupInfo,
-    newCompleteDirectChannelInfo,
-    completeDirectChannelDisplayName,
-    getUserIdFromChannelName,
-    getChannelByName as getChannelByNameHelper,
-    isChannelMuted,
-    getDirectChannelName,
-    isAutoClosed,
-    isDirectChannelVisible,
-    isGroupChannelVisible,
-    sortChannelsByDisplayName,
-    isFavoriteChannelOld,
-    isDefault,
-    sortChannelsByRecency,
-    isDirectChannel,
-    filterChannelsMatchingTerm,
-    getMsgCountInChannel,
+    canManageMembersOldPermissions, completeDirectChannelDisplayName, completeDirectChannelInfo,
+    completeDirectGroupInfo, filterChannelsMatchingTerm, getChannelByName as getChannelByNameHelper, getDirectChannelName, getMsgCountInChannel, getUserIdFromChannelName, isAutoClosed, isChannelMuted, isDefault, isDirectChannel, isDirectChannelVisible, isFavoriteChannelOld, isGroupChannelVisible, newCompleteDirectChannelInfo, sortChannelsByDisplayName, sortChannelsByRecency,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
+import {createSelector} from 'reselect';
 import {Constants} from 'utils/constants';
-import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
 import {getThreadCounts} from './threads';
 

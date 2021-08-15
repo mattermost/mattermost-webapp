@@ -3,16 +3,23 @@
 /* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
+
 import React from 'react';
+
 import ReactDOM from 'react-dom';
+
 import {FormattedMessage, injectIntl} from 'react-intl';
 
+import LocalizedInput from 'components/localized_input/localized_input';
 import QuickInput from 'components/quick_input';
 import UserList from 'components/user_list.jsx';
-import LocalizedInput from 'components/localized_input/localized_input';
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import {t} from 'utils/i18n';
+import {localizeMessage} from 'utils/utils';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
@@ -37,6 +44,15 @@ class SearchableUserList extends React.PureComponent {
         onTermChange: PropTypes.func.isRequired,
         intl: PropTypes.any,
         isDisabled: PropTypes.bool,
+
+        // to filter users list to show only 'Administrators' or 'All members'
+        canFilterUsersByRole: PropTypes.bool,
+
+        // parent state to filter corresponding users
+        shouldShowOnlyAdminUsers: PropTypes.bool,
+
+        // toggler to flip above state
+        toggleShowOnlyAdminUsers: PropTypes.func,
 
         // the type of user list row to render
         rowComponentType: PropTypes.func,
@@ -166,6 +182,14 @@ class SearchableUserList extends React.PureComponent {
         return null;
     }
 
+    toggleShowOnlyAdminUsersOff = () => {
+        this.props.toggleShowOnlyAdminUsers(false);
+    }
+
+    toggleShowOnlyAdminUsersOn = () => {
+        this.props.toggleShowOnlyAdminUsers(true);
+    }
+
     render() {
         let nextButton;
         let previousButton;
@@ -245,6 +269,35 @@ class SearchableUserList extends React.PureComponent {
             );
         }
 
+        let usersFilterByRoleRow = null;
+        if (this.props.canFilterUsersByRole) {
+            usersFilterByRoleRow = (
+                <div className='more-modal__dropdown'>
+                    <MenuWrapper id='usersFilterByRole'>
+                        <a>
+                            <span>{this.props.shouldShowOnlyAdminUsers ? localizeMessage('filtered_user_list.showOnlyAdministrators', 'Show: Administrators') : localizeMessage('filtered_user_list.showAllMembers', 'Show: All members')}</span>
+                            <span className='caret'/>
+                        </a>
+                        <Menu
+                            openLeft={false}
+                            ariaLabel={localizeMessage('filtered_user_list.menuAriaLabel', 'Filter users by role')}
+                        >
+                            <Menu.ItemAction
+                                id='usersFilterByRoleAll'
+                                onClick={this.toggleShowOnlyAdminUsersOff}
+                                text={localizeMessage('filtered_user_list.suggestion.all_members', 'All members')}
+                            />
+                            <Menu.ItemAction
+                                id='usersFilterByRoleAdmin'
+                                onClick={this.toggleShowOnlyAdminUsersOn}
+                                text={localizeMessage('filtered_user_list.suggestion.administrators', 'Administrators')}
+                            />
+                        </Menu>
+                    </MenuWrapper>
+                </div>
+            );
+        }
+
         return (
             <div className='filtered-user-list'>
                 <div className='filter-row'>
@@ -259,6 +312,7 @@ class SearchableUserList extends React.PureComponent {
                         </span>
                     </div>
                 </div>
+                {usersFilterByRoleRow}
                 <div className='more-modal__list'>
                     <UserList
                         ref='userList'
