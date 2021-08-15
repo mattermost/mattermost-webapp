@@ -18,7 +18,7 @@
     .announcement-bar__text {
         display: flex;
         overflow: hidden;
-        width: 100%;
+        flex-grow: 1;
         align-items: center;
         justify-content: center;
         white-space: nowrap;
@@ -88,7 +88,7 @@
         font-size: 16px;
     }
 
-    .announcement-bar-button {
+    .announcement-bar__button {
         &:hover {
             background-color: rgba(255, 255, 255, 0.08);
         }
@@ -109,15 +109,27 @@
         &--text {
             border: none;
         }
+
+        &.announcement-bar__button--text {
+            padding-left: 0;
+            padding-right: 0;
+
+            color: var(--sidebar-text);
+            font-size: 12px;
+        }
     }
-}
 
-.announcement-bar__dont-ask-again {
-    display: none;
-    margin-left: auto;
+    .announcement-bar__dont-ask-again {
+        margin-left: auto;
+        margin-right: 27px;
+    
+        visibility: hidden;
+    }
 
-    .announcement-bar:hover & {
-        display: block;
+    &:hover {
+        .announcement-bar__dont-ask-again {
+            visibility: visible;
+        }
     }
 }
 
