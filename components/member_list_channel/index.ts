@@ -56,7 +56,6 @@ const getUsersAndActionsToDisplay = createSelector(
             }
         }
 
-        console.log({channelMembers});
         const totalAdminsInChannel = Object.values(channelMembers).reduce((acc, k) => {
             return k.roles.includes('admin') ? acc + 1 : acc;
         }, 0);

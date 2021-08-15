@@ -143,8 +143,8 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
         let filters = {};
         if (shouldShowOnlyAdminUsers) {
             filters = {
-                roles: [Constants.PERMISSIONS_SYSTEM_ADMIN],
-                team_roles: [Constants.PERMISSIONS_TEAM_ADMIN],
+                roles: [],
+                team_roles: [],
                 channel_roles: [Constants.PERMISSIONS_CHANNEL_ADMIN],
             };
         }

@@ -153,9 +153,9 @@ export default class MemberListTeam extends React.PureComponent<Props, State> {
         let filters = {};
         if (shouldShowOnlyAdminUsers) {
             filters = {
-                roles: [Constants.PERMISSIONS_SYSTEM_ADMIN],
+                roles: [],
                 team_roles: [Constants.PERMISSIONS_TEAM_ADMIN],
-                channel_roles: [Constants.PERMISSIONS_CHANNEL_ADMIN],
+                channel_roles: [],
             };
         }
         this.props.actions.setModalFilters(filters);
