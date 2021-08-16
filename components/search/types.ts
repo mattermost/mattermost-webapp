@@ -20,6 +20,7 @@ export type OwnProps = {
     channelDisplayName?: string;
     getFocus?: (searchBarFocus: () => void) => void;
     children?: React.ReactNode;
+    globalHeaderEnabled?: boolean;
 }
 
 export type StateProps = {
