@@ -156,6 +156,7 @@ export default class SuggestionBox extends React.PureComponent {
 
         actions: PropTypes.shape({
             openModalFromCommand: PropTypes.func.isRequired,
+            addMessageIntoHistory: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -490,6 +491,7 @@ export default class SuggestionBox extends React.PureComponent {
 
         if (openCommandInModal) {
             this.props.actions.openModalFromCommand(fixedTerm, this.props.isRHS);
+            this.props.actions.addMessageIntoHistory(fixedTerm);
             this.inputRef.current.value = '';
             this.handleChange({target: this.inputRef.current});
             return false;
