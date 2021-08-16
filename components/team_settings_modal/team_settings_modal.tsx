@@ -75,9 +75,6 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
     render() {
         const tabs = [];
         tabs.push({name: 'general', uiName: Utils.localizeMessage('team_settings_modal.generalTab', 'General'), icon: 'icon fa fa-cog', iconTitle: Utils.localizeMessage('generic_icons.settings', 'Settings Icon')});
-        if (!this.props.isCloud) {
-            tabs.push({name: 'import', uiName: Utils.localizeMessage('team_settings_modal.importTab', 'Import'), icon: 'icon fa fa-upload', iconTitle: Utils.localizeMessage('generic_icons.upload', 'Upload Icon')});
-        }
 
         return (
             <Modal

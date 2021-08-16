@@ -158,7 +158,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       </a>
     </OverlayTrigger>
   </button>
-  <Connect(ViewImageModal)
+  <Connect(FilePreviewModal)
     fileInfos={
       Array [
         Object {
@@ -351,7 +351,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       </a>
     </OverlayTrigger>
   </button>
-  <Connect(ViewImageModal)
+  <Connect(FilePreviewModal)
     fileInfos={
       Array [
         Object {
@@ -544,7 +544,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       </a>
     </OverlayTrigger>
   </button>
-  <Connect(ViewImageModal)
+  <Connect(FilePreviewModal)
     fileInfos={
       Array [
         Object {
@@ -734,7 +734,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       </a>
     </OverlayTrigger>
   </button>
-  <Connect(ViewImageModal)
+  <Connect(FilePreviewModal)
     fileInfos={
       Array [
         Object {

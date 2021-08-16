@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {requestCategoriesList, requestCategoriesListIfNeeded, saveSearchBarText, saveSearchScrollPosition, searchTextUpdate} from 'mattermost-redux/actions/gifs';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 

@@ -67,7 +67,7 @@ exports[`components/MarkdownImage should provide image src as an alt text for Ma
       title="test title"
       width={50}
     />
-    <Connect(ViewImageModal)
+    <Connect(FilePreviewModal)
       fileInfos={
         Array [
           Object {
@@ -144,7 +144,7 @@ exports[`components/MarkdownImage should render an image with preview modal if t
     showLoader={false}
     src="https://example.com/image.png"
   />
-  <Connect(ViewImageModal)
+  <Connect(FilePreviewModal)
     fileInfos={
       Array [
         Object {
@@ -183,7 +183,7 @@ exports[`components/MarkdownImage should render image with MarkdownImageExpand i
       title="test title"
       width={50}
     />
-    <Connect(ViewImageModal)
+    <Connect(FilePreviewModal)
       fileInfos={
         Array [
           Object {

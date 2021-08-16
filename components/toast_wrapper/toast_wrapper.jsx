@@ -7,7 +7,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Toast from 'components/toast/toast';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
-import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils.jsx';
+import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import {isToday} from 'utils/datetime';
 import Constants from 'utils/constants';

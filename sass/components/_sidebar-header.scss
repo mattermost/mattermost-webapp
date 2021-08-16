@@ -15,4 +15,10 @@
     .status-selector {
         margin: 3px 8px 0 6px;
     }
+
+    .sidebar-header-dropdown__icon {
+        svg {
+            fill: var(--sidebar-header-text-color);
+        }
+    }
 }
