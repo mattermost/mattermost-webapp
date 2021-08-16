@@ -106,6 +106,15 @@
         }
     }
 
+    &.tip-overlay--settings {
+        .arrow {
+            top: -10px;
+            right: 44px;
+            border-top-width: 0;
+            border-bottom-color: $white;
+        }
+    }
+
     h4 {
         margin: 5px 0 15px;
         font-size: em(16px);
@@ -208,8 +217,16 @@
 
     &.tip-overlay--product-switcher {
         right: unset;
-        padding: 4px 4px 16px 18px;
+        padding: 0 4px 16px 16px;
+        margin: 0;
         cursor: pointer;
+    }
+
+    &.tip-overlay--settings {
+        top: 23px;
+        right: 38px;
+        padding: 10px;
+        margin: 0;
     }
 }
 

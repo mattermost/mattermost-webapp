@@ -18,7 +18,8 @@ import ShowMore from 'components/post_view/show_more';
 import ButtonBinding from '../button_binding';
 import SelectBinding from '../select_binding';
 
-import {fillBindingsInformation} from 'utils/apps';
+import {cleanBinding} from 'mattermost-redux/utils/apps';
+import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 type Props = {
 
@@ -43,7 +44,7 @@ type Props = {
 export default class EmbeddedBinding extends React.PureComponent<Props> {
     fillBindings = (binding: AppBinding) => {
         const copiedBindings = JSON.parse(JSON.stringify(binding)) as AppBinding;
-        fillBindingsInformation(copiedBindings);
+        cleanBinding(copiedBindings, AppBindingLocations.IN_POST);
         return copiedBindings.bindings;
     }
 
