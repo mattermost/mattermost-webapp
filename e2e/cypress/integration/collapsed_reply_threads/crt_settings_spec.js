@@ -9,7 +9,7 @@
 //
 //  Group: @collapsed_reply_threads
 
-describe('CollapsedReplyThreads', () => {
+describe('Collapsed Reply Threads', () => {
     let testTeam;
 
     before(() => {
@@ -21,9 +21,8 @@ describe('CollapsedReplyThreads', () => {
         });
 
         // # Create new channel and visit channel
-        cy.apiInitSetup({loginAfter: true, promoteNewUserAsAdmin: true}).then(({team, channel}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testTeam = team;
-
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
@@ -35,7 +34,7 @@ describe('CollapsedReplyThreads', () => {
         // * Threads menu in sidebar should not be visible
         cy.get('.SidebarGlobalThreads').should('not.exist');
 
-        // # Set CRT to on
+        // # Set CRT to on and dismiss CRT warning modal
         cy.uiChangeCRTDisplaySetting('ON');
 
         // * Threads menu in sidebar should be visible

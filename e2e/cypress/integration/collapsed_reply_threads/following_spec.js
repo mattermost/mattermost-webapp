@@ -9,7 +9,7 @@
 //
 //  Group: @collapsed_reply_threads
 
-describe('CollapsedReplyThreads', () => {
+describe('Collapsed Reply Threads', () => {
     let testTeam;
     let testUser;
     let otherUser;
@@ -52,7 +52,7 @@ describe('CollapsedReplyThreads', () => {
             message: 'Root post,',
             channelId: testChannel.id,
         }).then(({id: rootId}) => {
-            // * ThreadFooter should not be visible
+            // * Thread footer should not be visible
             cy.get(`#post_${rootId}`).find('.ThreadFooter').should('not.exist');
 
             // # Click on post to open RHS
@@ -64,7 +64,7 @@ describe('CollapsedReplyThreads', () => {
             // # Post a reply as current user
             cy.postMessageReplyInRHS('Reply!');
 
-            // # get last root post
+            // # Get last root post
             cy.get(`#post_${rootId}`).
 
                 // * thread footer should exist now
@@ -139,6 +139,21 @@ describe('CollapsedReplyThreads', () => {
     });
 
     it('MM-T4141_3 clicking "Following" button in the footer should unfollow the thread', () => {
+        // # Post a root post as other user
+        cy.postMessageAs({
+            sender: otherUser,
+            message: 'Another interesting post,',
+            channelId: testChannel.id,
+        }).then(({id: rootId}) => {
+            // # Post a reply as current user
+            cy.postMessageAs({
+                sender: testUser,
+                message: 'Self reply!',
+                channelId: testChannel.id,
+                rootId,
+            });
+        });
+
         // # Get last root post in channel
         cy.getLastPostId().then((rootId) => {
             // # Open the thread
@@ -171,6 +186,21 @@ describe('CollapsedReplyThreads', () => {
     });
 
     it('MM-T4141_4 clicking "Follow" button in the footer should follow the thread', () => {
+        // # Post a root post as other user
+        cy.postMessageAs({
+            sender: otherUser,
+            message: 'Another interesting post,',
+            channelId: testChannel.id,
+        }).then(({id: rootId}) => {
+            // # Post a self reply as other user
+            cy.postMessageAs({
+                sender: otherUser,
+                message: 'Self reply!',
+                channelId: testChannel.id,
+                rootId,
+            });
+        });
+
         // # Get last root post in channel
         cy.getLastPostId().then((rootId) => {
             // # Open the thread

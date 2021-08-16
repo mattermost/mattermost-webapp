@@ -9,7 +9,7 @@
 //
 //  Group: @collapsed_reply_threads
 
-describe('CollapsedReplyThreads', () => {
+describe('Collapsed Reply Threads', () => {
     let testTeam;
     let testUser;
     let otherUser;
@@ -118,6 +118,11 @@ describe('CollapsedReplyThreads', () => {
             cy.get(`#${postId}_message`).within(() => {
                 cy.findByLabelText('reactions').should('be.visible');
                 cy.findByLabelText('remove reaction +1').should('be.visible');
+            });
+
+            // * Reacting to a root post should not create a thread (thread footer should not exist)
+            cy.get(`#post_${postId}`).within(() => {
+                cy.get('.ThreadFooter').should('not.exist');
             });
 
             // # Close RHS
