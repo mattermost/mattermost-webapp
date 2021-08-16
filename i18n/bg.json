@@ -198,7 +198,7 @@
   "admin.advance.cluster": "Висока достъпност",
   "admin.advance.metrics": "Мониторинг на производителността",
   "admin.announcement_banner_feature_discovery.copy": "Създайте банери за съобщения, за да уведомявате всички членове за важна информация.",
-  "admin.announcement_banner_feature_discovery.title": "Създаване на персонализирани банери за съобщения с Mattermost Enterprise E10",
+  "admin.announcement_banner_feature_discovery.title": "Създаване на персонализирани банери за съобщения с Mattermost Professional",
   "admin.audits.reload": "Презареждане на дневниците за активност на потребителя",
   "admin.authentication.email": "Удостоверяване по ел. поща",
   "admin.authentication.gitlab": "Git Lab",
