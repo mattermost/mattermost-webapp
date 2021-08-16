@@ -2418,7 +2418,6 @@
   "help.attaching.supportedListItem3": "Audio: MP3, M4A",
   "help.attaching.supportedListItem4": "Dokumenty: PDF",
   "help.attaching.title": "Załączanie plików",
-  "help.commands.builtin.description": "Poniższe komendy są dostępne we wszystkich instalacjach Mattermost:",
   "help.commands.builtin.title": "Wbudowane komendy",
   "help.commands.builtin2": "Zacznij od wpisania `/`, a obok pola wprowadzania tekstu pojawi się lista poleceń. Propozycje pomagają dostarczyć przykładowy format w czarnym tekście i krótki opis komendy w szarym tekście.",
   "help.commands.custom.description": "Niestandardowe komendy po ukośniku, integrują się z aplikacjami zewnętrznymi. Na przykład zespół może skonfigurować niestandardowe polecenie po ukośniku, aby sprawdzić wewnętrzne rekordy zdrowia za pomocą `/patient joe smith` lub sprawdzić tygodniową prognozę pogody w mieście `/weather toronto week`. Sprawdź z twoim Administratorem Systemu lub otwórz listę autouzupełniania wpisując `/`, aby określić, czy Twój zespół skonfigurował niestandardowe komendy.",

@@ -2488,7 +2488,6 @@
   "help.attaching.supportedListItem3": "오디오: MP3, M4A",
   "help.attaching.supportedListItem4": "문서: PDF",
   "help.attaching.title": "파일 첨부하기",
-  "help.commands.builtin.description": "다음 슬래시 명령은 모든 Mattermost 설치에서 사용할 수 있습니다:",
   "help.commands.builtin.title": "빌트인 명령어",
   "help.commands.custom.description": "사용자 지정 슬래시 명령은 외부 애플리케이션과 통합됩니다. 예를 들어 팀에서는 '/patient joe smith' 를 통해 내부 건강 기록을 확인하거나 '/weather toronto week' 명령어를 사용하여 도시의 주간 기상 상태를 확인하도록 사용자 지정 슬래시 명령을 구성할 수 있습니다. 팀원이 사용자 지정 슬래시 명령을 구성했는지 확인하려면 시스템 관리자에게 문의하거나 '/'를 입력하여 자동 완성 목록을 여십시오.",
   "help.commands.custom.title": "커스텀 명령어",
