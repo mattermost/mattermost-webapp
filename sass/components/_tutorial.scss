@@ -217,7 +217,8 @@
 
     &.tip-overlay--product-switcher {
         right: unset;
-        padding: 4px 4px 16px 18px;
+        padding: 0 4px 16px 16px;
+        margin: 0;
         cursor: pointer;
     }
 
