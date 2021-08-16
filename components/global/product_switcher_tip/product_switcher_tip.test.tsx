@@ -6,11 +6,11 @@ import {shallow} from 'enzyme';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
-import {Props, ProductSwitcherTip} from './product_switcher_tip';
-
 import {ProductComponent} from 'types/store/plugins';
 
 import {TutorialSteps, TopLevelProducts} from 'utils/constants';
+
+import {Props, ProductSwitcherTip} from './product_switcher_tip';
 
 function makeProduct(name: string): ProductComponent {
     return {
@@ -22,7 +22,7 @@ function makeProduct(name: string): ProductComponent {
         switcherLinkURL: '',
         mainComponent: null,
         headerComponent: null,
-    }
+    };
 }
 
 let props: Props = {
@@ -31,7 +31,7 @@ let props: Props = {
     actions: {
         savePreferences: jest.fn(),
     },
-}
+};
 
 describe('components/product_switcher/product_switcher_tip', () => {
     beforeEach(() => {
@@ -49,7 +49,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
     });
 
     it('shows tutorial tip when it should', () => {
-        const wrapper = shallow(<ProductSwitcherTip {...props} />);
+        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
 
         expect(wrapper.find(TutorialTip)).toHaveLength(1);
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
@@ -57,7 +57,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
 
     it('does not show tutorial tip when tutorial step does not match', () => {
         props.step = TutorialSteps.PRODUCT_SWITCHER - 1;
-        const wrapper = shallow(<ProductSwitcherTip {...props} />);
+        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
 
         expect(wrapper.find(TutorialTip)).toHaveLength(0);
     });
@@ -65,9 +65,9 @@ describe('components/product_switcher/product_switcher_tip', () => {
     it('does not skip tutorial tip when tutorial step does not match and a product is missing', () => {
         props.step = TutorialSteps.PRODUCT_SWITCHER - 1;
         props.products = [
-                makeProduct(TopLevelProducts.BOARDS),
+            makeProduct(TopLevelProducts.BOARDS),
         ];
-        shallow(<ProductSwitcherTip {...props} />);
+        shallow(<ProductSwitcherTip {...props}/>);
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
     });
 
@@ -77,7 +77,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
         ];
 
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
-        const wrapper = shallow(<ProductSwitcherTip {...props} />);
+        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
         expect(props.actions.savePreferences).toHaveBeenCalled();
 
         expect(wrapper.find(TutorialTip)).toHaveLength(0);
@@ -88,7 +88,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
             makeProduct(TopLevelProducts.PLAYBOOKS),
         ];
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
-        const wrapper = shallow(<ProductSwitcherTip {...props} />);
+        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
         expect(props.actions.savePreferences).toHaveBeenCalled();
 
         expect(wrapper.find(TutorialTip)).toHaveLength(0);
@@ -97,7 +97,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
     it('does not show tutorial tip if there are no products', () => {
         delete props.products;
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
-        const wrapper = shallow(<ProductSwitcherTip {...props} />);
+        const wrapper = shallow(<ProductSwitcherTip {...props}/>);
         expect(props.actions.savePreferences).toHaveBeenCalled();
 
         expect(wrapper.find(TutorialTip)).toHaveLength(0);

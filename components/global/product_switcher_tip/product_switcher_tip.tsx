@@ -28,7 +28,7 @@ export interface Props {
     step: number;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
-    },
+    };
 }
 
 // We track skippedBecauseIrrelevant because we only want to fire the action once
