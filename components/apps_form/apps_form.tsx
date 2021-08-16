@@ -25,6 +25,8 @@ import Markdown from 'components/markdown';
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
 
+import './apps_form.css';
+
 export type AppsFormProps = {
     form: AppForm;
     isEmbedded?: boolean;
@@ -45,6 +47,7 @@ type State = {
     values: {[name: string]: string};
     formError: string | null;
     fieldErrors: {[name: string]: React.ReactNode};
+    changing: boolean;
     submitting: boolean;
     form: AppForm;
 }
@@ -68,6 +71,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const values = initFormValues(form);
 
         this.state = {
+            changing: false,
             show: true,
             values,
             formError: null,
@@ -290,6 +294,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const values = {...this.state.values, [name]: value};
 
         if (field.refresh) {
+            this.setState({changing: true});
             this.props.actions.refreshOnSelect(field, values).then((res) => {
                 if (res.error) {
                     const errorResponse = res.error;
@@ -303,6 +308,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 const callResponse = res.data!;
                 switch (callResponse.type) {
                 case AppCallResponseTypes.FORM:
+                    this.setState({changing: false});
                     return;
                 case AppCallResponseTypes.OK:
                 case AppCallResponseTypes.NAVIGATE:
@@ -312,6 +318,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     }, {
                         type: callResponse.type,
                     }));
+                    this.setState({changing: false});
                     return;
                 default:
                     this.updateErrors([], undefined, this.context.intl.formatMessage({
@@ -357,7 +364,9 @@ export class AppsForm extends React.PureComponent<Props, State> {
                         </Modal.Title>
                     </Modal.Header>
                     {(fields || header) && (
-                        <Modal.Body>
+                        <Modal.Body
+                            className={this.state.changing ? 'modal-body-opacity' : ''}
+                        >
                             {this.renderBody()}
                         </Modal.Body>
                     )}
