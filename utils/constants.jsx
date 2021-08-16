@@ -958,7 +958,7 @@ export const exportFormats = {
 };
 
 export const ZoomSettings = {
-    DEFAULT_SCALE: 1,
+    DEFAULT_SCALE: 1.75,
     SCALE_DELTA: 0.25,
     MIN_SCALE: 0.25,
     MAX_SCALE: 3.0,
