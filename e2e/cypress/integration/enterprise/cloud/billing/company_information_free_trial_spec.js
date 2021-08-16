@@ -39,7 +39,7 @@ describe('System Console - Company Information section', () => {
         // # Click on Add Company Information button
         cy.contains('span', 'Add Company Information').parent().click();
 
-        // # Enter valid compnany innformatioon
+        // # Enter valid compnany informatioon
         cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
         cy.get('#DropdownInput_country_dropdown').click();
@@ -90,7 +90,7 @@ describe('System Console - Company Information section', () => {
         // # Click on Add Company Information button
         cy.contains('span', 'Add Company Information').parent().click();
 
-        // # Enter company information functionality
+        // # Enter company information
         cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
         cy.get('#DropdownInput_country_dropdown').click();
@@ -129,7 +129,7 @@ describe('System Console - Company Information section', () => {
         // # Click on edit Company Information button
         cy.get('.CompanyInfoDisplay__companyInfo-editButton').click();
 
-        // # Enter company information functionality
+        // # Enter company information
         cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
         cy.get('#DropdownInput_country_dropdown').click();
@@ -152,7 +152,7 @@ describe('System Console - Company Information section', () => {
         // * Check for country
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(3).should('have.text', 'British Indian Ocean Territory');
 
-        // * Check for city,state and postol code
+        // * Check for city,state and postal code
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(2).should('have.text', 'testcity, test, 44455');
 
         // * Check for address 2
@@ -175,7 +175,7 @@ describe('System Console - Company Information section', () => {
         // # Click Add Company Information button
         cy.get('.CompanyInfoDisplay__companyInfo-editButton').click();
 
-        // # Enter company information functionality
+        // # Enter company information
         cy.get('#input_companyName').clear().type('CancelcompanyName');
         cy.get('#input_numEmployees').clear().type('11');
         cy.get('#DropdownInput_country_dropdown').click();
@@ -201,7 +201,7 @@ describe('System Console - Company Information section', () => {
         // * Check for country
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(3).should('not.have.text', 'Albania');
 
-        // * Check for city,state and postol code
+        // * Check for city,state and postal code
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(2).should('not.have.text', 'canceltestcity, canceltest, 560072');
 
         // * Check for address 2
