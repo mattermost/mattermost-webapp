@@ -3190,7 +3190,7 @@
   "globalThreads.sidebarLink": "スレッド",
   "globalThreads.subtitle": "あなたが参加しているスレッドは自動でここに表示されます",
   "globalThreads.threadList.noUnreadThreads": "未読のスレッドはありません",
-  "globalThreads.threadPane.unselectedTitle": "{numUnread, plural, =0 {すべて確認済みようです} other {スレッドを確認する}}",
+  "globalThreads.threadPane.unselectedTitle": "{numUnread, plural, =0 {すべて確認済みのようです} other {スレッドを確認する}}",
   "globalThreads.title": "{prefix} スレッド - {displayName} {siteName}",
   "global_header.open": "開く...",
   "group_list_modal.addGroupButton": "グループを追加する",
