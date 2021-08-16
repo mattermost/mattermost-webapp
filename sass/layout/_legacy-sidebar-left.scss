@@ -9,6 +9,22 @@
     height: 100%;
     flex-direction: column;
     border-right: $border-gray;
+    background: var(--sidebar-bg);
+
+    .SidebarHeader {
+        background: var(--sidebar-header-bg);
+
+        .status-wrapper {
+            .status {
+                background: var(--sidebar-header-bg);
+                color: var(--sidebar-header-text-color);
+            }
+        }
+    }
+
+    .a11y--focused {
+        box-shadow: inset 0 0 1px 3px rgba(var(--sidebar-text-rgb), 0.5), inset 0 0 0 1px var(--sidebar-text);
+    }
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -28,6 +44,7 @@
             display: inline-flex;
             width: 15px;
             margin: 0 7px 0 1px;
+            fill: var(--sidebar-text);
             text-align: left;
             vertical-align: top;
         }
@@ -72,13 +89,14 @@
         flex: 0 0 45px;
         padding-bottom: 0;
         border-color: rgba(var(--sidebar-text-rgb), 0.2);
+        background: var(--sidebar-bg);
 
         button {
             display: block;
             width: 100%;
             height: 45px;
             padding: 0;
-            background: transparent;
+            background: rgba(var(--sidebar-text-rgb), 0.08);
             font-weight: 600;
             line-height: 40px;
             text-decoration: none;
@@ -204,6 +222,10 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
 
+                &:hover {
+                    background: var(--sidebar-text-hover-bg);
+                }
+
                 body.enable-animations & {
                     @include transition-property(color, background-color);
                     @include transition-duration($transition-quick);
@@ -244,14 +266,6 @@
                     &.icon__lock,
                     &.icon__bot {
                         @include opacity(0.5);
-                    }
-
-                    &.icon__bot {
-                        // Restrict icon size for user customized bot icons
-                        svg {
-                            max-width: 16px;
-                            max-height: 15px;
-                        }
                     }
 
                     &.icon__shared {
@@ -296,6 +310,10 @@
                 &.muted {
                     opacity: 0.5;
                 }
+
+                &:hover {
+                    background: var(--sidebar-text-hover-bg);
+                }
             }
 
             &.active {
@@ -334,9 +352,9 @@
                 a:hover,
                 button:focus,
                 a:focus {
-                    @include alpha-property(background-color, $black, 0.1);
-
+                    background: rgba(var(--sidebar-text-active-color-rgb), 0.1);
                     border-radius: 0;
+                    color: var(--sidebar-text-active-color);
                     font-weight: 400;
 
                     &.unread-title {

@@ -198,21 +198,23 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                         );
                     }}
                 </Draggable>
-                <div
-                    ref={this.newDropBoxRef}
-                    className={classNames('SidebarCategory_newDropBox', {
-                        collapsed: category.collapsed || (draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id),
-                        isDraggingOver,
-                    })}
-                    onTransitionEnd={this.removeAnimation}
-                >
-                    <i className='icon-hand-right'/>
-                    <span className='SidebarCategory_newDropBox-label'>
-                        <FormattedMessage
-                            id='sidebar_left.sidebar_category.newDropBoxLabel'
-                            defaultMessage='Drag channels here...'
-                        />
-                    </span>
+                <div className='SidebarCategory_newDropBox'>
+                    <div
+                        ref={this.newDropBoxRef}
+                        className={classNames('SidebarCategory_newDropBox-content', {
+                            collapsed: category.collapsed || (draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id),
+                            isDraggingOver,
+                        })}
+                        onTransitionEnd={this.removeAnimation}
+                    >
+                        <i className='icon-hand-right'/>
+                        <span className='SidebarCategory_newDropBox-label'>
+                            <FormattedMessage
+                                id='sidebar_left.sidebar_category.newDropBoxLabel'
+                                defaultMessage='Drag channels here...'
+                            />
+                        </span>
+                    </div>
                 </div>
             </React.Fragment>
         );
@@ -340,7 +342,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     return (
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {
-                                autoSortedCategory: category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency,
                                 dropDisabled: this.isDropDisabled(),
                                 menuIsOpen: this.state.isMenuOpen,
                                 capture: this.props.draggingState.state === DraggingStates.CAPTURE,

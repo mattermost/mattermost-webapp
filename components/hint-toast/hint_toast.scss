@@ -3,7 +3,7 @@
 .hint-toast {
     padding-top: 8px;
     padding-bottom: 8px;
-    border: 1px solid var(--center-channel-color-16);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     margin-top: 16px;
     margin-right: 0;
     margin-left: 0;
@@ -31,12 +31,12 @@
             background-color: var(--center-channel-bg);
 
             svg {
-                fill: var(--center-channel-color-72);
+                fill: rgba(var(--center-channel-color-rgb), 0.72);
             }
         }
 
         svg {
-            fill: var(--center-channel-color-56);
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
             vertical-align: middle;
         }
 

@@ -6,7 +6,7 @@ import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import DelayedAction from 'utils/delayed_action';
 import Constants from 'utils/constants.jsx';

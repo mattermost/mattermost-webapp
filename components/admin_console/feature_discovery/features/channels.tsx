@@ -14,7 +14,7 @@ const ChannelsFeatureDiscovery: React.FC = () => {
         <FeatureDiscovery
             featureName='channels'
             titleID='admin.channels_feature_discovery.title'
-            titleDefault='Create read-only channels with Mattermost Enterprise E20'
+            titleDefault='Create read-only channels with Mattermost Professional'
             copyID='admin.channels_feature_discovery.copy'
             copyDefault={'Decide which channels should be public, private, read-only, or react-only.'}
             learnMoreURL='https://docs.mattermost.com/deployment/team-channel-management.html'

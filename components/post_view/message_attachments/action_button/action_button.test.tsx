@@ -14,7 +14,7 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
     const baseProps = {
         action: {id: 'action_id_1', name: 'action_name_1', cookie: 'cookie-contents'},
         handleAction: jest.fn(),
-        theme: Preferences.THEMES.sapphire as unknown as Theme,
+        theme: Preferences.THEMES.denim as unknown as Theme,
     };
 
     test('should match snapshot', () => {
@@ -39,9 +39,9 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         const wrapper = shallow(<ActionButton {...props}/>);
         const buttonStyles = wrapper.find('button').prop('style');
 
-        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Preferences.THEMES.sapphire.onlineIndicator, 0.25));
+        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Preferences.THEMES.denim.onlineIndicator, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
-        expect(buttonStyles).toHaveProperty('color', Preferences.THEMES.sapphire.onlineIndicator);
+        expect(buttonStyles).toHaveProperty('color', Preferences.THEMES.denim.onlineIndicator);
     });
 
     test('should have correct styles when provided color from not default theme', () => {
@@ -68,9 +68,9 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         const wrapper = shallow(<ActionButton {...props}/>);
         const buttonStyles = wrapper.find('button').prop('style');
 
-        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Preferences.THEMES.sapphire.onlineIndicator, 0.25));
+        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Preferences.THEMES.denim.onlineIndicator, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
-        expect(buttonStyles).toHaveProperty('color', Preferences.THEMES.sapphire.onlineIndicator);
+        expect(buttonStyles).toHaveProperty('color', Preferences.THEMES.denim.onlineIndicator);
     });
 
     test('should have correct styles when provided hex color', () => {

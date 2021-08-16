@@ -7,7 +7,7 @@
 .Badge__box {
     padding: 1px 4px;
     border: none;
-    background: var(--center-channel-color-16);
+    background: rgba(var(--center-channel-color-rgb), 0.16);
     border-radius: 2px;
     font-family: inherit;
     font-size: 10px;

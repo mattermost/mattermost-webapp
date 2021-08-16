@@ -10,7 +10,7 @@ import CustomThemeChooser from 'components/user_settings/display/user_settings_t
 
 describe('components/user_settings/display/CustomThemeChooser', () => {
     const baseProps = {
-        theme: Preferences.THEMES.sapphire,
+        theme: Preferences.THEMES.denim,
         updateTheme: jest.fn(),
     };
 
