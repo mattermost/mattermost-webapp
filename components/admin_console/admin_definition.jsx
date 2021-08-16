@@ -2573,6 +2573,15 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableInlineLatex',
+                        label: t('admin.customization.enableInlineLatexTitle'),
+                        label_default: 'Enable Inline Latex Rendering:',
+                        help_text: t('admin.customization.enableInlineLatexDesc'),
+                        help_text_default: 'Enable rendering of inline Latex code, this is code that is present in between dollar signs. If false dollar sings and the text in between them is rendered normally.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomUrlSchemesSetting,
                         key: 'DisplaySettings.CustomUrlSchemes',

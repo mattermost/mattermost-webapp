@@ -606,6 +606,8 @@
   "admin.customization.enableEmojiPickerTitle": "Enable Emoji Picker:",
   "admin.customization.enableGifPickerDesc": "Allow users to select GIFs from the emoji picker via a Gfycat integration.",
   "admin.customization.enableGifPickerTitle": "Enable GIF Picker:",
+  "admin.customization.enableInlineLatexDesc": "Enable rendering of inline Latex code, this is code that is present in between dollar signs. If false dollar sings and the text in between them is rendered normally.",
+  "admin.customization.enableInlineLatexTitle": "Enable Inline Latex Rendering:",
   "admin.customization.enableLatexDesc": "Enable rendering of Latex code. If false, Latex code will be highlighted only.",
   "admin.customization.enableLatexTitle": "Enable Latex Rendering:",
   "admin.customization.enableLinkPreviewsDesc": "Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.",

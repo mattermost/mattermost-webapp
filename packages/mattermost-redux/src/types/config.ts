@@ -73,6 +73,7 @@ export type ClientConfig = {
     EnableGuestAccounts: string;
     EnableIncomingWebhooks: string;
     EnableLatex: string;
+    EnableInlineLatex: string;
     EnableLdap: string;
     EnableLegacySidebar: string;
     EnableLinkPreviews: string;
