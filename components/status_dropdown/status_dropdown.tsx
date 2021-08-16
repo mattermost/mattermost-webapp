@@ -293,7 +293,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
     render = (): JSX.Element => {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const dropdownIcon = this.renderDropdownIcon();
-        const {isTimedDNDEnabled, customStatus, isCustomStatusExpired} = this.props;
+        const {isTimedDNDEnabled, customStatus, isCustomStatusExpired, globalHeader} = this.props;
         const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0) && !isCustomStatusExpired;
 
         const setOnline = needsConfirm ? () => this.showStatusChangeConfirmation('online') : this.setOnline;
@@ -325,8 +325,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
                 text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                 icon={<StatusDndIcon className={'dnd--icon'}/>}
-                direction={this.props.globalHeader ? 'left' : 'right'}
-                renderRight={this.props.globalHeader}
+                direction={globalHeader ? 'left' : 'right'}
                 openUp={this.state.openUp}
                 id={'status-menu-dnd-timed'}
             />
@@ -350,18 +349,18 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 onToggle={this.onToggle}
                 open={this.props.isStatusDropdownOpen}
                 className={classNames('status-dropdown-menu', {
-                    'status-dropdown-menu-global-header': this.props.globalHeader,
+                    'status-dropdown-menu-global-header': globalHeader,
                     active: this.props.isStatusDropdownOpen || isStatusSet,
                 })}
             >
                 <div className='status-wrapper status-selector'>
-                    {this.props.globalHeader &&
+                    {globalHeader &&
                         <CustomStatusEmoji
                             showTooltip={false}
                             emojiStyle={{marginRight: '6px'}}
                         />
                     }
-                    {this.renderProfilePicture(this.props.globalHeader ? 'sm' : 'lg')}
+                    {this.renderProfilePicture(globalHeader ? 'sm' : 'lg')}
                     <button
                         className='status style--none'
                         aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
@@ -372,7 +371,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                         />
                     </button>
                     <span className={'status status-edit edit'}>
-                        {dropdownIcon}
+                        {!globalHeader && dropdownIcon}
                     </span>
                 </div>
                 <Menu
@@ -387,7 +386,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             />
                         </Menu.Header>
                     )}
-                    {this.props.globalHeader && (
+                    {globalHeader && (
                         <Menu.Header>
                             {this.renderProfilePicture('lg')}
                             <div className={'username-wrapper'}>

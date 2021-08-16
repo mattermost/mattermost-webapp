@@ -68,7 +68,10 @@ const MenuItem = styled(Link)`
 
 const StyledIcon = styled(Icon)`
     color: var(--button-bg);
-    font-size: 24px;
+    ::before {
+        font-size: 28.8px;
+        line-height: 28.8px;
+    }
 `;
 
 const MenuItemTextContainer = styled.div`

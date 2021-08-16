@@ -126,47 +126,6 @@
     }
 }
 
-.status-dropdown-menu-global-header {
-    padding: 4px 8px;
-    border-radius: 4px;
-
-    &:hover {
-        background: var(--sidebar-text-08);
-    }
-
-    &.active {
-        background: var(--sidebar-text-16);
-    }
-
-    .Menu__content {
-        left: -200px;
-    }
-
-    .username-wrapper {
-        padding: 0 12px;
-    }
-
-    .MenuHeader {
-        height: 50px;
-        padding: 0 16px;
-    }
-
-    .status-wrapper {
-        display: flex;
-        height: auto;
-        align-items: center;
-
-        .status {
-            background: var(--sidebar-header-bg);
-            color: var(--sidebar-header-text-color);
-
-            svg {
-                top: 0;
-            }
-        }
-    }
-}
-
 .status-dropdown-menu,
 .StatusModal__input {
     .input-clear-x {

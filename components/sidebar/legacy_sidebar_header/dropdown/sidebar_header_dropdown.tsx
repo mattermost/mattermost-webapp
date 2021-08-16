@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import IconButton from '@mattermost/compass-components/components/icon-button';
-
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import * as GlobalActions from 'actions/global_actions';
