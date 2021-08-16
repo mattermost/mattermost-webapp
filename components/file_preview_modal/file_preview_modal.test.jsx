@@ -5,7 +5,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
-import PopoverBar from 'components/file_preview_modal/popover_bar';
 import FilePreviewModal from 'components/file_preview_modal/file_preview_modal';
 
 import Constants from 'utils/constants';
@@ -82,33 +81,6 @@ describe('components/FilePreviewModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, loaded with left and right arrows', () => {
-        const fileInfos = [
-            {id: 'file_id_1', extension: 'gif'},
-            {id: 'file_id_2', extension: 'wma'},
-            {id: 'file_id_3', extension: 'mp4'},
-        ];
-        const props = {...baseProps, fileInfos};
-        const wrapper = shallow(<FilePreviewModal {...props}/>);
-
-        wrapper.setState({loaded: [true, true, true], showCloseBtn: false});
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('#previewArrowLeft').exists()).toBe(true);
-        expect(wrapper.find('#previewArrowRight').exists()).toBe(true);
-
-        wrapper.find('#previewArrowRight').simulate('click', {stopPropagation: jest.fn()});
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.state('imageIndex')).toBe(1);
-        wrapper.find('#previewArrowRight').simulate('click', {stopPropagation: jest.fn()});
-        expect(wrapper.state('imageIndex')).toBe(2);
-
-        wrapper.find('#previewArrowLeft').simulate('click', {stopPropagation: jest.fn()});
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.state('imageIndex')).toBe(1);
-        wrapper.find('#previewArrowLeft').simulate('click', {stopPropagation: jest.fn()});
-        expect(wrapper.state('imageIndex')).toBe(0);
-    });
-
     test('should match snapshot, loaded with footer', () => {
         const fileInfos = [
             {id: 'file_id_1', extension: 'gif'},
@@ -180,7 +152,7 @@ describe('components/FilePreviewModal', () => {
             loaded: [true],
             showCloseBtn: true,
         });
-        wrapper.instance().handleGetPublicLink();
+        wrapper.instance().handleModalClose();
 
         expect(newOnModalDismissed).toHaveBeenCalledTimes(1);
     });
@@ -322,29 +294,5 @@ describe('components/FilePreviewModal', () => {
         const wrapper = shallow(<FilePreviewModal {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should pass isExternalFile to PopoverBar correctly for an internal file', () => {
-        const wrapper = shallow(<FilePreviewModal {...baseProps}/>);
-
-        wrapper.setState({loaded: [true]});
-
-        expect(wrapper.find(PopoverBar).prop('isExternalFile')).toBe(false);
-    });
-
-    test('should pass isExternalFile to PopoverBar correctly for an external file', () => {
-        const props = {
-            ...baseProps,
-            fileInfos: [{
-                link: 'https://example.com/image.png',
-                extension: 'png',
-            }],
-        };
-
-        const wrapper = shallow(<FilePreviewModal {...props}/>);
-
-        wrapper.setState({loaded: [true]});
-
-        expect(wrapper.find(PopoverBar).prop('isExternalFile')).toBe(true);
     });
 });
