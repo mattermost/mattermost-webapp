@@ -50,8 +50,9 @@ export function sendDesktopNotification(post, msgProps) {
             mentions = JSON.parse(msgProps.mentions);
         }
 
+        let followers = [];
         if (msgProps.followers) {
-            const followers = JSON.parse(msgProps.followers) || [];
+            followers = JSON.parse(msgProps.followers);
             mentions = [...new Set([...followers, ...mentions])];
         }
 
@@ -77,6 +78,9 @@ export function sendDesktopNotification(post, msgProps) {
         if (notifyLevel === NotificationLevels.NONE) {
             return;
         } else if (notifyLevel === NotificationLevels.MENTION && mentions.indexOf(user.id) === -1 && msgProps.channel_type !== Constants.DM_CHANNEL) {
+            return;
+        } else if (isCrtReply && notifyLevel === NotificationLevels.ALL && followers.indexOf(currentUserId) === -1) {
+            // if user is not following the thread don't notify
             return;
         }
 
