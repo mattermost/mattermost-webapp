@@ -6,7 +6,7 @@ import {shallow, mount} from 'enzyme';
 
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import * as Utils from 'utils/utils.jsx';
 

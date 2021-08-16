@@ -48,6 +48,8 @@ import {
     autocompleteUsersInChannel,
     autocompleteChannels,
     UserProfile,
+    getOpenInModalSuggestion,
+    OPEN_COMMAND_IN_MODAL_ITEM_ID,
 } from './app_command_parser_dependencies';
 
 export interface Store {
@@ -644,6 +646,64 @@ export class AppCommandParser {
         return this.composeCallFromParsed(parsed);
     }
 
+    public composeFormFromCommand = async (command: string): Promise<{form: AppForm | null; call: AppCallRequest | null; errorMessage?: string}> => {
+        let parsed = new ParsedCommand(command, this, this.intl);
+
+        const commandBindings = this.getCommandBindings();
+        if (!commandBindings) {
+            return {
+                form: null,
+                call: null,
+                errorMessage: this.intl.formatMessage({
+                    id: 'apps.error.parser.no_bindings',
+                    defaultMessage: 'No command bindings.',
+                })};
+        }
+
+        parsed = await parsed.matchBinding(commandBindings, false);
+        parsed = parsed.parseForm(false);
+
+        const form = JSON.parse(JSON.stringify(parsed.form));
+        if (!form) {
+            return {form: null,
+                call: null,
+                errorMessage: this.intl.formatMessage({
+                    id: 'apps.error.parser.no_form',
+                    defaultMessage: 'No form found.',
+                })};
+        }
+
+        const call = parsed.form?.call || parsed.binding?.call;
+
+        if (!call) {
+            return {form: null,
+                call: null,
+                errorMessage: this.intl.formatMessage({
+                    id: 'apps.error.parser.no_call',
+                    defaultMessage: 'No call found.',
+                })};
+        }
+
+        const values: AppCallValues = parsed.values;
+        const {errorMessage} = await this.expandOptions(parsed, values);
+        if (errorMessage) {
+            return {form: null, call: null, errorMessage};
+        }
+
+        for (const field of form.fields || []) {
+            if (values[field.name]) {
+                field.value = values[field.name];
+            }
+        }
+
+        if (!form.title) {
+            form.title = parsed.binding?.location;
+        }
+
+        const context = this.getAppContext(parsed.binding!);
+        return {form, call: createCallRequest(call, context)};
+    }
+
     private async addDefaultAndReadOnlyValues(parsed: ParsedCommand) {
         if (!parsed.form?.fields) {
             return;
@@ -770,6 +830,11 @@ export class AppCommandParser {
             ParseState.ParameterSeparator,
             ParseState.EndValue,
         ];
+
+        const modalStates: string[] = [
+            ParseState.StartParameter,
+            ParseState.Error,
+        ];
         const call = parsed.form?.call || parsed.binding?.call || parsed.binding?.form?.call;
         const hasRequired = this.getMissingFields(parsed).length === 0;
         const hasValue = (parsed.state !== ParseState.EndValue || (parsed.field && parsed.values[parsed.field.name] !== undefined));
@@ -782,6 +847,14 @@ export class AppCommandParser {
         } else if (suggestions.length === 0 && (parsed.field?.type !== AppFieldTypes.USER && parsed.field?.type !== AppFieldTypes.CHANNEL)) {
             suggestions = this.getNoMatchingSuggestion();
         }
+
+        if (modalStates.includes(parsed.state) && call && parsed.form?.fields && parsed.form.fields.length > 0) {
+            const open = getOpenInModalSuggestion(parsed);
+            if (open) {
+                suggestions = [...suggestions, open];
+            }
+        }
+
         return suggestions.map((suggestion) => this.decorateSuggestionComplete(parsed, suggestion));
     }
 
@@ -853,7 +926,7 @@ export class AppCommandParser {
             }
             switch (f.type) {
             case AppFieldTypes.DYNAMIC_SELECT:
-                values[f.name] = {label: '', value: values[f.name]};
+                values[f.name] = {label: values[f.name], value: values[f.name]};
                 break;
             case AppFieldTypes.STATIC_SELECT: {
                 const option = f.options?.find((o) => (o.value === values[f.name]));
@@ -916,6 +989,14 @@ export class AppCommandParser {
                 values[f.name] = {label: channel?.display_name, value: channel?.id};
                 break;
             }
+            case AppFieldTypes.BOOL: {
+                const strValue = values[f.name] as string;
+                if (strValue.toLowerCase() === 'true') {
+                    values[f.name] = true;
+                } else {
+                    values[f.name] = false;
+                }
+            }
             }
         }));
 
@@ -932,7 +1013,9 @@ export class AppCommandParser {
 
     // decorateSuggestionComplete applies the necessary modifications for a suggestion to be processed
     private decorateSuggestionComplete = (parsed: ParsedCommand, choice: AutocompleteSuggestion): AutocompleteSuggestion => {
-        if (choice.Complete && choice.Complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
+        if (choice.Complete && (
+            choice.Complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID) ||
+            choice.Complete.endsWith(OPEN_COMMAND_IN_MODAL_ITEM_ID))) {
             return choice as AutocompleteSuggestion;
         }
 

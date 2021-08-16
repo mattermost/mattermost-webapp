@@ -19,6 +19,12 @@ import {makeCallErrorResponse} from 'utils/apps';
 
 import {cleanForm} from 'mattermost-redux/utils/apps';
 
+import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
+import {getCurrentTeamId, getPost, GlobalState, intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
+import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
+import {getSelectedPostId} from 'selectors/rhs';
+
 import {sendEphemeralPost} from './global_actions';
 
 export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, intl: any): ActionFunc {
@@ -87,6 +93,27 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
             });
             return {error: makeCallErrorResponse(errMsg)};
         }
+    };
+}
+
+export function openModalFromCommand(rawCommand: string, isRHS: boolean) {
+    return async (dispatch: DispatchFunc, getState: () => GlobalState) => {
+        const state = getState();
+        const teamID = getCurrentTeamId(state);
+        let channelID = getCurrentChannelId(state);
+        let rootID = '';
+        if (isRHS) {
+            rootID = getSelectedThreadIdInCurrentTeam(state) || getSelectedPostId(state) || '';
+            const rootPost = getPost(state, rootID);
+            channelID = rootPost.channel_id;
+        }
+
+        const parser = new AppCommandParser({dispatch, getState}, intlShim, channelID, teamID, rootID);
+        const {form, call} = await parser.composeFormFromCommand(rawCommand);
+        if (!form || !call) {
+            return;
+        }
+        dispatch(openAppsModal(form, call));
     };
 }
 

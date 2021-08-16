@@ -2460,6 +2460,8 @@
   "apps.error.parser.multiple_equal": "Multiple `=` signs are not allowed.",
   "apps.error.parser.no_argument_pos_x": "Unable to identify argument.",
   "apps.error.parser.no_bindings": "No command bindings.",
+  "apps.error.parser.no_call": "No call found.",
+  "apps.error.parser.no_form": "No form found.",
   "apps.error.parser.no_match": "`{command}`: No matching command found in this workspace.",
   "apps.error.parser.no_slash_start": "Command must start with a `/`.",
   "apps.error.parser.unexpected_error": "Unexpected error.",
