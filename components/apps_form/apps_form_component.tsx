@@ -26,7 +26,7 @@ import Markdown from 'components/markdown';
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
 
-import './apps_form.css';
+import './apps_form_component.css';
 
 export type AppsFormProps = {
     form: AppForm;
