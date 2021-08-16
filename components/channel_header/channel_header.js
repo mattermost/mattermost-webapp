@@ -210,7 +210,7 @@ class ChannelHeader extends React.PureComponent {
             this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
 
-        this.setState({topOffset: (announcementBarSize * this.props.announcementBarCount)});
+        this.setState({topOffset: (announcementBarSize * this.props.announcementBarCount) + this.props.globalHeaderEnabled ? 40 : 0});
     }
 
     setPopoverOverlayWidth = () => {
