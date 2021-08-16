@@ -4,8 +4,8 @@
 import React from 'react';
 
 type SvgProps = {
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
 }
 
 const LdapSVG = (props: SvgProps) => (
