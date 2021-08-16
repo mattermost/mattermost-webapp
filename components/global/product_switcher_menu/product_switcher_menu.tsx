@@ -105,10 +105,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 glyph={'webhook-incoming'}
                             />
                         }
-                        onClick={() => {
-                            console.log('##### menuAction clicked!!!');
-                            handleClick();
-                        }}
+                        onClick={handleClick}
                     />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
