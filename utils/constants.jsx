@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -23,10 +25,6 @@ import githubIcon from 'images/themes/code_themes/github.png';
 import monokaiIcon from 'images/themes/code_themes/monokai.png';
 import solarizedDarkIcon from 'images/themes/code_themes/solarized-dark.png';
 import solarizedLightIcon from 'images/themes/code_themes/solarized-light.png';
-import mattermostThemeImage from 'images/themes/mattermost.png';
-import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
-import defaultThemeImage from 'images/themes/organization.png';
-import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import {t} from 'utils/i18n';
@@ -444,8 +442,16 @@ export const SocketEvents = {
 export const TutorialSteps = {
     POST_POPOVER: 0,
     CHANNEL_POPOVER: 1,
-    MENU_POPOVER: 2,
+    ADD_CHANNEL_POPOVER: 2,
+    MENU_POPOVER: 3,
+    PRODUCT_SWITCHER: 4,
+    SETTINGS: 5,
     FINISHED: 999,
+};
+
+export const TopLevelProducts = {
+    BOARDS: 'Boards',
+    PLAYBOOKS: 'Playbooks',
 };
 
 export const RecommendedNextSteps = {
@@ -454,7 +460,6 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
-    ENTER_SUPPORT_EMAIL: 'enter_support_email',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -1133,120 +1138,6 @@ export const Constants = {
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
     DEFAULT_EMOJI_PICKER_RIGHT_OFFSET: 15,
     EMOJI_PICKER_WIDTH_OFFSET: 295,
-    THEMES: {
-        default: {
-            type: 'Mattermost',
-            sidebarBg: '#145dbf',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#4578bf',
-            sidebarTextActiveBorder: '#579eff',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#1153ab',
-            sidebarTeamBarBg: '#0b428c',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#06d6a0',
-            awayIndicator: '#ffbc42',
-            dndIndicator: '#f74343',
-            mentionBg: '#ffffff',
-            mentionColor: '#145dbf',
-            centerChannelBg: '#ffffff',
-            centerChannelColor: '#3d3c40',
-            newMessageSeparator: '#ff8800',
-            linkColor: '#2389d7',
-            buttonBg: '#166de0',
-            buttonColor: '#ffffff',
-            errorTextColor: '#fd5960',
-            mentionHighlightBg: '#ffe577',
-            mentionHighlightLink: '#166de0',
-            codeTheme: 'github',
-            image: mattermostThemeImage,
-        },
-        organization: {
-            type: 'Organization',
-            sidebarBg: '#2071a7',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#136197',
-            sidebarTextActiveBorder: '#7ab0d6',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#2f81b7',
-            sidebarTeamBarBg: '#256996',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#7dbe00',
-            awayIndicator: '#dcbd4e',
-            dndIndicator: '#ff6a6a',
-            mentionBg: '#fbfbfb',
-            mentionColor: '#2071f7',
-            centerChannelBg: '#f2f4f8',
-            centerChannelColor: '#333333',
-            newMessageSeparator: '#ff8800',
-            linkColor: '#2f81b7',
-            buttonBg: '#1dacfc',
-            buttonColor: '#ffffff',
-            errorTextColor: '#a94442',
-            mentionHighlightBg: '#f3e197',
-            mentionHighlightLink: '#2f81b7',
-            codeTheme: 'github',
-            image: defaultThemeImage,
-        },
-        mattermostDark: {
-            type: 'Mattermost Dark',
-            sidebarBg: '#1b2c3e',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#4a5664',
-            sidebarTextActiveBorder: '#66b9a7',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#1b2c3e',
-            sidebarTeamBarBg: '#152231',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#65dcc8',
-            awayIndicator: '#c1b966',
-            dndIndicator: '#e81023',
-            mentionBg: '#b74a4a',
-            mentionColor: '#ffffff',
-            centerChannelBg: '#2f3e4e',
-            centerChannelColor: '#dddddd',
-            newMessageSeparator: '#5de5da',
-            linkColor: '#a4ffeb',
-            buttonBg: '#4cbba4',
-            buttonColor: '#ffffff',
-            errorTextColor: '#ff6461',
-            mentionHighlightBg: '#984063',
-            mentionHighlightLink: '#a4ffeb',
-            codeTheme: 'solarized-dark',
-            image: mattermostDarkThemeImage,
-        },
-        windows10: {
-            type: 'Windows Dark',
-            sidebarBg: '#171717',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#302e30',
-            sidebarTextActiveBorder: '#196caf',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#1f1f1f',
-            sidebarTeamBarBg: '#181818',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#399fff',
-            awayIndicator: '#c1b966',
-            dndIndicator: '#e81023',
-            mentionBg: '#0177e7',
-            mentionColor: '#ffffff',
-            centerChannelBg: '#1f1f1f',
-            centerChannelColor: '#dddddd',
-            newMessageSeparator: '#cc992d',
-            linkColor: '#0d93ff',
-            buttonBg: '#0177e7',
-            buttonColor: '#ffffff',
-            errorTextColor: '#ff6461',
-            mentionHighlightBg: '#784098',
-            mentionHighlightLink: '#a4ffeb',
-            codeTheme: 'monokai',
-            image: windows10ThemeImage,
-        },
-    },
     THEME_ELEMENTS: [
         {
             group: 'sidebarElements',

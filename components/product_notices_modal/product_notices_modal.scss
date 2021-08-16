@@ -27,7 +27,7 @@
     .productNotices__img {
         display: block;
         max-height: 347px;
-        border: 1px solid var(--center-channel-color-16);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         margin: 32px auto 0;
         border-radius: 4px;
     }

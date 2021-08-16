@@ -84,7 +84,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
             "type": [Function],
           }
         }
-        extraText="Add or invite people to the team"
+        extraText="Add people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -281,7 +281,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         id="marketplaceModal"
         modalId="plugin_marketplace"
         show={true}
-        showUnread={true}
         text="Marketplace"
       />
     </Connect(TeamPermissionGate)>
@@ -369,6 +368,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       text="Help"
     />
     <MenuItemAction
+      icon={false}
       id="gettingStarted"
       onClick={[Function]}
       show={true}

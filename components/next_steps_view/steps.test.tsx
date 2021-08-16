@@ -68,7 +68,7 @@ describe('components/next_steps_view/steps', () => {
         expect(isOnboardingHidden(state as any)).toBe(true);
     });
 
-    test('should not show the view if all steps are complete', () => {
+    test('myPreferences all completed and nextStepsNotFinished is false', () => {
         const state = {
             entities: {
                 general: {
@@ -105,7 +105,8 @@ describe('components/next_steps_view/steps', () => {
             },
         };
 
-        expect(nextStepsNotFinished(state as any)).toBe(true);
+        // all the steps are finished
+        expect(nextStepsNotFinished(state as any)).toBe(false);
     });
 
     test('should only show admin steps for admin users', () => {
@@ -124,7 +125,7 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(5);
+        expect(getSteps(state as any)).toHaveLength(4);
     });
 
     test('should only show the complete_profile_step to guest users', () => {

@@ -78,7 +78,7 @@ function verifyInviteMembersModal(team) {
 
     // * Verify Share Link Header and helper text
     cy.findByTestId('shareLink').should('be.visible').within(($el) => {
-        cy.wrap($el).find('h2 > span').should('have.text', 'Share This Link');
+        cy.wrap($el).find('h5 > span').should('have.text', 'Share This Link');
         cy.wrap($el).find('.help-text > span').should('have.text', 'Share this link to invite people to this team.');
     });
 }

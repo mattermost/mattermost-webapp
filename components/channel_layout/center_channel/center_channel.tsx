@@ -100,7 +100,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                         <ChannelHeaderMobile/>
                     </div>
                 </div>
-                <div className={classNames('row main', {'CollapsedReplies___feature-enabled': isCollapsedThreadsEnabled})}>
+                <div className='row main'>
                     <Switch>
                         <Route
                             path={`${url}/pl/:postid`}

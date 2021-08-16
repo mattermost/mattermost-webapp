@@ -257,7 +257,8 @@
                         }
                     }
 
-                    &.post--root {
+                    &.post--root,
+                    .post-preview {
                         .post__img {
                             img {
                                 display: block;
