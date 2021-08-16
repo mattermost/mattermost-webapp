@@ -294,7 +294,6 @@
 
             span {
                 color: rgba(var(--center-channel-color-rgb), 0.9);
-                font-size: 14px;
                 white-space: nowrap;
             }
 
@@ -520,39 +519,44 @@
     }
 
     .SidebarCategory_newDropBox {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border: 1px dashed rgba(var(--sidebar-text-rgb), 0.3);
-        margin: 0 16px;
-        border-radius: 4px;
+        padding-bottom: 6px;
+        margin-bottom: -6px;
 
-        > i {
-            color: rgba(var(--sidebar-text-rgb), 0.6);
-            font-size: 18px;
-            line-height: 16px;
-        }
+        .SidebarCategory_newDropBox-content {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px dashed rgba(var(--sidebar-text-rgb), 0.3);
+            margin: 0 16px;
+            border-radius: 4px;
 
-        .SidebarCategory_newDropBox-label {
-            margin-left: 8px;
-            color: rgba(var(--sidebar-text-rgb), 0.72);
-            font-size: 12px;
-            line-height: 16px;
-        }
+            > i {
+                color: rgba(var(--sidebar-text-rgb), 0.6);
+                font-size: 18px;
+                line-height: 16px;
+            }
 
-        &.animating {
-            transition-duration: 0.15s; /* collapse animation speed */
-            transition-property: height, padding, color;
-            transition-timing-function: ease-out;
-        }
+            .SidebarCategory_newDropBox-label {
+                margin-left: 8px;
+                color: rgba(var(--sidebar-text-rgb), 0.72);
+                font-size: 12px;
+                line-height: 16px;
+            }
 
-        &.collapsed {
-            height: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-            border-top: none;
-            border-bottom: none;
-            overflow-y: hidden;
+            &.animating {
+                transition-duration: 0.15s; /* collapse animation speed */
+                transition-property: height, padding, color;
+                transition-timing-function: ease-out;
+            }
+
+            &.collapsed {
+                height: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+                border-top: none;
+                border-bottom: none;
+                overflow-y: hidden;
+            }
         }
     }
 
@@ -714,11 +718,6 @@
         }
     }
 
-    .SidebarChannelGroup:not(.autoSortedCategory) .draggingOver .SidebarChannelGroupHeader:hover {
-        border-radius: 4px;
-        box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
-    }
-
     .SidebarChannelGroupHeader_groupButton {
         z-index: 1;
         top: 0;
@@ -830,7 +829,7 @@
         font-size: 12px;
     }
 
-    .SidebarChannelGroup.autoSortedCategory .draggingOver {
+    .SidebarChannelGroup .draggingOver {
         border-radius: 4px;
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
 

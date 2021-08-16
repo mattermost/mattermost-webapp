@@ -18,6 +18,7 @@
         "PostEditTimeLimit": -1,
         "EnablePreviewFeatures": true,
         "EnableTutorial": true,
+        "EnableOnboardingFlow": false,
         "ExperimentalEnableDefaultChannelLeaveJoinMessages": true,
         "ExperimentalGroupUnreadChannels": "disabled",
         "EnableAPITeamDeletion": true,
@@ -215,7 +216,8 @@
         "Enable": false
     },
     "ExperimentalSettings": {
-        "RestrictSystemAdmin": false
+        "RestrictSystemAdmin": true,
+        "CloudBilling": true
     },
     "DataRetentionSettings": {
         "EnableMessageDeletion": false,

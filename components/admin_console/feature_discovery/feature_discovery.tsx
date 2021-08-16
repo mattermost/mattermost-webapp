@@ -6,14 +6,18 @@ import {FormattedMessage} from 'react-intl';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {ClientLicense} from 'mattermost-redux/types/config';
 
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+
+import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import PurchaseModal from 'components/purchase_modal';
 
 import './feature_discovery.scss';
-import {ClientLicense} from 'mattermost-redux/types/config';
 
 type Props = {
     featureName: string;
@@ -35,7 +39,9 @@ type Props = {
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
         getLicenseConfig: () => void;
         getPrevTrialLicense: () => void;
+        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
+    isCloud: boolean;
 }
 
 type State = {
@@ -76,23 +82,48 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         this.props.actions.getLicenseConfig();
     }
 
+    openUpgradeModal = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        trackEvent(
+            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+            'click_subscribe_from_feature_discovery',
+        );
+
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        });
+    }
+
     renderStartTrial = (learnMoreURL: string, gettingTrialError: React.ReactNode) => {
+        let primaryMessage = (
+            <FormattedMessage
+                id='admin.ldap_feature_discovery.call_to_action.primary'
+                defaultMessage='Start trial'
+            />
+        );
+        if (this.props.isCloud) {
+            primaryMessage = (
+                <FormattedMessage
+                    id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
+                    defaultMessage='Subscribe now'
+                />
+            );
+        }
         return (
             <React.Fragment>
                 <button
                     type='button'
                     className='btn btn-primary'
                     data-testid='featureDiscovery_primaryCallToAction'
-                    onClick={this.requestLicense}
+                    onClick={this.props.isCloud ? this.openUpgradeModal : this.requestLicense}
                 >
                     <LoadingWrapper
                         loading={this.state.gettingTrial}
                         text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
                     >
-                        <FormattedMessage
-                            id='admin.ldap_feature_discovery.call_to_action.primary'
-                            defaultMessage='Start trial'
-                        />
+                        {primaryMessage}
                     </LoadingWrapper>
                 </button>
                 <a
@@ -108,12 +139,12 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     />
                 </a>
                 {gettingTrialError}
-                <p className='trial-legal-terms'>
+                {!this.props.isCloud && <p className='trial-legal-terms'>
                     <FormattedMarkdownMessage
                         id='admin.license.trial-request.accept-terms'
                         defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
                     />
-                </p>
+                </p>}
             </React.Fragment>
         );
     }

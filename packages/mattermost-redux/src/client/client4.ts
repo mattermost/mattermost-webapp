@@ -1541,15 +1541,6 @@ export default class Client4 {
         );
     };
 
-    convertChannelToPrivate = (channelId: string) => {
-        this.trackEvent('api', 'api_channels_convert_to_private', {channel_id: channelId});
-
-        return this.doFetch<Channel>(
-            `${this.getChannelRoute(channelId)}/convert`,
-            {method: 'post'},
-        );
-    };
-
     updateChannelPrivacy = (channelId: string, privacy: any) => {
         this.trackEvent('api', 'api_channels_update_privacy', {channel_id: channelId, privacy});
 
@@ -2822,13 +2813,6 @@ export default class Client4 {
     updateConfig = (config: AdminConfig) => {
         return this.doFetch<AdminConfig>(
             `${this.getBaseRoute()}/config`,
-            {method: 'put', body: JSON.stringify(config)},
-        );
-    };
-
-    patchConfig = (config: AdminConfig) => {
-        return this.doFetch<AdminConfig>(
-            `${this.getBaseRoute()}/config/patch`,
             {method: 'put', body: JSON.stringify(config)},
         );
     };

@@ -1,39 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
-import IconButton from '@mattermost/compass-components/components/icon-button';
 import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
-import {TutorialSteps} from 'utils/constants';
+import IconButton from '@mattermost/compass-components/components/icon-button';
+import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
-import {ChannelsIcon} from './assets';
-import {useClickOutsideRef, useCurrentProductId, useProducts, useShowTutorialStep} from './hooks';
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+
+import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
+import ProductSwitcherMenu from './product_switcher_menu';
 import ProductSwitcherTip from './product_switcher_tip';
 
-interface SwitcherMenuProps {
-    open: boolean;
+interface SwitcherNavEntryProps {
+    destination: string;
+    icon: TIconGlyph;
+    text: React.ReactNode;
+    active: boolean;
+    onClick: () => void;
 }
 
-const SwitcherMenu = styled.div<SwitcherMenuProps>`
-    visibility: ${(props) => (props.open ? 'visible' : 'hidden')};
-    position: absolute;
-    top: 35px;
-    left: 5px;
-    margin-left: 12px;
-    z-index: 1000;
-    background: var(--center-channel-bg);
+const ProductSwitcherContainer = styled.nav`
     display: flex;
-    flex-direction: column;
-    width: 273px;
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
-    border-radius: 4px;
-    padding-top: 14px;
-    padding-bottom: 5px;
-    color: var(--center-channel-color);
+    align-items: center;
+
+    > * + * {
+        margin-left: 12px;
+    }
 `;
 
 const SwitcherMenuDescriptiveText = styled.div`
@@ -63,6 +59,14 @@ const MenuItem = styled(Link)`
         text-decoration: none;
         color: inherit;
     }
+
+    button {
+        padding: 0 6px;
+    }
+`;
+
+const StyledIcon = styled(Icon)`
+    color: var(--sidebar-bg);
 `;
 
 const MenuItemTextContainer = styled.div`
@@ -73,15 +77,28 @@ const MenuItemTextContainer = styled.div`
     line-height: 20px;
 `;
 
-const LinkIcon = styled.i`
-    width: 14px;
-    height: 14px;
-    color: rgba(var(--center-channel-color-rgb), 0.56);
-`;
+const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNavEntryProps) => {
+    return (
+        <MenuItem
+            to={destination}
+            onClick={onClick}
+        >
+            <StyledIcon glyph={icon || 'none'}/>
+            <MenuItemTextContainer>
+                {text}
+            </MenuItemTextContainer>
+            {active &&
+                <Icon
+                    size={16}
+                    glyph='check'
+                />
+            }
+        </MenuItem>
+    );
+};
 
 const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
-    const showTutorialStep = useShowTutorialStep(TutorialSteps.PRODUCT_SWITCHER, products);
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -93,7 +110,7 @@ const ProductSwitcher = (): JSX.Element => {
         setSwitcherOpen(false);
     });
 
-    const items = products?.map((product) => {
+    const productItems = products?.map((product) => {
         return (
             <SwitcherNavEntry
                 key={product.id}
@@ -101,61 +118,49 @@ const ProductSwitcher = (): JSX.Element => {
                 icon={product.switcherIcon}
                 text={product.switcherText}
                 active={product.id === currentProductID}
+                onClick={handleClick}
             />
         );
     });
 
     return (
         <div ref={menuRef}>
-            <IconButton
-                icon={'products'}
-                onClick={handleClick}
-                size={'sm'}
-                toggled={switcherOpen}
-                inverted={true}
-            />
-            {showTutorialStep && <ProductSwitcherTip/>}
-            <SwitcherMenu
+            <MenuWrapper
                 open={switcherOpen}
             >
-                <SwitcherMenuDescriptiveText>
-                    <FormattedMessage
-                        defaultMessage='Open...'
-                        id='global_header.open'
+                <ProductSwitcherContainer>
+                    <IconButton
+                        icon={'products'}
+                        onClick={handleClick}
+                        size={'sm'}
+                        compact={true}
+                        toggled={switcherOpen}
+                        inverted={true}
+                        aria-label='Select to open product switch menu.'
                     />
-                </SwitcherMenuDescriptiveText>
-                <SwitcherNavEntry
-                    destination={'/'}
-                    icon={<ChannelsIcon/>}
-                    text={'Channels'}
-                    active={currentProductID === null}
-                />
-                {items}
-            </SwitcherMenu>
+                    <ProductSwitcherTip/>
+                </ProductSwitcherContainer>
+                <Menu
+                    ariaLabel={'switcherOpen'}
+                >
+                    <SwitcherMenuDescriptiveText>
+                        <FormattedMessage
+                            defaultMessage='Open...'
+                            id='global_header.open'
+                        />
+                    </SwitcherMenuDescriptiveText>
+                    <SwitcherNavEntry
+                        destination={'/'}
+                        icon={'product-channels'}
+                        text={'Channels'}
+                        active={currentProductID === null}
+                        onClick={handleClick}
+                    />
+                    {productItems}
+                    <ProductSwitcherMenu id='ProductSwitcherMenu'/>
+                </Menu>
+            </MenuWrapper>
         </div>
-    );
-};
-
-interface SwitcherNavEntryProps {
-    destination: string;
-    icon: React.ReactNode;
-    text: React.ReactNode;
-    active: boolean;
-}
-
-const SwitcherNavEntry = (props: SwitcherNavEntryProps) => {
-    return (
-        <MenuItem
-            to={props.destination}
-        >
-            {props.icon}
-            <MenuItemTextContainer>
-                {props.text}
-            </MenuItemTextContainer>
-            {props.active &&
-                <LinkIcon className={'fa fa-check'}/>
-            }
-        </MenuItem>
     );
 };
 
