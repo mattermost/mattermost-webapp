@@ -18,7 +18,7 @@
         "PostEditTimeLimit": -1,
         "EnablePreviewFeatures": true,
         "EnableTutorial": true,
-        "EnableOnboardingFlow": true,
+        "EnableOnboardingFlow": false,
         "ExperimentalEnableDefaultChannelLeaveJoinMessages": true,
         "ExperimentalGroupUnreadChannels": "disabled",
         "EnableAPITeamDeletion": true,

@@ -19,20 +19,20 @@ import {
 
 describe('Onboarding', () => {
     let testTeam;
-    let isCloudLicensed;
     let isLicensed;
     let siteName;
 
     before(() => {
         cy.apiGetClientLicense().then((data) => {
-            ({isLicensed, isCloudLicensed} = data);
+            ({isLicensed} = data);
         });
 
         // # Do email test if setup properly
         cy.apiEmailTest();
 
-        // # Update config to require email verification
+        // # Update config to require email verification and onboarding flow
         cy.apiUpdateConfig({
+            ServiceSettings: {EnableOnboardingFlow: true},
             EmailSettings: {
                 RequireEmailVerification: true,
             },
@@ -84,9 +84,7 @@ describe('Onboarding', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Check that 'Mattermost: You are almost done' text should be visible when email hasn't been verified yet
-        cy.get('.signup-team__container').should('be.visible').within(() => {
-            cy.findByText('Mattermost: You are almost done').should('be.visible');
-        });
+        cy.findByText('Mattermost: You are almost done').should('be.visible');
 
         cy.getRecentEmail(user).then((data) => {
             const {body: expectedBody} = data;
@@ -120,14 +118,6 @@ describe('Onboarding', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        if (isCloudLicensed) {
-            cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
-        } else {
-            cy.get('#tutorialIntroOne').should('be.visible').
-                and('contain', 'Welcome to:').
-                and('contain', 'Mattermost').
-                and('contain', 'Your team communication all in one place, instantly searchable and available anywhere.').
-                and('contain', 'Keep your team connected to help them achieve what matters most.');
-        }
+        cy.findByText('Welcome to Mattermost').should('be.visible');
     });
 });

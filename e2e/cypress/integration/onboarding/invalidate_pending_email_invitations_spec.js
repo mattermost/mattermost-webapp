@@ -32,8 +32,11 @@ describe('Onboarding', () => {
     before(() => {
         cy.shouldRunOnTeamEdition();
 
-        // # Disable LDAP and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}}).then(({config}) => {
+        // # Disable LDAP, enable onboarding and do email test if setup properly
+        cy.apiUpdateConfig({
+            LdapSettings: {Enable: false},
+            ServiceSettings: {EnableOnboardingFlow: true},
+        }).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
         cy.apiEmailTest();
