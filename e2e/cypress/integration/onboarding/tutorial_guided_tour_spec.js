@@ -13,7 +13,7 @@ const selectors = {
     tip: '#tipButton',
     tipNext: '#tipNextButton',
     tipText: '.tip-overlay',
-}
+};
 
 describe('Onboarding', () => {
     before(() => {
