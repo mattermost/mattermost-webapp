@@ -3727,8 +3727,6 @@
   "next_steps_view.complete_profile_step.saveProfile": "Guardar perfil",
   "next_steps_view.complete_profile_step.yourFullName": "Tu nombre completo",
   "next_steps_view.downloadDesktopAndMobile": "Descarga las aplicaciones de escritorio y móviles",
-  "next_steps_view.enter_support_email_step.error": "Algo ha ido mal al configurar el correo electrónico de soporte. Inténtalo de nuevo.",
-  "next_steps_view.enter_support_email_step.invalidEmail": "Por favor, introduzca un correo electrónico válido.",
   "next_steps_view.hereAreSomeNextSteps": "Estos son algunos de los siguientes pasos recomendados para ayudarte a comenzar",
   "next_steps_view.invite_members_step.copy_button": "Copiar Enlace",
   "next_steps_view.invite_members_step.emailAddresses": "Correos electrónicos",

@@ -3733,8 +3733,6 @@
   "next_steps_view.complete_profile_step.saveProfile": "Profil mentése",
   "next_steps_view.complete_profile_step.yourFullName": "Teljes név",
   "next_steps_view.downloadDesktopAndMobile": "Töltse le az Asztali és Mobil alkalmazásokat",
-  "next_steps_view.enter_support_email_step.error": "Valami félresiklott a támogatási e-mail cím mentése közben. Próbáld meg újra.",
-  "next_steps_view.enter_support_email_step.invalidEmail": "Kérem valódi e-mail címet adjon meg.",
   "next_steps_view.hereAreSomeNextSteps": "Az alábbiakban felsorolunk néhány ajánlott lépést az induláshoz",
   "next_steps_view.invite_members_step.copy_button": "Link másolása",
   "next_steps_view.invite_members_step.emailAddresses": "E-mail címek",

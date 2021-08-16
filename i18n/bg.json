@@ -3722,7 +3722,6 @@
   "next_steps_view.complete_profile_step.saveProfile": "Запиши профила",
   "next_steps_view.complete_profile_step.yourFullName": "Вашето пълно име",
   "next_steps_view.downloadDesktopAndMobile": "Свали настолно и мобилно приложение",
-  "next_steps_view.enter_support_email_step.error": "Нещо се е объркало при задаването на ел.поща за поддръжка. Опитайте отново.",
   "next_steps_view.enter_support_email_step.invalidEmail": "Моля, въведете валидна ел.поща.",
   "next_steps_view.hereAreSomeNextSteps": "Ето някои препоръчвани стъпки, които ще ви помогнат да започнете",
   "next_steps_view.invite_members_step.copy_button": "Копирай връзка",

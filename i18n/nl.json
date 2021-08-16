@@ -3729,8 +3729,6 @@
   "next_steps_view.complete_profile_step.saveProfile": "Profiel opslaan",
   "next_steps_view.complete_profile_step.yourFullName": "Je volledige naam",
   "next_steps_view.downloadDesktopAndMobile": "Download de desktop- of mobiele apps",
-  "next_steps_view.enter_support_email_step.error": "Er is iets misgegaan bij het instellen van de e-mail voor ondersteuning. Probeer het opnieuw.",
-  "next_steps_view.enter_support_email_step.invalidEmail": "Voer een geldig e-mailadres in.",
   "next_steps_view.hereAreSomeNextSteps": "Hier zijn enkele aanbevolen volgende stappen om je op weg te helpen",
   "next_steps_view.invite_members_step.copy_button": "Kopieer link",
   "next_steps_view.invite_members_step.emailAddresses": "E-mailadressen",

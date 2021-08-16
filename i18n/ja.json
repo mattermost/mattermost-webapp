@@ -3727,8 +3727,6 @@
   "next_steps_view.complete_profile_step.saveProfile": "プロフィールを保存する",
   "next_steps_view.complete_profile_step.yourFullName": "フルネーム",
   "next_steps_view.downloadDesktopAndMobile": "デスクトップアプリとモバイルアプリをダウンロードする",
-  "next_steps_view.enter_support_email_step.error": "サポート電子メールの設定が上手くいきませんでした。再度試してください。",
-  "next_steps_view.enter_support_email_step.invalidEmail": "有効な電子メールアドレスを入力してください。",
   "next_steps_view.hereAreSomeNextSteps": "Mattermostを使うのが初めての方向けにお勧めの操作を表示しています",
   "next_steps_view.invite_members_step.copy_button": "リンクをコピーする",
   "next_steps_view.invite_members_step.emailAddresses": "電子メールアドレス",

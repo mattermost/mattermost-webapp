@@ -3727,8 +3727,6 @@
   "next_steps_view.complete_profile_step.saveProfile": "保存个人资料",
   "next_steps_view.complete_profile_step.yourFullName": "全名",
   "next_steps_view.downloadDesktopAndMobile": "下载桌面和移动应用",
-  "next_steps_view.enter_support_email_step.error": "设置支持电子邮件时出现问题。请重试。",
-  "next_steps_view.enter_support_email_step.invalidEmail": "请输入个有效的电子邮箱地址。",
   "next_steps_view.hereAreSomeNextSteps": "以下是一些可帮助您入门的后续步骤",
   "next_steps_view.invite_members_step.copy_button": "复制链接",
   "next_steps_view.invite_members_step.emailAddresses": "电子邮件地址",

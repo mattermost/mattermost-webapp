@@ -3727,8 +3727,6 @@
   "next_steps_view.complete_profile_step.saveProfile": "Spara profilen",
   "next_steps_view.complete_profile_step.yourFullName": "Ditt hela namn",
   "next_steps_view.downloadDesktopAndMobile": "Ladda ner desktop och mobilappar",
-  "next_steps_view.enter_support_email_step.error": "Något gick fel när du ställde in e-postmeddelandet till supporten. Försök igen.",
-  "next_steps_view.enter_support_email_step.invalidEmail": "Ange en giltig e-postadress.",
   "next_steps_view.hereAreSomeNextSteps": "Förslag på några steg för att hjälpa dig komma igång",
   "next_steps_view.invite_members_step.copy_button": "Kopiera länk",
   "next_steps_view.invite_members_step.emailAddresses": "E-postadresser",
