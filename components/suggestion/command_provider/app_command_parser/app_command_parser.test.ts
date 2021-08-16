@@ -30,6 +30,15 @@ import {
 
 const mockStore = configureStore([thunk]);
 
+const getOpenInModalOption = (command: string) => {
+    return {
+        Complete: command.substr(1) + '_open_command_in_modal',
+        Description: 'Select this option to open the current command in a modal.',
+        Hint: '',
+        IconData: '_open_command_in_modal',
+        Suggestion: 'Open in modal',
+    };
+};
 describe('AppCommandParser', () => {
     const makeStore = async (bindings: AppBinding[]) => {
         const initialState = {
@@ -635,6 +644,7 @@ describe('AppCommandParser', () => {
                     IconData: '',
                     Suggestion: 'issue: ""',
                 },
+                getOpenInModalOption('/jira issue view '),
             ]);
         });
 
@@ -648,6 +658,7 @@ describe('AppCommandParser', () => {
                     IconData: '',
                     Suggestion: '--project',
                 },
+                getOpenInModalOption('/jira issue view -'),
             ]);
 
             suggestions = await parser.getSuggestions('/jira issue view --');
@@ -659,6 +670,7 @@ describe('AppCommandParser', () => {
                     IconData: '',
                     Suggestion: '--project',
                 },
+                getOpenInModalOption('/jira issue view --'),
             ]);
         });
 
@@ -708,6 +720,7 @@ describe('AppCommandParser', () => {
                     IconData: 'Create icon',
                     Suggestion: '--epic',
                 },
+                getOpenInModalOption('/jira issue create '),
             ]);
         });
 
@@ -750,6 +763,7 @@ describe('AppCommandParser', () => {
                     IconData: 'Create icon',
                     Suggestion: '--epic',
                 },
+                getOpenInModalOption('/jira issue create --project KT '),
             ]);
         });
 
@@ -763,6 +777,7 @@ describe('AppCommandParser', () => {
                     IconData: 'Create icon',
                     Suggestion: '--summary',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summ'),
             ]);
 
             const full = await parser.getSuggestions('/jira issue create --project KT --summary');
@@ -774,6 +789,7 @@ describe('AppCommandParser', () => {
                     IconData: 'Create icon',
                     Suggestion: '--summary',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summary'),
             ]);
         });
 
@@ -787,6 +803,7 @@ describe('AppCommandParser', () => {
                     IconData: 'Create icon',
                     Suggestion: 'summary: ""',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summary '),
             ]);
         });
 
@@ -800,6 +817,7 @@ describe('AppCommandParser', () => {
                     IconData: 'Create icon',
                     Suggestion: 'summary: "Sum"',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summary Sum'),
             ]);
         });
 
@@ -813,6 +831,7 @@ describe('AppCommandParser', () => {
                     IconData: 'Create icon',
                     Suggestion: 'summary: "Sum"',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summary "Sum'),
             ]);
         });
 
@@ -826,6 +845,7 @@ describe('AppCommandParser', () => {
                     IconData: 'Create icon',
                     Suggestion: 'summary: `Sum`',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summary `Sum'),
             ]);
         });
 
@@ -839,6 +859,7 @@ describe('AppCommandParser', () => {
                     IconData: 'Create icon',
                     Suggestion: 'summary: ""',
                 },
+                getOpenInModalOption('/jira issue create --summary '),
             ]);
         });
 
@@ -857,6 +878,7 @@ describe('AppCommandParser', () => {
                     Hint: '',
                     IconData: 'Create icon',
                 },
+                getOpenInModalOption('/jira issue create --project '),
             ]);
         });
 
@@ -877,6 +899,7 @@ describe('AppCommandParser', () => {
                     Hint: 'The thing is working great!',
                     IconData: 'Create icon',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summary "great feature" --epic '),
             ]);
 
             suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic M');
@@ -888,6 +911,7 @@ describe('AppCommandParser', () => {
                     Hint: 'The thing is working great!',
                     IconData: 'Create icon',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summary "great feature" --epic M'),
             ]);
 
             suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic Nope');
@@ -899,6 +923,7 @@ describe('AppCommandParser', () => {
                     Hint: 'No matching options.',
                     IconData: 'error',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summary "great feature" --epic Nope'),
             ]);
         });
 
@@ -918,6 +943,7 @@ describe('AppCommandParser', () => {
                     IconData: '_execute_current_command',
                     Hint: '',
                 },
+                getOpenInModalOption('/jira issue create --project KT --summary "great feature" --epic epicvalue --verbose true '),
             ]);
         });
     });
@@ -957,7 +983,7 @@ describe('AppCommandParser', () => {
                     label: 'Dylan Epic',
                     value: 'epic1',
                 },
-                verbose: 'true',
+                verbose: true,
                 project: '',
             };
 
@@ -989,6 +1015,7 @@ describe('AppCommandParser', () => {
                     Hint: '',
                     IconData: 'Create icon',
                 },
+                getOpenInModalOption('/jira issue create --summary "The summary" --epic epic1 --project special'),
             ]);
 
             expect(mockedExecute).toHaveBeenCalledWith({

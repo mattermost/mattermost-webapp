@@ -37,6 +37,10 @@ describe('components/SuggestionBox', () => {
         containerClass: 'test',
         openOnFocus: true,
         providers: [],
+        actions: {
+            openModalFromCommand: jest.fn(),
+            addMessageIntoHistory: jest.fn(),
+        },
     };
 
     test('findOverlap', () => {

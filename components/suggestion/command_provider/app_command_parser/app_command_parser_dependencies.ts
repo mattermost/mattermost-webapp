@@ -88,16 +88,14 @@ export const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTIO
 export const COMMAND_SUGGESTION_CHANNEL = Constants.Integrations.COMMAND_SUGGESTION_CHANNEL;
 export const COMMAND_SUGGESTION_USER = Constants.Integrations.COMMAND_SUGGESTION_USER;
 
-import type {ParsedCommand} from './app_command_parser';
-
-export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggestion | null => {
+export const getExecuteSuggestion = (command: string): AutocompleteSuggestion | null => {
     let key = 'Ctrl';
     if (isMac()) {
         key = '⌘';
     }
 
     return {
-        Complete: parsed.command.substring(1) + EXECUTE_CURRENT_COMMAND_ITEM_ID,
+        Complete: command.substring(1) + EXECUTE_CURRENT_COMMAND_ITEM_ID,
         Suggestion: 'Execute Current Command',
         Hint: '',
         Description: 'Select this option or use ' + key + '+Enter to execute the current command.',
@@ -105,9 +103,9 @@ export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggest
     };
 };
 
-export const getOpenInModalSuggestion = (parsed: ParsedCommand): AutocompleteSuggestion | null => {
+export const getOpenInModalSuggestion = (command: string): AutocompleteSuggestion | null => {
     return {
-        Complete: parsed.command.substring(1) + OPEN_COMMAND_IN_MODAL_ITEM_ID,
+        Complete: command.substring(1) + OPEN_COMMAND_IN_MODAL_ITEM_ID,
         Suggestion: 'Open in modal',
         Hint: '',
         Description: 'Select this option to open the current command in a modal.',

@@ -685,10 +685,7 @@ export class AppCommandParser {
         }
 
         const values: AppCallValues = parsed.values;
-        const {errorMessage} = await this.expandOptions(parsed, values);
-        if (errorMessage) {
-            return {form: null, call: null, errorMessage};
-        }
+        await this.expandOptions(parsed, values);
 
         for (const field of form.fields || []) {
             if (values[field.name]) {
@@ -829,18 +826,25 @@ export class AppCommandParser {
             ParseState.StartParameter,
             ParseState.ParameterSeparator,
             ParseState.EndValue,
+            ParseState.Rest,
         ];
 
         const modalStates: string[] = [
             ParseState.StartParameter,
             ParseState.Error,
+            ParseState.TickValue,
+            ParseState.QuotedValue,
+            ParseState.EndValue,
+            ParseState.Rest,
+            ParseState.Flag,
+            ParseState.FlagValueSeparator,
         ];
         const call = parsed.form?.call || parsed.binding?.call || parsed.binding?.form?.call;
         const hasRequired = this.getMissingFields(parsed).length === 0;
         const hasValue = (parsed.state !== ParseState.EndValue || (parsed.field && parsed.values[parsed.field.name] !== undefined));
 
         if (executableStates.includes(parsed.state) && call && hasRequired && hasValue) {
-            const execute = getExecuteSuggestion(parsed);
+            const execute = getExecuteSuggestion(parsed.command);
             if (execute) {
                 suggestions = [execute, ...suggestions];
             }
@@ -849,7 +853,7 @@ export class AppCommandParser {
         }
 
         if (modalStates.includes(parsed.state) && call && parsed.form?.fields && parsed.form.fields.length > 0) {
-            const open = getOpenInModalSuggestion(parsed);
+            const open = getOpenInModalSuggestion(parsed.command);
             if (open) {
                 suggestions = [...suggestions, open];
             }
@@ -938,6 +942,7 @@ export class AppCommandParser {
                         fieldName: f.name,
                         option: values[f.name],
                     });
+                    values[f.name] = undefined;
                     return;
                 }
                 values[f.name] = option;
@@ -959,6 +964,7 @@ export class AppCommandParser {
                             fieldName: f.name,
                             option: values[f.name],
                         });
+                        values[f.name] = undefined;
                         return;
                     }
                     user = dispatchResult.data;
@@ -982,6 +988,7 @@ export class AppCommandParser {
                             fieldName: f.name,
                             option: values[f.name],
                         });
+                        values[f.name] = undefined;
                         return;
                     }
                     channel = dispatchResult.data;
@@ -1219,12 +1226,7 @@ export class AppCommandParser {
         case ParseState.TickValue:
             return this.getValueSuggestions(parsed, '`');
         case ParseState.Rest: {
-            const execute = getExecuteSuggestion(parsed);
-            const value = await this.getValueSuggestions(parsed);
-            if (execute) {
-                return [execute, ...value];
-            }
-            return value;
+            return this.getValueSuggestions(parsed);
         }
         }
         return [];
