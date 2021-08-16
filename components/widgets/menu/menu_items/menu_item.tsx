@@ -12,7 +12,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
         id?: string;
         icon?: React.ReactNode;
         text?: React.ReactNode;
-        onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+        handleItemClick?: (event: React.MouseEvent<HTMLElement>) => void;
     }
     class MenuItem extends React.PureComponent<Props & React.ComponentProps<typeof Component>> {
         public static defaultProps = {
@@ -22,7 +22,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
         public static displayName?: string;
 
         public render() {
-            const {id, show, icon, text, onClick, ...props} = this.props;
+            const {id, show, icon, text, handleItemClick, ...props} = this.props;
             if (!show) {
                 return null;
             }
@@ -44,7 +44,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
                     })}
                     role='menuitem'
                     id={id}
-                    onClick={onClick}
+                    onClick={handleItemClick}
                 >
                     <Component
                         text={textProp}

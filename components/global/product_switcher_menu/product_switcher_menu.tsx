@@ -79,7 +79,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'application-cog'}
                                 />
                             }
-                            onClick={handleClick}
+                            handleItemClick={handleClick}
                         />
                     </SystemPermissionGate>
                     <Menu.ItemLink
@@ -93,7 +93,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 glyph={'webhook-incoming'}
                             />
                         }
-                        onClick={handleClick}
+                        handleItemClick={handleClick}
                     />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
@@ -111,7 +111,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'apps'}
                                 />
                             }
-                            onClick={handleClick}
+                            handleItemClick={handleClick}
                         />
                         <Menu.ItemExternalLink
                             id='nativeAppLink'
@@ -124,7 +124,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'download-outline'}
                                 />
                             }
-                            onClick={handleClick}
+                            handleItemClick={handleClick}
                         />
                         <Menu.ItemToggleModalRedux
                             id='about'
@@ -137,7 +137,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'information-outline'}
                                 />
                             }
-                            onClick={handleClick}
+                            handleItemClick={handleClick}
                         />
                     </TeamPermissionGate>
                 </Menu.Group>
