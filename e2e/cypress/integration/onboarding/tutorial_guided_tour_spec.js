@@ -28,7 +28,7 @@ describe('Onboarding', () => {
         });
     });
 
-    it('Takes the user through the steps of using the app', () => {
+    it('MM-T4148 Takes the user through the steps of using the app', () => {
         // # Click the tip on posting messages
         cy.get(`#create_post ${selectors.tip}`).click();
 
