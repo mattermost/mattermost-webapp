@@ -241,12 +241,12 @@ Cypress.Commands.add('apiGetUserPreference', (userId) => {
     });
 });
 
-Cypress.Commands.add('apiSaveCRTPreference', (userId, crt = 'on') => {
+Cypress.Commands.add('apiSaveCRTPreference', (userId, value = 'on') => {
     const preference = {
         user_id: userId,
         category: 'display_settings',
         name: 'collapsed_reply_threads',
-        value: crt,
+        value,
     };
 
     return cy.apiSaveUserPreference([preference]);

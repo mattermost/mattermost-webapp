@@ -28,9 +28,6 @@ Cypress.Commands.add('verifyAccountNameSettings', (firstname, lastname) => {
 
 Cypress.Commands.add('uiChangeGenericDisplaySetting', (setting, option) => {
     cy.uiOpenAccountSettingsModal();
-    cy.get('#displayButton').click();
-
-    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
     cy.get(setting).scrollIntoView();
     cy.get(setting).click();
     cy.get('.section-max').scrollIntoView();

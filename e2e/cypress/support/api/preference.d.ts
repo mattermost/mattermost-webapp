@@ -91,8 +91,8 @@ declare namespace Cypress {
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
-         *   cy.apiSaveDirectChannelShowPreference('user-id', 'other-user-id', 'on');
+         *   cy.apiSaveCRTPreference('user-id', 'on');
          */
-        apiSaveCRTPreference(userId: string, otherUserId: string, value: string): Chainable<Response>;
+        apiSaveCRTPreference(userId: string, value: string): Chainable<Response>;
     }
 }
