@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const SamlSVG = () => (
+type SvgProps = {
+    width: number;
+    height: number;
+}
+
+const SamlSVG = (props: SvgProps) => (
     <svg
-        width='242'
-        height='230'
+        width={props.width ? props.width.toString() : '242'}
+        height={props.height ? props.height.toString() : '230'}
         viewBox='0 0 242 230'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

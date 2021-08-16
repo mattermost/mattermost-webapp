@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const ChannelsSVG = () => (
+type SvgProps = {
+    width: number;
+    height: number;
+}
+
+const ChannelsSVG = (props: SvgProps) => (
     <svg
-        width='252'
-        height='220'
+        width={props.width ? props.width.toString() : '252'}
+        height={props.height ? props.height.toString() : '220'}
         viewBox='0 0 252 220'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

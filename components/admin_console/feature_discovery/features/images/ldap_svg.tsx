@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const LdapSVG = () => (
+type SvgProps = {
+    width: number;
+    height: number;
+}
+
+const LdapSVG = (props: SvgProps) => (
     <svg
-        width='246'
-        height='220'
+        width={props.width ? props.width.toString() : '246'}
+        height={props.height ? props.height.toString() : '220'}
         viewBox='0 0 246 220'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

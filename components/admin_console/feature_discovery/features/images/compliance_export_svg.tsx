@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const ComplianceExportSVG = () => (
+type SvgProps = {
+    width: number;
+    height: number;
+}
+
+const ComplianceExportSVG = (props: SvgProps) => (
     <svg
-        width='286'
-        height='211'
+        width={props.width ? props.width.toString() : '286'}
+        height={props.height ? props.height.toString() : '211'}
         viewBox='0 0 286 211'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

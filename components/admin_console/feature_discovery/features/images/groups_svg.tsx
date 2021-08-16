@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const GroupsSVG = () => (
+type SvgProps = {
+    width: number;
+    height: number;
+}
+
+const GroupsSVG = (props: SvgProps) => (
     <svg
-        width='189'
-        height='204'
+        width={props.width ? props.width.toString() : '189'}
+        height={props.height ? props.height.toString() : '204'}
         viewBox='0 0 189 204'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

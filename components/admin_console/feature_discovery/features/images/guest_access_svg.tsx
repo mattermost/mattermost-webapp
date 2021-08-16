@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const GuestAccessSVG = () => (
+type SvgProps = {
+    width: number;
+    height: number;
+}
+
+const GuestAccessSVG = (props: SvgProps) => (
     <svg
-        width='416'
-        height='220'
+        width={props.width ? props.width.toString() : '416'}
+        height={props.height ? props.height.toString() : '220'}
         viewBox='0 0 416 220'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

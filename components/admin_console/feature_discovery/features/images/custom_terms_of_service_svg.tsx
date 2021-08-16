@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const CustomTermsOfServiceSVG = () => (
+type SvgProps = {
+    width: number;
+    height: number;
+}
+
+const CustomTermsOfServiceSVG = (props: SvgProps) => (
     <svg
-        width='296'
-        height='220'
+        width={props.width ? props.width.toString() : '296'}
+        height={props.height ? props.height.toString() : '220'}
         viewBox='0 0 296 220'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

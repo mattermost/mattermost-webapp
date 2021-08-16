@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const AnnouncementBannerSVG = () => (
+type SvgProps = {
+    width: number;
+    height: number;
+}
+
+const AnnouncementBannerSVG = (props: SvgProps) => (
     <svg
-        width='172'
-        height='220'
+        width={props.width ? props.width.toString() : '172'}
+        height={props.height ? props.height.toString() : '220'}
         viewBox='0 0 172 220'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

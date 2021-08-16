@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const SystemRolesSVG = () => (
+type SvgProps = {
+    width: number;
+    height: number;
+}
+
+const SystemRolesSVG = (props: SvgProps) => (
     <svg
-        width='248'
-        height='220'
+        width={props.width ? props.width.toString() : '248'}
+        height={props.height ? props.height.toString() : '220'}
         viewBox='0 0 248 220'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
