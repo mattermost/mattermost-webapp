@@ -348,37 +348,6 @@ export function updateChannelPrivacy(channelId: string, privacy: string): Action
     };
 }
 
-export function convertChannelToPrivate(channelId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch({type: ChannelTypes.UPDATE_CHANNEL_REQUEST, data: null});
-
-        let convertedChannel;
-        try {
-            convertedChannel = await Client4.convertChannelToPrivate(channelId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(batchActions([
-                {type: ChannelTypes.UPDATE_CHANNEL_FAILURE, error},
-                logError(error),
-            ]));
-            return {error};
-        }
-
-        dispatch(batchActions([
-            {
-                type: ChannelTypes.RECEIVED_CHANNEL,
-                data: convertedChannel,
-            },
-            {
-                type: ChannelTypes.UPDATE_CHANNEL_SUCCESS,
-            },
-        ]));
-
-        return {data: convertedChannel};
-    };
-}
-
 export function updateChannelNotifyProps(userId: string, channelId: string, props: ChannelNotifyProps): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const notifyProps = {
