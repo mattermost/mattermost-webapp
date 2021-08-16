@@ -293,7 +293,6 @@ var config = {
                 {from: 'images/logo_email_dark.png', to: 'images'},
                 {from: 'images/logo_email_gray.png', to: 'images'},
                 {from: 'images/forgot_password_illustration.png', to: 'images'},
-                {from: 'images/forgot_password_illustration_new.png', to: 'images'},
                 {from: 'images/invite_illustration.png', to: 'images'},
                 {from: 'images/channel_icon.png', to: 'images'},
                 {from: 'images/add_payment_method.png', to: 'images'},
