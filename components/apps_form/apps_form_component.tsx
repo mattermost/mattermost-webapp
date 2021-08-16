@@ -20,6 +20,7 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+import {filterEmptyOptions} from 'utils/apps';
 import Markdown from 'components/markdown';
 
 import AppsFormField from './apps_form_field';
@@ -235,8 +236,11 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         const callResp = res.data!;
         switch (callResp.type) {
-        case AppCallResponseTypes.OK:
-            return callResp.data?.items || [];
+        case AppCallResponseTypes.OK: {
+            let items = callResp.data?.items || [];
+            items = items?.filter(filterEmptyOptions);
+            return items;
+        }
         case AppCallResponseTypes.FORM:
         case AppCallResponseTypes.NAVIGATE: {
             const errMsg = intl.formatMessage({
