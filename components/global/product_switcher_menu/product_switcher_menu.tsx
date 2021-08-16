@@ -38,7 +38,7 @@ type Props = {
     pluginMenuItems: any;
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
-    handleItemClick?: (event: React.MouseEvent<HTMLElement>) => void;
+    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
 class ProductSwitcherMenu extends React.PureComponent<Props> {
@@ -53,7 +53,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const {currentUser, handleItemClick: handleClick} = this.props;
+        const {currentUser, onClick: handleClick} = this.props;
 
         if (!currentUser) {
             return null;
@@ -79,7 +79,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'application-cog'}
                                 />
                             }
-                            handleItemClick={handleClick}
+                            onClick={handleClick}
                         />
                     </SystemPermissionGate>
                     <Menu.ItemLink
@@ -93,7 +93,22 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 glyph={'webhook-incoming'}
                             />
                         }
-                        handleItemClick={handleClick}
+                        onClick={handleClick}
+                    />
+                    <Menu.ItemAction
+                        show={true}
+                        id='integrations2'
+                        text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
+                        icon={
+                            <Icon
+                                size={16}
+                                glyph={'webhook-incoming'}
+                            />
+                        }
+                        onClick={() => {
+                            console.log('##### menuAction clicked!!!');
+                            handleClick();
+                        }}
                     />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
@@ -111,7 +126,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'apps'}
                                 />
                             }
-                            handleItemClick={handleClick}
+                            onClick={handleClick}
                         />
                         <Menu.ItemExternalLink
                             id='nativeAppLink'
@@ -124,7 +139,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'download-outline'}
                                 />
                             }
-                            handleItemClick={handleClick}
+                            onClick={handleClick}
                         />
                         <Menu.ItemToggleModalRedux
                             id='about'
@@ -137,7 +152,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'information-outline'}
                                 />
                             }
-                            handleItemClick={handleClick}
+                            onClick={handleClick}
                         />
                     </TeamPermissionGate>
                 </Menu.Group>

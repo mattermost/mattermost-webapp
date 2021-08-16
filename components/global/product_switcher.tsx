@@ -161,7 +161,7 @@ const ProductSwitcher = (): JSX.Element => {
                     {showTutorialStep && <ProductSwitcherTip/>}
                     <ProductSwitcherMenu
                         id='ProductSwitcherMenu'
-                        handleItemClick={handleClick}
+                        onClick={handleClick}
                     />
                 </Menu>
             </MenuWrapper>
