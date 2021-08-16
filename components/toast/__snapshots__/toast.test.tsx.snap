@@ -71,14 +71,14 @@ exports[`components/Toast should match snapshot for showing toast 1`] = `
         id="toast-close__tooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Close"
           id="general_button.close"
         />
         <div
           className="tooltip__shortcut--txt"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="esc"
             id="general_button.esc"
           />
@@ -134,14 +134,14 @@ exports[`components/Toast should match snapshot for toast width less than 780px 
         id="toast-close__tooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Close"
           id="general_button.close"
         />
         <div
           className="tooltip__shortcut--txt"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="esc"
             id="general_button.esc"
           />
@@ -197,14 +197,14 @@ exports[`components/Toast should match snapshot to have extraClasses 1`] = `
         id="toast-close__tooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Close"
           id="general_button.close"
         />
         <div
           className="tooltip__shortcut--txt"
         >
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="esc"
             id="general_button.esc"
           />

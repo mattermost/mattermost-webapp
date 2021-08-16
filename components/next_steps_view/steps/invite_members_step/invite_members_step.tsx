@@ -197,10 +197,15 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         }
     }
 
-    sendEmailInvites = async () => {
+    sendEmailInvites = async (): Promise<boolean> => {
+        // if no emails in the input, do nothing
+        if (this.state.emails.length === 0) {
+            return true;
+        }
+
         if (this.state.emails.some((email) => email.error)) {
             this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.invalidEmail', 'One or more email addresses are invalid'), emailsSent: undefined});
-            return;
+            return false;
         }
 
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_send_invitations', {num_invitations: this.state.emails.length});
@@ -211,7 +216,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (error || !data.length || data.some((result) => result.error)) {
             trackEvent(getAnalyticsCategory(this.props.isAdmin), 'error_sending_invitations');
             this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.errorSendingEmails', 'There was a problem sending your invitations. Please try again.'), emailsSent: undefined});
-            return;
+            return false;
         }
 
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'invitations_sent', {num_invitations_sent: data.length});
@@ -219,14 +224,19 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         this.setState({emailError: undefined, emailsSent: data.length}, () => {
             setTimeout(() => this.setState({emailsSent: undefined}), 4000);
         });
+
+        return true;
     }
 
     onSkip = () => {
         this.props.onSkip(this.props.id);
     }
 
-    onFinish = () => {
-        this.props.onFinish(this.props.id);
+    onFinish = async () => {
+        const sent = await this.sendEmailInvites();
+        if (sent) {
+            this.props.onFinish(this.props.id);
+        }
     }
 
     copyLink = () => {
@@ -272,12 +282,12 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                 <div className='InviteMembersStep'>
                     {this.props.isEmailInvitesEnabled &&
                         <div className='InviteMembersStep__emailInvitations'>
-                            <h3>
+                            <h4>
                                 <FormattedMessage
                                     id='next_steps_view.invite_members_step.sendInvitationsViaEmail'
                                     defaultMessage='Send invitations via email'
                                 />
-                            </h3>
+                            </h4>
                             <FormattedMessage
                                 id='next_steps_view.invite_members_step.youCanInviteUpTo'
                                 defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
@@ -336,7 +346,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                         </div>
                     }
                     <div className='InviteMembersStep__shareInviteLink'>
-                        <h3>
+                        <h4>
                             {this.props.isEmailInvitesEnabled &&
                                 <FormattedMessage
                                     id='next_steps_view.invite_members_step.orShareThisLink'
@@ -349,7 +359,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                     defaultMessage='Share this link to invite members'
                                 />
                             }
-                        </h3>
+                        </h4>
                         <div className='InviteMembersStep__shareLinkBlock'>
                             <input
                                 ref={this.inviteLinkRef}
@@ -394,8 +404,8 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                         onClick={this.onFinish}
                     >
                         <FormattedMessage
-                            id='next_steps_view.invite_members_step.next'
-                            defaultMessage='Next'
+                            id='next_steps_view.invite_members_step.finish'
+                            defaultMessage='Finish'
                         />
                     </button>
                 </div>

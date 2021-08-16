@@ -21,7 +21,7 @@ import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
 import Constants from 'utils/constants';
 
-import EditPostModal from './edit_post_modal.jsx';
+import EditPostModal from './edit_post_modal';
 
 function mapStateToProps(state) {
     const config = getConfig(state);

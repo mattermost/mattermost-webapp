@@ -65,7 +65,7 @@ describe('Messaging', () => {
         cy.getLastPostId().then((postId) => {
             // * Message strikedthrough should be the same message we posted
             cy.get(`#postMessageText_${postId}`).find('del').should('contain', message).
-                and('have.css', 'text-decoration', 'line-through solid rgb(61, 60, 64)');
+                and('have.css', 'text-decoration', 'line-through solid rgb(63, 67, 80)');
             cy.get(`#postEdited_${postId}`).should('be.visible').and('have.text', '(edited)');
         });
     });

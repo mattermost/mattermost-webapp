@@ -18,7 +18,7 @@ exports[`components/create_post Show tutorial 1`] = `
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -88,7 +88,7 @@ exports[`components/create_post Show tutorial 1`] = `
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -103,27 +103,26 @@ exports[`components/create_post Show tutorial 1`] = `
         </span>
       </div>
       <Connect(TutorialTip)
-        id="postTextboxTipMessage"
         overlayClass="tip-overlay--chat"
         placement="top"
         screens={
           Array [
             <div>
               <h4>
-                <FormattedMessage
-                  defaultMessage="Sending Messages"
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Send a message"
                   id="create_post.tutorialTip.title"
                 />
               </h4>
               <p>
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Type here to write a message and press **Enter** to post it."
+                  defaultMessage="Type your first message and select **Enter** to send it."
                   id="create_post.tutorialTip1"
                 />
               </p>
               <p>
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Click the **Attachment** button to upload an image or a file."
+                  defaultMessage="Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages."
                   id="create_post.tutorialTip2"
                 />
               </p>
@@ -162,7 +161,7 @@ exports[`components/create_post Show tutorial 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -195,7 +194,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -265,7 +264,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -309,7 +308,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -342,7 +341,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -375,7 +374,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -419,7 +418,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -452,7 +451,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -522,7 +521,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -566,7 +565,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -599,7 +598,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -669,7 +668,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -713,7 +712,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />
@@ -746,7 +745,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         data-a11y-sort-order="2"
         id="centerChannelFooter"
         role="application"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <Connect(Textbox)
           badConnection={false}
@@ -816,7 +815,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
             className="send-button theme disabled"
             onClick={[Function]}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
           >
             <LocalizedIcon
               className="fa fa-paper-plane"
@@ -860,7 +859,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Confirm"
         id="notify_all.confirm"
       />

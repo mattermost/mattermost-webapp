@@ -11,31 +11,37 @@ import BackIcon from 'components/widgets/icons/fa_back_icon';
 export default class BackstageNavbar extends React.PureComponent {
     static get propTypes() {
         return {
-            team: PropTypes.object.isRequired,
+            team: PropTypes.object,
             siteName: PropTypes.string,
         };
     }
 
     render() {
-        if (!this.props.team) {
-            return null;
-        }
+        const {team} = this.props;
+        const teamExists = team?.delete_at === 0;
 
         return (
             <div className='backstage-navbar'>
                 <Link
                     className='backstage-navbar__back'
-                    to={`/${this.props.team.name}`}
+                    to={`/${teamExists ? this.props.team.name : ''}`}
                 >
                     <BackIcon/>
                     <span>
-                        <FormattedMessage
-                            id='backstage_navbar.backToMattermost'
-                            defaultMessage='Back to {siteName}'
-                            values={{
-                                siteName: this.props.siteName ? this.props.siteName : this.props.team.name,
-                            }}
-                        />
+                        {teamExists ? (
+                            <FormattedMessage
+                                id='backstage_navbar.backToMattermost'
+                                defaultMessage='Back to {siteName}'
+                                values={{
+                                    siteName: this.props.siteName ? this.props.siteName : this.props.team.name,
+                                }}
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='backstage_navbar.back'
+                                defaultMessage='Back'
+                            />
+                        )}
                     </span>
                 </Link>
             </div>

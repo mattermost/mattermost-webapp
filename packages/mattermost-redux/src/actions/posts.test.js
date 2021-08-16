@@ -9,7 +9,7 @@ import nock from 'nock';
 import * as Actions from 'mattermost-redux/actions/posts';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {login} from 'mattermost-redux/actions/users';
-import {setSystemEmojis, createCustomEmoji} from 'mattermost-redux/actions/emojis';
+import {createCustomEmoji} from 'mattermost-redux/actions/emojis';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences, Posts, RequestStatus} from '../constants';
 import {PostTypes} from 'mattermost-redux/action_types';
@@ -26,7 +26,16 @@ describe('Actions.Posts', () => {
     });
 
     beforeEach(() => {
-        store = configureStore();
+        store = configureStore({
+            entities: {
+                general: {
+                    config: {
+                        FeatureFlagCollapsedThreads: 'true',
+                        CollapsedThreads: 'always_on',
+                    },
+                },
+            },
+        });
     });
 
     afterAll(() => {
@@ -410,7 +419,7 @@ describe('Actions.Posts', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false`).
+            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
             reply(200, postList);
         await Actions.getPostThread(post.id)(store.dispatch, store.getState);
 
@@ -558,207 +567,6 @@ describe('Actions.Posts', () => {
             new Set(),
             'should never try to request usernames matching special mentions',
         );
-    });
-
-    describe('getNeededCustomEmojis', () => {
-        const state = {
-            entities: {
-                emojis: {
-                    customEmoji: {
-                        1: {
-                            id: '1',
-                            creator_id: '1',
-                            name: 'name1',
-                        },
-                    },
-                    nonExistentEmoji: new Set(['name2']),
-                },
-                general: {
-                    config: {
-                        EnableCustomEmoji: 'true',
-                    },
-                },
-            },
-        };
-
-        setSystemEmojis(new Map([['systemEmoji1', {}]]));
-
-        it('no emojis in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: 'aaa'},
-                ]),
-                new Set(),
-            );
-        });
-
-        it('already loaded custom emoji in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':name1:'},
-                ]),
-                new Set(),
-            );
-        });
-
-        it('system emoji in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':systemEmoji1:'},
-                ]),
-                new Set(),
-            );
-        });
-
-        it('mixed emojis in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':systemEmoji1: :name1: :name2: :name3:'},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('custom emojis and text in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: 'aaa :name3: :name4:'},
-                ]),
-                new Set(['name3', 'name4']),
-            );
-        });
-
-        it('custom emoji followed by punctuation', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':name3:!'},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('custom emoji including hyphen', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':name-3:'},
-                ]),
-                new Set(['name-3']),
-            );
-        });
-
-        it('custom emoji including underscore', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':name_3:'},
-                ]),
-                new Set(['name_3']),
-            );
-        });
-
-        it('custom emoji in message attachment text', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{text: ':name3:'}]}},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('custom emoji in message attachment pretext', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{pretext: ':name3:'}]}},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('custom emoji in message attachment field', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{fields: [{value: ':name3:'}]}]}},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('mixed emojis in message attachment', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{text: ':name4: :name1:', pretext: ':name3: :systemEmoji1:', fields: [{value: ':name3:'}]}]}},
-                ]),
-                new Set(['name3', 'name4']),
-            );
-        });
-
-        it('empty message attachment field', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{fields: [{}]}]}},
-                ]),
-                new Set([]),
-            );
-        });
-
-        it('null message attachment contents', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{text: null, pretext: null, fields: null}]}},
-                ]),
-                new Set([]),
-            );
-        });
-
-        it('null message attachment', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: null}},
-                ]),
-                new Set([]),
-            );
-        });
-
-        it('multiple posts', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':emoji3:'},
-                    {message: ':emoji4:'},
-                ]),
-                new Set(['emoji3', 'emoji4']),
-            );
-        });
-
-        it('with custom emojis disabled', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis({
-                    entities: {
-                        ...state.entities,
-                        general: {
-                            config: {
-                                EnableCustomEmoji: 'false',
-                            },
-                        },
-                    },
-                }, [
-                    {message: ':emoji3:'},
-                ]),
-                new Set([]),
-            );
-        });
-
-        it('do not load emojis when the post has metadata', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {
-                        message: ':emoji3:',
-                        metadata: {
-                            emojis: [{name: 'emoji3'}],
-                        },
-                    },
-                ]),
-                new Set([]),
-            );
-        });
     });
 
     it('getPostsSince', async () => {
@@ -1198,7 +1006,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 
@@ -1237,7 +1045,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 

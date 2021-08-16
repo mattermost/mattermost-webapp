@@ -12,7 +12,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         className="fa fa-angle-left back"
         to="/admin_console/user_management/permissions"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Scheme"
         id="admin.permissions.teamScheme"
       />
@@ -55,7 +55,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-name"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Name:"
                 id="admin.permissions.teamScheme.schemeNameLabel"
               />
@@ -81,7 +81,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-description"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Description:"
                 id="admin.permissions.teamScheme.schemeDescriptionLabel"
               />
@@ -113,7 +113,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           <div
             className="no-team-schemes"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="No team selected. Please add teams to this list."
               id="admin.permissions.teamScheme.noTeams"
             />
@@ -219,7 +219,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -234,7 +234,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="cancel-button"
       to="/admin_console/user_management/permissions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
       />
@@ -314,7 +314,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         className="fa fa-angle-left back"
         to="/admin_console/user_management/permissions"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Scheme"
         id="admin.permissions.teamScheme"
       />
@@ -357,7 +357,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-name"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Name:"
                 id="admin.permissions.teamScheme.schemeNameLabel"
               />
@@ -383,7 +383,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-description"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Description:"
                 id="admin.permissions.teamScheme.schemeDescriptionLabel"
               />
@@ -415,7 +415,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           <div
             className="no-team-schemes"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="No team selected. Please add teams to this list."
               id="admin.permissions.teamScheme.noTeams"
             />
@@ -508,7 +508,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -523,7 +523,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="cancel-button"
       to="/admin_console/user_management/permissions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
       />
@@ -585,7 +585,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         className="fa fa-angle-left back"
         to="/admin_console/user_management/permissions"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Scheme"
         id="admin.permissions.teamScheme"
       />
@@ -628,7 +628,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-name"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Name:"
                 id="admin.permissions.teamScheme.schemeNameLabel"
               />
@@ -654,7 +654,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-description"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Description:"
                 id="admin.permissions.teamScheme.schemeDescriptionLabel"
               />
@@ -686,7 +686,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           <div
             className="no-team-schemes"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="No team selected. Please add teams to this list."
               id="admin.permissions.teamScheme.noTeams"
             />
@@ -804,7 +804,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -819,7 +819,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="cancel-button"
       to="/admin_console/user_management/permissions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
       />
@@ -881,7 +881,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         className="fa fa-angle-left back"
         to="/admin_console/user_management/permissions"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Scheme"
         id="admin.permissions.teamScheme"
       />
@@ -924,7 +924,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-name"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Name:"
                 id="admin.permissions.teamScheme.schemeNameLabel"
               />
@@ -950,7 +950,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-description"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Description:"
                 id="admin.permissions.teamScheme.schemeDescriptionLabel"
               />
@@ -982,7 +982,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           <div
             className="no-team-schemes"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="No team selected. Please add teams to this list."
               id="admin.permissions.teamScheme.noTeams"
             />
@@ -1100,7 +1100,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -1115,7 +1115,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="cancel-button"
       to="/admin_console/user_management/permissions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
       />
@@ -1177,7 +1177,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         className="fa fa-angle-left back"
         to="/admin_console/user_management/permissions"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Scheme"
         id="admin.permissions.teamScheme"
       />
@@ -1220,7 +1220,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-name"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Name:"
                 id="admin.permissions.teamScheme.schemeNameLabel"
               />
@@ -1246,7 +1246,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-description"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Description:"
                 id="admin.permissions.teamScheme.schemeDescriptionLabel"
               />
@@ -1278,7 +1278,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           <div
             className="no-team-schemes"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="No team selected. Please add teams to this list."
               id="admin.permissions.teamScheme.noTeams"
             />
@@ -1412,7 +1412,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -1427,7 +1427,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="cancel-button"
       to="/admin_console/user_management/permissions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
       />
@@ -1508,7 +1508,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         className="fa fa-angle-left back"
         to="/admin_console/user_management/permissions"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Team Scheme"
         id="admin.permissions.teamScheme"
       />
@@ -1551,7 +1551,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-name"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Name:"
                 id="admin.permissions.teamScheme.schemeNameLabel"
               />
@@ -1577,7 +1577,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
               className="control-label"
               htmlFor="scheme-description"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Scheme Description:"
                 id="admin.permissions.teamScheme.schemeDescriptionLabel"
               />
@@ -1609,7 +1609,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           <div
             className="no-team-schemes"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="No team selected. Please add teams to this list."
               id="admin.permissions.teamScheme.noTeams"
             />
@@ -1727,7 +1727,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -1742,7 +1742,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
       className="cancel-button"
       to="/admin_console/user_management/permissions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="admin.permissions.permissionSchemes.cancel"
       />

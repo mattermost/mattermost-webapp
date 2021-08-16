@@ -13,20 +13,25 @@ import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-import * as UserAgent from 'utils/user_agent';
-import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
-import {trackLoadTime} from 'actions/telemetry_actions.jsx';
-import * as GlobalActions from 'actions/global_actions';
-import BrowserStore from 'stores/browser_store';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
-import {initializePlugins} from 'plugins';
-import 'plugins/export.js';
-import Pluggable from 'plugins/pluggable';
-import Constants, {StoragePrefixes} from 'utils/constants';
+import * as GlobalActions from 'actions/global_actions';
+import {trackLoadTime} from 'actions/telemetry_actions.jsx';
+
+import {makeAsyncComponent} from 'components/async_load';
+import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
+import GlobalHeader from 'components/global/global_header';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
-import {makeAsyncComponent} from 'components/async_load';
+
+import {initializePlugins} from 'plugins';
+import 'plugins/export.js';
+import Pluggable from 'plugins/pluggable';
+import BrowserStore from 'stores/browser_store';
+import Constants, {StoragePrefixes} from 'utils/constants';
+import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
+import * as UserAgent from 'utils/user_agent';
+import * as Utils from 'utils/utils.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
 const LazyLoginController = React.lazy(() => import('components/login/login_controller'));
@@ -85,6 +90,7 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
 
 export default class Root extends React.PureComponent {
     static propTypes = {
+        theme: PropTypes.object,
         telemetryEnabled: PropTypes.bool,
         telemetryId: PropTypes.string,
         noAccounts: PropTypes.bool,
@@ -94,6 +100,7 @@ export default class Root extends React.PureComponent {
             loadMeAndConfig: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
+        products: PropTypes.array,
     }
 
     constructor(props) {
@@ -112,8 +119,10 @@ export default class Root extends React.PureComponent {
 
         // Prevent drag and drop files from navigating away from the app
         document.addEventListener('drop', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            if (e.dataTransfer.items.length > 0 && e.dataTransfer.items[0].kind === 'file') {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         });
 
         document.addEventListener('dragover', (e) => {
@@ -214,6 +223,8 @@ export default class Root extends React.PureComponent {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
+
+        Utils.applyTheme(this.props.theme);
     }
 
     componentDidUpdate(prevProps) {
@@ -351,28 +362,46 @@ export default class Root extends React.PureComponent {
                         from={'/_redirect/pl/:postid'}
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
-                    {this.props.plugins?.map((plugin) => (
-                        <Route
-                            key={plugin.id}
-                            path={'/plug/' + plugin.route}
-                            render={() => (
-                                <Pluggable
-                                    pluggableName={'CustomRouteComponent'}
-                                    pluggableId={plugin.id}
+                    <CompassThemeProvider theme={this.props.theme}>
+                        <GlobalHeader/>
+                        <Switch>
+                            {this.props.products?.map((product) => (
+                                <Route
+                                    key={product.id}
+                                    path={product.baseURL}
+                                    render={() => (
+                                        <Pluggable
+                                            pluggableName={'Product'}
+                                            subComponentName={'mainComponent'}
+                                            pluggableId={product.id}
+                                        />
+                                    )}
                                 />
-                            )}
-                        />
-                    ))}
-                    <LoggedInRoute
-                        path={'/:team'}
-                        component={NeedsTeam}
-                    />
-                    <Redirect
-                        to={{
-                            ...this.props.location,
-                            pathname: '/login',
-                        }}
-                    />
+                            ))}
+                            {this.props.plugins?.map((plugin) => (
+                                <Route
+                                    key={plugin.id}
+                                    path={'/plug/' + plugin.route}
+                                    render={() => (
+                                        <Pluggable
+                                            pluggableName={'CustomRouteComponent'}
+                                            pluggableId={plugin.id}
+                                        />
+                                    )}
+                                />
+                            ))}
+                            <LoggedInRoute
+                                path={'/:team'}
+                                component={NeedsTeam}
+                            />
+                            <Redirect
+                                to={{
+                                    ...this.props.location,
+                                    pathname: '/login',
+                                }}
+                            />
+                        </Switch>
+                    </CompassThemeProvider>
                 </Switch>
             </IntlProvider>
         );

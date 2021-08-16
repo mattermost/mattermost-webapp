@@ -64,6 +64,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         messageDisplay: '',
         collapseDisplay: '',
         linkPreviewDisplay: '',
+        globalHeaderDisplay: '',
+        globalHeaderAllowed: true,
     };
 
     test('should match snapshot, no active section', () => {

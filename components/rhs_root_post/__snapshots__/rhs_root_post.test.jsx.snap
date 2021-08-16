@@ -1,13 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/RhsRootPost should match snapshot 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -38,7 +54,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -110,7 +125,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -155,7 +169,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -180,7 +193,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -193,17 +205,33 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -234,7 +262,6 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -320,7 +347,6 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -351,7 +377,6 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -376,7 +401,6 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -389,17 +413,34 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "state": "DELETED",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -430,7 +471,6 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -501,7 +541,6 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -527,7 +566,6 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -541,17 +579,35 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "isFlagged": true,
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "state": "DELETED",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -583,7 +639,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -655,7 +710,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -682,7 +736,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -696,17 +749,33 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -737,7 +806,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -809,7 +877,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -854,7 +921,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -879,7 +945,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -892,5 +957,5 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;

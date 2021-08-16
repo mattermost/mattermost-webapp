@@ -9,7 +9,7 @@ import Constants from 'utils/constants';
 
 import MarkdownImage from './markdown_image';
 import SizeAwareImage from './size_aware_image';
-import ViewImageModal from './view_image';
+import FilePreviewModal from './file_preview_modal';
 
 describe('components/MarkdownImage', () => {
     const baseProps = {
@@ -167,7 +167,7 @@ describe('components/MarkdownImage', () => {
         expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
         expect(childrenWrapper.find(SizeAwareImage).prop('className')).
             toEqual(`${props.className} markdown-inline-img--hover cursor--pointer a11y--active`);
-        expect(childrenWrapper.find(ViewImageModal)).toHaveLength(1);
+        expect(childrenWrapper.find(FilePreviewModal)).toHaveLength(1);
         expect(childrenWrapper).toMatchSnapshot();
     });
 
@@ -186,7 +186,7 @@ describe('components/MarkdownImage', () => {
         expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
         expect(childrenWrapper.find(SizeAwareImage).prop('className')).
             toEqual(`${props.className} markdown-inline-img--hover markdown-inline-img--no-border`);
-        expect(childrenWrapper.find(ViewImageModal)).toHaveLength(0);
+        expect(childrenWrapper.find(FilePreviewModal)).toHaveLength(0);
         expect(childrenWrapper).toMatchSnapshot();
     });
 

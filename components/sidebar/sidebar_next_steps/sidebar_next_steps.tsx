@@ -26,6 +26,7 @@ type Props = {
     preferences: PreferenceType[];
     steps: StepType[];
     isAdmin: boolean;
+    enableOnboardingFlow: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
@@ -102,6 +103,14 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     render() {
+        if (!this.props.enableOnboardingFlow) {
+            return null;
+        }
+
+        if (this.props.preferences.length === 0) {
+            return null;
+        }
+
         if (this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value === 'true')) {
             return null;
         }

@@ -5,8 +5,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, WrappedComponentProps, injectIntl} from 'react-intl';
 
-import {blendColors, setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
+import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
@@ -96,7 +96,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             mentionBg, // 7
         ] = text.split(',');
 
-        const theme: Partial<Theme> = {
+        const theme = setThemeDefaults({
             type: 'custom',
             sidebarBg,
             sidebarText,
@@ -105,13 +105,10 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             sidebarTextActiveBorder,
             sidebarTextActiveColor,
             sidebarHeaderBg,
-            sidebarTeamBarBg: blendColors(sidebarHeaderBg, '#000000', 0.2, true),
             sidebarHeaderTextColor: sidebarText,
             onlineIndicator,
             mentionBg,
-        };
-
-        setThemeDefaults(theme as Theme);
+        });
 
         this.state.callback?.(theme as Theme);
 

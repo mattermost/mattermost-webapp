@@ -54,7 +54,6 @@ function mockUserThread({
             user_id: userId,
             channel_id: channelId,
             root_id: '',
-            parent_id: '',
             original_id: '',
             message: `accusamus incidunt ab quidem fuga. postId: ${postId}`,
             type: '',

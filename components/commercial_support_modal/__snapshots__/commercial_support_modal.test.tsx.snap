@@ -38,7 +38,7 @@ exports[`components/CommercialSupportModal should match snapshot 1`] = `
       bsClass="modal-title"
       componentClass="h4"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Commercial Support"
         id="commercial_support.title"
       />
@@ -70,7 +70,7 @@ We recommend that you download additional environment details about your Matterm
         rel="noopener noreferrer"
         target="_blank"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Download Support Packet"
           id="commercial_support.download_support_packet"
         />

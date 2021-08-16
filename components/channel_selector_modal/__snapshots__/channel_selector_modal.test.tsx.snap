@@ -61,7 +61,7 @@ exports[`components/ChannelSelectorModal exclude already selected 1`] = `
       key="addChannelsToSchemeKey"
       loading={true}
       numRemainingText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Use ↑↓ to browse, ↵ to select."
           id="multiselect.selectChannels"
         />
@@ -173,7 +173,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
       key="addChannelsToSchemeKey"
       loading={true}
       numRemainingText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Use ↑↓ to browse, ↵ to select."
           id="multiselect.selectChannels"
         />

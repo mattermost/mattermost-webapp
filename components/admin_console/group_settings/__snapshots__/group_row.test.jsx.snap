@@ -35,7 +35,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <i
             className="icon fa fa-unlink"
           />
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Not Linked"
             id="admin.group_settings.group_row.not_linked"
           />
@@ -82,7 +82,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <i
             className="icon fa fa-exclamation-triangle"
           />
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Unlink failed"
             id="admin.group_settings.group_row.unlink_failed"
           />
@@ -95,7 +95,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           id="name_configure"
           to="/admin_console/user_management/groups/group-id"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Configure"
             id="admin.group_settings.group_row.configure"
           />
@@ -139,7 +139,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <i
             className="icon fa fa-exclamation-triangle"
           />
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Link failed"
             id="admin.group_settings.group_row.link_failed"
           />
@@ -186,7 +186,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <i
             className="icon fa fa-link"
           />
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Linked"
             id="admin.group_settings.group_row.linked"
           />
@@ -199,7 +199,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           id="name_edit"
           to="/admin_console/user_management/groups/group-id"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Edit"
             id="admin.group_settings.group_row.edit"
           />
@@ -243,7 +243,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <i
             className="icon fa fa-link"
           />
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Linked"
             id="admin.group_settings.group_row.linked"
           />
@@ -256,7 +256,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           id="name_configure"
           to="/admin_console/user_management/groups/group-id"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Configure"
             id="admin.group_settings.group_row.configure"
           />
@@ -300,7 +300,7 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
           <i
             className="icon fa fa-unlink"
           />
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Not Linked"
             id="admin.group_settings.group_row.not_linked"
           />

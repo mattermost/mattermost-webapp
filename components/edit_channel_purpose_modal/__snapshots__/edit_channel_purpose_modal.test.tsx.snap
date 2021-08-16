@@ -42,7 +42,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
       id="editChannelPurposeModalLabel"
     >
       <span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit Purpose for "
           id="edit_channel_purpose_modal.title2"
         />
@@ -59,7 +59,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
     componentClass="div"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
       />
@@ -93,7 +93,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
       />
@@ -104,7 +104,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
       />
@@ -155,7 +155,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
       id="editChannelPurposeModalLabel"
     >
       <span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit Purpose for "
           id="edit_channel_purpose_modal.title2"
         />
@@ -172,7 +172,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
     componentClass="div"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
       />
@@ -206,7 +206,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
       />
@@ -217,7 +217,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
       />
@@ -268,7 +268,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
       id="editChannelPurposeModalLabel"
     >
       <span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit Purpose for "
           id="edit_channel_purpose_modal.title2"
         />
@@ -285,7 +285,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
     componentClass="div"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
       />
@@ -319,7 +319,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
       />
@@ -330,7 +330,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
       />
@@ -381,7 +381,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
       id="editChannelPurposeModalLabel"
     >
       <span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit Purpose for "
           id="edit_channel_purpose_modal.title2"
         />
@@ -398,7 +398,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
     componentClass="div"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="This text appears in the \\\\\\"View Info\\\\\\" modal of the private channel."
         id="edit_channel_private_purpose_modal.body"
       />
@@ -422,7 +422,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
       />
@@ -433,7 +433,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
       />
@@ -484,7 +484,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
       id="editChannelPurposeModalLabel"
     >
       <span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit Purpose for "
           id="edit_channel_purpose_modal.title2"
         />
@@ -501,7 +501,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
     componentClass="div"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
       />
@@ -525,7 +525,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
       />
@@ -536,7 +536,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
       />
@@ -595,7 +595,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
         id="editChannelPurposeModalLabel"
       >
         <span>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Edit Purpose for "
             id="edit_channel_purpose_modal.title2"
           />
@@ -612,7 +612,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
       componentClass="div"
     >
       <p>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
           id="edit_channel_purpose_modal.body"
         />
@@ -636,7 +636,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Cancel"
           id="edit_channel_purpose_modal.cancel"
         />
@@ -647,7 +647,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Save"
           id="edit_channel_purpose_modal.save"
         />
@@ -699,7 +699,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
       id="editChannelPurposeModalLabel"
     >
       <span>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit Purpose for "
           id="edit_channel_purpose_modal.title2"
         />
@@ -716,7 +716,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
     componentClass="div"
   >
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Describe how this channel should be used. This text appears in the channel list in the \\"More...\\" menu and helps others decide whether to join."
         id="edit_channel_purpose_modal.body"
       />
@@ -740,7 +740,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="edit_channel_purpose_modal.cancel"
       />
@@ -751,7 +751,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="edit_channel_purpose_modal.save"
       />

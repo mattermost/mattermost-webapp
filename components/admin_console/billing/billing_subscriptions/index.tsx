@@ -13,8 +13,6 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {Product} from 'mattermost-redux/types/cloud';
-
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 
@@ -28,7 +26,6 @@ import {
     CloudBanners,
     TELEMETRY_CATEGORIES,
     ModalIdentifiers,
-    CloudProducts,
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
@@ -74,26 +71,10 @@ const BillingSubscriptions: React.FC = () => {
     const actionQueryParam = query.get('action');
 
     const product = useSelector((state: GlobalState) => {
-        const products = state.entities.cloud.products!;
-        if (!products) {
-            return null;
+        if (state.entities.cloud.products && subscription) {
+            return state.entities.cloud.products[subscription?.product_id];
         }
-        const keys = Object.keys(products);
-        let product: Product;
-        if (products && subscription) {
-            product = products[subscription?.product_id];
-            if (!product) {
-                keys.forEach((key) => {
-                    if (products[key].name.toLowerCase().includes('professional')) {
-                        product = products[key];
-                    }
-                });
-            }
-            if (product) {
-                return product;
-            }
-        }
-        return products[keys[0]];
+        return undefined;
     });
 
     // show the upgrade section when is a free tier customer
@@ -104,8 +85,6 @@ const BillingSubscriptions: React.FC = () => {
             dialogType: PurchaseModal,
         }));
     };
-
-    const subscriptionPlan = product?.sku || CloudProducts.PROFESSIONAL;
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
@@ -181,7 +160,7 @@ const BillingSubscriptions: React.FC = () => {
         <div className='wrapper--fixed BillingSubscriptions'>
             <FormattedAdminHeader
                 id='admin.billing.subscription.title'
-                defaultMessage='Subscriptions'
+                defaultMessage='Subscription'
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
@@ -191,7 +170,7 @@ const BillingSubscriptions: React.FC = () => {
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
-                            subscriptionPlan={subscriptionPlan}
+                            subscriptionPlan={product?.sku}
                         />
                         <BillingSummary
                             isPaidTier={isPaidTier}
@@ -200,7 +179,7 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, subscriptionPlan, onUpgradeMattermostCloud, productsLength)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, product?.sku, onUpgradeMattermostCloud, productsLength)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>

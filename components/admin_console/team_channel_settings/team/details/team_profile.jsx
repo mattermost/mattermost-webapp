@@ -3,19 +3,32 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
 
 import * as Utils from 'utils/utils';
 
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
-export function TeamProfile({team}) {
+export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
     const teamIconUrl = Utils.imageURLForTeam(team);
 
+    let archiveBtnID;
+    let archiveBtnDefault;
+    if (isArchived) {
+        archiveBtnID = t('admin.team_settings.team_details.unarchiveTeam');
+        archiveBtnDefault = 'Unarchive Team';
+    } else {
+        archiveBtnID = t('admin.team_settings.team_details.archiveTeam');
+        archiveBtnDefault = 'Archive Team';
+    }
     return (
         <AdminPanel
             id='team_profile'
@@ -56,6 +69,32 @@ export function TeamProfile({team}) {
 
                         </div>
                     </div>
+                    <div className='AdminChannelDetails_archiveContainer'>
+                        <button
+                            type='button'
+                            className={
+                                classNames(
+                                    'btn',
+                                    'btn-secondary',
+                                    'ArchiveButton',
+                                    {ArchiveButton___archived: isArchived},
+                                    {ArchiveButton___unarchived: !isArchived},
+                                    {disabled: isDisabled},
+                                )
+                            }
+                            onClick={onToggleArchive}
+                        >
+                            {isArchived ? (
+                                <UnarchiveIcon className='channel-icon channel-icon__unarchive'/>
+                            ) : (
+                                <ArchiveIcon className='channel-icon channel-icon__archive'/>
+                            )}
+                            <FormattedMessage
+                                id={archiveBtnID}
+                                defaultMessage={archiveBtnDefault}
+                            />
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -65,4 +104,7 @@ export function TeamProfile({team}) {
 
 TeamProfile.propTypes = {
     team: PropTypes.object.isRequired,
+    onToggleArchive: PropTypes.func,
+    isArchived: PropTypes.bool.isRequired,
+    isDisabled: PropTypes.bool,
 };

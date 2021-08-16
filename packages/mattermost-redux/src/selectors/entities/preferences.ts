@@ -7,7 +7,8 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {PreferenceType, Theme} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {$ID} from 'mattermost-redux/types/utilities';
@@ -142,7 +143,7 @@ const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): T
     }
 
     // If no config.DefaultTheme or value doesn't refer to a valid theme name...
-    return Preferences.THEMES.default;
+    return Preferences.THEMES.denim;
 });
 
 export const getTheme: (state: GlobalState) => Theme = createShallowSelector(
@@ -283,4 +284,8 @@ export function isTimedDNDEnabled(state: GlobalState): boolean {
     return (
         getFeatureFlagValue(state, 'TimedDND') === 'true'
     );
+}
+
+export function getInviteMembersButtonLocation(state: GlobalState): string | undefined {
+    return getFeatureFlagValue(state, 'InviteMembersButton');
 }

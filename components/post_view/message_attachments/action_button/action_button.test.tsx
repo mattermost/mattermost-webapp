@@ -4,17 +4,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
 import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
+import {Preferences} from 'mattermost-redux/constants';
 
 import ActionButton from 'components/post_view/message_attachments/action_button/action_button';
-import {Constants} from 'utils/constants';
 
 describe('components/post_view/message_attachments/action_button.jsx', () => {
     const baseProps = {
         action: {id: 'action_id_1', name: 'action_name_1', cookie: 'cookie-contents'},
         handleAction: jest.fn(),
-        theme: Constants.THEMES.default as unknown as Theme,
+        theme: Preferences.THEMES.denim as unknown as Theme,
     };
 
     test('should match snapshot', () => {
@@ -39,24 +39,24 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         const wrapper = shallow(<ActionButton {...props}/>);
         const buttonStyles = wrapper.find('button').prop('style');
 
-        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Constants.THEMES.default.onlineIndicator, 0.25));
+        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Preferences.THEMES.denim.onlineIndicator, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
-        expect(buttonStyles).toHaveProperty('color', Constants.THEMES.default.onlineIndicator);
+        expect(buttonStyles).toHaveProperty('color', Preferences.THEMES.denim.onlineIndicator);
     });
 
     test('should have correct styles when provided color from not default theme', () => {
         const props = {
             ...baseProps,
-            theme: Constants.THEMES.mattermostDark as unknown as Theme,
+            theme: Preferences.THEMES.indigo as unknown as Theme,
             action: {...baseProps.action, style: 'danger'},
         };
 
         const wrapper = shallow(<ActionButton {...props}/>);
         const buttonStyles = wrapper.find('button').prop('style');
 
-        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Constants.THEMES.mattermostDark.errorTextColor, 0.25));
+        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Preferences.THEMES.indigo.errorTextColor, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
-        expect(buttonStyles).toHaveProperty('color', Constants.THEMES.mattermostDark.errorTextColor);
+        expect(buttonStyles).toHaveProperty('color', Preferences.THEMES.indigo.errorTextColor);
     });
 
     test('should have correct styles when provided status color', () => {
@@ -68,9 +68,9 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         const wrapper = shallow(<ActionButton {...props}/>);
         const buttonStyles = wrapper.find('button').prop('style');
 
-        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Constants.THEMES.default.onlineIndicator, 0.25));
+        expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Preferences.THEMES.denim.onlineIndicator, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
-        expect(buttonStyles).toHaveProperty('color', Constants.THEMES.default.onlineIndicator);
+        expect(buttonStyles).toHaveProperty('color', Preferences.THEMES.denim.onlineIndicator);
     });
 
     test('should have correct styles when provided hex color', () => {

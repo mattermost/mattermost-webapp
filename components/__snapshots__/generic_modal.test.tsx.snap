@@ -125,7 +125,7 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Cancel"
           id="generic_modal.cancel"
         />
@@ -135,7 +135,7 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
         onClick={[Function]}
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Confirm"
           id="generic_modal.confirm"
         />
@@ -209,7 +209,7 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
         onClick={[Function]}
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Confirm"
           id="generic_modal.confirm"
         />

@@ -107,12 +107,13 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent<Props
                         className='signup-team-logo'
                         src={logoImage}
                     />
-                    <h2>
+                    <h5>
                         <FormattedMessage
                             id='create_team.display_name.teamName'
+                            tagName='strong'
                             defaultMessage='Team Name'
                         />
-                    </h2>
+                    </h5>
                     <div className={nameDivClass}>
                         <div className='row'>
                             <div className='col-sm-9'>

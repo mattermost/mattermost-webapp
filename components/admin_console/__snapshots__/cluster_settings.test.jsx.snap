@@ -10,7 +10,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="High Availability"
         id="admin.advance.cluster"
       />
@@ -23,7 +23,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       <div
         className="banner"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Changing properties in this section will require a server restart before taking effect."
           id="admin.cluster.noteDescription"
         />
@@ -31,7 +31,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
@@ -44,7 +44,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
         }
         id="Enable"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable High Availability Mode:"
             id="admin.cluster.enableTitle"
           />
@@ -52,7 +52,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -61,14 +61,14 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database."
             id="admin.cluster.ClusterNameDesc"
           />
         }
         id="ClusterName"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Cluster Name:"
             id="admin.cluster.ClusterName"
           />
@@ -80,14 +80,14 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
             id="admin.cluster.OverrideHostnameDesc"
           />
         }
         id="OverrideHostname"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Override Hostname:"
             id="admin.cluster.OverrideHostname"
           />
@@ -100,20 +100,20 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
             id="admin.cluster.UseIpAddressDesc"
           />
         }
         id="UseIpAddress"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Use IP Address:"
             id="admin.cluster.UseIpAddress"
           />
@@ -121,7 +121,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -131,20 +131,20 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, all communication through the gossip protocol will be encrypted."
             id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
           />
         }
         id="EnableExperimentalGossipEncryption"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable Experimental Gossip encryption:"
             id="admin.cluster.EnableExperimentalGossipEncryption"
           />
@@ -152,7 +152,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -162,20 +162,20 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled."
             id="admin.cluster.EnableGossipCompressionDesc"
           />
         }
         id="EnableGossipCompression"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable Gossip compression:"
             id="admin.cluster.EnableGossipCompression"
           />
@@ -183,7 +183,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -192,14 +192,14 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port."
             id="admin.cluster.GossipPortDesc"
           />
         }
         id="GossipPort"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Gossip Port:"
             id="admin.cluster.GossipPort"
           />
@@ -211,14 +211,14 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The port used for streaming data between servers."
             id="admin.cluster.StreamingPortDesc"
           />
         }
         id="StreamingPort"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Streaming Port:"
             id="admin.cluster.StreamingPort"
           />
@@ -234,7 +234,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -283,7 +283,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="High Availability"
         id="admin.advance.cluster"
       />
@@ -296,7 +296,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       <div
         className="banner"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Changing properties in this section will require a server restart before taking effect."
           id="admin.cluster.noteDescription"
         />
@@ -304,7 +304,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
@@ -317,7 +317,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
         }
         id="Enable"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable High Availability Mode:"
             id="admin.cluster.enableTitle"
           />
@@ -325,7 +325,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -334,14 +334,14 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database."
             id="admin.cluster.ClusterNameDesc"
           />
         }
         id="ClusterName"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Cluster Name:"
             id="admin.cluster.ClusterName"
           />
@@ -353,14 +353,14 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
             id="admin.cluster.OverrideHostnameDesc"
           />
         }
         id="OverrideHostname"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Override Hostname:"
             id="admin.cluster.OverrideHostname"
           />
@@ -373,20 +373,20 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
             id="admin.cluster.UseIpAddressDesc"
           />
         }
         id="UseIpAddress"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Use IP Address:"
             id="admin.cluster.UseIpAddress"
           />
@@ -394,7 +394,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -404,20 +404,20 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, all communication through the gossip protocol will be encrypted."
             id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
           />
         }
         id="EnableExperimentalGossipEncryption"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable Experimental Gossip encryption:"
             id="admin.cluster.EnableExperimentalGossipEncryption"
           />
@@ -425,7 +425,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -435,20 +435,20 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled."
             id="admin.cluster.EnableGossipCompressionDesc"
           />
         }
         id="EnableGossipCompression"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable Gossip compression:"
             id="admin.cluster.EnableGossipCompression"
           />
@@ -456,7 +456,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -465,14 +465,14 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port."
             id="admin.cluster.GossipPortDesc"
           />
         }
         id="GossipPort"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Gossip Port:"
             id="admin.cluster.GossipPort"
           />
@@ -484,14 +484,14 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The port used for streaming data between servers."
             id="admin.cluster.StreamingPortDesc"
           />
         }
         id="StreamingPort"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Streaming Port:"
             id="admin.cluster.StreamingPort"
           />
@@ -507,7 +507,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -556,7 +556,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="High Availability"
         id="admin.advance.cluster"
       />
@@ -569,7 +569,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       <div
         className="banner"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Changing properties in this section will require a server restart before taking effect."
           id="admin.cluster.noteDescription"
         />
@@ -577,7 +577,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
@@ -590,7 +590,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         }
         id="Enable"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable High Availability Mode:"
             id="admin.cluster.enableTitle"
           />
@@ -598,7 +598,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -607,14 +607,14 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database."
             id="admin.cluster.ClusterNameDesc"
           />
         }
         id="ClusterName"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Cluster Name:"
             id="admin.cluster.ClusterName"
           />
@@ -626,14 +626,14 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
             id="admin.cluster.OverrideHostnameDesc"
           />
         }
         id="OverrideHostname"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Override Hostname:"
             id="admin.cluster.OverrideHostname"
           />
@@ -646,20 +646,20 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
             id="admin.cluster.UseIpAddressDesc"
           />
         }
         id="UseIpAddress"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Use IP Address:"
             id="admin.cluster.UseIpAddress"
           />
@@ -667,7 +667,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -677,20 +677,20 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, all communication through the gossip protocol will be encrypted."
             id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
           />
         }
         id="EnableExperimentalGossipEncryption"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable Experimental Gossip encryption:"
             id="admin.cluster.EnableExperimentalGossipEncryption"
           />
@@ -698,7 +698,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -708,20 +708,20 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled."
             id="admin.cluster.EnableGossipCompressionDesc"
           />
         }
         id="EnableGossipCompression"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable Gossip compression:"
             id="admin.cluster.EnableGossipCompression"
           />
@@ -729,7 +729,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -738,14 +738,14 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port."
             id="admin.cluster.GossipPortDesc"
           />
         }
         id="GossipPort"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Gossip Port:"
             id="admin.cluster.GossipPort"
           />
@@ -757,14 +757,14 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The port used for streaming data between servers."
             id="admin.cluster.StreamingPortDesc"
           />
         }
         id="StreamingPort"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Streaming Port:"
             id="admin.cluster.StreamingPort"
           />
@@ -780,7 +780,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />
@@ -829,7 +829,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
     className="wrapper--fixed"
   >
     <AdminHeader>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="High Availability"
         id="admin.advance.cluster"
       />
@@ -842,7 +842,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       <div
         className="banner"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Changing properties in this section will require a server restart before taking effect."
           id="admin.cluster.noteDescription"
         />
@@ -850,7 +850,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
@@ -863,7 +863,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         }
         id="Enable"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable High Availability Mode:"
             id="admin.cluster.enableTitle"
           />
@@ -871,7 +871,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -880,14 +880,14 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database."
             id="admin.cluster.ClusterNameDesc"
           />
         }
         id="ClusterName"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Cluster Name:"
             id="admin.cluster.ClusterName"
           />
@@ -899,14 +899,14 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
             id="admin.cluster.OverrideHostnameDesc"
           />
         }
         id="OverrideHostname"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Override Hostname:"
             id="admin.cluster.OverrideHostname"
           />
@@ -919,20 +919,20 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
             id="admin.cluster.UseIpAddressDesc"
           />
         }
         id="UseIpAddress"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Use IP Address:"
             id="admin.cluster.UseIpAddress"
           />
@@ -940,7 +940,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -950,20 +950,20 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, all communication through the gossip protocol will be encrypted."
             id="admin.cluster.EnableExperimentalGossipEncryptionDesc"
           />
         }
         id="EnableExperimentalGossipEncryption"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable Experimental Gossip encryption:"
             id="admin.cluster.EnableExperimentalGossipEncryption"
           />
@@ -971,7 +971,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -981,20 +981,20 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       <BooleanSetting
         disabled={false}
         falseText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="false"
             id="admin.false"
           />
         }
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled."
             id="admin.cluster.EnableGossipCompressionDesc"
           />
         }
         id="EnableGossipCompression"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Enable Gossip compression:"
             id="admin.cluster.EnableGossipCompression"
           />
@@ -1002,7 +1002,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         onChange={[Function]}
         setByEnv={false}
         trueText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="true"
             id="admin.true"
           />
@@ -1011,14 +1011,14 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port."
             id="admin.cluster.GossipPortDesc"
           />
         }
         id="GossipPort"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Gossip Port:"
             id="admin.cluster.GossipPort"
           />
@@ -1030,14 +1030,14 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       />
       <AdminTextSetting
         helpText={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="The port used for streaming data between servers."
             id="admin.cluster.StreamingPortDesc"
           />
         }
         id="StreamingPort"
         label={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Streaming Port:"
             id="admin.cluster.StreamingPort"
           />
@@ -1053,7 +1053,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
       <SaveButton
         btnClass="btn-primary"
         defaultMessage={
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Save"
             id="save_button.save"
           />

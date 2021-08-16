@@ -206,12 +206,12 @@ class InvitationModalGuestsStep extends React.PureComponent {
                     className='add-people'
                     data-testid='addPeople'
                 >
-                    <h2>
+                    <h5>
                         <FormattedMessage
                             id='invitation_modal.guests.add_people.title'
                             defaultMessage='Invite People'
                         />
-                    </h2>
+                    </h5>
                     <div data-testid='emailPlaceholder'>
                         <UsersEmailsInput
                             usersLoader={this.usersLoader}
@@ -265,12 +265,12 @@ class InvitationModalGuestsStep extends React.PureComponent {
                     className='add-channels'
                     data-testid='channelPlaceholder'
                 >
-                    <h2>
+                    <h5>
                         <FormattedMessage
                             id='invitation_modal.guests.add_channels.title'
                             defaultMessage='Search and Add Channels'
                         />
-                    </h2>
+                    </h5>
                     <div>
                         <FormattedMessage
                             id='invitation_modal.guests.add_channels.placeholder'

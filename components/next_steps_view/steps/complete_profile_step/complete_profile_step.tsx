@@ -134,12 +134,12 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
             <div className='NextStepsView__stepWrapper'>
                 <div className='CompleteProfileStep'>
                     <div className='CompleteProfileStep__profilePicture'>
-                        <h3>
+                        <h4>
                             <FormattedMessage
                                 id='next_steps_view.complete_profile_step.addAPhoto'
                                 defaultMessage='Add a photo'
                             />
-                        </h3>
+                        </h4>
                         <PictureSelector
                             name='CompleteProfileStep__profilePicture'
                             onOpenDialog={this.onOpenPictureDialog}
@@ -150,12 +150,12 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                         />
                     </div>
                     <div className='CompleteProfileStep__fullName'>
-                        <h3>
+                        <h4>
                             <FormattedMessage
                                 id='next_steps_view.complete_profile_step.enterYourName'
                                 defaultMessage='Enter your name'
                             />
-                        </h3>
+                        </h4>
                         <Input
                             name='fullName'
                             type='text'

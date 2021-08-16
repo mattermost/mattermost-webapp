@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
+// eslint-disable-next-line no-restricted-imports
 import {OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';

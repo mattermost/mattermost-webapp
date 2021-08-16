@@ -14,6 +14,8 @@ import {logError} from 'mattermost-redux/actions/errors';
 import 'sass/styles.scss';
 import 'katex/dist/katex.min.css';
 
+import '@mattermost/compass-icons/css/compass-icons.css';
+
 import {isDevMode, setCSRFFromCookie} from 'utils/utils';
 import store from 'stores/redux_store.jsx';
 import App from 'components/app';

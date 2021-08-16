@@ -10,6 +10,9 @@ import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
 
 import {TestHelper} from 'utils/test_helper';
+import {fakeDate} from 'tests/helpers/date';
+
+import {FakePost} from 'types/store/rhs';
 
 import ThreadViewer from './thread_viewer';
 
@@ -21,6 +24,15 @@ describe('components/threading/ThreadViewer', () => {
         is_following: true,
         reply_count: 3,
     });
+
+    const fakePost: FakePost = {
+        id: post.id,
+        exists: true,
+        type: post.type,
+        user_id: post.user_id,
+        channel_id: post.channel_id,
+        message: post.message,
+    };
 
     const channel: Channel = TestHelper.getChannelMock({
         display_name: '',
@@ -47,7 +59,6 @@ describe('components/threading/ThreadViewer', () => {
     const directTeammate: UserProfile = TestHelper.getUserMock();
 
     const baseProps = {
-        posts: [post],
         selected: post,
         channel,
         currentUserId: 'user_id',
@@ -58,15 +69,19 @@ describe('components/threading/ThreadViewer', () => {
         actions,
         directTeammate,
         isCollapsedThreadsEnabled: false,
+        postIds: [post.id],
     };
 
     test('should match snapshot', async () => {
+        const reset = fakeDate(new Date(1502715365000));
+
         const wrapper = shallow(
             <ThreadViewer {...baseProps}/>,
         );
 
         await new Promise((resolve) => setTimeout(resolve));
         expect(wrapper).toMatchSnapshot();
+        reset();
     });
 
     test('should make api call to get thread posts on socket reconnect', () => {
@@ -80,101 +95,10 @@ describe('components/threading/ThreadViewer', () => {
         return expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
     });
 
-    test('should update openTime state when selected prop updated', async () => {
-        jest.useRealTimers();
-        const wrapper = shallow(
-            <ThreadViewer {...baseProps}/>,
-        );
-
-        const waitMilliseconds = 100;
-        const originalOpenTimeState = wrapper.state('openTime');
-
-        await new Promise((resolve) => setTimeout(resolve, waitMilliseconds));
-
-        wrapper.setProps({selected: {...post, id: `${post.id}_new`}});
-        expect(wrapper.state('openTime')).not.toEqual(originalOpenTimeState);
-    });
-
-    test('should scroll to the bottom when the current user makes a new post in the thread', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <ThreadViewer {...baseProps}/>,
-        );
-        const instance = wrapper.instance() as ThreadViewer;
-        instance.scrollToBottom = scrollToBottom;
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
-        wrapper.setProps({
-            posts: [
-                {
-                    id: 'newpost',
-                    root_id: post.id,
-                    user_id: 'user_id',
-                },
-                post,
-            ],
-        });
-
-        expect(scrollToBottom).toHaveBeenCalled();
-    });
-
-    test('should not scroll to the bottom when another user makes a new post in the thread', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <ThreadViewer {...baseProps}/>,
-        );
-        const instance = wrapper.instance() as ThreadViewer;
-        instance.scrollToBottom = scrollToBottom;
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
-
-        wrapper.setProps({
-            posts: [
-                {
-                    id: 'newpost',
-                    root_id: post.id,
-                    user_id: 'other_user_id',
-                },
-                post,
-            ],
-        });
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
-    });
-
-    test('should not scroll to the bottom when there is a highlighted reply', () => {
-        const scrollToBottom = jest.fn();
-
-        const wrapper = shallow(
-            <ThreadViewer
-                {...baseProps}
-                highlightedPostId='42'
-            />,
-        );
-
-        const instance = wrapper.instance() as ThreadViewer;
-        instance.scrollToBottom = scrollToBottom;
-
-        wrapper.setProps({
-            posts: [
-                {
-                    id: 'newpost',
-                    root_id: post.id,
-                    user_id: 'user_id',
-                },
-                post,
-            ],
-        });
-
-        expect(scrollToBottom).not.toHaveBeenCalled();
-    });
-
-    test('should not break if root post is missing', () => {
+    test('should not break if root post is a fake post', () => {
         const props = {
             ...baseProps,
-            posts: [{...baseProps.posts[0], root_id: 'something'}],
+            selected: fakePost,
         };
 
         expect(() => {

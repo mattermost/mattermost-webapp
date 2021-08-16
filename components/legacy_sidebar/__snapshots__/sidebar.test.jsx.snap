@@ -28,7 +28,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
   >
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -40,7 +40,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     />
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -244,14 +244,14 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       id="sidebarSwitcherButton"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
       />
       <span
         className="switch__shortcut hidden-xs"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
         />
@@ -289,7 +289,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
   >
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -301,7 +301,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     />
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -505,14 +505,14 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       id="sidebarSwitcherButton"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
       />
       <span
         className="switch__shortcut hidden-xs"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
         />
@@ -550,7 +550,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
   >
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -562,7 +562,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     />
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -766,14 +766,14 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       id="sidebarSwitcherButton"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
       />
       <span
         className="switch__shortcut hidden-xs"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
         />
@@ -811,7 +811,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
   >
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -823,7 +823,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     />
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -1027,14 +1027,14 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
       id="sidebarSwitcherButton"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
       />
       <span
         className="switch__shortcut hidden-xs"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
         />
@@ -1080,7 +1080,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
   >
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -1092,7 +1092,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     />
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -1296,14 +1296,14 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
       id="sidebarSwitcherButton"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
       />
       <span
         className="switch__shortcut hidden-xs"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
         />
@@ -1341,7 +1341,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
   >
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -1353,7 +1353,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
     />
     <UnreadChannelIndicator
       content={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="More unreads"
           id="sidebar.unreads"
         />
@@ -1557,14 +1557,14 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
       id="sidebarSwitcherButton"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Switch Channels"
         id="channel_switch_modal.title"
       />
       <span
         className="switch__shortcut hidden-xs"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="- CTRL+K"
           id="quick_switch_modal.channelsShortcut.windows"
         />

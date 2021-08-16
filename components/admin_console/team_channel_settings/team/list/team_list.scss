@@ -14,6 +14,10 @@
                     overflow: hidden;
                     padding-right: 40px;
                     opacity: 0.8;
+
+                    .archived-label {
+                        color: rgba(var(--center-channel-color-rgb), 0.64);
+                    }
                 }
 
                 .TeamList__lowerOpacity {

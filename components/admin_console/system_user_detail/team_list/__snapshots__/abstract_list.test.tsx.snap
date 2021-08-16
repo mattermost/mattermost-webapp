@@ -28,7 +28,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     <div
       className="AbstractList__empty"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="No teams found"
         id="admin.team_settings.team_list.no_teams_found"
       />
@@ -230,7 +230,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.team_channel_settings.list.paginatorCount"
         values={
@@ -459,7 +459,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.team_channel_settings.list.paginatorCount"
         values={
@@ -576,7 +576,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     <div
       className="counter"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
         id="admin.team_channel_settings.list.paginatorCount"
         values={

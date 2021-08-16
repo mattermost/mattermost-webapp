@@ -2,14 +2,22 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {getProfiles} from 'mattermost-redux/actions/users';
+import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {setShowNextStepsView} from 'actions/views/next_steps';
 import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getLastViewedChannelNameByTeamName} from 'selectors/local_storage';
+
+import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
 
 import {GlobalState} from 'types/store';
 
@@ -31,13 +39,35 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         channelName = getRedirectChannelNameForTeam(state, team!.id);
     }
     const lastChannelPath = `${ownProps.match.url}/channels/${channelName}`;
+    const config = getConfig(state);
+    const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
     return {
         lastChannelPath,
         lhsOpen: getIsLhsOpen(state),
         rhsOpen: getIsRhsOpen(state),
         rhsMenuOpen: getIsRhsMenuOpen(state),
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+        currentUserId: getCurrentUserId(state),
+        showNextSteps: showNextSteps(state),
+        showNextStepsTips: showNextStepsTips(state),
+        isOnboardingHidden: isOnboardingHidden(state) && !enableOnboardingFlow,
+        showNextStepsEphemeral: state.views.nextSteps.show,
     };
 };
 
-export default connect(mapStateToProps)(CenterChannel);
+type Actions = {
+    setShowNextStepsView: (show: boolean) => Action;
+    getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
+}
+
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    return {
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
+            setShowNextStepsView,
+            getProfiles,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CenterChannel);
+

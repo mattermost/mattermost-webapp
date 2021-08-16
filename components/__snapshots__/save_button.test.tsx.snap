@@ -11,14 +11,14 @@ exports[`components/SaveButton should match snapshot, extraClasses 1`] = `
   <LoadingWrapper
     loading={false}
     text={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Saving"
         id="save_button.saving"
       />
     }
   >
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="save_button.save"
       />
@@ -38,14 +38,14 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 1`] = `
   <LoadingWrapper
     loading={false}
     text={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Saving"
         id="save_button.saving"
       />
     }
   >
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="save_button.save"
       />
@@ -65,7 +65,7 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 2`] = `
   <LoadingWrapper
     loading={false}
     text={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Saving"
         id="save_button.saving"
       />
@@ -89,14 +89,14 @@ exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
   <LoadingWrapper
     loading={true}
     text={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Saving"
         id="save_button.saving"
       />
     }
   >
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="save_button.save"
       />
@@ -118,7 +118,7 @@ exports[`components/SaveButton should match snapshot, on savingMessage 2`] = `
     text="Saving Config..."
   >
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Save"
         id="save_button.save"
       />

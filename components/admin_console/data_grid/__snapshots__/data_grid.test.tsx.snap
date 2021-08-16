@@ -22,7 +22,7 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot while
       <LoadingSpinner
         text={null}
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Loading"
         id="admin.data_grid.loading"
       />
@@ -262,7 +262,7 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
     <div
       className="DataGrid_empty"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="No items found"
         id="admin.data_grid.empty"
       />

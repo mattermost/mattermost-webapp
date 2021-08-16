@@ -45,7 +45,11 @@
             white-space: normal;
 
             @media (max-width: 768px) {
-                margin: 0 0 4px 38px;
+                padding-left: 28px !important;
+
+                .mobile-main-menu & {
+                    padding-left: 36px !important;
+                }
             }
         }
 
@@ -76,7 +80,6 @@
 
                 .icon {
                     @media (max-width: 768px) {
-                        position: relative;
                         top: 10px;
                     }
                 }
@@ -123,7 +126,7 @@
         > div {
             &:hover,
             &:focus {
-                background-color: var(--center-channel-color-08) !important;
+                background-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
             }
         }
     }

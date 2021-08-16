@@ -56,6 +56,101 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
           </div>
         </div>
       </div>
+      <div
+        className="AdminChannelDetails_archiveContainer"
+      >
+        <button
+          className="btn btn-secondary ArchiveButton ArchiveButton___unarchived"
+          onClick={[MockFunction]}
+          type="button"
+        >
+          <ArchiveIcon
+            className="channel-icon channel-icon__archive"
+          />
+          <MemoizedFormattedMessage
+            defaultMessage="Archive Team"
+            id="admin.team_settings.team_details.archiveTeam"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</AdminPanel>
+`;
+
+exports[`admin_console/team_channel_settings/team/TeamProfile should match snapshot with isArchived true 1`] = `
+<AdminPanel
+  className=""
+  id="team_profile"
+  subtitleDefault="Summary of the team, including team name and description."
+  subtitleId="admin.team_settings.team_detail.profileDescription"
+  titleDefault="Team Profile"
+  titleId="admin.team_settings.team_detail.profileTitle"
+>
+  <div
+    className="group-teams-and-channels"
+  >
+    <div
+      className="group-teams-and-channels--body"
+    >
+      <div
+        className="d-flex"
+      >
+        <div
+          className="large-team-image-col"
+        >
+          <TeamIcon
+            content="test"
+            size="lg"
+            url={null}
+          />
+        </div>
+        <div
+          className="team-desc-col"
+        >
+          <div
+            className="row row-bottom-padding"
+          >
+            <injectIntl(FormattedMarkdownMessage)
+              defaultMessage="**Team Name**:"
+              id="admin.team_settings.team_detail.teamName"
+            />
+            <br />
+            test
+          </div>
+          <div
+            className="row"
+          >
+            <injectIntl(FormattedMarkdownMessage)
+              defaultMessage="**Team Description**:"
+              id="admin.team_settings.team_detail.teamDescription"
+            />
+            <br />
+            <span
+              className="greyed-out"
+            >
+              No team description added.
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="AdminChannelDetails_archiveContainer"
+      >
+        <button
+          className="btn btn-secondary ArchiveButton ArchiveButton___archived"
+          onClick={[MockFunction]}
+          type="button"
+        >
+          <UnarchiveIcon
+            className="channel-icon channel-icon__unarchive"
+          />
+          <MemoizedFormattedMessage
+            defaultMessage="Unarchive Team"
+            id="admin.team_settings.team_details.unarchiveTeam"
+          />
+        </button>
+      </div>
     </div>
   </div>
 </AdminPanel>

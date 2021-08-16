@@ -9,7 +9,7 @@ exports[`components/post_view/FailedPostOptions should match snapshot 1`] = `
     href="#"
     onClick={[Function]}
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Retry"
       id="pending_post_actions.retry"
     />
@@ -20,7 +20,7 @@ exports[`components/post_view/FailedPostOptions should match snapshot 1`] = `
     href="#"
     onClick={[Function]}
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Cancel"
       id="pending_post_actions.cancel"
     />

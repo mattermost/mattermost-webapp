@@ -36,7 +36,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
           }
         />
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Sidebar Settings"
         id="user.settings.sidebar.title"
       />
@@ -49,7 +49,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <h3
       className="tab-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Sidebar Settings"
         id="user.settings.sidebar.title"
       />
@@ -60,19 +60,19 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <SettingItemMin
       describe={
         Array [
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Group by channel type"
             id="user.settings.sidebar.groupByTypeShort"
           />,
           <span>
             , 
           </span>,
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="sorted alphabetically"
             id="user.settings.sidebar.sortAlphaShort"
           />,
           <br />,
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Unreads and favorites grouped separately"
             id="user.settings.sidebar.unreadsFavoritesShort"
           />,
@@ -80,7 +80,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       }
       section="groupChannels"
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Channel Grouping and Sorting"
           id="user.settings.sidebar.groupAndSortChannelsTitle"
         />
@@ -92,14 +92,14 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="On"
           id="user.settings.sidebar.on"
         />
       }
       section="channelSwitcher"
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Channel Switcher"
           id="user.settings.sidebar.channelSwitcherSectionTitle"
         />
