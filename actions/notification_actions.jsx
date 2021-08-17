@@ -198,6 +198,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (disp
 
         if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.6.0')) {
             msg.data = {soundName};
+            msg.url = url;
         }
 
         // get the desktop app to trigger the notification
