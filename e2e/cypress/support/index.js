@@ -171,7 +171,12 @@ function sysadminSetup(user) {
 
     // # Reset config and invalidate cache
     cy.apiUpdateConfig();
-    cy.apiInvalidateCache();
+    cy.apiGetClientLicense().then(({isCloudLicensed}) => {
+        // Invalidating cache on cloud server is not permitted since sysadmin is restricted by default
+        if (!isCloudLicensed) {
+            cy.apiInvalidateCache();
+        }
+    });
 
     // # Reset admin preference, online status and locale
     cy.apiSaveTeammateNameDisplayPreference('username');
@@ -187,14 +192,9 @@ function sysadminSetup(user) {
     });
 
     // # Reset roles
-    cy.apiGetClientLicense().then(({isLicensed, isCloudLicensed}) => {
+    cy.apiGetClientLicense().then(({isLicensed}) => {
         if (isLicensed) {
             cy.apiResetRoles();
-        }
-
-        if (isCloudLicensed) {
-            // # Modify sysadmin role for Cloud edition
-            cy.apiPatchUserRoles(user.id, ['system_admin', 'system_manager', 'system_user']);
         }
     });
 

@@ -9,15 +9,21 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 
+import AddChannelTutorialTip from './add_channel_tutorial_tip';
+
 type Props = {
     intl: IntlShape;
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
     showMoreChannelsModal: () => void;
+    invitePeopleModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
+    townSquareDisplayName: string;
+    offTopicDisplayName: string;
+    showTutorialTip: boolean;
 };
 
 type State = {
@@ -27,6 +33,19 @@ type State = {
 class AddChannelDropdown extends React.PureComponent<Props, State> {
     renderDropdownItems = () => {
         const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
+
+        const invitePeople = (
+            <>
+                <Menu.ItemAction
+                    id='invitePeople'
+                    onClick={this.props.invitePeopleModal}
+                    icon={<i className='icon-account-plus-outline'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeople', defaultMessage: 'Invite People'})}
+                    extraText={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeopleExtraText', defaultMessage: 'Add or invite people to team'})}
+                />
+                <li className='MenuGroup menu-divider'/>
+            </>
+        );
 
         let joinPublicChannel;
         if (canJoinPublicChannel) {
@@ -69,20 +88,21 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             <Menu.ItemAction
                 id={'browseDirectMessages'}
                 onClick={this.props.handleOpenDirectMessagesModal}
-                icon={<i className='icon-account-plus-outline'/>}
+                icon={<i className='icon-account-outline'/>}
                 text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
             />
         );
 
         return (
-            <React.Fragment>
+            <>
                 <Menu.Group>
+                    {invitePeople}
                     {joinPublicChannel}
                     {createChannel}
                     {createDirectMessage}
                 </Menu.Group>
                 {createCategory}
-            </React.Fragment>
+            </>
         );
     }
 
@@ -105,6 +125,16 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             </Tooltip>
         );
 
+        let tutorialTip = null;
+        if (this.props.showTutorialTip) {
+            tutorialTip = (
+                <AddChannelTutorialTip
+                    townSquareDisplayName={this.props.townSquareDisplayName}
+                    offTopicDisplayName={this.props.offTopicDisplayName}
+                />
+            );
+        }
+
         return (
             <MenuWrapper className='AddChannelDropdown'>
                 <OverlayTrigger
@@ -112,12 +142,15 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                     placement='top'
                     overlay={tooltip}
                 >
-                    <button
-                        className='AddChannelDropdown_dropdownButton'
-                        aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
-                    >
-                        <i className='icon-plus'/>
-                    </button>
+                    <>
+                        <button
+                            className='AddChannelDropdown_dropdownButton'
+                            aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
+                        >
+                            <i className='icon-plus'/>
+                        </button>
+                        {tutorialTip}
+                    </>
                 </OverlayTrigger>
                 <Menu
                     id='AddChannelDropdown'

@@ -53,16 +53,27 @@ export function removeUnneededMetadata(post: Post) {
         let embedsChanged = false;
 
         const newEmbeds = metadata.embeds.map((embed) => {
-            if (embed.type !== 'opengraph') {
+            switch (embed.type) {
+            case 'opengraph': {
+                const newEmbed = {...embed};
+                Reflect.deleteProperty(newEmbed, 'data');
+
+                embedsChanged = true;
+
+                return newEmbed;
+            }
+            case 'permalink': {
+                const permalinkEmbed = {...embed};
+                if (permalinkEmbed.data) {
+                    Reflect.deleteProperty(permalinkEmbed.data, 'post');
+                }
+                embedsChanged = true;
+
+                return permalinkEmbed;
+            }
+            default:
                 return embed;
             }
-
-            const newEmbed = {...embed};
-            Reflect.deleteProperty(newEmbed, 'data');
-
-            embedsChanged = true;
-
-            return newEmbed;
         });
 
         if (embedsChanged) {
@@ -282,6 +293,15 @@ function handlePostReceived(nextState: any, post: Post) {
             };
         }
     } else {
+        if (post.metadata && post.metadata.embeds) {
+            post.metadata.embeds.forEach((embed) => {
+                if (embed.type === 'permalink') {
+                    if (embed.data && 'post_id' in embed.data && embed.data.post) {
+                        nextState[embed.data.post_id] = removeUnneededMetadata(embed.data.post);
+                    }
+                }
+            });
+        }
         nextState[post.id] = removeUnneededMetadata(post);
     }
 

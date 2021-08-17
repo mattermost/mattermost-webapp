@@ -44,7 +44,7 @@
         }
 
         .arrow {
-            top: 80px;
+            top: 115px;
             left: -10px;
             border-right-color: $white;
             border-left-width: 0;
@@ -84,6 +84,34 @@
             border-top-color: $white;
             border-bottom-width: 0;
             margin-left: -10px;
+        }
+    }
+
+    &.tip-overlay--add-channels {
+        .arrow {
+            top: 84px;
+            left: -10px;
+            border-right-color: $white;
+            border-left-width: 0;
+        }
+    }
+
+    &.tip-overlay--product-switcher {
+        .arrow {
+            top: 10px;
+            left: 0;
+            border-right-color: $white;
+            border-left-width: 0;
+            margin-left: -10px;
+        }
+    }
+
+    &.tip-overlay--settings {
+        .arrow {
+            top: -10px;
+            right: 44px;
+            border-top-width: 0;
+            border-bottom-color: $white;
         }
     }
 
@@ -151,6 +179,11 @@
     top: 0;
     right: 0;
 
+    &.tip-overlay--chat {
+        right: unset;
+        left: 0;
+    }
+
     &.tip-overlay--header {
         top: 21px;
         right: 2px;
@@ -160,11 +193,40 @@
         }
     }
 
+    &.tip-overlay--header--left {
+        // needs to be over the top of the dropdown trigger
+        z-index: 1;
+        top: 8px;
+        right: 8px;
+        padding: 0 0 12px 12px;
+    }
+
     &.tip-overlay--sidebar {
         @include opacity(0.8);
 
-        top: 8px;
+        top: 10px;
         right: 21px;
+    }
+
+    &.tip-overlay--add-channels {
+        top: -6px;
+        right: -6px;
+        padding: 0 8px 24px 24px;
+        cursor: pointer;
+    }
+
+    &.tip-overlay--product-switcher {
+        right: unset;
+        padding: 0 4px 16px 16px;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    &.tip-overlay--settings {
+        top: 23px;
+        right: 38px;
+        padding: 10px;
+        margin: 0;
     }
 }
 

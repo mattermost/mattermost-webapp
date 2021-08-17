@@ -26,7 +26,7 @@ import Textbox from './textbox';
 
 type Props = {
     channelId: string;
-    rootId: string;
+    rootId?: string;
 };
 
 /* eslint-disable camelcase */
@@ -54,7 +54,7 @@ const makeMapStateToProps = () => {
             currentTeamId: teamId,
             profilesInChannel: profilesWithLastViewAtInChannel,
             autocompleteGroups,
-            priorityProfiles: getProfilesForThread(state, ownProps),
+            priorityProfiles: getProfilesForThread(state, ownProps.rootId ?? ''),
         };
     };
 };

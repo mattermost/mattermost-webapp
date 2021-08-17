@@ -32,7 +32,7 @@
     display: flex;
     height: 100%;
     align-items: center;
-    color: var(--center-channel-color-56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     pointer-events: none;
 }
 
@@ -40,7 +40,7 @@
     position: absolute;
     top: 6px;
     left: 9px;
-    fill: v(center-channel-color-56);
+    fill: rgba(var(--center-channel-color-rgb), 0.56);
     pointer-events: none;
 
     svg {
@@ -63,13 +63,13 @@
     align-items: center;
     justify-content: center;
     margin: 0;
-    color: v(center-channel-color-56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     cursor: pointer;
     font-size: 16px;
     visibility: hidden;
 
     &:hover {
-        color: v(center-channel-color-72);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
     }
 
     &:active {
@@ -82,6 +82,21 @@
 
     body.enable-animations & {
         @include single-transition(opacity, $transition-quick, ease-out);
+    }
+}
+
+.search-bar-container--global {
+    width: 100%;
+}
+
+.search__form--global {
+    background: var(--sidebar-text-08);
+    border-radius: 4px;
+    color: var(--sidebar-text-72);
+
+    .search__font-icon,
+    .input-clear-x {
+        color: var(--sidebar-text-72);
     }
 }
 
@@ -120,7 +135,7 @@
 
         width: 180px;
         height: 32px;
-        border: 1px solid v(center-channel-color-24);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
         margin: 16px 0 0;
 
         .input-clear {
@@ -128,7 +143,7 @@
         }
 
         &:hover {
-            border: 1px solid v(center-channel-color-40);
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.4);
         }
 
         &--focused,
@@ -170,6 +185,14 @@
 
         &.a11y--focused {
             box-shadow: none;
+        }
+    }
+
+    .Global__search-bar {
+        color: var(--sidebar-text-72);
+
+        &::placeholder {
+            color: var(--sidebar-text-72);
         }
     }
 
@@ -271,7 +294,7 @@
 
         position: relative;
         padding: 5px 4px 0;
-        color: v(center-channel-color-40);
+        color: rgba(var(--center-channel-color-rgb), 0.4);
         font-size: 12px;
         font-weight: 600;
         text-decoration: none;
@@ -294,7 +317,7 @@
 
 .search-hint__title {
     padding: 22px 24px;
-    border-bottom: 1px solid var(--center-channel-color-16);
+    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     margin: 0;
     font-weight: bold;
 }

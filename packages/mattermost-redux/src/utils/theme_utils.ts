@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme, ThemeTypeMap} from 'mattermost-redux/types/themes';
 import {Preferences} from '../constants';
 
 export function makeStyleFromTheme(getStyleFromTheme: (a: any) => any): (a: any) => any {
@@ -116,46 +116,55 @@ export const blendColors = (background: string, foreground: string, opacity: num
     return `rgba(${red},${green},${blue},${alpha})`;
 };
 
+// object mapping theme types to their respective keys for retrieving the source themes directly
+// - supports mapping old themes to new themes
+const themeTypeMap: ThemeTypeMap = {
+    Mattermost: 'denim',
+    Organization: 'sapphire',
+    'Mattermost Dark': 'indigo',
+    'Windows Dark': 'onyx',
+    Denim: 'denim',
+    Sapphire: 'sapphire',
+    Quartz: 'quartz',
+    Indigo: 'indigo',
+    Onyx: 'onyx',
+};
+
 // setThemeDefaults will set defaults on the theme for any unset properties.
-export function setThemeDefaults(theme: Theme): Theme {
-    const defaultTheme = Preferences.THEMES.default;
+export function setThemeDefaults(theme: Partial<Theme>): Theme {
+    const defaultTheme = Preferences.THEMES.denim;
 
-    // If this is a system theme, find it in case the user's theme is missing any fields
-    if (theme.type && theme.type !== 'custom') {
-        const match = Object.values(Preferences.THEMES).find((v) => v.type === theme.type);
-        if (match) {
-            if (!match.mentionBg) {
-                match.mentionBg = match.mentionBj;
-            }
+    const processedTheme = {...theme};
 
-            return match;
-        }
+    // If this is a system theme, return the source theme object matching the theme preference type
+    if (theme.type && theme.type !== 'custom' && Object.keys(themeTypeMap).includes(theme.type)) {
+        return Preferences.THEMES[themeTypeMap[theme.type]];
     }
 
     for (const key of Object.keys(defaultTheme)) {
         if (theme[key]) {
             // Fix a case where upper case theme colours are rendered as black
-            theme[key] = theme[key]?.toLowerCase();
+            processedTheme[key] = theme[key]?.toLowerCase();
         }
     }
 
     for (const property in defaultTheme) {
-        if (property === 'type' || property === 'sidebarTeamBarBg') {
+        if (property === 'type' || (property === 'sidebarTeamBarBg' && theme.sidebarHeaderBg)) {
             continue;
         }
         if (theme[property] == null) {
-            theme[property] = defaultTheme[property];
+            processedTheme[property] = defaultTheme[property];
         }
 
         // Backwards compatability with old name
-        if (!theme.mentionBg) {
-            theme.mentionBg = theme.mentionBj;
+        if (!theme.mentionBg && theme.mentionBj) {
+            processedTheme.mentionBg = theme.mentionBj;
         }
     }
 
-    if (!theme.sidebarTeamBarBg) {
-        theme.sidebarTeamBarBg = blendColors(theme.sidebarHeaderBg, '#000000', 0.2, true);
+    if (!theme.sidebarTeamBarBg && theme.sidebarHeaderBg) {
+        processedTheme.sidebarTeamBarBg = blendColors(theme.sidebarHeaderBg, '#000000', 0.2, true);
     }
 
-    return theme;
+    return processedTheme as Theme;
 }

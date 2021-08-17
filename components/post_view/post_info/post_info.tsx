@@ -11,7 +11,7 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import {Post} from 'mattermost-redux/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import Constants, {Locations} from 'utils/constants';
 import CommentIcon from 'components/post_view/comment_icon';
