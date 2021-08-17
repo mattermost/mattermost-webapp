@@ -110,7 +110,7 @@ const GlobalHeader = (): JSX.Element | null => {
                 {currentProductID !== null &&
                     <Pluggable
                         pluggableName={'Product'}
-                        subComponentName={'headerComponent'}
+                        subComponentName={'headerCentreComponent'}
                         pluggableId={currentProductID}
                     />
                 }
@@ -122,6 +122,13 @@ const GlobalHeader = (): JSX.Element | null => {
                 }
             </CenterControls>
             <RightControls>
+                {currentProductID !== null &&
+                    <Pluggable
+                        pluggableName={'Product'}
+                        subComponentName={'headerRightComponent'}
+                        pluggableId={currentProductID}
+                    />
+                }
                 {currentProductID === null &&
                     <>
                         <AtMentionsButton/>
