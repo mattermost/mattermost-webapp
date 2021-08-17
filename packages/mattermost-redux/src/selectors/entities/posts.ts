@@ -98,28 +98,13 @@ export const getPostsInCurrentChannel: (state: GlobalState) => PostWithFormatDat
 })();
 
 export function makeGetPostIdsForThread(): (state: GlobalState, postId: $ID<Post>) => Array<$ID<Post>> {
+    const getPostsForThread = makeGetPostsForThread();
+
     return createIdsSelector(
         'makeGetPostIdsForThread',
-        getAllPosts,
-        (state: GlobalState, rootId: string) => state.entities.posts.postsInThread[rootId] || [],
-        (state: GlobalState, rootId) => state.entities.posts.posts[rootId],
-        (posts, postsForThread, rootPost) => {
-            const thread: Post[] = [];
-
-            if (rootPost) {
-                thread.push(rootPost);
-            }
-
-            postsForThread.forEach((id) => {
-                const post = posts[id];
-                if (post) {
-                    thread.push(post);
-                }
-            });
-
-            thread.sort(comparePosts);
-
-            return thread.map((post) => post.id);
+        (state: GlobalState, rootId: $ID<Post>) => getPostsForThread(state, rootId),
+        (posts) => {
+            return posts.map((post) => post.id);
         },
     );
 }

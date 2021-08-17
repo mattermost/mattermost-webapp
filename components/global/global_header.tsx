@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 import StatusDropdown from 'components/status_dropdown';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
+import {TutorialSteps} from 'utils/constants';
 import Pluggable from 'plugins/pluggable';
 
 import GlobalSearchNav from './global_search_nav/global_search_nav';
@@ -18,8 +19,9 @@ import UserGuideDropdown from './user_guide_dropdown';
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button//';
+import SettingsTip from './settings_tip';
 
-import {useCurrentProductId, useProducts} from './hooks';
+import {useCurrentProductId, useProducts, useShowTutorialStep} from './hooks';
 
 import './global_header.scss';
 
@@ -78,6 +80,7 @@ const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
+    const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
 
     useEffect(() => {
         const root = document.querySelector('#root');
@@ -130,6 +133,7 @@ const GlobalHeader = (): JSX.Element | null => {
                         <AtMentionsButton/>
                         <SavedPostsButton/>
                         <SettingsButton/>
+                        {showSettingsTip && <SettingsTip/>}
                     </>
                 }
                 <StatusDropdown globalHeader={true}/>

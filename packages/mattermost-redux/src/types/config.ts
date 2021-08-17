@@ -102,6 +102,7 @@ export type ClientConfig = {
     EnableTesting: string;
     EnableThemeSelection: string;
     EnableTutorial: string;
+    EnableOnboardingFlow: string;
     EnableUserAccessTokens: string;
     EnableUserCreation: string;
     EnableUserDeactivation: string;
@@ -320,6 +321,7 @@ export type ServiceSettings = {
     CloseUnusedDirectMessages: boolean;
     EnablePreviewFeatures: boolean;
     EnableTutorial: boolean;
+    EnableOnboardingFlow: boolean;
     ExperimentalEnableDefaultChannelLeaveJoinMessages: boolean;
     ExperimentalGroupUnreadChannels: string;
     ExperimentalChannelOrganization: boolean;

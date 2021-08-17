@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 // css feature flag: apply styling overrides to legacy layout when global header is enabled
 .feature-global-header {
@@ -42,12 +42,11 @@
             height: calc(100% - 40px);
         }
 
-        // use sidebar variables for lhs
-        #lhsHeader {
-            --sidebar-header-bg: var(--sidebar-bg);
-            --sidebar-header-text-color: var(--sidebar-text);
-            --sidebar-header-bg-rgb: var(--sidebar-bg-rgb);
-            --sidebar-header-text-color-rgb: var(--sidebar-text-rgb);
+        #lhsNavigator {
+            .SidebarChannelNavigator {
+                margin-top: 0;
+                margin-bottom: 11px;
+            }
         }
 
         // move rhs up next to channel header
