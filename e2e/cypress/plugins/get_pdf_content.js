@@ -6,11 +6,11 @@ const fs = require('fs');
 const pdf = require('pdf-parse');
 
 /**
- * Checks whether a file exist in the fixtures folder
- * @param {string} filename - filename to check if it exists
+ * Checks whether a file exist in the cypress/downloads folder and return the content of it.
+ * @param {string} filePath - pdf file path
  */
-module.exports = async (pdfPathName) => {
-    const dataBuffer = fs.readFileSync(pdfPathName);
+module.exports = async (filePath) => {
+    const dataBuffer = fs.readFileSync(filePath);
     const data = await pdf(dataBuffer);
     return data;
 };
