@@ -125,7 +125,7 @@ export default class PluginRegistry {
             icon: resolveReactElement(icon),
             action,
             dropdownText: resolveReactElement(dropdownText),
-            tooltipText,
+            tooltipText: resolveReactElement(tooltipText),
         };
 
         store.dispatch({
