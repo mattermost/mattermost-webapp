@@ -102,7 +102,6 @@ type Props = {
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
     timezoneLabel: string;
-    globalHeaderAllowed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
