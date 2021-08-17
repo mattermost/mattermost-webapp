@@ -26,7 +26,7 @@ import Markdown from 'components/markdown';
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
 
-import './apps_form_component.css';
+import './apps_form_component.scss';
 
 export type AppsFormProps = {
     form: AppForm;
@@ -382,7 +382,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     </Modal.Header>
                     {(fields || header) && (
                         <Modal.Body
-                            className={this.state.changing ? 'modal-body-opacity' : ''}
+                            className={this.state.changing ? 'apps-form-modal-body-opacity' : ''}
                         >
                             {this.renderBody()}
                         </Modal.Body>
