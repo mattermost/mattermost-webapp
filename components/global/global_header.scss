@@ -72,5 +72,11 @@
         .product-switcher-icon {
             padding: 0 6px;
         }
+
+        .backstage {
+            position: relative;
+            z-index: 2;
+            margin-top: -40px;
+        }
     }
 }
