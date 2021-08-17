@@ -5,6 +5,8 @@ import React from 'react';
 
 import {Store} from 'redux';
 
+import Icon from '@mattermost/compass-components/foundations/icon/Icon';
+
 import {Client4} from 'mattermost-redux/client';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {AutocompleteSuggestion, CommandArgs} from 'mattermost-redux/types/integrations';
@@ -42,7 +44,12 @@ export class CommandSuggestion extends Suggestion {
             symbolSpan = <span className='block mt-1'>{'↵'}</span>;
             break;
         case OPEN_COMMAND_IN_MODAL_ITEM_ID:
-            symbolSpan = <span className='block mt-1'>{'↵'}</span>;
+            symbolSpan = (<span className='block mt-1'>
+                <Icon
+                    size={28}
+                    glyph={'dock-window'}
+                />
+            </span>);
             break;
         case COMMAND_SUGGESTION_ERROR:
             symbolSpan = <span>{'!'}</span>;
