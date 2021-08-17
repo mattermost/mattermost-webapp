@@ -26,7 +26,6 @@ export type ClientConfig = {
     BuildHash: string;
     BuildHashEnterprise: string;
     BuildNumber: string;
-    CloseUnusedDirectMessages: string;
     CollapsedThreads: CollapsedThreads;
     InviteMembersBtnLocations: InviteMembersBtnLocations;
     CustomBrandText: string;
@@ -74,7 +73,6 @@ export type ClientConfig = {
     EnableIncomingWebhooks: string;
     EnableLatex: string;
     EnableLdap: string;
-    EnableLegacySidebar: string;
     EnableLinkPreviews: string;
     EnableMarketplace: string;
     EnableMetrics: string;
@@ -108,7 +106,6 @@ export type ClientConfig = {
     EnableUserDeactivation: string;
     EnableUserTypingMessages: string;
     EnforceMultifactorAuthentication: string;
-    ExperimentalChannelOrganization: string;
     ExperimentalClientSideCertCheck: string;
     ExperimentalClientSideCertEnable: string;
     ExperimentalCloudBilling: string;
@@ -311,13 +308,11 @@ export type ServiceSettings = {
     EnableUserStatuses: boolean;
     ExperimentalEnableAuthenticationTransfer: boolean;
     ClusterLogTimeoutMilliseconds: number;
-    CloseUnusedDirectMessages: boolean;
     EnablePreviewFeatures: boolean;
     EnableTutorial: boolean;
     EnableOnboardingFlow: boolean;
     ExperimentalEnableDefaultChannelLeaveJoinMessages: boolean;
     ExperimentalGroupUnreadChannels: string;
-    ExperimentalChannelOrganization: boolean;
     ExperimentalDataPrefetch: boolean;
     EnableAPITeamDeletion: boolean;
     ExperimentalEnableHardenedMode: boolean;
@@ -329,7 +324,6 @@ export type ServiceSettings = {
     EnableLatex: boolean;
     EnableLocalMode: boolean;
     LocalModeSocketLocation: string;
-    EnableLegacySidebar: boolean;
     CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
 };
 

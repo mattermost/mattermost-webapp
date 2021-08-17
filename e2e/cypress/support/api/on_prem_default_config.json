@@ -63,13 +63,11 @@
         "EnableUserStatuses": true,
         "ExperimentalEnableAuthenticationTransfer": true,
         "ClusterLogTimeoutMilliseconds": 2000,
-        "CloseUnusedDirectMessages": false,
         "EnablePreviewFeatures": true,
         "EnableTutorial": true,
         "EnableOnboardingFlow": false,
         "ExperimentalEnableDefaultChannelLeaveJoinMessages": true,
         "ExperimentalGroupUnreadChannels": "disabled",
-        "ExperimentalChannelOrganization": false,
         "EnableAPITeamDeletion": true,
         "ExperimentalEnableHardenedMode": false,
         "ExperimentalStrictCSRFEnforcement": false,
@@ -77,8 +75,7 @@
         "DisableBotsWhenOwnerIsDeactivated": true,
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
-        "EnableLatex": false,
-        "EnableLegacySidebar": false
+        "EnableLatex": false
     },
     "TeamSettings": {
         "SiteName": "Mattermost",

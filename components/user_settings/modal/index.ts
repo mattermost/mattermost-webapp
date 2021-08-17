@@ -18,15 +18,11 @@ import UserSettingsModal, {Props} from './user_settings_modal';
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
-    const closeUnusedDirectMessages = config.CloseUnusedDirectMessages === 'true';
-    const experimentalChannelOrganization = config.ExperimentalChannelOrganization === 'true';
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
     const requireEmailVerification = config.RequireEmailVerification === 'true';
     const collapsedThreads = isCollapsedThreadsEnabled(state);
 
     return {
-        closeUnusedDirectMessages,
-        experimentalChannelOrganization,
         currentUser: getCurrentUser(state),
         sendEmailNotifications,
         requireEmailVerification,

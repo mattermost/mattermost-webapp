@@ -16,20 +16,17 @@
         "GfycatApiKey": "2_KtH_W5",
         "GfycatApiSecret": "3wLVZPiswc3DnaiaFoLkDvB4X0IV6CpMkj4tf2inJRsBY6-FnkT08zGmppWFgeof",
         "PostEditTimeLimit": -1,
-        "CloseUnusedDirectMessages": false,
         "EnablePreviewFeatures": true,
         "EnableTutorial": true,
         "EnableOnboardingFlow": false,
         "ExperimentalEnableDefaultChannelLeaveJoinMessages": true,
         "ExperimentalGroupUnreadChannels": "disabled",
-        "ExperimentalChannelOrganization": false,
         "EnableAPITeamDeletion": true,
         "ExperimentalEnableHardenedMode": false,
         "EnableEmailInvitations": true,
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
-        "EnableLatex": false,
-        "EnableLegacySidebar": false
+        "EnableLatex": false
     },
     "TeamSettings": {
         "SiteName": "Mattermost",
