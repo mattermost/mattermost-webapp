@@ -1,137 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/view_image/popover_bar/PopoverBar should match snapshot with public links disabled 1`] = `
+exports[`components/file_preview_modal/popover_bar/PopoverBar should match snapshot with zoom controls enabled 1`] = `
 <div
-  className="modal-button-bar"
+  className="modal-button-bar file-preview-modal__zoom-bar"
   data-testid="fileCountFooter"
 >
-  <div
-    className="modal-column text"
-  >
-    <span
-      className="modal-bar-file-count"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="File {count, number} of {total, number}"
-        id="view_image_popover.file"
-        values={
-          Object {
-            "count": 1,
-            "total": 0,
-          }
-        }
-      />
-    </span>
-  </div>
-  <div
-    className="modal-column text"
-  >
-    <span
-      className="modal-bar-links"
-    >
-      <a
-        className="text"
-        download=""
-        href=""
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Download"
-          id="view_image_popover.download"
-        />
-      </a>
-    </span>
-  </div>
-</div>
-`;
-
-exports[`components/view_image/popover_bar/PopoverBar should match snapshot with public links enabled 1`] = `
-<div
-  className="modal-button-bar"
-  data-testid="fileCountFooter"
->
-  <div
-    className="modal-column text"
-  >
-    <span
-      className="modal-bar-file-count"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="File {count, number} of {total, number}"
-        id="view_image_popover.file"
-        values={
-          Object {
-            "count": 1,
-            "total": 0,
-          }
-        }
-      />
-    </span>
-  </div>
-  <div
-    className="modal-column text"
-  >
-    <span
-      className="modal-bar-links"
-    >
-      <span>
-        <a
-          className="public-link text"
-          data-title="Public Image"
-          href="#"
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="Get a public link"
-            id="view_image_popover.publicLink"
-          />
-        </a>
-        <span
-          className="text"
-        >
-           | 
-        </span>
-      </span>
-      <a
-        className="text"
-        download=""
-        href=""
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Download"
-          id="view_image_popover.download"
-        />
-      </a>
-    </span>
-  </div>
-</div>
-`;
-
-exports[`components/view_image/popover_bar/PopoverBar should match snapshot with zoom controls enabled 1`] = `
-<div
-  className="modal-button-bar"
-  data-testid="fileCountFooter"
->
-  <div
-    className="modal-column text"
-  >
-    <span
-      className="modal-bar-file-count"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="File {count, number} of {total, number}"
-        id="view_image_popover.file"
-        values={
-          Object {
-            "count": 1,
-            "total": 0,
-          }
-        }
-      />
-    </span>
-  </div>
   <div
     className="modal-column"
   >
@@ -231,26 +104,6 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
         />
       </span>
     </OverlayTrigger>
-  </div>
-  <div
-    className="modal-column text"
-  >
-    <span
-      className="modal-bar-links"
-    >
-      <a
-        className="text"
-        download=""
-        href=""
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Download"
-          id="view_image_popover.download"
-        />
-      </a>
-    </span>
   </div>
 </div>
 `;

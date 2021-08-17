@@ -15,12 +15,14 @@
     }
 
     @media screen and (min-width: 769px) {
+        // ensure the global header always sits on top of it's immediate sibling
         > header {
             z-index: 2;
-        }
 
-        #channel_view {
-            z-index: 1;
+            + * {
+                position: relative;
+                z-index: 1;
+            }
         }
 
         .team-sidebar {
