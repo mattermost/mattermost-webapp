@@ -85,6 +85,12 @@
     }
 
     .dropdown-menu {
+        background: var(--sys-center-channel-bg);
+
+        > li > button:hover {
+            background: rgba(var(--sys-center-channel-color-rgb), 0.1);
+        }
+
         .divider {
             @include opacity(1);
         }
