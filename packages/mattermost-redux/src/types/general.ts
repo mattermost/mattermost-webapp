@@ -14,7 +14,6 @@ export type GeneralState = {
     firstAdminVisitMarketplaceStatus: boolean;
     license: ClientLicense;
     serverVersion: string;
-    timezones: string[];
     warnMetricsStatus: Dictionary<WarnMetricStatus>;
 };
 
