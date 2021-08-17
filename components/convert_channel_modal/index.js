@@ -4,7 +4,7 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {convertChannelToPrivate} from 'mattermost-redux/actions/channels';
+import {updateChannelPrivacy} from 'mattermost-redux/actions/channels';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
@@ -19,7 +19,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            convertChannelToPrivate,
+            updateChannelPrivacy,
         }, dispatch),
     };
 }

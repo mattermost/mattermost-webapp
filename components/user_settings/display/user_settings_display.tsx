@@ -6,7 +6,8 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
+import {Timezone} from 'timezones.json';
+
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
@@ -80,7 +81,7 @@ type Props = {
     collapseModal?: () => void;
     setRequireConfirm?: () => void;
     setEnforceFocus?: () => void;
-    timezones: string[];
+    timezones: Timezone[];
     userTimezone: UserTimezone;
     allowCustomThemes: boolean;
     enableLinkPreviews: boolean;
@@ -100,9 +101,10 @@ type Props = {
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
+    timezoneLabel: string;
+    globalHeaderAllowed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
-        getSupportedTimezones: () => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
     };
 }
@@ -140,10 +142,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             ...getDisplayStateFromProps(props),
             isSaving: false,
         };
-
-        if (props.timezones.length === 0) {
-            props.actions.getSupportedTimezones();
-        }
 
         this.prevSections = {
             theme: 'dummySectionName', // dummy value that should never match any section name
@@ -705,7 +703,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                     defaultMessage='Timezone'
                                 />
                             }
-                            describe={getTimezoneRegion(this.props.currentUserTimezone)}
+                            describe={this.props.timezoneLabel}
                             section={'timezone'}
                             updateSection={this.updateSection}
                         />
