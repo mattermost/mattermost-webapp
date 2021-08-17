@@ -1537,15 +1537,6 @@ export default class Client4 {
         );
     };
 
-    convertChannelToPrivate = (channelId: string) => {
-        this.trackEvent('api', 'api_channels_convert_to_private', {channel_id: channelId});
-
-        return this.doFetch<Channel>(
-            `${this.getChannelRoute(channelId)}/convert`,
-            {method: 'post'},
-        );
-    };
-
     updateChannelPrivacy = (channelId: string, privacy: any) => {
         this.trackEvent('api', 'api_channels_update_privacy', {channel_id: channelId, privacy});
 
