@@ -209,6 +209,15 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.props.actions.setStatusDropdown(open);
     }
 
+    handleCustomStatusEmojiClick = (event: React.MouseEvent) => {
+        event.stopPropagation();
+        const customStatusInputModalData = {
+            modalId: ModalIdentifiers.CUSTOM_STATUS,
+            dialogType: CustomStatusModal,
+        };
+        this.props.actions.openModal(customStatusInputModalData);
+    }
+
     renderCustomStatus = (isStatusSet: boolean | undefined): ReactNode => {
         if (!this.props.isCustomStatusEnabled) {
             return null;
@@ -356,8 +365,10 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 <div className='status-wrapper status-selector'>
                     {globalHeader &&
                         <CustomStatusEmoji
-                            showTooltip={false}
+                            showTooltip={true}
+                            tooltipDirection={'bottom'}
                             emojiStyle={{marginRight: '6px'}}
+                            onClick={this.handleCustomStatusEmojiClick as () => void}
                         />
                     }
                     {this.renderProfilePicture(globalHeader ? 'sm' : 'lg')}

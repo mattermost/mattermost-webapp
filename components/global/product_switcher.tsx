@@ -48,9 +48,9 @@ const MenuItem = styled(Link)`
     }
 
     height: 40px;
-    width: 273px;
+    width: 270px;
     padding-left: 16px;
-    padding-right: 16px;
+    padding-right: 20px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -68,10 +68,6 @@ const MenuItem = styled(Link)`
 
 const StyledIcon = styled(Icon)`
     color: var(--button-bg);
-    ::before {
-        font-size: 28.8px;
-        line-height: 28.8px;
-    }
 `;
 
 const MenuItemTextContainer = styled.div`
@@ -88,12 +84,15 @@ const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNa
             to={destination}
             onClick={onClick}
         >
-            <StyledIcon glyph={icon || 'none'}/>
+            <StyledIcon
+                size={20}
+                glyph={icon || 'none'}
+            />
             <MenuItemTextContainer>
                 {text}
             </MenuItemTextContainer>
             {active &&
-                <Icon
+                <StyledIcon
                     size={16}
                     glyph='check'
                 />
