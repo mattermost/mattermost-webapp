@@ -38,7 +38,6 @@ describe('components/channel_invite_modal', () => {
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         delete_at: 0,
         display_name: 'testing',
-        extra_update_at: 1508265709628,
         header: 'test',
         id: 'owsyt8n43jfxjpzh9np93mx1wa',
         last_post_at: 1508265709635,
