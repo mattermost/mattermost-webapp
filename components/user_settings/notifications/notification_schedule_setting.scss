@@ -87,11 +87,65 @@
             margin: 4px 0 4px 0;
 
             .week-name {
-                width: 100px;
+                width: 130px;
             }
 
-            .time-picker {
-                width: 150px;
+            p {
+                margin: 0 8px;
+            }
+
+            .left-wrapper {
+                position: relative;
+                width: 20%;
+
+                .time {
+                    width: 100%;
+                    height: 36px;
+
+                    .react-select__control {
+                        .react-select__value-container {
+                            padding: 0 8px 0 32px;
+                        }
+                    }
+
+                    .react-select__menu {
+                        z-index: 2;
+                    }
+                }
+
+                .time-icon {
+                    position: absolute;
+                    z-index: 1;
+                    top: 7px;
+                    left: 10px;
+                }
+            }
+
+            .right-wrapper {
+                position: relative;
+                width: 20%;
+
+                .time {
+                    width: 100%;
+                    height: 36px;
+
+                    .react-select__control {
+                        .react-select__value-container {
+                            padding: 0 8px 0 32px;
+                        }
+                    }
+
+                    .react-select__menu {
+                        z-index: 2;
+                    }
+                }
+
+                .time-icon {
+                    position: absolute;
+                    z-index: 1;
+                    top: 7px;
+                    left: 10px;
+                }
             }
         }
     }
@@ -113,62 +167,65 @@
                     width: 20%;
                 }
             }
-        }
 
-        .n-custom-time {
-            width: 100%;
-
-            .time-picker {
-                width: 150px;
+            .react-select__menu {
+                z-index: 2;
             }
         }
 
         .time-wrapper {
             display: inline-flex;
-            width: 60%;
+            width: 50%;
             align-items: center;
+            margin-left: 16px;
 
             p {
-                margin: 0;
+                margin: 0 8px;
             }
 
-            .time-picker {
-                display: flex;
-                align-items: center;
-                margin: 0 10px;
+            .left-wrapper {
+                position: relative;
+                width: 38%;
 
-                .time-icon {
-                    position: absolute;
-                    left: 8px;
-                    width: 20px;
-                    height: 20px;
+                .time {
+                    width: 100%;
+                    height: 36px;
 
-                    .icon-clock-outline {
-                        width: 25px;
-                        height: 25px;
+                    .react-select__control {
+                        .react-select__value-container {
+                            padding: 0 8px 0 32px;
+                        }
                     }
                 }
 
-                .rc-time-picker-input {
+                .time-icon {
+                    position: absolute;
+                    z-index: 1;
+                    top: 7px;
+                    left: 10px;
+                }
+            }
+
+            .right-wrapper {
+                position: relative;
+                width: 38%;
+
+                .time {
                     width: 100%;
                     height: 36px;
-                    padding-left: 38px;
-                    border: 1px solid var(--center-channel-color-20);
-                    background-color: var(--center-channel-bg);
-                    color: var(--center-channel-color);
-                    font-size: 14px;
-                    font-weight: 400;
+
+                    .react-select__control {
+                        .react-select__value-container {
+                            padding: 0 8px 0 32px;
+                        }
+                    }
                 }
 
-                .rc-time-picker-input:focus {
-                    border-color: rgba(var(--button-bg-rgb), 1);
-                    box-shadow: inset 0 0 0 1px rgba(var(--button-bg-rgb), 1);
-                }
-
-                .rc-time-picker-clear {
-                    display: none;
-                    width: 0;
-                    height: 0;
+                .time-icon {
+                    position: absolute;
+                    z-index: 1;
+                    top: 7px;
+                    left: 10px;
                 }
             }
         }
@@ -203,46 +260,5 @@
     input[type=checkbox]:disabled + label {
         background: #ddd;
         cursor: default;
-    }
-}
-
-.rc-time-picker-panel-inner {
-    border: none;
-    margin-top: 2px;
-    background-color: transparent;
-    box-shadow: none;
-
-    .rc-time-picker-panel-input-wrap {
-        width: 80%;
-        height: 36px;
-        border: none;
-
-        .rc-time-picker-panel-input {
-            display: none;
-        }
-    }
-
-    .rc-time-picker-panel-combobox {
-        width: 168px;
-        height: 156px;
-        border: 1px solid var(--center-channel-color-20);
-        margin-top: 9px;
-        background-color: var(--center-channel-bg);
-        border-radius: 4px;
-
-        .rc-time-picker-panel-select {
-            border: none;
-            border-width: none;
-            margin-top: 4px;
-
-            .rc-time-picker-panel-select-option-selected {
-                background-color: rgba(var(--button-bg-rgb), 1);
-                color: var(--sys-button-color);
-            }
-
-            li:hover {
-                background-color: rgba(var(--sys-center-channel-color-rgb), 0.08);
-            }
-        }
     }
 }
