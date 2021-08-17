@@ -19,6 +19,7 @@
         "CloseUnusedDirectMessages": false,
         "EnablePreviewFeatures": true,
         "EnableTutorial": true,
+        "EnableOnboardingFlow": false,
         "ExperimentalEnableDefaultChannelLeaveJoinMessages": true,
         "ExperimentalGroupUnreadChannels": "disabled",
         "ExperimentalChannelOrganization": false,
@@ -217,7 +218,8 @@
         "Enable": false
     },
     "ExperimentalSettings": {
-        "RestrictSystemAdmin": false
+        "RestrictSystemAdmin": true,
+        "CloudBilling": true
     },
     "DataRetentionSettings": {
         "EnableMessageDeletion": false,

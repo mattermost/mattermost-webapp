@@ -67,6 +67,7 @@ class ChannelHeader extends React.PureComponent {
         intl: intlShape.isRequired,
         pinnedPostsCount: PropTypes.number,
         hasMoreThanOneTeam: PropTypes.bool,
+        globalHeaderEnabled: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -209,7 +210,10 @@ class ChannelHeader extends React.PureComponent {
             this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
 
-        this.setState({topOffset: (announcementBarSize * this.props.announcementBarCount)});
+        const globalHeaderOffset = this.props.globalHeaderEnabled ? 40 : 0;
+        const topOffset = (announcementBarSize * this.props.announcementBarCount) + globalHeaderOffset;
+
+        this.setState({topOffset});
     }
 
     setPopoverOverlayWidth = () => {
@@ -260,6 +264,7 @@ class ChannelHeader extends React.PureComponent {
             hasGuests,
             teammateNameDisplaySetting,
             isLegacySidebar,
+            globalHeaderEnabled,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -411,7 +416,7 @@ class ChannelHeader extends React.PureComponent {
         if (rhsState === RHSStates.CHANNEL_FILES) {
             channelFilesIconClass += ' channel-header__icon--active';
         }
-        const channelFilesIcon = <i className='icon icon-file-document-outline'/>;
+        const channelFilesIcon = <i className='icon icon-file-text-outline'/>;
 
         let pinnedIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
         if (rhsState === RHSStates.PIN) {
@@ -773,7 +778,7 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
-                    <RHSSearchNav/>
+                    {!globalHeaderEnabled && <RHSSearchNav/>}
                 </div>
             </div>
         );

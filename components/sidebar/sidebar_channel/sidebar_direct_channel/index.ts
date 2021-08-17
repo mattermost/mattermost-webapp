@@ -4,13 +4,11 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {Client4} from 'mattermost-redux/client';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
 import {getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -22,21 +20,6 @@ import SidebarDirectChannel from './sidebar_direct_channel';
 type OwnProps = {
     channel: Channel;
     currentTeamName: string;
-}
-
-/**
- * Gets the LHS bot icon url for a given botUser.
- */
-function botIconImageUrl(botUser: UserProfile & {bot_last_icon_update?: number}) {
-    if (!botUser) {
-        return null;
-    }
-
-    if (!(botUser.is_bot && botUser.bot_last_icon_update)) {
-        return null;
-    }
-
-    return `${Client4.getBotRoute(botUser.id)}/icon?_=${(botUser.bot_last_icon_update || 0)}`;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
@@ -52,7 +35,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         currentUserId: currentUser.id,
         redirectChannel,
         active,
-        botIconUrl: botIconImageUrl(teammate),
     };
 }
 

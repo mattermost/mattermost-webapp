@@ -38,11 +38,6 @@ class SidebarChannel extends React.PureComponent {
         channelDisplayName: PropTypes.string.isRequired,
 
         /**
-         * LHS bot icon image url
-         */
-        botIconUrl: PropTypes.string,
-
-        /**
          * Channel is muted
          */
         channelMuted: PropTypes.bool,
@@ -297,7 +292,6 @@ class SidebarChannel extends React.PureComponent {
                     rowClass={rowClass}
                     channelId={this.props.channelId}
                     channelName={this.props.channelName}
-                    botIconUrl={this.props.botIconUrl}
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     displayName={displayName}

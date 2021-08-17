@@ -16,6 +16,7 @@ type Props = {
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
     showMoreChannelsModal: () => void;
+    invitePeopleModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
     handleOpenDirectMessagesModal: (e: Event) => void;
@@ -32,6 +33,19 @@ type State = {
 class AddChannelDropdown extends React.PureComponent<Props, State> {
     renderDropdownItems = () => {
         const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
+
+        const invitePeople = (
+            <>
+                <Menu.ItemAction
+                    id='invitePeople'
+                    onClick={this.props.invitePeopleModal}
+                    icon={<i className='icon-account-plus-outline'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeople', defaultMessage: 'Invite People'})}
+                    extraText={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeopleExtraText', defaultMessage: 'Add people to the team'})}
+                />
+                <li className='MenuGroup menu-divider'/>
+            </>
+        );
 
         let joinPublicChannel;
         if (canJoinPublicChannel) {
@@ -74,7 +88,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             <Menu.ItemAction
                 id={'browseDirectMessages'}
                 onClick={this.props.handleOpenDirectMessagesModal}
-                icon={<i className='icon-account-plus-outline'/>}
+                icon={<i className='icon-account-outline'/>}
                 text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
             />
         );
@@ -82,6 +96,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         return (
             <>
                 <Menu.Group>
+                    {invitePeople}
                     {joinPublicChannel}
                     {createChannel}
                     {createDirectMessage}
