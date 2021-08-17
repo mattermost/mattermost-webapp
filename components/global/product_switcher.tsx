@@ -157,7 +157,10 @@ const ProductSwitcher = (): JSX.Element => {
                         onClick={handleClick}
                     />
                     {productItems}
-                    <ProductSwitcherMenu id='ProductSwitcherMenu'/>
+                    <ProductSwitcherMenu
+                        id='ProductSwitcherMenu'
+                        onClick={handleClick}
+                    />
                 </Menu>
             </MenuWrapper>
         </div>
