@@ -16,7 +16,6 @@ import {
     getChannelByName,
     getCurrentChannel,
     getDirectTeammate,
-    getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -578,7 +577,7 @@ export default class SwitchChannelProvider extends Provider {
 
     fetchAndFormatRecentlyViewedChannels(resultsCallback) {
         const state = getState();
-        const recentChannels = getAllRecentChannels(state);
+        const recentChannels = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state));
         const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
         if (channels.length === 0) {
             prefix = '';
