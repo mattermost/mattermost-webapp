@@ -445,6 +445,7 @@ export const TutorialSteps = {
     ADD_CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
     PRODUCT_SWITCHER: 4,
+    SETTINGS: 5,
     FINISHED: 999,
 };
 
@@ -459,7 +460,6 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
-    ENTER_SUPPORT_EMAIL: 'enter_support_email',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -957,7 +957,7 @@ export const exportFormats = {
 };
 
 export const ZoomSettings = {
-    DEFAULT_SCALE: 1,
+    DEFAULT_SCALE: 1.75,
     SCALE_DELTA: 0.25,
     MIN_SCALE: 0.25,
     MAX_SCALE: 3.0,
