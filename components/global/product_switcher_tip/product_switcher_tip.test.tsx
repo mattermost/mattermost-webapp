@@ -21,7 +21,8 @@ function makeProduct(name: string): ProductComponent {
         baseURL: '',
         switcherLinkURL: '',
         mainComponent: null,
-        headerComponent: null,
+        headerCentreComponent: null,
+        headerRightComponent: null,
     };
 }
 
