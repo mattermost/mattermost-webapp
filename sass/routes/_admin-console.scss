@@ -609,6 +609,11 @@
     .Menu {
         .dropdown-menu {
             overflow: auto;
+            background: var(--sys-center-channel-bg);
+
+            .MenuGroup.menu-divider {
+                background: rgba(var(--sys-center-channel-color-rgb), 0.16);
+            }
         }
     }
 
