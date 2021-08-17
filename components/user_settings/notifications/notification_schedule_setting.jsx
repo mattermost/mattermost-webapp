@@ -4,9 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactSelect from 'react-select';
-import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
-import moment from 'moment';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -23,11 +21,60 @@ import './notification_schedule_setting.scss';
 import SettingItemMin from 'components/setting_item_min';
 import SettingItemMax from 'components/setting_item_max.jsx';
 
-const timeFormat = 'h:mm A';
 const periodsOptions = [
     {value: 1, label: 'Every Day'},
     {value: 2, label: 'Weekdays'},
     {value: 3, label: 'Custom Schedule'},
+];
+const dateOptions = [
+    {value: '09:00', label: '09:00'},
+    {value: '09:30', label: '09:30'},
+    {value: '10:00', label: '10:00'},
+    {value: '10:30', label: '10:30'},
+    {value: '11:00', label: '11:00'},
+    {value: '11:30', label: '11:30'},
+    {value: '12:00', label: '12:00'},
+    {value: '12:30', label: '12:30'},
+    {value: '13:00', label: '13:00'},
+    {value: '13:30', label: '13:30'},
+    {value: '14:00', label: '14:00'},
+    {value: '14:30', label: '14:30'},
+    {value: '15:00', label: '15:00'},
+    {value: '15:30', label: '15:30'},
+    {value: '16:00', label: '16:00'},
+    {value: '16:30', label: '16:30'},
+    {value: '17:00', label: '17:00'},
+    {value: '17:30', label: '17:30'},
+    {value: '18:00', label: '18:00'},
+    {value: '18:30', label: '18:30'},
+    {value: '19:00', label: '19:00'},
+    {value: '19:30', label: '19:30'},
+    {value: '20:00', label: '20:00'},
+    {value: '20:30', label: '20:30'},
+    {value: '21:00', label: '21:00'},
+    {value: '21:30', label: '21:30'},
+    {value: '22:00', label: '22:00'},
+    {value: '22:30', label: '22:30'},
+    {value: '23:00', label: '23:00'},
+    {value: '23:30', label: '23:30'},
+    {value: '24:00', label: '24:00'},
+    {value: '24:30', label: '24:30'},
+    {value: '01:00', label: '01:00'},
+    {value: '01:30', label: '01:30'},
+    {value: '02:00', label: '02:00'},
+    {value: '02:30', label: '02:30'},
+    {value: '03:00', label: '03:00'},
+    {value: '03:30', label: '03:30'},
+    {value: '04:00', label: '04:00'},
+    {value: '04:30', label: '04:30'},
+    {value: '05:00', label: '05:00'},
+    {value: '05:30', label: '05:30'},
+    {value: '06:00', label: '06:00'},
+    {value: '06:30', label: '06:30'},
+    {value: '07:00', label: '07:00'},
+    {value: '07:30', label: '07:30'},
+    {value: '08:00', label: '08:00'},
+    {value: '08:30', label: '08:30'},
 ];
 
 const dispatch = store.dispatch;
@@ -59,20 +106,20 @@ class setNotificationSchedule extends React.PureComponent {
             friEnable: false,
             satEnable: false,
             sunEnable: false,
-            monStart: '09:00',
-            sunStart: '09:00',
-            tueStart: '09:00',
-            wedStart: '09:00',
-            thuStart: '09:00',
-            friStart: '09:00',
-            satStart: '09:00',
-            sunEnd: '18:00',
-            monEnd: '18:00',
-            tueEnd: '18:00',
-            wedEnd: '18:00',
-            thuEnd: '18:00',
-            friEnd: '18:00',
-            satEnd: '18:00',
+            sunStart: {value: '09:00', label: '09:00'},
+            tueStart: {value: '09:00', label: '09:00'},
+            monStart: {value: '09:00', label: '09:00'},
+            wedStart: {value: '09:00', label: '09:00'},
+            thuStart: {value: '09:00', label: '09:00'},
+            friStart: {value: '09:00', label: '09:00'},
+            satStart: {value: '09:00', label: '09:00'},
+            sunEnd: {value: '18:00', label: '18:00'},
+            monEnd: {value: '18:00', label: '18:00'},
+            tueEnd: {value: '18:00', label: '18:00'},
+            wedEnd: {value: '18:00', label: '18:00'},
+            thuEnd: {value: '18:00', label: '18:00'},
+            friEnd: {value: '18:00', label: '18:00'},
+            satEnd: {value: '18:00', label: '18:00'},
         };
     }
     async componentWillMount() {
@@ -80,20 +127,20 @@ class setNotificationSchedule extends React.PureComponent {
         if (schedules.mode > 0) {
             this.setState({
                 enableCusotmDND: true,
-                sunStart: schedules.sunday_start,
-                monStart: schedules.monday_start,
-                tueStart: schedules.tuesday_start,
-                wedStart: schedules.wednesday_start,
-                thuStart: schedules.thursday_start,
-                friStart: schedules.friday_start,
-                satStart: schedules.saturday_start,
-                sunEnd: schedules.sunday_end,
-                monEnd: schedules.monday_end,
-                tueEnd: schedules.tuesday_end,
-                wedEnd: schedules.wednesday_end,
-                thuEnd: schedules.thursday_end,
-                friEnd: schedules.friday_end,
-                satEnd: schedules.saturday_end,
+                sunStart: {value: schedules.sunday_start, label: schedules.sunday_start},
+                monStart: {value: schedules.monday_start, label: schedules.monday_start},
+                tueStart: {value: schedules.tuesday_start, label: schedules.tuesday_start},
+                wedStart: {value: schedules.wednesday_start, label: schedules.wednesday_start},
+                thuStart: {value: schedules.thursday_start, label: schedules.thursday_start},
+                friStart: {value: schedules.friday_start, label: schedules.friday_start},
+                satStart: {value: schedules.saturday_start, label: schedules.saturday_start},
+                sunEnd: {value: schedules.sunday_end, label: schedules.sunday_end},
+                monEnd: {value: schedules.monday_end, label: schedules.monday_end},
+                tueEnd: {value: schedules.tuesday_end, label: schedules.tuesday_end},
+                wedEnd: {value: schedules.wednesday_end, label: schedules.wednesday_end},
+                thuEnd: {value: schedules.thursday_end, label: schedules.thursday_end},
+                friEnd: {value: schedules.friday_end, label: schedules.friday_end},
+                satEnd: {value: schedules.saturday_end, label: schedules.saturday_end},
             });
             if (schedules.mode === 1) {
                 this.setState({
@@ -107,37 +154,37 @@ class setNotificationSchedule extends React.PureComponent {
                 this.setState({
                     selectedOption: {value: 3, label: 'Custom Schedule'},
                 });
-                if (this.state.sunStart) {
+                if (schedules.sunday_start) {
                     this.setState({
                         sunEnable: true,
                     });
                 }
-                if (this.state.monStart) {
+                if (schedules.monday_start) {
                     this.setState({
                         monEnable: true,
                     });
                 }
-                if (this.state.tueStart) {
+                if (schedules.tuesday_start) {
                     this.setState({
                         tueEnable: true,
                     });
                 }
-                if (this.state.wedStart) {
+                if (schedules.wednesday_start) {
                     this.setState({
                         wedEnable: true,
                     });
                 }
-                if (this.state.thuStart) {
+                if (schedules.thursday_start) {
                     this.setState({
                         thuEnable: true,
                     });
                 }
-                if (this.state.friStart) {
+                if (schedules.friday_start) {
                     this.setState({
                         friEnable: true,
                     });
                 }
-                if (this.state.satStart) {
+                if (schedules.saturday_start) {
                     this.setState({
                         satEnable: true,
                     });
@@ -175,20 +222,20 @@ class setNotificationSchedule extends React.PureComponent {
         const notificationIntervalSchedule = {
             user_id: currentUserId,
             mode: nMode,
-            sunday_start: this.state.sunStart,
-            monday_start: this.state.monStart,
-            tuesday_start: this.state.tueStart,
-            wednesday_start: this.state.wedStart,
-            thursday_start: this.state.thuStart,
-            friday_start: this.state.friStart,
-            saturday_start: this.state.satStart,
-            sunday_end: this.state.sunEnd,
-            monday_end: this.state.monEnd,
-            tuesday_end: this.state.tueEnd,
-            wednesday_end: this.state.wedEnd,
-            thursday_end: this.state.thuEnd,
-            friday_end: this.state.friEnd,
-            saturday_end: this.state.satEnd,
+            sunday_start: this.state.sunStart.value,
+            monday_start: this.state.monStart.value,
+            tuesday_start: this.state.tueStart.value,
+            wednesday_start: this.state.wedStart.value,
+            thursday_start: this.state.thuStart.value,
+            friday_start: this.state.friStart.value,
+            saturday_start: this.state.satStart.value,
+            sunday_end: this.state.sunEnd.value,
+            monday_end: this.state.monEnd.value,
+            tuesday_end: this.state.tueEnd.value,
+            wednesday_end: this.state.wedEnd.value,
+            thursday_end: this.state.thuEnd.value,
+            friday_end: this.state.friEnd.value,
+            saturday_end: this.state.satEnd.value,
         };
         this.props.updateSection('');
         dispatch(
@@ -212,6 +259,25 @@ class setNotificationSchedule extends React.PureComponent {
         this.setState({
             enableCusotmDND: e.target.checked,
         });
+        if (e.target.checked) {
+            this.setState({
+                selectedOption: {value: 1, label: 'Every Day'},
+                sunStart: {value: '09:00', label: '09:00'},
+                tueStart: {value: '09:00', label: '09:00'},
+                monStart: {value: '09:00', label: '09:00'},
+                wedStart: {value: '09:00', label: '09:00'},
+                thuStart: {value: '09:00', label: '09:00'},
+                friStart: {value: '09:00', label: '09:00'},
+                satStart: {value: '09:00', label: '09:00'},
+                sunEnd: {value: '18:00', label: '18:00'},
+                monEnd: {value: '18:00', label: '18:00'},
+                tueEnd: {value: '18:00', label: '18:00'},
+                wedEnd: {value: '18:00', label: '18:00'},
+                thuEnd: {value: '18:00', label: '18:00'},
+                friEnd: {value: '18:00', label: '18:00'},
+                satEnd: {value: '18:00', label: '18:00'},
+            });
+        }
     };
 
     handlePeriodChange = (option) => {
@@ -220,36 +286,36 @@ class setNotificationSchedule extends React.PureComponent {
         });
         if (option.value === 1) {
             this.setState({
-                sunStart: '09:00',
-                monStart: '09:00',
-                tueStart: '09:00',
-                wedStart: '09:00',
-                thuStart: '09:00',
-                friStart: '09:00',
-                satStart: '09:00',
-                sunEnd: '18:00',
-                monEnd: '18:00',
-                tueEnd: '18:00',
-                wedEnd: '18:00',
-                thuEnd: '18:00',
-                friEnd: '18:00',
-                satEnd: '18:00',
+                sunStart: {value: '09:00', label: '09:00'},
+                monStart: {value: '09:00', label: '09:00'},
+                tueStart: {value: '09:00', label: '09:00'},
+                wedStart: {value: '09:00', label: '09:00'},
+                thuStart: {value: '09:00', label: '09:00'},
+                friStart: {value: '09:00', label: '09:00'},
+                satStart: {value: '09:00', label: '09:00'},
+                sunEnd: {value: '18:00', label: '18:00'},
+                monEnd: {value: '18:00', label: '18:00'},
+                tueEnd: {value: '18:00', label: '18:00'},
+                wedEnd: {value: '18:00', label: '18:00'},
+                thuEnd: {value: '18:00', label: '18:00'},
+                friEnd: {value: '18:00', label: '18:00'},
+                satEnd: {value: '18:00', label: '18:00'},
             });
         } else if (option.value === 2) {
             this.setState({
                 sunStart: '',
-                monStart: '09:00',
-                tueStart: '09:00',
-                wedStart: '09:00',
-                thuStart: '09:00',
-                friStart: '09:00',
+                monStart: {value: '09:00', label: '09:00'},
+                tueStart: {value: '09:00', label: '09:00'},
+                wedStart: {value: '09:00', label: '09:00'},
+                thuStart: {value: '09:00', label: '09:00'},
+                friStart: {value: '09:00', label: '09:00'},
                 satStart: '',
                 sunEnd: '',
-                monEnd: '18:00',
-                tueEnd: '18:00',
-                wedEnd: '18:00',
-                thuEnd: '18:00',
-                friEnd: '18:00',
+                monEnd: {value: '18:00', label: '18:00'},
+                tueEnd: {value: '18:00', label: '18:00'},
+                wedEnd: {value: '18:00', label: '18:00'},
+                thuEnd: {value: '18:00', label: '18:00'},
+                friEnd: {value: '18:00', label: '18:00'},
                 satEnd: '',
             });
         } else {
@@ -279,50 +345,50 @@ class setNotificationSchedule extends React.PureComponent {
         }
     };
 
-    handleTimeChange = (value, id) => {
+    handleTimeChange = (option, target) => {
         if (this.state.selectedOption.label === 'Every Day') {
-            if (id === 'start') {
+            if (target === 'start') {
                 this.setState({
-                    monStart: value.format('kk:mm'),
-                    tueStart: value.format('kk:mm'),
-                    wedStart: value.format('kk:mm'),
-                    thuStart: value.format('kk:mm'),
-                    sunStart: value.format('kk:mm'),
-                    friStart: value.format('kk:mm'),
-                    satStart: value.format('kk:mm'),
+                    monStart: option,
+                    tueStart: option,
+                    wedStart: option,
+                    thuStart: option,
+                    sunStart: option,
+                    friStart: option,
+                    satStart: option,
                 });
             } else {
                 this.setState({
-                    sunEnd: value.format('kk:mm'),
-                    monEnd: value.format('kk:mm'),
-                    tueEnd: value.format('kk:mm'),
-                    wedEnd: value.format('kk:mm'),
-                    thuEnd: value.format('kk:mm'),
-                    friEnd: value.format('kk:mm'),
-                    satEnd: value.format('kk:mm'),
+                    sunEnd: option,
+                    monEnd: option,
+                    tueEnd: option,
+                    wedEnd: option,
+                    thuEnd: option,
+                    friEnd: option,
+                    satEnd: option,
                 });
             }
         } else if (this.state.selectedOption.label === 'Weekdays') {
-            if (id === 'start') {
+            if (target === 'start') {
                 this.setState({
-                    tueStart: value.format('kk:mm'),
-                    wedStart: value.format('kk:mm'),
-                    thuStart: value.format('kk:mm'),
-                    friStart: value.format('kk:mm'),
-                    monStart: value.format('kk:mm'),
+                    tueStart: option,
+                    wedStart: option,
+                    thuStart: option,
+                    friStart: option,
+                    monStart: option,
                 });
             } else {
                 this.setState({
-                    tueEnd: value.format('kk:mm'),
-                    wedEnd: value.format('kk:mm'),
-                    thuEnd: value.format('kk:mm'),
-                    friEnd: value.format('kk:mm'),
-                    monEnd: value.format('kk:mm'),
+                    tueEnd: option,
+                    wedEnd: option,
+                    thuEnd: option,
+                    friEnd: option,
+                    monEnd: option,
                 });
             }
         } else {
             this.setState({
-                [id]: value.format('kk:mm'),
+                [target]: option,
             });
         }
     };
@@ -333,8 +399,8 @@ class setNotificationSchedule extends React.PureComponent {
         });
         if (e.target.checked) {
             this.setState({
-                [start]: '09:00',
-                [end]: '18:00',
+                [start]: {value: '09:00', label: '09:00'},
+                [end]: {value: '18:00', label: '18:00'},
             });
         } else {
             this.setState({
@@ -525,57 +591,51 @@ class setNotificationSchedule extends React.PureComponent {
                                                     <div className='week-name'>
                                                         {weekInfo[0].name}
                                                     </div>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.sunStart, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'sunStart',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='left-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.sunStart}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'sunStart')
+                                                            }
+                                                        />
+                                                    </div>
                                                     <p>{to}</p>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.sunEnd, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'sunEnd',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='right-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.sunEnd}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'sunEnd')
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             ) : (
                                                 <div/>
@@ -585,57 +645,51 @@ class setNotificationSchedule extends React.PureComponent {
                                                     <div className='week-name'>
                                                         {weekInfo[1].name}
                                                     </div>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.monStart, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'monStart',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='left-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.monStart}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'start')
+                                                            }
+                                                        />
+                                                    </div>
                                                     <p>{to}</p>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.monEnd, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'monEnd',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='right-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.monEnd}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'monEnd')
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             ) : (
                                                 <div/>
@@ -645,58 +699,51 @@ class setNotificationSchedule extends React.PureComponent {
                                                     <div className='week-name'>
                                                         {weekInfo[2].name}
                                                     </div>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.tueStart, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'tueStart',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='left-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.tueStart}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'tueStart')
+                                                            }
+                                                        />
+                                                    </div>
                                                     <p>{to}</p>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND
-                                                        }
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.tueEnd, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'tueEnd',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='right-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.tueEnd}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'tueEnd')
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             ) : (
                                                 <div/>
@@ -706,57 +753,51 @@ class setNotificationSchedule extends React.PureComponent {
                                                     <div className='week-name'>
                                                         {weekInfo[3].name}
                                                     </div>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.wedStart, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'wedStart',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='left-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.wedStart}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'wedStart')
+                                                            }
+                                                        />
+                                                    </div>
                                                     <p>{to}</p>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.wedEnd, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'wedEnd',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='right-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.wedEnd}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'wedEnd')
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             ) : (
                                                 <div/>
@@ -766,57 +807,53 @@ class setNotificationSchedule extends React.PureComponent {
                                                     <div className='week-name'>
                                                         {weekInfo[4].name}
                                                     </div>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.thuStart, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'thuStart',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='left-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            id='start'
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.thuStart}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'thuStart')
+                                                            }
+                                                        />
+                                                    </div>
                                                     <p>{to}</p>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.thuEnd, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'thuEnd',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='right-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            id='start'
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.thuEnd}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'thuEnd')
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             ) : (
                                                 <div/>
@@ -826,57 +863,53 @@ class setNotificationSchedule extends React.PureComponent {
                                                     <div className='week-name'>
                                                         {weekInfo[5].name}
                                                     </div>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.friStart, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'friStart',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='left-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            id='start'
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.friStart}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'friStart')
+                                                            }
+                                                        />
+                                                    </div>
                                                     <p>{to}</p>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.friEnd, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'friEnd',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='right-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            id='start'
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.friEnd}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'friEnd')
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             ) : (
                                                 <div/>
@@ -886,57 +919,53 @@ class setNotificationSchedule extends React.PureComponent {
                                                     <div className='week-name'>
                                                         {weekInfo[6].name}
                                                     </div>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.satStart, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'satStart',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='left-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            id='start'
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.satStart}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'satStart')
+                                                            }
+                                                        />
+                                                    </div>
                                                     <p>{to}</p>
-                                                    <TimePicker
-                                                        disabled={!this.state.enableCusotmDND}
-                                                        className='time-picker'
-                                                        showSecond={false}
-                                                        format={timeFormat}
-                                                        use12Hours={true}
-                                                        inputReadOnly={true}
-                                                        clearIcon={false}
-                                                        value={moment(this.state.satEnd, 'kk:mm')}
-                                                        minuteStep={30}
-                                                        inputIcon={
-                                                            <span className='time-icon'>
-                                                                <i className='icon-clock-outline'/>
-                                                            </span>
-                                                        }
-                                                        onChange={(
-                                                            value,
-                                                            id = 'satEnd',
-                                                        ) =>
-                                                            this.handleTimeChange(
-                                                                value,
-                                                                id,
-                                                            )
-                                                        }
-                                                    />
+                                                    <div className='right-wrapper'>
+                                                        <span className='time-icon'>
+                                                            <i className='icon-clock-outline'/>
+                                                        </span>
+                                                        <ReactSelect
+                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            components={{
+                                                                IndicatorSeparator: () => null,
+                                                                DropdownIndicator: () => null,
+                                                            }}
+                                                            className='react-select time'
+                                                            classNamePrefix='react-select'
+                                                            options={dateOptions}
+                                                            id='start'
+                                                            autosize={false}
+                                                            clearable={false}
+                                                            value={this.state.satEnd}
+                                                            isSearchable={false}
+                                                            onChange={(option) =>
+                                                                this.handleTimeChange(option, 'satEnd')
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             ) : (
                                                 <div/>
@@ -1005,51 +1034,53 @@ class setNotificationSchedule extends React.PureComponent {
                                         onChange={this.handlePeriodChange}
                                     />
                                     <div className='time-wrapper n-custom-time'>
-                                        <TimePicker
-                                            disabled={
-                                                !this.state.enableCusotmDND
-                                            }
-                                            className='time-picker'
-                                            showSecond={false}
-                                            format={timeFormat}
-                                            use12Hours={true}
-                                            inputReadOnly={true}
-                                            clearIcon={false}
-                                            onChange={(value, id = 'start') =>
-                                                this.handleTimeChange(value, id)
-                                            }
-                                            placeholder='Start'
-                                            value={moment(this.state.monStart, 'kk:mm')}
-                                            minuteStep={30}
-                                            inputIcon={
-                                                <span className='time-icon'>
-                                                    <i className='icon-clock-outline'/>
-                                                </span>
-                                            }
-                                        />
+                                        <div className='left-wrapper'>
+                                            <span className='time-icon'>
+                                                <i className='icon-clock-outline'/>
+                                            </span>
+                                            <ReactSelect
+                                                isDisabled={!this.state.enableCusotmDND}
+                                                components={{
+                                                    IndicatorSeparator: () => null,
+                                                    DropdownIndicator: () => null,
+                                                }}
+                                                className='react-select time'
+                                                classNamePrefix='react-select'
+                                                options={dateOptions}
+                                                id='start'
+                                                autosize={false}
+                                                clearable={false}
+                                                value={this.state.monStart}
+                                                isSearchable={false}
+                                                onChange={(option) =>
+                                                    this.handleTimeChange(option, 'start')
+                                                }
+                                            />
+                                        </div>
                                         <p>{to}</p>
-                                        <TimePicker
-                                            disabled={
-                                                !this.state.enableCusotmDND
-                                            }
-                                            className='time-picker'
-                                            showSecond={false}
-                                            format={timeFormat}
-                                            use12Hours={true}
-                                            inputReadOnly={true}
-                                            clearIcon={false}
-                                            onChange={(value, id = 'end') =>
-                                                this.handleTimeChange(value, id)
-                                            }
-                                            placeholder='End'
-                                            value={moment(this.state.monEnd, 'kk:mm')}
-                                            minuteStep={30}
-                                            inputIcon={
-                                                <span className='time-icon'>
-                                                    <i className='icon-clock-outline'/>
-                                                </span>
-                                            }
-                                        />
+                                        <div className='right-wrapper'>
+                                            <span className='time-icon'>
+                                                <i className='icon-clock-outline'/>
+                                            </span>
+                                            <ReactSelect
+                                                isDisabled={!this.state.enableCusotmDND}
+                                                components={{
+                                                    IndicatorSeparator: () => null,
+                                                    DropdownIndicator: () => null,
+                                                }}
+                                                className='react-select time'
+                                                classNamePrefix='react-select'
+                                                options={dateOptions}
+                                                id='end'
+                                                autosize={false}
+                                                clearable={false}
+                                                value={this.state.monEnd}
+                                                isSearchable={false}
+                                                onChange={(option) =>
+                                                    this.handleTimeChange(option, 'end')
+                                                }
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
