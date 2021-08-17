@@ -16,11 +16,7 @@ import {openModal} from 'actions/views/modals';
 
 import UserSettingsModal, {Props} from './user_settings_modal';
 
-type OwnProps = {
-    isContentChannelPreferences: boolean;
-}
-
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     const closeUnusedDirectMessages = config.CloseUnusedDirectMessages === 'true';
@@ -37,7 +33,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         requireEmailVerification,
         collapsedThreads,
         globalHeaderEnabled: getGlobalHeaderEnabled(state),
-        isContentChannelPreferences: ownProps.isContentChannelPreferences,
     };
 }
 
