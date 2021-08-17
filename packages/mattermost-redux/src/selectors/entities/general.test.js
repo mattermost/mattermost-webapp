@@ -299,7 +299,7 @@ describe('Selectors.General', () => {
                 entities: {
                     general: {
                         config: {
-                            CustomUrlSchemes: '',
+                            CustomURLchemes: '',
                         },
                     },
                 },
@@ -314,7 +314,7 @@ describe('Selectors.General', () => {
                 entities: {
                     general: {
                         config: {
-                            CustomUrlSchemes: 'dns',
+                            CustomURLchemes: 'dns',
                         },
                     },
                 },
@@ -329,7 +329,7 @@ describe('Selectors.General', () => {
                 entities: {
                     general: {
                         config: {
-                            CustomUrlSchemes: 'dns,steam,shttp',
+                            CustomURLchemes: 'dns,steam,shttp',
                         },
                     },
                 },

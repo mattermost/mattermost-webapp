@@ -148,7 +148,7 @@ describe('System Console OpenId Connect', () => {
                 Scope: '',
                 AuthEndpoint: 'https://gitlab.com/oauth/authorize',
                 TokenEndpoint: 'https://gitlab.com/oauth/token',
-                UserApiEndpoint: 'https://gitlab.com/api/v4/user',
+                UserAPIEndpoint: 'https://gitlab.com/api/v4/user',
             },
             GoogleSettings: {
                 Enable: false,
@@ -157,7 +157,7 @@ describe('System Console OpenId Connect', () => {
                 Scope: 'profile email',
                 AuthEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
                 TokenEndpoint: 'https://www.googleapis.com/oauth2/v4/token',
-                UserApiEndpoint: 'https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata',
+                UserAPIEndpoint: 'https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata',
             },
             Office365Settings: {
                 Enable: false,
@@ -166,7 +166,7 @@ describe('System Console OpenId Connect', () => {
                 Scope: 'User.Read',
                 AuthEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
                 TokenEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-                UserApiEndpoint: 'https://graph.microsoft.com/v1.0/me',
+                UserAPIEndpoint: 'https://graph.microsoft.com/v1.0/me',
                 DirectoryId: 'common',
             },
         });
@@ -199,21 +199,21 @@ describe('System Console OpenId Connect', () => {
             expect(config.GitLabSettings.DiscoveryEndpoint).to.equal('https://gitlab.com/.well-known/openid-configuration');
             expect(config.GitLabSettings.AuthEndpoint).to.equal('');
             expect(config.GitLabSettings.TokenEndpoint).to.equal('');
-            expect(config.GitLabSettings.UserApiEndpoint).to.equal('');
+            expect(config.GitLabSettings.UserAPIEndpoint).to.equal('');
 
             expect(config.GoogleSettings.Secret).to.equal(FAKE_SETTING);
             expect(config.GoogleSettings.Id).to.equal('app_id');
             expect(config.GoogleSettings.DiscoveryEndpoint).to.equal('https://accounts.google.com/.well-known/openid-configuration');
             expect(config.GoogleSettings.AuthEndpoint).to.equal('');
             expect(config.GoogleSettings.TokenEndpoint).to.equal('');
-            expect(config.GoogleSettings.UserApiEndpoint).to.equal('');
+            expect(config.GoogleSettings.UserAPIEndpoint).to.equal('');
 
             expect(config.Office365Settings.Secret).to.equal(FAKE_SETTING);
             expect(config.Office365Settings.Id).to.equal('app_id');
             expect(config.Office365Settings.DiscoveryEndpoint).to.equal('https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration');
             expect(config.Office365Settings.AuthEndpoint).to.equal('');
             expect(config.Office365Settings.TokenEndpoint).to.equal('');
-            expect(config.Office365Settings.UserApiEndpoint).to.equal('');
+            expect(config.Office365Settings.UserAPIEndpoint).to.equal('');
         });
     });
 });

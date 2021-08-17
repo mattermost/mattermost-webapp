@@ -27,7 +27,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import OpenIdConvert from './openid_convert';
 import Audits from './audits';
-import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
+import CustomURLSchemesSetting from './custom_url_schemes_setting.jsx';
 import CustomEnableDisableGuestAccountsSetting from './custom_enable_disable_guest_accounts_setting';
 import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
@@ -1468,8 +1468,8 @@ const AdminDefinition = {
                 'admin.cluster.ClusterNameDesc',
                 'admin.cluster.OverrideHostname',
                 'admin.cluster.OverrideHostnameDesc',
-                'admin.cluster.UseIpAddress',
-                'admin.cluster.UseIpAddressDesc',
+                'admin.cluster.UseIPAddress',
+                'admin.cluster.UseIPAddressDesc',
                 'admin.cluster.EnableExperimentalGossipEncryption',
                 'admin.cluster.EnableExperimentalGossipEncryptionDesc',
                 'admin.cluster.EnableGossipCompression',
@@ -2574,8 +2574,8 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
-                        component: CustomUrlSchemesSetting,
-                        key: 'DisplaySettings.CustomUrlSchemes',
+                        component: CustomURLSchemesSetting,
+                        key: 'DisplaySettings.CustomURLSchemes',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
@@ -3723,7 +3723,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SamlSettings.IdpMetadataUrl',
+                        key: 'SamlSettings.IdpMetadataURL',
                         label: t('admin.saml.idpMetadataUrlTitle'),
                         label_default: 'Identity Provider Metadata URL:',
                         help_text: t('admin.saml.idpMetadataUrlDesc'),
@@ -3750,13 +3750,13 @@ const AdminDefinition = {
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
-                            it.stateEquals('SamlSettings.IdpMetadataUrl', ''),
+                            it.stateEquals('SamlSettings.IdpMetadataURL', ''),
                         ),
-                        sourceUrlKey: 'SamlSettings.IdpMetadataUrl',
+                        sourceUrlKey: 'SamlSettings.IdpMetadataURL',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SamlSettings.IdpUrl',
+                        key: 'SamlSettings.IdpURL',
                         label: t('admin.saml.idpUrlTitle'),
                         label_default: 'SAML SSO URL:',
                         help_text: t('admin.saml.idpUrlDesc'),
@@ -3771,7 +3771,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SamlSettings.IdpDescriptorUrl',
+                        key: 'SamlSettings.IdpDescriptorURL',
                         label: t('admin.saml.idpDescriptorUrlTitle'),
                         label_default: 'Identity Provider Issuer URL:',
                         help_text: t('admin.saml.idpDescriptorUrlDesc'),
@@ -4200,12 +4200,12 @@ const AdminDefinition = {
                 name_default: 'GitLab',
                 onConfigLoad: (config) => {
                     const newState = {};
-                    newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                    newState['GitLabSettings.Url'] = config.GitLabSettings.UserAPIEndpoint.replace('/api/v4/user', '');
                     return newState;
                 },
                 onConfigSave: (config) => {
                     const newConfig = {...config};
-                    newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
+                    newConfig.GitLabSettings.UserAPIEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
                     return newConfig;
                 },
                 settings: [
@@ -4263,7 +4263,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GitLabSettings.UserApiEndpoint',
+                        key: 'GitLabSettings.UserAPIEndpoint',
                         label: t('admin.gitlab.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: (value, config, state) => {
@@ -4340,7 +4340,7 @@ const AdminDefinition = {
                         newState.oauthType = Constants.GOOGLE_SERVICE;
                     }
 
-                    newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                    newState['GitLabSettings.Url'] = config.GitLabSettings.UserAPIEndpoint.replace('/api/v4/user', '');
 
                     return newState;
                 },
@@ -4355,7 +4355,7 @@ const AdminDefinition = {
                     newConfig.Office365Settings.Enable = false;
                     newConfig.GoogleSettings.Enable = false;
                     newConfig.OpenIdSettings.Enable = false;
-                    newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
+                    newConfig.GitLabSettings.UserAPIEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
 
                     if (config.oauthType === Constants.GITLAB_SERVICE) {
                         newConfig.GitLabSettings.Enable = true;
@@ -4458,7 +4458,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GitLabSettings.UserApiEndpoint',
+                        key: 'GitLabSettings.UserAPIEndpoint',
                         label: t('admin.gitlab.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: (value, config, state) => {
@@ -4524,7 +4524,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GoogleSettings.UserApiEndpoint',
+                        key: 'GoogleSettings.UserAPIEndpoint',
                         label: t('admin.google.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata',
@@ -4587,7 +4587,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.UserApiEndpoint',
+                        key: 'Office365Settings.UserAPIEndpoint',
                         label: t('admin.office365.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://graph.microsoft.com/v1.0/me',
@@ -4651,8 +4651,8 @@ const AdminDefinition = {
                     if (config.OpenIdSettings && config.OpenIdSettings.Enable) {
                         newState.openidType = Constants.OPENID_SERVICE;
                     }
-                    if (config.GitLabSettings.UserApiEndpoint) {
-                        newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                    if (config.GitLabSettings.UserAPIEndpoint) {
+                        newState['GitLabSettings.Url'] = config.GitLabSettings.UserAPIEndpoint.replace('/api/v4/user', '');
                     } else if (config.GitLabSettings.DiscoveryEndpoint) {
                         newState['GitLabSettings.Url'] = config.GitLabSettings.DiscoveryEndpoint.replace('/.well-known/openid-configuration', '');
                     }
@@ -4685,7 +4685,7 @@ const AdminDefinition = {
                     if (configSetting !== '') {
                         newConfig[configSetting].Enable = true;
                         newConfig[configSetting].Scope = Constants.OPENID_SCOPES;
-                        newConfig[configSetting].UserApiEndpoint = '';
+                        newConfig[configSetting].UserAPIEndpoint = '';
                         newConfig[configSetting].AuthEndpoint = '';
                         newConfig[configSetting].TokenEndpoint = '';
                     }
@@ -5280,7 +5280,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'ServiceSettings.GfycatApiKey',
+                        key: 'ServiceSettings.GfycatAPIKey',
                         label: t('admin.customization.gfycatApiKey'),
                         label_default: 'Gfycat API Key:',
                         help_text: t('admin.customization.gfycatApiKeyDescription'),
@@ -5290,7 +5290,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'ServiceSettings.GfycatApiSecret',
+                        key: 'ServiceSettings.GfycatAPISecret',
                         label: t('admin.customization.gfycatApiSecret'),
                         label_default: 'Gfycat API Secret:',
                         help_text: t('admin.customization.gfycatApiSecretDescription'),
@@ -5466,10 +5466,10 @@ const AdminDefinition = {
                 'admin.complianceExport.createJob.help',
                 'admin.complianceExport.globalRelayCustomerType.title',
                 'admin.complianceExport.globalRelayCustomerType.description',
-                'admin.complianceExport.globalRelaySmtpUsername.title',
-                'admin.complianceExport.globalRelaySmtpUsername.description',
-                'admin.complianceExport.globalRelaySmtpPassword.title',
-                'admin.complianceExport.globalRelaySmtpPassword.description',
+                'admin.complianceExport.globalRelaySMTPUsername.title',
+                'admin.complianceExport.globalRelaySMTPUsername.description',
+                'admin.complianceExport.globalRelaySMTPPassword.title',
+                'admin.complianceExport.globalRelaySMTPPassword.description',
                 'admin.complianceExport.globalRelayEmailAddress.title',
                 'admin.complianceExport.globalRelayEmailAddress.description',
             ],

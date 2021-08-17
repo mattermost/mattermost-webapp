@@ -33,8 +33,8 @@ export type ClientConfig = {
     CustomDescriptionText: string;
     CustomTermsOfServiceId: string;
     CustomTermsOfServiceReAcceptancePeriod: string;
-    CustomUrlSchemes: string;
-    CWSUrl: string;
+    CustomURLchemes: string;
+    CWSURL: string;
     DataRetentionEnableFileDeletion: string;
     DataRetentionEnableMessageDeletion: string;
     DataRetentionFileRetentionDays: string;
@@ -127,8 +127,8 @@ export type ClientConfig = {
     ExperimentalTownSquareIsReadOnly: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
-    GfycatApiKey: string;
-    GfycatApiSecret: string;
+    GfycatAPIKey: string;
+    GfycatAPISecret: string;
     GoogleDeveloperKey: string;
     GuestAccountsEnforceMultifactorAuthentication: string;
     HasImageProxy: string;
@@ -304,8 +304,8 @@ export type ServiceSettings = {
     EnableCustomEmoji: boolean;
     EnableEmojiPicker: boolean;
     EnableGifPicker: boolean;
-    GfycatApiKey: string;
-    GfycatApiSecret: string;
+    GfycatAPIKey: string;
+    GfycatAPISecret: string;
     RestrictCustomEmojiCreation: string;
     RestrictPostDelete: string;
     AllowEditPost: string;
@@ -552,7 +552,7 @@ export type SSOSettings = {
     Scope: string;
     AuthEndpoint: string;
     TokenEndpoint: string;
-    UserApiEndpoint: string;
+    UserAPIEndpoint: string;
     DiscoveryEndpoint: string;
     ButtonText: string;
     ButtonColor: string;
@@ -565,7 +565,7 @@ export type Office365Settings = {
     Scope: string;
     AuthEndpoint: string;
     TokenEndpoint: string;
-    UserApiEndpoint: string;
+    UserAPIEndpoint: string;
     DiscoveryEndpoint: string;
     DirectoryId: string;
 };
@@ -626,9 +626,9 @@ export type SamlSettings = {
     Verify: boolean;
     Encrypt: boolean;
     SignRequest: boolean;
-    IdpUrl: string;
-    IdpDescriptorUrl: string;
-    IdpMetadataUrl: string;
+    IdpURL: string;
+    IdpDescriptorURL: string;
+    IdpMetadataURL: string;
     AssertionConsumerServiceURL: string;
     SignatureAlgorithm: string;
     CanonicalAlgorithm: string;
@@ -667,7 +667,7 @@ export type ClusterSettings = {
     NetworkInterface: string;
     BindAddress: string;
     AdvertiseAddress: string;
-    UseIpAddress: boolean;
+    UseIPAddress: boolean;
     EnableExperimentalGossipEncryption: boolean;
     ReadOnlyConfig: boolean;
     GossipPort: number;
@@ -698,7 +698,7 @@ export type AnalyticsSettings = {
 };
 
 export type ElasticsearchSettings = {
-    ConnectionUrl: string;
+    ConnectionURL: string;
     Username: string;
     Password: string;
     EnableIndexing: boolean;
@@ -746,8 +746,8 @@ export type MessageExportSettings = {
     BatchSize: number;
     GlobalRelaySettings: {
         CustomerType: string;
-        SmtpUsername: string;
-        SmtpPassword: string;
+        SMTPUsername: string;
+        SMTPPassword: string;
         EmailAddress: string;
     };
 };
@@ -760,7 +760,7 @@ export type JobSettings = {
 export type PluginSettings = {
     Enable: boolean;
     EnableUploads: boolean;
-    AllowInsecureDownloadUrl: boolean;
+    AllowInsecureDownloadURL: boolean;
     EnableHealthCheck: boolean;
     Directory: string;
     ClientDirectory: string;
@@ -770,12 +770,12 @@ export type PluginSettings = {
     EnableRemoteMarketplace: boolean;
     AutomaticPrepackagedPlugins: boolean;
     RequirePluginSignature: boolean;
-    MarketplaceUrl: string;
+    MarketplaceURL: string;
     SignaturePublicKeyFiles: string[];
 };
 
 export type DisplaySettings = {
-    CustomUrlSchemes: string[];
+    CustomURLchemes: string[];
     ExperimentalTimezone: boolean;
 };
 

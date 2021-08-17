@@ -78,13 +78,13 @@ export const getAutolinkedUrlSchemes: (a: GlobalState) => string[] = createSelec
     'getAutolinkedUrlSchemes',
     getConfig,
     (config: Partial<ClientConfig>): string[] => {
-        if (!config.CustomUrlSchemes) {
+        if (!config.CustomURLchemes) {
             return General.DEFAULT_AUTOLINKED_URL_SCHEMES;
         }
 
         return [
             ...General.DEFAULT_AUTOLINKED_URL_SCHEMES,
-            ...config.CustomUrlSchemes.split(','),
+            ...config.CustomURLchemes.split(','),
         ];
     },
 );

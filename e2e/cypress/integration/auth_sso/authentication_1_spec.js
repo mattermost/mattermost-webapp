@@ -191,7 +191,7 @@ describe('Authentication', () => {
                 DiscoveryEndpoint: '',
                 Enable: true,
                 TokenEndpoint: '',
-                UserApiEndpoint: '',
+                UserAPIEndpoint: '',
             },
         }).then(() => {
             cy.apiLogout();
