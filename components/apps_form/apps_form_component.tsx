@@ -313,6 +313,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         if (field.refresh) {
             this.setState({changing: true});
             this.props.actions.refreshOnSelect(field, values).then((res) => {
+                this.setState({changing: false});
                 if (res.error) {
                     const errorResponse = res.error;
                     const errorMsg = errorResponse.error;
@@ -325,7 +326,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 const callResponse = res.data!;
                 switch (callResponse.type) {
                 case AppCallResponseTypes.FORM:
-                    this.setState({changing: false});
                     return;
                 case AppCallResponseTypes.OK:
                 case AppCallResponseTypes.NAVIGATE:
@@ -335,7 +335,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     }, {
                         type: callResponse.type,
                     }));
-                    this.setState({changing: false});
                     return;
                 default:
                     this.updateErrors([], undefined, this.props.intl.formatMessage({
