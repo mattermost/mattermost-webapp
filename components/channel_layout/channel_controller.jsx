@@ -18,7 +18,6 @@ import ShortcutsModal from 'components/shortcuts_modal.jsx';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
-import ModalController from 'components/modal_controller';
 import LegacyTeamSidebar from 'components/legacy_team_sidebar';
 import LegacySidebar from 'components/legacy_sidebar';
 import Sidebar from 'components/sidebar';
@@ -89,7 +88,6 @@ export default class ChannelController extends React.Component {
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>
                     <ShortcutsModal isMac={Utils.isMac()}/>
-                    <ModalController/>
                 </div>
             </div>
         );
