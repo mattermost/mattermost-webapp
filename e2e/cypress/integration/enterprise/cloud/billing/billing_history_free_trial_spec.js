@@ -13,6 +13,8 @@
 const dayJs = require('dayjs');
 
 describe('System Console - Billing History section', () => {
+    let productSubscription;
+
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
@@ -21,20 +23,28 @@ describe('System Console - Billing History section', () => {
         cy.visit('admin_console/billing/billing_history');
 
         // * Check for billing history header
-        cy.get('.admin-console__header').should('be.visible').and('have.text', 'Billing History');
+        cy.contains('.admin-console__header', 'Billing History').should('be.visible');
     });
 
-    it('MM-37053 Finding the default "Cloud Starter" record in billing history screen', () => {
+    beforeEach(() => {
+        cy.apiGetCloudProducts().then(({products}) => {
+            cy.apiGetCloudSubscription().then(({subscription}) => {
+                productSubscription = products.find((product) => product.id === subscription.product_id);
+            });
+        });
+    });
+
+    it('MM-T3491_1 Invoice is shown in a table', () => {
         const currentDate = new Date();
 
         // * Check for default record in grid
         cy.contains('td:nth-of-type(1) span', dayJs(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)).format('MM/DD/YYYY')).should('exist');
-        cy.contains('td:nth-of-type(2) div', 'Cloud Starter').should('exist');
+        cy.contains('td:nth-of-type(2) div', productSubscription.name).should('exist');
         cy.contains('td:nth-of-type(3) span', '$0.00').should('exist');
         cy.contains('td:nth-of-type(4) span', 'Paid').should('exist');
     });
 
-    it('MM-37053 Validating the content of downloaded PDF in the billing history screen', () => {
+    it('MM-T3491_2 Validate the contents of downloaded PDF invoice', () => {
         // * Check for default record's length in grid
         cy.get('.BillingHistory__table-row').should('have.length', 1);
 
@@ -50,9 +60,9 @@ describe('System Console - Billing History section', () => {
                     cy.writeFile(filePath, response.body, 'binary');
                     cy.task('getPdfContent', filePath).then((data) => {
                         const allLines = data.text.split('\n');
-                        const prodLine = allLines.filter((lineObj) => lineObj.search('Trial period for Cloud Starter') !== -1);
+                        const prodLine = allLines.filter((line) => line.includes(`Trial period for ${productSubscription.name}`));
                         expect(prodLine.length).to.be.equal(1);
-                        const amountLine = allLines.filter((lineObj) => lineObj.search('Amount paid') !== -1);
+                        const amountLine = allLines.filter((line) => line.includes('Amount paid'));
                         expect(amountLine[0].includes('$0.00')).to.be.equal(true);
                     });
                 },

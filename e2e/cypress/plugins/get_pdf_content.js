@@ -9,8 +9,8 @@ const pdf = require('pdf-parse');
  * Checks whether a file exist in the fixtures folder
  * @param {string} filename - filename to check if it exists
  */
-module.exports = async (pdfPathname) => {
-    const dataBuffer = fs.readFileSync(pdfPathname);
+module.exports = async (pdfPathName) => {
+    const dataBuffer = fs.readFileSync(pdfPathName);
     const data = await pdf(dataBuffer);
     return data;
 };
