@@ -97,7 +97,7 @@ class setNotificationSchedule extends React.PureComponent {
         const {activeSection} = props;
         this.state = {
             activeSection,
-            enableCusotmDND: false,
+            enableCustomDND: false,
             selectedOption: {value: 1, label: 'Every Day'},
             monEnable: false,
             tueEnable: false,
@@ -126,7 +126,7 @@ class setNotificationSchedule extends React.PureComponent {
         const schedules = await Client4.getScheduleStatus(currentUserId);
         if (schedules.mode > 0) {
             this.setState({
-                enableCusotmDND: true,
+                enableCustomDND: true,
                 sunStart: {value: schedules.sunday_start, label: schedules.sunday_start},
                 monStart: {value: schedules.monday_start, label: schedules.monday_start},
                 tueStart: {value: schedules.tuesday_start, label: schedules.tuesday_start},
@@ -195,7 +195,7 @@ class setNotificationSchedule extends React.PureComponent {
 
     handleSubmit = async () => {
         let nMode;
-        if (this.state.enableCusotmDND === false) {
+        if (this.state.enableCustomDND === false) {
             nMode = 0;
             await this.setState({
                 sunStart: '',
@@ -257,7 +257,7 @@ class setNotificationSchedule extends React.PureComponent {
 
     handelEnableChange = (e) => {
         this.setState({
-            enableCusotmDND: e.target.checked,
+            enableCustomDND: e.target.checked,
         });
         if (e.target.checked) {
             this.setState({
@@ -461,7 +461,7 @@ class setNotificationSchedule extends React.PureComponent {
                                 <label className='switch'>
                                     <input
                                         type='checkbox'
-                                        checked={this.state.enableCusotmDND}
+                                        checked={this.state.enableCustomDND}
                                         onChange={this.handelEnableChange}
                                     />
                                     <span className='slider round'/>
@@ -471,7 +471,7 @@ class setNotificationSchedule extends React.PureComponent {
                                     defaultMessage='Enable notifications schedule'
                                 />
                             </div>
-                            {this.state.enableCusotmDND ? (
+                            {this.state.enableCustomDND ? (
                                 <div className='form-select'>
                                     <FormattedMessage
                                         id='user.settings.notifications.schedule.allow'
@@ -480,7 +480,7 @@ class setNotificationSchedule extends React.PureComponent {
                                     <div className='mt-2'>
                                         <ReactSelect
                                             isDisabled={
-                                                !this.state.enableCusotmDND
+                                                !this.state.enableCustomDND
                                             }
                                             className='react-select period'
                                             classNamePrefix='react-select'
@@ -495,7 +495,7 @@ class setNotificationSchedule extends React.PureComponent {
                                         <div className='weekDays-selector'>
                                             <input
                                                 disabled={
-                                                    !this.state.enableCusotmDND
+                                                    !this.state.enableCustomDND
                                                 }
                                                 type='checkbox'
                                                 id='sunEnable'
@@ -508,7 +508,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             <label htmlFor='sunEnable'>{weekInfo[0].label}</label>
                                             <input
                                                 disabled={
-                                                    !this.state.enableCusotmDND
+                                                    !this.state.enableCustomDND
                                                 }
                                                 type='checkbox'
                                                 id='monEnable'
@@ -521,7 +521,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             <label htmlFor='monEnable'>{weekInfo[1].label}</label>
                                             <input
                                                 disabled={
-                                                    !this.state.enableCusotmDND
+                                                    !this.state.enableCustomDND
                                                 }
                                                 type='checkbox'
                                                 id='tueEnable'
@@ -534,7 +534,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             <label htmlFor='tueEnable'>{weekInfo[2].label}</label>
                                             <input
                                                 disabled={
-                                                    !this.state.enableCusotmDND
+                                                    !this.state.enableCustomDND
                                                 }
                                                 type='checkbox'
                                                 id='wedEnable'
@@ -547,7 +547,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             <label htmlFor='wedEnable'>{weekInfo[3].label}</label>
                                             <input
                                                 disabled={
-                                                    !this.state.enableCusotmDND
+                                                    !this.state.enableCustomDND
                                                 }
                                                 type='checkbox'
                                                 id='thuEnable'
@@ -560,7 +560,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             <label htmlFor='thuEnable'>{weekInfo[4].label}</label>
                                             <input
                                                 disabled={
-                                                    !this.state.enableCusotmDND
+                                                    !this.state.enableCustomDND
                                                 }
                                                 type='checkbox'
                                                 id='friEnable'
@@ -573,7 +573,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             <label htmlFor='friEnable'>{weekInfo[5].label}</label>
                                             <input
                                                 disabled={
-                                                    !this.state.enableCusotmDND
+                                                    !this.state.enableCustomDND
                                                 }
                                                 type='checkbox'
                                                 id='satEnable'
@@ -596,7 +596,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -619,7 +619,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -650,7 +650,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -673,7 +673,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -704,7 +704,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -727,7 +727,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -758,7 +758,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -781,7 +781,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -812,7 +812,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -836,7 +836,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -868,7 +868,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -892,7 +892,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -924,7 +924,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -948,7 +948,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             <i className='icon-clock-outline'/>
                                                         </span>
                                                         <ReactSelect
-                                                            isDisabled={!this.state.enableCusotmDND}
+                                                            isDisabled={!this.state.enableCustomDND}
                                                             components={{
                                                                 IndicatorSeparator: () => null,
                                                                 DropdownIndicator: () => null,
@@ -1003,7 +1003,7 @@ class setNotificationSchedule extends React.PureComponent {
                             <label className='switch'>
                                 <input
                                     type='checkbox'
-                                    checked={this.state.enableCusotmDND}
+                                    checked={this.state.enableCustomDND}
                                     onChange={this.handelEnableChange}
                                 />
                                 <span className='slider round'/>
@@ -1013,7 +1013,7 @@ class setNotificationSchedule extends React.PureComponent {
                                 defaultMessage='Enable notifications schedule'
                             />
                         </div>
-                        {this.state.enableCusotmDND ? (
+                        {this.state.enableCustomDND ? (
                             <div className='form-select'>
                                 <FormattedMessage
                                     id='user.settings.notifications.schedule.allow'
@@ -1021,7 +1021,7 @@ class setNotificationSchedule extends React.PureComponent {
                                 />
                                 <div className='mt-2'>
                                     <ReactSelect
-                                        isDisabled={!this.state.enableCusotmDND}
+                                        isDisabled={!this.state.enableCustomDND}
                                         className='react-select period'
                                         classNamePrefix='react-select'
                                         id='notificationSchedule'
@@ -1039,7 +1039,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 <i className='icon-clock-outline'/>
                                             </span>
                                             <ReactSelect
-                                                isDisabled={!this.state.enableCusotmDND}
+                                                isDisabled={!this.state.enableCustomDND}
                                                 components={{
                                                     IndicatorSeparator: () => null,
                                                     DropdownIndicator: () => null,
@@ -1063,7 +1063,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 <i className='icon-clock-outline'/>
                                             </span>
                                             <ReactSelect
-                                                isDisabled={!this.state.enableCusotmDND}
+                                                isDisabled={!this.state.enableCustomDND}
                                                 components={{
                                                     IndicatorSeparator: () => null,
                                                     DropdownIndicator: () => null,
@@ -1100,7 +1100,7 @@ class setNotificationSchedule extends React.PureComponent {
 
     renderMinSettingView = () => {
         let description;
-        if (!this.state.enableCusotmDND) {
+        if (!this.state.enableCustomDND) {
             description = (
                 <FormattedMessage
                     id='user.settings.notifications.schedule.time.disabled'
