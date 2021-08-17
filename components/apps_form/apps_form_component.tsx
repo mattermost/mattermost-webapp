@@ -49,7 +49,7 @@ export type State = {
     formError: string | null;
     fieldErrors: {[name: string]: React.ReactNode};
     changing: boolean;
-    submitting: boolean;
+    submitting: string | null;
     form: AppForm;
 }
 
@@ -82,7 +82,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
             values,
             formError: null,
             fieldErrors: {},
-            submitting: false,
+            submitting: null,
             form,
         };
     }
@@ -170,11 +170,14 @@ export class AppsForm extends React.PureComponent<Props, State> {
             values,
         };
 
-        this.setState({submitting: true});
+        let submitting = 'submit';
+        if (submitName && value) {
+            submitting = value;
+        }
 
+        this.setState({submitting, formError: null});
         const res = await this.props.actions.submit(submission);
-
-        this.setState({submitting: false});
+        this.setState({submitting: null});
 
         if (res.error) {
             const errorResponse = res.error;
@@ -209,10 +212,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         if (!hasErrors && !updatedForm) {
             this.handleHide(true);
-            return;
         }
-
-        this.setState({submitting: false});
     };
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
@@ -500,7 +500,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 type='submit'
                 autoFocus={!fields || fields.length === 0}
                 className='btn btn-primary save-button'
-                spinning={this.state.submitting}
+                spinning={Boolean(this.state.submitting)}
                 spinningText={localizeMessage(
                     'interactive_dialog.submitting',
                     'Submitting...',
@@ -519,10 +519,8 @@ export class AppsForm extends React.PureComponent<Props, State> {
                         key={o.value}
                         type='submit'
                         className='btn btn-primary save-button'
-                        spinningText={localizeMessage(
-                            'interactive_dialog.submitting',
-                            'Submitting...',
-                        )}
+                        spinning={this.state.submitting === o.value}
+                        spinningText={o.label}
                         onClick={(e: React.MouseEvent) => this.handleSubmit(e, field.name, o.value)}
                     >
                         {o.label}
@@ -536,23 +534,27 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         return (
             <React.Fragment>
+                <div>
+                    <button
+                        id='appsModalCancel'
+                        type='button'
+                        className='btn btn-link cancel-button'
+                        onClick={this.onHide}
+                    >
+                        <FormattedMessage
+                            id='interactive_dialog.cancel'
+                            defaultMessage='Cancel'
+                        />
+                    </button>
+                    {submitButtons}
+                </div>
                 {this.state.formError && (
-                    <div className='error-text'>
-                        <Markdown message={this.state.formError}/>
+                    <div>
+                        <div className='error-text'>
+                            <Markdown message={this.state.formError}/>
+                        </div>
                     </div>
                 )}
-                <button
-                    id='appsModalCancel'
-                    type='button'
-                    className='btn btn-link cancel-button'
-                    onClick={this.onHide}
-                >
-                    <FormattedMessage
-                        id='interactive_dialog.cancel'
-                        defaultMessage='Cancel'
-                    />
-                </button>
-                {submitButtons}
             </React.Fragment>
         );
     }
