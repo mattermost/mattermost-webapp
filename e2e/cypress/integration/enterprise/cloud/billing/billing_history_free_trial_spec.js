@@ -12,7 +12,7 @@
 
 const dayJs = require('dayjs');
 
-describe('System Console - Billing History section', () => {
+describe('System Console - Billing History', () => {
     let productSubscription;
 
     before(() => {
