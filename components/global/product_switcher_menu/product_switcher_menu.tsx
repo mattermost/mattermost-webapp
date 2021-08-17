@@ -95,18 +95,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                         }
                         onClick={handleClick}
                     />
-                    <Menu.ItemAction
-                        show={true}
-                        id='integrations2'
-                        text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
-                        icon={
-                            <Icon
-                                size={16}
-                                glyph={'webhook-incoming'}
-                            />
-                        }
-                        onClick={handleClick}
-                    />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
                         permissions={[Permissions.SYSCONSOLE_WRITE_PLUGINS]}
