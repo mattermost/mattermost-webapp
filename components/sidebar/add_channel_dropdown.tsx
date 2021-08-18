@@ -9,6 +9,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 
+import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
+
 import AddChannelTutorialTip from './add_channel_tutorial_tip';
 
 type Props = {
@@ -24,6 +26,7 @@ type Props = {
     townSquareDisplayName: string;
     offTopicDisplayName: string;
     showTutorialTip: boolean;
+    addChannelButton?: AddChannelButtonTreatments;
 };
 
 type State = {
@@ -31,6 +34,31 @@ type State = {
 };
 
 class AddChannelDropdown extends React.PureComponent<Props, State> {
+    getAbClassModifier(): string {
+        let modifier = '';
+        if (!this.props.addChannelButton) {
+            return '';
+        }
+        switch (this.props.addChannelButton) {
+        case AddChannelButtonTreatments.NONE:
+            modifier = '';
+            break;
+        case AddChannelButtonTreatments.SIDEBAR_BG_COLOR:
+            modifier = '';
+            break;
+        case AddChannelButtonTreatments.BUTTON_BG_COLOR:
+            modifier = 'button-bg-color';
+            break;
+        case AddChannelButtonTreatments.INVERTED_SIDEBAR_BG_COLOR:
+            modifier = 'inverted-sidebar-bg-color';
+            break;
+        default:
+            modifier = '';
+        }
+
+        return modifier ? ` AddChannelDropdown_dropdownButton--${modifier}` : modifier;
+    }
+
     renderDropdownItems = () => {
         const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
 
@@ -144,7 +172,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 >
                     <>
                         <button
-                            className='AddChannelDropdown_dropdownButton'
+                            className={'AddChannelDropdown_dropdownButton' + this.getAbClassModifier()}
                             aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
                         >
                             <i className='icon-plus'/>
