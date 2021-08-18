@@ -79,19 +79,19 @@
         }
     }
 
-    #ProductSwitcherMenu {
+    .Menu > .product-switcher-menu {
         .MenuItem {
             .MenuItem__primary-text {
                 line-height: 26px;
+
+                .icon {
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                }
             }
 
             a,
             button {
                 padding: 0 20px;
-            }
-
-            .icon {
-                color: rgba(var(--center-channel-color-rgb), 0.56);
             }
         }
     }
@@ -99,6 +99,11 @@
     .status-dropdown-menu-global-header {
         padding: 4px 8px;
         border-radius: 4px;
+
+        i {
+            font-family: "compass-icons";
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
 
         &:hover {
             background: var(--sidebar-text-08);
@@ -118,7 +123,11 @@
         }
 
         .Menu__content {
-            left: -200px;
+            left: -204px;
+        }
+
+        .custom_status__row > #custom_status__clear {
+            top: 4px;
         }
 
         .username-wrapper {
@@ -166,6 +175,15 @@
     background: var(--sidebar-text-08);
     border-radius: 4px;
 
+    .Global__search-bar {
+        font-size: 12px;
+        color: rgba(var(--global-header-text-rgb), 0.64);
+    
+        &::placeholder {
+            color: rgba(var(--global-header-text-rgb),0.64);
+        }
+    }
+
     .searchTypeBadge {
         background: var(--sidebar-text-08);
         color: var(--sidebar-text);
@@ -194,7 +212,7 @@
         }
 
         .Global__search-bar {
-            color: rgba(var(--center-channel-color-rgb), 0.7);
+            color: rgba(var(--center-channel-color-rgb));
         }
     }
 
@@ -204,6 +222,6 @@
     }
 
     .search__font-icon {
-        color: var(--sidebar-text-72);
+        color: rgba(var(--global-header-text-rgb),0.56)
     }
 }

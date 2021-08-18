@@ -173,14 +173,6 @@
         }
     }
 
-    .Global__search-bar {
-        color: var(--sidebar-text-72);
-
-        &::placeholder {
-            color: var(--sidebar-text-72);
-        }
-    }
-
     .LoadingSpinner {
         @include opacity(0.5);
 

@@ -13,6 +13,11 @@ import {browserHistory} from 'utils/browser_history';
 const HistoryButtonsContainer = styled.nav`
     display: flex;
     align-items: center;
+
+    > * {
+        &:first-child {
+           margin-right: 1px;
+    }
 `;
 
 const HistoryButtons = (): JSX.Element | null => {

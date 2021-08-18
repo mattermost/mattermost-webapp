@@ -145,6 +145,7 @@ const ProductSwitcher = (): JSX.Element => {
                     />
                 </ProductSwitcherContainer>
                 <Menu
+                    className={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >
                     <SwitcherMenuDescriptiveText>

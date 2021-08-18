@@ -5,6 +5,7 @@ import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Tooltip} from 'react-bootstrap';
+import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import Text from '@mattermost/compass-components/components/text';
 
 import classNames from 'classnames';
@@ -340,7 +341,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             />
         );
 
-        if (!isTimedDNDEnabled) {
+        if (isTimedDNDEnabled) {
             timedDND = (
                 <Menu.ItemAction
                     onClick={setDndUntimed}
@@ -362,7 +363,11 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     active: this.props.isStatusDropdownOpen || isStatusSet,
                 })}
             >
-                <div className='status-wrapper status-selector'>
+                <div 
+                    className={classNames('status-wrapper', {
+                    'status-selector': !globalHeader,
+                    })}
+                >
                     {globalHeader &&
                         <CustomStatusEmoji
                             showTooltip={true}
@@ -452,7 +457,10 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
-                            icon={<i className='fa fa-cog'/>}
+                            icon={globalHeader ? <Icon
+                                size={16}
+                                glyph={'account-outline'}
+                            /> : <i className='fa fa-cog'/>}                   
                         />
                     </Menu.Group>
                     <Menu.Group>
@@ -460,7 +468,10 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             id='logout'
                             onClick={this.handleEmitUserLoggedOutEvent}
                             text={localizeMessage('navbar_dropdown.logout', 'Log Out')}
-                            icon={<i className='fa fa-sign-out'/>}
+                            icon={globalHeader ? <Icon
+                                size={16}
+                                glyph={'exit-to-app'}
+                            /> : <i className='fa fa-sign-out'/>}
                         />
                     </Menu.Group>
                 </Menu>
