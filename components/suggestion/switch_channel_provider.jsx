@@ -86,14 +86,8 @@ class SwitchChannelSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
-        let displayName = (
-            <React.Fragment>
-                {channel.display_name}
-                <div className='mentions__fullname'>
-                    {`~${channel.name}`}
-                </div>
-            </React.Fragment>
-        );
+        let name = channel.display_name;
+        let description = '~' + channel.name;
 
         let icon;
         if (channelIsArchived) {
@@ -165,39 +159,24 @@ class SwitchChannelSuggestion extends Suggestion {
                 />
             );
 
-            let deactivated;
+            let deactivated = '';
             if (userItem.delete_at) {
                 deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
             }
 
             if (teammate && teammate.is_bot) {
-                displayName = (
-                    <React.Fragment>
-                        {userItem.username}
-                        {deactivated}
-                    </React.Fragment>
-                );
+                name = userItem.username + deactivated;
+                description = '';
             } else if (channel.display_name) {
-                displayName = (
-                    <React.Fragment>
-                        {channel.display_name}
-                        <div className='mentions__fullname'>
-                            {`@${userItem.username}`}
-                            {deactivated}
-                        </div>
-                    </React.Fragment>
-                );
+                name = channel.display_name;
+                description = `@${userItem.username}` + deactivated;
             } else {
-                displayName = (
-                    <React.Fragment>
-                        {userItem.username}
-                        {deactivated}
-                    </React.Fragment>
-                );
+                name = userItem.username + deactivated;
+                description = '';
             }
         } else if (channel.type === Constants.GM_CHANNEL) {
-            // remove the slug from the option
-            displayName = channel.display_name;
+            name = channel.display_name;
+            description = '';
         }
 
         let sharedIcon = null;
@@ -221,12 +200,17 @@ class SwitchChannelSuggestion extends Suggestion {
                 }}
                 id={`switchChannel_${channel.name}`}
                 data-testid={channel.name}
-                aria-label={displayName || channel.name}
+                aria-label={name || channel.name}
                 {...Suggestion.baseProps}
             >
                 {icon}
                 <span className='suggestion-list__info_user'>
-                    {displayName}
+                    {name}
+                    {description && (
+                        <div className='mentions__fullname'>
+                            {description}
+                        </div>
+                    )}
                 </span>
                 {customStatus}
                 {sharedIcon}
