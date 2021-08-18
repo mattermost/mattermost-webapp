@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SidebarTutorialTip from './sidebar_tutorial_tip.jsx';
+import SidebarTutorialTip from './sidebar_tutorial_tip';
 
-describe('component/legacy_sidebar/SidebarTutorialTip', () => {
+describe('SidebarTutorialTip', () => {
     const defaultProps = {
         openLhs: jest.fn(),
     };

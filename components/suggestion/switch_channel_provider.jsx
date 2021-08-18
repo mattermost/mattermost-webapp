@@ -16,12 +16,11 @@ import {
     getChannelByName,
     getCurrentChannel,
     getDirectTeammate,
-    getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
 
-import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyPreferences, isGroupChannelManuallyVisible} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -34,8 +33,7 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {getChannels, searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
-import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel} from 'mattermost-redux/utils/channel_utils';
+import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -514,7 +512,7 @@ export default class SwitchChannelProvider extends Provider {
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = newChannel.display_name;
                     wrappedChannel.name = newChannel.name;
-                    const isGMVisible = isGroupChannelVisible(config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
+                    const isGMVisible = isGroupChannelManuallyVisible(state, channel.id);
                     if (!isGMVisible && skipNotMember) {
                         continue;
                     }
@@ -579,7 +577,7 @@ export default class SwitchChannelProvider extends Provider {
 
     fetchAndFormatRecentlyViewedChannels(resultsCallback) {
         const state = getState();
-        const recentChannels = getAllRecentChannels(state);
+        const recentChannels = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state));
         const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
         if (channels.length === 0) {
             prefix = '';

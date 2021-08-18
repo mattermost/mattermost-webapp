@@ -42,13 +42,6 @@ describe('channel name tooltips', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
 
-        // # Update config
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: true,
-            },
-        });
-
         // # Login as new user and visit town-square
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
@@ -112,7 +105,7 @@ describe('channel name tooltips', () => {
 
     it('Should show tooltip on hover - user with a long username', () => {
         // # Open a DM with the user
-        cy.findByRole('button', {name: 'write a direct message'}).click();
+        cy.findByRole('button', {name: 'Write a direct message'}).click();
         cy.focused().as('searchBox').type(longUser.username, {force: true});
 
         // * Verify that the user is selected in the results list before typing enter
