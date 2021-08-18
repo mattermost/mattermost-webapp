@@ -20,6 +20,7 @@ declare namespace Cypress {
 
         /**
          * Get products.
+         * See https://api.mattermost.com/#operation/GetCloudProducts
          * @returns {Product[]} out.Products: `Product[]` object
          *
          * @example
@@ -29,11 +30,12 @@ declare namespace Cypress {
 
         /**
          * Get subscriptions.
-         * @returns {Subscription[]} out.Subscriptions: `Subscription[]` object
+         * See https://api.mattermost.com/#operation/GetSubscription
+         * @returns {Subscription} out.subscription: `Subscription` object
          *
          * @example
          *   cy.apiGetCloudSubscription();
          */
-        apiGetCloudSubscription(): Chainable<{subscription: Subscription[]}>;
+        apiGetCloudSubscription(): Chainable<{subscription: Subscription}>;
     }
 }
