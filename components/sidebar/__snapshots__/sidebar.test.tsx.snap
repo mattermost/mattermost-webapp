@@ -7,7 +7,7 @@ exports[`components/sidebar should match snapshot 1`] = `
   className=""
   id="SidebarContainer"
 >
-  <Connect(SidebarHeader) />
+  <Connect(LegacySidebarHeader) />
   <div
     aria-label="channel navigator region"
     className="a11y__region"
@@ -48,7 +48,7 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
   className=""
   id="SidebarContainer"
 >
-  <Connect(SidebarHeader) />
+  <Connect(LegacySidebarHeader) />
   <div
     aria-label="channel navigator region"
     className="a11y__region"
@@ -93,7 +93,7 @@ exports[`components/sidebar should match snapshot when more channels modal is op
   className=""
   id="SidebarContainer"
 >
-  <Connect(SidebarHeader) />
+  <Connect(LegacySidebarHeader) />
   <div
     aria-label="channel navigator region"
     className="a11y__region"

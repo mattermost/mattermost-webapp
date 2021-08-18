@@ -52,7 +52,7 @@ describe('components/RhsComment', () => {
         reactions: {},
         isFlagged: true,
         isBusy: false,
-        isFocused: false,
+        shouldHighlight: false,
         removePost: jest.fn(),
         previewCollapsed: '',
         previewEnabled: false,
@@ -132,7 +132,7 @@ describe('components/RhsComment', () => {
         const wrapper = shallow(
             <RhsComment
                 {...baseProps}
-                isFocused={true}
+                shouldHighlight={true}
             />,
         );
 
@@ -249,32 +249,5 @@ describe('components/RhsComment', () => {
         expect(visibleMessage.prop('children')).toBeTruthy();
         expect(visibleMessage.prop('children').props).toBeTruthy();
         expect(visibleMessage.prop('children').props.id).toEqual('post_info.message.visible');
-    });
-
-    test('should call scrollIntoHighlight when isFocused changes to true', () => {
-        const scrollIntoHighlight = jest.fn();
-        isSystemMessage.mockImplementationOnce(() => true);
-
-        const wrapper = shallow(
-            <RhsComment {...baseProps}/>,
-        );
-
-        const instance = wrapper.instance();
-
-        instance.scrollIntoHighlight = scrollIntoHighlight;
-
-        expect(scrollIntoHighlight).not.toHaveBeenCalled();
-
-        wrapper.setProps({
-            isFocused: true,
-        });
-
-        expect(scrollIntoHighlight).toHaveBeenCalled();
-
-        wrapper.setProps({
-            isFocused: false,
-        });
-
-        expect(scrollIntoHighlight).toHaveBeenCalledTimes(1);
     });
 });

@@ -41,7 +41,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                     onClick={this.props.invitePeopleModal}
                     icon={<i className='icon-account-plus-outline'/>}
                     text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeople', defaultMessage: 'Invite People'})}
-                    extraText={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeopleExtraText', defaultMessage: 'Add or invite people to team'})}
+                    extraText={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeopleExtraText', defaultMessage: 'Add people to the team'})}
                 />
                 <li className='MenuGroup menu-divider'/>
             </>

@@ -44,6 +44,7 @@ import {
     getCurrentTeam,
     selectChannelByName,
     errorMessage as parserErrorMessage,
+    filterEmptyOptions,
     autocompleteUsersInChannel,
     autocompleteChannels,
     UserProfile,
@@ -836,7 +837,7 @@ export class AppCommandParser {
             return {call: null, errorMessage};
         }
 
-        const context = this.getAppContext(parsed.binding.app_id);
+        const context = this.getAppContext(parsed.binding);
         return {call: createCallRequest(call, context, {}, values, parsed.command)};
     }
 
@@ -995,10 +996,10 @@ export class AppCommandParser {
     }
 
     // getAppContext collects post/channel/team info for performing calls
-    private getAppContext = (appID: string): AppContext => {
+    private getAppContext = (binding: AppBinding): AppContext => {
         const context: AppContext = {
-            app_id: appID,
-            location: AppBindingLocations.COMMAND,
+            app_id: binding.app_id,
+            location: binding.location,
             root_id: this.rootPostID,
         };
 
@@ -1024,7 +1025,7 @@ export class AppCommandParser {
 
         const payload = createCallRequest(
             binding.call,
-            this.getAppContext(binding.app_id),
+            this.getAppContext(binding),
         );
 
         const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM, this.intl)) as DoAppCallResult;
@@ -1322,7 +1323,8 @@ export class AppCommandParser {
             }));
         }
 
-        const items = callResponse?.data?.items;
+        let items = callResponse?.data?.items;
+        items = items?.filter(filterEmptyOptions);
         if (!items?.length) {
             return [{
                 Complete: '',
@@ -1348,7 +1350,7 @@ export class AppCommandParser {
             }
             return ({
                 Complete: complete,
-                Description: s.label,
+                Description: s.label || s.value,
                 Suggestion: s.value,
                 Hint: '',
                 IconData: s.icon_data || parsed.binding?.icon || '',

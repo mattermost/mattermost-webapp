@@ -10,8 +10,6 @@ import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
 import {getIsLhsOpen} from 'selectors/lhs';
@@ -39,8 +37,6 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         channelName = getRedirectChannelNameForTeam(state, team!.id);
     }
     const lastChannelPath = `${ownProps.match.url}/channels/${channelName}`;
-    const config = getConfig(state);
-    const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
     return {
         lastChannelPath,
         lhsOpen: getIsLhsOpen(state),
@@ -50,7 +46,7 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         currentUserId: getCurrentUserId(state),
         showNextSteps: showNextSteps(state),
         showNextStepsTips: showNextStepsTips(state),
-        isOnboardingHidden: isOnboardingHidden(state) && !enableOnboardingFlow,
+        isOnboardingHidden: isOnboardingHidden(state),
         showNextStepsEphemeral: state.views.nextSteps.show,
     };
 };
