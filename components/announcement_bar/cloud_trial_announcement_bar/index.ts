@@ -39,6 +39,9 @@ function mapStateToProps(state: GlobalState) {
         }
     }
 
+    isFreeTrial = 10;
+    daysLeftOnTrial = 10;
+
     return {
         isFreeTrial,
         daysLeftOnTrial,

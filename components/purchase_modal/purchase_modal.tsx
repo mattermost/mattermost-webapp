@@ -16,7 +16,7 @@ import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import background from 'images/cloud/background.svg';
-import cloudLogo from 'images/cloud/mattermost-cloud.svg';
+
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
 
@@ -29,6 +29,7 @@ import Badge from 'components/widgets/badges/badge';
 import OverlayTrigger from 'components/overlay_trigger';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
+import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud.svg';
 
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
@@ -624,7 +625,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         />,
                     )}
                     <div className='logo'>
-                        <img src={cloudLogo}/>
+                        <MattermostCloudSvg
+                            width={250}
+                            height={28}
+                        />
                     </div>
                 </div>
             </div>

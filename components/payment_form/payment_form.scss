@@ -104,6 +104,7 @@
 
         .Input {
             height: 32px;
+            background: inherit;
 
             &::placeholder {
                 color: var(--center-channel-color);
