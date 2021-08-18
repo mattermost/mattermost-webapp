@@ -10,9 +10,8 @@ import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon'
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import {TutorialSteps} from 'utils/constants';
 
-import {useClickOutsideRef, useCurrentProductId, useProducts, useShowTutorialStep} from './hooks';
+import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
 import ProductSwitcherMenu from './product_switcher_menu';
 import ProductSwitcherTip from './product_switcher_tip';
 
@@ -100,7 +99,6 @@ const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNa
 
 const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
-    const showTutorialStep = useShowTutorialStep(TutorialSteps.PRODUCT_SWITCHER, products);
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -140,6 +138,7 @@ const ProductSwitcher = (): JSX.Element => {
                         inverted={true}
                         aria-label='Select to open product switch menu.'
                     />
+                    <ProductSwitcherTip/>
                 </ProductSwitcherContainer>
                 <Menu
                     ariaLabel={'switcherOpen'}
@@ -158,10 +157,10 @@ const ProductSwitcher = (): JSX.Element => {
                         onClick={handleClick}
                     />
                     {productItems}
-                    {showTutorialStep && <ProductSwitcherTip/>}
                     <ProductSwitcherMenu
                         id='ProductSwitcherMenu'
                         isMessaging={currentProductID === null}
+                        onClick={handleClick}
                     />
                 </Menu>
             </MenuWrapper>

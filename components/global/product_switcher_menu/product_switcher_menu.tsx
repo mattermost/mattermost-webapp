@@ -39,6 +39,7 @@ type Props = {
     pluginMenuItems: any;
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
+    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
 // TODO: reqrite this to a functional component
@@ -54,7 +55,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const {currentUser, isMessaging, isMobile} = this.props;
+        const {currentUser, isMessaging, isMobile, onClick: handleClick} = this.props;
 
         if (!currentUser) {
             return null;
@@ -65,7 +66,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
 
         const {formatMessage} = this.props.intl;
 
-        // TODO: Ensure that clicking ItemLink menu items also closes the global header menu.
         return (
             <>
                 <Menu.Group>
@@ -81,6 +81,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'application-cog'}
                                 />
                             }
+                            onClick={handleClick}
                         />
                     </SystemPermissionGate>
                     <Menu.ItemLink
@@ -94,6 +95,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 glyph={'webhook-incoming'}
                             />
                         }
+                        onClick={handleClick}
                     />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
@@ -111,6 +113,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'apps'}
                                 />
                             }
+                            onClick={handleClick}
                         />
                         <Menu.ItemExternalLink
                             id='nativeAppLink'
@@ -123,6 +126,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'download-outline'}
                                 />
                             }
+                            onClick={handleClick}
                         />
                         <Menu.ItemToggleModalRedux
                             id='about'
@@ -135,6 +139,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'information-outline'}
                                 />
                             }
+                            onClick={handleClick}
                         />
                     </TeamPermissionGate>
                 </Menu.Group>

@@ -25,7 +25,10 @@ describe('Team Settings', () => {
     before(() => {
         cy.shouldRunOnTeamEdition();
 
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}}).then(({config}) => {
+        cy.apiUpdateConfig({
+            LdapSettings: {Enable: false},
+            ServiceSettings: {EnableOnboardingFlow: true},
+        }).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
 

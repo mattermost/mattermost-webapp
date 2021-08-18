@@ -26,6 +26,7 @@ export default class PDFPreview extends React.PureComponent {
         */
         fileUrl: PropTypes.string.isRequired,
         scale: PropTypes.number.isRequired,
+        handleBgClose: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -232,6 +233,7 @@ export default class PDFPreview extends React.PureComponent {
             <div
                 ref={this.container}
                 className='post-code'
+                onClick={this.props.handleBgClose}
             >
                 {pdfCanvases}
             </div>
