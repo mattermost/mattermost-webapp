@@ -28,10 +28,9 @@ export interface AddMembersButtonProps {
     usersLimit: number;
     channel: Channel;
     setHeader: React.ReactNode;
-    theme: any;
 }
 
-const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, theme}: AddMembersButtonProps) => {
+const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader}: AddMembersButtonProps) => {
     if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
@@ -40,11 +39,11 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
     const inviteUsers = totalUsers < usersLimit;
 
     return (
-        inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader, theme) : moreThanMaxFreeUsers(channel, setHeader)
+        inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader) : moreThanMaxFreeUsers(channel, setHeader)
     );
 };
 
-const lessThanMaxFreeUsers = (setHeader: React.ReactNode, theme: any) => {
+const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
     return (
         <>
             {setHeader}
