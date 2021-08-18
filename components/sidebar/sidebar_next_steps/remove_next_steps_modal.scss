@@ -3,6 +3,12 @@
     z-index: 1050;
     top: 16px;
     left: 201px;
+
+    &.global-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 
 .RemoveNextStepsModal__helpText {

@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
+import classNames from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
@@ -13,17 +13,22 @@ import './remove_next_steps_modal.scss';
 
 type Props = {
     screenTitle: string;
+    globalHeader: boolean;
     onConfirm: () => void;
     onCancel: () => void;
 }
 
 export default function RemoveNextStepsModal(props: Props) {
-    const {onConfirm, onCancel, screenTitle} = props;
+    const {onConfirm, onCancel, screenTitle, globalHeader} = props;
+    const portalRoot = globalHeader ? document.getElementById('helpMenuPortal') : document.body;
+    const modalRoot = globalHeader ? document.getElementById('channel_view') : document.body;
 
     return (
         <>
             {ReactDOM.createPortal(
-                <div className='RemoveNextStepsModal__helpBox'>
+                <div
+                    className={classNames(['RemoveNextStepsModal__helpBox', {'global-header': globalHeader}])}
+                >
                     <img
                         className='RemoveNextStepsModal__arrow'
                         src={closeNextStepsArrow}
@@ -31,14 +36,15 @@ export default function RemoveNextStepsModal(props: Props) {
                     <span className='RemoveNextStepsModal__helpText'>
                         <FormattedMarkdownMessage
                             id='remove_next_steps_modal.helpText'
-                            defaultMessage='Access {title} any time through the Main Menu'
+                            defaultMessage={'Access {title} any time through the {menu} Menu'}
                             values={{
                                 title: screenTitle,
+                                menu: globalHeader ? 'Help' : 'Main',
                             }}
                         />
                     </span>
                 </div>,
-                document.body as HTMLElement,
+                portalRoot as HTMLElement,
             )}
             <GenericModal
                 className='RemoveNextStepsModal'
@@ -46,6 +52,7 @@ export default function RemoveNextStepsModal(props: Props) {
                 onHide={onCancel}
                 handleConfirm={onConfirm}
                 handleCancel={onCancel}
+                container={modalRoot}
                 modalHeaderText={(
                     <FormattedMarkdownMessage
                         id={'remove_next_steps_modal.header'}
@@ -64,9 +71,10 @@ export default function RemoveNextStepsModal(props: Props) {
             >
                 <FormattedMessage
                     id={'remove_next_steps_modal.mainText'}
-                    defaultMessage='This will remove this section from your sidebar, but you can access it later in the {title} section of the Main Menu.'
+                    defaultMessage='This will remove this section from your sidebar, but you can access it later in the {title} section of the {menu} Menu.'
                     values={{
                         title: screenTitle,
+                        menu: globalHeader ? 'Help' : 'Main',
                     }}
                 />
             </GenericModal>

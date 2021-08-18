@@ -27,6 +27,7 @@ type Props = {
     steps: StepType[];
     isAdmin: boolean;
     enableOnboardingFlow: boolean;
+    globalHeaderEnabled: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
@@ -60,11 +61,13 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') :
             localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
 
+        const globalHeader = this.props.globalHeaderEnabled;
         this.props.actions.openModal({
             modalId: ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL,
             dialogType: RemoveNextStepsModal,
             dialogProps: {
                 screenTitle,
+                globalHeader,
                 onConfirm: this.onConfirmModal,
                 onCancel: this.onCloseModal,
             },

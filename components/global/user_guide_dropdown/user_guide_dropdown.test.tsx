@@ -29,6 +29,8 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         helpLink: 'helpLink',
         reportAProblemLink: 'reportAProblemLink',
         enableAskCommunityLink: 'true',
+        showGettingStarted: false,
+        showNextStepsTips: false,
     };
 
     test('should match snapshot', () => {
@@ -67,7 +69,7 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
             <UserGuideDropdown {...baseProps}/>,
         );
 
-        wrapper.find(Menu.ItemAction).prop('onClick')({preventDefault: jest.fn()});
+        wrapper.find('#keyboardShortcuts').prop('onClick')!({preventDefault: jest.fn()});
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
     });
 
