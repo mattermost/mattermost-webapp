@@ -334,7 +334,9 @@ class LoginController extends React.PureComponent {
         // Record a successful login to local storage. If an unintentional logout occurs, e.g.
         // via session expiration, this bit won't get reset and we can notify the user as such.
         LocalStorageStore.setWasLoggedIn(true);
-        if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
+        if (redirectTo && redirectTo.match(/^(\/([^/]*))*$/)) {
+            window.location.href = window.location.origin + redirectTo;
+        } else if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
             browserHistory.push(redirectTo);
         } else if (team) {
             browserHistory.push(`/${team.name}`);
