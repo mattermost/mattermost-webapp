@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal, Fade} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 
 import {
@@ -15,6 +15,7 @@ import {AppCallResponseTypes, AppFieldTypes} from 'mattermost-redux/constants/ap
 import {DoAppCallResult} from 'types/apps';
 
 import SpinnerButton from 'components/spinner_button';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import SuggestionList from 'components/suggestion/suggestion_list';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
@@ -48,7 +49,7 @@ export type State = {
     values: AppFormValues;
     formError: string | null;
     fieldErrors: {[name: string]: React.ReactNode};
-    changing: boolean;
+    loading: boolean;
     submitting: string | null;
     form: AppForm;
 }
@@ -77,7 +78,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const values = initFormValues(form);
 
         this.state = {
-            changing: false,
+            loading: false,
             show: true,
             values,
             formError: null,
@@ -311,9 +312,9 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const values = {...this.state.values, [name]: value};
 
         if (field.refresh) {
-            this.setState({changing: true});
+            this.setState({loading: true});
             this.props.actions.refreshOnSelect(field, values).then((res) => {
-                this.setState({changing: false});
+                this.setState({loading: false});
                 if (res.error) {
                     const errorResponse = res.error;
                     const errorMsg = errorResponse.error;
@@ -352,7 +353,9 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
     renderModal() {
         const {fields, header} = this.props.form;
-
+        const loading = Boolean(this.state.loading);
+        const bodyClass = loading ? 'apps-form-modal-body-loading' : 'apps-form-modal-body-loaded';
+        const bodyClassNames = 'apps-form-modal-body-common ' + bodyClass;
         return (
             <Modal
                 id='appsModal'
@@ -380,9 +383,16 @@ export class AppsForm extends React.PureComponent<Props, State> {
                         </Modal.Title>
                     </Modal.Header>
                     {(fields || header) && (
-                        <Modal.Body
-                            className={this.state.changing ? 'apps-form-modal-body-opacity' : ''}
-                        >
+                        <Modal.Body>
+                            <Fade in={loading}>
+                                <div
+                                    className={
+                                        bodyClassNames
+                                    }
+                                >
+                                    <LoadingSpinner/>
+                                </div>
+                            </Fade>
                             {this.renderBody()}
                         </Modal.Body>
                     )}
