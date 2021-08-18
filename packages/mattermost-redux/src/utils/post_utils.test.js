@@ -134,7 +134,7 @@ describe('PostUtils', () => {
         });
 
         it('should work with new permissions version', () => {
-            const newVersionState = {
+            let newVersionState = {
                 entities: {
                     general: {
                         serverVersion: '4.9.0',
@@ -155,6 +155,9 @@ describe('PostUtils', () => {
                         currentChannelId: channelId,
                         myMembers: {
                             'channel-id': {roles: 'channel_role'},
+                        },
+                        roles: {
+                            'channel-id': ['channel_role'],
                         },
                     },
                     roles: {
@@ -188,6 +191,7 @@ describe('PostUtils', () => {
                     channel_role: {permissions: []},
                 },
             };
+            newVersionState = {...newVersionState};
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: -1}, licensed, teamId, channelId, userId, {user_id: userId}));
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 6000000}));
@@ -202,6 +206,7 @@ describe('PostUtils', () => {
                     channel_role: {permissions: []},
                 },
             };
+            newVersionState = {...newVersionState};
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: -1}, licensed, teamId, channelId, userId, {user_id: userId}));
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 6000000}));
@@ -216,6 +221,7 @@ describe('PostUtils', () => {
                     channel_role: {permissions: [Permissions.EDIT_POST]},
                 },
             };
+            newVersionState = {...newVersionState};
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: -1}, licensed, teamId, channelId, userId, {user_id: userId}));
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 6000000}));
@@ -230,6 +236,7 @@ describe('PostUtils', () => {
                     channel_role: {permissions: []},
                 },
             };
+            newVersionState = {...newVersionState};
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: -1}, licensed, teamId, channelId, userId, {user_id: userId}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 6000000}));
@@ -244,6 +251,7 @@ describe('PostUtils', () => {
                     channel_role: {permissions: []},
                 },
             };
+            newVersionState = {...newVersionState};
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: -1}, licensed, teamId, channelId, userId, {user_id: userId}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 6000000}));
@@ -258,6 +266,7 @@ describe('PostUtils', () => {
                     channel_role: {permissions: [Permissions.EDIT_OTHERS_POSTS]},
                 },
             };
+            newVersionState = {...newVersionState};
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: -1}, licensed, teamId, channelId, userId, {user_id: userId}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 6000000}));
@@ -272,6 +281,7 @@ describe('PostUtils', () => {
                     channel_role: {permissions: []},
                 },
             };
+            newVersionState = {...newVersionState};
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: -1}, licensed, teamId, channelId, userId, {user_id: userId}));
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 6000000}));
@@ -286,6 +296,7 @@ describe('PostUtils', () => {
                     channel_role: {permissions: []},
                 },
             };
+            newVersionState = {...newVersionState};
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: -1}, licensed, teamId, channelId, userId, {user_id: userId}));
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 6000000}));
@@ -300,6 +311,7 @@ describe('PostUtils', () => {
                     channel_role: {permissions: [Permissions.EDIT_OTHERS_POSTS, Permissions.EDIT_POST]},
                 },
             };
+            newVersionState = {...newVersionState};
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: -1}, licensed, teamId, channelId, userId, {user_id: userId}));
             assert.ok(canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
             assert.ok(!canEditPost(newVersionState, {PostEditTimeLimit: 300}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 6000000}));

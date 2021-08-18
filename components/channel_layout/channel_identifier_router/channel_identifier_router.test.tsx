@@ -8,7 +8,7 @@ import {browserHistory} from 'utils/browser_history.jsx';
 
 import ChannelIdentifierRouter from './channel_identifier_router';
 
-jest.useFakeTimers();
+jest.useFakeTimers('legacy');
 
 describe('components/channel_layout/CenterChannel', () => {
     const baseProps = {

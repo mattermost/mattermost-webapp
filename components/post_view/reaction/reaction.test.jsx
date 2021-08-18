@@ -5,17 +5,15 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Reaction from 'components/post_view/reaction/reaction';
-import {getSortedUsers} from 'utils/utils';
 
 describe('components/post_view/Reaction', () => {
     const post = {id: 'post_id_1'};
-    const profiles = [{id: 'user_id_2', username: 'username_2'}];
     const reactions = [{user_id: 'user_id_2'}, {user_id: 'user_id_3'}];
     const emojiName = 'smile';
     const actions = {
-        addReaction: () => {}, //eslint-disable-line no-empty-function
-        getMissingProfilesByIds: () => {}, //eslint-disable-line no-empty-function
-        removeReaction: () => {}, //eslint-disable-line no-empty-function
+        addReaction: jest.fn(),
+        getMissingProfilesByIds: jest.fn(),
+        removeReaction: jest.fn(),
     };
     const currentUserId = 'user_id_1';
 
@@ -24,19 +22,12 @@ describe('components/post_view/Reaction', () => {
         canRemoveReaction: true,
         currentUserId,
         post,
+        currentUserReacted: false,
         emojiName,
         reactionCount: 2,
-        profiles,
-        otherUsersCount: 2,
         reactions,
         emojiImageUrl: 'emoji_image_url',
         actions,
-        sortedUsers: getSortedUsers(
-            reactions,
-            currentUserId,
-            profiles,
-            'username',
-        ),
     };
 
     test('should match snapshot', () => {
@@ -46,18 +37,10 @@ describe('components/post_view/Reaction', () => {
 
     test('should match snapshot when a current user reacted to a post', () => {
         const newReactions = [{user_id: 'user_id_1'}, {user_id: 'user_id_2'}];
-        const newProfiles = [{id: 'user_id_1', username: 'username_1'}];
         const props = {
             ...baseProps,
+            currentUserReacted: true,
             reactions: newReactions,
-            profiles: newProfiles,
-            otherUsersCount: 1,
-            sortedUsers: getSortedUsers(
-                newReactions,
-                currentUserId,
-                newProfiles,
-                'username',
-            ),
         };
         const wrapper = shallow(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -81,25 +64,17 @@ describe('components/post_view/Reaction', () => {
             ...baseProps,
             canRemoveReaction: false,
             currentUserId: newCurrentUserId,
-            sortedUsers: getSortedUsers(
-                reactions,
-                newCurrentUserId,
-                profiles,
-                'username',
-            ),
+            currentUserReacted: true,
         };
         const wrapper = shallow(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should have called actions.getMissingProfilesByIds when loadMissingProfiles is called', () => {
-        const newActions = {...actions, getMissingProfilesByIds: jest.fn()};
-        const props = {...baseProps, actions: newActions};
-
-        const wrapper = shallow(<Reaction {...props}/>);
+        const wrapper = shallow(<Reaction {...baseProps}/>);
         wrapper.instance().loadMissingProfiles();
 
-        expect(newActions.getMissingProfilesByIds).toHaveBeenCalledTimes(1);
-        expect(newActions.getMissingProfilesByIds).toHaveBeenCalledWith([reactions[0].user_id, reactions[1].user_id]);
+        expect(actions.getMissingProfilesByIds).toHaveBeenCalledTimes(1);
+        expect(actions.getMissingProfilesByIds).toHaveBeenCalledWith([reactions[0].user_id, reactions[1].user_id]);
     });
 });

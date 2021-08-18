@@ -4,7 +4,6 @@
 import React from 'react';
 
 import GeneralTab from 'components/team_general_tab';
-import ImportTab from 'components/team_import_tab.jsx';
 
 type Props = {
     activeTab: string;
@@ -33,19 +32,6 @@ const TeamSettings = ({
         result = (
             <div>
                 <GeneralTab
-                    team={team}
-                    activeSection={activeSection}
-                    updateSection={updateSection}
-                    closeModal={closeModal}
-                    collapseModal={collapseModal}
-                />
-            </div>
-        );
-        break;
-    case 'import':
-        result = (
-            <div>
-                <ImportTab
                     team={team}
                     activeSection={activeSection}
                     updateSection={updateSection}

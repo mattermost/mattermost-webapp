@@ -1,14 +1,14 @@
 @import 'utils/variables';
 
 .FeatureDiscovery {
-    background: $white;
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
-    border-radius: 8px;
+    display: grid;
     padding: 20px;
+    background: $white;
+    border-radius: 8px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
     font-family: Open Sans;
     font-style: normal;
     font-weight: normal;
-    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
 }
 
@@ -20,8 +20,8 @@
 
 .FeatureDiscovery_copyWrapper,
 .FeatureDiscovery_imageWrapper {
-    grid-template-columns: repeat(2, 1fr);
     padding: 20px;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .FeatureDiscovery_image {
@@ -29,44 +29,51 @@
 }
 
 .FeatureDiscovery_title {
+    padding-bottom: 24px;
+    font-family: Metropolis, sans-serif;
     font-size: 24px;
     line-height: 32px;
-    padding-bottom: 24px;
 }
 
 .FeatureDiscovery_copy {
+    padding-bottom: 24px;
     font-size: 14px;
     line-height: 20px;
-    padding-bottom: 24px;
 }
 
 .FeatureDiscovery .btn {
-    margin-right: 24px;
     width: 160px;
-    line-height: 16px;
     height: 48px;
     padding: 14px 0;
+    margin-right: 24px;
+    background: $primary-color;
+    border-radius: 4px;
+    color: $white;
     font-size: 16px;
     font-weight: 400;
-    border-radius: 4px;
-    background: $primary-color;
-    color: $white;
-    &:focus, &:active, &:focus:active {
-        outline: none;
+    line-height: 16px;
+
+    &:focus,
+    &:active,
+    &:focus:active {
         border-color: transparent;
+        outline: none;
     }
+
     &:disabled {
+        border-color: transparent;
         background: $light-gray;
         color: $dark-gray;
-        border-color: transparent;
     }
+
     &.btn-inactive {
-        background: var(--center-channel-color-08);
-        color: var(--center-channel-color-56);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
     }
+
     &.btn-secondary {
-        background:  $white;
         border: 1px solid $primary-color;
+        background: $white;
         color: $primary-color;
     }
 }

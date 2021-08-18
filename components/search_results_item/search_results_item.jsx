@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Tooltip} from 'react-bootstrap';
 
@@ -18,6 +18,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile';
 import DateSeparator from 'components/post_view/date_separator';
+import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
@@ -28,22 +29,16 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 
 import Constants, {Locations} from 'utils/constants';
-import * as PostUtils from 'utils/post_utils.jsx';
-import {intlShape} from 'utils/react_intl';
+import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 
-class SearchResultsItem extends React.PureComponent {
+export default class SearchResultsItem extends React.PureComponent {
     static propTypes = {
 
         /**
         *  Data used for rendering post
         */
         post: PropTypes.object,
-
-        /**
-         * The function to create an aria-label
-         */
-        createAriaLabel: PropTypes.func,
 
         /**
         * An array of strings in this post that were matched by the search
@@ -101,11 +96,6 @@ class SearchResultsItem extends React.PureComponent {
             setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
 
-        /**
-         * react-intl helper object
-         */
-        intl: intlShape.isRequired,
-        directTeammate: PropTypes.string.isRequired,
         displayName: PropTypes.string.isRequired,
 
         /**
@@ -204,21 +194,20 @@ class SearchResultsItem extends React.PureComponent {
         return className;
     };
 
-    handleSearchItemFocus = () => {
-        this.setState({currentAriaLabel: `${this.getChannelName()}, ${this.props.createAriaLabel(this.props.intl)}`});
-    }
-
     getChannelName = () => {
         const {channelType} = this.props;
         let {channelName} = this.props;
 
         if (channelType === Constants.DM_CHANNEL) {
-            channelName = this.props.intl.formatMessage({
-                id: 'search_item.direct',
-                defaultMessage: 'Direct Message (with {username})',
-            }, {
-                username: this.props.displayName,
-            });
+            channelName = (
+                <FormattedMessage
+                    id='search_item.direct'
+                    defaultMessage='Direct Message (with {username})'
+                    values={{
+                        username: this.props.displayName,
+                    }}
+                />
+            );
         }
 
         return channelName;
@@ -379,11 +368,10 @@ class SearchResultsItem extends React.PureComponent {
                 className='search-item__container'
             >
                 <DateSeparator date={currentPostDay}/>
-                <div
+                <PostAriaLabelDiv
                     className={`a11y__section ${this.getClassName()}`}
                     id={'searchResult_' + post.id}
-                    aria-label={this.state.currentAriaLabel}
-                    onFocus={this.handleSearchItemFocus}
+                    post={post}
                     data-a11y-sort-order={this.props.a11yIndex}
                 >
                     <div
@@ -438,10 +426,8 @@ class SearchResultsItem extends React.PureComponent {
                             </div>
                         </div>
                     </div>
-                </div>
+                </PostAriaLabelDiv>
             </div>
         );
     }
 }
-
-export default injectIntl(SearchResultsItem);

@@ -61,7 +61,7 @@ exports[`components/ChannelSelectorModal exclude already selected 1`] = `
       key="addChannelsToSchemeKey"
       loading={true}
       numRemainingText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Use ↑↓ to browse, ↵ to select."
           id="multiselect.selectChannels"
         />
@@ -74,7 +74,6 @@ exports[`components/ChannelSelectorModal exclude already selected 1`] = `
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel-3",
@@ -173,7 +172,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
       key="addChannelsToSchemeKey"
       loading={true}
       numRemainingText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Use ↑↓ to browse, ↵ to select."
           id="multiselect.selectChannels"
         />
@@ -186,7 +185,6 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel-2",
@@ -210,7 +208,6 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel-3",

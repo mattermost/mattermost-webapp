@@ -53,13 +53,13 @@ exports[`components/TeamSelectorModal should hide group constrained teams when e
     <ConfirmModal
       confirmButtonClass="btn btn-primary"
       confirmButtonText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Yes, Move Team"
           id="add_teams_to_scheme.confirmation.accept"
         />
       }
       message={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="This team is already selected in another team scheme, are you sure you want to move it to this team scheme?"
           id="add_teams_to_scheme.confirmation.message"
         />
@@ -69,7 +69,7 @@ exports[`components/TeamSelectorModal should hide group constrained teams when e
       onConfirm={[Function]}
       show={false}
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Team Override Scheme Change?"
           id="add_teams_to_scheme.confirmation.title"
         />
@@ -86,7 +86,7 @@ exports[`components/TeamSelectorModal should hide group constrained teams when e
       key="addTeamsToSchemeKey"
       loading={true}
       numRemainingText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Use ↑↓ to browse, ↵ to select."
           id="multiselect.selectTeams"
         />
@@ -204,13 +204,13 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
     <ConfirmModal
       confirmButtonClass="btn btn-primary"
       confirmButtonText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Yes, Move Team"
           id="add_teams_to_scheme.confirmation.accept"
         />
       }
       message={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="This team is already selected in another team scheme, are you sure you want to move it to this team scheme?"
           id="add_teams_to_scheme.confirmation.message"
         />
@@ -220,7 +220,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
       onConfirm={[Function]}
       show={false}
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Team Override Scheme Change?"
           id="add_teams_to_scheme.confirmation.title"
         />
@@ -237,7 +237,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
       key="addTeamsToSchemeKey"
       loading={true}
       numRemainingText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Use ↑↓ to browse, ↵ to select."
           id="multiselect.selectTeams"
         />

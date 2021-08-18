@@ -40,7 +40,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
       componentClass="h1"
       id="channelNotificationModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Notification Preferences for "
         id="channel_notifications.preferences"
       />

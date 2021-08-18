@@ -40,7 +40,7 @@ exports[`components/user_settings/ImportThemeModal should match snapshot 1`] = `
         componentClass="h1"
         id="importThemeModalLabel"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Import Slack Theme"
           id="user.settings.import_theme.importHeader"
         />
@@ -55,7 +55,7 @@ exports[`components/user_settings/ImportThemeModal should match snapshot 1`] = `
         componentClass="div"
       >
         <p>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="To import a theme, go to a Slack team and look for \\"Preferences -> Themes\\". Open the custom theme option, copy the theme color values and paste them here:"
             id="user.settings.import_theme.importBody"
           />
@@ -89,7 +89,7 @@ exports[`components/user_settings/ImportThemeModal should match snapshot 1`] = `
           onClick={[Function]}
           type="button"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="user.settings.import_theme.cancel"
           />
@@ -100,7 +100,7 @@ exports[`components/user_settings/ImportThemeModal should match snapshot 1`] = `
           onClick={[Function]}
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Submit"
             id="user.settings.import_theme.submit"
           />

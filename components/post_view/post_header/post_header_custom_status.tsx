@@ -49,12 +49,15 @@ const PostHeaderCustomStatus = (props: ComponentProps) => {
         return null;
     }
 
-    const updateStatus = () => dispatch(setStatusDropdown(true));
+    const updateStatus = (event: React.MouseEvent) => {
+        event.preventDefault();
+        dispatch(setStatusDropdown(true));
+    };
 
     return (
-        <div
+        <button
             onClick={updateStatus}
-            className='post__header-set-custom-status cursor--pointer'
+            className='post__header-set-custom-status cursor--pointer style--none'
         >
             <EmojiIcon className='post__header-set-custom-status-icon'/>
             <span className='post__header-set-custom-status-text'>
@@ -63,7 +66,7 @@ const PostHeaderCustomStatus = (props: ComponentProps) => {
                     defaultMessage='Update your status'
                 />
             </span>
-        </div>
+        </button>
     );
 };
 

@@ -15,7 +15,7 @@
  */
 
 // Stage: @prod
-// Group: @system_console @plugin @not_cloud
+// Group: @system_console @plugin @not_cloud @timeout_error
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {gitlabPlugin} from '../../utils/plugins';
@@ -24,7 +24,7 @@ describe('If plugins fail to start, they can be disabled', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
-        cy.apiUninstallAllPlugins();
+        cy.apiRemovePluginById(gitlabPlugin.id);
 
         // # Visit plugin management in the system console
         cy.visit('/admin_console/plugins/plugin_management');

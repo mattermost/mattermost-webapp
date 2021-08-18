@@ -70,13 +70,10 @@ describe('ThemeUtils', () => {
     describe('setThemeDefaults', () => {
         it('blank theme', () => {
             const input = {};
-            const expected = {...Preferences.THEMES.default};
+            const expected = {...Preferences.THEMES.denim};
             delete expected.type;
 
-            assert.deepEqual(ThemeUtils.setThemeDefaults(input), {
-                ...expected,
-                sidebarTeamBarBg: '#0d4288',
-            });
+            assert.deepEqual(ThemeUtils.setThemeDefaults(input), expected);
         });
 
         it('correctly updates the sidebarTeamBarBg variable', () => {

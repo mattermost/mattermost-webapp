@@ -4,8 +4,8 @@
 
 .MenuGroup {
     &.menu-divider {
-        background: v(center-channel-color-16);
         height: 1px;
         margin: 8px 0;
+        background: rgba(var(--center-channel-color-rgb), 0.16);
     }
 }

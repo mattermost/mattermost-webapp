@@ -99,6 +99,8 @@ describe('Cloud Onboarding - Sysadmin', () => {
         // * Should show Tips and Next Steps
         cy.findByText('Tips & Next Steps').should('be.visible');
         cy.findByText('A few other areas to explore').should('be.visible');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__top').should('contain', 'Tips & Next steps');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', 'A few other areas to explore');
 
         // * Transition screen should be visible
         cy.get('.NextStepsView__transitionView.completed').should('be.visible');

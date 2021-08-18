@@ -42,6 +42,10 @@ export function completeDirectChannelInfo(usersState: UsersState, teammateNameDi
     return channel;
 }
 
+export function splitRoles(roles: string): Set<string> {
+    return roles ? new Set<string>(roles.split(' ')) : new Set<string>([]);
+}
+
 // newCompleteDirectChannelInfo is a variant of completeDirectChannelInfo that accepts the minimal
 // data required instead of depending on the entirety of state.entities.users. This allows the
 // calling selector to have fewer dependencies, reducing its need to recompute when memoized.
@@ -288,9 +292,9 @@ export function isGroupOrDirectChannelVisible(
 export function showCreateOption(state: GlobalState, config: any, license: any, teamId: string, channelType: ChannelType, isAdmin: boolean, isSystemAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channelType === General.OPEN_CHANNEL) {
-            return haveITeamPermission(state, {team: teamId, permission: Permissions.CREATE_PUBLIC_CHANNEL});
+            return haveITeamPermission(state, teamId, Permissions.CREATE_PUBLIC_CHANNEL);
         } else if (channelType === General.PRIVATE_CHANNEL) {
-            return haveITeamPermission(state, {team: teamId, permission: Permissions.CREATE_PRIVATE_CHANNEL});
+            return haveITeamPermission(state, teamId, Permissions.CREATE_PRIVATE_CHANNEL);
         }
         return true;
     }
@@ -320,9 +324,9 @@ export function showCreateOption(state: GlobalState, config: any, license: any, 
 export function showManagementOptions(state: GlobalState, config: any, license: any, channel: Channel, isAdmin: boolean, isSystemAdmin: boolean, isChannelAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channel.type === General.OPEN_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
         } else if (channel.type === General.PRIVATE_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES);
         }
         return true;
     }
@@ -360,9 +364,9 @@ export function showManagementOptions(state: GlobalState, config: any, license: 
 export function showDeleteOption(state: GlobalState, config: any, license: any, channel: Channel, isAdmin: boolean, isSystemAdmin: boolean, isChannelAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channel.type === General.OPEN_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.DELETE_PUBLIC_CHANNEL});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.DELETE_PUBLIC_CHANNEL);
         } else if (channel.type === General.PRIVATE_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.DELETE_PRIVATE_CHANNEL});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.DELETE_PRIVATE_CHANNEL);
         }
         return true;
     }

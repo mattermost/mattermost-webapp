@@ -12,18 +12,25 @@ import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 import AddChannelDropdown from '../add_channel_dropdown';
 import ChannelFilter from '../channel_filter';
+import InviteMembersButton from '../invite_members_button';
+import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
 
 type Props = {
     canGoForward: boolean;
     canGoBack: boolean;
     canJoinPublicChannel: boolean;
     showMoreChannelsModal: () => void;
+    invitePeopleModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
     canCreateChannel: boolean;
     showUnreadsCategory: boolean;
+    townSquareDisplayName: string;
+    offTopicDisplayName: string;
+    showTutorialTip: boolean;
+    globalHeaderEnabled: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
         goBack: () => void;
@@ -54,11 +61,6 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
     }
 
     render() {
-        let channelSwitchTextShortcutDefault = 'Ctrl+K';
-        if (Utils.isMac()) {
-            channelSwitchTextShortcutDefault = '⌘K';
-        }
-
         const jumpToButton = (
             <button
                 className={'SidebarChannelNavigator_jumpToButton'}
@@ -71,7 +73,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                     defaultMessage='Find channel'
                 />
                 <div className={'SidebarChannelNavigator_shortcutText'}>
-                    {channelSwitchTextShortcutDefault}
+                    {`${Utils.isMac() ? '⌘' : 'Ctrl+'}K`}
                 </div>
             </button>
         );
@@ -80,16 +82,22 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
             <AddChannelDropdown
                 showNewChannelModal={this.props.showNewChannelModal}
                 showMoreChannelsModal={this.props.showMoreChannelsModal}
+                invitePeopleModal={this.props.invitePeopleModal}
                 showCreateCategoryModal={this.props.showCreateCategoryModal}
                 canCreateChannel={this.props.canCreateChannel}
                 canJoinPublicChannel={this.props.canJoinPublicChannel}
                 handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
                 unreadFilterEnabled={this.props.unreadFilterEnabled}
+                townSquareDisplayName={this.props.townSquareDisplayName}
+                offTopicDisplayName={this.props.offTopicDisplayName}
+                showTutorialTip={this.props.showTutorialTip}
             />
         );
 
+        const inviteMembersUserIcon = (<InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>);
+
         let layout;
-        if (isDesktopApp()) {
+        if (isDesktopApp() && !this.props.globalHeaderEnabled) {
             const historyArrows = (
                 <>
                     <button
@@ -118,8 +126,9 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                         <div className='SidebarContainer_rightContainer'>
                             {!this.props.showUnreadsCategory && <ChannelFilter/>}
                             {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
-                            {historyArrows}
+                            {!this.props.globalHeaderEnabled && historyArrows}
                         </div>
+                        {inviteMembersUserIcon}
                         {addChannelDropdown}
                     </div>
                 </div>
@@ -129,6 +138,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 <div className={'SidebarChannelNavigator webapp'}>
                     {!this.props.showUnreadsCategory && <ChannelFilter/>}
                     {jumpToButton}
+                    {inviteMembersUserIcon}
                     {addChannelDropdown}
                 </div>
             );
@@ -136,4 +146,41 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
 
         return layout;
     }
+
+    // TODO: the render function in place can be replaced with this one, once we successfully release v6.0
+    // render() {
+    //     return (
+    //         <div className={'SidebarChannelNavigator webapp'}>
+    //             {!this.props.showUnreadsCategory && <ChannelFilter/>}
+    //             <button
+    //                 className={'SidebarChannelNavigator_jumpToButton'}
+    //                 onClick={this.openQuickSwitcher}
+    //                 aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.channelSwitcherLabel', 'Channel Switcher')}
+    //             >
+    //                 <i className='icon icon-magnify'/>
+    //                 <FormattedMessage
+    //                     id='sidebar_left.channel_navigator.jumpTo'
+    //                     defaultMessage='Find channel'
+    //                 />
+    //                 <div className={'SidebarChannelNavigator_shortcutText'}>
+    //                     {`${Utils.isMac() ? '⌘' : 'Ctrl+'}K`}
+    //                 </div>
+    //             </button>
+    //             <InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>
+    //             <AddChannelDropdown
+    //                 showNewChannelModal={this.props.showNewChannelModal}
+    //                 showMoreChannelsModal={this.props.showMoreChannelsModal}
+    //                 invitePeopleModal={this.props.invitePeopleModal}
+    //                 showCreateCategoryModal={this.props.showCreateCategoryModal}
+    //                 canCreateChannel={this.props.canCreateChannel}
+    //                 canJoinPublicChannel={this.props.canJoinPublicChannel}
+    //                 handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
+    //                 unreadFilterEnabled={this.props.unreadFilterEnabled}
+    //                 townSquareDisplayName={this.props.townSquareDisplayName}
+    //                 offTopicDisplayName={this.props.offTopicDisplayName}
+    //                 showTutorialTip={this.props.showTutorialTip}
+    //             />
+    //         </div>
+    //     );
+    // }
 }

@@ -35,13 +35,10 @@ export type Channel = {
     last_post_at: number;
     total_msg_count: number;
     total_msg_count_root: number;
-    extra_update_at: number;
     creator_id: string;
     scheme_id: string;
-    isCurrent?: boolean;
     teammate_id?: string;
     status?: string;
-    fake?: boolean;
     group_constrained: boolean;
     shared?: boolean;
     props?: Record<string, any>;
@@ -92,6 +89,7 @@ export type ChannelsState = {
     channels: IDMappedObjects<Channel>;
     channelsInTeam: RelationOneToMany<Team, Channel>;
     myMembers: RelationOneToOne<Channel, ChannelMembership>;
+    roles: RelationOneToOne<Channel, Set<string>>;
     membersInChannel: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>;
     stats: RelationOneToOne<Channel, ChannelStats>;
     groupsAssociatedToChannel: any;

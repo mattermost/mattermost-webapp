@@ -31,6 +31,11 @@ export default class Pluggable extends React.PureComponent {
          * Id of the specific component to be plugged.
          */
         pluggableId: PropTypes.string,
+
+        /*
+         * Name of the sub component to use. Defaults to 'component' if unspecified.
+         */
+        subComponentName: PropTypes.string,
     }
 
     render() {
@@ -65,7 +70,10 @@ export default class Pluggable extends React.PureComponent {
             }
 
             const content = pluginComponents.map((p) => {
-                const PluginComponent = p.component;
+                let PluginComponent = p.component;
+                if (this.props.subComponentName) {
+                    PluginComponent = p[this.props.subComponentName];
+                }
                 return (
                     <PluginComponent
                         {...props}

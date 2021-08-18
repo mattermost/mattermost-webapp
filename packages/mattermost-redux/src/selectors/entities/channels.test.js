@@ -2022,6 +2022,11 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
         [channel2.id]: {},
     };
 
+    const channelRoles = {
+        [channel1.id]: [],
+        [channel2.id]: [],
+    };
+
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
             teams: {
@@ -2030,6 +2035,7 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
             channels: {
                 channels,
                 myMembers: myChannelMembers,
+                roles: channelRoles,
             },
             users: {
                 profiles,
@@ -2068,6 +2074,14 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                             roles: 'channel_user',
                         },
                     },
+                    roles: {
+                        [channel1.id]: [
+                            'channel_user',
+                        ],
+                        [channel2.id]: [
+                            'channel_user',
+                        ],
+                    },
                 },
             },
         };
@@ -2098,6 +2112,14 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                             ...testState.entities.channels.myMembers[channel2.id],
                             roles: 'channel_user',
                         },
+                    },
+                    roles: {
+                        [channel1.id]: [
+                            'channel_user',
+                        ],
+                        [channel2.id]: [
+                            'channel_user',
+                        ],
                     },
                 },
             },
@@ -2130,6 +2152,14 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                             roles: 'channel_user',
                         },
                     },
+                    roles: {
+                        [channel1.id]: [
+                            'channel_user',
+                        ],
+                        [channel2.id]: [
+                            'channel_user',
+                        ],
+                    },
                 },
             },
         };
@@ -2161,6 +2191,14 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                             roles: 'channel_user',
                         },
                     },
+                    roles: {
+                        [channel1.id]: [
+                            'channel_user',
+                        ],
+                        [channel2.id]: [
+                            'channel_user',
+                        ],
+                    },
                 },
             },
         };
@@ -2191,6 +2229,15 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                             ...testState.entities.channels.myMembers[channel2.id],
                             roles: 'channel_user',
                         },
+                    },
+                    roles: {
+                        [channel1.id]: [
+                            'channel_user',
+                            'channel_admin',
+                        ],
+                        [channel2.id]: [
+                            'channel_user',
+                        ],
                     },
                 },
             },

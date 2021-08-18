@@ -36,14 +36,16 @@ export class CommandSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
         let symbolSpan = <span>{'/'}</span>;
-        if (item.IconData === EXECUTE_CURRENT_COMMAND_ITEM_ID) {
+        switch (item.IconData) {
+        case EXECUTE_CURRENT_COMMAND_ITEM_ID:
             symbolSpan = <span className='block mt-1'>{'↵'}</span>;
-        }
-        if (item.IconData === COMMAND_SUGGESTION_ERROR) {
+            break;
+        case COMMAND_SUGGESTION_ERROR:
             symbolSpan = <span>{'!'}</span>;
+            break;
         }
         let icon = <div className='slash-command__icon'>{symbolSpan}</div>;
-        if (item.IconData && item.IconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID && item.IconData !== COMMAND_SUGGESTION_ERROR) {
+        if (item.IconData && ![EXECUTE_CURRENT_COMMAND_ITEM_ID, COMMAND_SUGGESTION_ERROR].includes(item.IconData)) {
             icon = (
                 <div
                     className='slash-command__icon'
@@ -100,13 +102,13 @@ export default class CommandProvider extends Provider {
 
         this.store = globalStore;
         this.props = props;
-        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, props.channelId, props.rootId);
+        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, props.channelId, props.teamId, props.rootId);
         this.triggerCharacter = '/';
     }
 
     setProps(props: Props) {
         this.props = props;
-        this.appCommandParser.setChannelContext(props.channelId, props.rootId);
+        this.appCommandParser.setChannelContext(props.channelId, props.teamId, props.rootId);
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
@@ -138,6 +140,7 @@ export default class CommandProvider extends Provider {
         } else {
             this.handleWebapp(pretext, resultCallback);
         }
+
         return true;
     }
 

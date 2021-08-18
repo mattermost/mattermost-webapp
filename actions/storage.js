@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {StorageTypes} from 'utils/constants';
+import {StoragePrefixes, StorageTypes} from 'utils/constants';
 import {getPrefix} from 'utils/storage_utils';
+
+import {batchActions} from 'mattermost-redux/types/actions';
 
 export function setItem(name, value) {
     return (dispatch, getState) => {
@@ -80,6 +82,27 @@ export function actionOnItemsWithPrefix(prefix, action) {
     };
 }
 
+// Temporary action to manually rehydrate drafts from localStorage.
+function rehydrateDrafts() {
+    return (dispatch) => {
+        const actions = [];
+
+        Object.entries(localStorage).forEach((entry) => {
+            const key = entry[0];
+            const value = entry[1];
+            if (key.indexOf(StoragePrefixes.DRAFT) === 0 || key.indexOf(StoragePrefixes.COMMENT_DRAFT) === 0) {
+                actions.push({
+                    type: StorageTypes.SET_GLOBAL_ITEM,
+                    data: {name: key, value: JSON.parse(value), timestamp: new Date()},
+                });
+            }
+        });
+
+        dispatch(batchActions(actions));
+        return {data: true};
+    };
+}
+
 export function storageRehydrate(incoming, persistor) {
     return (dispatch, getState) => {
         const state = getState();
@@ -115,6 +138,7 @@ export function storageRehydrate(incoming, persistor) {
                 data: storage,
             });
         });
+        dispatch(rehydrateDrafts());
         persistor.resume();
         return {data: true};
     };

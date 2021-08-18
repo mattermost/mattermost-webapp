@@ -2,7 +2,7 @@
 
 exports[`components/DataRetentionHint should match snapshot 1`] = `
 <li>
-  <FormattedMessage
+  <MemoizedFormattedMessage
     defaultMessage="Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail."
     id="search_results.usage.dataRetention"
     values={

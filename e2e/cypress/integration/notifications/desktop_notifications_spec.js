@@ -224,8 +224,8 @@ describe('Desktop notifications', () => {
                     return true;
                 });
 
-                // * Notification badge is aligned 10px to the right of LHS
-                cy.get(`#sidebarItem_${channel.name} .badge`).should('exist').and('have.css', 'margin', '0px 6px');
+                // * Notification badge is aligned to the right of LHS
+                cy.get(`#sidebarItem_${channel.name} .badge`).should('exist').and('have.css', 'margin', '0px 4px');
             });
         });
     });

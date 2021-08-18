@@ -12,7 +12,7 @@
 
 @keyframes highlight {
     from {
-        @include alpha-property(background, $yellow, .5);
+        @include alpha-property(background, $yellow, 0.5);
     }
 
     to {

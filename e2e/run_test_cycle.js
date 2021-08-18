@@ -6,8 +6,10 @@
 /*
  * This command, which is normally used in CI, runs Cypress test in full or partial
  * depending on test metadata and environment capabilities.
+ * Spec file to run is dependent from Test Automation Dashboard and each test result is being
+ * recorded on a per spec file basis.
  *
- * Usage: [ENVIRONMENT] node run_tests.js [options]
+ * Usage: [ENVIRONMENT] node run_test_cycle.js
  *
  * Environment:
  *   AUTOMATION_DASHBOARD_URL   : Dashboard URL
@@ -18,7 +20,7 @@
  *   CI_BASE_URL                : Test server base URL in CI
  *
  * Example:
- * 1. "node test_player.js"
+ * 1. "node run_test_cycle.js"
  *      - will run all the specs available from the Automation dashboard
  */
 

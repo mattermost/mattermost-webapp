@@ -29,12 +29,3 @@ export function setRecentEmojis(recentEmojis = []) {
     };
 }
 
-export function persistRecentSkin(recentSkin = 'default') {
-    return (dispatch, getState) => {
-        const currentUserId = getCurrentUserId(getState());
-
-        LocalStorageStore.setRecentSkin(currentUserId, recentSkin);
-
-        return {data: recentSkin};
-    };
-}

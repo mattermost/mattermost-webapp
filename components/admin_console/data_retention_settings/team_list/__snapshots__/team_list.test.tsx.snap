@@ -11,7 +11,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
         Object {
           "field": "name",
           "fixed": true,
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.team_settings.team_list.nameHeader"
           />,
@@ -90,7 +90,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
         Object {
           "field": "name",
           "fixed": true,
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.team_settings.team_list.nameHeader"
           />,

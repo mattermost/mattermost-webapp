@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Message reply scrollable', () => {
@@ -32,7 +33,7 @@ describe('Message reply scrollable', () => {
 
     it('MM-T4083_1 correctly scrolls to the bottom when a thread is opened', () => {
         // # Scroll RHS to top and close it
-        cy.get('.post-right__scroll').scrollIntoView();
+        cy.get('.post-right__content > div > div').first().scrollIntoView();
         cy.closeRHS();
 
         // # Open RHS
@@ -46,7 +47,7 @@ describe('Message reply scrollable', () => {
 
     it('MM-T4083_2 correctly scrolls to the bottom when the user types in the comment box', () => {
         // # Scroll RHS to top
-        cy.get('.post-right__scroll').scrollIntoView();
+        cy.get('.post-right__content > div > div').first().scrollIntoView();
 
         // # Type into comment box
         cy.get('#reply_textbox').type('foo', {scrollBehavior: false}); // without scrollBehavior=false cypress automatically scrolls to replyTextBox. We need to check if application does that.

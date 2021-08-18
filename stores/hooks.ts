@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useCallback} from 'react';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 
 import {createSelector} from 'reselect';
 
@@ -43,8 +44,11 @@ export function useGlobalState<TVal>(
     const dispatch = useDispatch();
     const storedKey = `${name}${suffix}`;
 
+    const value = useSelector(makeGetGlobalItem(storedKey, initialValue), shallowEqual);
+    const setValue = useCallback((newValue) => dispatch(setGlobalItem(storedKey, newValue)), [storedKey]);
+
     return [
-        useSelector(makeGetGlobalItem(storedKey, initialValue)),
-        (newValue) => dispatch(setGlobalItem(storedKey, newValue)),
+        value,
+        setValue,
     ];
 }

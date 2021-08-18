@@ -65,6 +65,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>
@@ -164,6 +165,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>
@@ -263,6 +265,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>
@@ -362,6 +365,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>
@@ -470,6 +474,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>
@@ -555,6 +560,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>
@@ -650,6 +656,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>
@@ -758,6 +765,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>
@@ -866,6 +874,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>
@@ -985,6 +994,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
           },
         ]
       }
+      subMenuClass="pl-4"
       text="Move to"
     />
   </MenuGroup>

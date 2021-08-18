@@ -10,12 +10,6 @@ import {joinChannelById, switchToChannel} from 'actions/views/channel';
 
 import QuickSwitchModal, {Props} from './quick_switch_modal';
 
-function mapStateToProps() {
-    return {
-        showTeamSwitcher: false,
-    };
-}
-
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
@@ -25,4 +19,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuickSwitchModal);
+export default connect(null, mapDispatchToProps)(QuickSwitchModal);

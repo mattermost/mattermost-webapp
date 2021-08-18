@@ -81,15 +81,12 @@ describe('Keyboard Shortcuts', () => {
         const team1 = teamAndChannels[0].team;
         const team1Channels = teamAndChannels[0].channels;
 
-        // cy.get('@team1').then((team1) => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Type CTRL/CMD+K
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // # Verify that the mentions in the channels of this team are displayed
-        cy.get('#suggestionList').should('exist').children().should('have.length', count);
-
         cy.get('#suggestionList').
             findByTestId(team1Channels[0].name).should('be.visible').and('have.class', 'suggestion--selected').
             find('.badge').should('be.visible').and('have.text', baseCount);

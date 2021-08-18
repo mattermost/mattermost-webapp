@@ -17,7 +17,7 @@ import {GlobalState} from 'types/store';
 
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
-import {shouldShowDotMenu} from 'utils/post_utils.jsx';
+import {shouldShowDotMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 

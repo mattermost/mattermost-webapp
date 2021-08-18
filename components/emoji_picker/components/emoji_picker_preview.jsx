@@ -47,7 +47,7 @@ export default class EmojiPickerPreview extends React.PureComponent {
             let aliases;
             let previewImage;
 
-            if (emoji.short_names) {
+            if (emoji.short_names && emoji.image !== 'mattermost') {
                 // This is a system emoji which only has a list of aliases
                 name = emoji.short_names[0];
                 aliases = emoji.short_names;

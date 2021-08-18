@@ -321,7 +321,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         return (
             <Modal
                 id='addUsersToChannelModal'
-                dialogClassName='a11y__modal channel-switcher'
+                dialogClassName='a11y__modal channel-invite'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
@@ -336,11 +336,11 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                     role='application'
                     className='overflow--visible'
                 >
-                    <div className='channel-switcher__header'>
+                    <div className='channel-invite__header'>
                         {header}
                     </div>
                     {inviteError}
-                    <div className='channel-switcher__content'>
+                    <div className='channel-invite__content'>
                         {content}
                     </div>
                 </Modal.Body>

@@ -1,5 +1,6 @@
 .DropdownInput {
     z-index: 999999;
+
     &.Input_container {
         margin-top: 20px;
     }
@@ -36,10 +37,10 @@
 }
 
 .DropdownInput__option > div {
-    padding: 10px 24px;
-    line-height: 16px;
-    cursor: pointer;
     z-index: 999999;
+    padding: 10px 24px;
+    cursor: pointer;
+    line-height: 16px;
 }
 
 .DropdownInput__option.selected > div {

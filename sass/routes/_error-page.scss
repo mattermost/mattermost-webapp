@@ -8,11 +8,11 @@ body {
         }
 
         .error__container {
-            color: #555;
             display: table-cell;
-            margin: 0 auto;
             max-width: 800px;
             padding: 5em 0;
+            margin: 0 auto;
+            color: #555;
             text-align: left;
             vertical-align: top;
         }
@@ -23,9 +23,9 @@ body {
         }
 
         h2 {
+            margin: 0.8em 0 0.5em;
             font-size: 1.5em;
             font-weight: 600;
-            margin: .8em 0 .5em;
         }
 
         p {
@@ -34,13 +34,13 @@ body {
 
         .ErrorPage__container_max_free_users {
             display: flex;
-            text-align: center;
             flex-direction: column;
+            text-align: center;
 
             .ErrorPage__mattermostCloudImg {
-                margin: auto;
-                align-self: flex-start;
                 height: 100px;
+                align-self: flex-start;
+                margin: auto;
 
                 img {
                     margin: 32px 40px;
@@ -49,9 +49,9 @@ body {
 
             .ErrorPage__mainContentContainer {
                 display: flex;
-                justify-content: center;
-                flex-direction: column;
                 height: calc(100vh - 100px);
+                flex-direction: column;
+                justify-content: center;
 
                 .ErrorPage__mainContentItem {
                     align-self: stretch;
@@ -61,54 +61,55 @@ body {
                         width: 50vw;
                         min-width: 320px;
                         max-width: 520px;
-                        max-height: calc(100vh - 320px);
                         min-height: 270px;
+                        max-height: calc(100vh - 320px);
                         margin: 0 auto 32px auto;
                     }
 
                     article {
                         display: block;
-                        text-align: center;
                         width: 100%;
-                        margin: 0 auto;
                         max-width: 500px;
+                        margin: 0 auto;
+                        text-align: center;
+
                         .ErrorPage__maxFreeUsersReachedTitle {
+                            margin: auto;
+                            color: #3d3c40;
+                            font-size: 24px;
                             font-style: normal;
                             font-weight: 600;
-                            font-size: 24px;
                             line-height: 32px;
-                            color: #3D3C40;
-                            margin: auto;
                         }
 
                         .ErrorPage__maxFreeUsersReachedDescription {
+                            margin: 1% auto;
                             font-family: Open Sans;
+                            font-size: 14px;
                             font-style: normal;
                             font-weight: normal;
-                            font-size: 14px;
                             line-height: 20px;
-                            margin: 1% auto;
                         }
                     }
                 }
             }
 
             .waves {
-                transform: rotate(180deg);
-                width: 110%;
                 position: fixed;
-                margin-top: -10%;
-                left: 0;
                 z-index: -1;
                 bottom: 0;
+                left: 0;
+                width: 110%;
+                margin-top: -10%;
+                transform: rotate(180deg);
             }
 
             .blue-dots {
-                transform: rotate(180deg);
                 position: fixed;
-                margin-top: -27%;
-                right: 1%;
                 z-index: -1;
+                right: 1%;
+                margin-top: -27%;
+                transform: rotate(180deg);
             }
         }
     }

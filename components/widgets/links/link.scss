@@ -1,12 +1,12 @@
 .style-button {
-    background-color: var(--button-bg);
-    padding: 8px 16px;
-    border-radius: 4px;
     width: fit-content;
-    font-weight: 600;
-    font-size: 12px;
-    color: var(--button-color);
+    padding: 8px 16px;
     border: none;
+    background-color: var(--button-bg);
+    border-radius: 4px;
+    color: var(--button-color);
+    font-size: 12px;
+    font-weight: 600;
     line-height: 16px;
 
     span {
@@ -20,22 +20,22 @@
 
     &:hover:not(.disabled) {
         background: linear-gradient(0deg, rgba(var(--center-channel-color-rgb), 0.16), rgba(var(--center-channel-color-rgb), 0.16)), var(--button-bg);
-        text-decoration: none;
         color: var(--button-color);
+        text-decoration: none;
     }
 }
 
 .style-link {
+    display: inline-block;
+    min-width: fit-content;
     border: none;
     background: none;
     color: var(--sidebar-bg);
-    min-width: fit-content;
-    display: inline-block;
 
     &:hover:not(.disabled) {
-        text-decoration: underline;
-        color: var(--sidebar-bg);
         border: none;
         background: none;
+        color: var(--sidebar-bg);
+        text-decoration: underline;
     }
 }

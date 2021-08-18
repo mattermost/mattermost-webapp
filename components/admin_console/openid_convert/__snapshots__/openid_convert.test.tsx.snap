@@ -19,13 +19,13 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
     <div
       className="OpenIdConvert__heading"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="OAuth 2.0 is being deprecated and replaced by OpenID Connect."
         id="admin.openIdConvert.heading"
       />
     </div>
     <p>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Convert your OAuth 2.0 configuration to the new OpenID Connect standard."
         id="admin.openIdConvert.message"
       />
@@ -38,7 +38,7 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
         data-testid="openIdConvert"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Convert to OpenID Connect"
           id="admin.openIdConvert.text"
         />
@@ -50,7 +50,7 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
         rel="noopener noreferrer"
         target="_blank"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Learn more"
           id="admin.openIdConvert.help"
         />

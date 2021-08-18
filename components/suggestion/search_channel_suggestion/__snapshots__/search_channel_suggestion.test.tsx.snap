@@ -2,61 +2,60 @@
 
 exports[`components/suggestion/search_channel_suggestion should match snapshot 1`] = `
 <div
-  className="search-autocomplete__item"
+  className="suggestion-list__item"
   onClick={[Function]}
   onMouseMove={[Function]}
   role="button"
   tabIndex={-1}
 >
   <span
-    className="search-autocomplete__name"
-    data-testid="listItem"
+    className="suggestion-list__icon suggestion-list__icon--large"
   >
-    <div
-      className="search-autocomplete__icon"
-    >
-      <i
-        className="icon light icon--standard icon--no-spacing icon-globe"
-      />
-    </div>
+    <i
+      className="icon icon--standard icon--no-spacing icon-globe"
+    />
+  </span>
+  <div
+    className="suggestion-list__ellipsis"
+  >
     <span
-      className="ml-3"
+      className="suggestion-list__main"
     >
       name
     </span>
     <span
-      className="ml-2 light"
+      className="ml-2"
     >
-      ~
-      DN
+      ~DN
     </span>
-  </span>
+  </div>
 </div>
 `;
 
 exports[`components/suggestion/search_channel_suggestion should match snapshot, channel type DM_CHANNEL 1`] = `
 <div
-  className="search-autocomplete__item selected a11y--focused"
+  className="suggestion-list__item suggestion--selected"
   onClick={[Function]}
   onMouseMove={[Function]}
   role="button"
   tabIndex={-1}
 >
-  <span
-    className="search-autocomplete__name"
-    data-testid="listItem"
+  <Memo(Avatar)
+    size="sm"
+    url="/api/v4/users/DN/image?_=0"
+  />
+  <div
+    className="suggestion-list__ellipsis"
   >
-    <Memo(Avatar)
-      size="sm"
-      url="/api/v4/users/DN/image?_=0"
-    />
     <span
-      className="ml-3"
+      className="suggestion-list__main"
     >
-      @
-      name
+      @name
     </span>
-  </span>
+    <span
+      className="ml-2"
+    />
+  </div>
   <BotBadge
     className="badge-popoverlist"
     show={false}
@@ -66,167 +65,160 @@ exports[`components/suggestion/search_channel_suggestion should match snapshot, 
 
 exports[`components/suggestion/search_channel_suggestion should match snapshot, channel type GM_CHANNEL 1`] = `
 <div
-  className="search-autocomplete__item selected a11y--focused"
+  className="suggestion-list__item suggestion--selected"
   onClick={[Function]}
   onMouseMove={[Function]}
   role="button"
   tabIndex={-1}
 >
   <span
-    className="search-autocomplete__name"
-    data-testid="listItem"
+    className="suggestion-list__icon suggestion-list__icon--large"
   >
     <div
-      className="search-autocomplete__icon"
+      className="status status--group"
     >
-      <div
-        className="status status--group"
-      >
-        G
-      </div>
+      G
     </div>
-    <span
-      className="ml-3"
-    >
-      @
-      name
-    </span>
   </span>
+  <div
+    className="suggestion-list__ellipsis"
+  >
+    <span
+      className="suggestion-list__main"
+    >
+      @name
+    </span>
+    <span
+      className="ml-2"
+    />
+  </div>
 </div>
 `;
 
 exports[`components/suggestion/search_channel_suggestion should match snapshot, channel type OPEN_CHANNEL 1`] = `
 <div
-  className="search-autocomplete__item selected a11y--focused"
+  className="suggestion-list__item suggestion--selected"
   onClick={[Function]}
   onMouseMove={[Function]}
   role="button"
   tabIndex={-1}
 >
   <span
-    className="search-autocomplete__name"
-    data-testid="listItem"
+    className="suggestion-list__icon suggestion-list__icon--large"
   >
-    <div
-      className="search-autocomplete__icon"
-    >
-      <i
-        className="icon light icon--standard icon--no-spacing icon-globe"
-      />
-    </div>
+    <i
+      className="icon icon--standard icon--no-spacing icon-globe"
+    />
+  </span>
+  <div
+    className="suggestion-list__ellipsis"
+  >
     <span
-      className="ml-3"
+      className="suggestion-list__main"
     >
       name
     </span>
     <span
-      className="ml-2 light"
+      className="ml-2"
     >
-      ~
-      DN
+      ~DN
     </span>
-  </span>
+  </div>
 </div>
 `;
 
 exports[`components/suggestion/search_channel_suggestion should match snapshot, channel type PRIVATE_CHANNEL 1`] = `
 <div
-  className="search-autocomplete__item selected a11y--focused"
+  className="suggestion-list__item suggestion--selected"
   onClick={[Function]}
   onMouseMove={[Function]}
   role="button"
   tabIndex={-1}
 >
   <span
-    className="search-autocomplete__name"
-    data-testid="listItem"
+    className="suggestion-list__icon suggestion-list__icon--large"
   >
-    <div
-      className="search-autocomplete__icon"
-    >
-      <i
-        className="icon light icon--standard icon--no-spacing icon-lock-outline"
-      />
-    </div>
+    <i
+      className="icon icon--standard icon--no-spacing icon-lock-outline"
+    />
+  </span>
+  <div
+    className="suggestion-list__ellipsis"
+  >
     <span
-      className="ml-3"
+      className="suggestion-list__main"
     >
       name
     </span>
     <span
-      className="ml-2 light"
+      className="ml-2"
     >
-      ~
-      DN
+      ~DN
     </span>
-  </span>
+  </div>
 </div>
 `;
 
 exports[`components/suggestion/search_channel_suggestion should match snapshot, isSelection is false 1`] = `
 <div
-  className="search-autocomplete__item"
+  className="suggestion-list__item"
   onClick={[Function]}
   onMouseMove={[Function]}
   role="button"
   tabIndex={-1}
 >
   <span
-    className="search-autocomplete__name"
-    data-testid="listItem"
+    className="suggestion-list__icon suggestion-list__icon--large"
   >
-    <div
-      className="search-autocomplete__icon"
-    >
-      <i
-        className="icon light icon--standard icon--no-spacing icon-globe"
-      />
-    </div>
+    <i
+      className="icon icon--standard icon--no-spacing icon-globe"
+    />
+  </span>
+  <div
+    className="suggestion-list__ellipsis"
+  >
     <span
-      className="ml-3"
+      className="suggestion-list__main"
     >
       name
     </span>
     <span
-      className="ml-2 light"
+      className="ml-2"
     >
-      ~
-      DN
+      ~DN
     </span>
-  </span>
+  </div>
 </div>
 `;
 
 exports[`components/suggestion/search_channel_suggestion should match snapshot, isSelection is true 1`] = `
 <div
-  className="search-autocomplete__item selected a11y--focused"
+  className="suggestion-list__item suggestion--selected"
   onClick={[Function]}
   onMouseMove={[Function]}
   role="button"
   tabIndex={-1}
 >
   <span
-    className="search-autocomplete__name"
-    data-testid="listItem"
+    className="suggestion-list__icon suggestion-list__icon--large"
   >
-    <div
-      className="search-autocomplete__icon"
-    >
-      <i
-        className="icon light icon--standard icon--no-spacing icon-globe"
-      />
-    </div>
+    <i
+      className="icon icon--standard icon--no-spacing icon-globe"
+    />
+  </span>
+  <div
+    className="suggestion-list__ellipsis"
+  >
     <span
-      className="ml-3"
+      className="suggestion-list__main"
     >
       name
     </span>
     <span
-      className="ml-2 light"
+      className="ml-2"
     >
-      ~
-      DN
+      ~DN
     </span>
-  </span>
+  </div>
 </div>
 `;

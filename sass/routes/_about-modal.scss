@@ -2,27 +2,28 @@
 
 .modal {
     .modal-content {
-        @include box-shadow(0 0 10px rgba($black, .5));
+        @include box-shadow(0 0 10px rgba($black, 0.5));
+
         border-radius: $border-rad;
     }
 
     .about-modal {
         .modal-content {
             .modal-header {
-                background: transparent;
-                border: none;
-                color: inherit;
-                padding: 20px 25px;
                 display: flex;
                 align-items: center;
-                border-bottom: 1px solid #ddd;
+                padding: 20px 25px;
+                border: none;
+                border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+                background: transparent;
+                color: inherit;
 
                 .close {
-                    color: inherit;
-                    font-weight: normal;
                     right: 15px;
+                    color: inherit;
                     font-size: 30px;
-                    opacity: .5;
+                    font-weight: normal;
+                    opacity: 0.5;
                 }
 
                 .more-modal__image {
@@ -36,31 +37,32 @@
                 }
 
                 .icon {
-                    margin: 0 5px 0 8px;
                     position: relative;
                     top: 1px;
+                    margin: 0 5px 0 8px;
 
                     svg {
-                        @include opacity(.8);
-                        height: 14px;
+                        @include opacity(0.8);
+
                         width: 14px;
+                        height: 14px;
                     }
                 }
             }
         }
 
         .modal-body {
-            padding: 15px 25px;
             max-height: calc(100vh - 220px);
+            padding: 15px 25px;
         }
 
         .modal-footer {
             .btn {
-                font-size: 14px;
                 height: 40px;
                 padding: 0 20px;
-                font-weight: 600;
                 border-radius: 4px;
+                font-size: 14px;
+                font-weight: 600;
             }
         }
 
@@ -80,7 +82,7 @@
                 padding: 8px 12px;
             }
 
-            &:after {
+            &::after {
                 top: 9px;
                 right: 12px;
                 font-size: 20px;
@@ -106,16 +108,18 @@
             @include clearfix;
             @include display-flex;
             @include flex-direction(row);
+
             padding: 1em 0 3em;
         }
 
         .about-modal__copyright {
-            @include opacity(.6);
-            margin-top: .5em;
+            @include opacity(0.6);
+
+            margin-top: 0.5em;
         }
 
         .about-modal__links {
-            margin-top: .5em;
+            margin-top: 0.5em;
         }
 
         .about-modal__footer {
@@ -123,18 +127,19 @@
         }
 
         .about-modal__title {
-            line-height: 1.5;
             margin: 0 0 10px;
+            line-height: 1.5;
         }
 
         .about-modal__subtitle {
-            @include opacity(.6);
+            @include opacity(0.6);
         }
 
         .about-modal__hash {
-            @include opacity(.4);
+            @include opacity(0.4);
+
             overflow: hidden;
-            font-size: .75em;
+            font-size: 0.75em;
             text-align: right;
 
             p {
@@ -146,8 +151,9 @@
         }
 
         .about-modal__notice {
-            @include opacity(.8);
-            font-size: .79em;
+            @include opacity(0.8);
+
+            font-size: 0.79em;
             text-align: right;
 
             p {
@@ -158,12 +164,13 @@
         }
 
         .about-modal__logo {
-            @include opacity(.9);
+            @include opacity(0.9);
+
             padding: 0 40px 0 20px;
 
             svg {
-                height: 125px;
                 width: 125px;
+                height: 125px;
             }
 
             path {

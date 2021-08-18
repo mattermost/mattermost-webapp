@@ -106,7 +106,7 @@ exports[`components/PostMarkdown should correctly pass postId down 1`] = `
 
 exports[`components/PostMarkdown should render header change properly 1`] = `
 <div>
-  <FormattedMessage
+  <MemoizedFormattedMessage
     defaultMessage="{username} updated the channel header <br></br><strong>From:</strong> {old} <br></br><strong>To:</strong> {new}"
     id="api.channel.post_update_channel_header_message_and_forget.updated_from"
     values={

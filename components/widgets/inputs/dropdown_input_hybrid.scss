@@ -5,19 +5,23 @@
     .Input_wrapper {
         padding: 0;
         margin: 0;
+
         &.input_hybrid_wrapper {
-            flex-grow: 1;
             display: inline-block;
-            transition: max-width .1s ease-out;
+            flex-grow: 1;
+            transition: max-width 0.1s ease-out;
+
             &.showInput {
-                transition: max-width .1s ease-in;
+                transition: max-width 0.1s ease-in;
             }
         }
-        &.dropdown_hybrid_wrapper{
+
+        &.dropdown_hybrid_wrapper {
             display: inline-block;
+
             &.showInput {
                 float: right;
-                transition: width .1s ease-out;
+                transition: width 0.1s ease-out;
             }
         }
     }
@@ -30,68 +34,73 @@
             box-shadow: none;
         }
     }
+
     .Input_fieldset {
-        padding: 0;
         display: flex;
+        padding: 0;
     }
+
     .Input_legend {
         margin-left: 8px;
     }
+
     .DropDown__menu {
-        margin-top: 2px;
         z-index: 1000000;
+        margin-top: 2px;
     }
 
     .DropdownInput__indicatorsContainer {
         margin-right: 8px;
-    
+
         i {
             color: rgba(var(--center-channel-color-rgb), 0.64);
             font-weight: normal;
-    
+
             &::before {
                 margin: 0;
             }
         }
     }
-    
+
     .DropdownInput__option > div {
-        padding: 10px 24px;
-        line-height: 16px;
-        cursor: pointer;
         z-index: 999999;
+        padding: 10px 24px;
+        cursor: pointer;
+        line-height: 16px;
     }
-    
+
     .DropdownInput__option.selected > div {
         background-color: rgba(var(--button-bg-rgb), 0.08);
         color: var(--center-channel-color);
     }
-    
+
     .DropdownInput__option.focused > div {
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
-    
+
     .Input_fieldset:focus-within {
-        box-shadow: none;
         border-width: 2px;
+        box-shadow: none;
     }
+
     .Input.form-control {
         height: 40px;
         border: none;
-        border-radius: 4px 0px 0px 4px;
         border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border-radius: 4px 0 0 4px;
+
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
             margin: 0;
+            -webkit-appearance: none;
         }
 
         &[type=number] {
             -moz-appearance: textfield;
         }
-    
+
         &:focus {
             border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         }
-    }    
+    }
 }

@@ -10,7 +10,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import {getMonthLong} from 'utils/i18n';
-import {CloudLinks, CloudProducts} from 'utils/constants';
+import {BillingSchemes, CloudLinks, CloudProducts} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import Badge from 'components/widgets/badges/badge';
@@ -116,7 +116,7 @@ export const planDetailsTopElements = (
     isPaidTier: boolean,
     isFreeTrial: boolean,
     userLimit: number,
-    subscriptionPlan: string | null,
+    subscriptionPlan: string | undefined,
 ) => {
     let userCountDisplay = (
         <div className='PlanDetails__userCount'>
@@ -240,10 +240,17 @@ export const getPlanDetailElements = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails_paidTier__planName'>
                     {`$${product.price_per_seat.toFixed(2)}`}
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.perUserPerMonth'
-                        defaultMessage='/user/month. '
-                    />
+                    {product.billing_schema === BillingSchemes.FLAT_FEE ?
+                        <FormattedMessage
+                            id='admin.billing.subscription.planDetails.flatFeePerMonth'
+                            defaultMessage='/month (Unlimited Users). '
+                        /> :
+                        <FormattedMessage
+                            id='admin.billing.subscription.planDetails.perUserPerMonth'
+                            defaultMessage='/user/month. '
+                        />
+                    }
+
                     {howBillingWorksLink}
                 </div>
             </div>
@@ -290,7 +297,7 @@ export const getPlanDetailElements = (
     };
 };
 
-export const featureList = (subscriptionPlan: string | null, isPaidTier: boolean) => {
+export const featureList = (subscriptionPlan: string | undefined, isPaidTier: boolean) => {
     const featuresFreeTier = [
         localizeMessage('admin.billing.subscription.planDetails.features.10GBstoragePerUser', '10 GB storage per user'),
         localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.0% uptime'),

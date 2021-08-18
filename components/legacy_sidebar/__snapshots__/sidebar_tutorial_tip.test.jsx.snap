@@ -8,7 +8,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
     Array [
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channels"
             id="sidebar.tutorialScreen1.title"
           />
@@ -22,7 +22,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
             id="sidebar.tutorialScreen2.title"
             values={
@@ -34,7 +34,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           />
         </h4>
         <p>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Here are two public channels to start:"
             id="sidebar.tutorialScreen2.body1"
           />
@@ -64,7 +64,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Creating and Joining Channels"
             id="sidebar.tutorialScreen3.title"
           />
@@ -96,7 +96,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
     Array [
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channels"
             id="sidebar.tutorialScreen1.title"
           />
@@ -110,7 +110,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
             id="sidebar.tutorialScreen2.title"
             values={
@@ -122,7 +122,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           />
         </h4>
         <p>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Here are two public channels to start:"
             id="sidebar.tutorialScreen2.body1"
           />
@@ -152,7 +152,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Creating and Joining Channels"
             id="sidebar.tutorialScreen3.title"
           />
@@ -184,7 +184,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
     Array [
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channels"
             id="sidebar.tutorialScreen1.title"
           />
@@ -198,7 +198,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
             id="sidebar.tutorialScreen2.title"
             values={
@@ -210,7 +210,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           />
         </h4>
         <p>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Here are two public channels to start:"
             id="sidebar.tutorialScreen2.body1"
           />
@@ -240,7 +240,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Creating and Joining Channels"
             id="sidebar.tutorialScreen3.title"
           />
@@ -272,7 +272,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
     Array [
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Channels"
             id="sidebar.tutorialScreen1.title"
           />
@@ -286,7 +286,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="\\"{townsquare}\\" and \\"{offtopic}\\" channels"
             id="sidebar.tutorialScreen2.title"
             values={
@@ -298,7 +298,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           />
         </h4>
         <p>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Here are two public channels to start:"
             id="sidebar.tutorialScreen2.body1"
           />
@@ -328,7 +328,7 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
       </div>,
       <div>
         <h4>
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="Creating and Joining Channels"
             id="sidebar.tutorialScreen3.title"
           />

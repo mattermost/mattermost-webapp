@@ -91,7 +91,7 @@ describe('MM-T154 Use keyboard navigation in emoji picker', () => {
         // # Press arrow keys
         cy.get('#emojiPickerSearch').type('{rightarrow}{downarrow}');
 
-        cy.get('#emojiPickerAliasesPreview').invoke('text').then((selectedEmoji) => {
+        cy.get('.emoji-picker__preview').invoke('text').then((selectedEmoji) => {
             // # Select chosen emoji
             cy.get('#emojiPickerSearch').type('{enter}');
 

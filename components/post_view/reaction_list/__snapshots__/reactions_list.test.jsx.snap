@@ -61,7 +61,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
               id="addReactionTooltip"
               placement="right"
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add a reaction"
                 id="reaction_list.addReactionTooltip"
               />

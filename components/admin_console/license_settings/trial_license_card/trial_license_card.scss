@@ -2,21 +2,24 @@
 
 .RenewLicenseCard.TrialLicense {
     .TrialLicenseCard__text-title {
-        font-style: normal;
-        font-size: 18px;
-        font-weight: 600;
-        line-height: 18px;
         margin-bottom: 22px;
         color: var(--sys-button-bg);
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 18px;
     }
+
     .RenewLicenseCard__text-description {
-        line-height: 20px;
         margin-bottom: 16px;
+        line-height: 20px;
     }
+
     button {
         display: inline-block;
         margin-top: 0;
     }
+
     button.contact-us {
         padding: 11px 19px;
         margin-left: 10px;

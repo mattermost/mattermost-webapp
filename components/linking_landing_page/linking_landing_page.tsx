@@ -284,7 +284,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
 
         if (this.state.redirectPage) {
             return (
-                <div className='get-app__launching'>
+                <h1 className='get-app__launching'>
                     {openingLink}
                     <div className={`get-app__alternative${this.state.redirectPage ? ' redirect-page' : ''}`}>
                         <FormattedMessage
@@ -302,7 +302,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                             />
                         </a>
                     </div>
-                </div>
+                </h1>
             );
         }
 
@@ -331,6 +331,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             <div className='get-app__launching'>
                 <FormattedMessage
                     id='get_app.launching'
+                    tagName='h1'
                     defaultMessage='Where would you like to view this?'
                 />
                 <div className='get-app__alternative'>

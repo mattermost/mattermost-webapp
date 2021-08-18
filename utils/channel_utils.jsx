@@ -22,22 +22,18 @@ export function canManageMembers(state, channel) {
     if (channel.type === Constants.PRIVATE_CHANNEL) {
         return haveIChannelPermission(
             state,
-            {
-                channel: channel.id,
-                team: channel.team_id,
-                permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-            },
+            channel.team_id,
+            channel.id,
+            Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         );
     }
 
     if (channel.type === Constants.OPEN_CHANNEL) {
         return haveIChannelPermission(
             state,
-            {
-                channel: channel.id,
-                team: channel.team_id,
-                permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-            },
+            channel.team_id,
+            channel.id,
+            Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
         );
     }
 

@@ -12,7 +12,7 @@ exports[`components/admin_console/system_user_detail should match default snapsh
         className="fa fa-angle-left back"
         to="/admin_console/user_management/users"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="User Configuration"
         id="admin.systemUserDetail.title"
       />
@@ -116,7 +116,7 @@ exports[`components/admin_console/system_user_detail should match default snapsh
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add Team"
                 id="admin.userManagement.userDetail.addTeam"
               />
@@ -143,7 +143,7 @@ exports[`components/admin_console/system_user_detail should match default snapsh
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -193,14 +193,14 @@ exports[`components/admin_console/system_user_detail should match default snapsh
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
       />
     }
     message={
       <div>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc"
           values={
@@ -212,7 +212,7 @@ exports[`components/admin_console/system_user_detail should match default snapsh
         <strong>
           <br />
           <br />
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
             id="deactivate_member_modal.sso_warning"
           />
@@ -224,7 +224,7 @@ exports[`components/admin_console/system_user_detail should match default snapsh
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate {username}"
         id="deactivate_member_modal.title"
         values={
@@ -250,7 +250,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if LD
         className="fa fa-angle-left back"
         to="/admin_console/user_management/users"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="User Configuration"
         id="admin.systemUserDetail.title"
       />
@@ -355,7 +355,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if LD
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add Team"
                 id="admin.userManagement.userDetail.addTeam"
               />
@@ -382,7 +382,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if LD
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -433,14 +433,14 @@ exports[`components/admin_console/system_user_detail should match snapshot if LD
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
       />
     }
     message={
       <div>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc"
           values={
@@ -452,7 +452,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if LD
         <strong>
           <br />
           <br />
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
             id="deactivate_member_modal.sso_warning"
           />
@@ -464,7 +464,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if LD
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate {username}"
         id="deactivate_member_modal.title"
         values={
@@ -490,7 +490,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
         className="fa fa-angle-left back"
         to="/admin_console/user_management/users"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="User Configuration"
         id="admin.systemUserDetail.title"
       />
@@ -601,7 +601,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add Team"
                 id="admin.userManagement.userDetail.addTeam"
               />
@@ -628,7 +628,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -679,14 +679,14 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
       />
     }
     message={
       <div>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc"
           values={
@@ -698,7 +698,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
         <strong>
           <br />
           <br />
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
             id="deactivate_member_modal.sso_warning"
           />
@@ -710,7 +710,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate {username}"
         id="deactivate_member_modal.title"
         values={
@@ -736,7 +736,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if SA
         className="fa fa-angle-left back"
         to="/admin_console/user_management/users"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="User Configuration"
         id="admin.systemUserDetail.title"
       />
@@ -841,7 +841,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if SA
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add Team"
                 id="admin.userManagement.userDetail.addTeam"
               />
@@ -868,7 +868,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if SA
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -919,14 +919,14 @@ exports[`components/admin_console/system_user_detail should match snapshot if SA
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
       />
     }
     message={
       <div>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc"
           values={
@@ -938,7 +938,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if SA
         <strong>
           <br />
           <br />
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
             id="deactivate_member_modal.sso_warning"
           />
@@ -950,7 +950,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if SA
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate {username}"
         id="deactivate_member_modal.title"
         values={
@@ -976,7 +976,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
         className="fa fa-angle-left back"
         to="/admin_console/user_management/users"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="User Configuration"
         id="admin.systemUserDetail.title"
       />
@@ -1080,7 +1080,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add Team"
                 id="admin.userManagement.userDetail.addTeam"
               />
@@ -1107,7 +1107,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -1157,14 +1157,14 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
       />
     }
     message={
       <div>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc"
           values={
@@ -1176,7 +1176,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
         <strong>
           <br />
           <br />
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
             id="deactivate_member_modal.sso_warning"
           />
@@ -1188,7 +1188,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate {username}"
         id="deactivate_member_modal.title"
         values={
@@ -1214,7 +1214,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
         className="fa fa-angle-left back"
         to="/admin_console/user_management/users"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="User Configuration"
         id="admin.systemUserDetail.title"
       />
@@ -1319,7 +1319,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add Team"
                 id="admin.userManagement.userDetail.addTeam"
               />
@@ -1346,7 +1346,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />
@@ -1397,14 +1397,14 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
   <ConfirmModal
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate"
         id="deactivate_member_modal.deactivate"
       />
     }
     message={
       <div>
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc"
           values={
@@ -1416,7 +1416,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
         <strong>
           <br />
           <br />
-          <FormattedMessage
+          <Memo(MemoizedFormattedMessage)
             defaultMessage="You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync."
             id="deactivate_member_modal.sso_warning"
           />
@@ -1428,7 +1428,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Deactivate {username}"
         id="deactivate_member_modal.title"
         values={

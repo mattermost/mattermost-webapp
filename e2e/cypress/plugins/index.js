@@ -54,6 +54,10 @@ module.exports = (on, config) => {
             launchOptions.args.push('--load-extension=cypress/extensions/Ignore-X-Frame-headers');
         }
 
+        if (browser.family === 'chromium' && browser.name !== 'electron') {
+            launchOptions.args.push('--disable-dev-shm-usage');
+        }
+
         return launchOptions;
     });
 

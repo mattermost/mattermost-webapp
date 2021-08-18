@@ -61,6 +61,14 @@ export function getSiteURL(): string {
     return getSiteURLFromWindowObject(window);
 }
 
+export function getBasePathFromWindowObject(obj: WindowObject): string {
+    return obj.basename || '';
+}
+
+export function getBasePath(): string {
+    return getBasePathFromWindowObject(window);
+}
+
 export function getRelativeChannelURL(teamName: string, channelName: string): string {
     return `/${teamName}/channels/${channelName}`;
 }

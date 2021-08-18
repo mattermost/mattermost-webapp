@@ -10,7 +10,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
       />
@@ -18,7 +18,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-description"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
       />
@@ -169,7 +169,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
       />
@@ -177,7 +177,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-description"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
       />
@@ -336,7 +336,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
       />
@@ -344,7 +344,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-description"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
       />
@@ -503,7 +503,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
       />
@@ -511,7 +511,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-description"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
       />
@@ -670,7 +670,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
       />
@@ -678,7 +678,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-description"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
       />
@@ -837,7 +837,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
       />
@@ -845,7 +845,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-description"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
       />
@@ -1004,7 +1004,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-name"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Permission"
         id="admin.permissions.permissionsTree.permission"
       />
@@ -1012,7 +1012,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
     <div
       className="permission-description"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Description"
         id="admin.permissions.permissionsTree.description"
       />

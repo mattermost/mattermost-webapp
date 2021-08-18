@@ -3,36 +3,41 @@
 .InvitationModalInitialStep {
     .back {
         position: absolute;
-        left: 30px;
         top: 30px;
+        left: 30px;
     }
+
     .invitation-modal-option {
         display: flex;
-        max-width: 720px;
-        border-top: 1px solid;
-        border-top-color: var(--center-channel-color-20);
-        padding: 32px;
         width: 100%;
+        max-width: 720px;
         align-items: center;
+        padding: 32px;
+        border-top: 1px solid;
+        border-top-color: rgba(var(--center-channel-color-rgb), 0.2);
         cursor: pointer;
         font-size: 16px;
+
         &:last-child {
             border-bottom: 1px solid;
-            border-bottom-color: var(--center-channel-color-20);
+            border-bottom-color: rgba(var(--center-channel-color-rgb), 0.2);
             margin-bottom: 28px;
         }
+
         h2 {
-            margin-top: 0px;
+            margin-top: 0;
             margin-bottom: 16px;
             font-size: 24px;
+            font-weight: 600;
             line-height: 1.38;
         }
+
         .arrow {
             svg {
-                height: 48px;
                 width: 48px;
+                height: 48px;
                 margin-left: 32px;
-                fill: var(--center-channel-color-20);
+                fill: rgba(var(--center-channel-color-rgb), 0.2);
             }
         }
     }

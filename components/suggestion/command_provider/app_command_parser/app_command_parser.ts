@@ -3,6 +3,8 @@
 
 /* eslint-disable max-lines */
 
+import {getChannelSuggestions, getUserSuggestions, inTextMentionSuggestions} from '../mentions';
+
 import {
     AppCallRequest,
     AppBinding,
@@ -12,6 +14,7 @@ import {
     AppContext,
     AppForm,
     AppCallValues,
+    AppSelectOption,
     AutocompleteSuggestion,
     AutocompleteStaticSelect,
     Channel,
@@ -23,6 +26,7 @@ import {
     AppCallTypes,
     AppFieldTypes,
     makeAppBindingsSelector,
+    selectChannel,
     getChannel,
     getCurrentTeamId,
     doAppCall,
@@ -34,10 +38,16 @@ import {
     createCallRequest,
     selectUserByUsername,
     getUserByUsername,
+    selectUser,
+    getUser,
     getChannelByNameAndTeamName,
     getCurrentTeam,
     selectChannelByName,
     errorMessage as parserErrorMessage,
+    filterEmptyOptions,
+    autocompleteUsersInChannel,
+    autocompleteChannels,
+    UserProfile,
 } from './app_command_parser_dependencies';
 
 export interface Store {
@@ -63,6 +73,7 @@ export enum ParseState {
     EndQuotedValue = 'EndQuotedValue',
     EndTickedValue = 'EndTickedValue',
     Error = 'Error',
+    Rest = 'Rest',
 }
 
 interface FormsCache {
@@ -71,6 +82,11 @@ interface FormsCache {
 
 interface Intl {
     formatMessage(config: {id: string; defaultMessage: string}, values?: {[name: string]: any}): string;
+}
+
+type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
+    type?: string;
+    item?: UserProfile | Channel;
 }
 
 const getCommandBindings = makeAppBindingsSelector(AppBindingLocations.COMMAND);
@@ -207,6 +223,10 @@ export class ParsedCommand {
         }
 
         if (!this.binding) {
+            if (autocompleteMode) {
+                return this;
+            }
+
             return this.asError(this.intl.formatMessage({
                 id: 'apps.error.parser.no_match',
                 defaultMessage: '`{command}`: No matching command found in this workspace.',
@@ -215,13 +235,22 @@ export class ParsedCommand {
             }));
         }
 
-        this.form = this.binding.form;
-        if (!this.form) {
-            const fetched = await this.formsCache.getForm(this.location, this.binding);
-            if (fetched?.error) {
-                return this.asError(fetched.error);
+        if (!autocompleteMode && this.binding.bindings?.length) {
+            return this.asError(this.intl.formatMessage({
+                id: 'apps.error.parser.execute_non_leaf',
+                defaultMessage: 'You must select a subcommand.',
+            }));
+        }
+
+        if (!this.binding.bindings?.length) {
+            this.form = this.binding?.form;
+            if (!this.form) {
+                const fetched = await this.formsCache.getForm(this.location, this.binding);
+                if (fetched?.error) {
+                    return this.asError(fetched.error);
+                }
+                this.form = fetched?.form;
             }
-            this.form = fetched?.form;
         }
 
         return this;
@@ -238,6 +267,7 @@ export class ParsedCommand {
             fields = this.form.fields;
         }
 
+        fields = fields.filter((f) => f.type !== AppFieldTypes.MARKDOWN && !f.readonly);
         this.state = ParseState.StartParameter;
         this.i = this.incompleteStart || 0;
         let flagEqualsUsed = false;
@@ -265,18 +295,48 @@ export class ParsedCommand {
                     // Positional parameter.
                     this.position++;
                     // eslint-disable-next-line no-loop-func
-                    const field = fields.find((f: AppField) => f.position === this.position);
+                    let field = fields.find((f: AppField) => f.position === this.position);
                     if (!field) {
-                        return this.asError(this.intl.formatMessage({
-                            id: 'apps.error.parser.no_argument_pos_x',
-                            defaultMessage: 'Unable to identify argument.',
-                        }));
+                        field = fields.find((f) => f.position === -1 && f.type === AppFieldTypes.TEXT);
+                        if (!field || this.values[field.name]) {
+                            return this.asError(this.intl.formatMessage({
+                                id: 'apps.error.parser.no_argument_pos_x',
+                                defaultMessage: 'Unable to identify argument.',
+                            }));
+                        }
+                        this.incompleteStart = this.i;
+                        this.incomplete = '';
+                        this.field = field;
+                        this.state = ParseState.Rest;
+                        break;
                     }
                     this.field = field;
                     this.state = ParseState.StartValue;
                     break;
                 }
                 }
+                break;
+            }
+
+            case ParseState.Rest: {
+                if (!this.field) {
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.missing_field_value',
+                        defaultMessage: 'Field value is missing.',
+                    }));
+                }
+
+                if (autocompleteMode && c === '') {
+                    return this;
+                }
+
+                if (c === '') {
+                    this.values[this.field.name] = this.incomplete;
+                    return this;
+                }
+
+                this.i++;
+                this.incomplete += c;
                 break;
             }
 
@@ -436,7 +496,7 @@ export class ParsedCommand {
                     if (this.incompleteStart === this.i - 1) {
                         return this.asError(this.intl.formatMessage({
                             id: 'apps.error.parser.empty_value',
-                            defaultMessage: 'empty values are not allowed',
+                            defaultMessage: 'Empty values are not allowed.',
                         }));
                     }
                     this.i++;
@@ -476,7 +536,7 @@ export class ParsedCommand {
                     if (this.incompleteStart === this.i - 1) {
                         return this.asError(this.intl.formatMessage({
                             id: 'apps.error.parser.empty_value',
-                            defaultMessage: 'empty values are not allowed',
+                            defaultMessage: 'Empty values are not allowed.',
                         }));
                     }
                     this.i++;
@@ -510,13 +570,13 @@ export class ParsedCommand {
                     (!autocompleteMode && this.incomplete !== 'true' && this.incomplete !== 'false'))) {
                     // reset back where the value started, and treat as a new parameter
                     this.i = this.incompleteStart;
-                    this.values![this.field.name] = 'true';
+                    this.values[this.field.name] = 'true';
                     this.state = ParseState.StartParameter;
                 } else {
                     if (autocompleteMode && c === '') {
                         return this;
                     }
-                    this.values![this.field.name] = this.incomplete;
+                    this.values[this.field.name] = this.incomplete;
                     this.incomplete = '';
                     this.incompleteStart = this.i;
                     if (c === '') {
@@ -534,15 +594,17 @@ export class ParsedCommand {
 export class AppCommandParser {
     private store: Store;
     private channelID: string;
+    private teamID: string;
     private rootPostID?: string;
     private intl: Intl;
 
     forms: {[location: string]: AppForm} = {};
 
-    constructor(store: Store|null, intl: Intl, channelID: string, rootPostID = '') {
+    constructor(store: Store|null, intl: Intl, channelID: string, teamID = '', rootPostID = '') {
         this.store = store || getStore();
         this.channelID = channelID;
         this.rootPostID = rootPostID;
+        this.teamID = teamID;
         this.intl = intl;
     }
 
@@ -565,6 +627,8 @@ export class AppCommandParser {
             return {call: null, errorMessage: parserErrorMessage(this.intl, parsed.error, parsed.command, parsed.i)};
         }
 
+        await this.addDefaultAndReadOnlyValues(parsed);
+
         const missing = this.getMissingFields(parsed);
         if (missing.length > 0) {
             const missingStr = missing.map((f) => f.label).join(', ');
@@ -578,6 +642,64 @@ export class AppCommandParser {
         }
 
         return this.composeCallFromParsed(parsed);
+    }
+
+    private async addDefaultAndReadOnlyValues(parsed: ParsedCommand) {
+        if (!parsed.form?.fields) {
+            return;
+        }
+
+        await Promise.all(parsed.form?.fields.map(async (f) => {
+            if (!f.value) {
+                return;
+            }
+
+            if (f.readonly || !(f.name in parsed.values)) {
+                switch (f.type) {
+                case AppFieldTypes.TEXT:
+                    parsed.values[f.name] = f.value as string;
+                    break;
+                case AppFieldTypes.BOOL:
+                    parsed.values[f.name] = 'true';
+                    break;
+                case AppFieldTypes.USER: {
+                    const userID = (f.value as AppSelectOption).value;
+                    let user = selectUser(this.store.getState(), userID);
+                    if (!user) {
+                        const dispatchResult = await this.store.dispatch(getUser(userID));
+                        if ('error' in dispatchResult) {
+                            // Silently fail on default value
+                            break;
+                        }
+                        user = dispatchResult.data;
+                    }
+                    parsed.values[f.name] = user.username;
+                    break;
+                }
+                case AppFieldTypes.CHANNEL: {
+                    const channelID = (f.value as AppSelectOption).label;
+                    let channel = selectChannel(this.store.getState(), channelID);
+                    if (!channel) {
+                        const dispatchResult = await this.store.dispatch(getChannel(channelID));
+                        if ('error' in dispatchResult) {
+                            // Silently fail on default value
+                            break;
+                        }
+                        channel = dispatchResult.data;
+                    }
+                    parsed.values[f.name] = channel.name;
+                    break;
+                }
+                case AppFieldTypes.STATIC_SELECT:
+                case AppFieldTypes.DYNAMIC_SELECT:
+                    parsed.values[f.name] = (f.value as AppSelectOption).value;
+                    break;
+                case AppFieldTypes.MARKDOWN:
+
+                    // Do nothing
+                }
+            }
+        }) || []);
     }
 
     // getSuggestionsBase is a synchronous function that returns results for base commands
@@ -612,9 +734,9 @@ export class AppCommandParser {
     }
 
     // getSuggestions returns suggestions for subcommands and/or form arguments
-    public getSuggestions = async (pretext: string): Promise<AutocompleteSuggestion[]> => {
+    public getSuggestions = async (pretext: string): Promise<ExtendedAutocompleteSuggestion[]> => {
         let parsed = new ParsedCommand(pretext, this, this.intl);
-        let suggestions: AutocompleteSuggestion[] = [];
+        let suggestions: ExtendedAutocompleteSuggestion[] = [];
 
         const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
@@ -715,7 +837,7 @@ export class AppCommandParser {
             return {call: null, errorMessage};
         }
 
-        const context = this.getAppContext(parsed.binding.app_id);
+        const context = this.getAppContext(parsed.binding);
         return {call: createCallRequest(call, context, {}, values, parsed.command)};
     }
 
@@ -839,15 +961,16 @@ export class AppCommandParser {
     // getChannel gets the channel in which the user is typing the command
     private getChannel = (): Channel | null => {
         const state = this.store.getState();
-        return getChannel(state, this.channelID);
+        return selectChannel(state, this.channelID);
     }
 
-    public setChannelContext = (channelID: string, rootPostID?: string) => {
-        if (this.channelID !== channelID || this.rootPostID !== rootPostID) {
+    public setChannelContext = (channelID: string, teamID = '', rootPostID?: string) => {
+        if (this.channelID !== channelID || this.rootPostID !== rootPostID || this.teamID !== teamID) {
             this.forms = {};
         }
         this.channelID = channelID;
         this.rootPostID = rootPostID;
+        this.teamID = teamID;
     }
 
     // isAppCommand determines if subcommand/form suggestions need to be returned.
@@ -873,10 +996,10 @@ export class AppCommandParser {
     }
 
     // getAppContext collects post/channel/team info for performing calls
-    private getAppContext = (appID: string): AppContext => {
+    private getAppContext = (binding: AppBinding): AppContext => {
         const context: AppContext = {
-            app_id: appID,
-            location: AppBindingLocations.COMMAND,
+            app_id: binding.app_id,
+            location: binding.location,
             root_id: this.rootPostID,
         };
 
@@ -894,12 +1017,15 @@ export class AppCommandParser {
     // fetchForm unconditionaly retrieves the form for the given binding (subcommand)
     private fetchForm = async (binding: AppBinding): Promise<{form?: AppForm; error?: string} | undefined> => {
         if (!binding.call) {
-            return undefined;
+            return {error: this.intl.formatMessage({
+                id: 'apps.error.parser.missing_call',
+                defaultMessage: 'Missing binding call.',
+            })};
         }
 
         const payload = createCallRequest(
             binding.call,
-            this.getAppContext(binding.app_id),
+            this.getAppContext(binding),
         );
 
         const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM, this.intl)) as DoAppCallResult;
@@ -984,7 +1110,7 @@ export class AppCommandParser {
     }
 
     // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
-    private getParameterSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+    private getParameterSuggestions = async (parsed: ParsedCommand): Promise<ExtendedAutocompleteSuggestion[]> => {
         switch (parsed.state) {
         case ParseState.StartParameter: {
             // see if there's a matching positional field
@@ -1009,6 +1135,14 @@ export class AppCommandParser {
         case ParseState.EndTickedValue:
         case ParseState.TickValue:
             return this.getValueSuggestions(parsed, '`');
+        case ParseState.Rest: {
+            const execute = getExecuteSuggestion(parsed);
+            const value = await this.getValueSuggestions(parsed);
+            if (execute) {
+                return [execute, ...value];
+            }
+            return value;
+        }
         }
         return [];
     }
@@ -1062,7 +1196,7 @@ export class AppCommandParser {
     }
 
     // getSuggestionsForField gets suggestions for a positional or flag field value
-    private getValueSuggestions = async (parsed: ParsedCommand, delimiter?: string): Promise<AutocompleteSuggestion[]> => {
+    private getValueSuggestions = async (parsed: ParsedCommand, delimiter?: string): Promise<ExtendedAutocompleteSuggestion[]> => {
         if (!parsed || !parsed.field) {
             return [];
         }
@@ -1070,9 +1204,9 @@ export class AppCommandParser {
 
         switch (f.type) {
         case AppFieldTypes.USER:
-            return this.getUserSuggestions(parsed);
+            return this.getUserFieldSuggestions(parsed);
         case AppFieldTypes.CHANNEL:
-            return this.getChannelSuggestions(parsed);
+            return this.getChannelFieldSuggestions(parsed);
         case AppFieldTypes.BOOL:
             return this.getBooleanSuggestions(parsed);
         case AppFieldTypes.DYNAMIC_SELECT:
@@ -1081,6 +1215,12 @@ export class AppCommandParser {
             return this.getStaticSelectSuggestions(parsed, delimiter);
         }
 
+        const mentionSuggestions = await inTextMentionSuggestions(parsed.incomplete, this.store, this.channelID, this.teamID, delimiter);
+        if (mentionSuggestions) {
+            return mentionSuggestions;
+        }
+
+        // Handle text values
         let complete = parsed.incomplete;
         if (complete && delimiter) {
             complete = delimiter + complete + delimiter;
@@ -1183,7 +1323,8 @@ export class AppCommandParser {
             }));
         }
 
-        const items = callResponse?.data?.items;
+        let items = callResponse?.data?.items;
+        items = items?.filter(filterEmptyOptions);
         if (!items?.length) {
             return [{
                 Complete: '',
@@ -1209,7 +1350,7 @@ export class AppCommandParser {
             }
             return ({
                 Complete: complete,
-                Description: s.label,
+                Description: s.label || s.value,
                 Suggestion: s.value,
                 Hint: '',
                 IconData: s.icon_data || parsed.binding?.icon || '',
@@ -1226,44 +1367,32 @@ export class AppCommandParser {
         });
         return [{
             Complete: '',
-            Suggestion: this.intl.formatMessage({
+            Suggestion: '',
+            Hint: this.intl.formatMessage({
                 id: 'apps.suggestion.dynamic.error',
                 defaultMessage: 'Dynamic select error',
             }),
-            Hint: '',
             IconData: COMMAND_SUGGESTION_ERROR,
             Description: errMsg,
         }];
     }
 
-    // getUserSuggestions returns a suggestion with `@` if the user has not started typing
-    private getUserSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
-        if (parsed.incomplete.trim().length === 0) {
-            return [{
-                Complete: '',
-                Suggestion: '',
-                Description: parsed.field?.description || '',
-                Hint: parsed.field?.hint || '@username',
-                IconData: parsed.binding?.icon || '',
-            }];
+    private getUserFieldSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+        let input = parsed.incomplete.trim();
+        if (input[0] === '@') {
+            input = input.substring(1);
         }
-
-        return [];
+        const {data} = await this.store.dispatch(autocompleteUsersInChannel(input, this.channelID));
+        return getUserSuggestions(data);
     }
 
-    // getChannelSuggestions returns a suggestion with `~` if the user has not started typing
-    private getChannelSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
-        if (parsed.incomplete.trim().length === 0) {
-            return [{
-                Complete: '',
-                Suggestion: '',
-                Description: parsed.field?.description || '',
-                Hint: parsed.field?.hint || '~channelname',
-                IconData: parsed.binding?.icon || '',
-            }];
+    private getChannelFieldSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+        let input = parsed.incomplete.trim();
+        if (input[0] === '~') {
+            input = input.substring(1);
         }
-
-        return [];
+        const {data} = await this.store.dispatch(autocompleteChannels(this.teamID, input));
+        return getChannelSuggestions(data);
     }
 
     // getBooleanSuggestions returns true/false suggestions

@@ -551,7 +551,7 @@ describe('Interactive Menu', () => {
 
                 cy.get('#suggestionList').within(() => {
                     // * Newly added username should be there in the search list
-                    cy.findByText(`@${longUser.username}`).should('exist').click();
+                    cy.findByText(`@${longUser.username}`).should('exist').click({force: true});
                 });
 
                 // * Verify the input has the complete username value

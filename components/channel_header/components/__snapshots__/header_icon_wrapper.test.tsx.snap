@@ -12,7 +12,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
         id="channelFilesTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Channel files"
           id="channel_header.channelFiles"
         />
@@ -50,7 +50,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
         id="flaggedTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Saved posts"
           id="channel_header.flagged"
         />
@@ -89,7 +89,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
         id="recentMentionsTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Recent mentions"
           id="channel_header.recentMentions"
         />
@@ -128,7 +128,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
         id="pinnedPostTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Pinned posts"
           id="channel_header.pinnedPosts"
         />
@@ -220,7 +220,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
         id="searchTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Search"
           id="channel_header.search"
         />

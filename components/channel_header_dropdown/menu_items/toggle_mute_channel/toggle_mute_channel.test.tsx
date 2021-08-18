@@ -72,10 +72,8 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
         );
     });
 
-    it('should show Mute Channel to all channel types', () => {
+    it('should show Mute Channel to all channel types except DM_CHANNEL and GM_CHANNEL', () => {
         [
-            Constants.DM_CHANNEL,
-            Constants.GM_CHANNEL,
             Constants.OPEN_CHANNEL,
             Constants.PRIVATE_CHANNEL,
             Constants.ARCHIVED_CHANNEL,
@@ -93,6 +91,26 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
             );
             expect(wrapper.find(MenuItemAction).props().show).toEqual(true);
             expect(wrapper.find(MenuItemAction).props().text).toEqual('Mute Channel');
+        });
+    });
+    it('should show Mute Conversation to  channel types DM_CHANNEL and GM_CHANNEL', () => {
+        [
+            Constants.DM_CHANNEL,
+            Constants.GM_CHANNEL,
+        ].forEach((channelType) => {
+            const channel = {
+                id: 'channel_id',
+                type: channelType,
+            } as Channel;
+
+            const wrapper = shallow(
+                <MenuItemToggleMuteChannel
+                    {...baseProps}
+                    channel={channel}
+                />,
+            );
+            expect(wrapper.find(MenuItemAction).props().show).toEqual(true);
+            expect(wrapper.find(MenuItemAction).props().text).toEqual('Mute Conversation');
         });
     });
 });

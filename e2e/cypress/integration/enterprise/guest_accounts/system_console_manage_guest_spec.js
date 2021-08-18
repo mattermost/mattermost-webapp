@@ -17,11 +17,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getRandomId} from '../../../utils';
 import {getAdminAccount} from '../../../support/env';
 
-function verifyGuest(userStatus = 'Guest ') {
-    // * Verify if Guest User is displayed
-    cy.findAllByTestId('userListRow').should('have.length', 1);
-    cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').and('have.text', userStatus);
-}
+import {verifyGuest} from './helpers';
 
 describe('Guest Account - Verify Manage Guest Users', () => {
     const admin = getAdminAccount();
@@ -84,49 +80,6 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         missingOptions.forEach((missingOption) => {
             cy.findByText(missingOption).should('not.exist');
         });
-    });
-
-    it('MM-18048 Deactivate Guest User and Verify', () => {
-        // # Click on the Deactivate option
-        cy.wait(TIMEOUTS.HALF_SEC).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.wait(TIMEOUTS.HALF_SEC).findByText('Deactivate').click();
-
-        // * Verify the confirmation message displayed
-        cy.get('#confirmModal').should('be.visible').within(() => {
-            cy.get('#confirmModalLabel').should('be.visible').and('have.text', `Deactivate ${guestUser.username}`);
-            cy.get('.modal-body').should('be.visible').and('have.text', `This action deactivates ${guestUser.username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate ${guestUser.username}?`);
-        });
-
-        // * Verify the behavior when Cancel button in the confirmation message is clicked
-        cy.get('#cancelModalButton').click();
-        cy.get('#confirmModal').should('not.exist');
-        verifyGuest();
-
-        // * Verify the behavior when Deactivate button in the confirmation message is clicked
-        cy.wait(TIMEOUTS.HALF_SEC).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.wait(TIMEOUTS.HALF_SEC).findByText('Deactivate').click();
-        cy.get('#confirmModalButton').click();
-        cy.get('#confirmModal').should('not.exist');
-        verifyGuest('Inactive ');
-
-        // # Reload and verify if behavior is same
-        cy.reload();
-        cy.get('#searchUsers').should('be.visible').type(guestUser.username);
-        verifyGuest('Inactive ');
-    });
-
-    it('MM-18048 Activate Guest User and Verify', () => {
-        // # Click on the Activate option
-        cy.wait(TIMEOUTS.HALF_SEC).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.wait(TIMEOUTS.HALF_SEC).findByText('Activate').click();
-
-        // * Verify if User's status is activated again
-        verifyGuest();
-
-        // # Reload and verify if behavior is same
-        cy.reload();
-        cy.get('#searchUsers').should('be.visible').type(guestUser.username);
-        verifyGuest();
     });
 
     it('MM-18048 Change Email of a Guest User and Verify', () => {

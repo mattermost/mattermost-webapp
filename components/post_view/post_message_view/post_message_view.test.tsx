@@ -8,7 +8,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {Post, PostType} from 'mattermost-redux/types/posts';
 
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import PostMessageView from 'components/post_view/post_message_view/post_message_view';
 

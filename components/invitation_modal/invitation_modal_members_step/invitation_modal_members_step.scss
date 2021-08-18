@@ -1,138 +1,155 @@
 @import 'utils/variables';
 
 .InvitationModalMembersStep {
-    max-width: 720px;
     width: 100%;
-    h2 {
+    max-width: 720px;
+
+    h5 {
+        margin-top: 0;
         margin-bottom: 12px;
-        margin-top: 0px;
-        font-size: 20px;
-        span {
-            font-weight: 400;
-        }
+        font-size: 16px;
+        font-weight: 600;
     }
+
     .share-link {
-        max-width: 720px;
         width: 100%;
+        max-width: 720px;
+
         .share-link-input-block {
             display: flex;
         }
+
         .share-link-input {
-            flex-grow: 1;
             height: 48px;
-            background: var(--center-channel-color-04);
-            border-top: 1px solid var(--center-channel-color-20);
-            border-left: 1px solid var(--center-channel-color-20);
-            border-bottom: 1px solid var(--center-channel-color-20);
-            border-right: 0;
-            border-radius: 4px 0 0 4px;
+            flex-grow: 1;
             padding: 12px 14px;
+            border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
+            border-right: 0;
+            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
+            border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
+            background: rgba(var(--center-channel-color-rgb), 0.04);
+            border-radius: 4px 0 0 4px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
             font-size: 16px;
-            color: var(--center-channel-color-56);
         }
+
         .share-link-input-button {
             display: flex;
+            width: 180px;
+            height: 48px;
+            flex-grow: 0;
             align-items: center;
             justify-content: center;
-            flex-grow: 0;
-            border: 1px solid;
-            border-color: var(--button-bg);
-            color: var(--button-bg);
-            height: 48px;
-            width: 180px;
-            border-radius: 0 4px 4px 0;
+            border: 1px solid var(--button-bg);
             background: var(--center-channel-bg);
+            border-radius: 0 4px 4px 0;
+            color: var(--button-bg);
             font-size: 16px;
             font-weight: 600;
+
             &:hover {
-                background: var(--button-bg-08);
+                background: rgba(var(--button-bg-rgb), 0.08);
             }
+
             &:active {
-                background: var(--button-bg-08);
+                background: rgba(var(--button-bg-rgb), 0.08);
             }
+
             span {
                 display: inline-block;
-                margin-right: 9px;
                 height: 24px;
+                margin-right: 9px;
             }
+
             svg {
                 fill: var(--button-bg);
             }
         }
+
         .help-text {
             margin-top: 8px;
-            color: var(--center-channel-color-64);
+            color: rgba(var(--center-channel-color-rgb), 0.64);
         }
     }
+
     .search-and-add {
-        max-width: 720px;
         width: 100%;
+        max-width: 720px;
         margin-bottom: 28px;
+
         .search-and-add-input {
-            height: 48px;
-            background: $white;
-            border: 1px solid $gray;
-            border-radius: 4px;
-            padding: 12px 14px;
             width: 100%;
+            height: 48px;
+            padding: 12px 14px;
+            border: 1px solid $gray;
+            background: $white;
+            border-radius: 4px;
         }
+
         .help-text {
             margin-top: 8px;
-            color: var(--center-channel-color-64);
+            color: rgba(var(--center-channel-color-rgb), 0.64);
         }
     }
+
     .invitation-modal-or {
         position: relative;
-        max-width: 720px;
-        width: 100%;
         display: flex;
+        width: 100%;
+        max-width: 720px;
         flex-direction: column;
         align-items: center;
-        hr {
-            max-width: 720px;
-            width: calc(100% - 40px);
-            margin: 45px 0;
-            border-color: var(--center-channel-color-08);
-        }
-        div {
-            text-align: center;
-            display: inline-block;
-            position: absolute;
-            background: var(--center-channel-bg);
-            padding: 30px 12px;
-            top: 0;
-            color: var(--center-channel-color-20);
-            font-size: 20px;
-        }
-    }
-    .invite-members {
-        text-align: right;
-        margin-bottom: 28px;
-    }
-}
 
-.InvitationModalMembersStep {
+        hr {
+            width: calc(100% - 40px);
+            max-width: 720px;
+            border-color: rgba(var(--center-channel-color-rgb), 0.08);
+            margin: 45px 0;
+        }
+
+        div {
+            position: absolute;
+            top: 0;
+            display: inline-block;
+            padding: 30px 12px;
+            background: var(--center-channel-bg);
+            color: rgba(var(--center-channel-color-rgb), 0.2);
+            font-size: 20px;
+            text-align: center;
+        }
+    }
+
+    .invite-members {
+        margin-bottom: 28px;
+        text-align: right;
+    }
+
     .btn {
-        line-height: 16px;
+        min-width: 180px;
         height: 48px;
         padding: 14px 26px;
+        background: var(--button-bg);
+        border-radius: 4px;
+        color: var(--button-color);
         font-size: 16px;
         font-weight: 600;
-        min-width: 180px;
-        border-radius: 4px;
-        background: var(--button-bg);
-        color: var(--button-color);
-        &:focus, &:active, &:focus:active {
-            outline: none;
+        line-height: 16px;
+
+        &:focus,
+        &:active,
+        &:focus:active {
             border-color: transparent;
+            outline: none;
         }
+
         &.btn-inactive {
-            background: var(--center-channel-color-08);
-            color: var(--center-channel-color-56);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
         }
+
         &.btn-secondary {
-            background: var(--center-channel-bg);
             border: 1px solid var(--button-bg);
+            background: var(--center-channel-bg);
             color: var(--button-bg);
         }
     }

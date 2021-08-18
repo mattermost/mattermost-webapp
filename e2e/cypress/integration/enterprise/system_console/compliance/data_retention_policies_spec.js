@@ -20,11 +20,6 @@ describe('Data Retention', () => {
     before(() => {
         cy.apiRequireLicenseForFeature('DataRetention');
 
-        cy.apiGetConfig().then(({config}) => {
-            // * Assert the feature flag, CustomDataRetentionEnabled, is enabled
-            expect(config.FeatureFlags.CustomDataRetentionEnabled).to.equal(true);
-        });
-
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
