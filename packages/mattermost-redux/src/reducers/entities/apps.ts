@@ -15,9 +15,7 @@ export function mainBindings(state: AppBinding[] = [], action: GenericAction): A
     switch (action.type) {
     case AppsTypes.RECEIVED_APP_BINDINGS: {
         const bindings = action.data;
-        validateBindings(bindings);
-
-        return bindings;
+        return validateBindings(bindings);
     }
     default:
         return state;
@@ -50,9 +48,7 @@ function rhsBindings(state: AppBinding[] = [], action: GenericAction): AppBindin
     switch (action.type) {
     case AppsTypes.RECEIVED_APP_RHS_BINDINGS: {
         const bindings = action.data;
-        validateBindings(bindings);
-
-        return bindings;
+        return validateBindings(bindings);
     }
     default:
         return state;
