@@ -334,6 +334,20 @@
         outline-style: none;
     }
 
+    .AddChannelDropdown_dropdownButton {
+        &--inverted-sidebar-bg-color {
+            background-color: var(--sidebar-text);
+            color: var(--sidebar-bg);
+
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: rgba(var(--sidebar-text-rgb), 0.8);
+                color: rgba(var(--sidebar-bg-rgb), 0.8);
+            }
+        }
+    }
+
     .SidebarMenu {
         opacity: 1;
 

@@ -12,3 +12,9 @@ export enum InviteMembersBtnLocations {
     LHS_BUTTON = 'lhs_button',
     USER_ICON = 'user_icon',
 }
+
+export enum AddChannelButtonTreatments {
+    NONE = 'none',
+    SIDEBAR_BG_COLOR = 'sidebar_bg_color',
+    INVERTED_SIDEBAR_BG_COLOR = 'inverted_sidebar_bg_color',
+}
