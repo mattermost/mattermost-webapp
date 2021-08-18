@@ -77,6 +77,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
 
         this.imageProps = {
             onImageLoaded: this.handleHeightReceived,
+            onImageHeightChanged: this.checkPostOverflow,
         };
     }
 
@@ -108,14 +109,18 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
         }
 
         if (height > 0) {
-            // Increment checkOverflow to indicate change in height
-            // and recompute textContainer height at ShowMore component
-            // and see whether overflow text of show more/less is necessary or not.
-            this.setState((prevState) => {
-                return {checkOverflow: prevState.checkOverflow + 1};
-            });
+            this.checkPostOverflow();
         }
     };
+
+    checkPostOverflow = () => {
+        // Increment checkOverflow to indicate change in height
+        // and recompute textContainer height at ShowMore component
+        // and see whether overflow text of show more/less is necessary or not.
+        this.setState((prevState) => {
+            return {checkOverflow: prevState.checkOverflow + 1};
+        });
+    }
 
     renderPostActions = () => {
         const actions = this.props.attachment.actions;

@@ -113,6 +113,8 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             processNode: (node) => {
                 const {
                     class: className,
+                    width,
+                    height,
                     ...attribs
                 } = node.attribs;
 
@@ -130,6 +132,8 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     <MarkdownImage
                         className={className}
                         imageMetadata={options.imagesMetadata && options.imagesMetadata[attribs.src]}
+                        height={parseInt(height, 10)}
+                        width={parseInt(width, 10)}
                         {...attribs}
                         {...options.imageProps}
                         postId={options.postId}
