@@ -136,13 +136,14 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
             <>
                 {currentTeam.display_name}
                 <i className='icon icon-chevron-down'/>
+                <MenuTutorialTip onBottom={false} inHeading={true}/>
             </>
         );
     }
 
     return (
         <>
-            {showMenuTip && <MenuTutorialTip onBottom={false}/>}
+            {showMenuTip && (!addChannelButton || addChannelButton === AddChannelButtonTreatments.NONE) ? <MenuTutorialTip onBottom={false}/> : null}
             <SidebarHeaderContainer menuInHeading={true}>
                 <MenuWrapper onToggle={handleMenuToggle}>
                     <OverlayTrigger
