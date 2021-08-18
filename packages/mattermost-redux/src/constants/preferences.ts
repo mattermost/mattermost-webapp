@@ -9,7 +9,6 @@ const Preferences = {
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
     CATEGORY_GROUP_CHANNEL_SHOW: 'group_channel_show',
     CATEGORY_FLAGGED_POST: 'flagged_post',
-    CATEGORY_FAVORITE_CHANNEL: 'favorite_channel',
     CATEGORY_AUTO_RESET_MANUAL_STATUS: 'auto_reset_manual_status',
     CATEGORY_NOTIFICATIONS: 'notifications',
     COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
@@ -44,8 +43,6 @@ const Preferences = {
 
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CHANNEL_SIDEBAR_ORGANIZATION: 'channel_sidebar_organization',
-    CHANNEL_SIDEBAR_AUTOCLOSE_DMS: 'close_unused_direct_messages',
-    AUTOCLOSE_DMS_ENABLED: 'after_seven_days',
     LIMIT_VISIBLE_DMS_GMS: 'limit_visible_dms_gms',
     SHOW_UNREAD_SECTION: 'show_unread_section',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',

@@ -28,7 +28,6 @@ describe('/components/data_prefetch', () => {
         currentChannelId: '',
         actions: {
             prefetchChannelPosts: jest.fn(() => Promise.resolve({})),
-            trackDMGMOpenChannels: jest.fn(() => Promise.resolve()),
         },
         prefetchQueueObj: {
             1: [],
@@ -96,27 +95,6 @@ describe('/components/data_prefetch', () => {
         mockQueue.shift()!();
         expect(instance.prefetchPosts).toHaveBeenCalledTimes(1);
         expect(instance.prefetchPosts).toHaveBeenCalledWith('currentChannelId');
-    });
-
-    test('should track opened DMs/GMs on first channel load', async () => {
-        const props = defaultProps;
-        const wrapper = shallow<DataPrefetch>(
-            <DataPrefetch {...props}/>,
-        );
-
-        expect(props.actions.trackDMGMOpenChannels).not.toHaveBeenCalled();
-
-        // Change channels
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
-        await Promise.resolve(true);
-
-        expect(props.actions.trackDMGMOpenChannels).toHaveBeenCalledTimes(1);
-
-        // Change channels again
-        wrapper.setProps({currentChannelId: 'anotherChannelId'});
-        await Promise.resolve(true);
-
-        expect(props.actions.trackDMGMOpenChannels).toHaveBeenCalledTimes(1);
     });
 
     test('should fetch profiles for sidebar on first channel load', async () => {

@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Preferences} from '../constants';
-
 import {PreferencesType} from 'mattermost-redux/types/preferences';
 
 export function getPreferenceKey(category: string, name: string): string {
@@ -19,10 +17,4 @@ export function getPreferencesByCategory(myPreferences: PreferencesType, categor
     });
 
     return preferences;
-}
-
-export function isChannelFavorite(myPreferences: PreferencesType, channelId: string): boolean {
-    const preference = myPreferences[getPreferenceKey(Preferences.CATEGORY_FAVORITE_CHANNEL, channelId)];
-
-    return Boolean(preference && preference.value !== 'false');
 }
