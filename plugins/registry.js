@@ -115,7 +115,7 @@ export default class PluginRegistry {
     // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or React element shown for the dropdown button description
-    // - tooltip_text - string shown for tooltip appear on hover
+    // - tooltip_text - string or React element shown for tooltip appear on hover
     registerChannelHeaderButtonAction(icon, action, dropdownText, tooltipText) {
         const id = generateId();
 
@@ -125,7 +125,7 @@ export default class PluginRegistry {
             icon: resolveReactElement(icon),
             action,
             dropdownText: resolveReactElement(dropdownText),
-            tooltipText,
+            tooltipText: resolveReactElement(tooltipText),
         };
 
         store.dispatch({
