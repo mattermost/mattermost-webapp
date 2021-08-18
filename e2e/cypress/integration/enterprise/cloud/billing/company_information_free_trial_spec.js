@@ -21,7 +21,7 @@ describe('System Console - Company Information section', () => {
         cy.visit('/admin_console/billing/company_info');
 
         // * Check for the Company Information header
-        cy.get('.admin-console__header').should('be.visible').and('have.text', 'Company Information');
+        cy.contains('.admin-console__header', 'Company Information').should('be.visible');
     });
 
     beforeEach(() => {
@@ -33,7 +33,7 @@ describe('System Console - Company Information section', () => {
         });
     });
 
-    it('MM-37051 Save Info button should not be enabled if any one of the mandatory feild is filled with invalid data', () => {
+    it('MM-T4164 Save Info button should not be enabled if any one of the mandatory feild is filled with invalid data', () => {
         const companyName = getRandomLetter(30);
 
         // # Click on Add Company Information button
@@ -84,7 +84,7 @@ describe('System Console - Company Information section', () => {
         cy.get('#saveSetting').should('be.disabled');
     });
 
-    it('MM-37051 Adding the Company Information', () => {
+    it('MM-T4161 Adding the Company Information', () => {
         const companyName = getRandomLetter(30);
 
         // # Click on Add Company Information button
@@ -123,7 +123,7 @@ describe('System Console - Company Information section', () => {
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(0).should('have.text', 'Add test address');
     });
 
-    it('MM-37051 Editing the Company Information', () => {
+    it('MM-T4165 Editing the Company Information', () => {
         const companyName = getRandomLetter(30);
 
         // # Click on edit Company Information button
@@ -162,7 +162,7 @@ describe('System Console - Company Information section', () => {
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(0).should('have.text', 'test address');
     });
 
-    it('MM-37051 Cancelling of editing of company information details', () => {
+    it('MM-T4166 Cancelling of editing of company information details', () => {
         // # Click Add edit Information button
         cy.get('.CompanyInfoDisplay__companyInfo-editButton').click();
 
