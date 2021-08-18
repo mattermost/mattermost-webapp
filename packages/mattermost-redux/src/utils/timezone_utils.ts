@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {Timezone} from 'timezones.json';
+
 import {UserTimezone} from 'mattermost-redux/types/users';
+
 export function getUserCurrentTimezone(userTimezone?: UserTimezone): string | undefined | null {
     if (!userTimezone) {
         return null;
@@ -30,5 +33,18 @@ export function getTimezoneRegion(timezone: string): string {
         }
     }
 
+    return timezone;
+}
+
+export function getTimezoneLabel(timezones: Timezone[], timezone: string) {
+    for (let i = 0; i < timezones.length; i++) {
+        const zone = timezones[i];
+        for (let j = 0; j < zone.utc.length; j++) {
+            const utcZone = zone.utc[j];
+            if (utcZone.toLowerCase() === timezone.toLowerCase()) {
+                return zone.text;
+            }
+        }
+    }
     return timezone;
 }

@@ -4,7 +4,6 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {
-    createDirectChannel,
     fetchMyChannelsAndMembers,
     getChannelByNameAndTeamName,
     getChannelStats,
@@ -50,17 +49,6 @@ const dispatch = store.dispatch;
 const getState = store.getState;
 
 export function emitChannelClickEvent(channel: Channel) {
-    async function userVisitedFakeChannel(chan: Channel, success: (received: Channel) => void, fail: () => void) {
-        const state = getState();
-        const currentUserId = getCurrentUserId(state);
-        const otherUserId = Utils.getUserIdFromChannelName(chan);
-        const res = await createDirectChannel(currentUserId, otherUserId)(dispatch, getState);
-        if ('data' in res) {
-            success(res.data);
-        } else {
-            fail();
-        }
-    }
     function switchToChannel(chan: Channel) {
         const state = getState();
         const userId = getCurrentUserId(state);
@@ -107,19 +95,7 @@ export function emitChannelClickEvent(channel: Channel) {
         }
     }
 
-    if (channel.fake) {
-        userVisitedFakeChannel(
-            channel,
-            (data) => {
-                switchToChannel(data);
-            },
-            () => {
-                browserHistory.push('/');
-            },
-        );
-    } else {
-        switchToChannel(channel);
-    }
+    switchToChannel(channel);
 }
 
 export function updateNewMessagesAtInChannel(channelId: string, lastViewedAt = Date.now()) {

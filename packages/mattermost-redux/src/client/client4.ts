@@ -383,10 +383,6 @@ export default class Client4 {
         return `${this.getBaseRoute()}/roles`;
     }
 
-    getTimezonesRoute() {
-        return `${this.getBaseRoute()}/system/timezones`;
-    }
-
     getSchemesRoute() {
         return `${this.getBaseRoute()}/schemes`;
     }
@@ -1540,15 +1536,6 @@ export default class Client4 {
         );
     };
 
-    convertChannelToPrivate = (channelId: string) => {
-        this.trackEvent('api', 'api_channels_convert_to_private', {channel_id: channelId});
-
-        return this.doFetch<Channel>(
-            `${this.getChannelRoute(channelId)}/convert`,
-            {method: 'post'},
-        );
-    };
-
     updateChannelPrivacy = (channelId: string, privacy: any) => {
         this.trackEvent('api', 'api_channels_update_privacy', {channel_id: channelId, privacy});
 
@@ -2650,15 +2637,6 @@ export default class Client4 {
     autocompleteCustomEmoji = (name: string) => {
         return this.doFetch<CustomEmoji[]>(
             `${this.getEmojisRoute()}/autocomplete${buildQueryString({name})}`,
-            {method: 'get'},
-        );
-    };
-
-    // Timezone Routes
-
-    getTimezones = () => {
-        return this.doFetch<string[]>(
-            `${this.getTimezonesRoute()}`,
             {method: 'get'},
         );
     };
