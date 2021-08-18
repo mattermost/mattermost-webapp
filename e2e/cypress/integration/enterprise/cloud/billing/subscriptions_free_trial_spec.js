@@ -11,15 +11,20 @@
 // Skip:  @headless @electron // run on Chrome (headed) only
 
 describe('System Console - Subscriptions section', () => {
+    let adminUser;
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
+
+        cy.apiGetMe().then(({user}) => {
+            adminUser = user;
+        });
 
         // # Visit Subscription page
         cy.visit('/admin_console/billing/subscription');
 
         // * Check for Subscription header
-        cy.get('.admin-console__header').should('be.visible').and('have.text', 'Subscriptions');
+        cy.contains('.admin-console__header', 'Subscription').should('be.visible');
     });
 
     beforeEach(() => {
@@ -48,17 +53,14 @@ describe('System Console - Subscriptions section', () => {
 
     it('MM-T4126 "Contact Sales" navigation from Subscription screen', () => {
         // * Check for Contact Sales navigation
-        cy.apiGetMe().then(({user}) => {
-            const adminUser = user;
-            const email = encodeURIComponent(adminUser.email);
-            const name = encodeURIComponent(`${adminUser.first_name} ${adminUser.last_name}`);
-            cy.contains('span', 'Contact Sales').parent().then((link) => {
-                const getHref = () => link.prop('href');
-                cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${email}&name=${name}&inquiry=sales&inquiry-issue=trial_questions`);
-                cy.wrap(link).should('have.attr', 'target', '_blank');
-                cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-                cy.request(link.prop('href')).its('status').should('eq', 200);
-            });
+        const email = encodeURIComponent(adminUser.email);
+        const name = encodeURIComponent(`${adminUser.first_name} ${adminUser.last_name}`);
+        cy.contains('span', 'Contact Sales').parent().then((link) => {
+            const getHref = () => link.prop('href');
+            cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${email}&name=${name}&inquiry=sales&inquiry-issue=trial_questions`);
+            cy.wrap(link).should('have.attr', 'target', '_blank');
+            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
+            cy.request(link.prop('href')).its('status').should('eq', 200);
         });
     });
 
@@ -87,7 +89,7 @@ describe('System Console - Subscriptions section', () => {
         cy.contains('span', "You're currently on a free trial").should('be.visible');
     });
 
-    it('MM-37054 "Company Plans" navigation from Subscribe window', () => {
+    it('MM-T4123 "Company Plans" navigation from Subscribe window', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -104,7 +106,7 @@ describe('System Console - Subscriptions section', () => {
         });
     });
 
-    it('MM-37054 "See how billing works" navigation from Subscribe window', () => {
+    it('MM-T4124 "See how billing works" navigation from Subscribe window', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -121,7 +123,7 @@ describe('System Console - Subscriptions section', () => {
         });
     });
 
-    it('MM-37054 "Contact Support" navigation from Subscribe window', () => {
+    it('MM-T1449 "Contact Support" navigation from Subscribe window', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -129,21 +131,18 @@ describe('System Console - Subscriptions section', () => {
         cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
 
         // * Check for Contact Support navigation
-        cy.apiGetMe().then(({user}) => {
-            const adminUser = user;
-            const supportemail = encodeURIComponent(adminUser.email);
-            const supportname = encodeURIComponent(`${adminUser.first_name} ${adminUser.last_name}`);
-            cy.contains('span', 'Contact Support').parent().then((link) => {
-                const getHref = () => link.prop('href');
-                cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${supportemail}&name=${supportname}&inquiry=technical`);
-                cy.wrap(link).should('have.attr', 'target', '_new');
-                cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-                cy.request(link.prop('href')).its('status').should('eq', 200);
-            });
+        const supportemail = encodeURIComponent(adminUser.email);
+        const supportname = encodeURIComponent(`${adminUser.first_name} ${adminUser.last_name}`);
+        cy.contains('span', 'Contact Support').parent().then((link) => {
+            const getHref = () => link.prop('href');
+            cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${supportemail}&name=${supportname}&inquiry=technical`);
+            cy.wrap(link).should('have.attr', 'target', '_new');
+            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
+            cy.request(link.prop('href')).its('status').should('eq', 200);
         });
     });
 
-    it('MM-37054 "Contact Sales" navigation from Subscribe window', () => {
+    it('MM-T4127 "Contact Sales" navigation from Subscribe window', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
@@ -151,17 +150,14 @@ describe('System Console - Subscriptions section', () => {
         cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
 
         // * Check for Contact Sales navigation
-        cy.apiGetMe().then(({user}) => {
-            const adminUser = user;
-            const email = encodeURIComponent(adminUser.email);
-            const name = encodeURIComponent(`${adminUser.first_name} ${adminUser.last_name}`);
-            cy.contains('span', 'Contact Sales').parent().then((link) => {
-                const getHref = () => link.prop('href');
-                cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${email}&name=${name}&inquiry=sales`);
-                cy.wrap(link).should('have.attr', 'target', '_blank');
-                cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-                cy.request(link.prop('href')).its('status').should('eq', 200);
-            });
+        const email = encodeURIComponent(adminUser.email);
+        const name = encodeURIComponent(`${adminUser.first_name} ${adminUser.last_name}`);
+        cy.contains('span', 'Contact Sales').parent().then((link) => {
+            const getHref = () => link.prop('href');
+            cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${email}&name=${name}&inquiry=sales`);
+            cy.wrap(link).should('have.attr', 'target', '_blank');
+            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
+            cy.request(link.prop('href')).its('status').should('eq', 200);
         });
     });
 
