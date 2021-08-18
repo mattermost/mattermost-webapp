@@ -73,8 +73,8 @@
         }
 
         &.status-edit {
-            visibility: hidden;
             text-align: center;
+            visibility: hidden;
 
             i {
                 @include opacity(1);
@@ -117,12 +117,14 @@
             @include transition-delay(0s);
             @include transition-timing-function(ease-out, step-start);
         }
+
         opacity: 1;
         visibility: visible;
     }
+
     .status-edit {
         opacity: 0;
-        visibility: hidden;    
+        visibility: hidden;
     }
 
     &:hover {
@@ -133,7 +135,7 @@
 
         .status-edit {
             opacity: 1;
-            visibility: visible;    
+            visibility: visible;
         }
     }
 }

@@ -363,9 +363,9 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     active: this.props.isStatusDropdownOpen || isStatusSet,
                 })}
             >
-                <div 
+                <div
                     className={classNames('status-wrapper', {
-                    'status-selector': !globalHeader,
+                        'status-selector': !globalHeader,
                     })}
                 >
                     {globalHeader &&
@@ -457,10 +457,13 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
-                            icon={globalHeader ? <Icon
-                                size={16}
-                                glyph={'account-outline'}
-                            /> : <i className='fa fa-cog'/>}                   
+                            icon={globalHeader ?
+                                <Icon
+                                    size={16}
+                                    glyph={'account-outline'}
+                                /> :
+                                <i className='fa fa-cog'/>
+                            }
                         />
                     </Menu.Group>
                     <Menu.Group>
@@ -468,10 +471,13 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             id='logout'
                             onClick={this.handleEmitUserLoggedOutEvent}
                             text={localizeMessage('navbar_dropdown.logout', 'Log Out')}
-                            icon={globalHeader ? <Icon
-                                size={16}
-                                glyph={'exit-to-app'}
-                            /> : <i className='fa fa-sign-out'/>}
+                            icon={globalHeader ?
+                                <Icon
+                                    size={16}
+                                    glyph={'exit-to-app'}
+                                /> :
+                                <i className='fa fa-sign-out'/>
+                            }
                         />
                     </Menu.Group>
                 </Menu>
