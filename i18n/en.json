@@ -3327,7 +3327,7 @@
   "help.messaging.notify": "**Notify Teammates:** Type `@username` to get the attention of specific team members.",
   "help.messaging.reply": "**Reply to Messages:** Select the **Reply Arrow** icon next to the text input box.",
   "help.messaging.title": "Messaging Basics",
-  "help.messaging.write": "**Write Messages:** Use the text input box at the bottom of the Mattermost interface to write a message. Press ENTER to send the message. Use SHIFT+ENTER to create a new line without sending a message.",
+  "help.messaging.write": "**Write Messages:** Use the text input box at the bottom of the Mattermost interface to write a message. Press **ENTER** to send the message. Use **SHIFT+ENTER** to create a new line without sending a message.",
   "inProduct_notices.adminOnlyMessage": "Visible to Admins only",
   "input.clear": "Clear",
   "installed_command.header": "Slash Commands",

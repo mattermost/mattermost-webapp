@@ -21,7 +21,7 @@ export default function Messaging(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.messaging.write'
-                    defaultMessage='**Write Messages:** Use the text input box at the bottom of the Mattermost interface to write a message. Press ENTER to send the message. Use SHIFT+ENTER to create a new line without sending a message.'
+                    defaultMessage='**Write Messages:** Use the text input box at the bottom of the Mattermost interface to write a message. Press **ENTER** to send the message. Use **SHIFT+ENTER** to create a new line without sending a message.'
                 />
             </p>
             <p>
