@@ -23,13 +23,6 @@ describe('Notifications', () => {
     let sender;
 
     before(() => {
-        // # Update Configs
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelOrganization: true,
-            },
-        });
-
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             otherChannel = channel;

@@ -20,7 +20,6 @@ import {
     isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -53,7 +52,6 @@ function makeMapStateToProps() {
     const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
-        const config = getConfig(state);
         const channel = getCurrentChannel(state) || {};
         const user = getCurrentUser(state);
         const teams = getMyTeams(state);
@@ -89,7 +87,6 @@ function makeMapStateToProps() {
             hasMoreThanOneTeam,
             teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
-            isLegacySidebar: config.EnableLegacySidebar === 'true',
             announcementBarCount: getAnnouncementBarCount(state),
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),

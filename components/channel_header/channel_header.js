@@ -84,7 +84,6 @@ class ChannelHeader extends React.PureComponent {
         }).isRequired,
         teammateNameDisplaySetting: PropTypes.string.isRequired,
         currentRelativeTeamUrl: PropTypes.string.isRequired,
-        isLegacySidebar: PropTypes.bool,
         announcementBarCount: PropTypes.number,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
@@ -263,7 +262,6 @@ class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
             teammateNameDisplaySetting,
-            isLegacySidebar,
             globalHeaderEnabled,
         } = this.props;
         const {formatMessage} = this.props.intl;
@@ -452,11 +450,7 @@ class ChannelHeader extends React.PureComponent {
                     popoverSize='lg'
                     style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translate(${this.state.leftOffset}px, ${this.state.topOffset}px)`}}
                     placement='bottom'
-                    className={classNames(['channel-header__popover',
-                        {
-                            'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
-                            'chanel-header__popover--new_sidebar': !isLegacySidebar,
-                        }])}
+                    className={classNames('channel-header__popover', {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam})}
                 >
                     <span
                         onClick={this.handleFormattedTextClick}

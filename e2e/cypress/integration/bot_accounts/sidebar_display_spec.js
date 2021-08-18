@@ -66,35 +66,7 @@ describe('Bot accounts', () => {
         cy.apiAdminLogin();
     });
 
-    it('MM-T1836_1 Bot accounts display (Legacy Sidebar)', () => {
-        // # Update config to use legacy sidebar
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: true,
-            },
-        });
-
-        // # Login as regular user and visit a channel
-        cy.apiLogin(testUser);
-        cy.visit(`/${team.name}/messages/@${bots[0].username}`);
-
-        cy.get('li.active > .sidebar-item').then(($link) => {
-            $link[0]?.scrollIntoView();
-            cy.wrap($link).find('.sidebar-item__name').should('have.text', bots[0].username);
-
-            // * Verify bot icon exists
-            cy.wrap($link).find('.icon.icon__bot');
-        });
-    });
-
-    it('MM-T1836_2 Bot accounts display (New Sidebar)', () => {
-        // # Update config to use new sidebar
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
+    it('MM-T1836_2 Bot accounts display', () => {
         // # Login as regular user and visit a channel
         cy.apiLogin(testUser);
         cy.visit(`/${team.name}/messages/@${bots[0].username}`);
