@@ -17,6 +17,8 @@ import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mat
 import {getTimezoneLabel, getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
+import * as UserAgent from '../../../utils/user_agent';
+import * as Utils from 'utils/utils';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
@@ -37,6 +39,9 @@ function mapStateToProps(state: GlobalState) {
     const lockTeammateNameDisplay = getLicense(state).LockTeammateNameDisplay === 'true' && config.LockTeammateNameDisplay === 'true';
     const configTeammateNameDisplay = config.TeammateNameDisplay as string;
 
+    // calling it once here avoids multiple calls to the function in the return
+    const isMobileView = UserAgent.isMobile() || Utils.isMobile();
+
     return {
         lockTeammateNameDisplay,
         allowCustomThemes,
@@ -54,13 +59,13 @@ function mapStateToProps(state: GlobalState) {
         militaryTime: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, Preferences.USE_MILITARY_TIME_DEFAULT),
         teammateNameDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.NAME_NAME_FORMAT, configTeammateNameDisplay),
         channelDisplayMode: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
-        globalHeaderDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.GLOBAL_HEADER_DISPLAY, Preferences.GLOBAL_HEADER_DISPLAY_OFF),
+        globalHeaderDisplay: !isMobileView && get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.GLOBAL_HEADER_DISPLAY, Preferences.GLOBAL_HEADER_DISPLAY_OFF),
         messageDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
         collapseDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
         collapsedReplyThreadsAllowUserPreference: isCollapsedThreadsAllowed(state) && getConfig(state).CollapsedThreads as string !== 'always_on',
         collapsedReplyThreads: getCollapsedThreadsPreference(state),
         linkPreviewDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
-        globalHeaderAllowed: getFeatureFlagValue(state, 'GlobalHeader') === 'true',
+        globalHeaderAllowed: !isMobileView && getFeatureFlagValue(state, 'GlobalHeader') === 'true',
     };
 }
 
