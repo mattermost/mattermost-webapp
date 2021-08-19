@@ -35,10 +35,10 @@ const MenuTutorialTip = ({inHeading, toggleFunc, onBottom}: Props) => {
 
     let placement = 'right';
     let arrow = 'left';
-    let headerClass = ''
+    let headerClass = '';
 
     if (inHeading && !onBottom) {
-        headerClass = ' tip-overlay--header--heading'
+        headerClass = ' tip-overlay--header--heading';
     }
 
     if (onBottom) {

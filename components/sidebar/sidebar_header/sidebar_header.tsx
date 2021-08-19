@@ -36,14 +36,14 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
     justify: 'space-between',
     alignment: 'center',
 }))<SidebarHeaderContainerProps>`
-    height: 52px;
-    padding: 0 16px;
+    height: 42px;
+    margin: ${(p) => (p.menuInHeading ? '0' : '5px 16px')};
     ${(p) => (p.menuInHeading ? 'cursor: pointer;' : '')}
 
     .dropdown-menu {
         position: absolute;
         transform: translate(${(p) => (p.menuInHeading ? '0' : '-100%')}, 4px);
-        margin-left: ${(p) => (p.menuInHeading ? '0' : '100%')}%;
+        margin-left: ${(p) => (p.menuInHeading ? '0' : '100')}%;
         min-width: 210px;
         max-width: 210px;
     }
@@ -89,6 +89,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
     const showMenuTip = tipStep === TutorialSteps.MENU_POPOVER && !isMobile;
     const showAddChannelTip = tipStep === TutorialSteps.ADD_CHANNEL_POPOVER && !isMobile;
     const addChannelButton = useSelector((state: GlobalState) => getAddChannelButtonTreatment(state));
+    const hasAddChannelTreatment = Boolean(addChannelButton) && addChannelButton !== AddChannelButtonTreatments.NONE;
     const channelsByName = useSelector((state: GlobalState) => getChannelsNameMapInCurrentTeam(state));
     const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '';
     const offTopicDisplayName = channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '';
@@ -113,7 +114,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
         </MenuWrapper>
     );
 
-    if (addChannelButton && addChannelButton !== AddChannelButtonTreatments.NONE) {
+    if (hasAddChannelTreatment) {
         menu = (
             <AddChannelDropdown
                 showNewChannelModal={props.showNewChannelModal}
@@ -134,36 +135,52 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
 
     let sidebarHeadingContent: JSX.Element | string = currentTeam.display_name;
 
-    if (addChannelButton && addChannelButton !== AddChannelButtonTreatments.NONE) {
+    if (hasAddChannelTreatment) {
         sidebarHeadingContent = (
             <>
                 {currentTeam.display_name}
                 <i className='icon icon-chevron-down'/>
-                <MenuTutorialTip onBottom={false} inHeading={true}/>
+                {showMenuTip && (
+                    <MenuTutorialTip
+                        onBottom={false}
+                        inHeading={true}
+                    />
+                )}
             </>
         );
     }
 
-    return (
+    let sidebarHeader = (
         <>
-            {showMenuTip && (!addChannelButton || addChannelButton === AddChannelButtonTreatments.NONE) ? <MenuTutorialTip onBottom={false}/> : null}
-            <SidebarHeaderContainer menuInHeading={true}>
-                <MenuWrapper onToggle={handleMenuToggle}>
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='bottom'
-                        overlay={currentTeam.description?.length ? <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip> : <></>}
-                    >
-                        <SidebarHeading>
-                            {sidebarHeadingContent}
-                        </SidebarHeading>
-                    </OverlayTrigger>
-                    <MainMenu id='sidebarDropdownMenu'/>
-                </MenuWrapper>
+            {(showMenuTip && !hasAddChannelTreatment) ? <MenuTutorialTip onBottom={false}/> : null}
+            <SidebarHeaderContainer menuInHeading={hasAddChannelTreatment}>
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={currentTeam.description?.length ? <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip> : <></>}
+                >
+                    <SidebarHeading>
+                        {sidebarHeadingContent}
+                    </SidebarHeading>
+                </OverlayTrigger>
                 {menu}
             </SidebarHeaderContainer>
         </>
     );
+
+    if (hasAddChannelTreatment) {
+        sidebarHeader = (
+            <MenuWrapper
+                onToggle={handleMenuToggle}
+                className='SidebarHeaderMenuWrapper'
+            >
+                {sidebarHeader}
+                <MainMenu id='sidebarDropdownMenu'/>
+            </MenuWrapper>
+        );
+    }
+
+    return sidebarHeader;
 };
 
 export default SidebarHeader;

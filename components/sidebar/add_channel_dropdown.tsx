@@ -161,7 +161,10 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         }
 
         return (
-            <MenuWrapper className='AddChannelDropdown'>
+            <MenuWrapper
+                className='AddChannelDropdown'
+                stopPropagationOnToggle={Boolean(this.props.addChannelButton) && this.props.addChannelButton !== AddChannelButtonTreatments.NONE}
+            >
                 <OverlayTrigger
                     delayShow={500}
                     placement='top'

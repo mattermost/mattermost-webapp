@@ -4,11 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelNavigator, {Props} from './channel_navigator'
 import AddChannelDropdown from '../add_channel_dropdown';
 import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
-let props: Props
+import ChannelNavigator, {Props} from './channel_navigator';
+
+let props: Props;
 
 describe('Components/ChannelNavigator', () => {
     beforeEach(() => {
@@ -38,19 +39,19 @@ describe('Components/ChannelNavigator', () => {
     });
 
     it('should show AddChannelDropdown when there is no A/B treatment', () => {
-        const wrapper = shallow(<ChannelNavigator {...props} />)
+        const wrapper = shallow(<ChannelNavigator {...props}/>);
         expect(wrapper.find(AddChannelDropdown).length).toBe(1);
     });
 
     it('should show AddChannelDropdown when A/B treatment is unknown', () => {
         delete props.addChannelButton;
-        const wrapper = shallow(<ChannelNavigator {...props} />)
+        const wrapper = shallow(<ChannelNavigator {...props}/>);
         expect(wrapper.find(AddChannelDropdown).length).toBe(1);
     });
 
     it('should not show AddChannelDropdown when there is an active A/B treatment', () => {
-        props.addChannelButton = AddChannelButtonTreatments.SIDEBAR_BG_COLOR
-        const wrapper = shallow(<ChannelNavigator {...props} />)
+        props.addChannelButton = AddChannelButtonTreatments.SIDEBAR_BG_COLOR;
+        const wrapper = shallow(<ChannelNavigator {...props}/>);
         expect(wrapper.find(AddChannelDropdown).length).toBe(0);
     });
 });
