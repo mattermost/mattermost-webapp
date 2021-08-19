@@ -69,7 +69,7 @@ const SidebarHeading = styled(Heading).attrs(() => ({
     }
 `;
 
-type Props = {
+export type Props = {
     showNewChannelModal: () => void;
     showMoreChannelsModal: () => void;
     invitePeopleModal: () => void;
@@ -83,8 +83,11 @@ type Props = {
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
-    const showMenuTip = useSelector((state: GlobalState) => getInt(state, Preferences.TUTORIAL_STEP, currentUser.id)) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
-    const showAddChannelTip = useSelector((state: GlobalState) => getInt(state, Preferences.TUTORIAL_STEP, currentUser.id)) === TutorialSteps.ADD_CHANNEL_POPOVER && !Utils.isMobile();
+    const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.TUTORIAL_STEP, currentUser.id));
+    const isMobile = Utils.isMobile();
+
+    const showMenuTip = tipStep === TutorialSteps.MENU_POPOVER && !isMobile;
+    const showAddChannelTip = tipStep === TutorialSteps.ADD_CHANNEL_POPOVER && !isMobile;
     const addChannelButton = useSelector((state: GlobalState) => getAddChannelButtonTreatment(state));
     const channelsByName = useSelector((state: GlobalState) => getChannelsNameMapInCurrentTeam(state));
     const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '';

@@ -15,7 +15,7 @@ import ChannelFilter from '../channel_filter';
 import InviteMembersButton from '../invite_members_button';
 import {InviteMembersBtnLocations, AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
-type Props = {
+export type Props = {
     addChannelButton?: AddChannelButtonTreatments;
     canGoForward: boolean;
     canGoBack: boolean;
