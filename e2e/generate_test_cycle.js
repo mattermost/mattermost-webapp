@@ -21,7 +21,7 @@
  *      Selected files are those not matching any of the specified stage or group.
  *   --include-group=[group]
  *      Include spec files with matching group. It can be of multiple values separated by comma.
- *      E.g. "--exclude-group='@enterprise'" will select files except @enterprise.
+ *      E.g. "--include-group='@enterprise'" will select files including @enterprise.
  *   --exclude-group=[group]
  *      Exclude spec files with matching group. It can be of multiple values separated by comma.
  *      E.g. "--exclude-group='@enterprise'" will select files except @enterprise.
