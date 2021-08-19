@@ -121,7 +121,7 @@ function getSelectedProduct(products: Dictionary<Product> | undefined, productId
         return currentProduct;
     }
     let nextSku = CloudProducts.PROFESSIONAL;
-    if (currentProduct?.sku !== CloudProducts.STARTER) {
+    if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
     }
     return findProductInDictionary(products, null, nextSku);
