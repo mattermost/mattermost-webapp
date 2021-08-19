@@ -33,7 +33,7 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         showNextStepsTips: false,
         actions: {
             unhideNextSteps: jest.fn(),
-        }
+        },
     };
 
     test('should match snapshot', () => {
