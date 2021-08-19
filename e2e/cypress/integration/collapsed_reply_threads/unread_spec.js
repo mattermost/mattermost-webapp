@@ -55,7 +55,7 @@ describe('Collapsed Reply Threads', () => {
             // # Post a reply as other user
             cy.postMessageAs({
                 sender: otherUser,
-                message: 'Self reply!',
+                message: 'Reply!',
                 channelId: testChannel.id,
                 rootId,
             });
