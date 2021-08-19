@@ -80,9 +80,7 @@ describe('channel view actions', () => {
                 },
             },
             general: {
-                config: {
-                    EnableLegacySidebar: 'true',
-                },
+                config: {},
                 serverVersion: '5.12.0',
             },
             roles: {
@@ -95,6 +93,9 @@ describe('channel view actions', () => {
             },
             posts: {
                 postsInChannel: {},
+            },
+            channelCategories: {
+                byId: {},
             },
         },
         views: {

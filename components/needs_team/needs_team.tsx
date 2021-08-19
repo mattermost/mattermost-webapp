@@ -47,7 +47,6 @@ type Props = {
     };
     currentChannelId?: string;
     currentTeamId?: string;
-    useLegacyLHS: boolean;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
         getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
@@ -58,7 +57,6 @@ type Props = {
         selectTeam: (team: Team) => Promise<{data: boolean}>;
         setPreviousTeamId: (teamId: string) => Promise<{data: boolean}>;
         loadStatusesForChannelAndSidebar: () => Promise<{data: UserStatus[]}>;
-        loadProfilesForDirect: () => Promise<{data: boolean}>;
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getGroupsByUserId: (userID: string) => Promise<{data: Group[]}>;
@@ -202,7 +200,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {
             this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
-            this.props.actions.loadProfilesForDirect();
         }
     }
 
@@ -246,7 +243,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             },
         );
         this.props.actions.loadStatusesForChannelAndSidebar();
-        this.props.actions.loadProfilesForDirect();
 
         if (this.props.license &&
             this.props.license.IsLicensed === 'true' &&
@@ -324,11 +320,9 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     />
                 ))}
                 <Route
-                    render={(renderProps) => (
+                    render={() => (
                         <ChannelController
-                            pathName={renderProps.location.pathname}
                             fetchingChannels={!this.state.finishedFetchingChannels}
-                            useLegacyLHS={this.props.useLegacyLHS}
                         />
                     )}
                 />
