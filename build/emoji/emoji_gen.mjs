@@ -14,6 +14,11 @@
 
 // eslint-disable-next-line import/no-unresolved
 import * as Fs from 'fs/promises';
+import {readFileSync} from 'fs';
+import * as readline from 'readline';
+
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import path from 'path';
 
@@ -26,6 +31,11 @@ const EMOJI_SIZE = 64;
 const EMOJI_SIZE_PADDED = EMOJI_SIZE + 2; // 1px per side
 const EMOJI_DEFAULT_SKIN = 'default';
 const endResults = [];
+
+const argv = yargs(hideBin(process.argv)).scriptName('emoji_gen').option('excluded-emoji-file', {
+    description: 'Path to a file containing emoji short names to exclude',
+    type: 'string',
+}).help().alias('help', 'h').argv;
 
 // copy image files
 const source = `node_modules/emoji-datasource-apple/img/apple/${EMOJI_SIZE}/`;
@@ -126,10 +136,25 @@ function genSkinVariations(emoji, index, nextOrder) {
     });
 }
 
+// Extract excluded emoji shortnames as an array
+const excludedEmoji = [];
+readFileSync(path.normalize(argv['excluded-emoji-file']), 'utf-8').split(/\r?\n/).forEach(function(line){
+    excludedEmoji.push(line);
+});
+console.log('Excluded Emoji are: ' + excludedEmoji);
+
+// Remove unwanted emoji
+const filteredEmojiJson = jsonData.filter((element) => {
+    if (excludedEmoji.includes(element.short_name)) {
+        return false;
+    }
+    return true;
+});
+
 // populate skin tones as full emojis
-let nextOrder = jsonData.length;
-const fullEmoji = [...jsonData];
-jsonData.forEach((emoji, index) => {
+let nextOrder = filteredEmojiJson.length;
+const fullEmoji = [...filteredEmojiJson];
+filteredEmojiJson.forEach((emoji, index) => {
     const variations = genSkinVariations(emoji, index, nextOrder);
     nextOrder += variations.length;
     fullEmoji.push(...variations);
