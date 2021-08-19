@@ -8,6 +8,10 @@ import Heading from '@mattermost/compass-components/components/heading';
 
 import {useProducts, useCurrentProductId} from '../hooks';
 
+type Props = {
+    onClick: React.MouseEventHandler<HTMLDivElement>;
+}
+
 const ProductBrandingContainer = styled.div`
     display: flex;
     align-items: center;
@@ -17,13 +21,13 @@ const ProductBrandingContainer = styled.div`
     }
 `;
 
-const ProductBranding: React.FC = (): JSX.Element | null => {
+const ProductBranding: React.FC<Props> = ({onClick}: Props): JSX.Element | null => {
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
     const currentProduct = products?.find((product) => product.id === currentProductID);
 
     return (
-        <ProductBrandingContainer>
+        <ProductBrandingContainer onClick={onClick}>
             <Icon
                 size={20}
                 glyph={currentProduct && typeof currentProduct.switcherIcon === 'string' ? currentProduct.switcherIcon : 'product-channels'}

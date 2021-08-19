@@ -11,6 +11,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
+import ProductBranding from './product_branding';
 import ProductSwitcherMenu from './product_switcher_menu';
 import ProductSwitcherTip from './product_switcher_tip';
 
@@ -133,6 +134,7 @@ const ProductSwitcher = (): JSX.Element => {
                         aria-label='Select to open product switch menu.'
                     />
                     <ProductSwitcherTip/>
+                    <ProductBranding onClick={handleClick}/>
                 </ProductSwitcherContainer>
                 <Menu
                     className={'product-switcher-menu'}
