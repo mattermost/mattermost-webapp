@@ -83,15 +83,15 @@
         .MenuItem {
             .MenuItem__primary-text {
                 line-height: 26px;
-
-                .icon {
-                    color: rgba(var(--center-channel-color-rgb), 0.56);
-                }
             }
 
             a,
             button {
                 padding: 0 20px;
+
+                .icon {
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                }
             }
         }
     }
@@ -123,7 +123,8 @@
         }
 
         .Menu__content {
-            left: -204px;
+            right: -1px;
+            left: inherit;
         }
 
         .custom_status__row > #custom_status__clear {
@@ -176,6 +177,7 @@
     border-radius: 4px;
 
     .Global__search-bar {
+        padding: 3px 2.8rem 2px 3rem;
         color: rgba(var(--global-header-text-rgb), 0.64);
         font-size: 12px;
 
@@ -185,6 +187,7 @@
     }
 
     .searchTypeBadge {
+        margin: 0 6px;
         background: var(--sidebar-text-08);
         color: var(--sidebar-text);
     }
@@ -206,9 +209,8 @@
         }
 
         .searchTypeBadge {
-            margin: 0 4px;
-            background: rgba(var(button-bg-rgb), 0.08);
-            color: var(button-bg);
+            background: rgba(var(--button-bg-rgb), 0.08);
+            color: var(--button-bg);
         }
 
         .Global__search-bar {
@@ -221,7 +223,8 @@
         max-width: 432px;
     }
 
-    .search__font-icon {
+    .search__font-icon,
+    .input-clear-x {
         color: rgba(var(--global-header-text-rgb), 0.56);
     }
 }
