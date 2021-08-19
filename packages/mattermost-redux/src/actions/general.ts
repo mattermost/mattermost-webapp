@@ -148,15 +148,6 @@ export function setStoreFromLocalData(data: { token: string; url: string }): Act
     };
 }
 
-export function getSupportedTimezones() {
-    return bindClientFunc({
-        clientFunc: Client4.getTimezones,
-        onRequest: GeneralTypes.SUPPORTED_TIMEZONES_REQUEST,
-        onSuccess: [GeneralTypes.SUPPORTED_TIMEZONES_RECEIVED, GeneralTypes.SUPPORTED_TIMEZONES_SUCCESS],
-        onFailure: GeneralTypes.SUPPORTED_TIMEZONES_FAILURE,
-    });
-}
-
 export function setUrl(url: string) {
     Client4.setUrl(url);
     return true;
@@ -233,7 +224,6 @@ export default {
     getPing,
     getClientConfig,
     getDataRetentionPolicy,
-    getSupportedTimezones,
     getLicenseConfig,
     logClientError,
     setAppState,
