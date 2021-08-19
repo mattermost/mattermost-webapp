@@ -264,18 +264,6 @@ export const isCurrentChannelDefault: (state: GlobalState) => boolean = createSe
     (channel: Channel): boolean => isDefault(channel),
 );
 
-export function isCurrentChannelReadOnly(state: GlobalState): boolean {
-    return isChannelReadOnly(state, getCurrentChannel(state));
-}
-
-export function isChannelReadOnlyById(state: GlobalState, channelId: string): boolean {
-    return isChannelReadOnly(state, getChannel(state, channelId));
-}
-
-export function isChannelReadOnly(state: GlobalState, channel: Channel): boolean {
-    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state);
-}
-
 export const countCurrentChannelUnreadMessages: (state: GlobalState) => number = createSelector(
     'countCurrentChannelUnreadMessages',
     getCurrentChannel,
