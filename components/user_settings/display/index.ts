@@ -16,7 +16,8 @@ import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mat
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
-import {isMobile, isMobileViewPortSize} from '../../../utils/user_agent';
+import * as UserAgent from '../../../utils/user_agent';
+import * as Utils from 'utils/utils';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
@@ -38,7 +39,7 @@ function mapStateToProps(state: GlobalState) {
     const configTeammateNameDisplay = config.TeammateNameDisplay as string;
 
     // calling it once here avoids multiple calls to the function in the return
-    const isMobileView = isMobile() || isMobileViewPortSize();
+    const isMobileView = UserAgent.isMobile() || Utils.isMobile();
 
     return {
         lockTeammateNameDisplay,
