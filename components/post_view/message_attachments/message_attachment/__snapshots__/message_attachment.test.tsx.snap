@@ -67,6 +67,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
             <Connect(Markdown)
               imageProps={
                 Object {
+                  "onImageHeightChanged": [Function],
                   "onImageLoaded": [Function],
                 }
               }
@@ -212,6 +213,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
             <Connect(Markdown)
               imageProps={
                 Object {
+                  "onImageHeightChanged": [Function],
                   "onImageLoaded": [Function],
                 }
               }
@@ -352,6 +354,7 @@ exports[`components/post_view/MessageAttachment should match snapshot when no fo
             <Connect(Markdown)
               imageProps={
                 Object {
+                  "onImageHeightChanged": [Function],
                   "onImageLoaded": [Function],
                 }
               }

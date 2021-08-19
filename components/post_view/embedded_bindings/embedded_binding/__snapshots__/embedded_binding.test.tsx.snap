@@ -37,6 +37,12 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
             text="some title"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "onImageHeightChanged": [Function],
+                  "onImageLoaded": [Function],
+                }
+              }
               message="some title"
             />
           </Connect(ShowMore)>
@@ -91,6 +97,12 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
             text="some title"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "onImageHeightChanged": [Function],
+                  "onImageLoaded": [Function],
+                }
+              }
               message="some title"
             />
           </Connect(ShowMore)>
@@ -145,6 +157,12 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
             text="some title"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "onImageHeightChanged": [Function],
+                  "onImageLoaded": [Function],
+                }
+              }
               message="some title"
             />
           </Connect(ShowMore)>
@@ -199,6 +217,12 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
             text="some title"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "onImageHeightChanged": [Function],
+                  "onImageLoaded": [Function],
+                }
+              }
               message="some title"
             />
           </Connect(ShowMore)>
