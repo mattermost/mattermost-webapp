@@ -7,20 +7,15 @@
     --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
     --global-header-text-rgb: var(--sidebar-header-text-color-rgb);
 
-    @media screen and (max-width: 768px) {
-        // hide GH for mobile width and smaller
-        > header {
-            display: none;
-        }
-    }
-
     @media screen and (min-width: 769px) {
+        // ensure the global header always sits on top of it's immediate sibling
         > header {
             z-index: 2;
-        }
 
-        #channel_view {
-            z-index: 1;
+            + * {
+                position: relative;
+                z-index: 1;
+            }
         }
 
         .team-sidebar {
@@ -71,6 +66,12 @@
 
         .product-switcher-icon {
             padding: 0 6px;
+        }
+
+        .backstage {
+            position: relative;
+            z-index: 2;
+            margin-top: -40px;
         }
     }
 }

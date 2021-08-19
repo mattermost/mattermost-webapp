@@ -82,9 +82,10 @@ export type ProductComponent = {
     id: string;
     pluginId: string;
     switcherIcon: TIconGlyph;
-    switcherText: React.ReactNode;
+    switcherText: string;
     baseURL: string;
     switcherLinkURL: string;
     mainComponent: React.ReactNode;
-    headerComponent: React.ReactNode;
+    headerCentreComponent?: React.ReactNode;
+    headerRightComponent?: React.ReactNode;
 };

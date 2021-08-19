@@ -11,7 +11,6 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 
 import {browserHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
-import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {ActionTypes, PostRequestTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
@@ -30,10 +29,6 @@ jest.mock('utils/channel_utils.jsx', () => {
         getRedirectChannelNameForTeam: () => 'town-square',
     };
 });
-
-jest.mock('actions/channel_actions.jsx', () => ({
-    openDirectChannelToUserId: jest.fn(() => ({type: ''})),
-}));
 
 jest.mock('mattermost-redux/actions/users');
 
@@ -85,9 +80,7 @@ describe('channel view actions', () => {
                 },
             },
             general: {
-                config: {
-                    EnableLegacySidebar: 'true',
-                },
+                config: {},
                 serverVersion: '5.12.0',
             },
             roles: {
@@ -100,6 +93,9 @@ describe('channel view actions', () => {
             },
             posts: {
                 postsInChannel: {},
+            },
+            channelCategories: {
+                byId: {},
             },
         },
         views: {
@@ -120,12 +116,6 @@ describe('channel view actions', () => {
         test('switch to public channel', () => {
             store.dispatch(Actions.switchToChannel(channel1));
             expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${channel1.name}`);
-        });
-
-        test('switch to fake direct channel', async () => {
-            await store.dispatch(Actions.switchToChannel({fake: true, userId: 'userid2', name: 'username2'}));
-            expect(openDirectChannelToUserId).toHaveBeenCalledWith('userid2');
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/messages/@username2`);
         });
 
         test('switch to gm channel', async () => {

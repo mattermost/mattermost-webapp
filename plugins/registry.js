@@ -115,7 +115,7 @@ export default class PluginRegistry {
     // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or React element shown for the dropdown button description
-    // - tooltip_text - string shown for tooltip appear on hover
+    // - tooltip_text - string or React element shown for tooltip appear on hover
     registerChannelHeaderButtonAction(icon, action, dropdownText, tooltipText) {
         const id = generateId();
 
@@ -125,7 +125,7 @@ export default class PluginRegistry {
             icon: resolveReactElement(icon),
             action,
             dropdownText: resolveReactElement(dropdownText),
-            tooltipText,
+            tooltipText: resolveReactElement(tooltipText),
         };
 
         store.dispatch({
@@ -718,7 +718,7 @@ export default class PluginRegistry {
     //                     the global header when your route is active.
     // All parameters are required.
     // Returns a unique identifier.
-    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerComponent) {
+    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null) {
         const id = generateId();
 
         store.dispatch({
@@ -732,7 +732,8 @@ export default class PluginRegistry {
                 baseURL: '/' + standardizeRoute(baseURL),
                 switcherLinkURL: '/' + standardizeRoute(switcherLinkURL),
                 mainComponent,
-                headerComponent,
+                headerCentreComponent,
+                headerRightComponent,
             },
         });
 

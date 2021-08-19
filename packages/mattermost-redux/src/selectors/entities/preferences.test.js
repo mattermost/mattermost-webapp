@@ -19,7 +19,6 @@ describe('Selectors.Preferences', () => {
     const category2 = 'testcategory2';
     const directCategory = Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
     const groupCategory = Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
-    const favCategory = Preferences.CATEGORY_FAVORITE_CHANNEL;
 
     const name1 = 'testname1';
     const value1 = 'true';
@@ -39,11 +38,6 @@ describe('Selectors.Preferences', () => {
     const gp2 = 'group2';
     const prefGp2 = {category: groupCategory, name: gp2, value: 'false'};
 
-    const fav1 = 'favorite1';
-    const favPref1 = {category1: favCategory, name: fav1, value: 'true'};
-    const fav2 = 'favorite2';
-    const favPref2 = {category1: favCategory, name: fav2, value: 'false'};
-
     const currentUserId = 'currentuserid';
 
     const myPreferences = {};
@@ -53,8 +47,6 @@ describe('Selectors.Preferences', () => {
     myPreferences[`${directCategory}--${dm2}`] = dmPref2;
     myPreferences[`${groupCategory}--${gp1}`] = prefGp1;
     myPreferences[`${groupCategory}--${gp2}`] = prefGp2;
-    myPreferences[`${favCategory}--${fav1}`] = favPref1;
-    myPreferences[`${favCategory}--${fav2}`] = favPref2;
 
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
@@ -607,18 +599,6 @@ describe('Selectors.Preferences', () => {
 
         assert.deepEqual(getStyleFromTheme(state, testStyleFunction), expected);
     });
-
-    it('get favorites names', () => {
-        assert.deepEqual(Selectors.getFavoritesPreferences(testState), [fav1]);
-    });
-
-    it('get visible teammates', () => {
-        assert.deepEqual(Selectors.getVisibleTeammate(testState), [dm1]);
-    });
-
-    it('get visible groups', () => {
-        assert.deepEqual(Selectors.getVisibleGroupIds(testState), [gp1]);
-    });
 });
 
 describe('shouldShowUnreadsCategory', () => {
@@ -645,7 +625,6 @@ describe('shouldShowUnreadsCategory', () => {
             entities: {
                 general: {
                     config: {
-                        ExperimentalChannelSidebarOrganization: 'default_on',
                         ExperimentalGroupUnreadChannels: 'default_off',
                     },
                 },
@@ -677,7 +656,6 @@ describe('shouldShowUnreadsCategory', () => {
             entities: {
                 general: {
                     config: {
-                        ExperimentalChannelSidebarOrganization: 'default_on',
                         ExperimentalGroupUnreadChannels: 'default_off',
                     },
                 },
@@ -708,7 +686,6 @@ describe('shouldShowUnreadsCategory', () => {
             entities: {
                 general: {
                     config: {
-                        ExperimentalChannelSidebarOrganization: 'default_on',
                         ExperimentalGroupUnreadChannels: 'default_on',
                     },
                 },
@@ -739,7 +716,6 @@ describe('shouldShowUnreadsCategory', () => {
             entities: {
                 general: {
                     config: {
-                        ExperimentalChannelSidebarOrganization: 'default_on',
                         ExperimentalGroupUnreadChannels: 'disabled',
                     },
                 },
@@ -753,98 +729,5 @@ describe('shouldShowUnreadsCategory', () => {
         };
 
         expect(Selectors.shouldShowUnreadsCategory(state)).toBe(true);
-    });
-});
-
-describe('shouldAutocloseDMs', () => {
-    test('should return false by default', () => {
-        const state = {
-            entities: {
-                general: {
-                    config: {
-                        CloseUnusedDirectMessages: 'false',
-                    },
-                },
-                preferences: {
-                    myPreferences: {},
-                },
-            },
-        };
-
-        expect(Selectors.shouldAutocloseDMs(state)).toBe(false);
-    });
-
-    test('should return true when enabled by server but not set by user', () => {
-        const state = {
-            entities: {
-                general: {
-                    config: {
-                        CloseUnusedDirectMessages: 'true',
-                    },
-                },
-                preferences: {
-                    myPreferences: {},
-                },
-            },
-        };
-
-        expect(Selectors.shouldAutocloseDMs(state)).toBe(true);
-    });
-
-    test('should return true when enabled by both server and user', () => {
-        const state = {
-            entities: {
-                general: {
-                    config: {
-                        CloseUnusedDirectMessages: 'true',
-                    },
-                },
-                preferences: {
-                    myPreferences: {
-                        [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.CHANNEL_SIDEBAR_AUTOCLOSE_DMS)]: {value: Preferences.AUTOCLOSE_DMS_ENABLED},
-                    },
-                },
-            },
-        };
-
-        expect(Selectors.shouldAutocloseDMs(state)).toBe(true);
-    });
-
-    test('should return false when enabled by server but disabled by user', () => {
-        const state = {
-            entities: {
-                general: {
-                    config: {
-                        CloseUnusedDirectMessages: 'true',
-                    },
-                },
-                preferences: {
-                    myPreferences: {
-                        [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.CHANNEL_SIDEBAR_AUTOCLOSE_DMS)]: {value: ''},
-                    },
-                },
-            },
-        };
-
-        expect(Selectors.shouldAutocloseDMs(state)).toBe(false);
-    });
-
-    test('should return false when enabled by user but disabled by server', () => {
-        const state = {
-            entities: {
-                general: {
-                    config: {
-                        CloseUnusedDirectMessages: 'false',
-                    },
-                },
-                preferences: {
-                    myPreferences: {
-                        [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.CHANNEL_SIDEBAR_AUTOCLOSE_DMS)]: {value: Preferences.AUTOCLOSE_DMS_ENABLED},
-                    },
-                },
-            },
-        };
-
-        expect(Selectors.shouldAutocloseDMs(state)).toBe(false);
     });
 });

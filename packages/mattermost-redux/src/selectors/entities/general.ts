@@ -25,10 +25,6 @@ export function getLicense(state: GlobalState): ClientLicense {
     return state.entities.general.license;
 }
 
-export function getSupportedTimezones(state: GlobalState): string[] {
-    return state.entities.general.timezones;
-}
-
 export function getCurrentUrl(state: GlobalState): string {
     return state.entities.general.credentials.url;
 }
