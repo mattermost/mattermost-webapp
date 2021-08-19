@@ -36,7 +36,6 @@ const initialState = {
         general: {
             config: {
                 ExperimentalViewArchivedChannels: 'false',
-                EnableLegacySidebar: 'true',
             },
         },
         posts: {
@@ -72,10 +71,12 @@ const initialState = {
             bindings: [{
                 location: '/command',
                 bindings: [{
+                    location: '/command/appid',
                     app_id: 'appid',
                     label: 'appid',
                     bindings: [
                         {
+                            location: '/command/appid/custom',
                             app_id: 'appid',
                             label: 'custom',
                             description: 'Run the command.',
@@ -266,7 +267,7 @@ describe('executeCommand', () => {
                 context: {
                     app_id: 'appid',
                     channel_id: '123',
-                    location: '/command',
+                    location: '/command/appid/custom',
                     root_id: 'root_id',
                     team_id: '456',
                 },
