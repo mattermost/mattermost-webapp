@@ -113,8 +113,6 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             processNode: (node) => {
                 const {
                     class: className,
-                    width,
-                    height,
                     ...attribs
                 } = node.attribs;
 
@@ -132,8 +130,6 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     <MarkdownImage
                         className={className}
                         imageMetadata={options.imagesMetadata && options.imagesMetadata[attribs.src]}
-                        height={parseSize(height)}
-                        width={parseSize(width)}
                         {...attribs}
                         {...options.imageProps}
                         postId={options.postId}
@@ -162,19 +158,6 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     });
 
     return parser.parseWithInstructions(html, isValidNode, processingInstructions);
-}
-
-function parseSize(input) {
-    if (!input) {
-        return undefined;
-    }
-
-    const parsed = parseInt(input, 10);
-    if (!parsed) {
-        return undefined;
-    }
-
-    return parsed;
 }
 
 export default messageHtmlToComponent;
