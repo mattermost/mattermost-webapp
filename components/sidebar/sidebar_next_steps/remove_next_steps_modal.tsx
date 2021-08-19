@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import GenericModal from 'components/generic_modal';
 import closeNextStepsArrow from 'images/close_next_steps_arrow.svg';
+import * as Utils from 'utils/utils.jsx';
 
 import './remove_next_steps_modal.scss';
 
@@ -20,14 +21,15 @@ type Props = {
 
 export default function RemoveNextStepsModal(props: Props) {
     const {onConfirm, onCancel, screenTitle, globalHeader} = props;
-    const portalRoot = globalHeader ? document.getElementById('helpMenuPortal') : document.body;
-    const modalRoot = globalHeader ? document.getElementById('channel_view') : document.body;
+    const renderGlobalHeaderChanges = globalHeader && !Utils.isMobile();
+    const portalRoot = renderGlobalHeaderChanges ? document.getElementById('helpMenuPortal') : document.body;
+    const modalRoot = renderGlobalHeaderChanges ? document.getElementById('channel_view') : document.body;
 
     return (
         <>
             {ReactDOM.createPortal(
                 <div
-                    className={classNames(['RemoveNextStepsModal__helpBox', {'global-header': globalHeader}])}
+                    className={classNames(['RemoveNextStepsModal__helpBox', {'global-header': renderGlobalHeaderChanges, 'mobile-helpbox': Utils.isMobile()}])}
                 >
                     <img
                         className='RemoveNextStepsModal__arrow'
@@ -39,7 +41,7 @@ export default function RemoveNextStepsModal(props: Props) {
                             defaultMessage={'Access {title} any time through the {menu} Menu'}
                             values={{
                                 title: screenTitle,
-                                menu: globalHeader ? 'Help' : 'Main',
+                                menu: renderGlobalHeaderChanges ? 'Help' : 'Main',
                             }}
                         />
                     </span>
@@ -74,7 +76,7 @@ export default function RemoveNextStepsModal(props: Props) {
                     defaultMessage='This will remove this section from your sidebar, but you can access it later in the {title} section of the {menu} Menu.'
                     values={{
                         title: screenTitle,
-                        menu: globalHeader ? 'Help' : 'Main',
+                        menu: renderGlobalHeaderChanges ? 'Help' : 'Main',
                     }}
                 />
             </GenericModal>

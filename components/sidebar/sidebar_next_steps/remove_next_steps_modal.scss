@@ -6,8 +6,19 @@
 
     &.global-header {
         position: absolute;
-        top: 0;
+        top: -2px;
         left: 0;
+    }
+
+    &.mobile-helpbox {
+        top: 10px;
+        right: 0;
+        left: inherit;
+
+        .RemoveNextStepsModal__arrow {
+            margin-left: 8.5rem;
+            transform: scaleX(-1);
+        }
     }
 }
 
@@ -25,6 +36,7 @@
 
 .modal .GenericModal.modal-dialog.RemoveNextStepsModal {
     max-width: 514px;
+    max-height: 350px;
     margin-top: calc(50vh - 133px);
 
     .GenericModal__header {
@@ -70,4 +82,8 @@
     & ~ div .modal-backdrop.in {
         clip-path: polygon(0 0, 65px 0, 65px 63px, 305px 63px, 305px 0, 100% 0, 100% 100%, 0 100%);
     }
+}
+
+.mobile-helpbox ~ div .modal-backdrop.in {
+    clip-path: polygon(0 0, 0 50px, 100% 50px, 100% 0, 100% 100%, 0 100%);
 }

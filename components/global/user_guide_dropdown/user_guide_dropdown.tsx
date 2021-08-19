@@ -10,7 +10,6 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import {toggleShortcutsModal} from 'actions/global_actions';
-import {unhideNextSteps} from 'actions/views/next_steps';
 import {trackEvent} from 'actions/telemetry_actions';
 import * as Utils from 'utils/utils';
 
@@ -23,6 +22,9 @@ type Props = {
     enableAskCommunityLink: string;
     showGettingStarted: boolean;
     showNextStepsTips: boolean;
+    actions: {
+        unhideNextSteps: () => void;
+    };
 };
 
 type State = {
@@ -73,7 +75,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 <Menu.ItemAction
                     id='gettingStarted'
                     show={showGettingStarted}
-                    onClick={() => unhideNextSteps()}
+                    onClick={() => this.props.actions.unhideNextSteps()}
                     text={intl.formatMessage({id: showNextStepsTips ? 'sidebar_next_steps.tipsAndNextSteps' : 'navbar_dropdown.gettingStarted', defaultMessage: showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
                     icon={Utils.isMobile() && <i className={`icon ${showNextStepsTips ? 'icon-lightbulb-outline' : 'icon-play'}`}/>}
                 />

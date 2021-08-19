@@ -2,9 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
+import {unhideNextSteps} from 'actions/views/next_steps';
 import {GlobalState} from 'types/store';
 
 import {
@@ -27,4 +30,12 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-export default connect(mapStateToProps)(UserGuideDropdown);
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    return {
+        actions: bindActionCreators({
+            unhideNextSteps,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserGuideDropdown);

@@ -23,7 +23,7 @@ type Props = {
     autoCloseOnCancelButton?: boolean;
     autoCloseOnConfirmButton?: boolean;
     enforceFocus?: boolean;
-    container?: any;
+    container?: React.ReactNode;
 };
 
 type State = {

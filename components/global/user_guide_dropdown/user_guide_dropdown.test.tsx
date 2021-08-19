@@ -31,6 +31,9 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         enableAskCommunityLink: 'true',
         showGettingStarted: false,
         showNextStepsTips: false,
+        actions: {
+            unhideNextSteps: jest.fn(),
+        }
     };
 
     test('should match snapshot', () => {
@@ -69,7 +72,7 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
             <UserGuideDropdown {...baseProps}/>,
         );
 
-        wrapper.find('#keyboardShortcuts').prop('onClick')!({preventDefault: jest.fn()});
+        wrapper.find(Menu.ItemAction).find('#keyboardShortcuts').prop('onClick')!({preventDefault: jest.fn()} as unknown as React.MouseEvent);
         expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
     });
 
