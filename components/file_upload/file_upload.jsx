@@ -16,13 +16,12 @@ import {
 } from 'utils/user_agent';
 import {getTable} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
+import * as UserAgent from 'utils/user_agent';
 import {
     clearFileInput,
     cmdOrCtrlPressed,
     isKeyPressed,
     generateId,
-    isFileTransfer,
-    isUriDrop,
     localizeMessage,
 } from 'utils/utils.jsx';
 
@@ -345,33 +344,26 @@ export class FileUpload extends PureComponent {
 
         this.props.onUploadError(null);
 
+        const types = e.dataTransfer.types;
+        if (types.includes('Files')) {
+            this.handleDropFiles(e);
+        } else if (types.includes('text/plain')) {
+            this.handleDropText(e);
+        } else {
+            e.preventDefault();
+        }
+    }
+
+    handleDropFiles = (e) => {
         const items = e.dataTransfer.items || [];
-        const droppedFiles = e.dataTransfer.files;
         const files = [];
-        Array.from(droppedFiles).forEach((file, index) => {
+        Array.from(e.dataTransfer.files).forEach((file, index) => {
             const item = items[index];
             if (item && item.webkitGetAsEntry && (item.webkitGetAsEntry() === null || item.webkitGetAsEntry().isDirectory)) {
                 return;
             }
             files.push(file);
         });
-
-        const types = e.dataTransfer.types;
-        if (types) {
-            if (isUriDrop(e.dataTransfer)) {
-                return;
-            }
-
-            // For non-IE browsers
-            if (types.includes && !types.includes('Files')) {
-                return;
-            }
-
-            // For IE browsers
-            if (types.contains && !types.contains('Files')) {
-                return;
-            }
-        }
 
         if (files.length === 0) {
             this.props.onUploadError(localizeMessage('file_upload.drag_folder', 'Folders cannot be uploaded. Please drag all files separately.'));
@@ -385,9 +377,19 @@ export class FileUpload extends PureComponent {
         this.props.onFileUploadChange();
     }
 
-    registerDragEvents = (containerSelector, overlaySelector) => {
-        const self = this;
+    handleDropText = (e) => {
+        const targetType = e.target.nodeName.toLowerCase();
 
+        if (targetType === 'textarea' || (targetType === 'input' && ['text', 'search'].includes(e.target.type))) {
+            // Allow text to be dropped into inputs since that works like pasting text
+            return;
+        }
+
+        // Prevent any other default dropping behaviour (like dropping a URL causing page navigation)
+        e.preventDefault();
+    }
+
+    registerDragEvents = (containerSelector, overlaySelector) => {
         const overlay = document.querySelector(overlaySelector);
 
         const dragTimeout = new DelayedAction(() => {
@@ -397,35 +399,39 @@ export class FileUpload extends PureComponent {
         let dragsterActions = {};
         if (this.props.canUploadFiles) {
             dragsterActions = {
-                enter(e) {
-                    var files = e.detail.dataTransfer;
-                    if (!isUriDrop(files) && isFileTransfer(files)) {
+                enter: (e) => {
+                    const files = e.detail.dataTransfer;
+                    if (isFileTransfer(files)) {
                         overlay.classList.remove('hidden');
                     }
-                },
-                leave(e) {
-                    var files = e.detail.dataTransfer;
 
-                    if (!isUriDrop(files) && isFileTransfer(files)) {
+                    e.preventDefault();
+                },
+                leave: (e) => {
+                    const files = e.detail.dataTransfer;
+
+                    if (isFileTransfer(files)) {
                         overlay.classList.add('hidden');
                     }
 
                     dragTimeout.cancel();
                 },
-                over() {
+                over: (e) => {
                     dragTimeout.fireAfter(OVERLAY_TIMEOUT);
+
+                    e.preventDefault();
                 },
-                drop(e) {
+                drop: (e) => {
                     overlay.classList.add('hidden');
                     dragTimeout.cancel();
 
-                    self.handleDrop(e.detail);
+                    this.handleDrop(e.detail);
                 },
             };
         } else {
             dragsterActions = {
-                drop(e) {
-                    self.handleDrop(e.detail);
+                drop: (e) => {
+                    this.handleDrop(e.detail);
                 },
             };
         }
@@ -705,3 +711,13 @@ export class FileUpload extends PureComponent {
 const wrappedComponent = injectIntl(FileUpload, {forwardRef: true});
 wrappedComponent.displayName = 'injectIntl(FileUpload)';
 export default wrappedComponent;
+
+// Checks if a data transfer contains files not text, folders, etc..
+// Slightly modified from http://stackoverflow.com/questions/6848043/how-do-i-detect-a-file-is-being-dragged-rather-than-a-draggable-element-on-my-pa
+export function isFileTransfer(files) {
+    if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
+        return files.types != null && files.types.includes('Files');
+    }
+
+    return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.contains('application/x-moz-file'));
+}

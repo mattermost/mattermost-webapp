@@ -349,7 +349,12 @@ describe('components/FileUpload', () => {
             <FileUpload {...baseProps}/>,
         );
 
-        const e = {dataTransfer: {files: [{name: 'file1.pdf'}]}};
+        const e = {
+            dataTransfer: {
+                files: [{name: 'file1.pdf'}],
+                types: ['Files'],
+            },
+        };
         const instance = wrapper.instance();
         instance.uploadFiles = jest.fn();
         instance.handleDrop(e);

@@ -37,8 +37,6 @@ export default function dragster(query: string, options: Options) {
         first = true;
         const enterEvent = new CustomEvent('dragster:enter', {detail: event});
         node.dispatchEvent(enterEvent);
-
-        event.preventDefault();
     };
 
     const dragleave = (event: Event) => {
@@ -51,13 +49,11 @@ export default function dragster(query: string, options: Options) {
             const leaveEvent = new CustomEvent('dragster:leave', {detail: event});
             node.dispatchEvent(leaveEvent);
         }
-        event.preventDefault();
     };
 
     const dragover = (event: Event) => {
         const overEvent = new CustomEvent('dragster:over', {detail: event});
         node.dispatchEvent(overEvent);
-        event.preventDefault();
     };
 
     const drop = (event: Event) => {
@@ -70,7 +66,6 @@ export default function dragster(query: string, options: Options) {
             const dropEvent = new CustomEvent('dragster:drop', {detail: event});
             node.dispatchEvent(dropEvent);
         }
-        event.preventDefault();
     };
 
     node.addEventListener('dragenter', dragenter);

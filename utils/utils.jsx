@@ -1554,27 +1554,6 @@ export function fillArray(value, length) {
     return arr;
 }
 
-// Checks if a data transfer contains files not text, folders, etc..
-// Slightly modified from http://stackoverflow.com/questions/6848043/how-do-i-detect-a-file-is-being-dragged-rather-than-a-draggable-element-on-my-pa
-export function isFileTransfer(files) {
-    if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-        return files.types != null && files.types.includes('Files');
-    }
-
-    return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.contains('application/x-moz-file'));
-}
-
-export function isUriDrop(dataTransfer) {
-    if (UserAgent.isInternetExplorer() || UserAgent.isEdge() || UserAgent.isSafari()) {
-        for (let i = 0; i < dataTransfer.items.length; i++) {
-            if (dataTransfer.items[i].type === 'text/uri-list') {
-                return true;
-            }
-        }
-    }
-    return false; // we don't care about others, they handle as we want it
-}
-
 export function clearFileInput(elm) {
     // clear file input for all modern browsers
     try {
