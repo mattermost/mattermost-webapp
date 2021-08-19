@@ -141,14 +141,11 @@ const excludedEmoji = [];
 readFileSync(path.normalize(argv['excluded-emoji-file']), 'utf-8').split(/\r?\n/).forEach(function(line){
     excludedEmoji.push(line);
 });
-console.log('Excluded Emoji are: ' + excludedEmoji);
+console.warn('The following emoji will be excluded from the webapp: ' + excludedEmoji);
 
 // Remove unwanted emoji
 const filteredEmojiJson = jsonData.filter((element) => {
-    if (excludedEmoji.includes(element.short_name)) {
-        return false;
-    }
-    return true;
+    return !excludedEmoji.some((e) => element.short_names.includes(e));
 });
 
 // populate skin tones as full emojis
