@@ -44,16 +44,24 @@ export type Channel = {
 };
 
 export type ServerChannel = Channel & {
+
+    // The total number of posts in this channel, not including join/leave messages
+    //
+    // This field will be moved to a ChannelMessageCount object when this channel is stored in Redux.
     total_msg_count: number;
+
+    // The number of root posts in this channel, not including join/leave messages
+    //
+    // This field will be moved to a ChannelMessageCount object when this channel is stored in Redux.
     total_msg_count_root: number;
 }
 
 export type ChannelMessageCount = {
 
-    // The total number of posts in the channel, not including join/leave messages
+    // The total number of posts in this channel, not including join/leave messages
     total: number;
 
-    // The number of root posts in the channel, not including join/leave messages
+    // The number of root posts in this channel, not including join/leave messages
     root: number;
 }
 
@@ -73,10 +81,19 @@ export type ChannelMembership = {
     user_id: string;
     roles: string;
     last_viewed_at: number;
+
+    // The number of posts in this channel which have been read by the user
     msg_count: number;
-    mention_count: number;
+
+    // The number of root posts in this channel which have been read by the user
     msg_count_root: number;
+
+    // The number of unread mentions in this channel
+    mention_count: number;
+
+    // The number of unread mentions in root posts in this channel
     mention_count_root: number;
+
     notify_props: Partial<ChannelNotifyProps>;
     last_update_at: number;
     scheme_user: boolean;
@@ -88,10 +105,19 @@ export type ChannelUnread = {
     channel_id: string;
     user_id: string;
     team_id: string;
+
+    // The number of posts which have been read by the user
     msg_count: number;
-    mention_count: number;
+
+    // The number of root posts which have been read by the user
     msg_count_root: number;
+
+    // The number of unread mentions in this channel
+    mention_count: number;
+
+    // The number of unread mentions in root posts in this channel
     mention_count_root: number;
+
     last_viewed_at: number;
     deltaMsgs: number;
 };
