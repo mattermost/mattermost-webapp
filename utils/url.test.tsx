@@ -3,7 +3,13 @@
 
 import assert from 'assert';
 
-import {getSiteURL,getSiteURLFromWindowObject, getRelativeChannelURL, validateChannelUrl, isPermalinkURL} from 'utils/url';
+import {
+    getRelativeChannelURL,
+    getSiteURL,
+    getSiteURLFromWindowObject,
+    isPermalinkURL,
+    validateChannelUrl,
+} from 'utils/url';
 
 describe('Utils.URL', () => {
     test('getRelativeChannelURL', () => {
