@@ -117,6 +117,9 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
 
 function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
     const currentProduct = findProductInDictionary(products, productId);
+    if (isFreeTrial) {
+        return currentProduct;
+    }
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku !== CloudProducts.STARTER) {
         nextSku = CloudProducts.ENTERPRISE;
