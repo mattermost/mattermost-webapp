@@ -50,7 +50,7 @@ describe('Components/ChannelNavigator', () => {
     });
 
     it('should not show AddChannelDropdown when there is an active A/B treatment', () => {
-        props.addChannelButton = AddChannelButtonTreatments.SIDEBAR_BG_COLOR;
+        props.addChannelButton = AddChannelButtonTreatments.BY_TEAM_NAME;
         const wrapper = shallow(<ChannelNavigator {...props}/>);
         expect(wrapper.find(AddChannelDropdown).length).toBe(0);
     });

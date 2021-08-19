@@ -61,7 +61,7 @@ describe('Components/SidebarHeader', () => {
     });
 
     it('should show AddChannelDropdown when there is an active A/B treatment', () => {
-        mockTreatment(AddChannelButtonTreatments.SIDEBAR_BG_COLOR);
+        mockTreatment(AddChannelButtonTreatments.BY_TEAM_NAME);
 
         const wrapper = shallow(<SidebarHeader {...props}/>);
         expect(wrapper.find(AddChannelDropdown).length).toBe(1);
@@ -74,7 +74,7 @@ describe('Components/SidebarHeader', () => {
     });
 
     it('should embed teams menu dropdown into heading when there is an A/B treatment', () => {
-        mockTreatment(AddChannelButtonTreatments.SIDEBAR_BG_COLOR);
+        mockTreatment(AddChannelButtonTreatments.BY_TEAM_NAME);
         const wrapper = shallow(<SidebarHeader {...props}/>);
         expect(wrapper.find(IconButton).length).toBe(0);
         expect(wrapper.find('i').prop('className')).toBe('icon icon-chevron-down');

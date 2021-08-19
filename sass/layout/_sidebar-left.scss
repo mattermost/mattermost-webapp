@@ -339,6 +339,18 @@
     }
 
     .AddChannelDropdown_dropdownButton {
+        &--by-team-name {
+            background-color: rgba(var(--sidebar-text-rgb), 0.08);
+            color: rgba(var(--sidebar-text-rgb), 0.72);
+
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: rgba(var(--sidebar-text-rgb), 0.16);
+                color: var(--sidebar-text);
+            }
+        }
+
         &--inverted-sidebar-bg-color {
             background-color: var(--sidebar-text);
             color: var(--sidebar-bg);

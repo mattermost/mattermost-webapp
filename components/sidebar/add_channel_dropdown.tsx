@@ -43,8 +43,8 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         case AddChannelButtonTreatments.NONE:
             modifier = '';
             break;
-        case AddChannelButtonTreatments.SIDEBAR_BG_COLOR:
-            modifier = '';
+        case AddChannelButtonTreatments.BY_TEAM_NAME:
+            modifier = 'by-team-name';
             break;
         case AddChannelButtonTreatments.INVERTED_SIDEBAR_BG_COLOR:
             modifier = 'inverted-sidebar-bg-color';
