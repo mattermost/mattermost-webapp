@@ -141,7 +141,7 @@ const excludedEmoji = [];
 readFileSync(path.normalize(argv['excluded-emoji-file']), 'utf-8').split(/\r?\n/).forEach(function(line){
     excludedEmoji.push(line);
 });
-console.warn('The following emoji will be excluded from the webapp: ' + excludedEmoji);
+console.warn(`The following emoji will be excluded from the webapp: ${excludedEmoji}`);
 
 // Remove unwanted emoji
 const filteredEmojiJson = jsonData.filter((element) => {
