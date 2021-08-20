@@ -7,6 +7,17 @@
 * otherwise the file will be placed in the root of the project.
 * if you don't want to set it but for this run you can run it like:
 * $ $SERVER_ENV=<path_to_server> npm run make-emojis
+*
+* The script includes support for excluding emojis from the final set used to build the mattermost-webapp package.  To exclude specific emoji follow these steps:
+* 1. Clone https://github.com/mattermost/mattermost-webapp
+* 2. Identify the name of the emojis to be excluded.  You can find this in the Mattermost UI using the emoji picker in the channel view.
+* 3. Create a file with the name of each excluded emoji on a separate line.
+* 4. Use NPM to invoke this tool with the excluded emoji file:
+* `<path to mattermost-webapp git repo>$ npm run make-emojis -- --excluded-emoji-file ./excluded-emoji.txt`
+* 5. Build and package the modified mattermost-webapp repo
+* `<path to mattermost-webapp git repo>$ make package`
+# 6. Use the generated `mattermost-webapp.tar.gz` to overwrite the existing `<Mattermost Installation Directory>/client` folder.  Ensure the files are owned by the Mattermost service account.
+# 7. Restart Mattermost.
  */
 
 /* eslint-disable no-console */
