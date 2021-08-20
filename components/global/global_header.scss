@@ -52,28 +52,6 @@
             }
         }
 
-        // move rhs up next to channel header
-        #sidebar-right {
-            top: 0;
-
-            .sidebar--right__header {
-                flex-basis: 63px;
-            }
-
-            .sidebar-right-container {
-                height: 100%;
-            }
-        }
-
-        // shrink width of channel header to accomodate rhs
-        .channel__wrap {
-            &.move--left {
-                .channel-header {
-                    width: calc(100% - 500px);
-                }
-            }
-        }
-
         .product-switcher-icon {
             padding: 0 6px;
         }
