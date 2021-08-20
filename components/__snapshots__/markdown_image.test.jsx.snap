@@ -58,14 +58,14 @@ exports[`components/MarkdownImage should provide image src as an alt text for Ma
       alt={null}
       className="markdown-inline-img markdown-inline-img--hover cursor--pointer a11y--active"
       dimensions={Object {}}
-      height={250}
+      height="250"
       onClick={[Function]}
       onImageLoadFail={[Function]}
       onImageLoaded={[Function]}
       showLoader={false}
       src="https://example.com/image.png"
       title="test title"
-      width={50}
+      width="50"
     />
     <Connect(ViewImageModal)
       fileInfos={
@@ -174,14 +174,14 @@ exports[`components/MarkdownImage should render image with MarkdownImageExpand i
       alt="test image"
       className="markdown-inline-img markdown-inline-img--hover cursor--pointer a11y--active"
       dimensions={Object {}}
-      height={250}
+      height="250"
       onClick={[Function]}
       onImageLoadFail={[Function]}
       onImageLoaded={[Function]}
       showLoader={false}
       src="https://example.com/image.png"
       title="test title"
-      width={50}
+      width="50"
     />
     <Connect(ViewImageModal)
       fileInfos={

@@ -22,8 +22,11 @@ export default class MarkdownImage extends React.PureComponent {
         alt: PropTypes.string,
         imageMetadata: PropTypes.object,
         src: PropTypes.string.isRequired,
-        height: PropTypes.number,
-        width: PropTypes.number,
+
+        // height and width come from the Markdown renderer as either "auto" or a string containing a number.
+        height: PropTypes.string,
+        width: PropTypes.string,
+
         title: PropTypes.string,
         className: PropTypes.string.isRequired,
         postId: PropTypes.string.isRequired,
@@ -41,6 +44,26 @@ export default class MarkdownImage extends React.PureComponent {
             loadFailed: false,
             loaded: false,
         };
+    }
+
+    getHeight = () => {
+        const {
+            height,
+            imageMetadata,
+            width,
+        } = this.props;
+
+        if (!height) {
+            return imageMetadata.height;
+        }
+
+        if (height === 'auto') {
+            const widthNumber = parseInt(width, 10);
+
+            return (imageMetadata.height / imageMetadata.width) * widthNumber;
+        }
+
+        return parseInt(height, 10);
     }
 
     showModal = (e) => {
@@ -144,14 +167,14 @@ export default class MarkdownImage extends React.PureComponent {
 
                     const {height, width, title, postId, onImageHeightChanged} = this.props;
 
-                    const imageElement = (
+                    let imageElement = (
                         <>
                             <SizeAwareImage
                                 alt={alt}
                                 className={className}
                                 src={safeSrc}
-                                height={height}
-                                width={width}
+                                height={height === 'auto' ? undefined : height}
+                                width={width === 'auto' ? undefined : width}
                                 title={title}
                                 dimensions={imageMetadata}
                                 showLoader={false}
@@ -176,9 +199,9 @@ export default class MarkdownImage extends React.PureComponent {
                         </>
                     );
 
-                    const availableHeight = height ?? imageMetadata.height;
-                    if (availableHeight >= Constants.EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT) {
-                        return (
+                    const actualHeight = this.getHeight();
+                    if (actualHeight >= Constants.EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT) {
+                        imageElement = (
                             <MarkdownImageExpand
                                 alt={alt || safeSrc}
                                 postId={postId}
