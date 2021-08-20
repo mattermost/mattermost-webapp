@@ -378,9 +378,9 @@ export class FileUpload extends PureComponent {
     }
 
     handleDropText = (e) => {
-        const targetType = e.target.nodeName.toLowerCase();
+        const targetNodeName = e.target.nodeName.toLowerCase();
 
-        if (targetType === 'textarea' || (targetType === 'input' && ['text', 'search'].includes(e.target.type))) {
+        if (targetNodeName === 'textarea' || (targetNodeName === 'input' && ['text', 'search'].includes(e.target.type))) {
             // Allow text to be dropped into inputs since that works like pasting text
             return;
         }
