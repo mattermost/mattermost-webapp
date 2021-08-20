@@ -502,6 +502,7 @@ export default class RhsComment extends React.PureComponent {
             options = (
                 <div
                     ref={this.dotMenuRef}
+                    data-testid={`post-menu-${this.props.post.id}`}
                     className='col post-menu'
                 >
                     {!collapsedThreadsEnabled && dotMenu}
