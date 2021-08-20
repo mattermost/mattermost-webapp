@@ -1,5 +1,6 @@
 {
     "baseUrl": "http://localhost:8065",
+    "chromeWebSecurity": false,
     "defaultCommandTimeout": 20000,
     "ignoreTestFiles": "**/node_modules/**/*",
     "integrationFolder": "..",

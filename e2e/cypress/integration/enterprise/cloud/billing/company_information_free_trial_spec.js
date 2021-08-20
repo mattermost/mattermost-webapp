@@ -33,13 +33,13 @@ describe('System Console - Company Information section', () => {
         });
     });
 
-    it('MM-T4164 Save Info button should not be enabled if any one of the mandatory feild is filled with invalid data', () => {
+    it('MM-T4164 Save Info button should not be enabled if any one of the mandatory field is filled with invalid data', () => {
         const companyName = getRandomLetter(30);
 
         // # Click on Add Company Information button
         cy.contains('span', 'Add Company Information').parent().click();
 
-        // # Enter valid compnany informatioon
+        // # Enter valid company information
         cy.get('#input_companyName').clear().type(companyName);
         cy.get('#input_numEmployees').clear().type('10');
         cy.get('#DropdownInput_country_dropdown').click();
@@ -113,7 +113,7 @@ describe('System Console - Company Information section', () => {
         // * Check for country
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(3).should('have.text', 'British Indian Ocean Territory');
 
-        // * Check for city,state and postal code
+        // * Check for city, state and postal code
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(2).should('have.text', 'Addtestcity, Addteststate, 560089');
 
         // * Check for address 2
@@ -152,7 +152,7 @@ describe('System Console - Company Information section', () => {
         // * Check for country
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(3).should('have.text', 'British Indian Ocean Territory');
 
-        // * Check for city,state and postal code
+        // * Check for city, state and postal code
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(2).should('have.text', 'testcity, test, 44455');
 
         // * Check for address 2
@@ -201,7 +201,7 @@ describe('System Console - Company Information section', () => {
         // * Check for country
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(3).should('not.have.text', 'Albania');
 
-        // * Check for city,state and postal code
+        // * Check for city, state and postal code
         cy.get('.CompanyInfoDisplay__companyInfo-address > div').eq(2).should('not.have.text', 'canceltestcity, canceltest, 560072');
 
         // * Check for address 2
