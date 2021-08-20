@@ -114,8 +114,11 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     return currentProduct;
 }
 
-function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
+function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null, isFreeTrial?: boolean | null) {
     const currentProduct = findProductInDictionary(products, productId);
+    if (isFreeTrial) {
+        return currentProduct;
+    }
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
@@ -134,7 +137,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             processing: false,
             editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
             currentProduct: findProductInDictionary(props.products, props.productId),
-            selectedProduct: getSelectedProduct(props.products, props.productId),
+            selectedProduct: getSelectedProduct(props.products, props.productId, props.isFreeTrial),
         };
     }
 
@@ -145,7 +148,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId),
+                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isFreeTrial),
             });
         }
 

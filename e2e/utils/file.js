@@ -57,7 +57,8 @@ const findFiles = (pattern) => {
             return fileOrDir;
         }).
         flat().
-        filter((f) => f.includes('spec.js'));
+        filter((file) => file.includes('spec.js')).
+        map((file) => file.replace('./', ''));
 };
 
 function getBaseTestFiles() {
