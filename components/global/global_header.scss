@@ -175,6 +175,7 @@
         .Menu__content {
             right: -1px;
             left: inherit;
+            width: 264px;
         }
 
         .custom_status__row > #custom_status__clear {
@@ -195,6 +196,15 @@
         .MenuHeader {
             height: 50px;
             padding: 0 16px;
+        }
+
+        .MenuItem > button,
+        #status-menu-dnd-timed {
+            padding: 1px 19px;
+        }
+
+        .dnd--icon {
+            vertical-align: middle;
         }
 
         .status-wrapper {

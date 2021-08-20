@@ -47,6 +47,7 @@ export type Props = {
     direction?: 'left' | 'right';
     openUp?: boolean;
     styleSelectableItem?: boolean;
+    extraText?: string;
 }
 
 type State = {
@@ -145,7 +146,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -239,6 +240,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                             aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                         />}
                     {subMenuContent}
+                    {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
                 </div>
             </li>
         );
