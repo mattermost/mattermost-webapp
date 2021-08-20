@@ -146,6 +146,7 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
                             renderer: new LinkOnlyRenderer(),
                             autolinkedUrlSchemes: [],
                         }}
+                        postId={this.props.post.id}
                     />
                 </h1>
             );
@@ -163,6 +164,7 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
                         message={embed.description}
                         imageProps={this.imageProps}
                         options={options}
+                        postId={this.props.post.id}
                     />
                 </ShowMore>
             );

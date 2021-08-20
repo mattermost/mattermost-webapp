@@ -25,6 +25,7 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
               },
             }
           }
+          postId="post_id"
         />
       </h1>
       <div>
@@ -44,6 +45,7 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
                 }
               }
               message="some title"
+              postId="post_id"
             />
           </Connect(ShowMore)>
         </div>
@@ -85,6 +87,7 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
               },
             }
           }
+          postId="post_id"
         />
       </h1>
       <div>
@@ -104,6 +107,7 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
                 }
               }
               message="some title"
+              postId="post_id"
             />
           </Connect(ShowMore)>
         </div>
@@ -145,6 +149,7 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
               },
             }
           }
+          postId="post_id"
         />
       </h1>
       <div>
@@ -164,6 +169,7 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
                 }
               }
               message="some title"
+              postId="post_id"
             />
           </Connect(ShowMore)>
         </div>
@@ -205,6 +211,7 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
               },
             }
           }
+          postId="post_id"
         />
       </h1>
       <div>
@@ -224,6 +231,7 @@ exports[`components/post_view/embedded_bindings/embedded_binding should match sn
                 }
               }
               message="some title"
+              postId="post_id"
             />
           </Connect(ShowMore)>
         </div>
