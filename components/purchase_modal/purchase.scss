@@ -21,8 +21,10 @@
         font-weight: 600;
 
         .footer-text {
-            color: rgba(var(--center-channel-color-rgb), 0.72);
-            font-size: 14px;
+            .normal-payment-text {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+                font-size: 14px;
+            }
 
             .prorrated-payment-text {
                 div {
@@ -34,7 +36,7 @@
             }
 
             a {
-                color: var(--button-bg);
+                color: var(--button-bg) !important;
             }
         }
 
@@ -57,7 +59,7 @@
             width: 25%;
 
             .title {
-                font-size: 24px;
+                font-weight: 600;
             }
 
             .image {

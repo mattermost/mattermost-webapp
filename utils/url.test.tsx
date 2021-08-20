@@ -3,7 +3,13 @@
 
 import assert from 'assert';
 
-import {getSiteURLFromWindowObject, getRelativeChannelURL, validateChannelUrl} from 'utils/url';
+import {
+    getRelativeChannelURL,
+    getSiteURL,
+    getSiteURLFromWindowObject,
+    isPermalinkURL,
+    validateChannelUrl,
+} from 'utils/url';
 
 describe('Utils.URL', () => {
     test('getRelativeChannelURL', () => {
@@ -115,5 +121,19 @@ describe('Utils.URL', () => {
                 testCase.expectedErrors.sort(),
             );
         }));
+    });
+
+    describe('isPermalinkURL', () => {
+        const siteURL = getSiteURL();
+        test.each([
+            ['/teamname-1/pl/affe2344234', true],
+            [`${siteURL}/teamname-1/pl/affe2344234`, true],
+            [siteURL, false],
+            ['/teamname-1/channel/post', false],
+            ['https://example.com', false],
+            ['https://example.com/teamname-1/pl/affe2344234', false],
+        ])('is permalink for %s should return %s', (url, expected) => {
+            expect(isPermalinkURL(url)).toBe(expected);
+        });
     });
 });
