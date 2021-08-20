@@ -5,6 +5,8 @@ import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Tooltip} from 'react-bootstrap';
+import Icon from '@mattermost/compass-components/foundations/icon/Icon';
+import Text from '@mattermost/compass-components/components/text';
 
 import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -195,7 +197,16 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.props.actions.setStatusDropdown(open);
     }
 
-    renderCustomStatus = (): ReactNode => {
+    handleCustomStatusEmojiClick = (event: React.MouseEvent) => {
+        event.stopPropagation();
+        const customStatusInputModalData = {
+            modalId: ModalIdentifiers.CUSTOM_STATUS,
+            dialogType: CustomStatusModal,
+        };
+        this.props.actions.openModal(customStatusInputModalData);
+    }
+
+    renderCustomStatus = (isStatusSet: boolean | undefined): ReactNode => {
         if (!this.props.isCustomStatusEnabled) {
             return null;
         }
@@ -281,7 +292,8 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const profilePicture = this.renderProfilePicture();
         const dropdownIcon = this.renderDropdownIcon();
-        const {isTimedDNDEnabled} = this.props;
+        const {isTimedDNDEnabled, customStatus, isCustomStatusExpired, globalHeader} = this.props;
+        const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0) && !isCustomStatusExpired;
 
         const setOnline = needsConfirm ? () => this.showStatusChangeConfirmation('online') : this.setOnline;
         const setDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setDnd;
@@ -304,15 +316,56 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 } as any;
             }));
 
-        const customStatusComponent = this.renderCustomStatus();
+        const customStatusComponent = this.renderCustomStatus(isStatusSet);
+
+        let timedDND = (
+            <Menu.ItemSubMenu
+                subMenu={dndSubMenuItems}
+                ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
+                text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
+                icon={<StatusDndIcon className={'dnd--icon'}/>}
+                direction={globalHeader ? 'left' : 'right'}
+                openUp={this.state.openUp}
+                id={'status-menu-dnd-timed'}
+            />
+        );
+
+        if (isTimedDNDEnabled) {
+            timedDND = (
+                <Menu.ItemAction
+                    onClick={setDndUntimed}
+                    ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
+                    text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
+                    extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
+                    icon={<StatusDndIcon className={'dnd--icon'}/>}
+                    id={'status-menu-dnd'}
+                />
+            );
+        }
+
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
                 open={this.props.isStatusDropdownOpen}
-                className='status-dropdown-menu'
+                className={classNames('status-dropdown-menu', {
+                    'status-dropdown-menu-global-header': globalHeader,
+                    active: this.props.isStatusDropdownOpen || isStatusSet,
+                })}
             >
-                <div className='status-wrapper status-selector'>
-                    {profilePicture}
+                <div
+                    className={classNames('status-wrapper', {
+                        'status-selector': !globalHeader,
+                    })}
+                >
+                    {globalHeader &&
+                        <CustomStatusEmoji
+                            showTooltip={true}
+                            tooltipDirection={'bottom'}
+                            emojiStyle={{marginRight: '6px'}}
+                            onClick={this.handleCustomStatusEmojiClick as () => void}
+                        />
+                    }
+                    {this.renderProfilePicture(globalHeader ? 'sm' : 'lg')}
                     <button
                         className='status style--none'
                         aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
@@ -323,7 +376,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                         />
                     </button>
                     <span className={'status status-edit edit'}>
-                        {dropdownIcon}
+                        {!globalHeader && dropdownIcon}
                     </span>
                 </div>
                 <Menu
@@ -336,6 +389,20 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                                 id='status_dropdown.set_your_status'
                                 defaultMessage='Status'
                             />
+                        </Menu.Header>
+                    )}
+                    {globalHeader && (
+                        <Menu.Header>
+                            {this.renderProfilePicture('lg')}
+                            <div className={'username-wrapper'}>
+                                <Text margin={'none'}>{`${this.props.currentUser.first_name} ${this.props.currentUser.last_name}`}</Text>
+                                <Text
+                                    margin={'none'}
+                                    color={'disabled'}
+                                >
+                                    {'@' + this.props.currentUser.username}
+                                </Text>
+                            </div>
                         </Menu.Header>
                     )}
                     <Menu.Group>
@@ -388,6 +455,36 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             text={localizeMessage('status_dropdown.set_offline', 'Offline')}
                             icon={<StatusOfflineIcon/>}
                             id={'status-menu-offline'}
+                        />
+                    </Menu.Group>
+                    <Menu.Group>
+                        <Menu.ItemToggleModalRedux
+                            id='accountSettings'
+                            accessibilityLabel='Account Settings'
+                            modalId={ModalIdentifiers.USER_SETTINGS}
+                            dialogType={UserSettingsModal}
+                            text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
+                            icon={globalHeader ?
+                                <Icon
+                                    size={16}
+                                    glyph={'account-outline'}
+                                /> :
+                                <i className='fa fa-cog'/>
+                            }
+                        />
+                    </Menu.Group>
+                    <Menu.Group>
+                        <Menu.ItemAction
+                            id='logout'
+                            onClick={this.handleEmitUserLoggedOutEvent}
+                            text={localizeMessage('navbar_dropdown.logout', 'Log Out')}
+                            icon={globalHeader ?
+                                <Icon
+                                    size={16}
+                                    glyph={'exit-to-app'}
+                                /> :
+                                <i className='fa fa-sign-out'/>
+                            }
                         />
                     </Menu.Group>
                 </Menu>

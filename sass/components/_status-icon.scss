@@ -61,6 +61,7 @@
         margin: 0;
         border-radius: 100px;
         line-height: 0;
+        visibility: visible;
 
         .modal & {
             bottom: -6px;
@@ -68,6 +69,7 @@
 
         &.status-edit {
             text-align: center;
+            visibility: hidden;
 
             i {
                 @include opacity(1);
@@ -86,51 +88,34 @@
     }
 }
 
-.status-selector:hover > .status {
-    opacity: 0;
-    visibility: hidden;
+.status-selector {
+    .status {
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-out, step-start);
+        }
 
-    body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration($transition-quick);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in, step-end);
+        opacity: 1;
+        visibility: visible;
     }
-}
 
-.status-selector > .status {
-    opacity: 1;
-    visibility: visible;
-
-    body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration($transition-quick);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-out, step-start);
+    .status-edit {
+        opacity: 0;
+        visibility: hidden;
     }
-}
 
-.status-selector > .status-edit {
-    opacity: 0;
-    visibility: hidden;
+    &:hover {
+        .status {
+            opacity: 0;
+            visibility: hidden;
+        }
 
-    body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration($transition-quick);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in, step-end);
-    }
-}
-
-.status-selector:hover > .status-edit {
-    opacity: 1;
-    visibility: visible;
-
-    body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration($transition-quick);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-out, step-start);
+        .status-edit {
+            opacity: 1;
+            visibility: visible;
+        }
     }
 }
 
