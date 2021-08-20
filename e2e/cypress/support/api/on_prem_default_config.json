@@ -80,7 +80,10 @@
         "DisableBotsWhenOwnerIsDeactivated": true,
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
-        "EnableLatex": false
+        "EnableLatex": false,
+        "EnableLegacySidebar": false,
+        "ThreadAutoFollow": true,
+        "CollapsedThreads": "disabled"
     },
     "TeamSettings": {
         "SiteName": "Mattermost",
