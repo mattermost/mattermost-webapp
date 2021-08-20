@@ -269,20 +269,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                 />
               }
             />
-            <AdminSidebarSection
-              definitionKey="authentication.guest_access_feature_discovery"
-              key="authentication.guest_access_feature_discovery"
-              name="authentication/guest_access"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Guest Access"
-                  id="admin.sidebar.guest_access"
-                />
-              }
-            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
@@ -2017,6 +2003,20 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
                 />
               }
             />
+            <AdminSidebarSection
+              definitionKey="authentication.guest_access_feature_discovery"
+              key="authentication.guest_access_feature_discovery"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Guest Access"
+                  id="admin.sidebar.guest_access"
+                />
+              }
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
@@ -2415,20 +2415,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
                   id="admin.sidebar.openid"
-                />
-              }
-            />
-            <AdminSidebarSection
-              definitionKey="authentication.guest_access_feature_discovery"
-              key="authentication.guest_access_feature_discovery"
-              name="authentication/guest_access"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Guest Access"
-                  id="admin.sidebar.guest_access"
                 />
               }
             />
