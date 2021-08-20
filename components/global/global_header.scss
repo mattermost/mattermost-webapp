@@ -67,8 +67,8 @@
 
         // adjust RHS position and height
         #sidebar-right {
-            top: 0;
             z-index: 20;
+            top: 0;
 
             .sidebar-right-container {
                 height: 100%;
@@ -80,8 +80,8 @@
 
             .sidebar--right__title {
                 height: auto;
-                line-height: 63px;
                 align-items: center;
+                line-height: 63px;
             }
 
             // search bar container is now only for mobile
