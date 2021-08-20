@@ -13,8 +13,7 @@ const HistoryButtonsContainer = styled.nav`
     display: flex;
     align-items: center;
 
-    > * {
-        &:first-child {
+    > :first-child {
            margin-right: 1px;
     }
 `;
