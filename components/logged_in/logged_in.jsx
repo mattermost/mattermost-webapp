@@ -168,11 +168,11 @@ export default class LoggedIn extends React.PureComponent {
             break;
         }
         case 'notification-clicked': {
-            const {channel, teamId} = message;
+            const {channel, teamId, url} = message;
             window.focus();
 
             // navigate to the appropriate channel
-            this.props.actions.getChannelURLAction(channel, teamId);
+            this.props.actions.getChannelURLAction(channel, teamId, url);
             break;
         }
         }

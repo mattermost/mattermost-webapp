@@ -28,6 +28,7 @@ type Props = {
     siteName: string;
     currentUser: UserProfile;
     appDownloadLink: string;
+    isMessaging: boolean;
     enableCommands: boolean;
     enableIncomingWebhooks: boolean;
     enableOAuthServiceProvider: boolean;
@@ -38,8 +39,10 @@ type Props = {
     pluginMenuItems: any;
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
+    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
+// TODO: reqrite this to a functional component
 class ProductSwitcherMenu extends React.PureComponent<Props> {
     static defaultProps = {
         teamType: '',
@@ -52,25 +55,24 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const {currentUser} = this.props;
+        const {currentUser, isMessaging, isMobile, onClick: handleClick} = this.props;
 
         if (!currentUser) {
             return null;
         }
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
-        const showIntegrations = !this.props.isMobile && someIntegrationEnabled && this.props.canManageIntegrations;
+        const showIntegrations = !isMobile && someIntegrationEnabled && this.props.canManageIntegrations;
 
         const {formatMessage} = this.props.intl;
 
-        // TODO: Ensure that clicking ItemLink menu items also closes the global header menu.
         return (
             <>
                 <Menu.Group>
                     <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                         <Menu.ItemLink
                             id='systemConsole'
-                            show={!this.props.isMobile}
+                            show={!isMobile}
                             to='/admin_console'
                             text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
                             icon={
@@ -79,11 +81,12 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'application-cog'}
                                 />
                             }
+                            onClick={handleClick}
                         />
                     </SystemPermissionGate>
                     <Menu.ItemLink
                         id='integrations'
-                        show={showIntegrations}
+                        show={isMessaging && showIntegrations}
                         to={'/' + this.props.teamName + '/integrations'}
                         text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
                         icon={
@@ -92,6 +95,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 glyph={'webhook-incoming'}
                             />
                         }
+                        onClick={handleClick}
                     />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
@@ -100,7 +104,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                         <Menu.ItemToggleModalRedux
                             id='marketplaceModal'
                             modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
-                            show={!this.props.isMobile && this.props.enablePluginMarketplace}
+                            show={isMessaging && !isMobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
                             icon={
@@ -109,6 +113,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'apps'}
                                 />
                             }
+                            onClick={handleClick}
                         />
                         <Menu.ItemExternalLink
                             id='nativeAppLink'
@@ -121,6 +126,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'download-outline'}
                                 />
                             }
+                            onClick={handleClick}
                         />
                         <Menu.ItemToggleModalRedux
                             id='about'
@@ -133,6 +139,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'information-outline'}
                                 />
                             }
+                            onClick={handleClick}
                         />
                     </TeamPermissionGate>
                 </Menu.Group>
