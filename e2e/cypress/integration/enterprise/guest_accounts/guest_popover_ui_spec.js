@@ -32,7 +32,6 @@ describe('Guest Account - Guest User Badge and Popover', () => {
             },
             ServiceSettings: {
                 EnableEmailInvitations: true,
-                EnableLegacySidebar: true,
             },
         });
 

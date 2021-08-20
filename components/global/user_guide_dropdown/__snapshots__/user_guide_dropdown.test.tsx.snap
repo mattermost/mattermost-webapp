@@ -31,13 +31,13 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
     }
   >
     <ForwardRef
+      active={false}
       aria-label="Select to toggle the help menu."
       compact={true}
       icon="help-circle-outline"
       inverted={true}
       onClick={[Function]}
       size="sm"
-      toggled={false}
     />
   </OverlayTrigger>
   <Menu
@@ -108,13 +108,13 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
     }
   >
     <ForwardRef
+      active={false}
       aria-label="Select to toggle the help menu."
       compact={true}
       icon="help-circle-outline"
       inverted={true}
       onClick={[Function]}
       size="sm"
-      toggled={false}
     />
   </OverlayTrigger>
   <Menu

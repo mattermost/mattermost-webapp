@@ -17,9 +17,7 @@ describe('isUnreadFilterEnabled', () => {
     const baseState = {
         entities: {
             general: {
-                config: {
-                    LegacySidebarEnabled: 'false',
-                },
+                config: {},
             },
             preferences: {
                 myPreferences: {
