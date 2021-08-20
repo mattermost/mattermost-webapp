@@ -87,7 +87,7 @@ describe('Account Settings - Timezone Mode', () => {
             cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'}});
 
             // # Set timezone display to automatic
-            setTimezoneDisplayToAutomatic(testCase.timezone);
+            setTimezoneDisplayToAutomatic(testCase.timezone.value);
 
             // # Save Clock Display Mode to 12-hour
             cy.apiSaveClockDisplayModeTo24HourPreference(false);
@@ -134,7 +134,7 @@ describe('Account Settings - Timezone Mode', () => {
             cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: '', useAutomaticTimezone: 'true'}});
 
             // # Set timezone display to manual
-            setTimezoneDisplayToManual(testCase.timezone);
+            setTimezoneDisplayToManual(testCase.timezone.value);
 
             // # Save Clock Display Mode to 12-hour
             cy.apiSaveClockDisplayModeTo24HourPreference(false);
@@ -168,9 +168,7 @@ function navigateToTimezoneDisplaySettings() {
     cy.get('.section-max').should('be.visible').scrollIntoView();
 }
 
-function setTimezoneDisplayTo(isAutomatic, timezone) {
-    const {type, value} = timezone;
-
+function setTimezoneDisplayTo(isAutomatic, value) {
     // # Navigate to Timezone Display Settings
     navigateToTimezoneDisplaySettings();
 
@@ -209,12 +207,12 @@ function setTimezoneDisplayTo(isAutomatic, timezone) {
     cy.get('#accountSettingsHeader > .close').should('be.visible').click();
 }
 
-function setTimezoneDisplayToAutomatic(timezone) {
-    setTimezoneDisplayTo(true, timezone);
+function setTimezoneDisplayToAutomatic(value) {
+    setTimezoneDisplayTo(true, value);
 }
 
-function setTimezoneDisplayToManual(timezone) {
-    setTimezoneDisplayTo(false, timezone);
+function setTimezoneDisplayToManual(value) {
+    setTimezoneDisplayTo(false, value);
 }
 
 function verifyLocalTimeIsTimezoneFormatted(localTime, timeFormat) {
