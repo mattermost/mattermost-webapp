@@ -12,20 +12,32 @@
 
 import moment from 'moment-timezone';
 
-import {getAdminAccount} from '../../../support/env';
 import * as DATE_TIME_FORMAT from '../../../fixtures/date_time_format';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+import {getTimezoneLabel} from '../../../utils/timezone';
+import {getAdminAccount} from '../../../support/env';
 
 describe('Account Settings - Timezone Mode', () => {
     const sysadmin = getAdminAccount();
+
     const date1 = Date.UTC(2020, 0, 5, 4, 30); // Jan 5, 2020 04:30
     const date2 = Date.UTC(2020, 0, 5, 12, 30); // Jan 5, 2020 12:30
     const date3 = Date.UTC(2020, 0, 5, 20, 30); // Jan 5, 2020 20:30
     const date4 = Date.UTC(2020, 0, 6, 0, 30); // Jan 6, 2020 00:30
-    const timezoneLocal = {type: 'Canonical', actualValue: moment.tz.guess(), expectedValue: moment.tz.guess()};
-    const timezoneCanonical = {type: 'Canonical', actualValue: 'Asia/Hong_Kong', expectedValue: 'Asia/Hong_Kong'};
-    const timezoneUTC = {type: 'Default', actualValue: 'UTC', expectedValue: 'UTC'};
-    const timezoneInvalid = {type: 'Invalid', actualValue: 'Invalid', expectedValue: 'UTC'};
+
+    const localTz = moment.tz.guess();
+    const localTzLabel = getTimezoneLabel(localTz);
+    const timezoneLocal = {type: 'Canonical', value: localTzLabel};
+
+    const canonicalTz = 'Asia/Hong_Kong';
+    const canonicalTzLabel = getTimezoneLabel(canonicalTz);
+    const timezoneCanonical = {type: 'Canonical', value: canonicalTzLabel, expectedTz: canonicalTz};
+
+    const utcTz = 'Europe/Lisbon';
+    const utcTzLabel = getTimezoneLabel(utcTz);
+    const timezoneUTC = {type: 'Default', value: utcTzLabel, expectedTz: 'UTC'};
+
+    let userId;
 
     before(() => {
         // # Enable Timezone
@@ -36,7 +48,8 @@ describe('Account Settings - Timezone Mode', () => {
         });
 
         // # Create and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+            userId = user.id;
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # Post messages from the past
@@ -61,10 +74,10 @@ describe('Account Settings - Timezone Mode', () => {
             {
                 timezone: timezoneLocal,
                 localTimes: [
-                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneLocal.expectedValue)},
-                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneLocal.expectedValue)},
-                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneLocal.expectedValue)},
-                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneLocal.expectedValue)},
+                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneLocal.value)},
+                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneLocal.value)},
+                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneLocal.value)},
+                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneLocal.value)},
                 ],
             },
         ];
@@ -99,35 +112,26 @@ describe('Account Settings - Timezone Mode', () => {
             {
                 timezone: timezoneCanonical,
                 localTimes: [
-                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneCanonical.expectedValue)},
-                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneCanonical.expectedValue)},
-                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneCanonical.expectedValue)},
-                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneCanonical.expectedValue)},
+                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneCanonical.expectedTz)},
+                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneCanonical.expectedTz)},
+                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneCanonical.expectedTz)},
+                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneCanonical.expectedTz)},
                 ],
             },
             {
                 timezone: timezoneUTC,
                 localTimes: [
-                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneUTC.expectedValue)},
-                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneUTC.expectedValue)},
-                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneUTC.expectedValue)},
-                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneUTC.expectedValue)},
-                ],
-            },
-            {
-                timezone: timezoneInvalid,
-                localTimes: [
-                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneInvalid.expectedValue)},
-                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneInvalid.expectedValue)},
-                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneInvalid.expectedValue)},
-                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneInvalid.expectedValue)},
+                    {postIndex: 0, dateInTimezone: moment(date1).tz(timezoneUTC.expectedTz)},
+                    {postIndex: 1, dateInTimezone: moment(date2).tz(timezoneUTC.expectedTz)},
+                    {postIndex: 2, dateInTimezone: moment(date3).tz(timezoneUTC.expectedTz)},
+                    {postIndex: 3, dateInTimezone: moment(date4).tz(timezoneUTC.expectedTz)},
                 ],
             },
         ];
 
         manualTestCases.forEach((testCase) => {
             // # Reset to automatic
-            cy.apiPatchMe({timezone: {automaticTimezone: 'Asia/Hong_Kong', manualTimezone: '', useAutomaticTimezone: 'true'}});
+            cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: '', useAutomaticTimezone: 'true'}});
 
             // # Set timezone display to manual
             setTimezoneDisplayToManual(testCase.timezone);
@@ -148,15 +152,14 @@ describe('Account Settings - Timezone Mode', () => {
                 verifyLocalTimeIsTimezoneFormatted24Hour(localTime);
             });
         });
+
+        verifyUnchangedTimezoneOnInvalidInput(userId);
     });
 });
 
 function navigateToTimezoneDisplaySettings() {
-    // # Go to Account Settings
-    cy.toAccountSettingsModal();
-
-    // # Click the display tab
-    cy.get('#displayButton').should('be.visible').click();
+    // # Go to Display section of Account Settings
+    cy.uiOpenAccountSettingsModal('Display');
 
     // # Click "Edit" to the right of "Timezone"
     cy.get('#timezoneEdit').should('be.visible').click();
@@ -166,8 +169,7 @@ function navigateToTimezoneDisplaySettings() {
 }
 
 function setTimezoneDisplayTo(isAutomatic, timezone) {
-    const actualTimezoneValue = timezone.actualValue;
-    const expectedTimezoneValue = timezone.expectedValue;
+    const {type, value} = timezone;
 
     // # Navigate to Timezone Display Settings
     navigateToTimezoneDisplaySettings();
@@ -177,21 +179,21 @@ function setTimezoneDisplayTo(isAutomatic, timezone) {
         cy.get('#automaticTimezoneInput').should('be.visible').uncheck().should('be.not.checked');
 
         // * Verify Change timezone is enabled
-        cy.get('input[aria-labelledby="changeInterfaceTimezoneLabel"]').as('changeTimezone').should('be.enabled');
+        cy.get('#displayTimezone').should('be.visible').find('input').as('changeTimezone').should('be.enabled');
         if (isAutomatic) {
             // # Check automatic timezone checkbox and verify checked
             cy.get('#automaticTimezoneInput').check().should('be.checked');
 
             // * Verify timezone text is visible
-            cy.get('@changeTimezone').should('be.visible').invoke('text').then((timezoneDesc) => {
-                expect(expectedTimezoneValue.replace('_', ' ')).to.contain(timezoneDesc);
+            cy.get('@changeTimezone').invoke('text').then((timezoneDesc) => {
+                expect(value.replace('_', ' ')).to.contain(timezoneDesc);
             });
 
             // * Verify Change timezone is disabled
             cy.get('@changeTimezone').should('be.disabled');
         } else {
             // # Manually type new timezone
-            cy.get('@changeTimezone').should('be.visible').clear().type(`${actualTimezoneValue}{enter}`);
+            cy.get('@changeTimezone').clear().type(`${value}{enter}`);
         }
     });
 
@@ -199,13 +201,9 @@ function setTimezoneDisplayTo(isAutomatic, timezone) {
     cy.get('#saveSetting').should('be.visible').click({force: true});
 
     // * Verify timezone description is correct
-    if (timezone.type === 'Invalid') {
-        cy.get('#timezoneDesc').should('not.be.visible');
-    } else {
-        cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {
-            expect(expectedTimezoneValue.replace('_', ' ')).to.contain(timezoneDesc);
-        });
-    }
+    cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {
+        expect(value.replace('_', ' ')).to.contain(timezoneDesc);
+    });
 
     // # Close Account Settings modal
     cy.get('#accountSettingsHeader > .close').should('be.visible').click();
@@ -233,4 +231,30 @@ function verifyLocalTimeIsTimezoneFormatted12Hour(localTime) {
 
 function verifyLocalTimeIsTimezoneFormatted24Hour(localTime) {
     verifyLocalTimeIsTimezoneFormatted(localTime, DATE_TIME_FORMAT.TIME_24_HOUR);
+}
+
+function verifyUnchangedTimezoneOnInvalidInput(userId) {
+    // # Get current user's timezone
+    cy.apiGetMe(userId).then(({user: {timezone}}) => {
+        // # Navigate to Timezone Display Settings
+        navigateToTimezoneDisplaySettings();
+
+        cy.get('.setting-list-item').within(() => {
+            // # Uncheck the automatic timezone checkbox and verify unchecked
+            cy.get('#automaticTimezoneInput').should('be.visible').uncheck().should('be.not.checked');
+
+            // * Enter invalid input as timezone
+            cy.get('#displayTimezone').find('input').
+                should('be.enabled').
+                clear().type('invalid');
+
+            // # Click save
+            cy.get('#saveSetting').should('be.visible').click({force: true});
+        });
+
+        // * Verify that the timezone is unchanged
+        cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {
+            expect(getTimezoneLabel(timezone.manualTimezone)).to.equal(timezoneDesc);
+        });
+    });
 }
