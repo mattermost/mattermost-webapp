@@ -11,7 +11,7 @@ variables:
 
 include:
   - project: mattermost/ci/mattermost-webapp
-    ref: release-6.0
+    ref: master
     file: private.yml
 
 empty:

@@ -108,7 +108,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                         size={'sm'}
                         icon={'help-circle-outline'}
                         onClick={() => {}} // icon button currently requires onclick ... needs to revisit
-                        toggled={this.state.buttonActive}
+                        active={this.state.buttonActive}
                         inverted={true}
                         compact={true}
                         aria-label='Select to toggle the help menu.' // proper wording and translation needed
