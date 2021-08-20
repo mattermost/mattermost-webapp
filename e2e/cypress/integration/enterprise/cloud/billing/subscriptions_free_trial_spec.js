@@ -83,7 +83,7 @@ describe('System Console - Subscriptions section', () => {
         cy.contains('span', "You're currently on a free trial").should('be.visible');
     });
 
-    it('MM-T4123 Purchase modal UI check', () => {
+    it('MM-T4124 Purchase modal UI check', () => {
         // # Click on Subscribe Now button
         cy.contains('span', 'Subscribe Now').parent().click();
 
