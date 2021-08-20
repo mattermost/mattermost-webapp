@@ -59,6 +59,7 @@ const GlobalThreadsLink = () => {
             >
                 <Link
                     to={`${url}/threads`}
+                    id='sidebarItem_threads'
                     draggable='false'
                     className={classNames('SidebarLink sidebar-item', {
                         'unread-title': Boolean(someUnreadThreads),

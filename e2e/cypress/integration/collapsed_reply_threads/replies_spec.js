@@ -72,13 +72,13 @@ describe('Collapsed Reply Threads', () => {
             });
 
         // # Visit global threads
-        cy.visit(`/${testTeam.name}/threads`);
+        cy.uiVisitSidebarItem('threads');
 
         // * The sole thread item should have text in footer saying '1 reply'
         cy.get('article.ThreadItem').find('.activity').should('have.text', '1 reply');
 
         // # Visit the channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.uiVisitSidebarItem(testChannel.name);
 
         // # Post another reply as current user
         cy.postMessageAs({sender: testUser, message: 'another reply!', channelId: testChannel.id, rootId: rootPost.id});
@@ -97,7 +97,7 @@ describe('Collapsed Reply Threads', () => {
             });
 
         // # Visit global threads
-        cy.visit(`/${testTeam.name}/threads`);
+        cy.uiVisitSidebarItem('threads');
 
         // * The sole thread item should have text in footer saying '2 replies'
         cy.get('article.ThreadItem').find('.activity').should('have.text', '2 replies');
