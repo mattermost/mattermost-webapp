@@ -58,8 +58,8 @@ describe('System Console - Authentication', () => {
         },
         {
             section: 'Authentication',
-            header: 'Guest Access (Beta)',
-            sidebar: 'Guest Access (Beta)',
+            header: 'Guest Access',
+            sidebar: 'Guest Access',
             url: 'admin_console/authentication/guest_access',
         },
     ];

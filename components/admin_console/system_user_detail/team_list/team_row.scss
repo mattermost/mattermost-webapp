@@ -3,25 +3,27 @@
 
 .TeamRow {
     &:nth-child(odd) {
-        background: alpha-color($white, .5);
+        background: alpha-color($white, 0.5);
     }
 }
 
 .TeamRow__row {
+    display: flex;
+    height: 80px;
+    flex-direction: row;
     align-items: center;
     border: 2px solid $transparent;
-    display: flex;
-    flex-direction: row;
-    height: 80px;
 }
 
 .TeamRow__row .TeamRow__team-name {
     display: inline-block;
     min-width: 300px;
     flex-grow: 3;
+
     .TeamIcon {
-        margin-right: 0px;
+        margin-right: 0;
     }
+
     .TeamRow__team-description {
         min-width: 276px;
         max-width: 400px;
@@ -34,26 +36,31 @@
 }
 
 .TeamRow__row .TeamRow__description {
-    align-items: center;
     display: flex;
-    height: 100%;
     overflow: hidden;
     width: 150px;
     max-width: 400px;
+    height: 100%;
+    align-items: center;
+
     &.adjusted {
         width: 120px;
     }
+
     i {
         margin-right: 5px;
     }
+
     > a {
+        padding: 3px 5px;
         color: $black;
         text-decoration: none;
-        padding: 3px 5px;
+
         &:hover {
             background-color: $light-gray;
             border-radius: 3px;
         }
+
         &.warning {
             color: $red;
         }
@@ -61,12 +68,12 @@
 }
 
 .TeamRow__row .TeamRow__actions {
-    align-items: center;
-    justify-content: flex-end;
     display: flex;
-    height: 100%;
     width: 150px;
     max-width: 400px;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-end;
     padding-right: 15px;
 }
 

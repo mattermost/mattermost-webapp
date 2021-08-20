@@ -5,7 +5,7 @@ exports[`components/integrations/InstalledOutgoingWebhook Should match snapshot 
 exports[`components/integrations/InstalledOutgoingWebhook Should match snapshot of makeDisplayName 2`] = `"channel display name"`;
 
 exports[`components/integrations/InstalledOutgoingWebhook Should match snapshot of makeDisplayName 3`] = `
-<FormattedMessage
+<Memo(MemoizedFormattedMessage)
   defaultMessage="A Private Webhook"
   id="installed_outgoing_webhooks.unknown_channel"
 />
@@ -33,7 +33,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
           className="style--none color--link"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Regen Token"
             id="installed_integrations.regenToken"
           />
@@ -42,7 +42,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
         <Link
           to="/test/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
           />
@@ -69,7 +69,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
       <span
         className="item-details__content_type"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Content-Type: {contentType}"
           id="installed_integrations.content_type"
           values={
@@ -86,7 +86,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
       <span
         className="item-details__trigger-words"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Trigger Words: {triggerWords}"
           id="installed_integrations.triggerWords"
           values={
@@ -103,12 +103,12 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
       <span
         className="item-details__trigger-when"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Trigger When: {triggerWhen}"
           id="installed_integrations.triggerWhen"
           values={
             Object {
-              "triggerWhen": <FormattedMessage
+              "triggerWhen": <Memo(MemoizedFormattedMessage)
                 defaultMessage="First word matches a trigger word exactly"
                 id="add_outgoing_webhook.triggerWordsTriggerWhenFullWord"
               />,
@@ -123,7 +123,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
       <span
         className="item-details__token"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Token: {token}"
           id="installed_integrations.token"
           values={
@@ -145,7 +145,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
       <span
         className="item-details__creation"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Created by {creator} on {createAt, date, full}"
           id="installed_integrations.creation"
           values={
@@ -163,7 +163,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
       <span
         className="item-details__url word-break--all"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Callback URLs: {urls}"
           id="installed_integrations.callback_urls"
           values={

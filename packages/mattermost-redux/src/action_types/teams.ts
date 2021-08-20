@@ -40,6 +40,7 @@ export default keyMirror({
     RECEIVED_TEAM: null,
     RECEIVED_TEAMS: null,
     RECEIVED_TEAM_DELETED: null,
+    RECEIVED_TEAM_UNARCHIVED: null,
     RECEIVED_TEAMS_LIST: null,
     RECEIVED_MY_TEAM_MEMBERS: null,
     RECEIVED_MY_TEAM_MEMBER: null,

@@ -41,7 +41,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
       componentClass="h1"
       id="renameChannelModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Rename Channel"
         id="rename_channel.title"
       />
@@ -60,7 +60,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
         <label
           className="control-label"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Display Name"
             id="rename_channel.displayName"
           />
@@ -132,7 +132,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
         <p
           className="input__help"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="You can use lowercase letters, numbers, dashes, and underscores."
             id="change_url.helpText"
           />
@@ -148,7 +148,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Cancel"
           id="rename_channel.cancel"
         />
@@ -159,7 +159,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
         onClick={[Function]}
         type="submit"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Save"
           id="rename_channel.save"
         />

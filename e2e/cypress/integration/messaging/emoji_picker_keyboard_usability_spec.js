@@ -56,7 +56,7 @@ describe('MM-13064 - Emoji picker keyboard usability', () => {
         cy.get('.emoji-picker__item.selected').should('exist').within(() => {
             cy.findByTestId('smile').should('exist');
         });
-        cy.get('#emojiPickerAliasesPreview').should('have.text', ':smile:');
+        cy.get('.emoji-picker__preview').should('have.text', ':smile:');
 
         // * Should highlight and preview the second emoji ("smile_cat") on second right arrow key
         cy.findByLabelText('Search for an emoji').
@@ -67,28 +67,28 @@ describe('MM-13064 - Emoji picker keyboard usability', () => {
         cy.get('.emoji-picker__item.selected').should('exist').within(() => {
             cy.findByTestId('smile_cat').should('exist');
         });
-        cy.get('#emojiPickerAliasesPreview').should('have.text', ':smile_cat:');
+        cy.get('.emoji-picker__preview').should('have.text', ':smile_cat:');
     });
 
     it('On up or down arrow key press, move the selection up or down the emoji items', () => {
         // * Check initial state of emoji preview
-        cy.get('.emoji-picker__preview').should('have.text', 'Emoji Picker');
+        cy.get('.emoji-picker__preview').should('have.text', 'Select an Emoji');
 
         // # Press down arrow and verify selected emoji
         cy.get('body').type('{downarrow}');
-        cy.get('#emojiPickerAliasesPreview').should('have.text', ':grinning:');
+        cy.get('.emoji-picker__preview').should('have.text', ':grinning:');
 
         // # Again, press down arrow and verify next selected emoji
         cy.get('body').type('{downarrow}');
-        cy.get('#emojiPickerAliasesPreview').should('have.text', ':blush:');
+        cy.get('.emoji-picker__preview').should('have.text', ':upside_down_face:');
 
         // # Press up arrow and verify previously selected emoji
         cy.get('body').type('{uparrow}');
-        cy.get('#emojiPickerAliasesPreview').should('have.text', ':grinning:');
+        cy.get('.emoji-picker__preview').should('have.text', ':grinning:');
 
         // # Again, press up arrow and nothing is selected
         cy.get('body').type('{uparrow}');
-        cy.get('.emoji-picker__preview').should('have.text', 'Emoji Picker');
+        cy.get('.emoji-picker__preview').should('have.text', 'Select an Emoji');
     });
 
     it('On up arrow key, move around search input or highlight the text when holding shift key', () => {

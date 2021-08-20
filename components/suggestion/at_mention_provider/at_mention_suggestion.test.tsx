@@ -38,8 +38,8 @@ describe('at mention suggestion', () => {
 
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('.light.ml-2').text()).toEqual('a b');
-        expect(wrapper.find('.light.ml-2').text()).not.toEqual('a b (c)');
+        expect(wrapper.find('.ml-2').text()).toEqual('a b');
+        expect(wrapper.find('.ml-2').text()).not.toEqual('a b (c)');
     });
 
     it('Should display nick name of non signed in user', () => {
@@ -53,6 +53,6 @@ describe('at mention suggestion', () => {
 
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('.light.ml-2').text()).toEqual('a b (c)');
+        expect(wrapper.find('.ml-2').text()).toEqual('a b (c)');
     });
 });

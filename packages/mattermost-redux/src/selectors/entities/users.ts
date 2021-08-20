@@ -639,7 +639,7 @@ export function makeGetProfilesByIdsAndUsernames(): (
     );
 }
 
-export function makeGetDisplayName(): (state: GlobalState, userId: $ID<UserProfile>, useFallbackUsername: boolean) => string {
+export function makeGetDisplayName(): (state: GlobalState, userId: $ID<UserProfile>, useFallbackUsername?: boolean) => string {
     return createSelector(
         'makeGetDisplayName',
         (state: GlobalState, userId: string) => getUser(state, userId),

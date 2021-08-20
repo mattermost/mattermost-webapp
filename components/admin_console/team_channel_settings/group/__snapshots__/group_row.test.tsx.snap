@@ -31,7 +31,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
         dialogType={[Function]}
         id="DNMembersToggle"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="{memberCount, number} {memberCount, plural, one {member} other {members}}"
           id="admin.team_channel_settings.group_row.members"
           values={
@@ -54,7 +54,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
             data-testid="current-role"
           >
             <span>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Member"
                 id="admin.team_channel_settings.group_row.member"
               />
@@ -88,7 +88,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
         href="#"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Remove"
           id="admin.team_channel_settings.group_row.remove"
         />

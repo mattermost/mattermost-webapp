@@ -93,6 +93,18 @@ describe('Actions.Posts', () => {
                         roles: 'channel_role',
                     },
                 },
+                roles: {
+                    [latestPost.channel_id]: [
+                        'current_channel_id',
+                        'current_user_id',
+                        'channel_role',
+                    ],
+                    other_channel_id: [
+                        'other_channel_id',
+                        'current_user_id',
+                        'channel_role',
+                    ],
+                },
                 channels: {
                     current_channel_id: {team_a: 'team_a', id: 'current_channel_id'},
                 },

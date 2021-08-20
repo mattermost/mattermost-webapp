@@ -18,7 +18,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           loading={false}
           text="Loading..."
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Button Text"
             id="test"
           />
@@ -28,7 +28,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     <div
       className="help-text"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Help Text"
         id="test"
       />
@@ -40,7 +40,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
 exports[`components/admin_console/request_button/request_button.jsx should match snapshot with request error 1`] = `
 <RequestButton
   buttonText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Button Text"
       id="test"
     />
@@ -53,7 +53,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     }
   }
   helpText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Help Text"
       id="test"
     />
@@ -169,7 +169,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
 exports[`components/admin_console/request_button/request_button.jsx should match snapshot with request error 2`] = `
 <RequestButton
   buttonText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Button Text"
       id="test"
     />
@@ -182,7 +182,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     }
   }
   helpText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Help Text"
       id="test"
     />
@@ -306,7 +306,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
 exports[`components/admin_console/request_button/request_button.jsx should match snapshot with successMessage 1`] = `
 <RequestButton
   buttonText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Button Text"
       id="test"
     />
@@ -319,7 +319,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     }
   }
   helpText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Help Text"
       id="test"
     />
@@ -428,7 +428,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
 exports[`components/admin_console/request_button/request_button.jsx should match snapshot with successMessage 2`] = `
 <RequestButton
   buttonText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Button Text"
       id="test"
     />
@@ -441,7 +441,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
     }
   }
   helpText={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Help Text"
       id="test"
     />

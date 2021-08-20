@@ -40,6 +40,7 @@ describe('Extended Session Length', () => {
             ldapUser = {...user, password: ldapUserTest1.password};
 
             cy.apiAdminLogin();
+            cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
             cy.apiInitSetup().then(({team}) => {
                 cy.apiAddUserToTeam(team.id, user.id);
             });

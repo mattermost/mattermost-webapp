@@ -1,13 +1,10 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 .modal {
-    .channel-switcher {
+    .channel-switcher,
+    .channel-invite {
         &.modal-dialog {
             margin-top: calc(50vh - 240px);
-        }
-
-        .suggestion-list {
-            position: relative;
         }
 
         .modal-body {
@@ -15,200 +12,69 @@
             padding: 0;
         }
 
-        .suggestion-list__content {
-            height: calc(100vh - 110px);
-            max-height: 100%;
-        }
-
         .modal-content {
             border-radius: 8px;
         }
 
         .modal-header {
-            background: transparent;
-            border: none;
             min-height: 0;
             padding: 0;
+            border: none;
+            background: transparent;
 
             .close {
-                color: rgba(var(--center-channel-color-rgb), 0.56);
+                top: 6px;
+                right: 4px;
+                display: flex;
                 width: 4rem;
                 height: 4rem;
-                font-size: 32px;
-                font-weight: 400;
-                display: flex;
                 align-items: center;
                 justify-content: center;
-                right: 4px;
-                top: 6px;
                 border-radius: 4px;
-
-                &:hover {
-                    background-color: rgba(var(--center-channel-color-rgb), 0.08);
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
-                }
-
-                &:active {
-                    background-color: rgba(var(--button-bg-rgb), 0.08);
-                    color: v(button-bg);
-                }
+                font-size: 32px;
+                font-weight: 400;
             }
         }
     }
 
-    .channel-switcher__content {
-        .multi-select__container {
-            padding: 0 2.4rem;
+    .channel-switcher {
+        .suggestion-list {
+            position: relative;
         }
 
-        .react-select__multi-value {
-            border-radius: 50px;
-        }
-
-        .multi-select__help {
-            padding: 8px 2.4rem 0;
-        }
-
-        .filtered-user-list {
-            display: block;
-            height: auto;
-        }
-
-        .react-select__multi-value__label {
-            color: inherit;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            font-weight: 600;
-            padding: 4px;
-        }
-
-        .react-select__value__name {
-            margin: 0 0 0 8px;
-        }
-
-        .react-select__multi-value__remove {
-            margin-right: 4px;
-        }
-
-        .multi-select__wrapper {
-            padding: 12px 0;
-            height: auto;
-            overflow: auto;
-            position: absolute;
-            width: calc(100% - 48px);
-            margin: -28px 0 0 24px;
-            background: rgba(var(--sys-center-channel-bg-rgb), 1);
-            box-shadow: $elevation-4;
-            border-radius: 4px;
-            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
-            max-height: 272px;
-            z-index: 5;
-
-            .app__body & {
-                background: rgba(var(--center-channel-bg-rgb), 1);
-                border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-            }
-        }
-
-        .channel-switcher__footer {
-            padding: 0 24px 24px 0;
-            text-align: right;
-        }
-
-        .btn-primary {
-            font-size: 14px;
-            font-weight: 600;
-            padding: 0 36px;
-            height: 40px;
-            border-radius: 4px;
-        }
-
-        .no-channel-message {
-            padding: 1rem;
-            font-size: 1.4rem;
-
-            .primary-message {
-                font-size: inherit;
-                margin: 0;
-            }
-        }
-
-        .react-select__value-container {
-            padding: 0 16px;
-            font-size: 16px;
-
-            &.react-select__value-container--has-value {
-                padding: 0 8px;
-            }
-        }
-
-        .more-modal__list {
-            height: auto;
-
-            .more-modal__options {
-                min-height: auto;
-                overflow: visible;
-            }
-        }
-
-        .react-select__control.react-select-auto {
-            min-height: 48px;
-            padding: 3px 0;
-        }
-
-        .loading-screen {
-            position: relative !important;
-            padding: 1rem;
-        }
-
-        .more-modal__actions {
-            display: none;
-        }
-
-        .more-modal__row {
-            border: none;
-            height: 40px;
-            padding: 0 2.4rem;
-
-
-            .more-modal__name {
-                font-weight: 400;
-            }
-        }
-
-        .more-modal__details {
-            padding-left: 12px;
+        .suggestion-list__content {
+            height: calc(100vh - 110px);
+            max-height: 100%;
         }
     }
 
     .channel-switcher__suggestion-box {
-        height: 362px;
         position: relative;
+        height: 362px;
         padding: 0;
 
         .icon-magnify {
-            opacity: .48;
+            position: absolute;
+            top: 1.1rem;
+            left: 3.4rem;
+            display: flex;
             width: 2rem;
             height: 2rem;
-            display: flex;
             align-items: center;
-            top: 1.1rem;
-            position: absolute;
-            left: 3.4rem;
+            opacity: 0.48;
         }
 
         .badge {
-            right: 16px;
             top: 10px;
+            right: 16px;
         }
 
         .form-control {
-            padding: 0 34px;
-            height: 40px;
-            border-radius: 4px;
-            margin: 0 24px;
             width: calc(100% - 48px);
+            height: 40px;
+            padding: 0 34px;
+            margin: 0 24px;
+            border-radius: 4px;
 
             &:focus {
                 padding: 0 33px;
@@ -223,27 +89,27 @@
         }
 
         .suggestion-list__content {
-            height: auto;
-            width: 100%;
-            box-shadow: none;
-            border: none;
             overflow: auto;
+            width: 100%;
+            height: auto;
             padding: 0;
+            border: none;
+            box-shadow: none;
         }
 
         .status-wrapper {
-            height: 24px;
             overflow: visible;
+            height: 24px;
             margin-top: 4px;
             margin-right: 12px;
 
             .status {
-                bottom: -4px;
                 right: -2px;
+                bottom: -4px;
 
                 svg {
-                    max-width: 11px;
                     left: 2px;
+                    max-width: 11px;
                 }
             }
         }
@@ -251,7 +117,6 @@
         .Avatar {
             width: 24px;
             height: 24px;
-            min-width: auto;
 
             &-sm {
                 margin: 0;
@@ -262,7 +127,7 @@
             &:first-child {
                 margin: 0;
 
-                &:before {
+                &::before {
                     display: none;
                 }
             }
@@ -274,16 +139,69 @@
     }
 }
 
+body.app__body {
+    .modal {
+        .channel-switcher,
+        .channel-invite {
+            .modal-header {
+                .close {
+                    // This rule needs to be very specific to override the colour of the close button used for other modals
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+
+                    &:hover {
+                        background-color:
+                            rgba(
+                                var(--center-channel-color-rgb),
+                                0.08
+                            );
+                        color: rgba(var(--center-channel-color-rgb), 0.72);
+                    }
+
+                    &:active {
+                        background-color: rgba(var(--button-bg-rgb), 0.08);
+                        color: var(--button-bg);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Colour overrides for the System Console
+body:not(.app__body) {
+    .channel-switcher,
+    .channel-invite {
+        .close {
+            color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+
+            &:hover {
+                background-color:
+                    rgba(
+                        var(--sys-center-channel-color-rgb),
+                        0.08
+                    );
+                color: rgba(var(--sys-center-channel-color-rgb), 0.72);
+            }
+
+            &:active {
+                background-color: rgba(var(--sys-button-bg-rgb), 0.08);
+                color: var(--sys-button-bg);
+            }
+        }
+    }
+}
+
 .channel-switcher__hint {
     font-size: 12px;
 }
 
-.channel-switcher__header {
+.channel-switcher__header,
+.channel-invite__header {
     padding: 2.4rem 2.4rem 1.6rem;
 
     h1 {
-        font-weight: 600;
+        margin: 0 0 0.8rem;
         font-size: 2rem;
-        margin: 0 0 .8rem;
+        font-weight: 600;
     }
 }

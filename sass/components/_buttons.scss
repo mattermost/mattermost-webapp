@@ -3,17 +3,17 @@
 button {
     .unread-badge {
         display: inline-block;
-        border-radius: 50%;
         width: 8px;
         height: 8px;
         margin: 0 0 0 40px;
-        background: #F74343;
+        background: #f74343;
+        border-radius: 50%;
     }
 
     &.style--none {
-        background: transparent;
-        border: none;
         padding: 0;
+        border: none;
+        background: transparent;
 
         &:focus {
             outline: 0;
@@ -25,8 +25,8 @@ button {
         }
 
         &.btn--block {
-            text-align: left;
             width: 100%;
+            text-align: left;
         }
 
         &:hover,
@@ -37,12 +37,12 @@ button {
 }
 
 .btn {
-    @include single-transition(all, .15s, ease);
+    @include single-transition(all, 0.15s, ease);
     @include border-radius($border-rad);
 
     &.btn-primary {
-        background: $primary-color;
         border-color: transparent;
+        background: $primary-color;
 
         &:hover,
         &:focus,
@@ -72,14 +72,14 @@ button {
     }
 
     &.btn-transparent {
-        background: transparent;
-        border: none;
         padding: 7px 12px;
+        border: none;
+        background: transparent;
     }
 
     &.btn-inactive {
-        background: $light-gray;
         border-color: transparent;
+        background: $light-gray;
         color: $white;
     }
 
@@ -104,31 +104,31 @@ button {
 }
 
 %btn-transition {
-    @include single-transition(all, .15s, ease);
+    @include single-transition(all, 0.15s, ease);
 }
 
 .btn-icon {
-    padding: 0;
-    background: transparent;
-    border: none;
-    border-radius: 4px;
     width: 3.2rem;
     height: 3.2rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    fill: rgba(var(--center-channel-color-rgb), 0.56);
     font-size: 1.6rem;
-    fill: v(center-channel-color-56);
-    color: v(center-channel-color-56);
 
     &:hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);
-        fill: v(center-channel-color-72);
-        color: v(center-channel-color-72);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        fill: rgba(var(--center-channel-color-rgb), 0.72);
     }
 
     &:active,
     &--active,
     &--active:hover {
         background: rgba(var(--button-bg-rgb), 0.08);
-        fill: v(button-bg);
         color: v(button-bg);
+        fill: v(button-bg);
     }
 }

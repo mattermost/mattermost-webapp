@@ -270,9 +270,8 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const areSelectedAndSetStatusSame = areEmojiAndTextSame && duration === currentCustomStatus?.duration;
 
     const showSuggestions = !isStatusSet || areSelectedAndSetStatusSame;
-    const isCustomExpiryTimeSame = (duration === DATE_AND_TIME || duration === CUSTOM_DATE_TIME) && customExpiryTime.isSame(moment(currentCustomStatus?.expires_at));
 
-    const disableSetStatus = showSuggestions || text.length > CUSTOM_STATUS_TEXT_CHARACTER_LIMIT || (areEmojiAndTextSame && isCustomExpiryTimeSame);
+    const disableSetStatus = !isStatusSet || text.length > CUSTOM_STATUS_TEXT_CHARACTER_LIMIT;
 
     const showDateAndTimeField = !showSuggestions && (duration === CUSTOM_DATE_TIME || duration === DATE_AND_TIME);
 

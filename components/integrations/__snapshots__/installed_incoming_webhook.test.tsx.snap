@@ -21,7 +21,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
         <Link
           to="/test/integrations/incoming_webhooks/edit?id=9w96t4nhbfdiij64wfqors4i1r"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Edit"
             id="installed_integrations.edit"
           />
@@ -48,7 +48,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
       <span
         className="item-details__url word-break--all"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="URL: {url}"
           id="installed_integrations.url"
           values={
@@ -72,7 +72,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
       <span
         className="item-details__creation"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Created by {creator} on {createAt, date, full}"
           id="installed_integrations.creation"
           values={

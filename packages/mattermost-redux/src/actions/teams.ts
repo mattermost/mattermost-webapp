@@ -17,6 +17,8 @@ import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWith
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
+
 import {selectChannel} from './channels';
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
@@ -74,10 +76,13 @@ export function getMyTeams(): ActionFunc {
     });
 }
 
-export function getMyTeamUnreads(): ActionFunc {
+export function getMyTeamUnreads(collapsedThreads: boolean): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getMyTeamUnreads,
         onSuccess: TeamTypes.RECEIVED_MY_TEAM_UNREADS,
+        params: [
+            collapsedThreads,
+        ],
     });
 }
 
@@ -246,6 +251,26 @@ export function deleteTeam(teamId: string): ActionFunc {
         );
 
         dispatch(batchActions(actions));
+
+        return {data: true};
+    };
+}
+
+export function unarchiveTeam(teamId: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let team: Team;
+        try {
+            team = await Client4.unarchiveTeam(teamId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: TeamTypes.RECEIVED_TEAM_UNARCHIVED,
+            data: team,
+        });
 
         return {data: true};
     };
@@ -667,7 +692,7 @@ export function joinTeam(inviteId: string, teamId: string): ActionFunc {
             return {error};
         }
 
-        getMyTeamUnreads()(dispatch, getState);
+        dispatch(getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
 
         await Promise.all([
             getTeam(teamId)(dispatch, getState),

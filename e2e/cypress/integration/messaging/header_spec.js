@@ -48,7 +48,9 @@ describe('Header', () => {
 
         // # Open a DM with other user
         cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
-        cy.focused().type(otherUser.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.focused().
+            type(otherUser.username, {force: true}).wait(TIMEOUTS.HALF_SEC).
+            type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
         cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Update DM channel header
@@ -59,7 +61,7 @@ describe('Header', () => {
         // # Click the header to see the whole text
         cy.get('#channelHeaderDescription').click();
 
-        // * Check that no elippsis is present
+        // * Check that no ellipsis is present
         cy.get('#header-popover > div.popover-content').
             should('have.html', `<span><blockquote>\n<p>${header}</p>\n</blockquote></span>`);
 

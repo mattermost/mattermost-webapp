@@ -1,14 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/RhsComment should match snapshot 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -39,7 +55,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -114,7 +129,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -139,7 +153,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -152,18 +165,34 @@ exports[`components/RhsComment should match snapshot 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsComment should match snapshot hovered 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -194,7 +223,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -270,7 +298,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -315,7 +342,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -340,7 +366,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -353,18 +378,35 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsComment should match snapshot hovered on deleted post 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "state": "DELETED",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -395,7 +437,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -482,7 +523,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -508,7 +548,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -522,18 +561,34 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsComment should match snapshot mobile 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -564,7 +619,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -640,7 +694,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -680,7 +733,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -705,7 +757,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -718,18 +769,34 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -760,7 +827,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -845,7 +911,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -876,7 +941,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -901,7 +965,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -914,18 +977,34 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;
 
 exports[`components/RhsComment should match snapshot when highlighted 1`] = `
-<div
-  aria-label=""
+<PostAriaLabelDiv
   className="a11y__section post post--thread same--root post--comment post--highlight current--user post--compact"
   id="rhsPost_id"
   onClick={[Function]}
-  onFocus={[Function]}
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
   role="listitem"
   tabIndex="-1"
 >
@@ -956,7 +1035,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
             "is_pinned": false,
             "message": "post message",
             "original_id": "",
-            "parent_id": "",
             "pending_post_id": "",
             "props": Object {},
             "root_id": "",
@@ -1032,7 +1110,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -1072,7 +1149,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
                 "is_pinned": false,
                 "message": "post message",
                 "original_id": "",
-                "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
                 "root_id": "",
@@ -1097,7 +1173,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
               "is_pinned": false,
               "message": "post message",
               "original_id": "",
-              "parent_id": "",
               "pending_post_id": "",
               "props": Object {},
               "root_id": "",
@@ -1110,5 +1185,5 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
       </div>
     </div>
   </div>
-</div>
+</PostAriaLabelDiv>
 `;

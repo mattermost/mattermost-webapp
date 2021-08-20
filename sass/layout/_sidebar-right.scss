@@ -2,12 +2,13 @@
 
 .sidebar--right {
     @include translateX(100%);
-    height: 100%;
-    padding: 0;
-    position: fixed;
+
+    position: absolute;
+    z-index: 11;
     right: 0;
     width: 400px;
-    z-index: 11;
+    height: 100%;
+    padding: 0;
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -18,7 +19,8 @@
     }
 
     &.sidebar--right--expanded {
-        @include box-shadow(0px 8px 24px alpha-color($black, .24));
+        @include box-shadow(0 8px 24px alpha-color($black, 0.24));
+
         z-index: 13;
 
         .sidebar-right__body {
@@ -28,24 +30,22 @@
         &.move--left {
             transition: width 0.25s 0s ease-in, z-index 0.15s 0.1s step-start;
         }
-    }
 
-    .sidebar--right__bg {
-        background-color: transparent;
-        height: 110%;
-        position: absolute;
-        top: -70px;
-        visibility: hidden;
-        z-index: 5;
-        // Since the element (sidebar--right__bg) is tied to the sidebar, we need to expand beyond it, we're given an arbitrary large width and left positioning so that it may take the width completely
-        width: 1000%;
-        left: -500%;
-    }
-
-    &.sidebar--right--expanded {
         .sidebar--right__bg {
             visibility: visible;
         }
+    }
+
+    .sidebar--right__bg {
+        position: absolute;
+        z-index: 5;
+        top: -70px;
+        left: -500%;
+        // Since the element (sidebar--right__bg) is tied to the sidebar, we need to expand beyond it, we're given an arbitrary large width and left positioning so that it may take the width completely
+        width: 1000%;
+        height: 110%;
+        background-color: transparent;
+        visibility: hidden;
     }
 
     .sidebar-right__table {
@@ -74,21 +74,22 @@
     .sidebar--right__content {
         @include display-flex;
         @include flex-direction(column);
+
         height: 100%;
     }
 
     .sidebar--right__back {
-        @include single-transition(all, .2s, ease-in);
-        border-radius: 4px;
-        text-decoration: none;
-        color: rgba(var(--center-channel-color-rgb), 0.56);
-        font-size: 12px;
+        @include single-transition(all, 0.2s, ease-in);
+
+        display: flex;
         width: 2.4rem;
         height: 2.4rem;
-        margin-right: 4px;
-        display: flex;
         align-items: center;
         justify-content: center;
+        margin-right: 4px;
+        border-radius: 4px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 12px;
         text-decoration: none;
 
         &:hover {
@@ -106,14 +107,15 @@
         @include display-flex;
         @include flex(1 1 auto);
         @include flex-direction(column);
-        background: v(center-channel-bg);
-        border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+
         height: calc(100% - 56px);
+        border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
+        background: v(center-channel-bg);
 
         .loading-screen {
             position: relative;
             height: 40px;
-            padding: 0px;
+            padding: 0;
 
             .loading__content {
                 height: 40px;
@@ -132,13 +134,14 @@
     }
 
     .sidebar__overlay {
-        @include opacity(.1);
-        background-color: $yellow;
-        height: 100%;
-        pointer-events: none;
+        @include opacity(0.1);
+
         position: absolute;
-        width: 100%;
         z-index: 5;
+        width: 100%;
+        height: 100%;
+        background-color: $yellow;
+        pointer-events: none;
     }
 
     .input-group {
@@ -162,59 +165,63 @@
     }
 
     .sidebar--right__title {
-        height: 2.4rem;
-        @include clearfix;
         display: flex;
+        height: 2.4rem;
         flex: 1 1 auto;
+        padding: 0 1.6rem;
+        font-family: Metropolis, sans-serif;
         font-size: 1.6rem;
         font-weight: 600;
-        padding: 0 1.6rem;
+
+        @include clearfix;
     }
 
     .sidebar--right__title__channel {
-        border-left: 1px solid v(center-channel-color-16);
+        overflow: hidden;
+        height: 2.4rem;
+        padding: 0 8px;
+        border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        margin: 0 0 0 8px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
         cursor: pointer;
-        margin: 0 0 0 8px;
+        font-family: "Open Sans", sans-serif;
         font-size: 12px;
         font-weight: normal;
-        height: 2.4rem;
         line-height: 2.4rem;
-        padding: 0 8px;
-        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
 
         &:hover {
-            border-radius: 4px;
             border-color: transparent;
             background: rgba(var(--center-channel-color-rgb), 0.08);
+            border-radius: 4px;
             color: rgba(var(--center-channel-color-rgb), 0.72);
         }
 
         &:active {
-            color: v(button-bg);
             background: rgba(var(--button-bg-rgb), 0.08);
+            color: v(button-bg);
         }
     }
 
     .sidebar--right__follow__thread {
-        margin-right: 4px;
         height: 2.4rem;
+        margin-right: 4px;
         font-size: 12px;
         line-height: 16px;
     }
 
     .sidebar--right__header {
         @include flex(0 0 56px);
+
         display: flex;
+        overflow: hidden;
         align-items: center;
         justify-content: space-between;
-        background: rgba(var(--center-channel-color-rgb), 0.04);
-        border-bottom: 1px solid v(center-channel-color-08);
-        color: inherit;
-        overflow: hidden;
         padding: 0 16px 0 0;
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+        background: rgba(var(--center-channel-color-rgb), 0.04);
+        color: inherit;
         white-space: nowrap;
 
         .btn-icon {
@@ -223,13 +230,14 @@
 
         .controls {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
+            justify-content: flex-end;
         }
     }
 
     .sidebar--right__loading {
-        @include opacity(.7);
+        @include opacity(0.7);
+
         text-align: center;
 
         .fa {
@@ -239,36 +247,39 @@
 
     .sidebar--right__subheader {
         @include single-transition(width, 0.25s, ease-in);
-        font-size: 1em;
+
         width: 100%;
-        margin: auto;
         padding-bottom: 10vh;
+        margin: auto;
+        font-size: 1em;
 
         &.search__hints {
             margin: 0;
         }
 
         h4 {
-            font-size: 1em;
             margin: 0 0 16px;
+            font-size: 1em;
         }
 
         ul {
-            @include opacity(.7);
+            @include opacity(0.7);
+
             padding: 0 0 0 30px;
             margin: 0;
         }
 
         li {
-            font-size: .95em;
             padding-bottom: 10px;
+            font-size: 0.95em;
         }
 
         .usage__icon {
-            @include opacity(.9);
-            margin: 0 3px;
+            @include opacity(0.9);
+
             position: relative;
             top: 3px;
+            margin: 0 3px;
         }
 
         &.sidebar-expanded {
@@ -290,16 +301,17 @@
 }
 
 .sidebar-collapse {
-    @include single-transition(all, .2s, linear);
+    @include single-transition(all, 0.2s, linear);
     @include translateX(0);
-    cursor: pointer;
-    height: 48px;
-    text-align: center;
-    width: 45px;
+
     z-index: 5;
     display: flex;
-    justify-content: center;
+    width: 45px;
+    height: 48px;
     align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
 
     .fa {
         position: relative;

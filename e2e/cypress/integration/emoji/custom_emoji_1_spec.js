@@ -183,6 +183,15 @@ describe('Custom emojis', () => {
 
         // # Click on Save
         cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Wait until new custom emoji has been added
+        cy.waitUntil(() => cy.url().then((url) => {
+            return !url.includes('/emoji/add');
+        }, {
+            timeout: TIMEOUTS.ONE_MIN,
+            interval: TIMEOUTS.FIVE_SEC,
+        }));
+
         cy.findByText('Add Custom Emoji').should('be.visible');
 
         // # Go back to home channel

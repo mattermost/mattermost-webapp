@@ -65,6 +65,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
         }
 
         const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+        const isCRTReply = collapsedThreadsEnabled && post.root_id;
 
         actions.push(
             PostActions.receivedNewPost(post, collapsedThreadsEnabled),
@@ -76,12 +77,17 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
                     now: Date.now(),
                 },
             },
-            ...setChannelReadAndViewed(dispatch, getState, post, websocketMessageProps, fetchedChannelMember),
         );
 
+        const isCRTReplyByCurrentUser = isCRTReply && post.user_id === getCurrentUserId(state);
+        if (!isCRTReplyByCurrentUser) {
+            actions.push(
+                ...setChannelReadAndViewed(dispatch, getState, post, websocketMessageProps, fetchedChannelMember),
+            );
+        }
         dispatch(batchActions(actions));
 
-        if (collapsedThreadsEnabled && post.root_id) {
+        if (isCRTReply) {
             dispatch(setThreadRead(post));
         }
 

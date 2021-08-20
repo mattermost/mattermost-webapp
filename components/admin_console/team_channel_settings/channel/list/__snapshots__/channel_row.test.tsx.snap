@@ -25,7 +25,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelRow should match sna
     <span
       className="group-description adjusted row-content"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Manual Invites"
         id="admin.channel_settings.channel_row.managementMethod.manual"
       />
@@ -37,7 +37,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelRow should match sna
       <Link
         to="/admin_console/user_management/channels/C123"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Edit"
           id="admin.channel_settings.channel_row.configure"
         />

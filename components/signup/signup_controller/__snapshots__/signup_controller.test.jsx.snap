@@ -31,7 +31,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
         <h4
           className="color--light"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             id="web.root.signup_info"
           />
         </h4>
@@ -40,7 +40,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
         >
           <h5>
             <strong>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Create an account with:"
                 id="signup.title"
               />
@@ -53,7 +53,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
           <label
             className="control-label"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="The invite link was invalid.  Please speak with your Administrator to receive an invitation."
               id="signup_user_completed.invalid_invite"
             />
@@ -63,7 +63,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
       <span
         className="color--light"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Already have an account?"
           id="signup_user_completed.haveAccount"
         />
@@ -71,7 +71,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
         <Link
           to="/login?id=ppni7a9t87fn3j4d56rwocdctc"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Click here to sign in."
             id="signup_user_completed.signIn"
           />
@@ -106,7 +106,7 @@ exports[`components/SignupController should match snapshot for all signup option
         <h4
           className="color--light"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             id="web.root.signup_info"
           />
         </h4>
@@ -115,7 +115,7 @@ exports[`components/SignupController should match snapshot for all signup option
         >
           <h5>
             <strong>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Create an account with:"
                 id="signup.title"
               />
@@ -138,7 +138,7 @@ exports[`components/SignupController should match snapshot for all signup option
                 }
               }
             />
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Email and Password"
               id="signup.email"
             />
@@ -154,7 +154,7 @@ exports[`components/SignupController should match snapshot for all signup option
               className="icon"
             />
             <span>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="GitLab Single Sign-On"
                 id="signup.gitlab"
               />
@@ -165,7 +165,7 @@ exports[`components/SignupController should match snapshot for all signup option
       <span
         className="color--light"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Already have an account?"
           id="signup_user_completed.haveAccount"
         />
@@ -173,7 +173,7 @@ exports[`components/SignupController should match snapshot for all signup option
         <Link
           to="/login"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Click here to sign in."
             id="signup_user_completed.signIn"
           />
@@ -208,7 +208,7 @@ exports[`components/SignupController should match snapshot for all signup option
         <h4
           className="color--light"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             id="web.root.signup_info"
           />
         </h4>
@@ -217,7 +217,7 @@ exports[`components/SignupController should match snapshot for all signup option
         >
           <h5>
             <strong>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Create an account with:"
                 id="signup.title"
               />
@@ -240,7 +240,7 @@ exports[`components/SignupController should match snapshot for all signup option
                 }
               }
             />
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Email and Password"
               id="signup.email"
             />
@@ -256,7 +256,7 @@ exports[`components/SignupController should match snapshot for all signup option
               className="icon"
             />
             <span>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="GitLab Single Sign-On"
                 id="signup.gitlab"
               />
@@ -273,7 +273,7 @@ exports[`components/SignupController should match snapshot for all signup option
               className="icon"
             />
             <span>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Google Account"
                 id="signup.google"
               />
@@ -290,7 +290,7 @@ exports[`components/SignupController should match snapshot for all signup option
               className="icon"
             />
             <span>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Office 365"
                 id="signup.office365"
               />
@@ -331,7 +331,7 @@ exports[`components/SignupController should match snapshot for all signup option
               }
             />
             <span>
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="AD/LDAP Credentials"
                 id="signup.ldap"
               />
@@ -363,7 +363,7 @@ exports[`components/SignupController should match snapshot for all signup option
       <span
         className="color--light"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Already have an account?"
           id="signup_user_completed.haveAccount"
         />
@@ -371,7 +371,7 @@ exports[`components/SignupController should match snapshot for all signup option
         <Link
           to="/login"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Click here to sign in."
             id="signup_user_completed.signIn"
           />

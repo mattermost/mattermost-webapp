@@ -142,7 +142,7 @@ exports[`components/SingleImageView should match snapshot 2`] = `
         />
       </div>
     </div>
-    <Connect(ViewImageModal)
+    <Connect(FilePreviewModal)
       fileInfos={
         Array [
           Object {
@@ -320,7 +320,7 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
         />
       </div>
     </div>
-    <Connect(ViewImageModal)
+    <Connect(FilePreviewModal)
       fileInfos={
         Array [
           Object {
@@ -417,7 +417,7 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
         />
       </div>
     </div>
-    <Connect(ViewImageModal)
+    <Connect(FilePreviewModal)
       fileInfos={
         Array [
           Object {

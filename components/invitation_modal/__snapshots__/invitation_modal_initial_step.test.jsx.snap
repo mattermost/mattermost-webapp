@@ -42,12 +42,12 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
           id="invitation_modal.invite_members.title"
         />
       </h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels."
         id="invitation_modal.invite_members.description"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </div>
     <ArrowRightIcon
       className="arrow"
@@ -71,12 +71,12 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
           id="invitation_modal.invite_guests.title"
         />
       </h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invite guests to one or more channels. Guests only have access to messages, files, and people in the channels they are members of."
         id="invitation_modal.invite_guests.description"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </div>
     <ArrowRightIcon
       className="arrow"
@@ -127,12 +127,12 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
           id="invitation_modal.invite_members.title"
         />
       </h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invite new team members with a link. Team members have access to messages and files in open teams and public channels."
         id="invitation_modal.invite_members.description-email-disabled"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </div>
     <ArrowRightIcon
       className="arrow"
@@ -156,12 +156,12 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
           id="invitation_modal.invite_guests.title"
         />
       </h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invite guests to one or more channels. Guests only have access to messages, files, and people in the channels they are members of."
         id="invitation_modal.invite_guests.description"
       >
         <Component />
-      </FormattedMessage>
+      </MemoizedFormattedMessage>
     </div>
     <ArrowRightIcon
       className="arrow"

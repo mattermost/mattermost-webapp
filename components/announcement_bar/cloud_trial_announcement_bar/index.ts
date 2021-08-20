@@ -17,7 +17,7 @@ import {openModal} from 'actions/views/modals';
 
 import {GlobalState} from 'types/store';
 
-import {Preferences} from 'utils/constants';
+import {Preferences, TrialPeriodDays} from 'utils/constants';
 
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
 
@@ -34,6 +34,9 @@ function mapStateToProps(state: GlobalState) {
     if (isCloud && subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
+        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
+            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+        }
     }
 
     return {

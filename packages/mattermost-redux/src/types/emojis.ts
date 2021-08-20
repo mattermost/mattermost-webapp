@@ -29,6 +29,8 @@ export type SystemEmoji = {
     short_names: string[];
     category: EmojiCategory;
     batch: number;
+    skins?: string[];
+    skin_variations?: unknown[]; // we currently don't have a use for it other than knowing the field exists.
 };
 export type Emoji = SystemEmoji | CustomEmoji;
 export type EmojisState = {

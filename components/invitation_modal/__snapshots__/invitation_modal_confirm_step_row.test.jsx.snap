@@ -45,7 +45,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="reason"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="some message"
       id="some-id"
       values={

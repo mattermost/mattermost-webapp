@@ -394,6 +394,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                     checkOverflow={this.state.checkOverflow}
                     isAttachmentText={true}
                     text={attachment.text}
+                    maxHeight={200}
                 >
                     <Markdown
                         message={attachment.text || ''}

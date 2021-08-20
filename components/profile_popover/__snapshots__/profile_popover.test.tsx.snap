@@ -68,7 +68,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
           }
         }
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Send Message"
         id="user_profile.send.dm"
       />
@@ -157,7 +157,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
           }
         }
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Send Message"
         id="user_profile.send.dm"
       />
@@ -334,7 +334,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
           }
         }
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Send Message"
         id="user_profile.send.dm"
       />
@@ -469,7 +469,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
     <span
       className="user-profile-popover__heading"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Status"
         id="user_profile.custom_status"
       />
@@ -525,7 +525,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
           }
         }
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Send Message"
         id="user_profile.send.dm"
       />
@@ -667,7 +667,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
           }
         }
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Send Message"
         id="user_profile.send.dm"
       />
@@ -792,7 +792,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
     <span
       className="user-profile-popover__heading"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Status"
         id="user_profile.custom_status"
       />
@@ -802,7 +802,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
         className="user-popover__set-custom-status-btn"
         onClick={[Function]}
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Set a status"
           id="user_profile.custom_status.set_status"
         />
@@ -827,7 +827,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
           }
         }
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Edit Account Settings"
         id="user_profile.account.editSettings"
       />

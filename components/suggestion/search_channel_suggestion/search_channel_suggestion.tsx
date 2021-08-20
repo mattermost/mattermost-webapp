@@ -11,9 +11,7 @@ import Suggestion from '../suggestion';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-function itemToName(item: Channel, currentUser: string) {
-    let itemMarkup;
-
+function itemToName(item: Channel, currentUser: string): {icon: React.ReactElement; name: string; description: string} | null {
     if (item.type === Constants.DM_CHANNEL) {
         const profilePicture = (
             <Avatar
@@ -22,62 +20,67 @@ function itemToName(item: Channel, currentUser: string) {
             />
         );
 
-        itemMarkup = (
-            <React.Fragment>
-                {profilePicture}
-                <span className='ml-3'>{'@'}{item.display_name}</span>
-            </React.Fragment>
-        );
+        return {
+            icon: profilePicture,
+            name: '@' + item.display_name,
+            description: '',
+        };
     }
 
     if (item.type === Constants.GM_CHANNEL) {
-        itemMarkup = (
-            <React.Fragment>
-                <div className='search-autocomplete__icon'>
+        return {
+            icon: (
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
                     <div className='status status--group'>{'G'}</div>
-                </div>
-                <span className='ml-3'>{'@'}{item.display_name.replace(/ /g, '')}</span>
-            </React.Fragment>
-        );
+                </span>
+            ),
+            name: '@' + item.display_name.replace(/ /g, ''),
+            description: '',
+        };
     }
 
     if (item.type === Constants.OPEN_CHANNEL) {
-        itemMarkup = (
-            <React.Fragment>
-                <div className='search-autocomplete__icon'>
-                    <i className='icon light icon--standard icon--no-spacing icon-globe'/>
-                </div>
-                <span className='ml-3'>{item.display_name}</span>
-                <span className='ml-2 light'>{'~'}{item.name}</span>
-            </React.Fragment>
-        );
+        return {
+            icon: (
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon--standard icon--no-spacing icon-globe'/>
+                </span>
+            ),
+            name: item.display_name,
+            description: '~' + item.name,
+        };
     }
 
     if (item.type === Constants.PRIVATE_CHANNEL) {
-        itemMarkup = (
-            <React.Fragment>
-                <div className='search-autocomplete__icon'>
-                    <i className='icon light icon--standard icon--no-spacing icon-lock-outline'/>
-                </div>
-                <span className='ml-3'>{item.display_name}</span>
-                <span className='ml-2 light'>{'~'}{item.name}</span>
-            </React.Fragment>
-        );
+        return {
+            icon: (
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon--standard icon--no-spacing icon-lock-outline'/>
+                </span>
+            ),
+            name: item.display_name,
+            description: '~' + item.name,
+        };
     }
 
-    return itemMarkup;
+    return null;
 }
 
 export default class SearchChannelSuggestion extends Suggestion {
     render(): JSX.Element {
         const {item, isSelection, teammate, currentUser} = this.props;
 
-        let className = 'search-autocomplete__item';
+        let className = 'suggestion-list__item';
         if (isSelection) {
-            className += ' selected a11y--focused';
+            className += ' suggestion--selected';
         }
 
-        const name = itemToName(item, currentUser);
+        const nameObject = itemToName(item, currentUser);
+        if (!nameObject) {
+            return (<></>);
+        }
+
+        const {icon, name, description} = nameObject;
 
         let tag = null;
         if (item.type === Constants.DM_CHANNEL) {
@@ -96,12 +99,15 @@ export default class SearchChannelSuggestion extends Suggestion {
                 className={className}
                 {...Suggestion.baseProps}
             >
-                <span
-                    data-testid='listItem'
-                    className='search-autocomplete__name'
-                >
-                    {name}
-                </span>
+                {icon}
+                <div className={'suggestion-list__ellipsis'}>
+                    <span className='suggestion-list__main'>
+                        {name}
+                    </span>
+                    <span className='ml-2'>
+                        {description}
+                    </span>
+                </div>
                 {tag}
             </div>
         );

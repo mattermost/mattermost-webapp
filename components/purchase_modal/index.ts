@@ -25,6 +25,7 @@ import PurchaseModal from './purchase_modal';
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
+
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
         products: state.entities.cloud!.products,

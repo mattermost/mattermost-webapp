@@ -5,6 +5,7 @@
     .SidebarChannel {
         height: 100%;
     }
+
     .SidebarLink {
         width: 100%;
 
@@ -23,8 +24,8 @@
             padding-right: 16px;
 
             .badge {
-                visibility: visible;
                 position: initial;
+                visibility: visible;
             }
         }
     }
@@ -32,13 +33,13 @@
 
 // legacy
 .sidebar--left .SidebarGlobalThreads {
-    margin-top: 13px;
     padding-bottom: 0;
+    margin-top: 13px;
 
     .icon {
         width: auto;
-        margin-top: 1px;
         padding-left: 1px;
+        margin-top: 1px;
 
         svg {
             fill: rgba(var(--sidebar-text-rgb), 0.6);

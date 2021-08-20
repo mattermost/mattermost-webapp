@@ -7,13 +7,13 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
@@ -29,7 +29,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
@@ -61,7 +61,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <td
     className="type"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Channel (Private)"
       id="admin.group_settings.group_details.group_teams_and_channels_row.privateChannel"
     />
@@ -76,7 +76,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
       />
@@ -92,13 +92,13 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
@@ -114,7 +114,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
@@ -139,7 +139,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <td
     className="type"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Team (Private)"
       id="admin.group_settings.group_details.group_teams_and_channels_row.privateTeam"
     />
@@ -154,7 +154,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
       />
@@ -170,13 +170,13 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
@@ -192,7 +192,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
@@ -224,7 +224,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <td
     className="type"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Channel"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicChannel"
     />
@@ -239,7 +239,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
       />
@@ -255,13 +255,13 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
@@ -277,7 +277,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
@@ -302,7 +302,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <td
     className="type"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Team"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
     />
@@ -317,7 +317,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
       />
@@ -333,13 +333,13 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
@@ -355,7 +355,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
@@ -385,7 +385,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <td
     className="type"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Team"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
     />
@@ -400,7 +400,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
       />
@@ -416,13 +416,13 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Yes, Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_button"
       />
     }
     message={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Removing this membership will prevent future users in this group from being added to the {name} {displayType}."
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_body"
         values={
@@ -438,7 +438,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     onConfirm={[Function]}
     show={false}
     title={
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove Membership from the {name} {displayType}?"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove.confirm_header"
         values={
@@ -468,7 +468,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   <td
     className="type"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Team"
       id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
     />
@@ -483,7 +483,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       onClick={[Function]}
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remove"
         id="admin.group_settings.group_details.group_teams_and_channels_row.remove"
       />

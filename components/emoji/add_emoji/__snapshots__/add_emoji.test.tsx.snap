@@ -8,12 +8,12 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
     <Link
       to="/undefined/emoji"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Custom Emoji"
         id="emoji_list.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Add"
       id="add_emoji.header"
     />
@@ -32,7 +32,7 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
           className="control-label col-sm-4"
           htmlFor="name"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Name"
             id="add_emoji.name"
           />
@@ -51,7 +51,7 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name your emoji. The name can be up to 64 characters, and can contain lowercase letters, numbers, and the symbols '-' and '_'."
               id="add_emoji.name.help"
             />
@@ -65,7 +65,7 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
           className="control-label col-sm-4"
           htmlFor="image"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Image"
             id="add_emoji.image"
           />
@@ -80,7 +80,7 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
               <button
                 className="btn btn-primary"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Select"
                   id="add_emoji.image.button"
                 />
@@ -96,7 +96,7 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
             <div
               className="form__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Specify a .gif, .png, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels."
                 id="add_emoji.image.help"
               />
@@ -116,7 +116,7 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
           className="btn btn-link btn-sm"
           to="/undefined/emoji"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_emoji.cancel"
           />
@@ -128,7 +128,7 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
           spinningText="Saving..."
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Save"
             id="add_emoji.save"
           />
@@ -147,12 +147,12 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
     <Link
       to="/undefined/emoji"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Custom Emoji"
         id="emoji_list.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Add"
       id="add_emoji.header"
     />
@@ -171,7 +171,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           className="control-label col-sm-4"
           htmlFor="name"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Name"
             id="add_emoji.name"
           />
@@ -190,7 +190,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name your emoji. The name can be up to 64 characters, and can contain lowercase letters, numbers, and the symbols '-' and '_'."
               id="add_emoji.name.help"
             />
@@ -204,7 +204,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           className="control-label col-sm-4"
           htmlFor="image"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Image"
             id="add_emoji.image"
           />
@@ -219,7 +219,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
               <button
                 className="btn btn-primary"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Select"
                   id="add_emoji.image.button"
                 />
@@ -238,7 +238,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
             <div
               className="form__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Specify a .gif, .png, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels."
                 id="add_emoji.image.help"
               />
@@ -253,7 +253,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           className="control-label col-sm-4"
           htmlFor="preview"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Preview"
             id="add_emoji.preview"
           />
@@ -261,7 +261,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
         <div
           className="col-md-5 col-sm-8 add-emoji__preview"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="This is a sentence with {image} in it."
             id="add_emoji.preview.sentence"
             values={
@@ -291,7 +291,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           className="btn btn-link btn-sm"
           to="/undefined/emoji"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_emoji.cancel"
           />
@@ -303,7 +303,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
           spinningText="Saving..."
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Save"
             id="add_emoji.save"
           />
@@ -322,12 +322,12 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
     <Link
       to="/undefined/emoji"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Custom Emoji"
         id="emoji_list.header"
       />
     </Link>
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Add"
       id="add_emoji.header"
     />
@@ -346,7 +346,7 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
           className="control-label col-sm-4"
           htmlFor="name"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Name"
             id="add_emoji.name"
           />
@@ -365,7 +365,7 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
           <div
             className="form__help"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Name your emoji. The name can be up to 64 characters, and can contain lowercase letters, numbers, and the symbols '-' and '_'."
               id="add_emoji.name.help"
             />
@@ -379,7 +379,7 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
           className="control-label col-sm-4"
           htmlFor="image"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Image"
             id="add_emoji.image"
           />
@@ -394,7 +394,7 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
               <button
                 className="btn btn-primary"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Select"
                   id="add_emoji.image.button"
                 />
@@ -410,7 +410,7 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
             <div
               className="form__help"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Specify a .gif, .png, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels."
                 id="add_emoji.image.help"
               />
@@ -430,7 +430,7 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
           className="btn btn-link btn-sm"
           to="/undefined/emoji"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="add_emoji.cancel"
           />
@@ -442,7 +442,7 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
           spinningText="Saving..."
           type="submit"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Save"
             id="add_emoji.save"
           />

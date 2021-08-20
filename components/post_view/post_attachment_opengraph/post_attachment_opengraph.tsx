@@ -14,7 +14,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 import SizeAwareImage from 'components/size_aware_image';
 import ExternalImage from 'components/external_image';
 import {PostTypes} from 'utils/constants';
-import {isSystemMessage} from 'utils/post_utils.jsx';
+import {isSystemMessage} from 'utils/post_utils';
 import {useSafeUrl} from 'utils/url';
 
 import {getNearestPoint} from './get_nearest_point';

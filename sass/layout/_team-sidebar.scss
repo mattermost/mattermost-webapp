@@ -1,12 +1,13 @@
 .team-sidebar {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    left: 0;
     position: fixed;
-    text-align: center;
-    width: 65px;
     z-index: 17;
+    left: 0;
+    display: flex;
+    width: 65px;
+    height: 100%;
+    flex-direction: column;
+    background: var(--sidebar-teambar-bg);
+    text-align: center;
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -15,6 +16,7 @@
     .fa {
         @include single-transition(all, 0.15s, ease);
         @include opacity(0.6);
+
         color: var(--sidebar-header-text-color);
 
         &:hover {
@@ -23,53 +25,53 @@
     }
 
     .team-sidebar-bottom-plugin {
-        background-color: var(--sidebar-teambar-bg);
         width: 100%;
         flex: 0 0 auto;
         padding: 16px 0 6px;
+        background-color: var(--sidebar-teambar-bg);
     }
 
     .team-wrapper {
-        -webkit-overflow-scrolling: touch;
-        background-color: var(--sidebar-teambar-bg);
+        position: relative;
         overflow: hidden;
         height: 100%;
         flex: 1 1 auto;
-        position: relative;
+        background-color: var(--sidebar-teambar-bg);
+        -webkit-overflow-scrolling: touch;
 
         .draggable-team-container {
+            position: relative;
+            margin-right: auto;
             margin-bottom: 12px;
             margin-left: auto;
-            margin-right: auto;
-            position: relative;
         }
 
         .team-container {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
 
             &.unread {
                 .unread-badge {
                     position: absolute;
+                    z-index: 1;
                     top: -2px;
                     right: -3px;
-                    border-radius: 100%;
                     width: 8px;
                     height: 8px;
-                    box-shadow: 0 0 0 3px var(--sidebar-teambar-bg);
                     background: var(--mention-bg);
-                    z-index: 1;
+                    border-radius: 100%;
+                    box-shadow: 0 0 0 3px var(--sidebar-teambar-bg);
                 }
             }
 
             a {
                 display: block;
                 text-decoration: none;
-                transition: transform 0.1s;
                 transform: translate(0, 0);
                 transform-origin: center center;
+                transition: transform 0.1s;
 
                 &:active {
                     transform: translate(0, 2px);
@@ -83,13 +85,14 @@
             }
 
             button {
-                border: none;
                 padding: 0;
+                border: none;
                 text-decoration: none;
             }
 
             a.team-disabled {
                 @include opacity(0.5);
+
                 cursor: not-allowed;
             }
 
@@ -103,19 +106,19 @@
 
             .order-indicator {
                 position: absolute;
+                top: 28px;
+                left: 12px;
+                display: flex;
                 width: 16px;
                 height: 16px;
-                left: 12px;
-                top: 28px;
-                background: #000000;
-                border-radius: 4px;
-                display: flex;
                 justify-content: center;
-                text-align: center;
-                color: #ffffff;
+                background: #000;
+                border-radius: 4px;
+                color: #fff;
+                font-size: 12px;
                 font-style: normal;
                 font-weight: 500;
-                font-size: 12px;
+                text-align: center;
             }
 
             &.isDragging {

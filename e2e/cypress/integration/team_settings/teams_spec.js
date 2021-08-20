@@ -13,16 +13,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 
-function removeTeamMember(teamName, username) {
-    cy.apiAdminLogin();
-    cy.visit(`/${teamName}`);
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#manageMembers').click();
-    cy.get(`#teamMembersDropdown_${username}`).should('be.visible').click();
-    cy.get('#removeFromTeam').should('be.visible').click();
-    cy.get('.modal-header .close').click();
-}
-
 describe('Teams Suite', () => {
     let testTeam;
     let testUser;
@@ -198,11 +188,8 @@ describe('Teams Suite', () => {
         // # visit /
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
-
-        // # Click on team settings menu item
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open main menu and click "Team Settings"
+        cy.uiOpenMainMenu('Team Settings');
 
         // # Open edit settings for invite code
         cy.findByText('Invite Code').should('be.visible').click();
@@ -222,11 +209,8 @@ describe('Teams Suite', () => {
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
-
-        // # Click on team settings menu item
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open main menu and click "Team Settings"
+        cy.uiOpenMainMenu('Team Settings');
 
         // # Click on the team name menu item
         cy.findByText('Team Name').should('be.visible').click();
@@ -256,11 +240,8 @@ describe('Teams Suite', () => {
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
-
-        // # Click on team settings menu item
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open main menu and click "Team Settings"
+        cy.uiOpenMainMenu('Team Settings');
 
         // # Click on the team description menu item
         cy.findByText('Team Description').should('be.visible').click();
@@ -283,11 +264,8 @@ describe('Teams Suite', () => {
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
-
-        // # Click on team settings menu item
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open main menu and click "Team Settings"
+        cy.uiOpenMainMenu('Team Settings');
 
         // # Click on the team description menu item
         cy.findByText('Allow any user with an account on this server to join this team').should('be.visible').click();
@@ -318,13 +296,16 @@ describe('Teams Suite', () => {
     });
 
     it('MM-T2322 Do not allow anyone to join this team', () => {
+        // # Allow any user with an account on this server to join this new team
+        cy.apiCreateTeam().then(({team: joinableTeam}) => {
+            cy.apiPatchTeam(joinableTeam.id, {allow_open_invite: true});
+        });
+
+        // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
-
-        // # Click on team settings menu item
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open main menu and click "Team Settings"
+        cy.uiOpenMainMenu('Team Settings');
 
         // # Click on the team description menu item
         cy.findByText('Allow any user with an account on this server to join this team').should('be.visible').click();
@@ -342,13 +323,10 @@ describe('Teams Suite', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
+        // # Open main menu and click "Join Another Team"
+        cy.uiOpenMainMenu('Join Another Team');
 
-        // # Click on Join another team menu item
-        cy.findByText('Join Another Team').should('be.visible').click();
-
-        // # Verify the original test team isn't on the lit
+        // # Verify the original test team isn't on the list
         cy.get('.signup-team-dir').children().should('not.contain', `#${testTeam.name.charAt(0).toUpperCase() + testTeam.name.slice(1)}`);
     });
 
@@ -360,21 +338,28 @@ describe('Teams Suite', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
-
-        // # Click on Join another team menu item
-        cy.findByText('View Members').should('be.visible').click();
+        // # Open main menu and click "View Members"
+        cy.uiOpenMainMenu('View Members');
         cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#searchUsersInput').type('sysadmin');
+        cy.get('#searchUsersInput').should('be.visible').type('sysadmin');
         cy.get('.more-modal__list').should('be.visible').children().should('have.length', 1);
     });
-
-    function verifyToolTip(targetElement, label) {
-        cy.get(targetElement).trigger('mouseover', {force: true});
-        cy.findByText(label).should('be.visible');
-
-        cy.get(targetElement).trigger('mouseout', {force: true});
-        cy.findByText(label).should('not.exist');
-    }
 });
+
+function verifyToolTip(targetElement, label) {
+    cy.get(targetElement).should('be.visible').trigger('mouseover');
+    cy.findByText(label).should('be.visible');
+
+    cy.get(targetElement).trigger('mouseout');
+    cy.findByText(label).should('not.exist');
+}
+
+function removeTeamMember(teamName, username) {
+    cy.apiAdminLogin();
+    cy.visit(`/${teamName}`);
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#manageMembers').click();
+    cy.get(`#teamMembersDropdown_${username}`).should('be.visible').click();
+    cy.get('#removeFromTeam').should('be.visible').click();
+    cy.get('.modal-header .close').click();
+}

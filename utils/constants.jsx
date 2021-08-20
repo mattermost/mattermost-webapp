@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -23,10 +25,6 @@ import githubIcon from 'images/themes/code_themes/github.png';
 import monokaiIcon from 'images/themes/code_themes/monokai.png';
 import solarizedDarkIcon from 'images/themes/code_themes/solarized-dark.png';
 import solarizedLightIcon from 'images/themes/code_themes/solarized-light.png';
-import mattermostThemeImage from 'images/themes/mattermost.png';
-import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
-import defaultThemeImage from 'images/themes/organization.png';
-import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import {t} from 'utils/i18n';
@@ -37,10 +35,10 @@ import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlig
 import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
 
 // eslint-disable-line import/order
-import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
+import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/base16/solarized-dark.css';
 
 // eslint-disable-line import/order
-import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
+import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/base16/solarized-light.css'; // eslint-disable-line import/order
 
 export const SettingsTypes = {
     TYPE_TEXT: 'text',
@@ -97,12 +95,15 @@ export const Preferences = {
     CATEGORY_THEME: 'theme',
     CATEGORY_FLAGGED_POST: 'flagged_post',
     CATEGORY_NOTIFICATIONS: 'notifications',
-    CATEGORY_FAVORITE_CHANNEL: 'favorite_channel',
     EMAIL_INTERVAL: 'email_interval',
     INTERVAL_IMMEDIATE: 30, // "immediate" is a 30 second interval
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
+    GLOBAL_HEADER_DISPLAY: 'global_header_display',
+    GLOBAL_HEADER_DISPLAY_ON: 'global_header_display_on',
+    GLOBAL_HEADER_DISPLAY_OFF: 'global_header_display_off',
+    GLOBAL_HEADER_DISPLAY_DEFAULT: 'global_header_display_off',
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
@@ -110,6 +111,16 @@ export const Preferences = {
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
+    CATEGORY_EMOJI: 'emoji',
+    EMOJI_SKINTONE: 'emoji_skintone',
+};
+
+export const TrialPeriodDays = {
+    TRIAL_MAX_DAYS: 14,
+    TRIAL_WARNING_THRESHOLD: 3,
+    TRIAL_2_DAYS: 2,
+    TRIAL_1_DAY: 1,
+    TRIAL_0_DAYS: 0,
 };
 
 export const ActionTypes = keyMirror({
@@ -300,10 +311,12 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
+    COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
 };
 
 export const UserStatuses = {
@@ -426,11 +439,18 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
-    INTRO_SCREENS: 0,
-    POST_POPOVER: 1,
-    CHANNEL_POPOVER: 2,
+    POST_POPOVER: 0,
+    CHANNEL_POPOVER: 1,
+    ADD_CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
+    PRODUCT_SWITCHER: 4,
+    SETTINGS: 5,
     FINISHED: 999,
+};
+
+export const TopLevelProducts = {
+    BOARDS: 'Boards',
+    PLAYBOOKS: 'Playbooks',
 };
 
 export const RecommendedNextSteps = {
@@ -737,6 +757,17 @@ export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
     COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
     CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
+    PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
+};
+
+export const BillingSchemes = {
+    FLAT_FEE: 'flat_fee',
+    PER_SEAT: 'per_seat',
+};
+
+export const RecurringIntervals = {
+    YEAR: 'year',
+    MONTH: 'month',
 };
 
 export const PermissionsScope = {
@@ -925,7 +956,7 @@ export const exportFormats = {
 };
 
 export const ZoomSettings = {
-    DEFAULT_SCALE: 1,
+    DEFAULT_SCALE: 1.75,
     SCALE_DELTA: 0.25,
     MIN_SCALE: 0.25,
     MAX_SCALE: 3.0,
@@ -1016,7 +1047,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 5,
+    MAX_UPLOAD_FILES: 10,
     MAX_FILENAME_LENGTH: 35,
     EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT: 100,
     THUMBNAIL_WIDTH: 128,
@@ -1078,6 +1109,8 @@ export const Constants = {
         'error',
         'help',
         'plugins',
+        'playbooks',
+        'boards',
     ],
     RESERVED_USERNAMES: [
         'valet',
@@ -1104,120 +1137,6 @@ export const Constants = {
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
     DEFAULT_EMOJI_PICKER_RIGHT_OFFSET: 15,
     EMOJI_PICKER_WIDTH_OFFSET: 295,
-    THEMES: {
-        default: {
-            type: 'Mattermost',
-            sidebarBg: '#145dbf',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#4578bf',
-            sidebarTextActiveBorder: '#579eff',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#1153ab',
-            sidebarTeamBarBg: '#0b428c',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#06d6a0',
-            awayIndicator: '#ffbc42',
-            dndIndicator: '#f74343',
-            mentionBg: '#ffffff',
-            mentionColor: '#145dbf',
-            centerChannelBg: '#ffffff',
-            centerChannelColor: '#3d3c40',
-            newMessageSeparator: '#ff8800',
-            linkColor: '#2389d7',
-            buttonBg: '#166de0',
-            buttonColor: '#ffffff',
-            errorTextColor: '#fd5960',
-            mentionHighlightBg: '#ffe577',
-            mentionHighlightLink: '#166de0',
-            codeTheme: 'github',
-            image: mattermostThemeImage,
-        },
-        organization: {
-            type: 'Organization',
-            sidebarBg: '#2071a7',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#136197',
-            sidebarTextActiveBorder: '#7ab0d6',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#2f81b7',
-            sidebarTeamBarBg: '#256996',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#7dbe00',
-            awayIndicator: '#dcbd4e',
-            dndIndicator: '#ff6a6a',
-            mentionBg: '#fbfbfb',
-            mentionColor: '#2071f7',
-            centerChannelBg: '#f2f4f8',
-            centerChannelColor: '#333333',
-            newMessageSeparator: '#ff8800',
-            linkColor: '#2f81b7',
-            buttonBg: '#1dacfc',
-            buttonColor: '#ffffff',
-            errorTextColor: '#a94442',
-            mentionHighlightBg: '#f3e197',
-            mentionHighlightLink: '#2f81b7',
-            codeTheme: 'github',
-            image: defaultThemeImage,
-        },
-        mattermostDark: {
-            type: 'Mattermost Dark',
-            sidebarBg: '#1b2c3e',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#4a5664',
-            sidebarTextActiveBorder: '#66b9a7',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#1b2c3e',
-            sidebarTeamBarBg: '#152231',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#65dcc8',
-            awayIndicator: '#c1b966',
-            dndIndicator: '#e81023',
-            mentionBg: '#b74a4a',
-            mentionColor: '#ffffff',
-            centerChannelBg: '#2f3e4e',
-            centerChannelColor: '#dddddd',
-            newMessageSeparator: '#5de5da',
-            linkColor: '#a4ffeb',
-            buttonBg: '#4cbba4',
-            buttonColor: '#ffffff',
-            errorTextColor: '#ff6461',
-            mentionHighlightBg: '#984063',
-            mentionHighlightLink: '#a4ffeb',
-            codeTheme: 'solarized-dark',
-            image: mattermostDarkThemeImage,
-        },
-        windows10: {
-            type: 'Windows Dark',
-            sidebarBg: '#171717',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#302e30',
-            sidebarTextActiveBorder: '#196caf',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#1f1f1f',
-            sidebarTeamBarBg: '#181818',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#399fff',
-            awayIndicator: '#c1b966',
-            dndIndicator: '#e81023',
-            mentionBg: '#0177e7',
-            mentionColor: '#ffffff',
-            centerChannelBg: '#1f1f1f',
-            centerChannelColor: '#dddddd',
-            newMessageSeparator: '#cc992d',
-            linkColor: '#0d93ff',
-            buttonBg: '#0177e7',
-            buttonColor: '#ffffff',
-            errorTextColor: '#ff6461',
-            mentionHighlightBg: '#784098',
-            mentionHighlightLink: '#a4ffeb',
-            codeTheme: 'monokai',
-            image: windows10ThemeImage,
-        },
-    },
     THEME_ELEMENTS: [
         {
             group: 'sidebarElements',
@@ -1557,6 +1476,8 @@ export const Constants = {
         BOT: 'bots',
         EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
         COMMAND_SUGGESTION_ERROR: 'error',
+        COMMAND_SUGGESTION_CHANNEL: 'channel',
+        COMMAND_SUGGESTION_USER: 'user',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
@@ -1593,7 +1514,6 @@ export const Constants = {
     DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD: 365,
     EMOJI_PATH: '/static/emoji',
     RECENT_EMOJI_KEY: 'recentEmojis',
-    RECENT_SKIN_KEY: 'recentSkin',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
     MHPNS: 'https://push.mattermost.com',
     MTPNS: 'https://push-test.mattermost.com',

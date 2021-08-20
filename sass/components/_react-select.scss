@@ -8,11 +8,11 @@
     }
 
     .react-select__multi-value {
-        background: rgba(var(--sys-center-channel-color-rgb), 0.08);
-        color: var(--sys-center-channel-color);
         align-items: center;
-        border-radius: 32px;
         margin: 4px 4px 4px 0;
+        background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+        border-radius: 32px;
+        color: var(--sys-center-channel-color);
 
         .app__body & {
             background: rgba(var(--center-channel-color-rgb), 0.08);
@@ -24,9 +24,9 @@
         cursor: pointer;
 
         span {
-            height: 16px;
-            width: 16px;
             display: flex;
+            width: 16px;
+            height: 16px;
         }
 
         &:hover {
@@ -34,35 +34,34 @@
         }
 
         svg {
-            height: 16px;
             width: 16px;
+            height: 16px;
             fill: rgba(var(--sys-center-channel-color-rgb), 0.64);
+            opacity: 0.6;
 
             &:hover {
-                fill: rgba(var(--sys-center-channel-color-rgb), 0.80);
+                fill: rgba(var(--sys-center-channel-color-rgb), 0.8);
             }
 
             .app__body & {
                 fill: rgba(var(--center-channel-color-rgb), 0.64);
 
                 &:hover {
-                    fill: rgba(var(--center-channel-color-rgb), 0.80);
+                    fill: rgba(var(--center-channel-color-rgb), 0.8);
                 }
             }
-
-            opacity: .6;
         }
     }
 
     .react-select__control {
-        background: rgba(var(--sys-center-channel-bg-rgb), 1);
-        border-color: rgba(var(--sys-center-channel-color-rgb), 0.2);
         height: 36px;
         min-height: 36px;
+        border-color: rgba(var(--sys-center-channel-color-rgb), 0.2);
+        background: rgba(var(--sys-center-channel-bg-rgb), 1);
 
         .app__body & {
+            border-color: rgba(var(--center-channel-color-rgb), 0.2);
             background: var(--center-channel-bg);
-            border-color: var(--center-channel-color-20);
         }
 
         &.react-select-auto {
@@ -71,7 +70,7 @@
 
         &:hover {
             .react-select__indicator {
-                opacity: .8;
+                opacity: 0.8;
             }
         }
 
@@ -89,28 +88,29 @@
     }
 
     .react-select__control--is-focused {
-        box-shadow: inset 0 0 0 1px rgba(var(--sys-button-bg-rgb), 1);
         border-color: rgba(var(--sys-button-bg-rgb), 1) !important;
+        box-shadow: inset 0 0 0 1px rgba(var(--sys-button-bg-rgb), 1);
 
         .app__body & {
-            box-shadow: inset 0 0 0 1px rgba(var(--button-bg-rgb), 1);
             border-color: rgba(var(--button-bg-rgb), 1) !important;
+            box-shadow: inset 0 0 0 1px rgba(var(--button-bg-rgb), 1);
         }
     }
 
     .react-select__indicator-separator {
-        background-color: rgba(var(--sys-center-channel-color-rgb), 0.40);
+        background-color: rgba(var(--sys-center-channel-color-rgb), 0.4);
 
         .app__body & {
-            background-color: rgba(var(--center-channel-color-rgb), 0.40);
+            background-color: rgba(var(--center-channel-color-rgb), 0.4);
         }
     }
 
     .react-select__indicator {
-        @include single-transition(opacity, .2s, ease);
-        color: inherit;
+        @include single-transition(opacity, 0.2s, ease);
+
         padding: 7px 8px;
-        opacity: .4;
+        color: inherit;
+        opacity: 0.4;
     }
 
     .react-select__single-value {
@@ -120,7 +120,7 @@
     // additionally adding `&__***` definitions,
     // since using portal on the react-select component
     // renders it as the last child of the body.
-    &__input ,
+    &__input,
     .react-select__input {
         color: var(--sys-center-channel-color);
 
@@ -138,11 +138,11 @@
         }
 
         &-list {
-            border: 1px solid var(--sys-center-channel-color-20);
+            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.2);
             border-radius: 4px;
 
             .app__body & {
-                border: 1px solid var(--center-channel-color-20);
+                border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
             }
         }
     }
@@ -154,7 +154,7 @@
             background: rgba(var(--sys-button-bg-rgb), 0.08);
 
             .app__body & {
-                background: var(--center-channel-color-08);
+                background: rgba(var(--center-channel-color-rgb), 0.08);
             }
         }
 
@@ -174,7 +174,7 @@
             background: rgba(var(--sys-button-bg-rgb), 0.88);
 
             .app__body & {
-                background: var(--button-bg-88);
+                background: rgba(var(--button-bg-rgb), 0.88);
             }
         }
 
@@ -182,7 +182,7 @@
             background: rgba(var(--sys-button-bg-rgb), 0.16);
 
             .app__body & {
-                background: var(--button-bg-16);
+                background: rgba(var(--button-bg-rgb), 0.16);
             }
         }
     }

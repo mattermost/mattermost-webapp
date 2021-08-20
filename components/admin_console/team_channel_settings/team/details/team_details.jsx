@@ -12,6 +12,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
+import ConfirmModal from 'components/confirm_modal';
 import FormError from 'components/form_error';
 
 import RemoveConfirmModal from '../../remove_confirm_modal';
@@ -44,6 +45,8 @@ export default class TeamDetails extends React.PureComponent {
             addUserToTeam: PropTypes.func.isRequired,
             removeUserFromTeam: PropTypes.func.isRequired,
             updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
+            deleteTeam: PropTypes.func.isRequired,
+            unarchiveTeam: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -69,6 +72,9 @@ export default class TeamDetails extends React.PureComponent {
             totalGroups: props.totalGroups,
             saveNeeded: false,
             serverError: null,
+            previousServerError: null,
+            isLocalArchived: team.delete_at > 0,
+            showArchiveConfirmModal: false,
         };
     }
 
@@ -82,6 +88,7 @@ export default class TeamDetails extends React.PureComponent {
                 allAllowedChecked: team.allow_open_invite,
                 allowedDomainsChecked: Boolean(team.allowed_domains && team.allowed_domains !== ''),
                 allowedDomains: team.allowed_domains || '',
+                isLocalArchived: team.delete_at > 0,
             });
         }
     }
@@ -108,9 +115,31 @@ export default class TeamDetails extends React.PureComponent {
         const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
 
         let serverError = null;
-        let saveNeeded = false;
 
         const {team, groups: origGroups, teamID, actions} = this.props;
+        if (this.teamToBeArchived()) {
+            let saveNeeded = false;
+            const result = await actions.deleteTeam(team.id);
+            if ('error' in result) {
+                serverError = <FormError error={result.error.message}/>;
+                saveNeeded = true;
+            }
+            this.setState({serverError, saving: false, saveNeeded, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
+                actions.setNavigationBlocked(saveNeeded);
+                if (!saveNeeded) {
+                    browserHistory.push('/admin_console/user_management/teams');
+                }
+            });
+            return;
+        } else if (this.teamToBeRestored() && this.state.serverError === null) {
+            const result = await actions.unarchiveTeam(team.id);
+            if ('error' in result) {
+                serverError = <FormError error={result.error.message}/>;
+            }
+            this.setState({serverError, previousServerError: null});
+        }
+
+        let saveNeeded = false;
         if (allowedDomainsChecked && allowedDomains.trim().length === 0) {
             saveNeeded = true;
             serverError = <NeedDomainsError/>;
@@ -330,19 +359,109 @@ export default class TeamDetails extends React.PureComponent {
     hideRemoveUsersModal = () => {
         this.setState({showRemoveConfirmation: false});
     }
-    showRemoveUsersModal = () => {
-        if (this.state.usersToRemoveCount > 0) {
+
+    hideArchiveConfirmModal = () => {
+        this.setState({showArchiveConfirmModal: false});
+    };
+
+    onSave = () => {
+        if (this.teamToBeArchived()) {
+            this.setState({showArchiveConfirmModal: true});
+        } else if (this.state.usersToRemoveCount > 0) {
             this.setState({showRemoveConfirmation: true});
         } else {
             this.handleSubmit();
         }
     }
 
+    teamToBeArchived = () => {
+        const {isLocalArchived} = this.state;
+        const isServerArchived = this.props.team.delete_at !== 0;
+        return isLocalArchived && !isServerArchived;
+    }
+
+    teamToBeRestored = () => {
+        const {isLocalArchived} = this.state;
+        const isServerArchived = this.props.team.delete_at !== 0;
+        return !isLocalArchived && isServerArchived;
+    }
+
+    onToggleArchive = () => {
+        const {isLocalArchived, serverError, previousServerError} = this.state;
+        const {isDisabled} = this.props;
+        if (isDisabled) {
+            return;
+        }
+        const newState = {
+            saveNeeded: true,
+            isLocalArchived: !isLocalArchived,
+        };
+
+        if (newState.isLocalArchived) {
+            // if the channel is being archived then clear the other server
+            // errors, they're no longer relevant.
+            newState.previousServerError = serverError;
+            newState.serverError = null;
+        } else {
+            // if the channel is being unarchived (maybe the user had toggled
+            // and untoggled) the button, so reinstate any server errors that
+            // were present.
+            newState.serverError = previousServerError;
+            newState.previousServerError = null;
+        }
+        this.props.actions.setNavigationBlocked(true);
+        this.setState(newState);
+    };
+
     render = () => {
         const {team} = this.props;
-        const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemoveCount} = this.state;
+        const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemoveCount, isLocalArchived, showArchiveConfirmModal} = this.state;
         const missingGroup = (og) => !groups.find((g) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
+        const nonArchivedContent = (
+            <>
+                <RemoveConfirmModal
+                    amount={usersToRemoveCount}
+                    inChannel={false}
+                    show={showRemoveConfirmation}
+                    onCancel={this.hideRemoveUsersModal}
+                    onConfirm={this.handleSubmit}
+                />
+
+                <TeamModes
+                    allAllowedChecked={allAllowedChecked}
+                    allowedDomainsChecked={allowedDomainsChecked}
+                    allowedDomains={allowedDomains}
+                    syncChecked={syncChecked}
+                    onToggle={this.setToggles}
+                    isDisabled={this.props.isDisabled}
+                />
+
+                <TeamGroups
+                    syncChecked={syncChecked}
+                    team={team}
+                    groups={groups}
+                    removedGroups={removedGroups}
+                    totalGroups={totalGroups}
+                    onAddCallback={this.handleGroupChange}
+                    onGroupRemoved={this.handleGroupRemoved}
+                    setNewGroupRole={this.setNewGroupRole}
+                    isDisabled={this.props.isDisabled}
+                />
+
+                {!syncChecked &&
+                    <TeamMembers
+                        onRemoveCallback={this.addUserToRemove}
+                        onAddCallback={this.addUsersToAdd}
+                        usersToRemove={this.state.usersToRemove}
+                        usersToAdd={this.state.usersToAdd}
+                        updateRole={this.addRolesToUpdate}
+                        teamId={this.props.teamID}
+                        isDisabled={this.props.isDisabled}
+                    />
+                }
+            </>
+        );
 
         return (
             <div className='wrapper--fixed'>
@@ -361,49 +480,36 @@ export default class TeamDetails extends React.PureComponent {
 
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
-                        <RemoveConfirmModal
-                            amount={usersToRemoveCount}
-                            inChannel={false}
-                            show={showRemoveConfirmation}
-                            onCancel={this.hideRemoveUsersModal}
-                            onConfirm={this.handleSubmit}
-                        />
                         <TeamProfile
                             team={team}
-                        />
-
-                        <TeamModes
-                            allAllowedChecked={allAllowedChecked}
-                            allowedDomainsChecked={allowedDomainsChecked}
-                            allowedDomains={allowedDomains}
-                            syncChecked={syncChecked}
-                            onToggle={this.setToggles}
+                            onToggleArchive={this.onToggleArchive}
+                            isArchived={isLocalArchived}
                             isDisabled={this.props.isDisabled}
                         />
-
-                        <TeamGroups
-                            syncChecked={syncChecked}
-                            team={team}
-                            groups={groups}
-                            removedGroups={removedGroups}
-                            totalGroups={totalGroups}
-                            onAddCallback={this.handleGroupChange}
-                            onGroupRemoved={this.handleGroupRemoved}
-                            setNewGroupRole={this.setNewGroupRole}
-                            isDisabled={this.props.isDisabled}
+                        <ConfirmModal
+                            show={showArchiveConfirmModal}
+                            title={
+                                <FormattedMessage
+                                    id='admin.team_settings.team_detail.archive_confirm.title'
+                                    defaultMessage='Save and Archive Team'
+                                />
+                            }
+                            message={
+                                <FormattedMessage
+                                    id='admin.team_settings.team_detail.archive_confirm.message'
+                                    defaultMessage='Saving will archive the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this team?'
+                                />
+                            }
+                            confirmButtonText={
+                                <FormattedMessage
+                                    id='admin.team_settings.team_detail.archive_confirm.button'
+                                    defaultMessage='Archive'
+                                />
+                            }
+                            onConfirm={this.handleSubmit}
+                            onCancel={this.hideArchiveConfirmModal}
                         />
-
-                        {!syncChecked &&
-                            <TeamMembers
-                                onRemoveCallback={this.addUserToRemove}
-                                onAddCallback={this.addUsersToAdd}
-                                usersToRemove={this.state.usersToRemove}
-                                usersToAdd={this.state.usersToAdd}
-                                updateRole={this.addRolesToUpdate}
-                                teamId={this.props.teamID}
-                                isDisabled={this.props.isDisabled}
-                            />
-                        }
+                        {!isLocalArchived && nonArchivedContent}
                     </div>
                 </div>
 
@@ -411,7 +517,7 @@ export default class TeamDetails extends React.PureComponent {
                     saving={saving}
                     cancelLink='/admin_console/user_management/teams'
                     saveNeeded={saveNeeded}
-                    onClick={this.showRemoveUsersModal}
+                    onClick={this.onSave}
                     serverError={serverError}
                     isDisabled={this.props.isDisabled}
                 />

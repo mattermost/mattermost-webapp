@@ -1,8 +1,8 @@
 .Card {
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
-    border-radius: 4px;
     background-color: var(--center-channel-bg);
+    border-radius: 4px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
     transition: box-shadow 0.3s ease-in-out;
 
     & + .Card {
@@ -10,75 +10,82 @@
     }
 
     &.expanded {
-        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     }
 
     &:not(.expanded):hover {
         border-color: rgba(var(--center-channel-color-rgb), 0.16);
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
         transition-duration: 0.15s;
     }
+
     &.console {
-        background-color: var(--sys-center-channel-bg);
-        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
-        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
-        border-radius: 2px;
-        color: var(--sys-center-channel-color);
         width: 100%;
+        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
         margin-bottom: 20px;
+        background-color: var(--sys-center-channel-bg);
+        border-radius: 2px;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+        color: var(--sys-center-channel-color);
 
         .Card__header {
-            padding: 28px 32px 24px 32px;
-            border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
             display: flex;
             align-items: center;
+            padding: 28px 32px 24px 32px;
+            border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
 
             .text-top {
-                font-weight: 600;
                 font-size: 16px;
+                font-weight: 600;
                 line-height: 24px;
             }
+
             .text-bottom {
+                margin-right: 24px;
                 font-size: 14px;
                 line-height: 20px;
-                margin-right: 24px;
             }
+
             .content-button {
-                margin-left: auto;
-                padding: 10px 16px;
-                font-size: 12px;
                 height: 32px;
+                padding: 10px 16px;
+                border: none;
+                margin-left: auto;
+                border-radius: 4px;
+                font-size: 12px;
                 font-weight: 600;
                 line-height: 9.5px;
-                border: none;
-                border-radius: 4px;
                 white-space: nowrap;
+
                 &.primary {
-                    background: var(--button-bg);
-                    color: var(--button-color);
+                    background: var(--sys-button-bg);
+                    color: var(--sys-button-color);
                 }
             }
+
             .Card__hr {
                 display: none;
             }
         }
+
         .Card__body {
             overflow: visible;
+
             &.expanding {
                 transition: none;
             }
+
             &.expanded {
                 margin: 28px 32px;
             }
         }
     }
-    
 }
 
 .Card__header {
     hr.Card__hr {
-        margin: 0 12px;
         border-color: rgba(var(--center-channel-color-rgb), 0.08);
+        margin: 0 12px;
     }
 }
 
@@ -89,8 +96,8 @@
 
     &.expanding {
         transition-duration: 0.3s;
-        transition-timing-function: ease-in-out;
         transition-property: height, margin;
+        transition-timing-function: ease-in-out;
     }
 
     &.expanded {

@@ -303,6 +303,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
         if (!this.state.loaded) {
             return <LoadingScreen/>;
         }
+        const isLicensed = this.props.license?.IsLicensed === 'true';
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
@@ -331,7 +332,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
                             </div>
                         </div>
 
-                        {this.props.license && this.props.config.EnableGuestAccounts === 'true' &&
+                        {isLicensed && this.props.config.EnableGuestAccounts === 'true' &&
                             <AdminPanelTogglable
                                 className='permissions-block'
                                 open={this.state.openRoles.guests}

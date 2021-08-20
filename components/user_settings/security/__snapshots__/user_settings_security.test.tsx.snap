@@ -5,26 +5,26 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
   <div
     className="modal-header"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Close"
       id="user.settings.security.close"
     >
       <Component />
-    </FormattedMessage>
+    </MemoizedFormattedMessage>
     <h4
       className="modal-title"
     >
       <div
         className="modal-back"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Collapse Icon"
           id="generic_icons.collapse"
         >
           <Component />
-        </FormattedMessage>
+        </MemoizedFormattedMessage>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Security Settings"
         id="user.settings.security.title"
       />
@@ -36,7 +36,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <h3
       className="tab-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Security Settings"
         id="user.settings.security.title"
       />
@@ -47,7 +47,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <SettingItemMin
       section="password"
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Password"
           id="user.settings.security.password"
         />
@@ -82,7 +82,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
@@ -109,13 +109,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       }
       id="viewAccessHistory"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Access History Icon"
         id="user.settings.security.viewHistory.icon"
       >
         <Component />
-      </FormattedMessage>
-      <FormattedMessage
+      </MemoizedFormattedMessage>
+      <MemoizedFormattedMessage
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
@@ -134,13 +134,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       }
       id="viewAndLogOutOfActiveSessions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Active Sessions Icon"
         id="user.settings.security.logoutActiveSessions.icon"
       >
         <Component />
-      </FormattedMessage>
-      <FormattedMessage
+      </MemoizedFormattedMessage>
+      <MemoizedFormattedMessage
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
@@ -154,26 +154,26 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
   <div
     className="modal-header"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Close"
       id="user.settings.security.close"
     >
       <Component />
-    </FormattedMessage>
+    </MemoizedFormattedMessage>
     <h4
       className="modal-title"
     >
       <div
         className="modal-back"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Collapse Icon"
           id="generic_icons.collapse"
         >
           <Component />
-        </FormattedMessage>
+        </MemoizedFormattedMessage>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Security Settings"
         id="user.settings.security.title"
       />
@@ -185,7 +185,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <h3
       className="tab-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Security Settings"
         id="user.settings.security.title"
       />
@@ -196,7 +196,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <SettingItemMin
       section="password"
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Password"
           id="user.settings.security.password"
         />
@@ -231,7 +231,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
@@ -258,13 +258,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       }
       id="viewAccessHistory"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Access History Icon"
         id="user.settings.security.viewHistory.icon"
       >
         <Component />
-      </FormattedMessage>
-      <FormattedMessage
+      </MemoizedFormattedMessage>
+      <MemoizedFormattedMessage
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
@@ -283,13 +283,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       }
       id="viewAndLogOutOfActiveSessions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Active Sessions Icon"
         id="user.settings.security.logoutActiveSessions.icon"
       >
         <Component />
-      </FormattedMessage>
-      <FormattedMessage
+      </MemoizedFormattedMessage>
+      <MemoizedFormattedMessage
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
@@ -303,26 +303,26 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
   <div
     className="modal-header"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Close"
       id="user.settings.security.close"
     >
       <Component />
-    </FormattedMessage>
+    </MemoizedFormattedMessage>
     <h4
       className="modal-title"
     >
       <div
         className="modal-back"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Collapse Icon"
           id="generic_icons.collapse"
         >
           <Component />
-        </FormattedMessage>
+        </MemoizedFormattedMessage>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Security Settings"
         id="user.settings.security.title"
       />
@@ -334,7 +334,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <h3
       className="tab-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Security Settings"
         id="user.settings.security.title"
       />
@@ -345,7 +345,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <SettingItemMin
       section="password"
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Password"
           id="user.settings.security.password"
         />
@@ -380,7 +380,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
@@ -407,13 +407,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       }
       id="viewAccessHistory"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Access History Icon"
         id="user.settings.security.viewHistory.icon"
       >
         <Component />
-      </FormattedMessage>
-      <FormattedMessage
+      </MemoizedFormattedMessage>
+      <MemoizedFormattedMessage
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
@@ -432,13 +432,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       }
       id="viewAndLogOutOfActiveSessions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Active Sessions Icon"
         id="user.settings.security.logoutActiveSessions.icon"
       >
         <Component />
-      </FormattedMessage>
-      <FormattedMessage
+      </MemoizedFormattedMessage>
+      <MemoizedFormattedMessage
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
@@ -452,26 +452,26 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
   <div
     className="modal-header"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Close"
       id="user.settings.security.close"
     >
       <Component />
-    </FormattedMessage>
+    </MemoizedFormattedMessage>
     <h4
       className="modal-title"
     >
       <div
         className="modal-back"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Collapse Icon"
           id="generic_icons.collapse"
         >
           <Component />
-        </FormattedMessage>
+        </MemoizedFormattedMessage>
       </div>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Security Settings"
         id="user.settings.security.title"
       />
@@ -483,7 +483,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <h3
       className="tab-header"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Security Settings"
         id="user.settings.security.title"
       />
@@ -494,7 +494,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <SettingItemMin
       section="password"
       title={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Password"
           id="user.settings.security.password"
         />
@@ -529,7 +529,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
@@ -556,13 +556,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       }
       id="viewAccessHistory"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Access History Icon"
         id="user.settings.security.viewHistory.icon"
       >
         <Component />
-      </FormattedMessage>
-      <FormattedMessage
+      </MemoizedFormattedMessage>
+      <MemoizedFormattedMessage
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
@@ -581,13 +581,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       }
       id="viewAndLogOutOfActiveSessions"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Active Sessions Icon"
         id="user.settings.security.logoutActiveSessions.icon"
       >
         <Component />
-      </FormattedMessage>
-      <FormattedMessage
+      </MemoizedFormattedMessage>
+      <MemoizedFormattedMessage
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />

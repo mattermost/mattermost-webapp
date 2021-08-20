@@ -7,25 +7,26 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+
+import {openModal} from 'actions/views/modals';
 
 import UserSettingsModal, {Props} from './user_settings_modal';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
-    const closeUnusedDirectMessages = config.CloseUnusedDirectMessages === 'true';
-    const experimentalChannelOrganization = config.ExperimentalChannelOrganization === 'true';
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
     const requireEmailVerification = config.RequireEmailVerification === 'true';
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
     return {
         currentUser: getCurrentUser(state),
-        closeUnusedDirectMessages,
-        experimentalChannelOrganization,
         sendEmailNotifications,
         requireEmailVerification,
+        collapsedThreads,
     };
 }
 
@@ -33,6 +34,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             sendVerificationEmail,
+            openModal,
         }, dispatch),
     };
 }

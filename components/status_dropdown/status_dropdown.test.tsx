@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserProfile} from 'mattermost-redux/types/users';
 
 import StatusDropdown from './status_dropdown';
 
@@ -19,6 +19,11 @@ describe('components/StatusDropdown', () => {
     const baseProps = {
         actions,
         userId: '',
+        currentUser: {
+            id: 'user_id',
+            first_name: 'Nev',
+            last_name: 'Aa',
+        } as UserProfile,
         userTimezone: {
             useAutomaticTimezone: 'true',
             automaticTimezone: 'America/New_York',
@@ -29,6 +34,7 @@ describe('components/StatusDropdown', () => {
         isCustomStatusExpired: false,
         isStatusDropdownOpen: false,
         showCustomStatusPulsatingDot: false,
+        isTimedDNDEnabled: false,
     };
 
     test('should match snapshot in default state', () => {

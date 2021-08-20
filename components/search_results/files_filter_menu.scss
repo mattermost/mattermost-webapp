@@ -1,31 +1,32 @@
 .FilesFilterMenu {
     .MenuWrapper {
-        align-self: end;
         z-index: 100;
+        align-self: end;
+
         .action-icon {
-            border-radius: 4px;
+            z-index: 5;
+            display: flex;
+            min-width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
             border: none;
             background: transparent;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            height: 32px;
-            min-width: 32px;
-            text-align: center;
-            z-index: 5;
+            border-radius: 4px;
             color: rgba(var(--center-channel-color-rgb), 0.56);
-            padding: 0;
+            cursor: pointer;
+            text-align: center;
 
             .icon-dot {
                 position: absolute;
-                right: 6px;
                 top: 6px;
-                background-color: var(--button-bg);
-                border-radius: 50%;
-                border: 2px solid var(--center-channel-bg);
+                right: 6px;
                 width: 10px;
                 height: 10px;
+                border: 2px solid var(--center-channel-bg);
+                background-color: var(--button-bg);
+                border-radius: 50%;
             }
 
             &:hover {
@@ -34,13 +35,12 @@
             }
         }
     }
+
     .MenuItem {
         span.icon {
             position: absolute;
             right: 13px;
             color: var(--button-bg);
         }
-    }
-    .action-icon {
     }
 }

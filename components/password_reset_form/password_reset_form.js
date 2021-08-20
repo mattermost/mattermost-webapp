@@ -81,12 +81,11 @@ export default class PasswordResetForm extends React.PureComponent {
         return (
             <div className='col-sm-12'>
                 <div className='signup-team__container'>
-                    <h3>
-                        <FormattedMessage
-                            id='password_form.title'
-                            defaultMessage='Password Reset'
-                        />
-                    </h3>
+                    <FormattedMessage
+                        id='password_form.title'
+                        tagName='h1'
+                        defaultMessage='Password Reset'
+                    />
                     <form onSubmit={this.handlePasswordReset}>
                         <p>
                             <FormattedMessage

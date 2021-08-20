@@ -62,11 +62,23 @@ describe('Channel header menu', () => {
             // # Demote the user to guest
             demoteUserToGuest(testUser, admin);
 
+            // # Reload the browser
+            cy.reload();
+
+            // # Then click it to access the drop-down menu
+            cy.get('#channelHeaderTitle').click();
+
             // * The dropdown menu of the channel header should have 2 dividers because some options have disappeared;
             cy.get('.Menu__content').find('.menu-divider:visible').should('have.lengthOf', 2);
 
             // # Promote the guest to user again
             promoteGuestToUser(testUser, admin);
+
+            // # Reload the browser
+            cy.reload();
+
+            // # Then click it to access the drop-down menu
+            cy.get('#channelHeaderTitle').click();
 
             // * The dropdown menu of the channel header should have 3 dividers again;
             cy.get('.Menu__content').find('.menu-divider:visible').should('have.lengthOf', 3);
@@ -78,7 +90,11 @@ describe('Channel header menu', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Create new test channel
+        cy.apiAdminLogin();
         cy.apiCreateChannel(testTeam.id, 'channel-test-leave', 'Channel Test Leave').then(({channel}) => {
+            // # Reload the browser
+            cy.reload();
+
             // # Select channel on the left hand side
             cy.get(`#sidebarItem_${channel.name}`).click();
 

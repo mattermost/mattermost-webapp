@@ -59,7 +59,7 @@ export default class GifPicker extends React.PureComponent {
     }
 
     handleItemClick = (gif) => {
-        this.props.onGifClick(gif.max5mbGif);
+        this.props.onGifClick('![' + gif.title.replace(/]|\[/g, '\\$&') + '](' + gif.max5mbGif + ')');
     }
 
     render() {

@@ -11,7 +11,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <legend
             className="form-legend"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Send desktop notifications"
               id="user.settings.notifications.desktop"
             />
@@ -29,7 +29,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="For all activity"
                 id="user.settings.notifications.allActivity"
               />
@@ -49,7 +49,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Only for mentions and direct messages"
                 id="user.settings.notifications.onlyMentions"
               />
@@ -69,7 +69,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Never"
                 id="user.settings.notifications.never"
               />
@@ -78,7 +78,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <div
             className="mt-5"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.info"
             />
@@ -89,7 +89,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <legend
             className="form-legend"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Notification sound"
               id="user.settings.notifications.desktop.sound"
             />
@@ -107,7 +107,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="On"
                 id="user.settings.notifications.on"
               />
@@ -127,7 +127,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Off"
                 id="user.settings.notifications.off"
               />
@@ -137,7 +137,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <div
             className="mt-5"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.sounds_info"
             />
@@ -166,7 +166,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <legend
             className="form-legend"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Send desktop notifications"
               id="user.settings.notifications.desktop"
             />
@@ -184,7 +184,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="For all activity"
                 id="user.settings.notifications.allActivity"
               />
@@ -204,7 +204,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Only for mentions and direct messages"
                 id="user.settings.notifications.onlyMentions"
               />
@@ -224,7 +224,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Never"
                 id="user.settings.notifications.never"
               />
@@ -233,7 +233,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <div
             className="mt-5"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.info"
             />
@@ -255,7 +255,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 exports[`components/user_settings/notifications/DesktopNotificationSettings should match snapshot, on buildMinimizedSetting 1`] = `
 <SettingItemMin
   describe={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="For mentions and direct messages, without sound"
       id="user.settings.notifications.desktop.mentionsNoSound"
     />
@@ -270,7 +270,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 exports[`components/user_settings/notifications/DesktopNotificationSettings should match snapshot, on buildMinimizedSetting 2`] = `
 <SettingItemMin
   describe={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="Off"
       id="user.settings.notifications.off"
     />
@@ -293,7 +293,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <legend
             className="form-legend"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Send desktop notifications"
               id="user.settings.notifications.desktop"
             />
@@ -311,7 +311,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="For all activity"
                 id="user.settings.notifications.allActivity"
               />
@@ -331,7 +331,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Only for mentions and direct messages"
                 id="user.settings.notifications.onlyMentions"
               />
@@ -351,7 +351,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Never"
                 id="user.settings.notifications.never"
               />
@@ -360,7 +360,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <div
             className="mt-5"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.info"
             />
@@ -371,7 +371,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <legend
             className="form-legend"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Notification sound"
               id="user.settings.notifications.desktop.sound"
             />
@@ -389,7 +389,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="On"
                 id="user.settings.notifications.on"
               />
@@ -409,7 +409,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Off"
                 id="user.settings.notifications.off"
               />
@@ -419,7 +419,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <div
             className="mt-5"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.sounds_info"
             />
@@ -448,7 +448,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <legend
             className="form-legend"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Send desktop notifications"
               id="user.settings.notifications.desktop"
             />
@@ -466,7 +466,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="For all activity"
                 id="user.settings.notifications.allActivity"
               />
@@ -486,7 +486,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Only for mentions and direct messages"
                 id="user.settings.notifications.onlyMentions"
               />
@@ -506,7 +506,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Never"
                 id="user.settings.notifications.never"
               />
@@ -515,7 +515,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <div
             className="mt-5"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.info"
             />
@@ -526,7 +526,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <legend
             className="form-legend"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Notification sound"
               id="user.settings.notifications.desktop.sound"
             />
@@ -544,7 +544,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="On"
                 id="user.settings.notifications.on"
               />
@@ -564,7 +564,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
                 onChange={[Function]}
                 type="radio"
               />
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Off"
                 id="user.settings.notifications.off"
               />
@@ -623,7 +623,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
           <div
             className="mt-5"
           >
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps."
               id="user.settings.notifications.sounds_info"
             />
@@ -644,7 +644,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 exports[`components/user_settings/notifications/DesktopNotificationSettings should match snapshot, on min setting 1`] = `
 <SettingItemMin
   describe={
-    <FormattedMessage
+    <Memo(MemoizedFormattedMessage)
       defaultMessage="For mentions and direct messages, without sound"
       id="user.settings.notifications.desktop.mentionsNoSound"
     />

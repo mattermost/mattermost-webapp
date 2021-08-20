@@ -125,7 +125,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
       id="addRoleMembers"
       isDisabled={false}
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Add People"
         id="admin.permissions.system_role_users.add_people"
       />
@@ -144,7 +144,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
         Object {
           "field": "name",
           "fixed": true,
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.user_grid.name"
           />,
@@ -226,7 +226,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
               className="NewUserBadge"
               show={false}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="New"
                 id="admin.user_grid.new"
               />
@@ -336,7 +336,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
               className="NewUserBadge"
               show={false}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="New"
                 id="admin.user_grid.new"
               />
@@ -527,7 +527,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
       id="addRoleMembers"
       isDisabled={true}
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Add People"
         id="admin.permissions.system_role_users.add_people"
       />
@@ -546,7 +546,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
         Object {
           "field": "name",
           "fixed": true,
-          "name": <FormattedMessage
+          "name": <Memo(MemoizedFormattedMessage)
             defaultMessage="Name"
             id="admin.user_grid.name"
           />,
@@ -628,7 +628,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
               className="NewUserBadge"
               show={false}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="New"
                 id="admin.user_grid.new"
               />
@@ -738,7 +738,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
               className="NewUserBadge"
               show={false}
             >
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="New"
                 id="admin.user_grid.new"
               />

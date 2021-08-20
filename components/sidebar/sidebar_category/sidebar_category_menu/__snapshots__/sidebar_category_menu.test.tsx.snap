@@ -82,6 +82,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
             },
           ]
         }
+        subMenuClass="pl-4"
         text="Sort"
       />
     </MenuGroup>
@@ -161,6 +162,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
             },
           ]
         }
+        subMenuClass="pl-4"
         text="Sort"
       />
     </MenuGroup>

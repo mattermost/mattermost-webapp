@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {combineReducers} from 'redux';
 
 import {EmojiTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
@@ -11,22 +12,27 @@ import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 export function customEmoji(state: IDMappedObjects<CustomEmoji> = {}, action: GenericAction): IDMappedObjects<CustomEmoji> {
     switch (action.type) {
     case EmojiTypes.RECEIVED_CUSTOM_EMOJI: {
-        const nextState = {...state};
-        nextState[action.data.id] = action.data;
-        return nextState;
+        const emoji: CustomEmoji = action.data;
+
+        return storeEmoji(state, emoji);
     }
     case EmojiTypes.RECEIVED_CUSTOM_EMOJIS: {
-        const nextState = {...state};
-        for (const emoji of action.data) {
-            nextState[emoji.id] = emoji;
-        }
-        return nextState;
+        const emojis: CustomEmoji[] = action.data;
+
+        return emojis.reduce(storeEmoji, state);
     }
     case EmojiTypes.DELETED_CUSTOM_EMOJI: {
+        const emoji: CustomEmoji = action.data;
+
+        if (!state[emoji.id]) {
+            return state;
+        }
+
         const nextState = {...state};
-        Reflect.deleteProperty(nextState, action.data.id);
+        Reflect.deleteProperty(nextState, emoji.id);
         return nextState;
     }
+
     case EmojiTypes.CLEAR_CUSTOM_EMOJIS:
     case UserTypes.LOGOUT_SUCCESS:
         return {};
@@ -39,7 +45,8 @@ export function customEmoji(state: IDMappedObjects<CustomEmoji> = {}, action: Ge
     }
     case PostTypes.RECEIVED_POSTS: {
         const posts: Post[] = Object.values(action.data.posts);
-        return (posts as any).reduce(storeEmojisForPost, state); // Cast to any to avoid typing problems caused by Object.values
+
+        return posts.reduce(storeEmojisForPost, state);
     }
 
     default:
@@ -47,22 +54,24 @@ export function customEmoji(state: IDMappedObjects<CustomEmoji> = {}, action: Ge
     }
 }
 
+function storeEmoji(state: IDMappedObjects<CustomEmoji>, emoji: CustomEmoji) {
+    if (state[emoji.id]) {
+        // Emoji is already in the store
+        return state;
+    }
+
+    return {
+        ...state,
+        [emoji.id]: emoji,
+    };
+}
+
 function storeEmojisForPost(state: IDMappedObjects<CustomEmoji>, post: Post): IDMappedObjects<CustomEmoji> {
     if (!post.metadata || !post.metadata.emojis) {
         return state;
     }
 
-    return post.metadata.emojis.reduce((nextState, emoji) => {
-        if (nextState[emoji.id]) {
-            // Emoji is already in the store
-            return nextState;
-        }
-
-        return {
-            ...nextState,
-            [emoji.id]: emoji,
-        };
-    }, state);
+    return post.metadata.emojis.reduce(storeEmoji, state);
 }
 
 function nonExistentEmoji(state: Set<string> = new Set(), action: GenericAction): Set<string> {

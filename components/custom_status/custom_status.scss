@@ -1,5 +1,5 @@
-@import 'compass/utilities';
-@import 'compass/css3';
+@import "compass/utilities";
+@import "compass/css3";
 
 .modal .StatusModal.GenericModal .StatusModal__clear-container.input-clear {
     position: absolute;
@@ -27,9 +27,9 @@
         }
 
         &-footer {
-            margin-top: 22px;
-            padding: 0px;
+            padding: 0;
             padding-right: 16px;
+            margin-top: 22px;
         }
     }
 
@@ -41,14 +41,23 @@
         &__body {
             padding: 0;
         }
+
+        &__button {
+            &.btn:disabled,
+            &.btn:disabled:hover {
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.32);
+                opacity: 1;
+            }
+        }
     }
 
     .form-control {
-        font-size: 14px;
         height: 4.8rem !important;
         padding: 0 5.2rem;
-        font-weight: 600;
         border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
 
         &:focus {
             border-color: var(--button-bg);
@@ -62,35 +71,36 @@
 
     &__emoji-container {
         position: absolute;
-        margin-right: 2px;
         top: 6px;
         left: 10px;
+        margin-right: 2px;
     }
 
     &__emoji-button {
-        background: transparent;
-        border: none;
-        @include border-radius(4px);
+        display: flex;
         width: 36px;
         height: 36px;
-        display: flex;
         align-items: center;
         justify-content: center;
-        fill: rgba(var(--center-channel-color-rgb), 0.56);
+        border: none;
+        background: transparent;
         color: rgba(var(--center-channel-color-rgb), 0.56);
+        fill: rgba(var(--center-channel-color-rgb), 0.56);
+
+        @include border-radius(4px);
 
         &:hover {
             background: rgba(var(--center-channel-color-rgb), 0.08);
-            fill: rgba(var(--center-channel-color-rgb), 0.72);
             color: rgba(var(--center-channel-color-rgb), 0.72);
+            fill: rgba(var(--center-channel-color-rgb), 0.72);
         }
 
         &:active,
         &--active,
         &--active:hover {
             background: rgba(var(--button-bg-rgb), 0.08);
-            fill: var(--button-bg);
             color: var(--button-bg);
+            fill: var(--button-bg);
         }
 
         svg {
@@ -100,18 +110,52 @@
     }
 
     &__footer {
-        text-align: right;
-        padding: 2rem 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 2rem 0;
+        text-align: right;
 
         .btn {
+            height: 4rem;
+            padding: 0 2rem;
+            border-radius: 4px;
             font-size: 14px;
             font-weight: 600;
-            padding: 0 2rem;
-            height: 4rem;
-            border-radius: 4px;
+        }
+    }
+}
+
+.status-dropdown-menu-global-header {
+    padding: 5px;
+    border-radius: 4px;
+
+    &.active {
+        background: var(--sidebar-text-08);
+    }
+
+    .Menu__content {
+        left: -200px;
+    }
+
+    .username-wrapper {
+        padding: 0 12px;
+    }
+
+    .MenuHeader {
+        height: 50px;
+        padding: 0 16px;
+    }
+
+    .status-wrapper {
+        display: flex;
+        height: auto;
+        align-items: center;
+
+        .status {
+            svg {
+                top: 0;
+            }
         }
     }
 }
@@ -127,56 +171,55 @@
     }
 
     .MaxLengthInput__validation {
-        right: 44px !important;
         top: 17px !important;
+        right: 44px !important;
     }
 
     .MaxLengthInput.form-control.has-error {
         padding-right: 76px !important;
     }
-
 }
 
 .ic-clear-search,
 .ic-search {
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
     position: absolute;
     z-index: 1;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .ic-clear-search {
-    right: 12px;
     top: 12px;
+    right: 12px;
     width: 2rem;
     height: 2rem;
 }
 
 .statusSuggestion {
+    overflow: auto;
     min-height: 232px;
     max-height: 264px;
-    overflow: auto;
 
     &__content {
         display: flex;
-        flex-direction: column;
-        height: 100%;
-        width: 100%;
-        box-shadow: none;
-        border: none;
         overflow: auto;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        border: none;
+        box-shadow: none;
     }
 
     &__row {
         display: flex;
-        font-size: inherit;
-        min-height: 40px;
         width: 97%;
+        min-height: 40px;
         align-items: center;
-        padding-left: 18px;
         padding-right: 10px;
+        padding-left: 18px;
         color: var(--center-channel-color);
+        font-size: inherit;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -196,16 +239,16 @@
 
     &__title {
         display: flex;
-        font-weight: 600;
         height: 24px;
         margin-top: 8px;
         color: rgba(var(--center-channel-color-rgb), 0.55);
+        font-weight: 600;
     }
 
     &__text {
-        font-weight: 600;
         overflow: hidden;
         height: 20px;
+        font-weight: 600;
         text-overflow: ellipsis;
         white-space: nowrap;
 
@@ -213,22 +256,20 @@
             max-width: 62%;
         }
     }
-    
+
     &__duration {
         margin-left: 8px;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 14px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 14px;
     }
 }
 
-
 .suggestion-clear {
-    margin-left: auto;
     margin-top: 3px;
+    margin-left: auto;
 }
-
 
 #custom-status-tooltip {
     p {
@@ -253,23 +294,23 @@ span.emoticon[style]:hover {
 .statusExpiry {
     position: absolute;
     top: 56px;
-    font-size: 14px;
     display: inline-block;
+    font-size: 14px;
 
     &__menu {
         cursor: pointer;
 
         .expiry-value {
-            font-weight: 600;
             margin-right: 4px;
+            font-weight: 600;
         }
     }
 }
 
 .dateTime {
     display: flex;
-    margin-top: 45px;
     width: calc(100% - 24px);
+    margin-top: 45px;
 
     & &__date {
         position: relative;
@@ -286,9 +327,9 @@ span.emoticon[style]:hover {
         position: relative;
 
         #expiryTimeMenu .dropdown-menu {
+            overflow: auto;
             min-width: 266px;
             max-height: 268px;
-            overflow: auto;
         }
 
         &-icon {
@@ -299,14 +340,14 @@ span.emoticon[style]:hover {
     }
 
     & &__input {
-        border: 2px solid var(--button-bg);
-        cursor: pointer;
-        padding: 10px 40px;
-        border-radius: 4px;
-        height: 40px;
         width: 266px;
+        height: 40px;
+        padding: 10px 40px;
+        border: 2px solid var(--button-bg);
         background: var(--center-channel-bg);
+        border-radius: 4px;
         color: var(--center-channel-color);
+        cursor: pointer;
         font-size: 14px;
 
         &-title {
@@ -314,11 +355,11 @@ span.emoticon[style]:hover {
             bottom: 32px;
             left: 12px;
             padding: 0 4px;
-            font-size: 10px;
-            line-height: 16px;
-            letter-spacing: 0.03em;
             background: var(--center-channel-bg);
             color: rgba(var(--center-channel-color-rgb), 0.64);
+            font-size: 10px;
+            letter-spacing: 0.03em;
+            line-height: 16px;
         }
     }
 }

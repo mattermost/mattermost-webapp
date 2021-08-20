@@ -1,0 +1,77 @@
+@charset "utf-8";
+
+// css feature flag: apply styling overrides to legacy layout when global header is enabled
+.feature-global-header {
+    --global-header-background: var(--sidebar-teambar-bg);
+    --global-header-text: var(--sidebar-header-text-color);
+    --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
+    --global-header-text-rgb: var(--sidebar-header-text-color-rgb);
+
+    @media screen and (min-width: 769px) {
+        // ensure the global header always sits on top of it's immediate sibling
+        > header {
+            z-index: 2;
+
+            + * {
+                position: relative;
+                z-index: 1;
+            }
+        }
+
+        .team-sidebar {
+            // use sidebar header variables for team sidebar
+            --sidebar-teambar-bg: var(--sidebar-header-bg);
+            --sidebar-header-text-color: var(--sidebar-text);
+            --sidebar-teambar-bg-rgb: var(--sidebar-header-bg-rgb);
+            --sidebar-header-text-color-rgb: var(--sidebar-text-rgb);
+
+            // adjust height of team sidebar
+            height: calc(100% - 40px);
+            border-right: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
+        }
+
+        // adjust height of sidebar to account for GH
+        #SidebarContainer {
+            height: calc(100% - 40px);
+        }
+
+        #lhsNavigator {
+            .SidebarChannelNavigator {
+                margin-top: 0;
+                margin-bottom: 11px;
+            }
+        }
+
+        // move rhs up next to channel header
+        #sidebar-right {
+            top: 0;
+
+            .sidebar--right__header {
+                flex-basis: 63px;
+            }
+
+            .sidebar-right-container {
+                height: 100%;
+            }
+        }
+
+        // shrink width of channel header to accomodate rhs
+        .channel__wrap {
+            &.move--left {
+                .channel-header {
+                    width: calc(100% - 400px);
+                }
+            }
+        }
+
+        .product-switcher-icon {
+            padding: 0 6px;
+        }
+
+        .backstage {
+            position: relative;
+            z-index: 2;
+            margin-top: -40px;
+        }
+    }
+}

@@ -29,7 +29,7 @@ exports[`SchemaText should render translated markdown text correctly 1`] = `
 `;
 
 exports[`SchemaText should render translated text correctly 1`] = `
-<FormattedMessage
+<MemoizedFormattedMessage
   defaultMessage="This is {object}"
   id="help.text"
   values={
