@@ -69,7 +69,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     clearLandingPreferenceIfNotChecked = () => {
-        if (!this.state.navigating) {
+        if (!this.state.navigating && !this.state.rememberChecked) {
             BrowserStore.clearLandingPreference(this.props.siteUrl);
         }
     }
@@ -151,6 +151,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
                 }}
                 onClick={() => {
+                    this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
                     this.setState({redirectPage: true, navigating: true});
                     if (Utils.isMobile()) {
                         if (UserAgent.isAndroidWeb()) {
@@ -364,6 +365,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                                 this.setPreference(LandingPreferenceTypes.BROWSER, true);
                             }}
                             onClick={() => {
+                                this.setPreference(LandingPreferenceTypes.BROWSER, true);
                                 this.setState({navigating: true});
                             }}
                             className='btn btn-default btn-lg get-app__continue'
