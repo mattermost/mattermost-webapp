@@ -30,7 +30,7 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
         gfm: true,
         tables: true,
         mangle: false,
-        inlinelatex: config.EnableInlineLatex === 'true',
+        inlinelatex: true,
     };
 
     return marked(text, markdownOptions).trim();
