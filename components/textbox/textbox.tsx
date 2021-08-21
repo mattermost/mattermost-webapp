@@ -4,13 +4,13 @@
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.js';
+import ChannelMentionProvider from 'components/suggestion/channel_mention_provider';
 
-import EmoticonProvider from 'components/suggestion/emoticon_provider.js';
+import EmoticonProvider from 'components/suggestion/emoticon_provider';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
 
 import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
@@ -24,6 +24,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
+import {Group} from 'mattermost-redux/types/groups';
 
 type Props = {
     id: string;
@@ -54,10 +55,10 @@ type Props = {
     currentUserId: string;
     currentTeamId: string;
     preview?: boolean;
-    profilesInChannel: Array<{ id: string }>;
-    autocompleteGroups: Array<{ id: string }> | null;
+    profilesInChannel: UserProfileWithLastViewAt[];
+    autocompleteGroups: Group[] | null;
     actions: {
-        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
+        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<UserProfile[]>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>;
         searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
     };
@@ -100,7 +101,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 profilesInChannel: this.props.profilesInChannel,
                 autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
-                autocompleteGroups: this.props.autocompleteGroups,
+                autocompleteGroups: this.props.autocompleteGroups == null ? [] : this.props.autocompleteGroups,
                 searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
                 priorityProfiles: this.props.priorityProfiles,
             }),

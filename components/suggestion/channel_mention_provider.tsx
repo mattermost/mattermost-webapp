@@ -14,7 +14,7 @@ import {Constants} from 'utils/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import Provider from './provider.js';
+import Provider from './provider';
 import Suggestion, {SuggestionProps} from './suggestion';
 
 interface WrappedChannel {

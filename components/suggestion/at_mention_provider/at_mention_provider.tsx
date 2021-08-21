@@ -9,7 +9,7 @@ import {Constants} from 'utils/constants';
 
 import Provider, {ResultCallbackParams} from '../provider';
 
-import {UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
+import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
 
 import {Group} from 'mattermost-redux/types/groups';
 
@@ -18,7 +18,7 @@ import AtMentionSuggestion from './at_mention_suggestion';
 interface Props {
     currentUserId: string;
     profilesInChannel: UserProfileWithLastViewAt[];
-    autocompleteUsersInChannel: (prefix: string) => Promise<UserProfileWithLastViewAt[]>;
+    autocompleteUsersInChannel: (prefix: string) => Promise<UserProfile[]>;
     useChannelMentions: boolean;
     autocompleteGroups: Group[];
     searchAssociatedGroupsForReference: (prefix: string) => Promise<{data: Group[]}>;
@@ -52,11 +52,11 @@ export default class AtMentionProvider extends Provider {
 
     currentUserId: string;
     profilesInChannel: UserProfileWithLastViewAt[];
-    autocompleteUsersInChannel: (prefix: string) => Promise<UserProfileWithLastViewAt[]>;
+    autocompleteUsersInChannel: (prefix: string) => Promise<UserProfile[]>;
     useChannelMentions: boolean;
     autocompleteGroups: Group[];
     searchAssociatedGroupsForReference: (prefix: string) => Promise<{data: Group[]}>;
-    priorityProfiles: UserProfileWithLastViewAt[];
+    priorityProfiles: UserProfile[];
 
     constructor(props: Props) {
         super();
@@ -93,7 +93,7 @@ export default class AtMentionProvider extends Provider {
 
     // retrieves the parts of the profile that should be checked
     // against the term
-    getProfileSuggestions(profile: UserProfileWithLastViewAt): string [] {
+    getProfileSuggestions(profile: UserProfileWithLastViewAt | UserProfile): string [] {
         const profileSuggestions: string[] = [];
         if (!profile) {
             return profileSuggestions;
@@ -133,7 +133,7 @@ export default class AtMentionProvider extends Provider {
     }
 
     // filterProfile constrains profiles to those matching the latest prefix.
-    filterProfile(profile: UserProfileWithLastViewAt): boolean {
+    filterProfile(profile: UserProfileWithLastViewAt | UserProfile): boolean {
         if (!profile) {
             return false;
         }
@@ -389,7 +389,7 @@ export default class AtMentionProvider extends Provider {
         this.lastPrefixWithNoResults = '';
     }
 
-    createFromProfile(profile: UserProfileWithLastViewAt, type: string): LocalMember {
+    createFromProfile(profile: UserProfileWithLastViewAt | UserProfile, type: string): LocalMember {
         const localMember: LocalMember = {
             type,
             ...profile,
