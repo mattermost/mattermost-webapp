@@ -2,9 +2,13 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
+import AtMentionSuggestion from 'components/suggestion/at_mention_provider/at_mention_suggestion';
+
 import * as Utils from 'utils/utils.jsx';
-import AtMentionSuggestion from 'components/suggestion/at_mention_provider/at_mention_suggestion.jsx';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
+import {Item} from './at_mention_provider';
 
 jest.mock('components/custom_status/custom_status_emoji', () => () => <div/>);
 jest.spyOn(Utils, 'getFullName').mockReturnValue('a b');
@@ -17,7 +21,7 @@ describe('at mention suggestion', () => {
         last_name: 'b',
         nickname: 'c',
         isCurrentUser: true,
-    };
+    } as Item;
 
     const userid2 = {
         id: 'userid2',
@@ -25,7 +29,7 @@ describe('at mention suggestion', () => {
         first_name: 'a',
         last_name: 'b',
         nickname: 'c',
-    };
+    } as Item;
 
     it('Should not display nick name of the signed in user', () => {
         const wrapper = mountWithIntl(

@@ -13,13 +13,19 @@ import store from 'stores/redux_store.jsx';
 import * as Emoticons from 'utils/emoticons';
 import {compareEmojis} from 'utils/emoji_utils';
 
-import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
+import {Emoji} from 'mattermost-redux/types/emojis';
+
+import EmojiMap from '../../utils/emoji_map';
+
+import Suggestion, {SuggestionProps} from './suggestion';
+import Provider, {ResultCallbackParams} from './provider';
 
 export const MIN_EMOTICON_LENGTH = 2;
 export const EMOJI_CATEGORY_SUGGESTION_BLOCKLIST = ['skintone'];
 
-class EmoticonSuggestion extends Suggestion {
+type SuggestEmoji = {name: string; emoji: Emoji};
+
+class EmoticonSuggestion extends Suggestion<SuggestionProps> {
     render() {
         const text = this.props.term;
         const emoji = this.props.item.emoji;
@@ -53,12 +59,15 @@ class EmoticonSuggestion extends Suggestion {
 }
 
 export default class EmoticonProvider extends Provider {
+    triggerCharacter: string;
+
     constructor() {
         super();
 
         this.triggerCharacter = ':';
     }
-    handlePretextChanged(pretext, resultsCallback) {
+
+    handlePretextChanged(pretext: string, resultsCallback: (params: ResultCallbackParams) => void): boolean {
         // Look for the potential emoticons at the start of the text, after whitespace, and at the start of emoji reaction commands
         const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext.toLowerCase());
         if (!captured) {
@@ -92,7 +101,7 @@ export default class EmoticonProvider extends Provider {
         return true;
     }
 
-    formatEmojis(emojis) {
+    formatEmojis(emojis: SuggestEmoji[]): string[] {
         return emojis.map((item) => ':' + item.name + ':');
     }
 
@@ -106,15 +115,16 @@ export default class EmoticonProvider extends Provider {
     //
     // For now, this behaviour and difference is by design.
     // See https://mattermost.atlassian.net/browse/MM-17320.
-    findAndSuggestEmojis(text, partialName, resultsCallback) {
-        const recentMatched = [];
-        const matched = [];
+    findAndSuggestEmojis(text: string, partialName: string, resultsCallback: (params: ResultCallbackParams) => void): void {
+        const recentMatched: SuggestEmoji[] = [];
+        const matched: SuggestEmoji[] = [];
         const state = store.getState();
-        const skintone = state.entities?.preferences?.myPreferences['emoji--emoji_skintone']?.value || 'default';
-        const emojiMap = getEmojiMap(state);
+        const skintone: string = state.entities?.preferences?.myPreferences['emoji--emoji_skintone']?.value || 'default';
+        const emojiMap: EmojiMap = getEmojiMap(state);
         const recentEmojis = getRecentEmojis(state);
 
         // Check for named emoji
+        // @ts-expect-error: Is this possible to fix without porting EmojiMap to Typescript?
         for (const [name, emoji] of emojiMap) {
             if (EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.includes(emoji.category)) {
                 continue;
@@ -124,9 +134,7 @@ export default class EmoticonProvider extends Provider {
                 // This is a system emoji so it may have multiple names
                 for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
-                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ?
-                            recentMatched :
-                            matched;
+                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ? recentMatched : matched;
 
                         // if the emoji has skin, only add those that match with the user selected skin.
                         if (Emoticons.emojiMatchesSkin(emoji, skintone)) {
@@ -142,16 +150,14 @@ export default class EmoticonProvider extends Provider {
                     continue;
                 }
 
-                const matchedArray = recentEmojis.includes(name) ?
-                    recentMatched :
-                    matched;
+                const matchedArray = recentEmojis.includes(name) ? recentMatched : matched;
 
                 matchedArray.push({name, emoji});
             }
         }
 
-        const sortEmojisHelper = (a, b) => {
-            return compareEmojis(a, b, partialName);
+        const sortEmojisHelper = (a: SuggestEmoji, b: SuggestEmoji) => {
+            return compareEmojis(a.emoji, b.emoji, partialName);
         };
 
         recentMatched.sort(sortEmojisHelper);

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Provider from './provider.jsx';
+import Provider from './provider.tsx';
 import SearchDateSuggestion from './search_date_suggestion';
 
 export default class SearchDateProvider extends Provider {

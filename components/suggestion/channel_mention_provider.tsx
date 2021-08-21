@@ -11,11 +11,19 @@ import store from 'stores/redux_store.jsx';
 
 import {Constants} from 'utils/constants';
 
-import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
+import {Channel} from 'mattermost-redux/types/channels';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
-export class ChannelMentionSuggestion extends Suggestion {
-    render() {
+import Provider from './provider.js';
+import Suggestion, {SuggestionProps} from './suggestion';
+
+interface WrappedChannel {
+    type: string;
+    channel: Channel;
+}
+
+export class ChannelMentionSuggestion extends Suggestion<SuggestionProps> {
+    render(): JSX.Element {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
 
@@ -55,7 +63,13 @@ export class ChannelMentionSuggestion extends Suggestion {
 }
 
 export default class ChannelMentionProvider extends Provider {
-    constructor(channelSearchFunc) {
+    lastPrefixTrimmed: string;
+    lastPrefixWithNoResults: string;
+    lastCompletedWord: string;
+    triggerCharacter: string;
+    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>;
+
+    constructor(channelSearchFunc: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>) {
         super();
 
         this.lastPrefixTrimmed = '';
@@ -66,7 +80,8 @@ export default class ChannelMentionProvider extends Provider {
         this.autocompleteChannels = channelSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultCallback) {
+    // TODO: Fix the resultCallback signature
+    handlePretextChanged(pretext: string, resultCallback: (something: any) => void): boolean {
         this.resetRequest();
 
         const captured = (/\B(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
@@ -106,20 +121,21 @@ export default class ChannelMentionProvider extends Provider {
         this.startNewRequest(prefix);
 
         const words = prefix.toLowerCase().split(/\s+/);
-        const wrappedChannelIds = {};
-        var wrappedChannels = [];
-        getMyChannels(store.getState()).forEach((item) => {
+        const wrappedChannelIds: Record<string, boolean> = {};
+
+        let wrappedChannels: WrappedChannel[] = [];
+        getMyChannels(store.getState()).forEach((item: Channel) => {
             if (item.type !== 'O' || item.delete_at > 0) {
                 return;
             }
             const nameWords = item.name.toLowerCase().split(/\s+/).concat(item.display_name.toLowerCase().split(/\s+/));
-            var matched = true;
-            for (var j = 0; matched && j < words.length; j++) {
+            let matched = true;
+            for (let j = 0; matched && j < words.length; j++) {
                 if (!words[j]) {
                     continue;
                 }
-                var wordMatched = false;
-                for (var i = 0; i < nameWords.length; i++) {
+                let wordMatched = false;
+                for (let i = 0; i < nameWords.length; i++) {
                     if (nameWords[i].startsWith(words[j])) {
                         wordMatched = true;
                         break;
@@ -148,15 +164,12 @@ export default class ChannelMentionProvider extends Provider {
         const channelMentions = wrappedChannels.map((item) => '~' + item.channel.name);
         resultCallback({
             terms: channelMentions.concat([' ']),
-            items: wrappedChannels.concat([{
-                type: Constants.MENTION_MORE_CHANNELS,
-                loading: true,
-            }]),
+            items: [...wrappedChannels, {type: Constants.MENTION_MORE_CHANNELS, loading: true}],
             component: ChannelMentionSuggestion,
             matchedPretext: captured[1],
         });
 
-        const handleChannels = (channels, withError) => {
+        const handleChannels = (channels: Channel[], withError: boolean) => {
             if (prefix !== this.latestPrefix || this.shouldCancelDispatch(prefix)) {
                 return;
             }
@@ -168,7 +181,7 @@ export default class ChannelMentionProvider extends Provider {
             }
 
             // Wrap channels in an outer object to avoid overwriting the 'type' property.
-            const wrappedMoreChannels = [];
+            const wrappedMoreChannels: WrappedChannel[] = [];
             channels.forEach((item) => {
                 if (item.delete_at > 0 && !myMembers[item.id]) {
                     return;
@@ -228,7 +241,7 @@ export default class ChannelMentionProvider extends Provider {
         return true;
     }
 
-    handleCompleteWord(term) {
+    handleCompleteWord(term: string): void {
         this.lastCompletedWord = term;
         this.lastPrefixWithNoResults = '';
     }

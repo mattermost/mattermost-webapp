@@ -7,22 +7,21 @@ import DayPicker from 'react-day-picker';
 
 import MomentLocaleUtils from 'react-day-picker/moment';
 
-import Suggestion from '../suggestion.jsx';
+import Suggestion from '../suggestion';
 
 import 'react-day-picker/lib/style.css';
 
 import 'moment';
+import {SearchDateSuggestionProps} from './index';
 
 const loadedLocales: Record<string, moment.Locale> = {};
 
-type Props = {
-    locale: string;
-}
-
-export default class SearchDateSuggestion extends Suggestion {
+export default class SearchDateSuggestion extends Suggestion<SearchDateSuggestionProps> {
     handleDayClick = (day: Date) => {
         const dayString = day.toISOString().split('T')[0];
-        this.props.onClick(dayString, this.props.matchedPretext);
+        if (this.props.onClick) {
+            this.props.onClick(dayString, this.props.matchedPretext);
+        }
     }
 
     componentDidMount() {
@@ -37,7 +36,7 @@ export default class SearchDateSuggestion extends Suggestion {
         }
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: SearchDateSuggestionProps) {
         const locale = this.props.locale.toLowerCase();
 
         if (locale && locale !== 'en' && locale !== prevProps.locale && !loadedLocales[locale]) {

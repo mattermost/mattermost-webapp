@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
+import Provider from './provider.tsx';
+import Suggestion from './suggestion.tsx';
 
 class ChannelSuggestion extends Suggestion {
     render() {

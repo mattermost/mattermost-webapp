@@ -49,11 +49,11 @@ export default class AppCommandProvider extends Provider {
         this.triggerCharacter = '/';
     }
 
-    setProps(props: Props) {
+    setProps(props: Props): void {
         this.appCommandParser.setChannelContext(props.channelId, props.teamId, props.rootId);
     }
 
-    handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
+    handlePretextChanged(pretext: string, resultCallback: ResultsCallback): boolean {
         if (!pretext.startsWith(this.triggerCharacter)) {
             return false;
         }

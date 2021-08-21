@@ -11,8 +11,8 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
-import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
+import Provider from './provider.tsx';
+import Suggestion from './suggestion.tsx';
 
 class UserSuggestion extends Suggestion {
     render() {

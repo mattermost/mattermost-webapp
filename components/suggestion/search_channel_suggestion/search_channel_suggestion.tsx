@@ -11,6 +11,8 @@ import Suggestion from '../suggestion';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
+import {SearchChannelSuggestionProps} from './index';
+
 function itemToName(item: Channel, currentUser: string): {icon: React.ReactElement; name: string; description: string} | null {
     if (item.type === Constants.DM_CHANNEL) {
         const profilePicture = (
@@ -66,7 +68,7 @@ function itemToName(item: Channel, currentUser: string): {icon: React.ReactEleme
     return null;
 }
 
-export default class SearchChannelSuggestion extends Suggestion {
+export default class SearchChannelSuggestion extends Suggestion<SearchChannelSuggestionProps> {
     render(): JSX.Element {
         const {item, isSelection, teammate, currentUser} = this.props;
 

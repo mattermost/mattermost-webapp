@@ -4,6 +4,10 @@
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.js';
+
+import EmoticonProvider from 'components/suggestion/emoticon_provider.js';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -12,10 +16,10 @@ import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
-import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
+
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
-import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
+
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 

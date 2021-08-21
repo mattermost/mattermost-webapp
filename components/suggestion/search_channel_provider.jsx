@@ -8,7 +8,7 @@ import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 import {getCurrentLocale} from 'selectors/i18n';
 
-import Provider from './provider.jsx';
+import Provider from './provider.tsx';
 import SearchChannelSuggestion from './search_channel_suggestion';
 
 const getState = store.getState;

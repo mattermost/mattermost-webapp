@@ -12,11 +12,17 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import SharedUserIndicator from 'components/shared_user_indicator';
 import Avatar from 'components/widgets/users/avatar';
 
-import Suggestion from '../suggestion.jsx';
+import Suggestion, {SuggestionProps} from '../suggestion';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
-export default class AtMentionSuggestion extends Suggestion {
-    render() {
+import {Item} from './at_mention_provider';
+
+interface Props extends Omit<SuggestionProps, 'item'>{
+    item: Item;
+}
+
+export default class AtMentionSuggestion extends Suggestion<Props> {
+    render(): JSX.Element {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
 
@@ -39,7 +45,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     id='generic_icons.member'
                     defaultMessage='Member Icon'
                 >
-                    {(title) => (
+                    {(title: string) => (
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
@@ -64,7 +70,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     id='generic_icons.member'
                     defaultMessage='Member Icon'
                 >
-                    {(title) => (
+                    {(title: string) => (
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
@@ -89,7 +95,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     id='generic_icons.member'
                     defaultMessage='Member Icon'
                 >
-                    {(title) => (
+                    {(title: string) => (
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
@@ -107,7 +113,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     id='generic_icons.member'
                     defaultMessage='Group Icon'
                 >
-                    {(title) => (
+                    {(title: string) => (
                         <i
                             className='suggestion-list__icon fa fa-users fa-2x'
                             title={title}

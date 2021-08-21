@@ -50,8 +50,8 @@ import * as Utils from 'utils/utils.jsx';
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
-import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
+import Provider from './provider.tsx';
+import Suggestion from './suggestion.tsx';
 
 const getState = store.getState;
 const searchProfilesMatchingWithTerm = makeSearchProfilesMatchingWithTerm();

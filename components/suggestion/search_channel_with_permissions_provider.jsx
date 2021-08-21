@@ -18,8 +18,8 @@ import {logError} from 'mattermost-redux/actions/errors';
 import store from 'stores/redux_store.jsx';
 import {Constants} from 'utils/constants';
 
-import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
+import Provider from './provider.tsx';
+import Suggestion from './suggestion.tsx';
 
 class SearchChannelWithPermissionsSuggestion extends Suggestion {
     static get propTypes() {

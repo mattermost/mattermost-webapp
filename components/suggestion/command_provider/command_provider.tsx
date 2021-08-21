@@ -15,7 +15,7 @@ import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import {Constants} from 'utils/constants';
 
-import Suggestion from '../suggestion';
+import Suggestion, {SuggestionProps} from '../suggestion';
 import Provider from '../provider';
 
 import {GlobalState} from 'types/store';
@@ -26,8 +26,8 @@ import {intlShim} from './app_command_parser/app_command_parser_dependencies';
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
 
-export class CommandSuggestion extends Suggestion {
-    render() {
+export class CommandSuggestion extends Suggestion<SuggestionProps> {
+    render(): JSX.Element {
         const {isSelection} = this.props;
         const item = this.props.item as AutocompleteSuggestion;
 

@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow, mount} from 'enzyme';
 
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
-import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
+import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.tsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import * as Utils from 'utils/utils.jsx';
