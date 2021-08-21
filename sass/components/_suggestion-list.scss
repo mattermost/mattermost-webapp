@@ -58,8 +58,9 @@
 .suggestion-list__content {
     width: 496px;
     max-width: 100%;
-    max-height: 292px;
+    max-height: 296px;
     padding-bottom: 12px;
+    padding-top: 8px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     background-color: v(center-channel-bg);
     border-radius: 4px;
