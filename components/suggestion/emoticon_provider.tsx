@@ -156,8 +156,8 @@ export default class EmoticonProvider extends Provider {
             }
         }
 
-        const sortEmojisHelper = (a: SuggestEmoji, b: SuggestEmoji) => {
-            return compareEmojis(a.emoji, b.emoji, partialName);
+        const sortEmojisHelper = (a: any, b: any) => {
+            return compareEmojis(a, b, partialName);
         };
 
         recentMatched.sort(sortEmojisHelper);

@@ -80,8 +80,7 @@ export default class ChannelMentionProvider extends Provider {
         this.autocompleteChannels = channelSearchFunc;
     }
 
-    // TODO: Fix the resultCallback signature
-    handlePretextChanged(pretext: string, resultCallback: (something: any) => void): boolean {
+    handlePretextChanged(pretext: string, resultCallback: (params: any) => void): boolean {
         this.resetRequest();
 
         const captured = (/\B(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
