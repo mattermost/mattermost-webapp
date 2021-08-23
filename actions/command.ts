@@ -101,7 +101,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             break;
         }
         case '/settings':
-            dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal}));
+            dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentChannelPreferences: true}}));
             return {data: true};
         case '/collapse':
         case '/expand':

@@ -456,6 +456,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             accessibilityLabel='Account Settings'
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
+                            dialogProps={{isContentChannelPreferences: false}}
                             text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
                             icon={globalHeader ?
                                 <Icon

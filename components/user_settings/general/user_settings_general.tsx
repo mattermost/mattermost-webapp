@@ -1352,8 +1352,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                             </FormattedMessage>
                         </div>
                         <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
+                            id='user.settings.modal.profile'
+                            defaultMessage='Profile'
                         />
                     </h4>
                 </div>
@@ -1363,8 +1363,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         className='tab-header'
                     >
                         <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
+                            id='user.settings.modal.profile'
+                            defaultMessage='Profile'
                         />
                     </h3>
                     <div className='divider-dark first'/>

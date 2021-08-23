@@ -26,7 +26,7 @@ export type Props = {
 
 export default class UserSettings extends React.PureComponent<Props> {
     render() {
-        if (this.props.activeTab === 'general') {
+        if (this.props.activeTab === 'profile') {
             return (
                 <div>
                     <GeneralTab
