@@ -4766,8 +4766,6 @@
   "view_image.zoom_out": "縮小表示",
   "view_image.zoom_reset": "表示をリセットする",
   "view_image_popover.download": "ダウンロードする",
-  "view_image_popover.file": "{total, number}ファイル中{count, number}番目のファイル",
-  "view_image_popover.open": "開く",
   "view_image_popover.publicLink": "公開リンクを取得する",
   "warn_metric_ack_modal.contact_support": "承認",
   "warn_metric_ack_modal.learn_more.link": "詳しく知る",

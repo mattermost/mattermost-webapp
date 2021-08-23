@@ -4437,8 +4437,6 @@
   "view_image.zoom_out": "Menos Zoom",
   "view_image.zoom_reset": "Redefinir Zoom",
   "view_image_popover.download": "Download",
-  "view_image_popover.file": "Arquivo {count, number} de {total, number}",
-  "view_image_popover.open": "Abrir",
   "view_image_popover.publicLink": "Obter um link público",
   "warn_metric_ack_modal.contact_support": "Reconhecer",
   "warn_metric_ack_modal.learn_more.link": "Saiba mais",

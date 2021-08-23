@@ -3959,8 +3959,6 @@
   "version_bar.refresh": "Aggiorna l'app adesso",
   "view_image.loading": "Caricamento ",
   "view_image_popover.download": "Scarica",
-  "view_image_popover.file": "File {count, number} di {total, number}",
-  "view_image_popover.open": "Apri",
   "view_image_popover.publicLink": "Ottieni collegamento pubblico",
   "warn_metric_ack_modal.contact_support": "Contattaci",
   "warn_metric_ack_modal.learn_more.link": "Scopri di più",

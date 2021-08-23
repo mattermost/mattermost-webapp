@@ -4630,8 +4630,6 @@
   "view_image.zoom_out": "Micsoreaza",
   "view_image.zoom_reset": "Resetați Zoom",
   "view_image_popover.download": "Descarca",
-  "view_image_popover.file": "Fișier {count, number} din {total, number}",
-  "view_image_popover.open": "Deschis",
   "view_image_popover.publicLink": "Obțineți legătură publică",
   "warn_metric_ack_modal.contact_support": "Recunoașteți",
   "warn_metric_ack_modal.learn_more.link": "Aflați mai multe",

@@ -4760,8 +4760,6 @@
   "view_image.zoom_out": "Zooma ut",
   "view_image.zoom_reset": "Återställ zoom",
   "view_image_popover.download": "Ladda ner",
-  "view_image_popover.file": "Fil {count, number} av {total, number}",
-  "view_image_popover.open": "Öppen",
   "view_image_popover.publicLink": "Hämta publik länk",
   "warn_metric_ack_modal.contact_support": "Godkänna",
   "warn_metric_ack_modal.learn_more.link": "Läs mer",

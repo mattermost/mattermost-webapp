@@ -4763,8 +4763,6 @@
   "view_image.zoom_out": "缩小",
   "view_image.zoom_reset": "重设缩放",
   "view_image_popover.download": "下载",
-  "view_image_popover.file": "{count, number} 个文件，共 {total, number}",
-  "view_image_popover.open": "打开",
   "view_image_popover.publicLink": "获取公开链接",
   "warn_metric_ack_modal.contact_support": "确认",
   "warn_metric_ack_modal.learn_more.link": "了解更多",

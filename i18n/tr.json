@@ -4775,8 +4775,6 @@
   "view_image.zoom_out": "Küçült",
   "view_image.zoom_reset": "Özgün Boyuta Dön",
   "view_image_popover.download": "İndir",
-  "view_image_popover.file": "Dosya {count, number} / {total, number}",
-  "view_image_popover.open": "Aç",
   "view_image_popover.publicLink": "Herkese açık bir bağlantı al",
   "warn_metric_ack_modal.contact_support": "Onaylayın",
   "warn_metric_ack_modal.learn_more.link": "Ayrıntılı bilgi alın",

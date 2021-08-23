@@ -4775,7 +4775,6 @@
   "view_image.zoom_out": "Zoom Out",
   "view_image.zoom_reset": "Reset Zoom",
   "view_image_popover.download": "Download",
-  "view_image_popover.file": "File {count, number} of {total, number}",
   "view_image_popover.open": "Open",
   "view_image_popover.publicLink": "Get a public link",
   "warn_metric_ack_modal.contact_support": "Acknowledge",

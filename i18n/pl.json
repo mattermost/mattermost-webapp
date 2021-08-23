@@ -3644,8 +3644,6 @@
   "version_bar.refresh": "Odśwież teraz aplikację",
   "view_image.loading": "Wczytywanie ",
   "view_image_popover.download": "Pobierz",
-  "view_image_popover.file": "Plik {count, number} z {total, number}",
-  "view_image_popover.open": "Otwórz",
   "view_image_popover.publicLink": "Pobierz adres publiczny",
   "warn_metric_ack_modal.learn_more.link": "Dowiedz się więcej",
   "web.footer.about": "O",

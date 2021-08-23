@@ -4775,7 +4775,6 @@
   "view_image.zoom_out": "Kicsinyítés",
   "view_image.zoom_reset": "Nagyítás visszaállítása",
   "view_image_popover.download": "Letöltés",
-  "view_image_popover.file": "Fájl {count, number} / {total, number}",
   "view_image_popover.open": "Megnyitás",
   "view_image_popover.publicLink": "Nyilvános link lekérése",
   "warn_metric_ack_modal.contact_support": "Tudomásul veszem",

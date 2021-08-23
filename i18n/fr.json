@@ -4311,8 +4311,6 @@
   "version_bar.refresh": "Actualiser l'application maintenant",
   "view_image.loading": "Chargement ",
   "view_image_popover.download": "Télécharger",
-  "view_image_popover.file": "Fichier {count, number} de {total, number}",
-  "view_image_popover.open": "Ouvrir",
   "view_image_popover.publicLink": "Obtenir le lien public",
   "warn_metric_ack_modal.learn_more.link": "En savoir plus",
   "web.footer.about": "À propos",

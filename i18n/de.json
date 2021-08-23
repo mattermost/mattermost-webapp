@@ -4781,8 +4781,6 @@
   "view_image.zoom_out": "Verkleinern",
   "view_image.zoom_reset": "Zoom zurücksetzen",
   "view_image_popover.download": "Herunterladen",
-  "view_image_popover.file": "Datei {count, number} von {total, number}",
-  "view_image_popover.open": "Öffnen",
   "view_image_popover.publicLink": "Öffentlichen Link erhalten",
   "warn_metric_ack_modal.contact_support": "Bestätigen",
   "warn_metric_ack_modal.learn_more.link": "Mehr erfahren",

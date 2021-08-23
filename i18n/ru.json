@@ -4713,8 +4713,6 @@
   "view_image.zoom_out": "Уменьшить масштаб",
   "view_image.zoom_reset": "Сбросить масштаб",
   "view_image_popover.download": "Скачать",
-  "view_image_popover.file": "Файл {count, number} из {total, number}",
-  "view_image_popover.open": "Открыть",
   "view_image_popover.publicLink": "Получить общедоступную ссылку",
   "warn_metric_ack_modal.contact_support": "Подтвердить",
   "warn_metric_ack_modal.learn_more.link": "Узнать больше",

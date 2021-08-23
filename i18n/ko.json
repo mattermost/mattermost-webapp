@@ -3569,7 +3569,6 @@
   "view_image.zoom_in": "확대",
   "view_image.zoom_out": "축소",
   "view_image_popover.download": "다운로드",
-  "view_image_popover.open": "열기",
   "view_image_popover.publicLink": "공개 링크 보기",
   "warn_metric_ack_modal.learn_more.link": "더 알아보기",
   "warn_metric_ack_modal.number_of_users.header.title": "Mattermost Enterprise 버전으로 업그레이드",

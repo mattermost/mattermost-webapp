@@ -4022,8 +4022,6 @@
   "version_bar.refresh": "請重新載入應用程式",
   "view_image.loading": "載入中",
   "view_image_popover.download": "下載",
-  "view_image_popover.file": "第{count, number}個檔案，共有{total, number}個檔案",
-  "view_image_popover.open": "開啟",
   "view_image_popover.publicLink": "取得公開連結",
   "warn_metric_ack_modal.contact_support": "聯絡我們",
   "warn_metric_ack_modal.learn_more.link": "了解更多",

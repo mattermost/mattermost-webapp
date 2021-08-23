@@ -4753,8 +4753,6 @@
   "view_image.zoom_out": "Намали",
   "view_image.zoom_reset": "Нулирай увеличението",
   "view_image_popover.download": "Свали",
-  "view_image_popover.file": "Файл {count, number} от {total, number}",
-  "view_image_popover.open": "Отвори",
   "view_image_popover.publicLink": "Вземи публична връзка",
   "warn_metric_ack_modal.contact_support": "Потвърди",
   "warn_metric_ack_modal.learn_more.link": "Виж още",

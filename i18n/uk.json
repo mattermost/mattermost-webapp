@@ -3109,8 +3109,6 @@
   "user_profile.send.dm.icon": "Надіслати піктограму повідомлення",
   "view_image.loading": "Завантаження ",
   "view_image_popover.download": "Завантажити",
-  "view_image_popover.file": "Файл {count, number} з {total, number}",
-  "view_image_popover.open": "Відкрити ",
   "view_image_popover.publicLink": "Отримати публічне посилання ",
   "warn_metric_ack_modal.learn_more.link": "Вчи більше",
   "warn_metric_ack_modal.number_of_users.header.title": "Масштабування за допомогою Mattermost",

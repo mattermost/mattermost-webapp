@@ -4750,8 +4750,6 @@
   "view_image.zoom_out": "Alejar",
   "view_image.zoom_reset": "Restablecer zoom",
   "view_image_popover.download": "Descargar",
-  "view_image_popover.file": "Archivo {count, number} de {total, number}",
-  "view_image_popover.open": "Abrir",
   "view_image_popover.publicLink": "Obtener un enlace público",
   "warn_metric_ack_modal.contact_support": "Admitir",
   "warn_metric_ack_modal.learn_more.link": "Conocer más",
