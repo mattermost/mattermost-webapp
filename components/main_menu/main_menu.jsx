@@ -269,6 +269,7 @@ class MainMenu extends React.PureComponent {
                     />
                     <Menu.ItemToggleModalRedux
                         id='leaveTeam'
+                        className='destructive'
                         show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
                         modalId={ModalIdentifiers.LEAVE_TEAM}
                         dialogType={LeaveTeamModal}

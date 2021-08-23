@@ -9,7 +9,7 @@ Cypress.Commands.add('uiCreateSidebarCategory', (categoryName = `category-${getR
     cy.get('.AddChannelDropdown_dropdownButton').click();
 
     // # Click the Create New Category dropdown item
-    cy.get('.AddChannelDropdown').contains('.MenuItem', 'Create New Category').click();
+    cy.get('.AddChannelDropdown').contains('.MenuItem', 'Create New Category').click({force: true});
 
     // # Fill in the category name and click Create
     cy.get('input[placeholder="Name your category"]').type(categoryName);

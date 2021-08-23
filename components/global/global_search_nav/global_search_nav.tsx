@@ -81,7 +81,7 @@ const GlobalSearchNav = (): JSX.Element => {
     return (
         <Flex
             row={true}
-            width={450}
+            width={432}
             flex={1}
             alignment='center'
         >

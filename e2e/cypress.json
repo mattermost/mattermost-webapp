@@ -1,5 +1,6 @@
 {
     "baseUrl": "http://localhost:8065",
+    "chromeWebSecurity": false,
     "defaultCommandTimeout": 20000,
     "ignoreTestFiles": "**/node_modules/**/*",
     "integrationFolder": "..",
@@ -12,6 +13,8 @@
         "adminUsername": "sysadmin",
         "adminPassword": "Sys@dmin-sample1",
         "allowedUntrustedInternalConnections": "localhost",
+        "cwsUrl": "http://localhost:8076",
+        "cwsApiUrl": "http://localhost:8076",
         "dbClient": "postgres",
         "dbConnection": "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable\u0026connect_timeout=10",
         "elasticsearchConnectionUrl": "http://localhost:9200",
@@ -31,6 +34,7 @@
         "resetBeforeTest": false,
         "runLDAPSync": true,
         "secondServerURL": "http://localhost/s/p",
+        "serverEdition": "Team",
         "smtpUrl": "http://localhost:10080",
         "storybookUrl": "http://localhost:6006/",
         "webhookBaseUrl": "http://localhost:3000"
