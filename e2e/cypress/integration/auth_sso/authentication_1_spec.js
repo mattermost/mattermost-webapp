@@ -188,10 +188,7 @@ describe('Authentication', () => {
                 EnableOpenServer: true,
             },
             GitLabSettings: {
-                DiscoveryEndpoint: '',
                 Enable: true,
-                TokenEndpoint: '',
-                UserApiEndpoint: '',
             },
         }).then(() => {
             cy.apiLogout();

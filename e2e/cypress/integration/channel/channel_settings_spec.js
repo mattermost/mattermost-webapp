@@ -63,7 +63,8 @@ describe('Channel Settings', () => {
 
         // # Go to channel dropdown > Mute channel
         cy.get('#channelHeaderDropdownIcon').click();
-        cy.findByText('Mute Channel').click();
+        cy.get('#channelHeaderDropdownMenu').should('exist').
+            findByText('Mute Channel').should('be.visible').click();
 
         // # Verify channel is muted
         cy.get('#sidebarItem_off-topic').should(beMuted);
@@ -76,9 +77,9 @@ describe('Channel Settings', () => {
             last().should('contain', 'Off-Topic').
             get('a').should('have.class', 'muted');
 
-        // # Go to channel dropdown > Unmute channel
-        cy.get('#channelHeaderDropdownIcon').click();
-        cy.findByText('Unmute Channel').click();
+        // # Click Unmute channel while menu is open
+        cy.get('#channelHeaderDropdownMenu').
+            findByText('Unmute Channel').should('be.visible').click();
 
         // # Verify channel is unmuted
         cy.get('#sidebarItem_off-topic').should(beUnmuted);
