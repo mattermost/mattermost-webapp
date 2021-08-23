@@ -2650,6 +2650,7 @@
   "create_team.team_url.unavailable": "Esta URL foi usada ou está indisponível. Por favor tente outra.",
   "create_team.team_url.webAddress": "Escolha o endereço web para sua nova equipe:",
   "custom_emoji.header": "Emoji Personalizado",
+  "custom_status.expiry_dropdown.today": "Hoje",
   "custom_status.modal_cancel": "Limpar Status",
   "custom_status.modal_confirm": "Definir Status",
   "custom_status.set_status": "Definir um status",
