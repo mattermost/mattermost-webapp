@@ -326,6 +326,7 @@
 
         .attachment-fields {
             width: 100%;
+            table-layout: fixed;
 
             .attachment-field__caption {
                 padding-top: 0.7em;

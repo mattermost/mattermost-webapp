@@ -279,6 +279,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
         </div>
         <div
           className="col post-menu"
+          data-testid="post-menu-id"
         >
           <Connect(injectIntl(DotMenuClass))
             enableEmojiPicker={true}
@@ -675,6 +676,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
         </div>
         <div
           className="col post-menu"
+          data-testid="post-menu-id"
         >
           <Connect(injectIntl(DotMenuClass))
             enableEmojiPicker={true}
@@ -883,6 +885,7 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
         </div>
         <div
           className="col post-menu"
+          data-testid="post-menu-id"
         >
           <Connect(PostReaction)
             channelId="channel_id"
@@ -1091,6 +1094,7 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
         </div>
         <div
           className="col post-menu"
+          data-testid="post-menu-id"
         >
           <Connect(injectIntl(DotMenuClass))
             enableEmojiPicker={true}
