@@ -10,6 +10,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
   >
     <Connect(Markdown)
       message="pretext"
+      postId="post_id"
     />
   </div>
   <div
@@ -66,10 +67,12 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
             <Connect(Markdown)
               imageProps={
                 Object {
+                  "onImageHeightChanged": [Function],
                   "onImageLoaded": [Function],
                 }
               }
               message="short text"
+              postId="post_id"
             />
           </Connect(ShowMore)>
           <div
@@ -154,6 +157,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
   >
     <Connect(Markdown)
       message="pretext"
+      postId="post_id"
     />
   </div>
   <div
@@ -210,10 +214,12 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
             <Connect(Markdown)
               imageProps={
                 Object {
+                  "onImageHeightChanged": [Function],
                   "onImageLoaded": [Function],
                 }
               }
               message="short text"
+              postId="post_id"
             />
           </Connect(ShowMore)>
           <div
@@ -279,6 +285,7 @@ exports[`components/post_view/MessageAttachment should match snapshot and render
 >
   <Connect(Markdown)
     message="1234"
+    postId="post_id"
   />
 </td>
 `;
@@ -293,6 +300,7 @@ exports[`components/post_view/MessageAttachment should match snapshot when no fo
   >
     <Connect(Markdown)
       message="pretext"
+      postId="post_id"
     />
   </div>
   <div
@@ -349,10 +357,12 @@ exports[`components/post_view/MessageAttachment should match snapshot when no fo
             <Connect(Markdown)
               imageProps={
                 Object {
+                  "onImageHeightChanged": [Function],
                   "onImageLoaded": [Function],
                 }
               }
               message="short text"
+              postId="post_id"
             />
           </Connect(ShowMore)>
           <div
@@ -424,6 +434,7 @@ exports[`components/post_view/MessageAttachment should match snapshot when the a
               },
             }
           }
+          postId="post_id"
         />
       </h1>
       <div>
@@ -468,6 +479,7 @@ exports[`components/post_view/MessageAttachment should match snapshot when the a
               },
             }
           }
+          postId="post_id"
         />
       </h1>
       <div>
@@ -512,6 +524,7 @@ exports[`components/post_view/MessageAttachment should match snapshot when the a
               },
             }
           }
+          postId="post_id"
         />
       </h1>
       <div>
@@ -556,6 +569,7 @@ exports[`components/post_view/MessageAttachment should match snapshot when the f
               },
             }
           }
+          postId="post_id"
         />
       </h1>
       <div>
@@ -613,6 +627,7 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
                 "mentionHighlight": false,
               }
             }
+            postId="post_id"
           />
         </th>
       </tr>
@@ -624,6 +639,7 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
         >
           <Memo(Connect(Markdown))
             message="value_1"
+            postId="post_id"
           />
         </td>
       </tr>
@@ -645,6 +661,7 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
                 "mentionHighlight": false,
               }
             }
+            postId="post_id"
           />
         </th>
       </tr>
@@ -656,6 +673,7 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
         >
           <Memo(Connect(Markdown))
             message="value_2"
+            postId="post_id"
           />
         </td>
       </tr>
