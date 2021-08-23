@@ -5,6 +5,8 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, IntlShape, injectIntl} from 'react-intl';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -131,6 +133,12 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         );
     }
 
+    trackOpen(opened: boolean) {
+        if (opened) {
+            trackEvent('ui', 'ui_add_channel_dropdown_opened');
+        }
+    }
+
     render() {
         const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
 
@@ -164,6 +172,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             <MenuWrapper
                 className='AddChannelDropdown'
                 stopPropagationOnToggle={Boolean(this.props.addChannelButton) && this.props.addChannelButton !== AddChannelButtonTreatments.NONE}
+                onToggle={this.trackOpen}
             >
                 <OverlayTrigger
                     delayShow={500}
