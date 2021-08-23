@@ -331,6 +331,12 @@ class MainMenu extends React.PureComponent {
                     />
                 </Menu.Group>
                 <Menu.Group>
+                    <Menu.StartTrial
+                        id='startTrial'
+                        show={true}
+                    />
+                </Menu.Group>
+                <Menu.Group>
                     <Menu.ItemToggleModalRedux
                         id='accountSettings'
                         modalId={ModalIdentifiers.USER_SETTINGS}

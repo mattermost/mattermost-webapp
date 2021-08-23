@@ -3681,6 +3681,8 @@
   "multiselect.selectTeams": "Use ↑↓ to browse, ↵ to select.",
   "navbar_dropdown.about": "About {appTitle}",
   "navbar_dropdown.accountSettings": "Account Settings",
+  "navbar_dropdown.tryTrialNow": "Try Enterprise for free now!",
+  "navbar_dropdown.startTrial": "Start Trial",
   "navbar_dropdown.addGroupsToTeam": "Add Groups to Team",
   "navbar_dropdown.console": "System Console",
   "navbar_dropdown.create": "Create a Team",

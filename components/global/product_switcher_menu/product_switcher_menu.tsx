@@ -69,6 +69,12 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
         return (
             <>
                 <Menu.Group>
+                    <Menu.StartTrial
+                        id='startTrial'
+                        show={true}
+                    />
+                </Menu.Group>
+                <Menu.Group>
                     <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                         <Menu.ItemLink
                             id='systemConsole'
