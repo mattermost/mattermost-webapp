@@ -2393,7 +2393,7 @@
   "announcement_bar.error.site_url.full": "Configureer uw [site URL] (https://docs.mattermost.com/administration/config-settings.html#site-url) in de [Systeemconsole] (/admin_console/environment/web_server).",
   "announcement_bar.error.site_url_gitlab.full": "Configureer je [site URL] (https://docs.mattermost.com/administration/config-settings.html#site-url) in de [Systeemconsole] /admin_console/environment/web_server) of in gitlab.rb als je GitLab Mattermost gebruikt.",
   "announcement_bar.error.trial_license_expiring": "**Er zijn nog {days} dagen over van je gratis proefperiode.**",
-  "announcement_bar.error.trial_license_expiring_last_day": "**Dit is de laatste dag van je gratis proefperiode. Koop nu een licentie om de Mattemost Professional en Enterprise functies te blijven gebruiken.**",
+  "announcement_bar.error.trial_license_expiring_last_day": "**Dit is de laatste dag van je gratis proefperiode. Koop nu een licentie om de Mattermost Professional en Enterprise functies te blijven gebruiken.**",
   "announcement_bar.error.warn_metric_status.link": "Meer Informatie",
   "announcement_bar.notification.email_verified": "E-mail geverifieerd",
   "announcement_bar.number_active_users_warn_metric_status.text": "Je hebt nu meer dan {limit} gebruikers. We raden het gebruik van geavanceerde functies voor grootschalige servers sterk aan.",
