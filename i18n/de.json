@@ -3327,7 +3327,7 @@
   "help.messaging.notify": "**Teammitglieder benachrichtigen:** Geben Sie `@username` ein, um die Aufmerksamkeit bestimmter Teammitglieder zu erhalten.",
   "help.messaging.reply": "**Nachrichten beantworten:** Wählen Sie das Symbol **Pfeil zum Beantworten** neben dem Texteingabefeld.",
   "help.messaging.title": "Messaging-Grundlagen",
-  "help.messaging.write": "**Nachrichten schreiben:** Verwenden Sie das Texteingabefeld am unteren Rand der Mattermost-Oberfläche, um eine Nachricht zu schreiben. Drücken Sie ENTER, um die Nachricht zu senden. Verwenden Sie SHIFT+ENTER, um eine neue Zeile zu erstellen, ohne eine Nachricht zu senden.",
+  "help.messaging.write": "**Nachrichten schreiben:** Verwenden Sie das Texteingabefeld am unteren Rand der Mattermost-Oberfläche, um eine Nachricht zu schreiben. Drücken Sie **ENTER**, um die Nachricht zu senden. Verwenden Sie **SHIFT+ENTER**, um eine neue Zeile zu erstellen, ohne eine Nachricht zu senden.",
   "inProduct_notices.adminOnlyMessage": "Nur für Administratoren sichtbar",
   "input.clear": "Leeren",
   "installed_command.header": "Slash-Befehle",
