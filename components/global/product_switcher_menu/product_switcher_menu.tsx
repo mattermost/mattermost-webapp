@@ -8,6 +8,7 @@ import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {ClientLicense} from 'mattermost-redux/types/config';
 
 import * as GlobalActions from 'actions/global_actions';
 import AboutBuildModal from 'components/about_build_modal';
@@ -40,6 +41,12 @@ type Props = {
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+    prevTrialLicense: ClientLicense;
+    actions: {
+        getPrevTrialLicense: () => void;
+        getLicenseConfig: () => void;
+        getStandardAnalytics: () => void;
+    };
 };
 
 // TODO: reqrite this to a functional component
@@ -49,6 +56,12 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
         isMobile: false,
         pluginMenuItems: [],
     };
+
+    async componentDidMount() {
+        this.props.actions.getPrevTrialLicense();
+        this.props.actions.getLicenseConfig();
+        this.props.actions.getStandardAnalytics();
+    }
 
     handleEmitUserLoggedOutEvent = () => {
         GlobalActions.emitUserLoggedOutEvent();
@@ -71,7 +84,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                 <Menu.Group>
                     <Menu.StartTrial
                         id='startTrial'
-                        show={true}
+                        show={this.props.prevTrialLicense?.IsLicensed !== 'true'}
                     />
                 </Menu.Group>
                 <Menu.Group>

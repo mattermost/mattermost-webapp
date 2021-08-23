@@ -19,6 +19,8 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
+import {getPrevTrialLicense, getStandardAnalytics} from 'mattermost-redux/actions/admin';
+import {getLicenseConfig} from 'mattermost-redux/actions/general';
 
 import {RHSStates, TrialPeriodDays} from 'utils/constants';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
@@ -113,6 +115,7 @@ function mapStateToProps(state) {
         subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
         globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        prevTrialLicense: state.entities.admin.prevTrialLicense,
     };
 }
 
@@ -126,6 +129,9 @@ function mapDispatchToProps(dispatch) {
             closeRhsMenu,
             unhideNextSteps,
             getSubscriptionStats,
+            getPrevTrialLicense,
+            getLicenseConfig,
+            getStandardAnalytics,
         }, dispatch),
     };
 }

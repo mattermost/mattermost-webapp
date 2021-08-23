@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {
     getConfig,
@@ -10,7 +11,10 @@ import {
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {Permissions} from 'mattermost-redux/constants';
+import {getPrevTrialLicense, getStandardAnalytics} from 'mattermost-redux/actions/admin';
+import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {GlobalState} from 'types/store/index';
 
 import ProductSwitcherMenu from './product_switcher_menu';
@@ -47,7 +51,24 @@ function mapStateToProps(state: GlobalState) {
         teamName: currentTeam.name,
         currentUser,
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
+        prevTrialLicense: state.entities.admin.prevTrialLicense,
     };
 }
 
-export default connect(mapStateToProps)(ProductSwitcherMenu);
+type Actions = {
+    getPrevTrialLicense: () => void;
+    getLicenseConfig: () => void;
+    getStandardAnalytics: () => void;
+};
+
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    return {
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+            getPrevTrialLicense,
+            getLicenseConfig,
+            getStandardAnalytics,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductSwitcherMenu);

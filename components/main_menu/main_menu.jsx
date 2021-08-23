@@ -69,6 +69,7 @@ class MainMenu extends React.PureComponent {
         subscriptionStats: PropTypes.object,
         firstAdminVisitMarketplaceStatus: PropTypes.bool,
         globalHeaderEnabled: PropTypes.bool,
+        prevTrialLicense: PropTypes.object,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -77,6 +78,9 @@ class MainMenu extends React.PureComponent {
             closeRhsMenu: PropTypes.func.isRequired,
             unhideNextSteps: PropTypes.func.isRequired,
             getSubscriptionStats: PropTypes.func.isRequired,
+            getPrevTrialLicense: PropTypes.func.isRequired,
+            getLicenseConfig: PropTypes.func.isRequired,
+            getStandardAnalytics: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -93,6 +97,9 @@ class MainMenu extends React.PureComponent {
 
     async componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
+        this.props.actions.getPrevTrialLicense();
+        this.props.actions.getLicenseConfig();
+        this.props.actions.getStandardAnalytics();
     }
 
     componentWillUnmount() {
@@ -333,7 +340,7 @@ class MainMenu extends React.PureComponent {
                 <Menu.Group>
                     <Menu.StartTrial
                         id='startTrial'
-                        show={true}
+                        show={this.props.prevTrialLicense?.IsLicensed !== 'true'}
                     />
                 </Menu.Group>
                 <Menu.Group>
