@@ -39,9 +39,10 @@ type Props = {
     pluginMenuItems: any;
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
+    onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
-// TODO: reqrite this to a functional component
+// TODO: rewrite this to a functional component
 class ProductSwitcherMenu extends React.PureComponent<Props> {
     static defaultProps = {
         teamType: '',
@@ -54,7 +55,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const {currentUser, isMessaging, isMobile} = this.props;
+        const {currentUser, isMessaging, isMobile, onClick} = this.props;
 
         if (!currentUser) {
             return null;
@@ -67,8 +68,8 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
 
         // TODO: Ensure that clicking ItemLink menu items also closes the global header menu.
         return (
-            <>
-                <Menu.Group>
+            <Menu.Group>
+                <div onClick={onClick}>
                     <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                         <Menu.ItemLink
                             id='systemConsole'
@@ -137,8 +138,8 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                             />
                         }
                     />
-                </Menu.Group>
-            </>
+                </div>
+            </Menu.Group>
         );
     }
 }
