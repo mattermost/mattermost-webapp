@@ -140,6 +140,11 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     <MenuGroup>
       <MenuItemToggleModalRedux
         accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentChannelPreferences": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -389,6 +394,11 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     <MenuGroup>
       <MenuItemToggleModalRedux
         accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentChannelPreferences": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -587,6 +597,11 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     <MenuGroup>
       <MenuItemToggleModalRedux
         accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentChannelPreferences": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -785,6 +800,11 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     <MenuGroup>
       <MenuItemToggleModalRedux
         accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentChannelPreferences": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -984,6 +1004,11 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     <MenuGroup>
       <MenuItemToggleModalRedux
         accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentChannelPreferences": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1165,6 +1190,11 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     <MenuGroup>
       <MenuItemToggleModalRedux
         accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentChannelPreferences": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1342,6 +1372,11 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     <MenuGroup>
       <MenuItemToggleModalRedux
         accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentChannelPreferences": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
