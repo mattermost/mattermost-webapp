@@ -4658,8 +4658,6 @@
   "user.settings.security.title": "Security Settings",
   "user.settings.security.viewHistory": "View Access History",
   "user.settings.security.viewHistory.icon": "Access History Icon",
-  "user.settings.sidebar.favoritesDesc": "Channels marked as favourites will be grouped separately.",
-  "user.settings.sidebar.groupDesc": "Group channels by type, or combine all types into a list.",
   "user.settings.sidebar.icon": "Sidebar Settings Icon",
   "user.settings.sidebar.limitVisibleGMsDMs.allDirectMessages": "All Direct Messages",
   "user.settings.sidebar.limitVisibleGMsDMsDesc": "You can also change these settings in the direct messages sidebar menu.",

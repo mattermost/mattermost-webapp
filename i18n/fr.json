@@ -4246,8 +4246,6 @@
   "user.settings.security.title": "Paramètres de sécurité",
   "user.settings.security.viewHistory": "Voir l'historique d'accès",
   "user.settings.security.viewHistory.icon": "Icône d'historique d'accès",
-  "user.settings.sidebar.favoritesDesc": "Les canaux marqués comme favoris seront groupés séparément.",
-  "user.settings.sidebar.groupDesc": "Grouper les canaux par type, ou combiner tous les types dans une liste.",
   "user.settings.sidebar.icon": "Icône de paramètres de la barre latérale",
   "user.settings.sidebar.limitVisibleGMsDMsTitle": "Nombre de messages personnels à afficher",
   "user.settings.sidebar.off": "Désactivé",

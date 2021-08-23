@@ -4658,8 +4658,6 @@
   "user.settings.security.title": "Biztonsági beállítások",
   "user.settings.security.viewHistory": "Hozzáférési előzmények megtekintése",
   "user.settings.security.viewHistory.icon": "Hozzáférési előzmények ikon",
-  "user.settings.sidebar.favoritesDesc": "A kedvencként megjelölt csatornákat külön csoportosítjuk.",
-  "user.settings.sidebar.groupDesc": "Csoportosítsa a csatornákat típus szerint, vagy kombinálja az összes típust egy listába.",
   "user.settings.sidebar.icon": "Oldalsáv beállítások ikon",
   "user.settings.sidebar.limitVisibleGMsDMs.allDirectMessages": "Összes közvetlen üzenet",
   "user.settings.sidebar.limitVisibleGMsDMsDesc": "Ezeket a beállításokat a közvetlen üzenetek oldalsáv menüjében is módosíthatja.",
