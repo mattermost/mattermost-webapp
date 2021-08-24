@@ -35,6 +35,7 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 import {getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
+    getThreads as fetchThreads,
     handleAllMarkedRead,
     handleReadChanged,
     handleFollowChanged,
@@ -164,6 +165,9 @@ function reconnectWebSocket() {
     initialize();
 }
 
+window.closeWS = close;
+window.connectWS = reconnect;
+
 const pluginReconnectHandlers = {};
 
 export function registerPluginReconnectHandler(pluginId, handler) {
@@ -195,6 +199,7 @@ export function reconnect(includeWebSocket = true) {
     const state = getState();
     const currentTeamId = state.entities.teams.currentTeamId;
     if (currentTeamId) {
+        const currentUserId = getCurrentUserId(state);
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
@@ -210,7 +215,9 @@ export function reconnect(includeWebSocket = true) {
             dispatch(getPosts(currentChannelId));
         }
         StatusActions.loadStatusesForChannelAndSidebar();
-        dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
+
+        dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state), true));
+        dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
     }
 
     if (state.websocket.lastDisconnectAt) {
