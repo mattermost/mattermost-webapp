@@ -2622,7 +2622,6 @@
   "channel_header.channelFiles": "Channel files",
   "channel_header.channelHasGuests": "This channel has guests",
   "channel_header.channelMembers": "Members",
-  "channel_header.channelPreferences": "Channel Preferences",
   "channel_header.convert": "Convert to Private Channel",
   "channel_header.delete": "Archive Channel",
   "channel_header.directchannel.you": "{displayname} (you) ",
