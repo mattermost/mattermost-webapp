@@ -184,6 +184,7 @@ export type AppField = {
     name: string;
     type: AppFieldType;
     is_required?: boolean;
+    hide_required_star?: boolean;
     readonly?: boolean;
 
     // Present (default) value of the field
