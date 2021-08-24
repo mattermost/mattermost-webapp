@@ -34,7 +34,7 @@
         "runLDAPSync": true,
         "secondServerURL": "http://localhost/s/p",
         "serverEdition": "Team",
-        "smtpUrl": "http://localhost:10080",
+        "smtpUrl": "http://localhost:9001",
         "storybookUrl": "http://localhost:6006/",
         "webhookBaseUrl": "http://localhost:3000"
     }
