@@ -111,13 +111,19 @@ export default class AppsFormField extends React.PureComponent<Props> {
         const displayName = (field.modal_label || field.label) as string;
         let displayNameContent: React.ReactNode = (field.modal_label || field.label) as string;
 
-        const showStar = field.is_required && !field.hide_required_star;
-        if (showStar || displayName) {
+        const elems = [];
+        if (displayName) {
+            elems.push(displayName);
+        }
+
+        const showRequiredStar = field.is_required && !field.hide_required_star;
+        if (showRequiredStar) {
+            elems.push(errorTextContent);
+        }
+
+        if (elems.length) {
             displayNameContent = (
-                <React.Fragment>
-                    {displayName}
-                    {errorTextContent}
-                </React.Fragment>
+                <React.Fragment>{elems}</React.Fragment>
             );
         }
 
