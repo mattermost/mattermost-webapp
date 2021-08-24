@@ -22,11 +22,9 @@ const Setting: React.FC<Props> = ({
     footer,
     helpText,
 }: Props) => {
-    return (
-        <div
-            data-testid={inputId}
-            className='form-group'
-        >
+    let labelContent;
+    if (label) {
+        labelContent = (
             <label
                 data-testid={inputId + 'label'}
                 className={'control-label ' + labelClassName}
@@ -34,6 +32,15 @@ const Setting: React.FC<Props> = ({
             >
                 {label}
             </label>
+        );
+    }
+
+    return (
+        <div
+            data-testid={inputId}
+            className='form-group'
+        >
+            {labelContent}
             <div className={inputClassName}>
                 {children}
                 <div
