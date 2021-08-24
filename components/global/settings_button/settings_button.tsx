@@ -20,10 +20,10 @@ type Props = {
 
 const SettingsButton = (props: Props): JSX.Element | null => {
     const tooltip = (
-        <Tooltip id='channelPreferences'>
+        <Tooltip id='productSettings'>
             <FormattedMessage
-                id='channel_header.channelPreferences'
-                defaultMessage='Channel Preferences'
+                id='global_header.productSettings'
+                defaultMessage='Settings'
             />
         </Tooltip>
     );
