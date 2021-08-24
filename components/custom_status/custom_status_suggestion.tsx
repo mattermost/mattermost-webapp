@@ -37,7 +37,6 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
             handleClear(status);
         }
     };
-    const customStatusDuration = CustomStatusDuration;
 
     const clearButton = handleClear ?
         (
@@ -84,8 +83,8 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
                 })}
             />
             {duration &&
-            duration !== customStatusDuration.CUSTOM_DATE_TIME &&
-            duration !== customStatusDuration.DATE_AND_TIME && (
+            duration !== CustomStatusDuration.CUSTOM_DATE_TIME &&
+            duration !== CustomStatusDuration.DATE_AND_TIME && (
                 <span className='statusSuggestion__duration'>
                     <FormattedMessage
                         id={durationValues[duration].id}
