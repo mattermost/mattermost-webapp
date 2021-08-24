@@ -39,7 +39,6 @@ type Props = {
     pluginMenuItems: any;
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
-    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
 // TODO: reqrite this to a functional component
@@ -55,7 +54,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const {currentUser, isMessaging, isMobile, onClick: handleClick} = this.props;
+        const {currentUser, isMessaging, isMobile} = this.props;
 
         if (!currentUser) {
             return null;
@@ -66,6 +65,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
 
         const {formatMessage} = this.props.intl;
 
+        // TODO: Ensure that clicking ItemLink menu items also closes the global header menu.
         return (
             <>
                 <Menu.Group>
@@ -81,7 +81,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'application-cog'}
                                 />
                             }
-                            onClick={handleClick}
                         />
                     </SystemPermissionGate>
                     <Menu.ItemLink
@@ -95,7 +94,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 glyph={'webhook-incoming'}
                             />
                         }
-                        onClick={handleClick}
                     />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
@@ -113,7 +111,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                     glyph={'apps'}
                                 />
                             }
-                            onClick={handleClick}
                         />
                     </TeamPermissionGate>
                     <Menu.ItemExternalLink

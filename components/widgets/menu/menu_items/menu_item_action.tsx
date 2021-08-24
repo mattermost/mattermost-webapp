@@ -28,11 +28,7 @@ export const MenuItemActionImpl = ({
         id={id}
         aria-label={ariaLabel}
         className={'style--none' + (extraText ? ' MenuItem__with-help' : '') + (buttonClass ? ' ' + buttonClass : '') + (isDangerous ? ' MenuItem__dangerous' : '')}
-        onClick={(event) => {
-            // stopping propagation is needed here to prevent duplicate calls to the onClick function
-            event.stopPropagation();
-            onClick(event);
-        }}
+        onClick={onClick}
     >
         {text && <span className='MenuItem__primary-text'>{text}</span>}
         {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
