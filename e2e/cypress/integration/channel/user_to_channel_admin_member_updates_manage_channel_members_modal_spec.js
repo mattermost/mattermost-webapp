@@ -67,7 +67,7 @@ describe('Change Roles', () => {
         });
     });
 
-    it('MM-10858 - Going from a Channel Member to Channel Admin update view member modal without refresh', () => {
+    it('MM-T4174 User role to channel admin/member updates channel member modal immediately without refresh', () => {
         // # Go to member modal
         cy.uiGetChannelMemberButton().click();
         cy.findByText('Manage Members').click();
