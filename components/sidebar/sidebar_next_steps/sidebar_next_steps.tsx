@@ -49,25 +49,23 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         };
     }
 
-    closeNextSteps = (event: React.SyntheticEvent) => {
+    closeNextSteps = (event: React.SyntheticEvent): void => {
+        const {globalHeaderEnabled, showNextSteps, isAdmin} = this.props;
         event.stopPropagation();
-        if (this.props.showNextSteps) {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
+        if (showNextSteps) {
+            trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
         } else {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_tips');
+            trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_tips');
         }
 
-        const screenTitle = this.props.showNextSteps ?
-            localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') :
-            localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
+        const screenTitle = showNextSteps ? localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') : localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
 
-        const globalHeader = this.props.globalHeaderEnabled;
         this.props.actions.openModal({
             modalId: ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL,
             dialogType: RemoveNextStepsModal,
             dialogProps: {
                 screenTitle,
-                globalHeader,
+                globalHeaderEnabled,
                 onConfirm: this.onConfirmModal,
                 onCancel: this.onCloseModal,
             },
