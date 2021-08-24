@@ -14,6 +14,7 @@ import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable.svg';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -22,17 +23,14 @@ import './add_members_button.scss';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
-import MembersSvg from './members_illustration.svg';
-
 export interface AddMembersButtonProps {
     totalUsers?: number;
     usersLimit: number;
     channel: Channel;
     setHeader: React.ReactNode;
-    theme: any;
 }
 
-const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, theme}: AddMembersButtonProps) => {
+const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader}: AddMembersButtonProps) => {
     if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
@@ -41,16 +39,19 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
     const inviteUsers = totalUsers < usersLimit;
 
     return (
-        inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader, theme) : moreThanMaxFreeUsers(channel, setHeader)
+        inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader) : moreThanMaxFreeUsers(channel, setHeader)
     );
 };
 
-const lessThanMaxFreeUsers = (setHeader: React.ReactNode, theme: any) => {
+const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
     return (
         <>
             {setHeader}
             <div className='LessThanMaxFreeUsers'>
-                <MembersSvg theme={theme}/>
+                <EmptyStateThemeableSvg
+                    width={128}
+                    height={113}
+                />
                 <div className='titleAndButton'>
                     <FormattedMessage
                         id='intro_messages.inviteOthersToWorkspace.title'
