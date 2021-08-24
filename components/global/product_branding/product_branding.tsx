@@ -15,6 +15,7 @@ type Props = {
 const ProductBrandingContainer = styled.div`
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     > * + * {
         margin-left: 8px;
