@@ -78,7 +78,8 @@ describe('Channel Settings', () => {
             get('a').should('have.class', 'muted');
 
         // # Click Unmute channel while menu is open
-        cy.get('#channelHeaderDropdownMenu').
+        cy.get('#channelHeaderDropdownIcon').click();
+        cy.get('#channelHeaderDropdownMenu').should('exist').
             findByText('Unmute Channel').should('be.visible').click();
 
         // # Verify channel is unmuted
