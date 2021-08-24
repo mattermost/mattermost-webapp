@@ -107,7 +107,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 size='sm'
                 compact={true}
                 inverted={true}
-                toggled={menuToggled}
+                active={menuToggled}
                 onClick={() => {}}
             />
             <MainMenu id='sidebarDropdownMenu'/>
