@@ -124,7 +124,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 glyph={'download-outline'}
                             />
                         }
-                        onClick={handleClick}
                     />
                     <Menu.ItemToggleModalRedux
                         id='about'
@@ -137,7 +136,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 glyph={'information-outline'}
                             />
                         }
-                        onClick={handleClick}
                     />
                 </Menu.Group>
             </>
