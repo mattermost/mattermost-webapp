@@ -228,7 +228,7 @@ ProfilePopoverState
         this.props.actions.openModal({
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
-            dialogProps: {isContentChannelPreferences: false},
+            dialogProps: {isContentProductSettings: false},
         });
         this.handleCloseModals();
     };
