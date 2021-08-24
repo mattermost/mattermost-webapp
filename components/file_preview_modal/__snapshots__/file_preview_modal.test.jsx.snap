@@ -2,7 +2,7 @@
 
 exports[`components/FilePreviewModal should fall back to default preview if plugin does not need to override preview component 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -95,7 +95,7 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
 
 exports[`components/FilePreviewModal should match snapshot for external file 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -187,7 +187,7 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
 
 exports[`components/FilePreviewModal should match snapshot on onModalShown and onModalHidden 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -284,7 +284,7 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
 
 exports[`components/FilePreviewModal should match snapshot on onModalShown and onModalHidden 2`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -381,7 +381,7 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
 
 exports[`components/FilePreviewModal should match snapshot when plugin overrides the preview component 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -479,7 +479,7 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
 
 exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -576,7 +576,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
 
 exports[`components/FilePreviewModal should match snapshot, loaded and showing footer 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -673,7 +673,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
 
 exports[`components/FilePreviewModal should match snapshot, loaded with .js file 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -771,7 +771,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
 
 exports[`components/FilePreviewModal should match snapshot, loaded with .m4a file 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -868,7 +868,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
 
 exports[`components/FilePreviewModal should match snapshot, loaded with .mov file 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -965,7 +965,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
 
 exports[`components/FilePreviewModal should match snapshot, loaded with footer 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -1062,7 +1062,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
 
 exports[`components/FilePreviewModal should match snapshot, loaded with image 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -1159,7 +1159,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
 
 exports[`components/FilePreviewModal should match snapshot, loaded with other file 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -1256,7 +1256,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
 
 exports[`components/FilePreviewModal should match snapshot, loading 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
@@ -1349,7 +1349,7 @@ exports[`components/FilePreviewModal should match snapshot, loading 1`] = `
 
 exports[`components/FilePreviewModal should match snapshot, modal not shown 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={false}
