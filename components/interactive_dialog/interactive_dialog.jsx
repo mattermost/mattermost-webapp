@@ -201,7 +201,10 @@ export default class InteractiveDialog extends React.PureComponent {
                 role='dialog'
                 aria-labelledby='interactiveDialogModalLabel'
             >
-                <form onSubmit={this.handleSubmit}>
+                <form
+                    onSubmit={this.handleSubmit}
+                    autoComplete={'off'}
+                >
                     <Modal.Header
                         closeButton={true}
                         style={{borderBottom: elements == null && '0px'}}
