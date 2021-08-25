@@ -85,21 +85,6 @@
     }
 }
 
-.search-bar-container--global {
-    width: 100%;
-}
-
-.search__form--global {
-    background: var(--sidebar-text-08);
-    border-radius: 4px;
-    color: var(--sidebar-text-72);
-
-    .search__font-icon,
-    .input-clear-x {
-        color: var(--sidebar-text-72);
-    }
-}
-
 .search__form {
     position: relative;
     display: flex;
@@ -185,14 +170,6 @@
 
         &.a11y--focused {
             box-shadow: none;
-        }
-    }
-
-    .Global__search-bar {
-        color: var(--sidebar-text-72);
-
-        &::placeholder {
-            color: var(--sidebar-text-72);
         }
     }
 

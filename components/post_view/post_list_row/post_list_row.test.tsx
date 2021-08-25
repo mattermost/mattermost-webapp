@@ -84,7 +84,6 @@ describe('components/post_view/post_list_row', () => {
                 last_post_at: 0,
                 total_msg_count: 0,
                 total_msg_count_root: 0,
-                extra_update_at: 0,
             },
             fullWidth: true,
             listId,

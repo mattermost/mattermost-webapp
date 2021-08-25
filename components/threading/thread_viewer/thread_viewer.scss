@@ -30,4 +30,8 @@
             padding-top: 2em;
         }
     }
+
+    > div {
+        flex: 1 1 auto;
+    }
 }

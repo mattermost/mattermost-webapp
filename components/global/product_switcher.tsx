@@ -10,9 +10,8 @@ import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon'
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import {TutorialSteps} from 'utils/constants';
 
-import {useClickOutsideRef, useCurrentProductId, useProducts, useShowTutorialStep} from './hooks';
+import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
 import ProductSwitcherMenu from './product_switcher_menu';
 import ProductSwitcherTip from './product_switcher_tip';
 
@@ -38,7 +37,7 @@ const SwitcherMenuDescriptiveText = styled.div`
     padding-left: 20px;
     font-weight: 600;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 32px;
 `;
 
 const MenuItem = styled(Link)`
@@ -48,9 +47,9 @@ const MenuItem = styled(Link)`
     }
 
     height: 40px;
-    width: 273px;
+    width: 270px;
     padding-left: 16px;
-    padding-right: 16px;
+    padding-right: 20px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -67,7 +66,7 @@ const MenuItem = styled(Link)`
 `;
 
 const StyledIcon = styled(Icon)`
-    color: var(--sidebar-bg);
+    color: var(--button-bg);
 `;
 
 const MenuItemTextContainer = styled.div`
@@ -84,12 +83,15 @@ const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNa
             to={destination}
             onClick={onClick}
         >
-            <StyledIcon glyph={icon || 'none'}/>
+            <StyledIcon
+                size={20}
+                glyph={icon || 'none'}
+            />
             <MenuItemTextContainer>
                 {text}
             </MenuItemTextContainer>
             {active &&
-                <Icon
+                <StyledIcon
                     size={16}
                     glyph='check'
                 />
@@ -100,7 +102,6 @@ const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNa
 
 const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
-    const showTutorialStep = useShowTutorialStep(TutorialSteps.PRODUCT_SWITCHER, products);
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -136,12 +137,14 @@ const ProductSwitcher = (): JSX.Element => {
                         onClick={handleClick}
                         size={'sm'}
                         compact={true}
-                        toggled={switcherOpen}
+                        active={switcherOpen}
                         inverted={true}
                         aria-label='Select to open product switch menu.'
                     />
+                    <ProductSwitcherTip/>
                 </ProductSwitcherContainer>
                 <Menu
+                    className={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >
                     <SwitcherMenuDescriptiveText>
@@ -158,8 +161,10 @@ const ProductSwitcher = (): JSX.Element => {
                         onClick={handleClick}
                     />
                     {productItems}
-                    {showTutorialStep && <ProductSwitcherTip/>}
-                    <ProductSwitcherMenu id='ProductSwitcherMenu'/>
+                    <ProductSwitcherMenu
+                        id='ProductSwitcherMenu'
+                        isMessaging={currentProductID === null}
+                    />
                 </Menu>
             </MenuWrapper>
         </div>
