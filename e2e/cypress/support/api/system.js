@@ -123,7 +123,7 @@ export const getDefaultConfig = () => {
 
     if (isCloud) {
         fromCypressEnv.CloudSettings = {
-            CWSURL: cypressEnv.cwsUrl,
+            CWSURL: cypressEnv.cwsURL,
             CWSAPIURL: cypressEnv.cwsAPIURL,
         };
     }
