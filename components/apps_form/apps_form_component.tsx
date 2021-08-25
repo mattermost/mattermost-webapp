@@ -159,7 +159,12 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         this.setState({fieldErrors});
         if (Object.keys(fieldErrors).length !== 0) {
-            this.setState({formError: 'Please fix all field errors'});
+            const formError = this.props.intl.formatMessage({
+                id: 'apps.error.form.required_fields_empty',
+                defaultMessage: 'Please fix all field errors',
+            });
+
+            this.setState({formError});
             return;
         }
 
