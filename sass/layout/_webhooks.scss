@@ -86,10 +86,22 @@
                     visibility: visible;
                 }
             }
+
+            .attachment__content.attachment__content--permalink {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+            }
         }
 
         &.attachment--opengraph {
             max-width: 800px;
+        }
+
+        &.attachment--permalink {
+            max-width: 720px;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         .attachment__content {
@@ -98,6 +110,13 @@
             border-left: none;
             margin: 5px 0 5px 20px;
             border-radius: 0 4px 4px 0;
+
+            &.attachment__content--permalink {
+                border-left-width: 1px;
+                border-left-style: solid;
+                border-radius: 4px 4px 4px 4px;
+                box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+            }
         }
 
         .attachment__thumb-pretext {
@@ -124,7 +143,8 @@
                 border-left-color: #e40303;
             }
 
-            &.attachment__container--opengraph {
+            &.attachment__container--opengraph,
+            &.attachment__container--permalink {
                 display: table;
                 width: 100%;
                 padding-bottom: 13px;
@@ -136,6 +156,11 @@
                 }
             }
 
+            &.attachment__container--permalink {
+                padding: 16px;
+                border-left: none;
+            }
+
             .sitename {
                 color: #a3a3a3;
             }
@@ -143,6 +168,12 @@
 
         .attachment__body__wrap {
             &.attachment__body__wrap--opengraph {
+                display: table-cell;
+                width: 100%;
+                vertical-align: top;
+            }
+
+            &.attachment__body__wrap--permalink {
                 display: table-cell;
                 width: 100%;
                 vertical-align: top;
@@ -195,7 +226,8 @@
                 width: 100%;
             }
 
-            &.attachment__body--opengraph {
+            &.attachment__body--opengraph,
+            &.attachment__body--permalink {
                 width: 100%;
                 padding-right: 0;
                 float: none;
@@ -294,6 +326,7 @@
 
         .attachment-fields {
             width: 100%;
+            table-layout: fixed;
 
             .attachment-field__caption {
                 padding-top: 0.7em;

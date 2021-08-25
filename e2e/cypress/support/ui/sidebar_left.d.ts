@@ -57,5 +57,14 @@ declare namespace Cypress {
          *   cy.uiGetChannelSidebarMenu('town-square');
          */
         uiGetChannelSidebarMenu(channelName: string): Chainable;
+
+        /**
+         * Navigate to sidebar item link
+         * @param {string} name - channel name for channels, and threads for Global Threads
+         *
+         * @example
+         *   cy.uiVisitSidebarItem('town-square');
+         */
+        uiVisitSidebarItem(name: string): Chainable;
     }
 }

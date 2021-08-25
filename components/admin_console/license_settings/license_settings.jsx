@@ -261,7 +261,7 @@ export default class LicenseSettings extends React.PureComponent {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
                 <div>
-                    <p>{'Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.'}</p>
+                    <p>{'Mattermost Starter Edition. A license is required to unlock enterprise features.'}</p>
                     {this.state.upgradingPercentage !== 100 &&
                         <div>
                             <p>
@@ -353,7 +353,11 @@ export default class LicenseSettings extends React.PureComponent {
                 skuShortName = `${license.SkuShortName} Trial`;
             }
             const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${skuShortName}`}<br/></React.Fragment> : null;
-            edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.';
+            if (license.SkuShortName === 'E20') {
+                edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.';
+            } else {
+                edition = 'Mattermost Professional Edition. Enterprise features on this server have been unlocked with a license key.';
+            }
             if (upgradedFromTE) {
                 eelicense = this.renderEELicenseText();
             }
@@ -475,7 +479,7 @@ export default class LicenseSettings extends React.PureComponent {
         let removeButtonText = (
             <FormattedMessage
                 id='admin.license.keyRemove'
-                defaultMessage='Remove Enterprise License and Downgrade Server'
+                defaultMessage='Remove License and Downgrade Server'
             />
         );
         if (this.state.removing) {

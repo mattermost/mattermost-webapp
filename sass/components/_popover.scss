@@ -23,17 +23,17 @@
     font-family: inherit;
 
     .app__body & {
-        border: 1px solid v(center-channel-color-16);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 
         .user-profile-popover {
-            border: 1px solid v(center-channel-color-20);
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
             background: transparent !important;
             box-shadow: none !important;
 
             .popover-title {
                 position: relative;
-                border-bottom: 1px solid v(center-channel-color-20);
+                border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
                 background: v(center-channel-bg);
                 border-radius: $border-rad $border-rad 0 0;
 
@@ -78,19 +78,11 @@
 
     &.channel-header__popover {
         z-index: 999;
-        margin-left: -12px;
+        margin-left: 8px;
         font-size: 12px;
 
         &.chanel-header__popover--lhs_offset {
-            margin-left: 53px;
-
-            &.chanel-header__popover--new_sidebar {
-                margin-left: 73px;
-            }
-        }
-
-        &.chanel-header__popover--new_sidebar {
-            margin-left: 8px;
+            margin-left: 73px;
         }
 
         .popover-content {
@@ -175,7 +167,7 @@
         overflow: hidden;
         max-width: 100%;
         padding: 8px 10px;
-        border-color: v(center-channel-color-08);
+        border-color: rgba(var(--center-channel-color-rgb), 0.08);
         background: alpha-color($black, 0.05);
         text-overflow: ellipsis;
 
@@ -316,7 +308,7 @@
     justify-content: flex-start;
     padding: 0 0 0 2.4rem;
     margin: 1.2rem 0 0;
-    color: v(center-channel-color-60);
+    color: rgba(var(--center-channel-color-rgb), 0.6);
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;

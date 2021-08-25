@@ -1,0 +1,209 @@
+@charset "utf-8";
+
+// css feature flag: apply styling overrides to legacy layout when global header is enabled
+.feature-global-header {
+    --global-header-background: var(--sidebar-teambar-bg);
+    --global-header-text: var(--sidebar-header-text-color);
+    --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
+    --global-header-text-rgb: var(--sidebar-header-text-color-rgb);
+
+    @media screen and (min-width: 769px) {
+        // ensure the global header always sits on top of it's immediate sibling
+        > header {
+            z-index: 2;
+
+            + * {
+                position: relative;
+                z-index: 1;
+            }
+        }
+
+        .dropdown-menu {
+            top: calc(100% + 4px);
+            min-width: 245px;
+        }
+
+        .team-sidebar {
+            // use sidebar header variables for team sidebar
+            --sidebar-teambar-bg: var(--sidebar-header-bg);
+            --sidebar-header-text-color: var(--sidebar-text);
+            --sidebar-teambar-bg-rgb: var(--sidebar-header-bg-rgb);
+            --sidebar-header-text-color-rgb: var(--sidebar-text-rgb);
+
+            // adjust height of team sidebar
+            height: calc(100% - 40px);
+            border-right: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
+        }
+
+        // adjust height of sidebar to account for GH
+        #SidebarContainer {
+            height: calc(100% - 40px);
+        }
+
+        #lhsNavigator {
+            .SidebarChannelNavigator {
+                margin-top: 0;
+                margin-bottom: 11px;
+            }
+        }
+
+        .product-switcher-icon {
+            padding: 0 6px;
+        }
+
+        .backstage {
+            position: relative;
+            z-index: 2;
+            margin-top: -40px;
+        }
+    }
+
+    .Menu > .product-switcher-menu {
+        .MenuItem {
+            .MenuItem__primary-text {
+                line-height: 26px;
+            }
+
+            a,
+            button {
+                padding: 0 20px;
+
+                .icon {
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                }
+            }
+        }
+    }
+
+    .status-dropdown-menu-global-header {
+        padding: 4px 8px;
+        border-radius: 4px;
+
+        i {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            font-family: "compass-icons";
+        }
+
+        &:hover {
+            background: var(--sidebar-text-08);
+            cursor: pointer;
+
+            .status {
+                background-image: linear-gradient(0deg, var(--sidebar-text-08), var(--sidebar-text-08));
+            }
+        }
+
+        &.active {
+            background: var(--sidebar-text-16);
+
+            .status {
+                background-image: linear-gradient(0deg, var(--sidebar-text-16), var(--sidebar-text-16));
+            }
+        }
+
+        .Menu__content {
+            right: -1px;
+            left: inherit;
+        }
+
+        .custom_status__row > #custom_status__clear {
+            top: 4px;
+        }
+
+        .username-wrapper {
+            padding: 0 12px;
+
+            > p {
+                overflow: hidden;
+                max-width: 150px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        .MenuHeader {
+            height: 50px;
+            padding: 0 16px;
+        }
+
+        .status-wrapper {
+            display: flex;
+            height: auto;
+            align-items: center;
+
+            .status {
+                background-color: var(--global-header-background);
+                color: var(--global-header-text);
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                svg {
+                    top: 0;
+                }
+            }
+        }
+    }
+}
+
+.search-bar-container--global {
+    width: 100%;
+}
+
+.search__form.search__form--global {
+    background: var(--sidebar-text-08);
+    border-radius: 4px;
+
+    .Global__search-bar {
+        padding: 3px 2.8rem 2px 3rem;
+        color: rgba(var(--global-header-text-rgb), 0.64);
+        font-size: 12px;
+
+        &::placeholder {
+            color: rgba(var(--global-header-text-rgb), 0.64);
+        }
+    }
+
+    .searchTypeBadge {
+        margin: 0 6px;
+        background: var(--sidebar-text-08);
+        color: var(--sidebar-text);
+    }
+
+    &:hover {
+        background: var(--sidebar-text-16);
+    }
+
+    &.active {
+        background: var(--sidebar-text-32);
+    }
+
+    &:focus-within {
+        background: var(--sidebar-text);
+
+        .search__font-icon,
+        .input-clear-x {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+
+        .searchTypeBadge {
+            background: rgba(var(--button-bg-rgb), 0.08);
+            color: var(--button-bg);
+        }
+
+        .Global__search-bar {
+            color: rgba(var(--center-channel-color-rgb));
+        }
+    }
+
+    .search-help-popover {
+        width: 432px;
+        max-width: 432px;
+    }
+
+    .search__font-icon,
+    .input-clear-x {
+        color: rgba(var(--global-header-text-rgb), 0.56);
+    }
+}

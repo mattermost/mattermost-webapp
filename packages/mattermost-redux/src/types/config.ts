@@ -5,6 +5,8 @@ import {CollapsedThreads, InviteMembersBtnLocations} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
+import {ThemeKey} from './themes';
+
 export type ClientConfig = {
     AboutLink: string;
     AllowBannerDismissal: string;
@@ -24,7 +26,6 @@ export type ClientConfig = {
     BuildHash: string;
     BuildHashEnterprise: string;
     BuildNumber: string;
-    CloseUnusedDirectMessages: string;
     CollapsedThreads: CollapsedThreads;
     InviteMembersBtnLocations: InviteMembersBtnLocations;
     CustomBrandText: string;
@@ -38,7 +39,7 @@ export type ClientConfig = {
     DataRetentionFileRetentionDays: string;
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
-    DefaultTheme: 'default' | 'organization' | 'mattermostDark' | 'windows10';
+    DefaultTheme: ThemeKey;
     DesktopLatestVersion: string;
     DesktopMinVersion: string;
     DiagnosticId: string;
@@ -72,7 +73,6 @@ export type ClientConfig = {
     EnableIncomingWebhooks: string;
     EnableLatex: string;
     EnableLdap: string;
-    EnableLegacySidebar: string;
     EnableLinkPreviews: string;
     EnableMarketplace: string;
     EnableMetrics: string;
@@ -100,13 +100,12 @@ export type ClientConfig = {
     EnableTesting: string;
     EnableThemeSelection: string;
     EnableTutorial: string;
+    EnableOnboardingFlow: string;
     EnableUserAccessTokens: string;
     EnableUserCreation: string;
     EnableUserDeactivation: string;
     EnableUserTypingMessages: string;
-    EnableXToLeaveChannelsFromLHS: string;
     EnforceMultifactorAuthentication: string;
-    ExperimentalChannelOrganization: string;
     ExperimentalClientSideCertCheck: string;
     ExperimentalClientSideCertEnable: string;
     ExperimentalCloudBilling: string;
@@ -118,7 +117,6 @@ export type ClientConfig = {
     ExperimentalEnableDefaultChannelLeaveJoinMessages: string;
     ExperimentalEnablePostMetadata: string;
     ExperimentalGroupUnreadChannels: string;
-    ExperimentalHideTownSquareinLHS: string;
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
     ExperimentalTownSquareIsReadOnly: string;
@@ -146,6 +144,7 @@ export type ClientConfig = {
     LockTeammateNameDisplay: string;
     ManagedResourcePaths: string;
     MaxFileSize: string;
+    MaxPostSize: string;
     MaxNotificationsPerChannel: string;
     MinimumHashtagLength: string;
     NoAccounts: string;
@@ -314,12 +313,11 @@ export type ServiceSettings = {
     EnableUserStatuses: boolean;
     ExperimentalEnableAuthenticationTransfer: boolean;
     ClusterLogTimeoutMilliseconds: number;
-    CloseUnusedDirectMessages: boolean;
     EnablePreviewFeatures: boolean;
     EnableTutorial: boolean;
+    EnableOnboardingFlow: boolean;
     ExperimentalEnableDefaultChannelLeaveJoinMessages: boolean;
     ExperimentalGroupUnreadChannels: string;
-    ExperimentalChannelOrganization: boolean;
     ExperimentalDataPrefetch: boolean;
     ImageProxyType: string;
     ImageProxyURL: string;
@@ -335,7 +333,6 @@ export type ServiceSettings = {
     EnableLatex: boolean;
     EnableLocalMode: boolean;
     LocalModeSocketLocation: string;
-    EnableLegacySidebar: boolean;
     CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
 };
 
@@ -360,7 +357,6 @@ export type TeamSettings = {
     RestrictPublicChannelDeletion: string;
     RestrictPrivateChannelDeletion: string;
     RestrictPrivateChannelManageMembers: string;
-    EnableXToLeaveChannelsFromLHS: boolean;
     UserStatusAwayTimeout: number;
     MaxChannelsPerTeam: number;
     MaxNotificationsPerChannel: number;
@@ -368,7 +364,6 @@ export type TeamSettings = {
     TeammateNameDisplay: string;
     ExperimentalViewArchivedChannels: boolean;
     ExperimentalEnableAutomaticReplies: boolean;
-    ExperimentalHideTownSquareinLHS: boolean;
     ExperimentalTownSquareIsReadOnly: boolean;
     LockTeammateNameDisplay: boolean;
     ExperimentalPrimaryTeam: string;

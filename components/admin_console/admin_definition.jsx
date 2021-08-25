@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
+import {LicenseSkus} from 'mattermost-redux/types/general';
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -195,6 +196,7 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
+    licensedForSku: (skuName) => (config, state, license) => license.IsLicensed && license.SkuShortName === skuName,
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         return cloud?.subscription?.is_paid_tier !== 'true' || cloud?.subscription?.is_free_trial === 'true';
     },
@@ -2526,7 +2528,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableLinkPreviews',
                         label: t('admin.customization.enableLinkPreviewsTitle'),
-                        label_default: 'Enable Link Previews:',
+                        label_default: 'Enable website link previews:',
                         help_text: t('admin.customization.enableLinkPreviewsDesc'),
                         help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
@@ -2535,7 +2537,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ServiceSettings.RestrictLinkPreviews',
                         label: t('admin.customization.restrictLinkPreviewsTitle'),
-                        label_default: 'Disable link previews from these domains:',
+                        label_default: 'Disable website link previews from these domains:',
                         help_text: t('admin.customization.restrictLinkPreviewsDesc'),
                         help_text_default: 'Link previews and image link previews will not be shown for the above list of comma-separated domains.',
                         placeholder: t('admin.customization.restrictLinkPreviewsExample'),
@@ -2544,6 +2546,15 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                             it.configIsFalse('ServiceSettings', 'EnableLinkPreviews'),
                         ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnablePermalinkPreviews',
+                        label: t('admin.customization.enablePermalinkPreviewsTitle'),
+                        label_default: 'Enable message link previews:',
+                        help_text: t('admin.customization.enablePermalinkPreviewsDesc'),
+                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](https://docs.mattermost.com/messaging/sharing-messages.html) for details.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5778,7 +5789,9 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.clientSideCertEnable.desc'),
                         help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.any(
+                            it.licensedForSku(LicenseSkus.Enterprise),
+                            it.licensedForSku(LicenseSkus.E20))),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5801,7 +5814,9 @@ const AdminDefinition = {
                                 display_name_default: 'secondary',
                             },
                         ],
-                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.any(
+                            it.licensedForSku(LicenseSkus.Enterprise),
+                            it.licensedForSku(LicenseSkus.E20))),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ExperimentalSettings.ClientSideCertEnable'),
@@ -5872,24 +5887,29 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         options: [
                             {
-                                value: 'default',
-                                display_name: 'Mattermost',
-                                display_name_default: 'Mattermost',
+                                value: 'denim',
+                                display_name: 'Denim',
+                                display_name_default: 'Denim',
                             },
                             {
-                                value: 'organization',
-                                display_name: 'Organization',
-                                display_name_default: 'Organization',
+                                value: 'sapphire',
+                                display_name: 'Sapphire',
+                                display_name_default: 'Sapphire',
                             },
                             {
-                                value: 'mattermostDark',
-                                display_name: 'Mattermost Dark',
-                                display_name_default: 'Mattermost Dark',
+                                value: 'quartz',
+                                display_name: 'Quartz',
+                                display_name_default: 'Quartz',
                             },
                             {
-                                value: 'windows10',
-                                display_name: 'Windows Dark',
-                                display_name_default: 'Windows Dark',
+                                value: 'indigo',
+                                display_name: 'Indigo',
+                                display_name_default: 'Indigo',
+                            },
+                            {
+                                value: 'onyx',
+                                display_name: 'Onyx',
+                                display_name_default: 'Onyx',
                             },
                         ],
                         isHidden: it.not(it.licensed), // E10 and higher
@@ -5902,6 +5922,16 @@ const AdminDefinition = {
                         label_default: 'Enable Tutorial:',
                         help_text: t('admin.experimental.enableTutorial.desc'),
                         help_text_default: 'When true, users are prompted with a tutorial when they open Mattermost for the first time after account creation. When false, the tutorial is disabled, and users are placed in Town Square when they open Mattermost for the first time after account creation.',
+                        help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableOnboardingFlow',
+                        label: t('admin.experimental.enableOnboardingFlow.title'),
+                        label_default: 'Enable Onboarding:',
+                        help_text: t('admin.experimental.enableOnboardingFlow.desc'),
+                        help_text_default: 'When true, new users are shown steps to complete as part of an onboarding process',
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -5987,17 +6017,6 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableLegacySidebar',
-                        label: t('admin.experimental.enableLegacySidebar.title'),
-                        label_default: 'Enable Legacy Sidebar',
-                        help_text: t('admin.experimental.enableLegacySidebar.desc'),
-                        help_text_default: 'When enabled, users cannot access new sidebar features including custom, collapsible categories and unread channel filtering. We recommend only enabling the legacy sidebar if users are experiencing breaking changes or bugs.',
-                        help_text_markdown: true,
-                        isHidden: it.licensedForFeature('Cloud'),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'ServiceSettings.CollapsedThreads',
                         label: t('admin.experimental.collapsedThreads.title'),
@@ -6025,63 +6044,6 @@ const AdminDefinition = {
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.ExperimentalChannelOrganization',
-                        label: t('admin.experimental.experimentalChannelOrganization.title'),
-                        label_default: 'Channel Grouping and Sorting',
-                        help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
-                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.licensedForFeature('Cloud'),
-                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.EnableXToLeaveChannelsFromLHS',
-                        label: t('admin.experimental.enableXToLeaveChannelsFromLHS.title'),
-                        label_default: 'Enable X to Leave Channels from Left-Hand Sidebar:',
-                        help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
-                        help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.licensedForFeature('Cloud'),
-                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.CloseUnusedDirectMessages',
-                        label: t('admin.experimental.closeUnusedDirectMessages.title'),
-                        label_default: 'Autoclose Direct Messages in Sidebar:',
-                        help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
-                        help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.licensedForFeature('Cloud'),
-                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.ExperimentalHideTownSquareinLHS',
-                        label: t('admin.experimental.experimentalHideTownSquareinLHS.title'),
-                        label_default: 'Town Square is Hidden in Left-Hand Sidebar:',
-                        help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
-                        help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.not(it.licensed), // E10 and higher
-                            it.licensedForFeature('Cloud'),
-                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
