@@ -164,12 +164,12 @@
         border-radius: 4px;
 
         button {
+            padding: 3px 0;
+            border: none;
+            background-color: transparent;
             color: var(--button-bg);
             font-style: normal;
             font-weight: 600;
-            padding: 3px 0px;
-            border: none;
-            background-color: transparent;
         }
 
         button:hover {
