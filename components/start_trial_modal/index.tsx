@@ -119,7 +119,7 @@ function StartTrialModal(): JSX.Element | null {
                     <span>
                         <FormattedMessage
                             id='start_trial.modal.disclaimer_1'
-                            defaultMessage='By clicking “Yes, start now”, I agree to the '
+                            defaultMessage='By clicking “Start 30-day trial”, I agree to the '
                         />
                     </span>
                     <span>
