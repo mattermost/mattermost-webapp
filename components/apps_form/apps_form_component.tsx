@@ -390,7 +390,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                                         bodyClassNames
                                     }
                                 >
-                                    <LoadingSpinner/>
+                                    <LoadingSpinner style={{fontSize: '24px'}}/>
                                 </div>
                             </Fade>
                             {this.renderBody()}
