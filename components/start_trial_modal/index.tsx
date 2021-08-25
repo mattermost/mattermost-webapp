@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
@@ -29,17 +29,19 @@ enum TrialLoadStatus {
 
 function StartTrialModal(): JSX.Element | null {
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
+    const dispatch = useDispatch<DispatchFunc>();
+
+    useEffect(() => {
+        dispatch(getStandardAnalytics());
+    }, []);
 
     const {formatMessage} = useIntl();
     const history = useHistory();
-    const dispatch = useDispatch<DispatchFunc>();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.START_TRIAL_MODAL));
+    const stats = useSelector((state: GlobalState) => state.entities.admin.analytics);
 
     const requestLicense = async () => {
         setLoadStatus(TrialLoadStatus.Started);
-        await dispatch(getStandardAnalytics());
-
-        const stats = useSelector((state: GlobalState) => state.entities.admin.analytics);
         let users = 0;
         if (stats && (typeof stats.TOTAL_USERS === 'number')) {
             users = stats.TOTAL_USERS;
@@ -122,6 +124,7 @@ function StartTrialModal(): JSX.Element | null {
                     </span>
                     <span>
                         <a
+                            href='https://mattermost.com/software-evaluation-agreement/'
                             target='_blank'
                             rel='noopener noreferrer'
                         >
