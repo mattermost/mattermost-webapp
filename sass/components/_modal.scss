@@ -444,6 +444,26 @@
                 }
             }
 
+            .code-preview {
+                display: flex;
+                height: calc(100vh - 168px);
+                flex-direction: column;
+                border-radius: 8px;
+
+                @media screen and (max-width: 768px) {
+                    height: calc(100vh - 108px);
+                    border-radius: 0;
+
+                    .post-code__language {
+                        top: 0;
+                    }
+                }
+
+                .hljs {
+                    margin: 0;
+                }
+            }
+
             audio,
             canvas,
             progress,
@@ -453,6 +473,11 @@
                 height: auto;
                 max-height: 85vh;
                 margin: 0 auto;
+                border-radius: 8px;
+            }
+
+            video {
+                width: 100%;
             }
 
             // override canvas for PDF zooming
@@ -518,7 +543,7 @@
 
             img {
                 max-width: 100%;
-                max-height: 91vh;
+                max-height: calc(100vh - 168px);
             }
 
             .spinner {

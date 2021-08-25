@@ -89,7 +89,12 @@ describe('Verify Quick Navigation support across different regions in the app', 
             cy.get('#fileUploadButton').focus().tab({shift: true});
 
             // * Verify post input on RHS reads out correctly
-            verifyNavSupport('.post-create', 'reply input region', '4');
+            cy.get('.post-create').
+                should('have.attr', 'aria-label', 'reply input region').
+                and('have.attr', 'data-a11y-sort-order', '4').
+                and('have.class', 'a11y__region');
+            cy.get('#reply_textbox').
+                should('have.class', 'a11y--active a11y--focused');
         });
     });
 

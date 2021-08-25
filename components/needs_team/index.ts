@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {loadProfilesForDirect} from 'mattermost-redux/actions/users';
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
@@ -50,7 +49,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         previousTeamId: getPreviousTeamId(state) as string,
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
-        useLegacyLHS: config.EnableLegacySidebar === 'true',
         plugins,
         selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
     };
@@ -68,7 +66,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setPreviousTeamId,
             selectTeam,
             loadStatusesForChannelAndSidebar,
-            loadProfilesForDirect,
             getAllGroupsAssociatedToChannelsInTeam,
             getAllGroupsAssociatedToTeam,
             getGroupsByUserId,

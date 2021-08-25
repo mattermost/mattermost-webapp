@@ -12,6 +12,7 @@ import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selecto
 import {browserHistory} from 'utils/browser_history';
 import {checkIfMFARequired} from 'utils/route';
 import {getChannelURL} from 'utils/utils';
+import {isPermalinkURL} from 'utils/url';
 
 import LoggedIn from './logged_in.jsx';
 
@@ -30,7 +31,15 @@ function mapStateToProps(state, ownProps) {
 }
 
 // NOTE: suggestions where to keep this welcomed
-const getChannelURLAction = (channel, teamId) => (dispatch, getState) => browserHistory.push(getChannelURL(getState(), channel, teamId));
+const getChannelURLAction = (channel, teamId, url) => (dispatch, getState) => {
+    const state = getState();
+
+    if (url && isPermalinkURL(url)) {
+        return browserHistory.push(url);
+    }
+
+    return browserHistory.push(getChannelURL(state, channel, teamId));
+};
 
 function mapDispatchToProps(dispatch) {
     return {

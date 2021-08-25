@@ -176,3 +176,12 @@ export function shouldOpenInNewTab(url: string, siteURL?: string, managedResourc
 
     return unhandledPaths.some((unhandledPath) => new RegExp('^/' + unhandledPath + '\\b').test(path));
 }
+
+// Returns true if the string passed is a permalink URL.
+export function isPermalinkURL(url: string): boolean {
+    const siteURL = getSiteURL();
+
+    const regexp = new RegExp(`^(${siteURL})?/[a-z0-9]+([a-z\\-0-9]+|(__)?)[a-z0-9]+/pl/\\w+`, 'gu');
+
+    return isInternalURL(url, siteURL) && (regexp.test(url));
+}

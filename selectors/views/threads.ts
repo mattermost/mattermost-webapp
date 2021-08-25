@@ -141,7 +141,7 @@ export function makeFilterRepliesAndAddSeparators() {
                 }
 
                 if (
-                    lastViewedAt &&
+                    typeof lastViewedAt === 'number' &&
                     post.create_at >= lastViewedAt &&
                     (i < posts.length - 1) &&
                     (post.user_id !== currentUser.id || isFromWebhook(post)) &&
