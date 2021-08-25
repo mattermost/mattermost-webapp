@@ -13,8 +13,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {Permissions} from 'mattermost-redux/constants';
-import {getPrevTrialLicense, getStandardAnalytics} from 'mattermost-redux/actions/admin';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {GlobalState} from 'types/store/index';
 
 import ProductSwitcherMenu from './product_switcher_menu';
@@ -57,16 +56,12 @@ function mapStateToProps(state: GlobalState) {
 
 type Actions = {
     getPrevTrialLicense: () => void;
-    getLicenseConfig: () => void;
-    getStandardAnalytics: () => void;
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getPrevTrialLicense,
-            getLicenseConfig,
-            getStandardAnalytics,
         }, dispatch),
     };
 }

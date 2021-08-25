@@ -31,7 +31,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     >
       <MenuStartTrial
         id="startTrial"
-        show={true}
+        show={false}
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>

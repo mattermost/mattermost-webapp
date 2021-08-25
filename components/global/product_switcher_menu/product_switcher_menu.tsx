@@ -44,8 +44,6 @@ type Props = {
     prevTrialLicense: ClientLicense;
     actions: {
         getPrevTrialLicense: () => void;
-        getLicenseConfig: () => void;
-        getStandardAnalytics: () => void;
     };
 };
 
@@ -59,8 +57,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
 
     componentDidMount() {
         this.props.actions.getPrevTrialLicense();
-        this.props.actions.getLicenseConfig();
-        this.props.actions.getStandardAnalytics();
     }
 
     handleEmitUserLoggedOutEvent = () => {
@@ -79,6 +75,12 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
 
         const {formatMessage} = this.props.intl;
 
+        // prevent start trial menu item from flashing because IsLicensed value is not yet available on prevTrialLicense
+        let isLicensed = this.props.prevTrialLicense?.IsLicensed;
+        if (isLicensed === undefined) {
+            isLicensed = 'true';
+        }
+
         // TODO: Ensure that clicking ItemLink menu items also closes the global header menu.
         return (
             <>
@@ -88,7 +90,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                     >
                         <Menu.StartTrial
                             id='startTrial'
-                            show={this.props.prevTrialLicense?.IsLicensed !== 'true'}
+                            show={isLicensed !== 'true'}
                         />
                     </SystemPermissionGate>
                 </Menu.Group>

@@ -60,8 +60,6 @@ describe('components/Menu', () => {
             unhideNextSteps: jest.fn(),
             getSubscriptionStats: jest.fn(),
             getPrevTrialLicense: jest.fn(),
-            getLicenseConfig: jest.fn(),
-            getStandardAnalytics: jest.fn(),
         },
         teamIsGroupConstrained: false,
         isCloud: false,

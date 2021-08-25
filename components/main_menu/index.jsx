@@ -19,8 +19,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
-import {getPrevTrialLicense, getStandardAnalytics} from 'mattermost-redux/actions/admin';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
 import {RHSStates, TrialPeriodDays} from 'utils/constants';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
@@ -130,8 +129,6 @@ function mapDispatchToProps(dispatch) {
             unhideNextSteps,
             getSubscriptionStats,
             getPrevTrialLicense,
-            getLicenseConfig,
-            getStandardAnalytics,
         }, dispatch),
     };
 }

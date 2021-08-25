@@ -44,8 +44,6 @@ describe('plugins/MainMenuActions', () => {
                 getCloudSubscription: jest.fn(),
                 getSubscriptionStats: jest.fn(),
                 getPrevTrialLicense: jest.fn(),
-                getLicenseConfig: jest.fn(),
-                getStandardAnalytics: jest.fn(),
             },
             isCloud: false,
             subscription: {},
