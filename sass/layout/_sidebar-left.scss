@@ -1260,3 +1260,38 @@
         }
     }
 }
+
+/* context menu shown when right-clicking on a channel in the LHS when using the desktop app */
+.react-contextmenu--visible {
+    z-index: 100;
+    padding: 2px 0;
+    border: 1px solid #c6c6c6;
+    background: #f0f0f0;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+}
+
+.react-contextmenu-item {
+    padding: 0 22px;
+    margin: 1px 0;
+
+    &:hover {
+        background: #489dfe;
+        color: $white;
+    }
+
+    &:focus,
+    span {
+        outline: none;
+    }
+}
+
+// Manual override of the global menu (and items) styling for the sidebar dropdown menu
+#sidebarDropdownMenu .MenuItem {
+    > button,
+    > div,
+    > a {
+        padding: 0 32px 0 24px;
+    }
+}
