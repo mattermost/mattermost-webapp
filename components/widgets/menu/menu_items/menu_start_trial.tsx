@@ -3,12 +3,11 @@
 
 import React from 'react';
 import {useIntl} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
-import {requestTrialLicense} from 'actions/admin_actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {ModalIdentifiers} from 'utils/constants';
+import {openModal} from 'actions/views/modals';
+import StartTrialModal from 'components/start_trial_modal';
 
 import './menu_item.scss';
 
@@ -19,25 +18,18 @@ type Props = {
 
 const MenuStartTrial = (props: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
-    const history = useHistory();
-
     const dispatch = useDispatch();
-    const stats = useSelector((state: GlobalState) => state.entities.admin.analytics);
 
-    const requestLicense = async () => {
-        let users = 0;
-        if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-            users = stats.TOTAL_USERS;
-        }
-        const requestedUsers = Math.max(users, 30);
-        await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
-        await dispatch(getLicenseConfig());
-        history.push('/admin_console/about/license');
+    const openStartTrialModal = () => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.START_TRIAL_MODAL,
+            dialogType: StartTrialModal,
+        }));
     };
 
-    if (!props.show) {
-        return null;
-    }
+    // if (!props.show) {
+    //     return null;
+    // }
 
     return (
         <li
@@ -46,7 +38,7 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
             id={props.id}
         >
             <span>{formatMessage({id: 'navbar_dropdown.tryTrialNow', defaultMessage: 'Try Enterprise for free now!'})}</span>
-            <button onClick={requestLicense}>{formatMessage({id: 'navbar_dropdown.startTrial', defaultMessage: 'Start Trial'})}</button>
+            <button onClick={openStartTrialModal}>{formatMessage({id: 'navbar_dropdown.startTrial', defaultMessage: 'Start Trial'})}</button>
         </li>
     );
 };

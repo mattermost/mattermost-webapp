@@ -338,10 +338,14 @@ class MainMenu extends React.PureComponent {
                     />
                 </Menu.Group>
                 <Menu.Group>
-                    <Menu.StartTrial
-                        id='startTrial'
-                        show={this.props.prevTrialLicense?.IsLicensed !== 'true'}
-                    />
+                    <SystemPermissionGate
+                        permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
+                    >
+                        <Menu.StartTrial
+                            id='startTrial'
+                            show={this.props.prevTrialLicense?.IsLicensed !== 'true'}
+                        />
+                    </SystemPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemToggleModalRedux

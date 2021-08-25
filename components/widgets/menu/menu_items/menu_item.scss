@@ -175,6 +175,12 @@
         button:hover {
             background-color: transparent;
         }
+
+        @media screen and (max-width: 768px) {
+            button {
+                margin-left: 2px;
+            }
+        }
     }
 }
 

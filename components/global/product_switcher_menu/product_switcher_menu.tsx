@@ -57,7 +57,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
         pluginMenuItems: [],
     };
 
-    async componentDidMount() {
+    componentDidMount() {
         this.props.actions.getPrevTrialLicense();
         this.props.actions.getLicenseConfig();
         this.props.actions.getStandardAnalytics();
@@ -82,10 +82,14 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
         return (
             <>
                 <Menu.Group>
-                    <Menu.StartTrial
-                        id='startTrial'
-                        show={this.props.prevTrialLicense?.IsLicensed !== 'true'}
-                    />
+                    <SystemPermissionGate
+                        permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
+                    >
+                        <Menu.StartTrial
+                            id='startTrial'
+                            show={this.props.prevTrialLicense?.IsLicensed !== 'true'}
+                        />
+                    </SystemPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
                     <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
