@@ -82,5 +82,17 @@ declare namespace Cypress {
          *   cy.apiSaveDirectChannelShowPreference('user-id', 'other-user-id', 'false');
          */
         apiSaveDirectChannelShowPreference(userId: string, otherUserId: string, value: string): Chainable<Response>;
+
+        /**
+         * Save Collapsed Reply Threads preference.
+         * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+         * @param {string} userId - User ID
+         * @param {string} value - options are 'on' or 'off'
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiSaveCRTPreference('user-id', 'on');
+         */
+        apiSaveCRTPreference(userId: string, value: string): Chainable<Response>;
     }
 }

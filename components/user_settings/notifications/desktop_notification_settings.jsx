@@ -42,6 +42,11 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         this.props.setParentState(key, value);
     }
 
+    handleThreadsOnChange = (e) => {
+        const value = e.target.checked ? NotificationLevels.ALL : NotificationLevels.MENTION;
+        this.props.setParentState('desktopThreads', value);
+    }
+
     setDesktopNotificationSound = (selectedOption) => {
         this.props.setParentState('desktopNotificationSound', selectedOption.value);
         this.setState({selectedOption});
@@ -71,6 +76,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
 
         let soundSection;
         let notificationSelection;
+        let threadsNotificationSelection;
         if (this.props.activity !== NotificationLevels.NONE) {
             const soundRadio = [false, false];
             if (this.props.sound === 'false') {
@@ -174,6 +180,44 @@ export default class DesktopNotificationSettings extends React.PureComponent {
             }
         }
 
+        if (this.props.isCollapsedThreadsEnabled && NotificationLevels.MENTION === this.props.activity) {
+            threadsNotificationSelection = (
+                <>
+                    <fieldset>
+                        <legend className='form-legend'>
+                            <FormattedMessage
+                                id='user.settings.notifications.threads.desktop'
+                                defaultMessage='Thread reply notifications'
+                            />
+                        </legend>
+                        <div className='checkbox'>
+                            <label>
+                                <input
+                                    id='desktopThreadsNotificationAllActivity'
+                                    type='checkbox'
+                                    name='desktopThreadsNotificationLevel'
+                                    checked={this.props.threads === NotificationLevels.ALL}
+                                    onChange={this.handleThreadsOnChange}
+                                />
+                                <FormattedMessage
+                                    id='user.settings.notifications.threads.allActivity'
+                                    defaultMessage={'Notify me about threads I\'m following'}
+                                />
+                            </label>
+                            <br/>
+                        </div>
+                        <div className='mt-5'>
+                            <FormattedMessage
+                                id='user.settings.notifications.threads'
+                                defaultMessage={'When enabled, any replies to a thread you\'re following will send a desktop notification.'}
+                            />
+                        </div>
+                    </fieldset>
+                    <hr/>
+                </>
+            );
+        }
+
         inputs.push(
             <div key='userNotificationLevelOption'>
                 <fieldset>
@@ -244,6 +288,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                     </div>
                 </fieldset>
                 <hr/>
+                {threadsNotificationSelection}
                 {soundSection}
             </div>,
         );
@@ -330,6 +375,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
 
 DesktopNotificationSettings.propTypes = {
     activity: PropTypes.string.isRequired,
+    threads: PropTypes.string.isRequired,
     sound: PropTypes.string.isRequired,
     updateSection: PropTypes.func,
     setParentState: PropTypes.func,
@@ -340,4 +386,5 @@ DesktopNotificationSettings.propTypes = {
     saving: PropTypes.bool,
     focused: PropTypes.bool,
     selectedSound: PropTypes.string,
+    isCollapsedThreadsEnabled: PropTypes.bool.isRequired,
 };
