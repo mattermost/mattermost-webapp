@@ -490,7 +490,7 @@
         "SignaturePublicKeyFiles": []
     },
     "DisplaySettings": {
-        "CustomURLchemes": [],
+        "CustomURLSchemes": [],
         "ExperimentalTimezone": false
     },
     "GuestAccountsSettings": {

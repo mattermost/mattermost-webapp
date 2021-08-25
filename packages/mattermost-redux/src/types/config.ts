@@ -765,7 +765,7 @@ export type PluginSettings = {
 };
 
 export type DisplaySettings = {
-    CustomURLchemes: string[];
+    CustomURLSchemes: string[];
     ExperimentalTimezone: boolean;
 };
 
