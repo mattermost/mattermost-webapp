@@ -27,9 +27,9 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
         }));
     };
 
-    // if (!props.show) {
-    //     return null;
-    // }
+    if (!props.show) {
+        return null;
+    }
 
     return (
         <li
