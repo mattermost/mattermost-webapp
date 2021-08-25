@@ -165,9 +165,6 @@ function reconnectWebSocket() {
     initialize();
 }
 
-window.closeWS = close;
-window.connectWS = reconnect;
-
 const pluginReconnectHandlers = {};
 
 export function registerPluginReconnectHandler(pluginId, handler) {
