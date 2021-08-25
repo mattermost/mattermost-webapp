@@ -6,6 +6,9 @@ exports[`components/Menu should match snapshot with id 1`] = `
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getLicenseConfig": [MockFunction],
+      "getPrevTrialLicense": [MockFunction],
+      "getStandardAnalytics": [MockFunction],
       "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
@@ -73,6 +76,11 @@ exports[`components/Menu should match snapshot with id 1`] = `
   mobile={false}
   moreTeamsToJoin={false}
   pluginMenuItems={Array []}
+  prevTrialLicense={
+    Object {
+      "isLicensed": "false",
+    }
+  }
   reportAProblemLink={null}
   showGettingStarted={false}
   subscription={Object {}}
@@ -90,6 +98,9 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getLicenseConfig": [MockFunction],
+      "getPrevTrialLicense": [MockFunction],
+      "getStandardAnalytics": [MockFunction],
       "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
@@ -156,6 +167,11 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
   mobile={false}
   moreTeamsToJoin={false}
   pluginMenuItems={Array []}
+  prevTrialLicense={
+    Object {
+      "isLicensed": "false",
+    }
+  }
   reportAProblemLink={null}
   showGettingStarted={false}
   subscription={Object {}}
@@ -173,6 +189,9 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getLicenseConfig": [MockFunction],
+      "getPrevTrialLicense": [MockFunction],
+      "getStandardAnalytics": [MockFunction],
       "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
@@ -239,6 +258,11 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
   mobile={true}
   moreTeamsToJoin={false}
   pluginMenuItems={Array []}
+  prevTrialLicense={
+    Object {
+      "isLicensed": "false",
+    }
+  }
   reportAProblemLink={null}
   showGettingStarted={false}
   subscription={Object {}}
@@ -256,6 +280,9 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getLicenseConfig": [MockFunction],
+      "getPrevTrialLicense": [MockFunction],
+      "getStandardAnalytics": [MockFunction],
       "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
@@ -322,6 +349,11 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
   mobile={false}
   moreTeamsToJoin={true}
   pluginMenuItems={Array []}
+  prevTrialLicense={
+    Object {
+      "isLicensed": "false",
+    }
+  }
   reportAProblemLink="test-report-link"
   showGettingStarted={false}
   subscription={Object {}}
@@ -339,6 +371,9 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getLicenseConfig": [MockFunction],
+      "getPrevTrialLicense": [MockFunction],
+      "getStandardAnalytics": [MockFunction],
       "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
@@ -405,6 +440,11 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
   mobile={true}
   moreTeamsToJoin={true}
   pluginMenuItems={Array []}
+  prevTrialLicense={
+    Object {
+      "isLicensed": "false",
+    }
+  }
   reportAProblemLink="test-report-link"
   showGettingStarted={false}
   subscription={Object {}}
@@ -422,6 +462,9 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getLicenseConfig": [MockFunction],
+      "getPrevTrialLicense": [MockFunction],
+      "getStandardAnalytics": [MockFunction],
       "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
@@ -502,6 +545,11 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         "text": "plugin-2-text",
       },
     ]
+  }
+  prevTrialLicense={
+    Object {
+      "isLicensed": "false",
+    }
   }
   reportAProblemLink={null}
   showGettingStarted={false}
@@ -520,6 +568,9 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getLicenseConfig": [MockFunction],
+      "getPrevTrialLicense": [MockFunction],
+      "getStandardAnalytics": [MockFunction],
       "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
@@ -600,6 +651,11 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         "text": "plugin-2-text",
       },
     ]
+  }
+  prevTrialLicense={
+    Object {
+      "isLicensed": "false",
+    }
   }
   reportAProblemLink={null}
   showGettingStarted={false}

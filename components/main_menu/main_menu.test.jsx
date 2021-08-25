@@ -48,6 +48,9 @@ describe('components/Menu', () => {
         pluginMenuItems: [],
         isMentionSearch: false,
         showGettingStarted: false,
+        prevTrialLicense: {
+            isLicensed: 'false',
+        },
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),
@@ -56,6 +59,9 @@ describe('components/Menu', () => {
             closeRhsMenu: jest.fn(),
             unhideNextSteps: jest.fn(),
             getSubscriptionStats: jest.fn(),
+            getPrevTrialLicense: jest.fn(),
+            getLicenseConfig: jest.fn(),
+            getStandardAnalytics: jest.fn(),
         },
         teamIsGroupConstrained: false,
         isCloud: false,
