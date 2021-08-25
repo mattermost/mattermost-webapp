@@ -33,7 +33,7 @@ export type ClientConfig = {
     CustomDescriptionText: string;
     CustomTermsOfServiceId: string;
     CustomTermsOfServiceReAcceptancePeriod: string;
-    CustomURLchemes: string;
+    CustomUrlSchemes: string;
     CWSURL: string;
     DataRetentionEnableFileDeletion: string;
     DataRetentionEnableMessageDeletion: string;
