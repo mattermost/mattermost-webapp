@@ -22,6 +22,20 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     />
   </MenuGroup>
   <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "sysconsole_write_about_edition_and_license",
+        ]
+      }
+    >
+      <MenuStartTrial
+        id="startTrial"
+        show={true}
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <MenuItemToggleModalRedux
       dialogProps={
         Object {
