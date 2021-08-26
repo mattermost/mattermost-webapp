@@ -12,7 +12,7 @@ import LatexInline from './latex_inline';
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     return {
-        enableInlineLatex: true,
+        enableInlineLatex: true, //enableInlineLatex: config.EnableLatex === 'true' && config.EnableInlineLatex === 'true'
     };
 }
 

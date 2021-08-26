@@ -606,7 +606,7 @@
   "admin.customization.enableEmojiPickerTitle": "Enable Emoji Picker:",
   "admin.customization.enableGifPickerDesc": "Allow users to select GIFs from the emoji picker via a Gfycat integration.",
   "admin.customization.enableGifPickerTitle": "Enable GIF Picker:",
-  "admin.customization.enableInlineLatexDesc": "Enable rendering of inline Latex code, this is code that is present in between dollar signs. If false dollar sings and the text in between them is rendered normally.",
+  "admin.customization.enableInlineLatexDesc": "When true, users may render inline Latex code with dollar signs surrounding the text. When false, Latex can only be rendered in a code block using syntax highlighting. [Learn more about text formatting in our documentation](!https://docs.mattermost.com/messaging/formatting-text.html).",
   "admin.customization.enableInlineLatexTitle": "Enable Inline Latex Rendering:",
   "admin.customization.enableLatexDesc": "Enable rendering of Latex code. If false, Latex code will be highlighted only.",
   "admin.customization.enableLatexTitle": "Enable Latex Rendering:",
