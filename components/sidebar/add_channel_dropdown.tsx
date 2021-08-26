@@ -36,7 +36,7 @@ type State = {
 };
 
 class AddChannelDropdown extends React.PureComponent<Props, State> {
-    getAbClassModifier(): string {
+    getClassModifierForAbTest(): string {
         let modifier = '';
         if (!this.props.addChannelButton) {
             return '';
@@ -171,7 +171,6 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         return (
             <MenuWrapper
                 className='AddChannelDropdown'
-                stopPropagationOnToggle={Boolean(this.props.addChannelButton) && this.props.addChannelButton !== AddChannelButtonTreatments.NONE}
                 onToggle={this.trackOpen}
             >
                 <OverlayTrigger
@@ -181,7 +180,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 >
                     <>
                         <button
-                            className={'AddChannelDropdown_dropdownButton' + this.getAbClassModifier()}
+                            className={'AddChannelDropdown_dropdownButton' + this.getClassModifierForAbTest()}
                             aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
                         >
                             <i className='icon-plus'/>

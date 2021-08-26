@@ -30,15 +30,18 @@ type SidebarHeaderContainerProps = {
     menuInHeading: boolean;
 }
 
+type SidebarHeaderProps = {
+    menuInHeading?: boolean;
+}
+
 const SidebarHeaderContainer = styled(Flex).attrs(() => ({
     element: 'header',
     row: true,
     justify: 'space-between',
     alignment: 'center',
 }))<SidebarHeaderContainerProps>`
-    height: 42px;
-    margin: ${(p) => (p.menuInHeading ? '0' : '5px 16px')};
-    ${(p) => (p.menuInHeading ? 'cursor: pointer;' : '')}
+    height: 52px;
+    padding: 0 16px;
 
     .dropdown-menu {
         position: absolute;
@@ -54,15 +57,37 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
     }
 `;
 
+const HEADING_WIDTH = 200;
+const CHEVRON_WIDTH = 26;
+const ADD_CHANNEL_DROPDOWN_WIDTH = 28;
+const TREATMENT_WIDTH = (HEADING_WIDTH - CHEVRON_WIDTH - ADD_CHANNEL_DROPDOWN_WIDTH).toString();
+
 const SidebarHeading = styled(Heading).attrs(() => ({
     element: 'h1',
-    size: 200,
     margin: 'none',
-}))`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    size: 200,
+}))<SidebarHeaderProps>`
     color: var(--sidebar-header-text-color);
+    ${(p) => (p.menuInHeading ? 'cursor: pointer;' : '')}
+    ${(p) => (p.menuInHeading ? 'display: flex;' : '')}
+    ${(p) => (p.menuInHeading ? '' : `
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              `)}
+
+    .title {
+        max-width: ${(p) => (p.menuInHeading ? TREATMENT_WIDTH : '200')}px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+    }
+
+    .icon-chevron-down {
+        margin-left: -3px;
+        margin-right: -1px;
+    }
 
     #SidebarContainer & {
         font-family: Metropolis, sans-serif;
@@ -79,6 +104,8 @@ export type Props = {
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
 }
+
+const noop = () => {};
 
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
@@ -108,7 +135,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 compact={true}
                 inverted={true}
                 active={menuToggled}
-                onClick={() => {}}
+                onClick={noop}
             />
             <MainMenu id='sidebarDropdownMenu'/>
         </MenuWrapper>
@@ -133,13 +160,25 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
         );
     }
 
-    let sidebarHeadingContent: JSX.Element | string = currentTeam.display_name;
+    let sidebarHeadingContent: JSX.Element = (
+        <SidebarHeading>
+            {currentTeam.display_name}
+        </SidebarHeading>
+    );
 
     if (hasAddChannelTreatment) {
         sidebarHeadingContent = (
             <>
-                {currentTeam.display_name}
-                <i className='icon icon-chevron-down'/>
+                <MenuWrapper
+                    onToggle={handleMenuToggle}
+                    className='SidebarHeaderMenuWrapper'
+                >
+                    <SidebarHeading menuInHeading={true}>
+                        <span className='title'>{currentTeam.display_name}</span>
+                        <i className='icon icon-chevron-down'/>
+                    </SidebarHeading>
+                    <MainMenu id='sidebarDropdownMenu'/>
+                </MenuWrapper>
                 {showMenuTip && (
                     <MenuTutorialTip
                         onBottom={false}
@@ -150,7 +189,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
         );
     }
 
-    let sidebarHeader = (
+    const sidebarHeader = (
         <>
             {(showMenuTip && !hasAddChannelTreatment) ? <MenuTutorialTip onBottom={false}/> : null}
             <SidebarHeaderContainer menuInHeading={hasAddChannelTreatment}>
@@ -159,26 +198,12 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     placement='bottom'
                     overlay={currentTeam.description?.length ? <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip> : <></>}
                 >
-                    <SidebarHeading>
-                        {sidebarHeadingContent}
-                    </SidebarHeading>
+                    {sidebarHeadingContent}
                 </OverlayTrigger>
                 {menu}
             </SidebarHeaderContainer>
         </>
     );
-
-    if (hasAddChannelTreatment) {
-        sidebarHeader = (
-            <MenuWrapper
-                onToggle={handleMenuToggle}
-                className='SidebarHeaderMenuWrapper'
-            >
-                {sidebarHeader}
-                <MainMenu id='sidebarDropdownMenu'/>
-            </MenuWrapper>
-        );
-    }
 
     return sidebarHeader;
 };
