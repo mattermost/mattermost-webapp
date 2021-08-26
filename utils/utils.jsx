@@ -33,6 +33,7 @@ import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {
     getCurrentRelativeTeamUrl,
+    getCurrentTeam,
     getCurrentTeamId,
     getTeam,
     getTeamByName,
@@ -214,6 +215,14 @@ export function getTeamRelativeUrl(team) {
     }
 
     return '/' + team.name;
+}
+
+export function getPermalinkURL(state, teamId, postId) {
+    let team = getTeam(state, teamId);
+    if (!team) {
+        team = getCurrentTeam(state);
+    }
+    return `${getTeamRelativeUrl(team)}/pl/${postId}`;
 }
 
 export function getChannelURL(state, channel, teamId) {
@@ -729,6 +738,7 @@ export function applyTheme(theme) {
 
     if (theme.mentionHighlightLink) {
         changeCss('.app__body .mention--highlight .mention-link, .app__body .mention--highlight, .app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
+        changeCss('.app__body .mention--highlight .mention-link > a, .app__body .mention--highlight > a, .app__body .search-highlight > a', 'color: inherit');
     }
 
     if (!theme.codeTheme) {

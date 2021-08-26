@@ -15,7 +15,7 @@ import SidebarTab from './sidebar';
 export type Props = {
     user: UserProfile;
     activeTab?: string;
-    activeSection?: string;
+    activeSection: string;
     updateSection: (section: string) => void;
     updateTab: (notifications: string) => void;
     closeModal: () => void;
@@ -26,7 +26,7 @@ export type Props = {
 
 export default class UserSettings extends React.PureComponent<Props> {
     render() {
-        if (this.props.activeTab === 'general') {
+        if (this.props.activeTab === 'profile') {
             return (
                 <div>
                     <GeneralTab

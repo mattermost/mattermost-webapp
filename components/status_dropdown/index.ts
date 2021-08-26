@@ -36,6 +36,7 @@ function makeMapStateToProps() {
             autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
             status: getStatusForUserId(state, userId),
             customStatus,
+            currentUser,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
             isStatusDropdownOpen: isStatusDropdownOpen(state),

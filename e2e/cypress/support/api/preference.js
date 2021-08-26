@@ -240,3 +240,14 @@ Cypress.Commands.add('apiGetUserPreference', (userId) => {
         return cy.wrap(response.body);
     });
 });
+
+Cypress.Commands.add('apiSaveCRTPreference', (userId, value = 'on') => {
+    const preference = {
+        user_id: userId,
+        category: 'display_settings',
+        name: 'collapsed_reply_threads',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference]);
+});

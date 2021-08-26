@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
+import {General} from 'mattermost-redux/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -26,7 +27,7 @@ export default class ConvertChannelModal extends React.PureComponent {
             /**
             * Function called for converting channel to private,
             */
-            convertChannelToPrivate: PropTypes.func.isRequired,
+            updateChannelPrivacy: PropTypes.func.isRequired,
         }),
     }
 
@@ -42,7 +43,7 @@ export default class ConvertChannelModal extends React.PureComponent {
             return;
         }
 
-        actions.convertChannelToPrivate(channelId);
+        actions.updateChannelPrivacy(channelId, General.PRIVATE_CHANNEL);
         trackEvent('actions', 'convert_to_private_channel', {channel_id: channelId});
         this.onHide();
     }

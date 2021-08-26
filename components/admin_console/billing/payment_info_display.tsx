@@ -7,11 +7,13 @@ import {useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';
-import noPaymentInfoGraphic from 'images/no_payment_info_graphic.svg';
+import CreditCardSvg from 'components/common/svg_images_components/credit_card.svg';
+
 import {GlobalState} from 'types/store';
 
-import './payment_info_display.scss';
 import PaymentDetails from './payment_details';
+
+import './payment_info_display.scss';
 
 const addInfoButton = (
     <div className='PaymentInfoDisplay__addInfo'>
@@ -31,9 +33,9 @@ const addInfoButton = (
 
 const noPaymentInfoSection = (
     <div className='PaymentInfoDisplay__noPaymentInfo'>
-        <img
-            className='ComapnyInfoDisplay__noPaymentInfo-graphic'
-            src={noPaymentInfoGraphic}
+        <CreditCardSvg
+            width={280}
+            height={190}
         />
         <div className='PaymentInfoDisplay__noPaymentInfo-message'>
             <FormattedMessage

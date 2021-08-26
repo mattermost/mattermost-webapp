@@ -294,7 +294,6 @@
 
             span {
                 color: rgba(var(--center-channel-color-rgb), 0.9);
-                font-size: 14px;
                 white-space: nowrap;
             }
 
@@ -520,39 +519,44 @@
     }
 
     .SidebarCategory_newDropBox {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border: 1px dashed rgba(var(--sidebar-text-rgb), 0.3);
-        margin: 0 16px;
-        border-radius: 4px;
+        padding-bottom: 6px;
+        margin-bottom: -6px;
 
-        > i {
-            color: rgba(var(--sidebar-text-rgb), 0.6);
-            font-size: 18px;
-            line-height: 16px;
-        }
+        .SidebarCategory_newDropBox-content {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px dashed rgba(var(--sidebar-text-rgb), 0.3);
+            margin: 0 16px;
+            border-radius: 4px;
 
-        .SidebarCategory_newDropBox-label {
-            margin-left: 8px;
-            color: rgba(var(--sidebar-text-rgb), 0.72);
-            font-size: 12px;
-            line-height: 16px;
-        }
+            > i {
+                color: rgba(var(--sidebar-text-rgb), 0.6);
+                font-size: 18px;
+                line-height: 16px;
+            }
 
-        &.animating {
-            transition-duration: 0.15s; /* collapse animation speed */
-            transition-property: height, padding, color;
-            transition-timing-function: ease-out;
-        }
+            .SidebarCategory_newDropBox-label {
+                margin-left: 8px;
+                color: rgba(var(--sidebar-text-rgb), 0.72);
+                font-size: 12px;
+                line-height: 16px;
+            }
 
-        &.collapsed {
-            height: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-            border-top: none;
-            border-bottom: none;
-            overflow-y: hidden;
+            &.animating {
+                transition-duration: 0.15s; /* collapse animation speed */
+                transition-property: height, padding, color;
+                transition-timing-function: ease-out;
+            }
+
+            &.collapsed {
+                height: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+                border-top: none;
+                border-bottom: none;
+                overflow-y: hidden;
+            }
         }
     }
 
@@ -714,11 +718,6 @@
         }
     }
 
-    .SidebarChannelGroup:not(.autoSortedCategory) .draggingOver .SidebarChannelGroupHeader:hover {
-        border-radius: 4px;
-        box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
-    }
-
     .SidebarChannelGroupHeader_groupButton {
         z-index: 1;
         top: 0;
@@ -830,7 +829,7 @@
         font-size: 12px;
     }
 
-    .SidebarChannelGroup.autoSortedCategory .draggingOver {
+    .SidebarChannelGroup .draggingOver {
         border-radius: 4px;
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
 
@@ -1259,5 +1258,40 @@
         + .inner-wrap #app-content {
             margin-left: 305px;
         }
+    }
+}
+
+/* context menu shown when right-clicking on a channel in the LHS when using the desktop app */
+.react-contextmenu--visible {
+    z-index: 100;
+    padding: 2px 0;
+    border: 1px solid #c6c6c6;
+    background: #f0f0f0;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+}
+
+.react-contextmenu-item {
+    padding: 0 22px;
+    margin: 1px 0;
+
+    &:hover {
+        background: #489dfe;
+        color: $white;
+    }
+
+    &:focus,
+    span {
+        outline: none;
+    }
+}
+
+// Manual override of the global menu (and items) styling for the sidebar dropdown menu
+#sidebarDropdownMenu .MenuItem {
+    > button,
+    > div,
+    > a {
+        padding: 0 32px 0 24px;
     }
 }
