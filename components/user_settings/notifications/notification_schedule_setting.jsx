@@ -76,6 +76,7 @@ const dateOptions = [
     {value: '08:00', label: '08:00'},
     {value: '08:30', label: '08:30'},
 ];
+const newText = 'NEW';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -444,13 +445,561 @@ class setNotificationSchedule extends React.PureComponent {
                 },
             ];
             return (
+                <div className='ns-item'>
+                    <SettingItemMax
+                        title={localizeMessage(
+                            'user.settings.notifications.schedule.title',
+                            'Notifications Schedule',
+                        )}
+                        inputs={[
+                            <div key='customNotificationSchedule'>
+                                <div className='mt-3'>
+                                    <FormattedMessage
+                                        id='user.settings.notifications.scheduleInfo'
+                                        defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
+                                    />
+                                </div>
+                                <div className='form-switch mt-3'>
+                                    <label className='switch'>
+                                        <input
+                                            type='checkbox'
+                                            checked={this.state.enableCustomDND}
+                                            onChange={this.handelEnableChange}
+                                        />
+                                        <span className='slider round'/>
+                                    </label>
+                                    <FormattedMessage
+                                        id='user.settings.notifications.schedule.enable'
+                                        defaultMessage='Enable notifications schedule'
+                                    />
+                                </div>
+                                {this.state.enableCustomDND ? (
+                                    <div className='form-select'>
+                                        <FormattedMessage
+                                            id='user.settings.notifications.schedule.allow'
+                                            defaultMessage='Allow notifications'
+                                        />
+                                        <div className='mt-2'>
+                                            <ReactSelect
+                                                isDisabled={
+                                                    !this.state.enableCustomDND
+                                                }
+                                                className='react-select period'
+                                                classNamePrefix='react-select'
+                                                id='notificationSchedule'
+                                                options={periodsOptions}
+                                                autosize={false}
+                                                clearable={false}
+                                                value={this.state.selectedOption}
+                                                isSearchable={false}
+                                                onChange={this.handlePeriodChange}
+                                            />
+                                            <div className='weekDays-selector'>
+                                                <input
+                                                    disabled={
+                                                        !this.state.enableCustomDND
+                                                    }
+                                                    type='checkbox'
+                                                    id='sunEnable'
+                                                    checked={this.state.sunEnable}
+                                                    onChange={(e, start = 'sunStart', end = 'sunEnd') =>
+                                                        this.handleDayChange(e, start, end)
+                                                    }
+                                                    className='weekday'
+                                                />
+                                                <label htmlFor='sunEnable'>{weekInfo[0].label}</label>
+                                                <input
+                                                    disabled={
+                                                        !this.state.enableCustomDND
+                                                    }
+                                                    type='checkbox'
+                                                    id='monEnable'
+                                                    checked={this.state.monEnable}
+                                                    onChange={(e, start = 'monStart', end = 'monEnd') =>
+                                                        this.handleDayChange(e, start, end)
+                                                    }
+                                                    className='weekday'
+                                                />
+                                                <label htmlFor='monEnable'>{weekInfo[1].label}</label>
+                                                <input
+                                                    disabled={
+                                                        !this.state.enableCustomDND
+                                                    }
+                                                    type='checkbox'
+                                                    id='tueEnable'
+                                                    checked={this.state.tueEnable}
+                                                    onChange={(e, start = 'tueStart', end = 'tueEnd') =>
+                                                        this.handleDayChange(e, start, end)
+                                                    }
+                                                    className='weekday'
+                                                />
+                                                <label htmlFor='tueEnable'>{weekInfo[2].label}</label>
+                                                <input
+                                                    disabled={
+                                                        !this.state.enableCustomDND
+                                                    }
+                                                    type='checkbox'
+                                                    id='wedEnable'
+                                                    checked={this.state.wedEnable}
+                                                    onChange={(e, start = 'wedStart', end = 'wedEnd') =>
+                                                        this.handleDayChange(e, start, end)
+                                                    }
+                                                    className='weekday'
+                                                />
+                                                <label htmlFor='wedEnable'>{weekInfo[3].label}</label>
+                                                <input
+                                                    disabled={
+                                                        !this.state.enableCustomDND
+                                                    }
+                                                    type='checkbox'
+                                                    id='thuEnable'
+                                                    checked={this.state.thuEnable}
+                                                    onChange={(e, start = 'thuStart', end = 'thuEnd') =>
+                                                        this.handleDayChange(e, start, end)
+                                                    }
+                                                    className='weekday'
+                                                />
+                                                <label htmlFor='thuEnable'>{weekInfo[4].label}</label>
+                                                <input
+                                                    disabled={
+                                                        !this.state.enableCustomDND
+                                                    }
+                                                    type='checkbox'
+                                                    id='friEnable'
+                                                    checked={this.state.friEnable}
+                                                    onChange={(e, start = 'friStart', end = 'friEnd') =>
+                                                        this.handleDayChange(e, start, end)
+                                                    }
+                                                    className='weekday'
+                                                />
+                                                <label htmlFor='friEnable'>{weekInfo[5].label}</label>
+                                                <input
+                                                    disabled={
+                                                        !this.state.enableCustomDND
+                                                    }
+                                                    type='checkbox'
+                                                    id='satEnable'
+                                                    checked={this.state.satEnable}
+                                                    onChange={(e, start = 'satStart', end = 'satEnd') =>
+                                                        this.handleDayChange(e, start, end)
+                                                    }
+                                                    className='weekday'
+                                                />
+                                                <label htmlFor='satEnable'>{weekInfo[6].label}</label>
+                                            </div>
+                                            <div className='form-time'>
+                                                {this.state.sunEnable ? (
+                                                    <div className='time-wrapper custom-time'>
+                                                        <div className='week-name'>
+                                                            {weekInfo[0].name}
+                                                        </div>
+                                                        <div className='left-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.sunStart}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'sunStart')
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <p>{to}</p>
+                                                        <div className='right-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.sunEnd}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'sunEnd')
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {this.state.monEnable ? (
+                                                    <div className='time-wrapper custom-time'>
+                                                        <div className='week-name'>
+                                                            {weekInfo[1].name}
+                                                        </div>
+                                                        <div className='left-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.monStart}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'start')
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <p>{to}</p>
+                                                        <div className='right-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.monEnd}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'monEnd')
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {this.state.tueEnable ? (
+                                                    <div className='time-wrapper custom-time'>
+                                                        <div className='week-name'>
+                                                            {weekInfo[2].name}
+                                                        </div>
+                                                        <div className='left-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.tueStart}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'tueStart')
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <p>{to}</p>
+                                                        <div className='right-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.tueEnd}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'tueEnd')
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {this.state.wedEnable ? (
+                                                    <div className='time-wrapper custom-time'>
+                                                        <div className='week-name'>
+                                                            {weekInfo[3].name}
+                                                        </div>
+                                                        <div className='left-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.wedStart}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'wedStart')
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <p>{to}</p>
+                                                        <div className='right-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.wedEnd}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'wedEnd')
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {this.state.thuEnable ? (
+                                                    <div className='time-wrapper custom-time'>
+                                                        <div className='week-name'>
+                                                            {weekInfo[4].name}
+                                                        </div>
+                                                        <div className='left-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                id='start'
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.thuStart}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'thuStart')
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <p>{to}</p>
+                                                        <div className='right-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                id='start'
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.thuEnd}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'thuEnd')
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {this.state.friEnable ? (
+                                                    <div className='time-wrapper custom-time'>
+                                                        <div className='week-name'>
+                                                            {weekInfo[5].name}
+                                                        </div>
+                                                        <div className='left-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                id='start'
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.friStart}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'friStart')
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <p>{to}</p>
+                                                        <div className='right-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                id='start'
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.friEnd}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'friEnd')
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {this.state.satEnable ? (
+                                                    <div className='time-wrapper custom-time'>
+                                                        <div className='week-name'>
+                                                            {weekInfo[6].name}
+                                                        </div>
+                                                        <div className='left-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                id='start'
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.satStart}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'satStart')
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <p>{to}</p>
+                                                        <div className='right-wrapper'>
+                                                            <span className='time-icon'>
+                                                                <i className='icon-clock-outline'/>
+                                                            </span>
+                                                            <ReactSelect
+                                                                isDisabled={!this.state.enableCustomDND}
+                                                                components={{
+                                                                    IndicatorSeparator: () => null,
+                                                                    DropdownIndicator: () => null,
+                                                                }}
+                                                                className='react-select time'
+                                                                classNamePrefix='react-select'
+                                                                options={dateOptions}
+                                                                id='start'
+                                                                autosize={false}
+                                                                clearable={false}
+                                                                value={this.state.satEnd}
+                                                                isSearchable={false}
+                                                                onChange={(option) =>
+                                                                    this.handleTimeChange(option, 'satEnd')
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div/>
+                                )}
+                            </div>,
+                        ]}
+                        submit={this.handleSubmit}
+                        saving={this.props.saving}
+                        width='full'
+                        updateSection={this.handleUpdateSection}
+                    />
+                    <div className='new-badge max'>
+                        {newText}
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <div className='ns-item'>
                 <SettingItemMax
                     title={localizeMessage(
                         'user.settings.notifications.schedule.title',
                         'Notifications Schedule',
                     )}
                     inputs={[
-                        <div key='customNotificationSchedule'>
+                        <div key='NotificationSchedule'>
                             <div className='mt-3'>
                                 <FormattedMessage
                                     id='user.settings.notifications.scheduleInfo'
@@ -479,9 +1028,7 @@ class setNotificationSchedule extends React.PureComponent {
                                     />
                                     <div className='mt-2'>
                                         <ReactSelect
-                                            isDisabled={
-                                                !this.state.enableCustomDND
-                                            }
+                                            isDisabled={!this.state.enableCustomDND}
                                             className='react-select period'
                                             classNamePrefix='react-select'
                                             id='notificationSchedule'
@@ -490,486 +1037,57 @@ class setNotificationSchedule extends React.PureComponent {
                                             clearable={false}
                                             value={this.state.selectedOption}
                                             isSearchable={false}
+                                            placeholder='Period'
                                             onChange={this.handlePeriodChange}
                                         />
-                                        <div className='weekDays-selector'>
-                                            <input
-                                                disabled={
-                                                    !this.state.enableCustomDND
-                                                }
-                                                type='checkbox'
-                                                id='sunEnable'
-                                                checked={this.state.sunEnable}
-                                                onChange={(e, start = 'sunStart', end = 'sunEnd') =>
-                                                    this.handleDayChange(e, start, end)
-                                                }
-                                                className='weekday'
-                                            />
-                                            <label htmlFor='sunEnable'>{weekInfo[0].label}</label>
-                                            <input
-                                                disabled={
-                                                    !this.state.enableCustomDND
-                                                }
-                                                type='checkbox'
-                                                id='monEnable'
-                                                checked={this.state.monEnable}
-                                                onChange={(e, start = 'monStart', end = 'monEnd') =>
-                                                    this.handleDayChange(e, start, end)
-                                                }
-                                                className='weekday'
-                                            />
-                                            <label htmlFor='monEnable'>{weekInfo[1].label}</label>
-                                            <input
-                                                disabled={
-                                                    !this.state.enableCustomDND
-                                                }
-                                                type='checkbox'
-                                                id='tueEnable'
-                                                checked={this.state.tueEnable}
-                                                onChange={(e, start = 'tueStart', end = 'tueEnd') =>
-                                                    this.handleDayChange(e, start, end)
-                                                }
-                                                className='weekday'
-                                            />
-                                            <label htmlFor='tueEnable'>{weekInfo[2].label}</label>
-                                            <input
-                                                disabled={
-                                                    !this.state.enableCustomDND
-                                                }
-                                                type='checkbox'
-                                                id='wedEnable'
-                                                checked={this.state.wedEnable}
-                                                onChange={(e, start = 'wedStart', end = 'wedEnd') =>
-                                                    this.handleDayChange(e, start, end)
-                                                }
-                                                className='weekday'
-                                            />
-                                            <label htmlFor='wedEnable'>{weekInfo[3].label}</label>
-                                            <input
-                                                disabled={
-                                                    !this.state.enableCustomDND
-                                                }
-                                                type='checkbox'
-                                                id='thuEnable'
-                                                checked={this.state.thuEnable}
-                                                onChange={(e, start = 'thuStart', end = 'thuEnd') =>
-                                                    this.handleDayChange(e, start, end)
-                                                }
-                                                className='weekday'
-                                            />
-                                            <label htmlFor='thuEnable'>{weekInfo[4].label}</label>
-                                            <input
-                                                disabled={
-                                                    !this.state.enableCustomDND
-                                                }
-                                                type='checkbox'
-                                                id='friEnable'
-                                                checked={this.state.friEnable}
-                                                onChange={(e, start = 'friStart', end = 'friEnd') =>
-                                                    this.handleDayChange(e, start, end)
-                                                }
-                                                className='weekday'
-                                            />
-                                            <label htmlFor='friEnable'>{weekInfo[5].label}</label>
-                                            <input
-                                                disabled={
-                                                    !this.state.enableCustomDND
-                                                }
-                                                type='checkbox'
-                                                id='satEnable'
-                                                checked={this.state.satEnable}
-                                                onChange={(e, start = 'satStart', end = 'satEnd') =>
-                                                    this.handleDayChange(e, start, end)
-                                                }
-                                                className='weekday'
-                                            />
-                                            <label htmlFor='satEnable'>{weekInfo[6].label}</label>
-                                        </div>
-                                        <div className='form-time'>
-                                            {this.state.sunEnable ? (
-                                                <div className='time-wrapper custom-time'>
-                                                    <div className='week-name'>
-                                                        {weekInfo[0].name}
-                                                    </div>
-                                                    <div className='left-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.sunStart}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'sunStart')
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <p>{to}</p>
-                                                    <div className='right-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.sunEnd}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'sunEnd')
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div/>
-                                            )}
-                                            {this.state.monEnable ? (
-                                                <div className='time-wrapper custom-time'>
-                                                    <div className='week-name'>
-                                                        {weekInfo[1].name}
-                                                    </div>
-                                                    <div className='left-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.monStart}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'start')
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <p>{to}</p>
-                                                    <div className='right-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.monEnd}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'monEnd')
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div/>
-                                            )}
-                                            {this.state.tueEnable ? (
-                                                <div className='time-wrapper custom-time'>
-                                                    <div className='week-name'>
-                                                        {weekInfo[2].name}
-                                                    </div>
-                                                    <div className='left-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.tueStart}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'tueStart')
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <p>{to}</p>
-                                                    <div className='right-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.tueEnd}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'tueEnd')
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div/>
-                                            )}
-                                            {this.state.wedEnable ? (
-                                                <div className='time-wrapper custom-time'>
-                                                    <div className='week-name'>
-                                                        {weekInfo[3].name}
-                                                    </div>
-                                                    <div className='left-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.wedStart}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'wedStart')
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <p>{to}</p>
-                                                    <div className='right-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.wedEnd}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'wedEnd')
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div/>
-                                            )}
-                                            {this.state.thuEnable ? (
-                                                <div className='time-wrapper custom-time'>
-                                                    <div className='week-name'>
-                                                        {weekInfo[4].name}
-                                                    </div>
-                                                    <div className='left-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            id='start'
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.thuStart}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'thuStart')
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <p>{to}</p>
-                                                    <div className='right-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            id='start'
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.thuEnd}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'thuEnd')
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div/>
-                                            )}
-                                            {this.state.friEnable ? (
-                                                <div className='time-wrapper custom-time'>
-                                                    <div className='week-name'>
-                                                        {weekInfo[5].name}
-                                                    </div>
-                                                    <div className='left-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            id='start'
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.friStart}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'friStart')
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <p>{to}</p>
-                                                    <div className='right-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            id='start'
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.friEnd}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'friEnd')
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div/>
-                                            )}
-                                            {this.state.satEnable ? (
-                                                <div className='time-wrapper custom-time'>
-                                                    <div className='week-name'>
-                                                        {weekInfo[6].name}
-                                                    </div>
-                                                    <div className='left-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            id='start'
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.satStart}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'satStart')
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <p>{to}</p>
-                                                    <div className='right-wrapper'>
-                                                        <span className='time-icon'>
-                                                            <i className='icon-clock-outline'/>
-                                                        </span>
-                                                        <ReactSelect
-                                                            isDisabled={!this.state.enableCustomDND}
-                                                            components={{
-                                                                IndicatorSeparator: () => null,
-                                                                DropdownIndicator: () => null,
-                                                            }}
-                                                            className='react-select time'
-                                                            classNamePrefix='react-select'
-                                                            options={dateOptions}
-                                                            id='start'
-                                                            autosize={false}
-                                                            clearable={false}
-                                                            value={this.state.satEnd}
-                                                            isSearchable={false}
-                                                            onChange={(option) =>
-                                                                this.handleTimeChange(option, 'satEnd')
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div/>
-                                            )}
+                                        <div className='time-wrapper n-custom-time'>
+                                            <div className='left-wrapper'>
+                                                <span className='time-icon'>
+                                                    <i className='icon-clock-outline'/>
+                                                </span>
+                                                <ReactSelect
+                                                    isDisabled={!this.state.enableCustomDND}
+                                                    components={{
+                                                        IndicatorSeparator: () => null,
+                                                        DropdownIndicator: () => null,
+                                                    }}
+                                                    className='react-select time'
+                                                    classNamePrefix='react-select'
+                                                    options={dateOptions}
+                                                    id='start'
+                                                    autosize={false}
+                                                    clearable={false}
+                                                    value={this.state.monStart}
+                                                    isSearchable={false}
+                                                    onChange={(option) =>
+                                                        this.handleTimeChange(option, 'start')
+                                                    }
+                                                />
+                                            </div>
+                                            <p>{to}</p>
+                                            <div className='right-wrapper'>
+                                                <span className='time-icon'>
+                                                    <i className='icon-clock-outline'/>
+                                                </span>
+                                                <ReactSelect
+                                                    isDisabled={!this.state.enableCustomDND}
+                                                    components={{
+                                                        IndicatorSeparator: () => null,
+                                                        DropdownIndicator: () => null,
+                                                    }}
+                                                    className='react-select time'
+                                                    classNamePrefix='react-select'
+                                                    options={dateOptions}
+                                                    id='end'
+                                                    autosize={false}
+                                                    clearable={false}
+                                                    value={this.state.monEnd}
+                                                    isSearchable={false}
+                                                    onChange={(option) =>
+                                                        this.handleTimeChange(option, 'end')
+                                                    }
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -980,121 +1098,14 @@ class setNotificationSchedule extends React.PureComponent {
                     ]}
                     submit={this.handleSubmit}
                     saving={this.props.saving}
+                    server_error={this.props.serverError}
                     width='full'
                     updateSection={this.handleUpdateSection}
                 />
-            );
-        }
-        return (
-            <SettingItemMax
-                title={localizeMessage(
-                    'user.settings.notifications.schedule.title',
-                    'Notifications Schedule',
-                )}
-                inputs={[
-                    <div key='NotificationSchedule'>
-                        <div className='mt-3'>
-                            <FormattedMessage
-                                id='user.settings.notifications.scheduleInfo'
-                                defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
-                            />
-                        </div>
-                        <div className='form-switch mt-3'>
-                            <label className='switch'>
-                                <input
-                                    type='checkbox'
-                                    checked={this.state.enableCustomDND}
-                                    onChange={this.handelEnableChange}
-                                />
-                                <span className='slider round'/>
-                            </label>
-                            <FormattedMessage
-                                id='user.settings.notifications.schedule.enable'
-                                defaultMessage='Enable notifications schedule'
-                            />
-                        </div>
-                        {this.state.enableCustomDND ? (
-                            <div className='form-select'>
-                                <FormattedMessage
-                                    id='user.settings.notifications.schedule.allow'
-                                    defaultMessage='Allow notifications'
-                                />
-                                <div className='mt-2'>
-                                    <ReactSelect
-                                        isDisabled={!this.state.enableCustomDND}
-                                        className='react-select period'
-                                        classNamePrefix='react-select'
-                                        id='notificationSchedule'
-                                        options={periodsOptions}
-                                        autosize={false}
-                                        clearable={false}
-                                        value={this.state.selectedOption}
-                                        isSearchable={false}
-                                        placeholder='Period'
-                                        onChange={this.handlePeriodChange}
-                                    />
-                                    <div className='time-wrapper n-custom-time'>
-                                        <div className='left-wrapper'>
-                                            <span className='time-icon'>
-                                                <i className='icon-clock-outline'/>
-                                            </span>
-                                            <ReactSelect
-                                                isDisabled={!this.state.enableCustomDND}
-                                                components={{
-                                                    IndicatorSeparator: () => null,
-                                                    DropdownIndicator: () => null,
-                                                }}
-                                                className='react-select time'
-                                                classNamePrefix='react-select'
-                                                options={dateOptions}
-                                                id='start'
-                                                autosize={false}
-                                                clearable={false}
-                                                value={this.state.monStart}
-                                                isSearchable={false}
-                                                onChange={(option) =>
-                                                    this.handleTimeChange(option, 'start')
-                                                }
-                                            />
-                                        </div>
-                                        <p>{to}</p>
-                                        <div className='right-wrapper'>
-                                            <span className='time-icon'>
-                                                <i className='icon-clock-outline'/>
-                                            </span>
-                                            <ReactSelect
-                                                isDisabled={!this.state.enableCustomDND}
-                                                components={{
-                                                    IndicatorSeparator: () => null,
-                                                    DropdownIndicator: () => null,
-                                                }}
-                                                className='react-select time'
-                                                classNamePrefix='react-select'
-                                                options={dateOptions}
-                                                id='end'
-                                                autosize={false}
-                                                clearable={false}
-                                                value={this.state.monEnd}
-                                                isSearchable={false}
-                                                onChange={(option) =>
-                                                    this.handleTimeChange(option, 'end')
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div/>
-                        )}
-                    </div>,
-                ]}
-                submit={this.handleSubmit}
-                saving={this.props.saving}
-                server_error={this.props.serverError}
-                width='full'
-                updateSection={this.handleUpdateSection}
-            />
+                <div className='new-badge max'>
+                    {newText}
+                </div>
+            </div>
         );
     };
 
@@ -1130,15 +1141,20 @@ class setNotificationSchedule extends React.PureComponent {
             );
         }
         return (
-            <SettingItemMin
-                title={localizeMessage(
-                    'user.settings.notifications.schedule.title',
-                    'Notifications Schedule',
-                )}
-                describe={description}
-                section={'schedule'}
-                updateSection={this.handleUpdateSection}
-            />
+            <div className='ns-item'>
+                <SettingItemMin
+                    title={localizeMessage(
+                        'user.settings.notifications.schedule.title',
+                        'Notifications Schedule',
+                    )}
+                    describe={description}
+                    section={'schedule'}
+                    updateSection={this.handleUpdateSection}
+                />
+                <div className='new-badge min'>
+                    {newText}
+                </div>
+            </div>
         );
     };
 

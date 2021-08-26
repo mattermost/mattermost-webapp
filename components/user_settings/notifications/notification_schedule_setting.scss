@@ -262,3 +262,31 @@
         cursor: default;
     }
 }
+
+.ns-item {
+    position: relative;
+
+    .new-badge {
+        position: absolute;
+        top: 15px;
+        width: 32px;
+        height: 16px;
+        padding: 0 4px;
+        background-color: var(--button-bg);
+        border-radius: 4px;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 16px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .min {
+        left: 174px;
+    }
+
+    .max {
+        left: 170px;
+    }
+}
