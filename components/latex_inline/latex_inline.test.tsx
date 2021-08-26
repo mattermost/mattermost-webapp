@@ -12,28 +12,34 @@ describe('components/LatexBlock', () => {
         enableInlineLatex: true,
     };
 
-    test('should match snapshot', () => {
+    test('should match snapshot', async () => {
         const wrapper = shallow(<LatexInline {...defaultProps}/>);
+        await import('katex'); //manually import katex
+        wrapper.update();
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('latex is disabled', () => {
+    test('latex is disabled', async () => {
         const props = {
             ...defaultProps,
             enableInlineLatex: false,
         };
 
         const wrapper = shallow(<LatexInline {...props}/>);
+        await import('katex'); //manually import katex
+        wrapper.update();
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('error in katex', () => {
+    test('error in katex', async () => {
         const props = {
             content: 'e^{i\\pi + 1 = 0',
             enableInlineLatex: true,
         };
 
         const wrapper = shallow(<LatexInline {...props}/>);
+        await import('katex'); //manually import katex
+        wrapper.update();
         expect(wrapper).toMatchSnapshot();
     });
 });
