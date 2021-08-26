@@ -43,7 +43,6 @@ describe('plugins/MainMenuActions', () => {
                 unhideNextSteps: jest.fn(),
                 getCloudSubscription: jest.fn(),
                 getSubscriptionStats: jest.fn(),
-                getPrevTrialLicense: jest.fn(),
             },
             isCloud: false,
             subscription: {},

@@ -1,24 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useIntl} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {ModalIdentifiers} from 'utils/constants';
 import {openModal} from 'actions/views/modals';
 import StartTrialModal from 'components/start_trial_modal';
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import './menu_item.scss';
 
 type Props = {
     id: string;
-    show: boolean;
 }
 
 const MenuStartTrial = (props: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getPrevTrialLicense());
+    });
 
     const openStartTrialModal = () => {
         dispatch(openModal({
@@ -27,7 +32,11 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
         }));
     };
 
-    if (!props.show) {
+    const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
+    const isLicensed = prevTrialLicense?.IsLicensed;
+    const show = isLicensed !== undefined && isLicensed !== 'true';
+
+    if (!show) {
         return null;
     }
 

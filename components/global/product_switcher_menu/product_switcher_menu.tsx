@@ -8,7 +8,6 @@ import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {ClientLicense} from 'mattermost-redux/types/config';
 
 import * as GlobalActions from 'actions/global_actions';
 import AboutBuildModal from 'components/about_build_modal';
@@ -41,10 +40,6 @@ type Props = {
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-    prevTrialLicense: ClientLicense;
-    actions: {
-        getPrevTrialLicense: () => void;
-    };
 };
 
 // TODO: reqrite this to a functional component
@@ -54,10 +49,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
         isMobile: false,
         pluginMenuItems: [],
     };
-
-    componentDidMount() {
-        this.props.actions.getPrevTrialLicense();
-    }
 
     handleEmitUserLoggedOutEvent = () => {
         GlobalActions.emitUserLoggedOutEvent();
@@ -75,12 +66,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
 
         const {formatMessage} = this.props.intl;
 
-        // prevent start trial menu item from flashing because IsLicensed value is not yet available on prevTrialLicense
-        let isLicensed = this.props.prevTrialLicense?.IsLicensed;
-        if (isLicensed === undefined) {
-            isLicensed = 'true';
-        }
-
         // TODO: Ensure that clicking ItemLink menu items also closes the global header menu.
         return (
             <>
@@ -90,7 +75,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                     >
                         <Menu.StartTrial
                             id='startTrial'
-                            show={isLicensed !== 'true'}
                         />
                     </SystemPermissionGate>
                 </Menu.Group>

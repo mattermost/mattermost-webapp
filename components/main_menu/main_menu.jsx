@@ -69,7 +69,6 @@ class MainMenu extends React.PureComponent {
         subscriptionStats: PropTypes.object,
         firstAdminVisitMarketplaceStatus: PropTypes.bool,
         globalHeaderEnabled: PropTypes.bool,
-        prevTrialLicense: PropTypes.object,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -78,7 +77,6 @@ class MainMenu extends React.PureComponent {
             closeRhsMenu: PropTypes.func.isRequired,
             unhideNextSteps: PropTypes.func.isRequired,
             getSubscriptionStats: PropTypes.func.isRequired,
-            getPrevTrialLicense: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -95,7 +93,6 @@ class MainMenu extends React.PureComponent {
 
     async componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
-        this.props.actions.getPrevTrialLicense();
     }
 
     componentWillUnmount() {
@@ -166,12 +163,6 @@ class MainMenu extends React.PureComponent {
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
 
         const {formatMessage} = this.props.intl;
-
-        // prevent start trial menu item from flashing because IsLicensed value is not yet available on prevTrialLicense
-        let isLicensed = this.props.prevTrialLicense?.IsLicensed;
-        if (isLicensed === undefined) {
-            isLicensed = 'true';
-        }
 
         const invitePeopleModal = (
             <Menu.ItemToggleModalRedux
@@ -345,7 +336,6 @@ class MainMenu extends React.PureComponent {
                     >
                         <Menu.StartTrial
                             id='startTrial'
-                            show={isLicensed !== 'true'}
                         />
                     </SystemPermissionGate>
                 </Menu.Group>

@@ -15,6 +15,7 @@ import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {requestTrialLicense} from 'actions/admin_actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import StartTrialModalSvg from './start_trial_modal_svg';
 
@@ -117,29 +118,10 @@ function StartTrialModal(): JSX.Element | null {
                 </div>
                 <div className='disclaimer'>
                     <span>
-                        <FormattedMessage
-                            id='start_trial.modal.disclaimer_1'
-                            defaultMessage='By clicking “Start 30-day trial”, I agree to the '
+                        <FormattedMarkdownMessage
+                            id='start_trial.modal.disclaimer'
+                            defaultMessage='By clicking “Start 30-day trial”, I agree to the [Mattermost Software Evaluation Agreement, Privacy Policy,](!https://mattermost.com/software-evaluation-agreement) and receiving product emails.'
                         />
-                    </span>
-                    <span>
-                        <a
-                            href='https://mattermost.com/software-evaluation-agreement/'
-                            target='_blank'
-                            rel='noopener noreferrer'
-                        >
-                            <FormattedMessage
-                                id='start_trial.modal.disclaimer_2'
-                                defaultMessage='Mattermost Software Evaluation Agreement, Privacy Policy, '
-                            />
-                        </a>
-                    </span>
-                    <span>
-                        <FormattedMessage
-                            id='start_trial.modal.disclaimer_3'
-                            defaultMessage='and receiving product emails.'
-                        />
-
                     </span>
                 </div>
             </Modal.Body>
