@@ -129,7 +129,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             break;
         case 1:
             // add 1 hour in current time
-            endTime = new Date(currentTime + (1 * 60 * 60 * 1000));
+            endTime = new Date(currentTime + (60 * 60 * 1000));
             break;
         case 2:
             // add 2 hours in current time
@@ -202,7 +202,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.props.actions.unsetCustomStatus();
     };
 
-    handleEmitUserLoggedOutEvent = () => {
+    handleEmitUserLoggedOutEvent = (): void => {
         GlobalActions.emitUserLoggedOutEvent();
     }
 
@@ -210,7 +210,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.props.actions.setStatusDropdown(open);
     }
 
-    handleCustomStatusEmojiClick = (event: React.MouseEvent) => {
+    handleCustomStatusEmojiClick = (event: React.MouseEvent): void => {
         event.stopPropagation();
         const customStatusInputModalData = {
             modalId: ModalIdentifiers.CUSTOM_STATUS,
@@ -471,13 +471,12 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             dialogType={UserSettingsModal}
                             dialogProps={{isContentProductSettings: false}}
                             text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
-                            icon={globalHeader ?
+                            icon={globalHeader ? (
                                 <Icon
                                     size={16}
                                     glyph={'account-outline'}
-                                /> :
-                                <i className='fa fa-cog'/>
-                            }
+                                />
+                            ) : <i className='fa fa-cog'/>}
                         />
                     </Menu.Group>
                     <Menu.Group>
@@ -485,13 +484,12 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                             id='logout'
                             onClick={this.handleEmitUserLoggedOutEvent}
                             text={localizeMessage('navbar_dropdown.logout', 'Log Out')}
-                            icon={globalHeader ?
+                            icon={globalHeader ? (
                                 <Icon
                                     size={16}
                                     glyph={'exit-to-app'}
-                                /> :
-                                <i className='fa fa-sign-out'/>
-                            }
+                                />
+                            ) : <i className='fa fa-sign-out'/>}
                         />
                     </Menu.Group>
                 </Menu>
