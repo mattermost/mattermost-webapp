@@ -13,7 +13,7 @@ type Props = {
     extraText?: string;
     id?: string;
     buttonClass?: string;
-    rightDecorator: React.ReactNode;
+    rightDecorator?: React.ReactNode;
     isDangerous?: boolean;
 }
 export const MenuItemActionImpl = ({

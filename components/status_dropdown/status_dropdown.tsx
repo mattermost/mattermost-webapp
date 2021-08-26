@@ -316,7 +316,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         const selectedIndicator = (
             <Icon
                 glyph={'check'}
-                size={12}
+                size={16}
                 color={'success'}
             />
         );
@@ -344,10 +344,8 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                 extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
                 icon={<StatusDndIcon className={'dnd--icon'}/>}
-                selectedValueText={status === 'dnd' && selectedIndicator}
-                direction={globalHeader ? 'left' : 'right'}
-                openUp={this.state.openUp}
-                id={'status-menu-dnd-timed'}
+                rightDecorator={status === 'dnd' && selectedIndicator}
+                id={'status-menu-dnd'}
             />
         );
 
@@ -358,8 +356,10 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
                     text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                     icon={<StatusDndIcon className={'dnd--icon'}/>}
-                    rightDecorator={status === 'dnd' && selectedIndicator}
-                    id={'status-menu-dnd'}
+                    selectedValueText={status === 'dnd' && selectedIndicator}
+                    direction={globalHeader ? 'left' : 'right'}
+                    openUp={this.state.openUp}
+                    id={'status-menu-dnd-timed'}
                 />
             );
         }

@@ -153,12 +153,14 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
             return ('');
         }
 
+        const selectedValueElement = typeof selectedValueText === 'string' ? <span className='selected'>{selectedValueText}</span> : selectedValueText;
+
         let textProp = text;
         if (icon) {
             textProp = (
                 <React.Fragment>
                     <span className={classNames(['icon', {'sorting-menu-icon': styleSelectableItem}])}>{icon}</span>
-                    {text}
+                    {textProp}
                 </React.Fragment>
             );
         }
@@ -231,14 +233,17 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     tabIndex={0}
                     onKeyDown={this.handleKeyDown}
                 >
-                    {textProp}
-                    {selectedValueText && <span className='selected'>{selectedValueText}</span>}
-                    {id !== 'SidebarChannelMenu-moveToDivider' &&
-                        <span
-                            id={'channelHeaderDropdownIconRight_' + id}
-                            className={classNames([`fa fa-angle-right SubMenu__icon-right${hasSubmenu ? '' : '-empty'}`, {mobile: isMobile}])}
-                            aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
-                        />}
+                    <span className='MenuItem__primary-text'>
+                        {textProp}
+                        {selectedValueText && selectedValueElement}
+                        {id !== 'SidebarChannelMenu-moveToDivider' &&
+                            <span
+                                id={'channelHeaderDropdownIconRight_' + id}
+                                className={classNames([`fa fa-angle-right SubMenu__icon-right${hasSubmenu ? '' : '-empty'}`, {mobile: isMobile}])}
+                                aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
+                            />
+                        }
+                    </span>
                     {subMenuContent}
                     {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
                 </div>
