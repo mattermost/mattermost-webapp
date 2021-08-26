@@ -3,16 +3,52 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {KatexOptions, renderToString} from 'katex';
+export interface KatexOptions {
+    displayMode?: boolean;
+    output?: 'html' | 'mathml' | 'htmlAndMathml';
+    leqno?: boolean;
+    fleqn?: boolean;
+    throwOnError?: boolean;
+    errorColor?: string;
+    minRuleThickness?: number;
+    colorIsTextColor?: boolean;
+    maxSize?: number;
+    maxExpand?: number;
+    strict?: boolean | string ;
+    globalGroup?: boolean;
+}
 
 type Props = {
     content: string;
     enableInlineLatex: boolean;
 };
 
-export default class LatexInline extends React.PureComponent<Props> {
+type KatexType = {
+    render(tex: string, element: HTMLElement, options?: KatexOptions | undefined): void;
+    renderToString(tex: string, options?: KatexOptions | undefined): string;
+};
+
+type State = {
+    katex: null | KatexType;
+}
+
+export default class LatexInline extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            katex: null,
+        };
+    }
+
+    componentDidMount(): void {
+        import('katex').then((katex) => {
+            this.setState({katex});
+        });
+    }
+
     render(): React.ReactNode {
-        if (!this.props.enableInlineLatex) {
+        if (!this.props.enableInlineLatex || this.state.katex === null) {
             return (
                 <span
                     className='post-body--code inline-tex'
@@ -23,7 +59,7 @@ export default class LatexInline extends React.PureComponent<Props> {
         }
 
         try {
-            const katexOptions: KatexOptions = {
+            const katexOptions = {
                 throwOnError: false,
                 displayMode: false,
                 maxSize: 200,
@@ -31,7 +67,7 @@ export default class LatexInline extends React.PureComponent<Props> {
                 fleqn: true,
             };
 
-            const html = renderToString(this.props.content, katexOptions);
+            const html = this.state.katex.renderToString(this.props.content, katexOptions);
 
             return (
                 <span
