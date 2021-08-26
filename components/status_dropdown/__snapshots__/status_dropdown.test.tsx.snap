@@ -60,6 +60,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
@@ -72,12 +73,12 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -86,6 +87,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
@@ -94,6 +96,13 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         icon={<StatusOfflineIcon />}
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -275,6 +284,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
@@ -287,12 +297,12 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -301,6 +311,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
@@ -309,6 +320,13 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         icon={<StatusOfflineIcon />}
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -439,6 +457,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
@@ -451,12 +470,12 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -465,6 +484,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
@@ -473,6 +493,13 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         icon={<StatusOfflineIcon />}
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -603,6 +630,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
@@ -615,12 +643,12 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -629,6 +657,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
@@ -637,6 +666,13 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         icon={<StatusOfflineIcon />}
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -768,6 +804,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
@@ -780,12 +817,12 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -794,6 +831,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
@@ -802,6 +840,13 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         icon={<StatusOfflineIcon />}
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -915,6 +960,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
@@ -927,12 +973,12 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -941,6 +987,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
@@ -949,6 +996,13 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         icon={<StatusOfflineIcon />}
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -1058,6 +1112,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
@@ -1070,12 +1125,12 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -1084,6 +1139,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
@@ -1092,6 +1148,13 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         icon={<StatusOfflineIcon />}
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
