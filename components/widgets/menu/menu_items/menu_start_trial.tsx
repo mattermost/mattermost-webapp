@@ -23,7 +23,7 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
-    });
+    }, []);
 
     const openStartTrialModal = () => {
         dispatch(openModal({
