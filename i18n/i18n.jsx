@@ -42,7 +42,7 @@ const languages = {
     },
     'en-AU': {
         value: 'en-AU',
-        name: 'English Australian (Beta)',
+        name: 'English Australian',
         order: 2,
         url: enAU,
     },
@@ -66,7 +66,7 @@ const languages = {
     },
     hu: {
         value: 'hu',
-        name: 'Magyar (Beta)',
+        name: 'Magyar',
         order: 6,
         url: hu,
     },
