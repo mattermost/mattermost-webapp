@@ -2,7 +2,6 @@
 
 // css feature flag: apply styling overrides to legacy layout when global header is enabled
 .feature-global-header {
-    background: red;
     --global-header-background: var(--sidebar-teambar-bg);
     --global-header-text: var(--sidebar-header-text-color);
     --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
@@ -205,8 +204,8 @@
 
             .MenuItem__primary-text {
                 display: grid;
-                grid-template-columns: auto 1fr auto auto;
                 align-items: center;
+                grid-template-columns: auto 1fr auto auto;
 
                 .SubMenu__icon-right {
                     padding-top: 0;
