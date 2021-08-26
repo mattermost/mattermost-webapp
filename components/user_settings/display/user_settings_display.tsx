@@ -6,7 +6,8 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
+import {Timezone} from 'timezones.json';
+
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
@@ -36,7 +37,6 @@ function getDisplayStateFromProps(props: Props) {
         teammateNameDisplay: props.teammateNameDisplay,
         availabilityStatusOnPosts: props.availabilityStatusOnPosts,
         channelDisplayMode: props.channelDisplayMode,
-        globalHeaderDisplay: props.globalHeaderDisplay,
         messageDisplay: props.messageDisplay,
         collapseDisplay: props.collapseDisplay,
         collapsedReplyThreads: props.collapsedReplyThreads,
@@ -81,7 +81,7 @@ type Props = {
     collapseModal?: () => void;
     setRequireConfirm?: () => void;
     setEnforceFocus?: () => void;
-    timezones: string[];
+    timezones: Timezone[];
     userTimezone: UserTimezone;
     allowCustomThemes: boolean;
     enableLinkPreviews: boolean;
@@ -96,16 +96,14 @@ type Props = {
     teammateNameDisplay: string;
     availabilityStatusOnPosts: string;
     channelDisplayMode: string;
-    globalHeaderDisplay: string;
     messageDisplay: string;
     collapseDisplay: string;
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
-    globalHeaderAllowed: boolean;
+    timezoneLabel: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
-        getSupportedTimezones: () => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
     };
 }
@@ -117,7 +115,6 @@ type State = {
     teammateNameDisplay: string;
     availabilityStatusOnPosts: string;
     channelDisplayMode: string;
-    globalHeaderDisplay: string;
     messageDisplay: string;
     collapseDisplay: string;
     collapsedReplyThreads: string;
@@ -144,10 +141,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             ...getDisplayStateFromProps(props),
             isSaving: false,
         };
-
-        if (props.timezones.length === 0) {
-            props.actions.getSupportedTimezones();
-        }
 
         this.prevSections = {
             theme: 'dummySectionName', // dummy value that should never match any section name
@@ -211,12 +204,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.CHANNEL_DISPLAY_MODE,
             value: this.state.channelDisplayMode,
         };
-        const globalHeaderDisplayModePreference = {
-            user_id: userId,
-            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
-            name: Preferences.GLOBAL_HEADER_DISPLAY,
-            value: this.state.globalHeaderDisplay,
-        };
         const messageDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -247,7 +234,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         const preferences = [
             timePreference,
             channelDisplayModePreference,
-            globalHeaderDisplayModePreference,
             messageDisplayPreference,
             collapsedReplyThreadsPreference,
             collapseDisplayPreference,
@@ -716,7 +702,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                     defaultMessage='Timezone'
                                 />
                             }
-                            describe={getTimezoneRegion(this.props.currentUserTimezone)}
+                            describe={this.props.timezoneLabel}
                             section={'timezone'}
                             updateSection={this.updateSection}
                         />
@@ -818,35 +804,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             description: {
                 id: t('user.settings.display.channeldisplaymode'),
                 message: 'Select the width of the center channel.',
-            },
-        });
-
-        const showGlobalHeader = this.createSection({
-            section: Preferences.GLOBAL_HEADER_DISPLAY,
-            display: 'globalHeaderDisplay',
-            value: this.state.globalHeaderDisplay,
-            defaultDisplay: Preferences.GLOBAL_HEADER_DISPLAY_OFF,
-            title: {
-                id: t('user.settings.display.global_header_display'),
-                message: 'Global Header',
-            },
-            firstOption: {
-                value: Preferences.GLOBAL_HEADER_DISPLAY_ON,
-                radionButtonText: {
-                    id: t('user.settings.display.global_header_display_on'),
-                    message: 'On',
-                },
-            },
-            secondOption: {
-                value: Preferences.GLOBAL_HEADER_DISPLAY_OFF,
-                radionButtonText: {
-                    id: t('user.settings.display.global_header_display_off'),
-                    message: 'Off',
-                },
-            },
-            description: {
-                id: t('user.settings.display.global_header_description'),
-                message: 'Turn the global header on or off.',
             },
         });
 
@@ -962,7 +919,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {collapsedReplyThreads}
                     {channelDisplayModeSection}
                     {languagesSection}
-                    {this.props.globalHeaderAllowed && showGlobalHeader}
                 </div>
             </div>
         );

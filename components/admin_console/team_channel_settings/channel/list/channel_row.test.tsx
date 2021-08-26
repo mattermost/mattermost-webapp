@@ -23,7 +23,6 @@ describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
         last_post_at: 0,
         total_msg_count: 0,
         total_msg_count_root: 0,
-        extra_update_at: 0,
         creator_id: '123',
         scheme_id: '123',
         group_constrained: false,

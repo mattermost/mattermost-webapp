@@ -81,7 +81,6 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel_id",

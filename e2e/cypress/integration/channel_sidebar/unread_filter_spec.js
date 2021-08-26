@@ -21,11 +21,15 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Channel sidebar unread filter', () => {
+    const randomId = getRandomId();
+
     let testUser;
+    let teamId;
 
     before(() => {
-        cy.apiInitSetup({loginAfter: true}).then(({user}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({user, team}) => {
             testUser = user;
+            teamId = team.id;
 
             cy.visit('/');
         });
@@ -78,29 +82,27 @@ describe('Channel sidebar unread filter', () => {
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
         // # Create a couple of new channels, one of which is unread and one of which is not
-        const readChannelName = `read${getRandomId()}`;
-        const unreadChannelName = `unread${getRandomId()}`;
-        cy.getCurrentTeamId().then((teamId) => {
-            createChannel(teamId, readChannelName);
-            createChannel(teamId, unreadChannelName, 'test');
+        const readChannelName = `read${randomId}`;
+        const unreadChannelName = `unread${randomId}`;
+        createChannel(teamId, readChannelName);
+        createChannel(teamId, unreadChannelName, 'test');
 
-            // * Verify that the channels are correctly read and unread
-            cy.get(`#sidebarItem_${readChannelName}`).should(beRead);
-            cy.get(`#sidebarItem_${unreadChannelName}`).should(beUnread);
+        // * Verify that the channels are correctly read and unread
+        cy.get(`#sidebarItem_${readChannelName}`).should(beRead);
+        cy.get(`#sidebarItem_${unreadChannelName}`).should(beUnread);
 
-            enableUnreadFilter();
+        enableUnreadFilter();
 
-            // * Verify that the read channel has been hidden
-            cy.get(`#sidebarItem_${readChannelName}`).should('not.exist');
+        // * Verify that the read channel has been hidden
+        cy.get(`#sidebarItem_${readChannelName}`).should('not.exist');
 
-            // * Verify that the unread channel is still visible
-            cy.get(`#sidebarItem_${unreadChannelName}`).should('be.visible').should(beUnread);
+        // * Verify that the unread channel is still visible
+        cy.get(`#sidebarItem_${unreadChannelName}`).should('be.visible').should(beUnread);
 
-            disableUnreadFilter();
+        disableUnreadFilter();
 
-            // * Verify that the read channel has reappeared
-            cy.get(`#sidebarItem_${readChannelName}`).should('be.visible').should(beRead);
-        });
+        // * Verify that the read channel has reappeared
+        cy.get(`#sidebarItem_${readChannelName}`).should('be.visible').should(beRead);
     });
 
     it('MM-T3444 should always show the current channel, even if it is not unread', () => {
@@ -127,12 +129,10 @@ describe('Channel sidebar unread filter', () => {
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
         // # Create a couple of new channels, both of which are unread
-        const channelName1 = `channel${getRandomId()}`;
-        const channelName2 = `channel${getRandomId()}`;
-        cy.getCurrentTeamId().then((teamId) => {
-            createChannel(teamId, channelName1, 'test');
-            createChannel(teamId, channelName2, 'test');
-        });
+        const channelName1 = `channel1${randomId}`;
+        const channelName2 = `channel2${randomId}`;
+        createChannel(teamId, channelName1, 'test');
+        createChannel(teamId, channelName2, 'test');
 
         enableUnreadFilter();
 
@@ -162,19 +162,26 @@ describe('Channel sidebar unread filter', () => {
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
         // # Create a couple of new channels
-        const mentionedChannelName = `mentioned${getRandomId()}`;
-        const unreadChannelName = `muted${getRandomId()}`;
-        cy.getCurrentTeamId().then((teamId) => {
-            createChannel(teamId, mentionedChannelName, `@${testUser.username}`);
-            createChannel(teamId, unreadChannelName, 'test');
+        const mentionedChannelName = `mentioned${randomId}`;
+        const unreadChannelName = `muted${randomId}`;
+
+        [mentionedChannelName, unreadChannelName].forEach((channelName, index) => {
+            createChannel(teamId, channelName).then(({channel}) => {
+                // # Open and mute a channel
+                cy.get(`#sidebarItem_${channelName} .SidebarMenu_menuButton`).click({force: true});
+                cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
+
+                // # Go to other channel
+                cy.get('#sidebarItem_town-square').click({force: true});
+
+                // # Post a message from other user
+                cy.postMessageAs({
+                    sender: getAdminAccount(),
+                    message: index === 0 ? `@${testUser.username}` : 'test',
+                    channelId: channel.id,
+                });
+            });
         });
-
-        // # Open the channel menu and mute both of them
-        cy.get(`#sidebarItem_${mentionedChannelName} .SidebarMenu_menuButton`).click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
-
-        cy.get(`#sidebarItem_${unreadChannelName} .SidebarMenu_menuButton`).click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
 
         // * Verify that the first channel has a mention and is muted
         cy.get(`#sidebarItem_${mentionedChannelName}`).should(beUnread).should(beMuted);
@@ -216,10 +223,12 @@ function disableUnreadFilter() {
 }
 
 function createChannel(teamId, channelName, message) {
-    cy.apiCreateChannel(teamId, channelName, channelName, 'O', '', '', false).then(({channel}) => {
+    return cy.apiCreateChannel(teamId, channelName, channelName, 'O', '', '', false).then(({channel}) => {
         if (message) {
             cy.wait(TIMEOUTS.THREE_SEC);
             cy.postMessageAs({sender: getAdminAccount(), message, channelId: channel.id});
         }
+
+        return cy.wrap({channel});
     });
 }
