@@ -4212,7 +4212,7 @@
   "start_trial.modal_btn.nottnow": "Not now",
   "start_trial.modal_btn.start": "Start 30-day trial",
   "start_trial.modal_title": "Start your free Enterprise trial now",
-  "start_trial.modal.disclaimer": "By clicking “Start 30-day trial”, I agree to the [Mattermost Software Evaluation Agreement, Privacy Policy,](!https://mattermost.com/software-evaluation-agreement) and receiving product emails.", 
+  "start_trial.modal.disclaimer": "By clicking “Start 30-day trial”, I agree to the [Mattermost Software Evaluation Agreement, Privacy Policy,](!https://mattermost.com/software-evaluation-agreement) and receiving product emails.",
   "start_trial.modal.failed": "Failed",
   "start_trial.modal.loaded": "Loaded!",
   "start_trial.modal.loading": "Loading...",
