@@ -155,10 +155,10 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
 
     if (!('inlinelatex' in options) || options.inlinelatex) {
         processingInstructions.push({
-            shouldProcessNode: (node) => node.attribs && node.attribs['inline-latex'],
+            shouldProcessNode: (node) => node.attribs && node.attribs['data-inline-latex'],
             processNode: (node) => {
                 return (
-                    <LatexInline content={node.attribs['inline-latex']}/>
+                    <LatexInline content={node.attribs['data-inline-latex']}/>
                 );
             },
         });
