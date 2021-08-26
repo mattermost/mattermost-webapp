@@ -45,7 +45,7 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
 
     .dropdown-menu {
         position: absolute;
-        transform: translate(${(p) => (p.menuInHeading ? '0' : '-100%')}, 4px);
+        transform: translate(${(p) => (p.menuInHeading ? '0' : '-100%')}, 0);
         margin-left: ${(p) => (p.menuInHeading ? '0' : '100')}%;
         min-width: 210px;
         max-width: 210px;
