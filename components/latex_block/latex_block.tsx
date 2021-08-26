@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-export interface KatexOptions {
+interface KatexOptions {
     displayMode?: boolean;
     output?: 'html' | 'mathml' | 'htmlAndMathml';
     leqno?: boolean;
