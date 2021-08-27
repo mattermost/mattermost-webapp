@@ -106,12 +106,16 @@ export default class AppsFormField extends React.PureComponent<Props> {
 
         const labelElems = [];
         if (displayName) {
-            labelElems.push(displayName);
+            labelElems.push(
+                displayName,
+            );
         }
 
-        if (field.is_required && !field.hide_required_star) {
+        if (!field.is_required) {
             labelElems.push(
-                (<span className='error-text'>{' *'}</span>),
+                <span className='light'>
+                    {' (optional)'}
+                </span>,
             );
         }
 
