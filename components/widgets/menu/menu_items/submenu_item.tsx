@@ -244,8 +244,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                             />
                         }
                     </span>
-                    {subMenuContent}
                     {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
+                    {subMenuContent}
                 </div>
             </li>
         );

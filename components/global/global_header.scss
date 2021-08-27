@@ -160,7 +160,11 @@
             cursor: pointer;
 
             .status {
-                background-image: linear-gradient(0deg, var(--sidebar-text-08), var(--sidebar-text-08));
+                background-image: linear-gradient(
+                    0deg,
+                    var(--sidebar-text-08),
+                    var(--sidebar-text-08)
+                );
             }
         }
 
@@ -168,7 +172,11 @@
             background: var(--sidebar-text-16);
 
             .status {
-                background-image: linear-gradient(0deg, var(--sidebar-text-16), var(--sidebar-text-16));
+                background-image: linear-gradient(
+                    0deg,
+                    var(--sidebar-text-16),
+                    var(--sidebar-text-16)
+                );
             }
         }
 
@@ -218,12 +226,18 @@
             }
         }
 
-        #statusDropdownMenu-timedDND {
+        #statusDropdownMenu-timedDND,
+        #statusDropdownMenu-timedDND #status-menu-dnd-timed, {
             .icon {
                 height: auto;
                 width: auto;
                 padding: 0 12px 0 0;
                 margin: 0;
+                top: unset;
+            }
+
+            .SubMenu__icon-right {
+                padding-top: 0;
             }
         }
 
