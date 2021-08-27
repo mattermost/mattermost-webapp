@@ -13,9 +13,10 @@ import {isDesktopApp} from 'utils/user_agent';
 import AddChannelDropdown from '../add_channel_dropdown';
 import ChannelFilter from '../channel_filter';
 import InviteMembersButton from '../invite_members_button';
-import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
+import {InviteMembersBtnLocations, AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
-type Props = {
+export type Props = {
+    addChannelButton?: AddChannelButtonTreatments;
     canGoForward: boolean;
     canGoBack: boolean;
     canJoinPublicChannel: boolean;
@@ -78,21 +79,25 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
             </button>
         );
 
-        const addChannelDropdown = (
-            <AddChannelDropdown
-                showNewChannelModal={this.props.showNewChannelModal}
-                showMoreChannelsModal={this.props.showMoreChannelsModal}
-                invitePeopleModal={this.props.invitePeopleModal}
-                showCreateCategoryModal={this.props.showCreateCategoryModal}
-                canCreateChannel={this.props.canCreateChannel}
-                canJoinPublicChannel={this.props.canJoinPublicChannel}
-                handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
-                unreadFilterEnabled={this.props.unreadFilterEnabled}
-                townSquareDisplayName={this.props.townSquareDisplayName}
-                offTopicDisplayName={this.props.offTopicDisplayName}
-                showTutorialTip={this.props.showTutorialTip}
-            />
-        );
+        let addChannelDropdown = null;
+        if (!this.props.addChannelButton || this.props.addChannelButton === AddChannelButtonTreatments.NONE) {
+            addChannelDropdown = (
+                <AddChannelDropdown
+                    showNewChannelModal={this.props.showNewChannelModal}
+                    showMoreChannelsModal={this.props.showMoreChannelsModal}
+                    invitePeopleModal={this.props.invitePeopleModal}
+                    showCreateCategoryModal={this.props.showCreateCategoryModal}
+                    canCreateChannel={this.props.canCreateChannel}
+                    canJoinPublicChannel={this.props.canJoinPublicChannel}
+                    handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
+                    unreadFilterEnabled={this.props.unreadFilterEnabled}
+                    townSquareDisplayName={this.props.townSquareDisplayName}
+                    offTopicDisplayName={this.props.offTopicDisplayName}
+                    showTutorialTip={this.props.showTutorialTip}
+                    addChannelButton={this.props.addChannelButton}
+                />
+            );
+        }
 
         const inviteMembersUserIcon = (<InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>);
 
@@ -149,6 +154,24 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
 
     // TODO: the render function in place can be replaced with this one, once we successfully release v6.0
     // render() {
+    //     let addChannelDropdown = null;
+    //     if (!this.props.addChannelButton || this.props.addChannelButton === AddChannelButtonTreatments.NONE) (
+    //         <AddChannelDropdown
+    //             showNewChannelModal={this.props.showNewChannelModal}
+    //             showMoreChannelsModal={this.props.showMoreChannelsModal}
+    //             invitePeopleModal={this.props.invitePeopleModal}
+    //             showCreateCategoryModal={this.props.showCreateCategoryModal}
+    //             canCreateChannel={this.props.canCreateChannel}
+    //             canJoinPublicChannel={this.props.canJoinPublicChannel}
+    //             handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
+    //             unreadFilterEnabled={this.props.unreadFilterEnabled}
+    //             townSquareDisplayName={this.props.townSquareDisplayName}
+    //             offTopicDisplayName={this.props.offTopicDisplayName}
+    //             showTutorialTip={this.props.showTutorialTip}
+    //             addChannelButton={this.props.addChannelButton}
+    //         />
+    //     );
+    //
     //     return (
     //         <div className={'SidebarChannelNavigator webapp'}>
     //             {!this.props.showUnreadsCategory && <ChannelFilter/>}
@@ -167,19 +190,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
     //                 </div>
     //             </button>
     //             <InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>
-    //             <AddChannelDropdown
-    //                 showNewChannelModal={this.props.showNewChannelModal}
-    //                 showMoreChannelsModal={this.props.showMoreChannelsModal}
-    //                 invitePeopleModal={this.props.invitePeopleModal}
-    //                 showCreateCategoryModal={this.props.showCreateCategoryModal}
-    //                 canCreateChannel={this.props.canCreateChannel}
-    //                 canJoinPublicChannel={this.props.canJoinPublicChannel}
-    //                 handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
-    //                 unreadFilterEnabled={this.props.unreadFilterEnabled}
-    //                 townSquareDisplayName={this.props.townSquareDisplayName}
-    //                 offTopicDisplayName={this.props.offTopicDisplayName}
-    //                 showTutorialTip={this.props.showTutorialTip}
-    //             />
+    //             {addChannelDropdown}
     //         </div>
     //     );
     // }
