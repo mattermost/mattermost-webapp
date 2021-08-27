@@ -2085,10 +2085,3 @@
 .app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient {
     background: linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
 }
-
-.CollapsedReplies___feature-enabled {
-    .post.other--root {
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
-}
