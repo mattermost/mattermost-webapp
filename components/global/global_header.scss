@@ -231,9 +231,9 @@
         #statusDropdownMenu-timedDND,
         #statusDropdownMenu-timedDND #status-menu-dnd-timed, {
             .icon {
+                top: unset;
                 width: auto;
                 height: auto;
-                top: unset;
                 padding: 0 12px 0 0;
                 margin: 0;
             }
