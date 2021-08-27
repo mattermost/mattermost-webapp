@@ -21,7 +21,33 @@ import {t} from 'utils/i18n.jsx';
 import './channels_input.scss';
 import { Channel } from 'mattermost-redux/types/channels';
 
+type Props = {
+  placeHolder?: string;
+  ariaLabel: string;
+  channelsLoader: (v: string, cb: (options:ChannelsInputOption[]) => void) => void;
+  onChange?: () => void;
+  value: unknown[];
+  onInputChange: (v:string) => void;
+  inputValue: string;
+  loadingMessageId?: string;
+  loadingMessageDefault?: string;
+  noOptionsMessageId?: string;
+  noOptionsMessageDefault?: string;
+}
+
+type ChannelsInputOption = {
+  name: string;
+}
+
+type ChannelsInputState = {
+  options:ChannelsInputOption[];
+}
+
 export default class ChannelsInput extends React.PureComponent {
+    selectRef: React.RefObject<ChannelsInput>
+    state: ChannelsInputState
+    props: Props
+
     static propTypes = {
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,
@@ -43,7 +69,7 @@ export default class ChannelsInput extends React.PureComponent {
         noOptionsMessageDefault: 'No channels found',
     };
 
-    constructor(props) {
+    constructor(props:Props) {
         super(props);
         this.selectRef = React.createRef();
         this.state = {
@@ -53,7 +79,7 @@ export default class ChannelsInput extends React.PureComponent {
 
     getOptionValue = (channel:Channel) => channel.id
 
-    handleInputChange = (inputValue, action) => {
+    handleInputChange = (inputValue: string, action: {action: string;}) => {
         if (action.action === 'input-blur' && inputValue !== '') {
             for (const option of this.state.options) {
                 if (this.props.inputValue === option.name) {
@@ -69,7 +95,7 @@ export default class ChannelsInput extends React.PureComponent {
     }
 
     optionsLoader = (input, callback) => {
-        const customCallback = (options) => {
+        const customCallback = (options:ChannelsInputOption[]) => {
             this.setState({options});
             callback(options);
         };
