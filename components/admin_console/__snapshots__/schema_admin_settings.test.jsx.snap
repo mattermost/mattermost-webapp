@@ -291,12 +291,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 1,
-                  "text": "English",
+                  "text": "English (US)",
                   "value": "en",
                 },
                 Object {
                   "order": 2,
-                  "text": "English (Australian)",
+                  "text": "English (Australia)",
                   "value": "en-AU",
                 },
                 Object {
@@ -417,12 +417,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 1,
-                  "text": "English",
+                  "text": "English (US)",
                   "value": "en",
                 },
                 Object {
                   "order": 2,
-                  "text": "English (Australian)",
+                  "text": "English (Australia)",
                   "value": "en-AU",
                 },
                 Object {
