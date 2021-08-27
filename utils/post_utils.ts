@@ -151,9 +151,13 @@ export function containsAtChannel(text: string, options?: {checkAllMentions: boo
     return mentionsRegex.test(mentionableText);
 }
 
-export const groupsMentionedInText = (text: string, groups: Map<string, Group>): Group[] => {
+export const groupsMentionedInText = (text: string, groups: Map<string, Group> | null): Group[] => {
     // Don't warn for slash commands
     if (!text || text.startsWith('/')) {
+        return [];
+    }
+
+    if (!groups) {
         return [];
     }
 
@@ -171,7 +175,7 @@ export const groupsMentionedInText = (text: string, groups: Map<string, Group>):
     return ret;
 };
 
-export function shouldFocusMainTextbox(e: KeyboardEvent, activeElement: HTMLElement): boolean {
+export function shouldFocusMainTextbox(e: KeyboardEvent, activeElement: Element | null): boolean {
     if (!e) {
         return false;
     }
@@ -285,7 +289,7 @@ export function postMessageOnKeyPress(
     return {allowSending: false};
 }
 
-export function isErrorInvalidSlashCommand(error: ServerError): boolean {
+export function isErrorInvalidSlashCommand(error: ServerError | null): boolean {
     if (error && error.server_error_id) {
         return error.server_error_id === 'api.command.execute_command.not_found.app_error';
     }

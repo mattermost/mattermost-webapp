@@ -10,15 +10,14 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getSupportedTimezones} from 'mattermost-redux/actions/general';
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
-import {getConfig, getSupportedTimezones as getTimezones, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getSupportedTimezones as getTimezones, getLicense, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
-import {Preferences} from 'utils/constants';
-
 import {GlobalState} from 'types/store';
+import {Preferences} from 'utils/constants';
 
 import UserSettingsDisplay from './user_settings_display';
 
@@ -59,6 +58,7 @@ function mapStateToProps(state: GlobalState) {
         collapsedReplyThreadsAllowUserPreference: isCollapsedThreadsAllowed(state) && getConfig(state).CollapsedThreads as string !== 'always_on',
         collapsedReplyThreads: getCollapsedThreadsPreference(state),
         linkPreviewDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+        globalHeaderAllowed: getFeatureFlagValue(state, 'GlobalHeader') === 'true',
     };
 }
 

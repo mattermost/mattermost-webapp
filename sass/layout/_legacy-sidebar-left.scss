@@ -268,14 +268,6 @@
                         @include opacity(0.5);
                     }
 
-                    &.icon__bot {
-                        // Restrict icon size for user customized bot icons
-                        svg {
-                            max-width: 16px;
-                            max-height: 15px;
-                        }
-                    }
-
                     &.icon__shared {
                         font-size: 17px;
                     }

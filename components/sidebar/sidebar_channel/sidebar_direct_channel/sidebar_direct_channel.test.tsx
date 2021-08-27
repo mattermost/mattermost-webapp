@@ -36,7 +36,6 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         currentUserId: 'current_user_id',
         redirectChannel: 'redirect-channel',
         active: false,
-        botIconUrl: null,
         isCollapsed: false,
         isMobile: false,
         actions: {
@@ -89,7 +88,6 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
                 ...baseProps.teammate,
                 is_bot: true,
             },
-            botIconUrl: 'http://a.fake.url',
         };
 
         const wrapper = shallowWithIntl(

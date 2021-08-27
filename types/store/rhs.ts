@@ -22,6 +22,8 @@ export type PostDraft = {
     message: string;
     fileInfos: FileInfo[];
     uploadsInProgress: string[];
+    props?: any;
+    caretPosition?: number;
 };
 
 export type RhsViewState = {
