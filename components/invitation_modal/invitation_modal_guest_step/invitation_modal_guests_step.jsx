@@ -180,7 +180,7 @@ class InvitationModalGuestsStep extends React.PureComponent {
     render() {
         let inputPlaceholder = localizeMessage('invitation_modal.guests.search-and-add.placeholder', 'Add guests or email addresses');
         let noMatchMessageId = t('invitation_modal.guests.users_emails_input.no_user_found_matching');
-        let noMatchMessageDefault = 'No one found matching **{text}**, type email to invite';
+        let noMatchMessageDefault = 'No one found matching **{text}**. Enter their email to invite them.';
 
         if (!this.props.emailInvitationsEnabled) {
             inputPlaceholder = localizeMessage('invitation_modal.guests.search-and-add.placeholder-email-disabled', 'Add guests');
