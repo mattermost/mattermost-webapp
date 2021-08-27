@@ -7,7 +7,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getInt, shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, shouldShowUnreadsCategory, getAddChannelButtonTreatment} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
@@ -40,13 +40,14 @@ function mapStateToProps(state: GlobalState) {
     const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
 
     return {
-        townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
-        offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
+        townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
+        offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '',
         showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.ADD_CHANNEL_POPOVER,
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
         globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        addChannelButton: getAddChannelButtonTreatment(state),
     };
 }
 

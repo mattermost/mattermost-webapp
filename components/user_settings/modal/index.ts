@@ -8,8 +8,9 @@ import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
 import {openModal} from 'actions/views/modals';
 
@@ -27,6 +28,7 @@ function mapStateToProps(state: GlobalState) {
         sendEmailNotifications,
         requireEmailVerification,
         collapsedThreads,
+        globalHeaderEnabled: getGlobalHeaderEnabled(state),
     };
 }
 
