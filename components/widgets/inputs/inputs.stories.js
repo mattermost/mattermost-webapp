@@ -94,7 +94,7 @@ storiesOf('Widgets/Inputs', module).
                 const placeholder = text('Placeholder', 'Placeholder');
                 const ariaLabel = text('Aria Label', 'Aria Label');
                 const loadingMessageDefault = text('Loading Message', 'Loading');
-                const noMatchMessageDefault = text('No Match Message', 'No one found matching **{text}**, type email address');
+                const noMatchMessageDefault = text('No Match Message', 'No one found matching **{text}**. Enter their email to invite them.');
                 const validAddressMessageDefault = text('Valid Address', 'Add **{email}**');
                 const options = [
                     {id: '1', username: 'jesus.espino', first_name: 'Jesús', last_name: 'Espino', nickname: 'jespino'},
