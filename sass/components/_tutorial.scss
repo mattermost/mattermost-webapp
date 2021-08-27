@@ -61,6 +61,12 @@
             border-right-color: $white;
             border-left-width: 0;
         }
+
+        &.tip-overlay--header--heading {
+            .arrow {
+                top: 45px;
+            }
+        }
     }
 
     &.tip-overlay--header--bottom {
@@ -199,6 +205,12 @@
         top: 8px;
         right: 14px;
         padding: 0 0 12px 12px;
+
+        &.tip-overlay--header--heading {
+            top: 0;
+            right: -4px;
+            padding: 0 0 12px 12px;
+        }
     }
 
     &.tip-overlay--sidebar {
