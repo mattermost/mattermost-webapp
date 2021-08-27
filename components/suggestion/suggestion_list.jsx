@@ -11,11 +11,13 @@ import {Constants} from 'utils/constants.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
+// When this file is migrated to TypeScript, type definitions for its props already exist in ./suggestion_list.d.ts.
+
 export default class SuggestionList extends React.PureComponent {
     static propTypes = {
         ariaLiveRef: PropTypes.object,
         open: PropTypes.bool.isRequired,
-        location: PropTypes.string,
+        location: PropTypes.oneOf(['top', 'bottom']),
         renderDividers: PropTypes.bool,
         renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
@@ -136,6 +138,27 @@ export default class SuggestionList extends React.PureComponent {
         return parseInt(getComputedStyle(element)[property], 10);
     }
 
+    getTransform() {
+        if (!this.props.suggestionBoxAlgn) {
+            return {};
+        }
+
+        const {lineHeight, pixelsToMoveX} = this.props.suggestionBoxAlgn;
+        let pixelsToMoveY = this.props.suggestionBoxAlgn.pixelsToMoveY;
+
+        if (this.props.location === 'bottom') {
+            // Add the line height and 4 extra px so it looks less tight
+            pixelsToMoveY += this.props.suggestionBoxAlgn.lineHeight + 4;
+        }
+
+        // If the suggestion box was invoked from the first line in the post box, stick to the top of the post box
+        pixelsToMoveY = pixelsToMoveY > lineHeight ? pixelsToMoveY : 0;
+
+        return {
+            transform: `translate(${pixelsToMoveX}px, ${pixelsToMoveY}px)`,
+        };
+    }
+
     renderDivider(type) {
         return (
             <div
@@ -226,21 +249,22 @@ export default class SuggestionList extends React.PureComponent {
             );
         }
 
-        const contentStyle = {maxHeight};
-        const {pixelsToMoveX, pixelsToMoveY} = this.props.suggestionBoxAlgn;
-        const boxAlignment = pixelsToMoveX !== undefined && pixelsToMoveY !== undefined ? {transform: `translate(${pixelsToMoveX}px, ${pixelsToMoveY}px)`} : {};
-
-        return (<div className={mainClass}>
-            <div
-                id='suggestionList'
-                role='list'
-                ref={this.contentRef}
-                style={{...contentStyle, ...boxAlignment}}
-                className={contentClass}
-                onMouseDown={this.props.preventClose}
-            >
-                {items}
+        return (
+            <div className={mainClass}>
+                <div
+                    id='suggestionList'
+                    role='list'
+                    ref={this.contentRef}
+                    style={{
+                        maxHeight,
+                        ...this.getTransform(),
+                    }}
+                    className={contentClass}
+                    onMouseDown={this.props.preventClose}
+                >
+                    {items}
+                </div>
             </div>
-        </div>);
+        );
     }
 }
