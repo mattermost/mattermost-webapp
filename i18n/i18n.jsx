@@ -42,7 +42,7 @@ const languages = {
     },
     'en-AU': {
         value: 'en-AU',
-        name: 'English Australian',
+        name: 'English (Australian)',
         order: 2,
         url: enAU,
     },
