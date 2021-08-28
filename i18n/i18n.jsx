@@ -36,7 +36,7 @@ const languages = {
     },
     en: {
         value: 'en',
-        name: 'English',
+        name: 'English (US)',
         order: 1,
         url: '',
     },

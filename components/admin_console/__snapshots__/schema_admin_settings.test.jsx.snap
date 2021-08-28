@@ -291,7 +291,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 1,
-                  "text": "English",
+                  "text": "English (US)",
                   "value": "en",
                 },
                 Object {
@@ -417,7 +417,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 1,
-                  "text": "English",
+                  "text": "English (US)",
                   "value": "en",
                 },
                 Object {
