@@ -10,7 +10,6 @@ const BackgroundSvgContainer = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-    background: linear-gradient(0deg, rgba(var(--center-channel-color-rgb), 0.08) 35%, rgba(var(--center-channel-bg-rgb), 1) 100%);
     overflow: hidden;
 
     > svg {
