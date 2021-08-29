@@ -533,6 +533,13 @@ export class AppsForm extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 <div>
+                    {this.state.formError && (
+                        <div>
+                            <div className='error-text'>
+                                <Markdown message={this.state.formError}/>
+                            </div>
+                        </div>
+                    )}
                     <button
                         id='appsModalCancel'
                         type='button'
@@ -546,13 +553,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     </button>
                     {submitButtons}
                 </div>
-                {this.state.formError && (
-                    <div>
-                        <div className='error-text'>
-                            <Markdown message={this.state.formError}/>
-                        </div>
-                    </div>
-                )}
             </React.Fragment>
         );
     }
