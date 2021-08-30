@@ -2418,6 +2418,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 />
               }
             />
+            <AdminSidebarSection
+              definitionKey="authentication.guest_access_feature_discovery"
+              key="authentication.guest_access_feature_discovery"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Guest Access"
+                  id="admin.sidebar.guest_access"
+                />
+              }
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="compliance"

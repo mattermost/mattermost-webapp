@@ -4985,7 +4985,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.guest_access'),
             title_default: 'Guest Access',
             isHidden: it.any(
-                it.not(it.licensed),
+                it.not(it.licensedForFeature('GuestAccounts')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
             ),
             schema: {
@@ -5059,7 +5059,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.guest_access'),
             title_default: 'Guest Access',
             isHidden: it.any(
-                it.licensed,
+                it.licensedForFeature('GuestAccounts'),
                 it.not(it.enterpriseReady),
             ),
             schema: {
