@@ -253,14 +253,14 @@
             align-items: center;
 
             .status {
-                background-color: var(--global-header-background);
-                color: var(--global-header-text);
                 position: absolute;
                 top: auto;
                 right: -4px;
                 bottom: -4px;
                 width: 16px;
                 height: 16px;
+                background-color: var(--global-header-background);
+                color: var(--global-header-text);
 
                 &:hover {
                     cursor: pointer;
