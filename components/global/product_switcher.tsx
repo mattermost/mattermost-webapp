@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useRef, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -30,14 +29,6 @@ const ProductSwitcherContainer = styled.nav`
     > * + * {
         margin-left: 12px;
     }
-`;
-
-const SwitcherMenuDescriptiveText = styled.div`
-    height: 32px;
-    padding-left: 20px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 32px;
 `;
 
 const MenuItem = styled(Link)`
@@ -147,12 +138,6 @@ const ProductSwitcher = (): JSX.Element => {
                     className={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >
-                    <SwitcherMenuDescriptiveText>
-                        <FormattedMessage
-                            defaultMessage='Open...'
-                            id='global_header.open'
-                        />
-                    </SwitcherMenuDescriptiveText>
                     <SwitcherNavEntry
                         destination={'/'}
                         icon={'product-channels'}
