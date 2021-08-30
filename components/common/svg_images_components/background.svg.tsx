@@ -11,12 +11,24 @@ const BackgroundSvgContainer = styled.div`
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background: rgba(var(--center-channel-color-rgb), 0.08);
+    z-index: 0;
+
+    ::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1470px;
+        background: linear-gradient(180deg, var(--center-channel-bg) 230px, transparent 460px);
+        z-index: 2;
+    }
 
     > svg {
         position: relative;
-        width: calc(1950 / 1470 * 100%);
-        max-width: 3400px;
-        min-width: 1950px;
+        width: 1950px;
+        z-index: 1;
     }
 `;
 
@@ -31,14 +43,6 @@ const BackgroundSvg = (): JSX.Element => (
             xmlns='http://www.w3.org/2000/svg'
             xmlnsXlink='http://www.w3.org/1999/xlink'
         >
-            <g style={{transform: 'translate(940px, -550px) rotate(45deg)'}}>
-                <use
-                    xlinkHref={`#${pillID}`}
-                    width='1260'
-                    height='749'
-                    style={{transform: 'translate(0, -56px)'}}
-                />
-            </g>
             <g style={{transform: 'translate(960px, 1330px) rotate(-135deg)'}}>
                 <use
                     xlinkHref={`#${pillID}`}
