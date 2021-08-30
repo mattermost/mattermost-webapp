@@ -21,7 +21,7 @@ const BackgroundSvgContainer = styled.div`
         left: 0;
         width: 100%;
         height: 1470px;
-        background: linear-gradient(180deg, var(--center-channel-bg) 230px, transparent 460px);
+        background: linear-gradient(180deg, var(--center-channel-bg) 230px, rgba(var(--center-channel-bg-rgb), 0) 460px);
         z-index: 2;
     }
 
