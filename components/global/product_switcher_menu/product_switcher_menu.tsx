@@ -112,31 +112,31 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 />
                             }
                         />
-                        <Menu.ItemExternalLink
-                            id='nativeAppLink'
-                            show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                            url={useSafeUrl(this.props.appDownloadLink)}
-                            text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
-                            icon={
-                                <Icon
-                                    size={16}
-                                    glyph={'download-outline'}
-                                />
-                            }
-                        />
-                        <Menu.ItemToggleModalRedux
-                            id='about'
-                            modalId={ModalIdentifiers.ABOUT}
-                            dialogType={AboutBuildModal}
-                            text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName})}
-                            icon={
-                                <Icon
-                                    size={16}
-                                    glyph={'information-outline'}
-                                />
-                            }
-                        />
                     </TeamPermissionGate>
+                    <Menu.ItemExternalLink
+                        id='nativeAppLink'
+                        show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
+                        url={useSafeUrl(this.props.appDownloadLink)}
+                        text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
+                        icon={
+                            <Icon
+                                size={16}
+                                glyph={'download-outline'}
+                            />
+                        }
+                    />
+                    <Menu.ItemToggleModalRedux
+                        id='about'
+                        modalId={ModalIdentifiers.ABOUT}
+                        dialogType={AboutBuildModal}
+                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName})}
+                        icon={
+                            <Icon
+                                size={16}
+                                glyph={'information-outline'}
+                            />
+                        }
+                    />
                 </Menu.Group>
             </>
         );
