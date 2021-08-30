@@ -777,6 +777,7 @@ export function applyTheme(theme) {
 
     if (theme.mentionHighlightLink) {
         changeCss('.app__body .mention--highlight .mention-link, .app__body .mention--highlight, .app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
+        changeCss('.app__body .mention--highlight .mention-link > a, .app__body .mention--highlight > a, .app__body .search-highlight > a', 'color: inherit');
     }
 
     if (!theme.codeTheme) {
