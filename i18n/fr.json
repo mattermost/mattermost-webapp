@@ -3842,7 +3842,7 @@
   "sidebar_left.channel_navigator.channelSwitcherLabel": "Sélecteur de canal",
   "sidebar_left.channel_navigator.goBackLabel": "Précédent",
   "sidebar_left.channel_navigator.goForwardLabel": "Suivant",
-  "sidebar_left.channel_navigator.jumpTo": "Rechercher un canal",
+  "sidebar_left.channel_navigator.jumpTo": "Changer de canal",
   "sidebar_left.sidebar_category.newLabel": "nouvelle",
   "sidebar_left.sidebar_category_menu.createCategory": "Créer une catégorie",
   "sidebar_left.sidebar_category_menu.deleteCategory": "Supprimer la catégorie",
