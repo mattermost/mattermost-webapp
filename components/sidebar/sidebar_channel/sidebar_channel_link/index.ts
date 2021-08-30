@@ -46,8 +46,8 @@ function makeMapStateToProps() {
             isMuted: isChannelMuted(member),
             isChannelSelected: isChannelSelected(state, ownProps.channel.id),
             showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
-            townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
-            offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
+            townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
+            offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '',
         };
     };
 }

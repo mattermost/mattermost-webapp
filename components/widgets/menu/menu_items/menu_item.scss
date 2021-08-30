@@ -13,6 +13,10 @@
             }
         }
 
+        .destructive {
+            color: var(--error-text);
+        }
+
         .MenuItem__icon {
             width: 20px;
             margin-right: 8px;

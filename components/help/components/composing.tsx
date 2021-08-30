@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import HelpLinks from 'components/help/components/help_links';
+import {HelpLink} from 'components/help/types';
 
 export default function HelpComposing(): JSX.Element {
     return (
@@ -107,54 +108,7 @@ export default function HelpComposing(): JSX.Element {
                     defaultMessage='Get a permanent link to a message by selecting the **More Actions [...]** icon next to any message, then select **Copy Link**. Users must be a member of the channel to view the message link.'
                 />
             </p>
-            <p className='links'>
-                <FormattedMessage
-                    id='help.learnMore'
-                    defaultMessage='Learn more about:'
-                />
-            </p>
-            <ul>
-                <li>
-                    <Link to='/help/messaging'>
-                        <FormattedMessage
-                            id='help.link.messaging'
-                            defaultMessage='Basic Messaging'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/mentioning'>
-                        <FormattedMessage
-                            id='help.link.mentioning'
-                            defaultMessage='Mentioning Teammates'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/formatting'>
-                        <FormattedMessage
-                            id='help.link.formatting'
-                            defaultMessage='Formatting Messages Using Markdown'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/attaching'>
-                        <FormattedMessage
-                            id='help.link.attaching'
-                            defaultMessage='Attaching Files'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/commands'>
-                        <FormattedMessage
-                            id='help.link.commands'
-                            defaultMessage='Executing Commands'
-                        />
-                    </Link>
-                </li>
-            </ul>
+            <HelpLinks excludedLinks={[HelpLink.Composing]}/>
         </div>
     );
 }

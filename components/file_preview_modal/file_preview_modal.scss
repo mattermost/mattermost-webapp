@@ -54,4 +54,8 @@
             background-color: rgba(61, 60, 64, 0.56);
         }
     }
+
+    .modal.fade & {
+        transform: translate(0, 0);
+    }
 }
