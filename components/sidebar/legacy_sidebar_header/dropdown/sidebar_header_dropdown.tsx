@@ -3,11 +3,11 @@
 
 import React from 'react';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import * as GlobalActions from 'actions/global_actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
-
-import {UserProfile} from 'mattermost-redux/types/users';
 
 import UserSettingsModal from 'components/user_settings/modal';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -45,7 +45,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent<Props> {
     handleKeyDown = (e: KeyboardEvent) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
             e.preventDefault();
-            this.props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
+            this.props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
         }
     }
 

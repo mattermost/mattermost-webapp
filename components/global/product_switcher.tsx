@@ -37,7 +37,7 @@ const SwitcherMenuDescriptiveText = styled.div`
     padding-left: 20px;
     font-weight: 600;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 32px;
 `;
 
 const MenuItem = styled(Link)`
@@ -47,9 +47,9 @@ const MenuItem = styled(Link)`
     }
 
     height: 40px;
-    width: 273px;
+    width: 270px;
     padding-left: 16px;
-    padding-right: 16px;
+    padding-right: 20px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -66,7 +66,7 @@ const MenuItem = styled(Link)`
 `;
 
 const StyledIcon = styled(Icon)`
-    color: var(--sidebar-bg);
+    color: var(--button-bg);
 `;
 
 const MenuItemTextContainer = styled.div`
@@ -83,12 +83,15 @@ const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNa
             to={destination}
             onClick={onClick}
         >
-            <StyledIcon glyph={icon || 'none'}/>
+            <StyledIcon
+                size={20}
+                glyph={icon || 'none'}
+            />
             <MenuItemTextContainer>
                 {text}
             </MenuItemTextContainer>
             {active &&
-                <Icon
+                <StyledIcon
                     size={16}
                     glyph='check'
                 />
@@ -134,13 +137,14 @@ const ProductSwitcher = (): JSX.Element => {
                         onClick={handleClick}
                         size={'sm'}
                         compact={true}
-                        toggled={switcherOpen}
+                        active={switcherOpen}
                         inverted={true}
                         aria-label='Select to open product switch menu.'
                     />
                     <ProductSwitcherTip/>
                 </ProductSwitcherContainer>
                 <Menu
+                    className={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >
                     <SwitcherMenuDescriptiveText>
@@ -160,7 +164,6 @@ const ProductSwitcher = (): JSX.Element => {
                     <ProductSwitcherMenu
                         id='ProductSwitcherMenu'
                         isMessaging={currentProductID === null}
-                        onClick={handleClick}
                     />
                 </Menu>
             </MenuWrapper>
