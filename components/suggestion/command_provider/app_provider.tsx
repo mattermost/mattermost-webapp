@@ -33,7 +33,8 @@ export type Results = {
     matchedPretext: string;
     terms: string[];
     items: Array<AutocompleteSuggestion | UserProfile | {channel: Channel}>;
-    component: React.ElementType;
+    component?: React.ElementType;
+    components?: React.ElementType[];
 }
 
 type ResultsCallback = (results: Results) => void;
@@ -69,16 +70,17 @@ export default class AppCommandProvider extends Provider {
         }
 
         this.appCommandParser.getSuggestions(pretext).then((suggestions) => {
-            let element = CommandSuggestion;
+            const element: React.ElementType[] = [];
             const matches = suggestions.map((suggestion) => {
                 switch (suggestion.type) {
                 case COMMAND_SUGGESTION_USER:
-                    element = AtMentionSuggestion;
+                    element.push(AtMentionSuggestion);
                     return suggestion.item! as UserProfile;
                 case COMMAND_SUGGESTION_CHANNEL:
-                    element = ChannelMentionSuggestion;
+                    element.push(ChannelMentionSuggestion);
                     return {channel: suggestion.item! as Channel};
                 default:
+                    element.push(CommandSuggestion);
                     return {
                         ...suggestion,
                         Complete: '/' + suggestion.Complete,
@@ -92,7 +94,7 @@ export default class AppCommandProvider extends Provider {
                 matchedPretext: pretext,
                 terms,
                 items: matches,
-                component: element,
+                components: element,
             });
         });
         return true;

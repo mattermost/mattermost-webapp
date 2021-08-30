@@ -195,7 +195,20 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     dragging: this.state.isDragging,
                 })}
             >
-                {this.props.globalHeaderEnabled && !this.state.isMobile ? <SidebarHeader/> : <LegacySidebarHeader/>}
+                {
+                    this.props.globalHeaderEnabled && !this.state.isMobile ? (
+                        <SidebarHeader
+                            showNewChannelModal={this.showNewChannelModal}
+                            showMoreChannelsModal={this.showMoreChannelsModal}
+                            invitePeopleModal={this.invitePeopleModal}
+                            showCreateCategoryModal={this.showCreateCategoryModal}
+                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                            canJoinPublicChannel={this.props.canJoinPublicChannel}
+                            handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                            unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        />
+                    ) : <LegacySidebarHeader/>
+                }
                 <div
                     id='lhsNavigator'
                     role='application'
