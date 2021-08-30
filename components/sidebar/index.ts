@@ -15,10 +15,12 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
-import {openModal} from 'actions/views/modals';
+import {openModal, closeModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
+import {isModalOpen} from 'selectors/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
 
 import Sidebar from './sidebar';
 
@@ -50,6 +52,7 @@ function mapStateToProps(state: GlobalState) {
         isCloud: getLicense(state).Cloud === 'true',
         unreadFilterEnabled,
         globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
     };
 }
 
@@ -69,6 +72,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             createCategory,
             fetchMyCategories,
             openModal,
+            closeModal,
         }, dispatch),
     };
 }

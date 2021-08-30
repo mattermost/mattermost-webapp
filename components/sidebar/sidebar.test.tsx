@@ -17,10 +17,12 @@ describe('components/sidebar', () => {
         isCloud: false,
         unreadFilterEnabled: false,
         globalHeaderEnabled: false,
+        isQuickSwitcherOpen: false,
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),
             openModal: jest.fn(),
+            closeModal: jest.fn(),
             clearChannelSelection: jest.fn(),
         },
     };
