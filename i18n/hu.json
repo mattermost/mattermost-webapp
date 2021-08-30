@@ -2865,7 +2865,7 @@
   "custom_emoji.header": "Egyéni emoji",
   "custom_status.expiry.date_picker.title": "Dátum",
   "custom_status.expiry.time_picker.title": "Idő",
-  "custom_status.expiry.until": "Amíg",
+  "custom_status.expiry.until": "Eddig:",
   "custom_status.expiry_dropdown.choose_date_and_time": "Adjon meg időpontot",
   "custom_status.expiry_dropdown.clear_after": "Törlés ennyi után",
   "custom_status.expiry_dropdown.date_and_time": "Egyéni időpont",
