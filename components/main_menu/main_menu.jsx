@@ -181,7 +181,7 @@ class MainMenu extends React.PureComponent {
             />
         );
 
-        return (this.props.globalHeaderEnabled && !this.props.mobile) ? (
+        return this.props.globalHeaderEnabled ? (
             <Menu
                 mobile={this.props.mobile}
                 id={this.props.id}

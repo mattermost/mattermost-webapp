@@ -15,6 +15,7 @@ import InvitationModal from 'components/invitation_modal';
 import Pluggable from 'plugins/pluggable';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
+import * as UserAgent from 'utils/user_agent';
 
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
@@ -39,7 +40,6 @@ type Props = {
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
-    globalHeaderEnabled: boolean;
 };
 
 type State = {
@@ -54,12 +54,12 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.state = {
             showDirectChannelsModal: false,
             isDragging: false,
-            isMobile: Utils.isMobile(),
+            isMobile: Utils.isMobile() || UserAgent.isMobile(),
         };
     }
 
     handleResize = () => {
-        const isMobile = Utils.isMobile();
+        const isMobile = Utils.isMobile() || UserAgent.isMobile();
         this.setState({isMobile});
     }
 
@@ -195,20 +195,18 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     dragging: this.state.isDragging,
                 })}
             >
-                {
-                    this.props.globalHeaderEnabled && !this.state.isMobile ? (
-                        <SidebarHeader
-                            showNewChannelModal={this.showNewChannelModal}
-                            showMoreChannelsModal={this.showMoreChannelsModal}
-                            invitePeopleModal={this.invitePeopleModal}
-                            showCreateCategoryModal={this.showCreateCategoryModal}
-                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
-                            canJoinPublicChannel={this.props.canJoinPublicChannel}
-                            handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
-                            unreadFilterEnabled={this.props.unreadFilterEnabled}
-                        />
-                    ) : <LegacySidebarHeader/>
-                }
+                {this.state.isMobile ? <LegacySidebarHeader/> : (
+                    <SidebarHeader
+                        showNewChannelModal={this.showNewChannelModal}
+                        showMoreChannelsModal={this.showMoreChannelsModal}
+                        invitePeopleModal={this.invitePeopleModal}
+                        showCreateCategoryModal={this.showCreateCategoryModal}
+                        canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                        canJoinPublicChannel={this.props.canJoinPublicChannel}
+                        handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                        unreadFilterEnabled={this.props.unreadFilterEnabled}
+                    />
+                )}
                 <div
                     id='lhsNavigator'
                     role='application'
