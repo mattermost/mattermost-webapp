@@ -4415,7 +4415,7 @@
   "user.settings.display.collapseDisplay": "Standardansicht für Bildlink-Vorschauen",
   "user.settings.display.collapseOff": "Eingeklappt",
   "user.settings.display.collapseOn": "Ausgeklappt",
-  "user.settings.display.collapsedReplyThreadsDescription": "Wenn aktiviert, werden Antworten nicht mehr im Kanal angezeigt, sondern unterhalb der Nachricht zusammengefasst. Sie erhalten Benachrichtigungen über alle Unterhaltungen, denen Sie folgen in der Übersicht \"Unterhaltungen\".\nBitte prüfen Sie unserer [Dokumentation über bekannte Probleme]((!https://docs.mattermost.com/help/messaging/organizing-conversations.html) und helfen Sie in dem Sie Feedback in unserem [Community Kanal](!https://community-daily.mattermost.com/core/channels/folded-reply-threads) geben.",
+  "user.settings.display.collapsedReplyThreadsDescription": "Wenn aktiviert, werden Antworten nicht mehr im Kanal angezeigt, sondern unterhalb der Nachricht zusammengefasst. Sie erhalten Benachrichtigungen über alle Unterhaltungen, denen Sie folgen in der Übersicht \"Unterhaltungen\".\nBitte prüfen Sie unserer [Dokumentation über bekannte Probleme](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) und helfen Sie in dem Sie Feedback in unserem [Community Kanal](!https://community-daily.mattermost.com/core/channels/folded-reply-threads) geben.",
   "user.settings.display.collapsedReplyThreadsOff": "Aus",
   "user.settings.display.collapsedReplyThreadsOn": "An",
   "user.settings.display.collapsedReplyThreadsTitle": "Unterhaltungen (Beta)",
