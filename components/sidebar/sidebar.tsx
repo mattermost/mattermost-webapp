@@ -15,7 +15,6 @@ import InvitationModal from 'components/invitation_modal';
 import Pluggable from 'plugins/pluggable';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
-import * as UserAgent from 'utils/user_agent';
 
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
@@ -54,12 +53,12 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.state = {
             showDirectChannelsModal: false,
             isDragging: false,
-            isMobile: Utils.isMobile() || UserAgent.isMobile(),
+            isMobile: Utils.isMobile(),
         };
     }
 
     handleResize = () => {
-        const isMobile = Utils.isMobile() || UserAgent.isMobile();
+        const isMobile = Utils.isMobile();
         this.setState({isMobile});
     }
 
