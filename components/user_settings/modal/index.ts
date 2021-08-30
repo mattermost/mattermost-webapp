@@ -28,7 +28,7 @@ function mapStateToProps(state: GlobalState) {
         sendEmailNotifications,
         requireEmailVerification,
         collapsedThreads,
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        globalHeaderEnabled: getGlobalHeaderEnabled(),
     };
 }
 

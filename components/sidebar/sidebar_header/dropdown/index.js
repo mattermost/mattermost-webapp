@@ -36,7 +36,7 @@ function mapStateToProps(state) {
         showTutorialTip,
         enablePluginMarketplace,
         firstAdminVisitMarketplaceStatus: firstAdminVisitMarketplaceStatus(state),
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        globalHeaderEnabled: getGlobalHeaderEnabled(),
     };
 }
 

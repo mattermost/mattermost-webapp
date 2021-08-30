@@ -49,7 +49,7 @@ function mapStateToProps(state: GlobalState) {
         ),
         isCloud: getLicense(state).Cloud === 'true',
         unreadFilterEnabled,
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        globalHeaderEnabled: getGlobalHeaderEnabled(),
     };
 }
 

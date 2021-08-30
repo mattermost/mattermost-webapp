@@ -91,7 +91,7 @@ function makeMapStateToProps() {
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
-            globalHeaderEnabled: getGlobalHeaderEnabled(state),
+            globalHeaderEnabled: getGlobalHeaderEnabled(),
         };
     };
 }

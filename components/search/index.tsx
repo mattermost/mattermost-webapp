@@ -47,7 +47,7 @@ function mapStateToProps(state: GlobalState) {
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        globalHeaderEnabled: getGlobalHeaderEnabled(),
     };
 }
 

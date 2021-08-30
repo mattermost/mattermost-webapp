@@ -112,7 +112,7 @@ function mapStateToProps(state) {
         isCloud,
         subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        globalHeaderEnabled: getGlobalHeaderEnabled(),
     };
 }
 

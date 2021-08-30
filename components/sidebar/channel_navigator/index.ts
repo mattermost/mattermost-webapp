@@ -46,7 +46,7 @@ function mapStateToProps(state: GlobalState) {
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        globalHeaderEnabled: getGlobalHeaderEnabled(),
         addChannelButton: getAddChannelButtonTreatment(state),
     };
 }
