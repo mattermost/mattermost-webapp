@@ -6,7 +6,5 @@ import * as Utils from '../utils/utils';
 
 // TODO: once we provide a solution to support the global header in mobile views we can get rid of this selector
 export function getGlobalHeaderEnabled(): boolean {
-    const isMobileView = UserAgent.isMobile() || Utils.isMobile();
-
-    return !isMobileView;
+    return !(UserAgent.isMobile() || Utils.isMobile());
 }
