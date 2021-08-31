@@ -174,7 +174,10 @@
         > span {
             display: flex;
             justify-content: space-between;
-            font-family: 'Open Sans', sans-serif;
+
+            .user-popover__username {
+                font-family: 'Open Sans', sans-serif;
+            }
         }
     }
 
