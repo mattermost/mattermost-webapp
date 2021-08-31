@@ -19,6 +19,7 @@ import {DoAppCallResult} from 'types/apps';
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
 import * as PostActions from 'actions/post_actions.jsx';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
 import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils.jsx';
@@ -101,7 +102,13 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             break;
         }
         case '/settings':
-            dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}}));
+            dispatch(openModal({
+                modalId: ModalIdentifiers.USER_SETTINGS,
+                dialogType: UserSettingsModal,
+                dialogProps: {
+                    isContentProductSettings: getGlobalHeaderEnabled(state),
+                },
+            }));
             return {data: true};
         case '/collapse':
         case '/expand':

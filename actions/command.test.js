@@ -172,7 +172,7 @@ describe('executeCommand', () => {
             expect(store.getActions()).toEqual([
                 {
                     type: ActionTypes.MODAL_OPEN,
-                    dialogProps: {isContentProductSettings: true},
+                    dialogProps: {isContentProductSettings: false},
                     dialogType: UserSettingsModal,
                     modalId: 'user_settings',
                 },

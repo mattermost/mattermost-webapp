@@ -55,7 +55,13 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
     handleKeyDown = (e) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
             e.preventDefault();
-            this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
+            this.props.actions.openModal({
+                ModalId: ModalIdentifiers.USER_SETTINGS,
+                dialogType: UserSettingsModal,
+                dialogProps: {
+                    isContentProductSettings: this.props.globalHeaderEnabled,
+                },
+            });
         }
     }
 

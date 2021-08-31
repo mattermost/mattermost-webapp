@@ -12,6 +12,7 @@ import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {openModal} from 'actions/views/modals';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
 import {Preferences, TutorialSteps} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -28,6 +29,7 @@ function mapStateToProps(state: GlobalState) {
         teamDescription: currentTeam.description,
         teamDisplayName: currentTeam.display_name,
         teamId: currentTeam.id,
+        globalHeaderEnabled: getGlobalHeaderEnabled(state),
         showTutorialTip,
     };
 }

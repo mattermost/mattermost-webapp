@@ -24,6 +24,7 @@ type Props = {
     teamDisplayName: string;
     teamId: string;
     currentUser: UserProfile;
+    globalHeaderEnabled: boolean;
     showTutorialTip: boolean;
     actions: Actions;
 }
@@ -45,7 +46,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent<Props> {
     handleKeyDown = (e: KeyboardEvent) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
             e.preventDefault();
-            this.props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
+            this.props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: this.props.globalHeaderEnabled}});
         }
     }
 
