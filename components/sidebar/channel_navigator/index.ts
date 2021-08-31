@@ -13,7 +13,6 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, Preferences, TutorialSteps} from 'utils/constants';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {GlobalState} from 'types/store';
 
 import ChannelNavigator from './channel_navigator';
@@ -46,7 +45,6 @@ function mapStateToProps(state: GlobalState) {
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
-        globalHeaderEnabled: getGlobalHeaderEnabled(),
         addChannelButton: getAddChannelButtonTreatment(state),
     };
 }

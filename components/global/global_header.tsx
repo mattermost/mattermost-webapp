@@ -1,13 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
-
+import React from 'react';
 import styled from 'styled-components';
 
 import StatusDropdown from 'components/status_dropdown';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {TutorialSteps} from 'utils/constants';
 import Pluggable from 'plugins/pluggable';
 import {isDesktopApp} from 'utils/user_agent';
@@ -78,26 +75,11 @@ const RightControls = styled.div`
 `;
 
 const GlobalHeader = (): JSX.Element | null => {
-    const enabled = useSelector(getGlobalHeaderEnabled);
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
     const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
-
-    useEffect(() => {
-        const root = document.querySelector('#root');
-        if (enabled) {
-            root?.classList.add('feature-global-header');
-        } else {
-            root?.classList.remove('feature-global-header');
-        }
-        return () => {
-            root?.classList.remove('feature-global-header');
-        };
-    }, [enabled]);
-
-    if (!enabled) {
-        return null;
-    }
+    const root = document.querySelector('#root');
+    root?.classList.add('feature-global-header');
 
     return (
         <GlobalHeaderContainer>

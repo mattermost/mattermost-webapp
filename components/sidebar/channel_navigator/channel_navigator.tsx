@@ -31,7 +31,6 @@ export type Props = {
     townSquareDisplayName: string;
     offTopicDisplayName: string;
     showTutorialTip: boolean;
-    globalHeaderEnabled: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
         goBack: () => void;
@@ -102,7 +101,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
         const inviteMembersUserIcon = (<InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>);
 
         let layout;
-        if (isDesktopApp() && !this.props.globalHeaderEnabled) {
+        if (isDesktopApp()) {
             const historyArrows = (
                 <>
                     <button
@@ -131,7 +130,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                         <div className='SidebarContainer_rightContainer'>
                             {!this.props.showUnreadsCategory && <ChannelFilter/>}
                             {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
-                            {!this.props.globalHeaderEnabled && historyArrows}
+                            {historyArrows}
                         </div>
                         {inviteMembersUserIcon}
                         {addChannelDropdown}

@@ -262,7 +262,6 @@ class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
             teammateNameDisplaySetting,
-            globalHeaderEnabled,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -772,7 +771,7 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
-                    {!globalHeaderEnabled && <RHSSearchNav/>}
+                    <RHSSearchNav/>
                 </div>
             </div>
         );
