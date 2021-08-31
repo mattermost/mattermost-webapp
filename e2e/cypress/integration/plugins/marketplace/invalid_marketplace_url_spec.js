@@ -34,7 +34,7 @@ describe('Plugin Marketplace', () => {
                 Enable: true,
                 EnableMarketplace: true,
                 EnableRemoteMarketplace: true,
-                MarketplaceUrl: 'example.com',
+                MarketplaceURL: 'example.com',
             },
         });
 
@@ -67,7 +67,7 @@ describe('Plugin Marketplace', () => {
             PluginSettings: {
                 Enable: true,
                 EnableMarketplace: true,
-                MarketplaceUrl: 'example.com',
+                MarketplaceURL: 'example.com',
             },
         });
 

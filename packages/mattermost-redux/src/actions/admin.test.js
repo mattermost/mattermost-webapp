@@ -16,8 +16,8 @@ import configureStore from 'mattermost-redux/test/test_store';
 const OK_RESPONSE = {status: 'OK'};
 const NO_GROUPS_RESPONSE = {count: 0, groups: []};
 
-const samlIdpUrl = 'http://idpurl';
-const samlIdpDescriptorUrl = 'http://idpdescriptorurl';
+const samlIdpURL = 'http://idpurl';
+const samlIdpDescriptorURL = 'http://idpdescriptorurl';
 const samlIdpPublicCertificateText = 'MIIC4jCCAcqgAwIBAgIQE9soWni/eL9ChsWeJCEKNDANBgkqhkiG9w0BAQsFADAtMSswKQYDVQQDEyJBREZTIFNpZ25pbmcgLSBhZGZzLnBhcm5hc2FkZXYuY29tMB4XDTE2MDcwMTE1MDgwN1oXDTE3MDcwMTE1MDgwN1owLTErMCkGA1UEAxMiQURGUyBTaWduaW5nIC0gYWRmcy5wYXJuYXNhZGV2LmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANDxoju4k5q4H6sQ5v4/4wQSgrE9+ybLnz6+HPdmGd9gAS0qVafy8P1FbciEe+cBkpConYAMdGcBjmEdFOu5OAjsBgov1GMIHaPy4SwEyfn/FDmYSjCUSm7s5pxouAMP5mRJLdApQNwGeNxQNuFCUu3aM6X29ba/twwyQVaKIf1U1HVOY2UEs/X7qKU4ECwTy3Nxt1gaMISTPwxRU+d5dHbbI+2GKqzTriJd4alMHqnbBNWuuIDggOYT/zaRnGl9DAW/F6XgloWdO6SROnXH056fTZs7O5nJ9en9F82r7NOq5rBr/KI+R9eUlJHhfr/FtCYRrnPfTuubRFF2XtmrFwECAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAhZwCiYNFO2BuLH1UWmqG9lN7Ns/GjRDOuTt0hOUPHYFy2Es5iqmEakRrnecTz5KJxrO7SguaVK+VvTtssWszFnB2kRWIF98B2yjEjXjJHO1UhqjcKwbZScmmTukWf6lqlz+5uqyqPS/rxcNsBgNIwsJCl0z44Y5XHgpgGs+DXQx39RMyAvlmPWUY5dELVxAiEzKkOXAGDeJ5wIqiT61rmPkQuGjUBb/DZiFFBYmbp7npjVOb5XBrLErndIrHYiTZuIhpwCS+J3LHAOIL3eKD4iUcyB/lZjF6py1E2h+xVbpxHF9ENKQjsLkDjzIdhP269Gh8YUoOxkG63TXq8n6a3A==';
 
 describe('Actions.Admin', () => {
@@ -1234,8 +1234,8 @@ describe('Actions.Admin', () => {
         nock(Client4.getBaseRoute()).
             post('/saml/metadatafromidp').
             reply(200, {
-                idp_url: samlIdpUrl,
-                idp_descriptor_url: samlIdpDescriptorUrl,
+                idp_url: samlIdpURL,
+                idp_descriptor_url: samlIdpDescriptorURL,
                 idp_public_certificate: samlIdpPublicCertificateText,
             });
 
@@ -1244,8 +1244,8 @@ describe('Actions.Admin', () => {
         const state = store.getState();
         const metadataResponse = state.entities.admin.samlMetadataResponse;
         assert.ok(metadataResponse);
-        assert.ok(metadataResponse.idp_url === samlIdpUrl);
-        assert.ok(metadataResponse.idp_descriptor_url === samlIdpDescriptorUrl);
+        assert.ok(metadataResponse.idp_url === samlIdpURL);
+        assert.ok(metadataResponse.idp_descriptor_url === samlIdpDescriptorURL);
         assert.ok(metadataResponse.idp_public_certificate === samlIdpPublicCertificateText);
     });
 
