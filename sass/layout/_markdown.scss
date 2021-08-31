@@ -212,6 +212,7 @@ h6.markdown__heading {
         border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
         margin: 5px 0;
         border-radius: 0.25em;
+        cursor: default;
         font-size: 13px;
         overflow-x: auto;
         visibility: visible;
@@ -255,6 +256,7 @@ h6.markdown__heading {
 
     .codespan__pre-wrap {
         code {
+            cursor: default;
             white-space: pre-wrap;
         }
     }

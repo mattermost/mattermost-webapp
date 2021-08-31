@@ -20,7 +20,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
 // When adding clickable targets within a root post, please add to/maintain the selector below
-const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment');
+const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment, .hljs, code');
 
 export default class Post extends React.PureComponent {
     static propTypes = {
