@@ -233,6 +233,7 @@
 
         &::placeholder {
             color: rgba(var(--global-header-text-rgb), 0.64);
+            opacity: 1;
         }
     }
 
@@ -251,7 +252,7 @@
     }
 
     &:focus-within {
-        background: var(--sidebar-text);
+        background: var(--center-channel-bg);
 
         .search__font-icon,
         .input-clear-x {
