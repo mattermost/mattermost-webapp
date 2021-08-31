@@ -11,7 +11,6 @@ import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
 import InvitationModal from 'components/invitation_modal';
-import QuickSwitchModal from 'components/quick_switch_modal';
 
 import Pluggable from 'plugins/pluggable';
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -36,13 +35,11 @@ type Props = {
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
             data: boolean;
         }>;
-        closeModal: (modalId: string) => void;
         clearChannelSelection: () => void;
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
     globalHeaderEnabled: boolean;
-    isQuickSwitcherOpen: boolean;
 };
 
 type State = {
@@ -73,8 +70,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
         window.addEventListener('click', this.handleClickClearChannelSelection);
         window.addEventListener('keydown', this.handleKeyDownClearChannelSelection);
-        document.addEventListener('keydown', this.handleShortcut);
-        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
         window.addEventListener('resize', this.handleResize);
     }
 
@@ -87,8 +82,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         window.removeEventListener('click', this.handleClickClearChannelSelection);
         window.removeEventListener('keydown', this.handleKeyDownClearChannelSelection);
-        document.removeEventListener('keydown', this.handleShortcut);
-        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
         window.removeEventListener('resize', this.handleResize);
     }
 
@@ -158,43 +151,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             this.hideMoreDirectChannelsModal();
         } else {
             this.showMoreDirectChannelsModal();
-        }
-    }
-
-    handleShortcut = (e: KeyboardEvent) => {
-        const {actions: {closeModal}} = this.props;
-
-        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
-                e.preventDefault();
-                closeModal(ModalIdentifiers.QUICK_SWITCH);
-            }
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
-                // just close the modal if it's open, but let someone else handle the shortcut
-                closeModal(ModalIdentifiers.QUICK_SWITCH);
-            }
-        }
-    };
-
-    handleQuickSwitchKeyPress = (e: KeyboardEvent) => {
-        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-            if (!e.altKey) {
-                e.preventDefault();
-                this.toggleQuickSwitchModal();
-            }
-        }
-    }
-
-    toggleQuickSwitchModal = () => {
-        const {isQuickSwitcherOpen, actions: {openModal, closeModal}} = this.props;
-
-        if (isQuickSwitcherOpen) {
-            closeModal(ModalIdentifiers.QUICK_SWITCH);
-        } else {
-            openModal({
-                modalId: ModalIdentifiers.QUICK_SWITCH,
-                dialogType: QuickSwitchModal,
-            });
         }
     }
 
