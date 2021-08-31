@@ -20,7 +20,7 @@ import EmptyStateThemeableSvg from 'components/common/svg_images_components/empt
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {isGuest, localizeMessage} from 'utils/utils';
 
 import './add_members_button.scss';
 
@@ -41,6 +41,12 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const inviteUsers = totalUsers < usersLimit;
     const currentTeamId = useSelector(getCurrentTeamId);
+    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
+
+
+    if (isGuest(currentUser)) {
+        return null;
+    }
 
     return (
         <TeamPermissionGate
@@ -67,7 +73,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
                         defaultMessage='Let’s add some people to the workspace!'
                     />
                     <ToggleModalButtonRedux
-                        accessibilityLabel={Utils.localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
+                        accessibilityLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                         id='introTextInvite'
                         className='intro-links color--link cursor--pointer'
                         modalId={ModalIdentifiers.INVITATION}
