@@ -14,14 +14,14 @@ import './remove_next_steps_modal.scss';
 
 type Props = {
     screenTitle: string;
-    globalHeader: boolean;
+    globalHeaderEnabled: boolean;
     onConfirm: () => void;
     onCancel: () => void;
 }
 
 export default function RemoveNextStepsModal(props: Props) {
-    const {onConfirm, onCancel, screenTitle, globalHeader} = props;
-    const renderGlobalHeaderChanges = globalHeader && !Utils.isMobile();
+    const {onConfirm, onCancel, screenTitle, globalHeaderEnabled} = props;
+    const renderGlobalHeaderChanges = globalHeaderEnabled && !Utils.isMobile();
     const portalRoot = renderGlobalHeaderChanges ? document.getElementById('helpMenuPortal') : document.body;
     const modalRoot = renderGlobalHeaderChanges ? document.getElementById('channel_view') : document.body;
 

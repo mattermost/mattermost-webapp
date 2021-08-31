@@ -82,7 +82,7 @@ export default function NextStepsTips(props: Props) {
                 'sidebar_next_steps.tipsAndNextSteps',
                 'Tips & Next Steps',
             ),
-            globalHeader: props.globalHeaderEnabled,
+            globalHeaderEnabled: props.globalHeaderEnabled,
             onConfirm: () => {
                 props.savePreferences(props.currentUserId, [
                     {
