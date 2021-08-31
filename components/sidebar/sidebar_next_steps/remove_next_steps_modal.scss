@@ -78,7 +78,7 @@
     clip-path: polygon(0 0, 0 63px, 240px 63px, 240px 0, 100% 0, 100% 100%, 0 100%);
 }
 
-.multi-teams ~ .RemoveNextStepsModal__helpBox {
+.multi-teams ~ .RemoveNextStepsModal__helpBox:not(.mobile-helpbox) {
     left: 266px;
 
     & ~ div .modal-backdrop.in {
