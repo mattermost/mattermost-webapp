@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Permissions} from 'mattermost-redux/constants';
 
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';

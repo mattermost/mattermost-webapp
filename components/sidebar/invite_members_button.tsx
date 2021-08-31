@@ -15,6 +15,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
