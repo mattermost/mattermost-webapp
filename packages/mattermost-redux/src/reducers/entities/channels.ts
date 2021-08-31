@@ -30,6 +30,7 @@ import {
 import {Team} from 'mattermost-redux/types/teams';
 import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils';
 
+import lastPostAts from './channels/last_post_ats';
 import messageCounts from './channels/message_counts';
 
 function removeMemberFromChannels(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>, action: GenericAction) {
@@ -190,23 +191,6 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         return state;
     }
 
-    case PostTypes.RECEIVED_NEW_POST: {
-        const {channel_id, create_at} = action.data; //eslint-disable-line @typescript-eslint/naming-convention
-        const channel = state[channel_id];
-
-        if (!channel) {
-            return state;
-        }
-
-        return {
-            ...state,
-            [channel_id]: {
-                ...channel,
-                last_post_at: Math.max(create_at, channel.last_post_at),
-            },
-        };
-    }
-
     case ChannelTypes.UPDATED_CHANNEL_SCHEME: {
         const {channelId, schemeId} = action.data;
         const channel = state[channelId];
@@ -243,6 +227,7 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
 function toClientChannel(serverChannel: ServerChannel): Channel {
     const channel = {...serverChannel};
 
+    Reflect.deleteProperty(channel, 'last_post_at');
     Reflect.deleteProperty(channel, 'total_msg_count');
     Reflect.deleteProperty(channel, 'total_msg_count_root');
 
@@ -876,6 +861,9 @@ export default combineReducers({
 
     // object where every key is the channel id containing map of <group_id: ChannelMemberCountByGroup>
     channelMemberCountsByGroup,
+
+    // object where every key is the channel id mapping to an object containing the time of the last post in the channel
+    lastPostAts,
 
     // object where every key is the channel id mapping to an object containing the number of messages in the channel
     messageCounts,

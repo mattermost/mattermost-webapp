@@ -292,6 +292,10 @@ export function isChannelReadOnly(state: GlobalState, channel: Channel): boolean
     return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true';
 }
 
+export function getChannelLastPostAts(state: GlobalState): RelationOneToOne<Channel, number> {
+    return state.entities.channels.lastPostAts;
+}
+
 export function getChannelMessageCounts(state: GlobalState): RelationOneToOne<Channel, ChannelMessageCount> {
     return state.entities.channels.messageCounts;
 }

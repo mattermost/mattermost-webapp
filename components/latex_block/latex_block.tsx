@@ -10,6 +10,10 @@ type Props = {
     enableLatex: boolean;
 };
 
+import type * as Katex from 'katex';
+
+export type Foo = typeof Katex;
+
 export default class LatexBlock extends React.PureComponent<Props> {
     render(): React.ReactNode {
         if (!this.props.enableLatex) {

@@ -35,6 +35,7 @@ describe('components/MoreDirectChannels', () => {
                 delete_at: 0,
             },
         ],
+        lastPostAts: {},
         myDirectChannels: [],
         recentDirectChannelUsers: [],
         groupChannels: [],
@@ -466,8 +467,7 @@ describe('components/MoreDirectChannels', () => {
                 display_name: 'group_name_2',
                 id: 'group_2',
                 last_post_at: 1603600100601,
-            },
-
+            }
         ];
 
         const props = {...baseProps, users, recentDMUsers, groupChannels, searchTerm: '*'};

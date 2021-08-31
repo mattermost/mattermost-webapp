@@ -32,7 +32,6 @@ export type Channel = {
     name: string;
     header: string;
     purpose: string;
-    last_post_at: number;
     creator_id: string;
     scheme_id: string;
     teammate_id?: string;
@@ -135,6 +134,7 @@ export type ChannelsState = {
     manuallyUnread: RelationOneToOne<Channel, boolean>;
     channelModerations: RelationOneToOne<Channel, ChannelModeration[]>;
     channelMemberCountsByGroup: RelationOneToOne<Channel, ChannelMemberCountsByGroup>;
+    lastPostAts: RelationOneToOne<Channel, number>;
     messageCounts: RelationOneToOne<Channel, ChannelMessageCount>;
 };
 

@@ -25,7 +25,7 @@ import {
     getUser,
 } from 'mattermost-redux/selectors/entities/users';
 
-import {getChannelsWithUserProfiles, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsWithUserProfiles, getAllChannels, getChannelLastPostAts} from 'mattermost-redux/selectors/entities/channels';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -81,16 +81,17 @@ const makeMapStateToProps = () => {
 
         const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
         const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
+        const lastPostAts = getChannelLastPostAts(state);
 
-        let recentDMUsers = myDirectChannels.reduce((results, channel) => {
-            if (!channel.last_post_at) {
+        let recentDMUsers = myDirectChannels.reduce((results, channel) => { // TODO This should be memoized
+            if (!(channel.id in lastPostAts)) {
                 return results;
             }
 
             const user = getUser(state, getUserIdFromChannelName(currentUserId, channel.name));
 
             if (user) {
-                results!.push({...user, last_post_at: channel.last_post_at});
+                results!.push({...user, last_post_at: lastPostAts[channel.id]}); // TODO do we actually need to pass this?
             }
 
             return results;
@@ -107,6 +108,7 @@ const makeMapStateToProps = () => {
             currentTeamName: team.name,
             searchTerm,
             users: users.sort(sortByUsername),
+            lastPostAts,
             myDirectChannels,
             groupChannels: filteredGroupChannels,
             recentDMUsers,

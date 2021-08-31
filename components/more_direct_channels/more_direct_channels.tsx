@@ -46,7 +46,7 @@ function isGroupChannel(option: UserProfile | GroupChannel): option is GroupChan
     return (option as GroupChannel)?.type === 'G';
 }
 
-export type Option = (UserProfile | GroupChannel) & {last_post_at?: number};
+export type Option = (UserProfile & {last_post_at?: number}) | GroupChannel;
 export type OptionValue = Option & Value;
 
 function optionValue(option: Option): OptionValue {
@@ -64,6 +64,7 @@ type Props = {
     searchTerm: string;
     users: UserProfile[];
     groupChannels: GroupChannel[];
+    lastPostAts: RelationOneToOne<Channel, number>;
     myDirectChannels: Channel[];
     recentDMUsers?: Array<UserProfile & {last_post_at: number }>;
     statuses: RelationOneToOne<UserProfile, string>;
@@ -441,11 +442,11 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         add: (value: OptionValue) => void,
         select: (value: OptionValue) => void,
     ) => {
-        const {id, last_post_at: lastPostAt} = option;
+        const lastPostAt = this.getLastPostAt(option);
 
         return (
             <div
-                key={id}
+                key={option.id}
                 ref={isSelected ? this.selectedItemRef : option.id}
                 className={classNames('more-modal__row clickable', {'more-modal__row--selected': isSelected})}
                 onClick={() => add(option)}
@@ -493,10 +494,10 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             !recentDMUsers.some(({id}) => id === user.id)
         ));
 
-        const recent = [
+        const recent: Option[] = [
             ...values.length ? recentDMUsers.filter(({id}) => id !== currentUserId) : recentDMUsers,
             ...recentGroupChannels,
-        ].sort((a, b) => b.last_post_at - a.last_post_at);
+        ].sort((a, b) => this.getLastPostAt(b) - this.getLastPostAt(a));
 
         if (recent.length && !searchTerm) {
             return recent.slice(0, 20);
@@ -507,6 +508,18 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             ...users,
             ...groupChannels,
         ];
+    }
+
+    getLastPostAt(option?: Option) {
+        if (!option) {
+            return 0;
+        }
+
+        if (isGroupChannel(option)) {
+            return this.props.lastPostAts[option.id] || 0;
+        }
+
+        return option.last_post_at || 0;
     }
 
     render() {

@@ -67,10 +67,10 @@ export default class DataPrefetch extends React.PureComponent<Props> {
         let delay;
         const channel = this.props.unreadChannels.find((unreadChannel) => channelId === unreadChannel.id);
         if (channel && (channel.type === Constants.PRIVATE_CHANNEL || channel.type === Constants.OPEN_CHANNEL)) {
-            const isLatestPostInLastMin = (Date.now() - channel.last_post_at) <= 1000;
-            if (isLatestPostInLastMin) {
-                delay = Math.random() * 1000; // 1ms - 1000ms random wait to not choke server
-            }
+            // const isLatestPostInLastMin = (Date.now() - channel.last_post_at) <= 1000; // TODO
+            // if (isLatestPostInLastMin) {
+            //     delay = Math.random() * 1000; // 1ms - 1000ms random wait to not choke server
+            // }
         }
         return this.props.actions.prefetchChannelPosts(channelId, delay);
     }
