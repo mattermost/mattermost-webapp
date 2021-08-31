@@ -1940,7 +1940,7 @@ export default class Client4 {
         {
             before = '',
             after = '',
-            pageSize = PER_PAGE_DEFAULT,
+            perPage = PER_PAGE_DEFAULT,
             extended = false,
             deleted = false,
             unread = false,
@@ -1948,7 +1948,7 @@ export default class Client4 {
         },
     ) => {
         return this.doFetch<UserThreadList>(
-            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, pageSize, extended, deleted, unread, since})}`,
+            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since})}`,
             {method: 'get'},
         );
     };
