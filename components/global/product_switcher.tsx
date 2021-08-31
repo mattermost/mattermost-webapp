@@ -123,18 +123,22 @@ const ProductSwitcher = (): JSX.Element => {
             <MenuWrapper
                 open={switcherOpen}
             >
-                <ProductSwitcherContainer>
+                <ProductSwitcherContainer onClick={handleClick}>
                     <IconButton
                         icon={'products'}
-                        onClick={handleClick}
                         size={'sm'}
+
+                        // we currently need this, since not passing a onClick handler is disabling the IconButton
+                        // this is a known issue and is being tracked by UI platform team
+                        // TODO@UI: remove the onClick, when it is not a mandatory prop anymore
+                        onClick={() => {}}
                         compact={true}
                         active={switcherOpen}
                         inverted={true}
                         aria-label='Select to open product switch menu.'
                     />
                     <ProductSwitcherTip/>
-                    <ProductBranding onClick={handleClick}/>
+                    <ProductBranding/>
                 </ProductSwitcherContainer>
                 <Menu
                     className={'product-switcher-menu'}
