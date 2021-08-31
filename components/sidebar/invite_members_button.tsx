@@ -2,16 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {Tooltip} from 'react-bootstrap';
+
 import {useIntl, FormattedMessage} from 'react-intl';
+
+import {useSelector} from 'react-redux';
 
 import store from 'stores/redux_store.jsx';
 
+import {Permissions} from 'mattermost-redux/constants';
+
 import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import InvitationModal from 'components/invitation_modal';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -27,6 +35,7 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
     const intl = useIntl();
 
     const inviteMembersButtonLocation = getInviteMembersButtonLocation(store.getState());
+    const currentTeamId = useSelector(getCurrentTeamId);
 
     const tooltip = (
         <Tooltip
@@ -128,9 +137,12 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
     }
 
     return (
-        <>
+        <TeamPermissionGate
+            teamId={currentTeamId}
+            permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
+        >
             {inviteButton}
-        </>
+        </TeamPermissionGate>
     );
 };
 
