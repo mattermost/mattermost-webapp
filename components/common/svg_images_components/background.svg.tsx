@@ -14,21 +14,10 @@ const BackgroundSvgContainer = styled.div`
     background: rgba(var(--center-channel-color-rgb), 0.08);
     z-index: 0;
 
-    ::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 1470px;
-        background: linear-gradient(180deg, var(--center-channel-bg) 230px, rgba(var(--center-channel-bg-rgb), 0) 460px);
-        z-index: 2;
-    }
-
     > svg {
         position: relative;
-        width: 1950px;
-        z-index: 1;
+        object-position: top left;
+        object-fit: cover;
     }
 `;
 
@@ -37,7 +26,7 @@ const pillID = 'onboardingBackgroundPill';
 const BackgroundSvg = (): JSX.Element => (
     <BackgroundSvgContainer>
         <svg
-            viewBox='0 0 1950 1470'
+            viewBox='0 0 1367 1470'
             preserveAspectRatio='xMinYMin meet'
             version='1.1'
             xmlns='http://www.w3.org/2000/svg'
@@ -67,7 +56,29 @@ const BackgroundSvg = (): JSX.Element => (
                     style={{transform: 'translate(0, -56px)'}}
                 />
             </g>
+            <rect
+                x='0'
+                y='0'
+                width='1367'
+                height='523'
+                fill='url(#OverlayGradient)'
+            />
             <BackgroundPillSymbol id={pillID}/>
+            <defs>
+                <linearGradient
+                    id='OverlayGradient'
+                    gradientTransform='rotate(90)'
+                >
+                    <stop
+                        offset='45%'
+                        style={{stopColor: 'rgb(var(--center-channel-bg-rgb))', stopOpacity: 1}}
+                    />
+                    <stop
+                        offset='88%'
+                        style={{stopColor: 'rgb(var(--center-channel-bg-rgb))', stopOpacity: 0}}
+                    />
+                </linearGradient>
+            </defs>
         </svg>
     </BackgroundSvgContainer>
 );
