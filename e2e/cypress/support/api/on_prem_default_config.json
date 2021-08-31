@@ -53,8 +53,8 @@
         "EnableCustomEmoji": false,
         "EnableEmojiPicker": true,
         "EnableGifPicker": false,
-        "GfycatApiKey": "2_KtH_W5",
-        "GfycatApiSecret": "3wLVZPiswc3DnaiaFoLkDvB4X0IV6CpMkj4tf2inJRsBY6-FnkT08zGmppWFgeof",
+        "GfycatAPIKey": "2_KtH_W5",
+        "GfycatAPISecret": "3wLVZPiswc3DnaiaFoLkDvB4X0IV6CpMkj4tf2inJRsBY6-FnkT08zGmppWFgeof",
         "RestrictCustomEmojiCreation": "all",
         "RestrictPostDelete": "all",
         "AllowEditPost": "always",
@@ -279,7 +279,7 @@
         "Scope": "",
         "AuthEndpoint": "",
         "TokenEndpoint": "",
-        "UserApiEndpoint": ""
+        "UserAPIEndpoint": ""
     },
     "GoogleSettings": {
         "Enable": false,
@@ -288,7 +288,7 @@
         "Scope": "profile email",
         "AuthEndpoint": "https://accounts.google.com/o/oauth2/v2/auth",
         "TokenEndpoint": "https://www.googleapis.com/oauth2/v4/token",
-        "UserApiEndpoint": "https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata"
+        "UserAPIEndpoint": "https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata"
     },
     "Office365Settings": {
         "Enable": false,
@@ -297,7 +297,7 @@
         "Scope": "User.Read",
         "AuthEndpoint": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
         "TokenEndpoint": "https://login.microsoftonline.com/common/oauth2/v2.0/token",
-        "UserApiEndpoint": "https://graph.microsoft.com/v1.0/me",
+        "UserAPIEndpoint": "https://graph.microsoft.com/v1.0/me",
         "DirectoryId": ""
     },
     "LdapSettings": {
@@ -352,9 +352,9 @@
         "Verify": true,
         "Encrypt": true,
         "SignRequest": false,
-        "IdpUrl": "",
-        "IdpDescriptorUrl": "",
-        "IdpMetadataUrl": "",
+        "IdpURL": "",
+        "IdpDescriptorURL": "",
+        "IdpMetadataURL": "",
         "AssertionConsumerServiceURL": "",
         "SignatureAlgorithm": "RSAwithSHA1",
         "CanonicalAlgorithm": "Canonical1.0",
@@ -391,7 +391,7 @@
         "NetworkInterface": "",
         "BindAddress": "",
         "AdvertiseAddress": "",
-        "UseIpAddress": true,
+        "UseIPAddress": true,
         "UseExperimentalGossip": false,
         "ReadOnlyConfig": false,
         "GossipPort": 8074,
@@ -417,7 +417,7 @@
         "MaxUsersForStatistics": 2500
     },
     "ElasticsearchSettings": {
-        "ConnectionUrl": "http://localhost:9200",
+        "ConnectionURL": "http://localhost:9200",
         "Username": "elastic",
         "Password": "changeme",
         "EnableIndexing": false,
@@ -454,8 +454,8 @@
         "BatchSize": 10000,
         "GlobalRelaySettings": {
             "CustomerType": "A9",
-            "SmtpUsername": "",
-            "SmtpPassword": "",
+            "SMTPUsername": "",
+            "SMTPPassword": "",
             "EmailAddress": ""
         }
     },
@@ -466,7 +466,7 @@
     "PluginSettings": {
         "Enable": true,
         "EnableUploads": true,
-        "AllowInsecureDownloadUrl": false,
+        "AllowInsecureDownloadURL": false,
         "EnableHealthCheck": true,
         "Directory": "./plugins",
         "ClientDirectory": "./client/plugins",
@@ -486,11 +486,11 @@
         "EnableRemoteMarketplace": true,
         "AutomaticPrepackagedPlugins": true,
         "RequirePluginSignature": false,
-        "MarketplaceUrl": "https://api.integrations.mattermost.com",
+        "MarketplaceURL": "https://api.integrations.mattermost.com",
         "SignaturePublicKeyFiles": []
     },
     "DisplaySettings": {
-        "CustomUrlSchemes": [],
+        "CustomURLSchemes": [],
         "ExperimentalTimezone": false
     },
     "GuestAccountsSettings": {
