@@ -2396,7 +2396,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
             isHidden: it.any(
-                it.not(it.licensedForFeature('Announcement')),
+                it.not(it.licensed),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.ANNOUNCEMENT_BANNER)),
             ),
             schema: {
@@ -2466,7 +2466,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
             isHidden: it.any(
-                it.licensedForFeature('Announcement'),
+                it.licensed,
                 it.not(it.enterpriseReady),
             ),
             schema: {
@@ -5513,7 +5513,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.complianceMonitoring'),
             title_default: 'Compliance Monitoring',
             isHidden: it.any(
-                it.not(it.licensedForFeature('Compliance')),
+                it.not(it.licensed),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
