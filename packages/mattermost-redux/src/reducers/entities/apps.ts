@@ -14,6 +14,10 @@ import {validateBindings} from 'mattermost-redux/utils/apps';
 export function bindings(state: AppBinding[] = [], action: GenericAction): AppBinding[] {
     switch (action.type) {
     case AppsTypes.FAILED_TO_FETCH_APP_BINDINGS: {
+        if (!state.length) {
+            return state;
+        }
+
         return [];
     }
     case AppsTypes.RECEIVED_APP_BINDINGS: {
@@ -25,6 +29,24 @@ export function bindings(state: AppBinding[] = [], action: GenericAction): AppBi
     }
 }
 
+export function pluginEnabled(state = true, action: GenericAction): boolean {
+    switch (action.type) {
+    case AppsTypes.FAILED_TO_FETCH_APP_BINDINGS: {
+        return false;
+    }
+    case AppsTypes.APPS_PLUGIN_ENABLED: {
+        return true;
+    }
+    case AppsTypes.APPS_PLUGIN_DISABLED: {
+        return false;
+    }
+
+    default:
+        return state;
+    }
+}
+
 export default (combineReducers({
     bindings,
+    pluginEnabled,
 }) as (b: AppsState, a: GenericAction) => AppsState);

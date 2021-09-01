@@ -8,4 +8,6 @@ import keyMirror from 'mattermost-redux/utils/key_mirror';
 export default keyMirror({
     RECEIVED_APP_BINDINGS: null,
     FAILED_TO_FETCH_APP_BINDINGS: null,
+    APPS_PLUGIN_ENABLED: null,
+    APPS_PLUGIN_DISABLED: null,
 });

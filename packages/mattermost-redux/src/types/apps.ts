@@ -47,6 +47,7 @@ export type AppModalState = {
 
 export type AppsState = {
     bindings: AppBinding[];
+    pluginEnabled: boolean;
 };
 
 export type AppBinding = {

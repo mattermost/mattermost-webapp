@@ -16,6 +16,7 @@ import {
     AdminTypes,
     IntegrationTypes,
     PreferenceTypes,
+    AppsTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -519,11 +520,15 @@ export function handleEvent(msg) {
     case SocketEvents.THREAD_UPDATED:
         dispatch(handleThreadUpdated(msg));
         break;
-
-    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
+    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS:
         dispatch(handleRefreshAppsBindings(msg));
         break;
-    }
+    case SocketEvents.APPS_FRAMEWORK_PLUGIN_ENABLED:
+        handleAppsPluginEnabled(msg);
+        break;
+    case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
+        handleAppsPluginDisabled(msg);
+        break;
     default:
     }
 
@@ -1423,6 +1428,18 @@ function handleRefreshAppsBindings() {
         }
         return {data: true};
     };
+}
+
+function handleAppsPluginEnabled() {
+    dispatch({
+        type: AppsTypes.APPS_PLUGIN_ENABLED,
+    });
+}
+
+function handleAppsPluginDisabled() {
+    dispatch({
+        type: AppsTypes.APPS_PLUGIN_DISABLED,
+    });
 }
 
 function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
