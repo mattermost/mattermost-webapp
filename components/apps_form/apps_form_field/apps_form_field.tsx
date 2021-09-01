@@ -3,15 +3,16 @@
 
 import React from 'react';
 
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
+
+import GenericChannelProvider from 'components/suggestion/generic_channel_provider';
+
 import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
-import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';

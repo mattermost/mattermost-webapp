@@ -8,12 +8,14 @@ import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 import {getCurrentLocale} from 'selectors/i18n';
 
-import Provider from './provider.tsx';
+import {Channel} from 'mattermost-redux/types/channels';
+
+import Provider, {ResultCallbackParams} from './provider';
 import SearchChannelSuggestion from './search_channel_suggestion';
 
 const getState = store.getState;
 
-function itemToTerm(isAtSearch, item) {
+function itemToTerm(isAtSearch: boolean, item: Channel) {
     const prefix = isAtSearch ? '' : '@';
     if (item.type === Constants.DM_CHANNEL) {
         return prefix + item.display_name;
@@ -27,13 +29,23 @@ function itemToTerm(isAtSearch, item) {
     return item.name;
 }
 
+type Callback = (callbackParams: Omit<ResultCallbackParams, 'items'> & {items: Channel[]}) => void;
+export type ChannelSearchFunc =
+    (
+        channelPrefix: string,
+        success?: (data: Channel[]) => void,
+        error?: () => void,
+    ) => void
+
 export default class SearchChannelProvider extends Provider {
-    constructor(channelSearchFunc) {
+    autocompleteChannelsForSearch: ChannelSearchFunc;
+
+    constructor(channelSearchFunc: ChannelSearchFunc) {
         super();
         this.autocompleteChannelsForSearch = channelSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultsCallback) {
+    handlePretextChanged(pretext: string, resultsCallback: Callback): boolean {
         const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
             let channelPrefix = captured[1];
@@ -46,14 +58,14 @@ export default class SearchChannelProvider extends Provider {
 
             this.autocompleteChannelsForSearch(
                 channelPrefix,
-                (data) => {
+                (data: Channel[]) => {
                     if (this.shouldCancelDispatch(channelPrefix)) {
                         return;
                     }
 
                     let channels = data;
                     if (isAtSearch) {
-                        channels = channels.filter((ch) => isDirectChannel(ch) || isGroupChannel(ch));
+                        channels = channels.filter((ch: Channel) => isDirectChannel(ch) || isGroupChannel(ch));
                     }
 
                     const locale = getCurrentLocale(getState());

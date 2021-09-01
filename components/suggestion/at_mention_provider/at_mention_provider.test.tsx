@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Constants} from 'utils/constants';
-import AtMentionProvider, {LocalMember} from 'components/suggestion/at_mention_provider/at_mention_provider';
+import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider';
 import AtMentionSuggestion from 'components/suggestion/at_mention_provider/at_mention_suggestion';
 import {UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
 import {Group} from 'mattermost-redux/types/groups';
@@ -12,7 +12,7 @@ jest.useFakeTimers();
 describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     const userid10 = {id: 'userid10', username: 'nicknamer', first_name: '', last_name: '', nickname: 'Z'} as UserProfileWithLastViewAt;
     const userid3 = {id: 'userid3', username: 'other', first_name: 'X', last_name: 'Y', nickname: 'Z'} as UserProfileWithLastViewAt;
-    const userid1 = {id: 'userid1', username: 'user', first_name: 'a', last_name: 'b', nickname: 'c', isCurrentUser: true} as LocalMember;
+    const userid1 = {id: 'userid1', username: 'user', first_name: 'a', last_name: 'b', nickname: 'c'} as UserProfileWithLastViewAt;
     const userid2 = {id: 'userid2', username: 'user2', first_name: 'd', last_name: 'e', nickname: 'f'} as UserProfileWithLastViewAt;
     const userid4 = {id: 'userid4', username: 'user4', first_name: 'X', last_name: 'Y', nickname: 'Z'} as UserProfileWithLastViewAt;
     const userid5 = {id: 'userid5', username: 'user5', first_name: 'out', last_name: 'out', nickname: 'out'} as UserProfileWithLastViewAt;

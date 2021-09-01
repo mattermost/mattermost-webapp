@@ -22,7 +22,7 @@ import SearchBar from 'components/search_bar/search_bar';
 import SearchResults from 'components/search_results';
 import Provider from 'components/suggestion/provider';
 import SearchDateProvider from 'components/suggestion/search_date_provider';
-import SearchChannelProvider from 'components/suggestion/search_channel_provider';
+import SearchChannelProvider, {ChannelSearchFunc} from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
 import type {SearchType} from 'types/store/rhs';
 
@@ -84,7 +84,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     const suggestionProviders = useRef<Provider[]>([
         new SearchDateProvider(),
-        new SearchChannelProvider(actions.autocompleteChannelsForSearch),
+        new SearchChannelProvider(actions.autocompleteChannelsForSearch as ChannelSearchFunc),
         new SearchUserProvider(actions.autocompleteUsersInTeam),
     ]);
 

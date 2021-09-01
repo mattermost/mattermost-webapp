@@ -13,20 +13,30 @@ import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/use
 
 import {Group} from 'mattermost-redux/types/groups';
 
+import Store from 'stores/redux_store';
+import {GlobalState} from 'types/store';
+import type {ActionResult, DispatchFunc} from 'mattermost-redux/types/actions';
+
 import AtMentionSuggestion from './at_mention_suggestion';
+
+export interface Store {
+    dispatch: DispatchFunc;
+    getState: () => GlobalState;
+}
 
 interface Props {
     currentUserId: string;
     profilesInChannel: UserProfileWithLastViewAt[];
-    autocompleteUsersInChannel: (prefix: string) => Promise<UserProfile[]>;
+    autocompleteUsersInChannel: (prefix: string) => (dispatch: any, getState: any) => Promise<ActionResult>;
     useChannelMentions: boolean;
     autocompleteGroups: Group[];
-    searchAssociatedGroupsForReference: (prefix: string) => Promise<{data: Group[]}>;
-    priorityProfiles: UserProfileWithLastViewAt[];
+    searchAssociatedGroupsForReference: (prefix: string) => (dispatch: any, getState: any) => Promise<ActionResult>;
+    priorityProfiles: UserProfile[];
 }
 
-export interface LocalMember extends UserProfileWithLastViewAt {
+export interface LocalMember extends UserProfile {
     type: string;
+    last_viewed_at?: number;
     isCurrentUser?: boolean;
 }
 
@@ -50,13 +60,14 @@ export default class AtMentionProvider extends Provider {
     lastPrefixWithNoResults: string;
     triggerCharacter: string;
 
-    currentUserId: string;
-    profilesInChannel: UserProfileWithLastViewAt[];
-    autocompleteUsersInChannel: (prefix: string) => Promise<UserProfile[]>;
-    useChannelMentions: boolean;
-    autocompleteGroups: Group[];
-    searchAssociatedGroupsForReference: (prefix: string) => Promise<{data: Group[]}>;
-    priorityProfiles: UserProfile[];
+    currentUserId!: string;
+    profilesInChannel!: UserProfileWithLastViewAt[];
+    autocompleteUsersInChannel!: (prefix: string) => (dispatch: any, getState: any) => Promise<ActionResult>;
+    useChannelMentions!: boolean;
+    autocompleteGroups!: Group[];
+    searchAssociatedGroupsForReference!: (prefix: string) => (dispatch: any, getState: any) => Promise<ActionResult>;
+    priorityProfiles!: UserProfile[];
+    store!: Store;
 
     constructor(props: Props) {
         super();
@@ -66,6 +77,11 @@ export default class AtMentionProvider extends Provider {
         this.lastPrefixWithNoResults = '';
         this.triggerCharacter = '@';
 
+        this.store = Store;
+        this.setProps(props);
+    }
+
+    setProps(props: Props): void {
         // Give the provider additional context for matching pretexts. Ideally this would
         // just be something akin to a connected component with access to the store itself.
         this.currentUserId = props.currentUserId;
@@ -330,7 +346,7 @@ export default class AtMentionProvider extends Provider {
         });
     }
 
-    handlePretextChanged(pretext: string, resultCallback: (params: ResultCallbackParams) => void): boolean {
+    async handlePretextChanged(pretext: string, resultCallback: (params: ResultCallbackParams) => void): Promise<boolean> {
         const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_. ]*)$', 'i').exec(pretext.toLowerCase());
         if (!captured) {
             return false;
@@ -362,24 +378,20 @@ export default class AtMentionProvider extends Provider {
         }, 500);
 
         // Query the server for remote results to add to the local results.
-        this.autocompleteUsersInChannel(prefix).then(({data}: any) => {
-            if (showLoadingIndicator) {
-                clearTimeout(showLoadingIndicator);
-            }
+        const {data} = await this.store.dispatch(this.autocompleteUsersInChannel(prefix));
+        if (showLoadingIndicator) {
+            clearTimeout(showLoadingIndicator);
+        }
 
-            if (this.shouldCancelDispatch(prefix)) {
-                return;
-            }
-
+        if (!this.shouldCancelDispatch(prefix)) {
             this.data = data;
 
-            this.searchAssociatedGroupsForReference(prefix).then((groupsData) => {
-                if (this.data && groupsData && groupsData.data) {
-                    this.data.groups = groupsData.data;
-                }
-                this.updateMatches(resultCallback, this.items());
-            });
-        });
+            const groupsData = await this.store.dispatch(this.searchAssociatedGroupsForReference(prefix));
+            if (this.data && groupsData && groupsData.data) {
+                this.data.groups = groupsData.data;
+            }
+            this.updateMatches(resultCallback, this.items());
+        }
 
         return true;
     }

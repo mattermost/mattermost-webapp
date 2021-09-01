@@ -8,10 +8,18 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import SharedUserIndicator from 'components/shared_user_indicator';
 
-import Provider from './provider.tsx';
-import Suggestion from './suggestion.tsx';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-class SearchUserSuggestion extends Suggestion {
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import Provider, {ResultCallbackParams} from './provider';
+import Suggestion, {SuggestionProps} from './suggestion';
+
+type Props = Omit<SuggestionProps, 'item'> & {item: UserProfile};
+
+class SearchUserSuggestion extends Suggestion<Props> {
+    node: HTMLDivElement | null = null;
+
     render() {
         const {item, isSelection} = this.props;
 
@@ -74,13 +82,18 @@ class SearchUserSuggestion extends Suggestion {
     }
 }
 
+type UserSearchFunc = (username: string) => DispatchFunc;
+type CallbackParams = Omit<ResultCallbackParams, 'items'> & {items: UserProfile[]};
+
 export default class SearchUserProvider extends Provider {
-    constructor(userSearchFunc) {
+    autocompleteUsersInTeam: UserSearchFunc;
+
+    constructor(userSearchFunc: UserSearchFunc) {
         super();
         this.autocompleteUsersInTeam = userSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultsCallback) {
+    handlePretextChanged(pretext: string, resultsCallback: (params: CallbackParams) => void): boolean {
         const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
 
         this.doAutocomplete(captured, resultsCallback);
@@ -88,7 +101,7 @@ export default class SearchUserProvider extends Provider {
         return Boolean(captured);
     }
 
-    async doAutocomplete(captured, resultsCallback) {
+    async doAutocomplete(captured: RegExpExecArray | null, resultsCallback: (params: CallbackParams) => void): Promise<void> {
         if (!captured) {
             return;
         }
@@ -103,7 +116,7 @@ export default class SearchUserProvider extends Provider {
             return;
         }
 
-        const users = Object.assign([], data.users);
+        const users: UserProfile[] = Object.assign([], (data as any).users);
         const mentions = users.map((user) => user.username);
 
         resultsCallback({
@@ -114,7 +127,7 @@ export default class SearchUserProvider extends Provider {
         });
     }
 
-    allowDividers() {
+    allowDividers(): boolean {
         return true;
     }
 }

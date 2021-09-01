@@ -58,9 +58,9 @@ type Props = {
     profilesInChannel: UserProfileWithLastViewAt[];
     autocompleteGroups: Group[] | null;
     actions: {
-        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<UserProfile[]>;
+        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<ActionResult>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>;
-        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<ActionResult>;
     };
     useChannelMentions: boolean;
     inputComponent?: ElementType;
@@ -103,7 +103,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 useChannelMentions: this.props.useChannelMentions,
                 autocompleteGroups: this.props.autocompleteGroups == null ? [] : this.props.autocompleteGroups,
                 searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
-                priorityProfiles: this.props.priorityProfiles,
+                priorityProfiles: this.props.priorityProfiles || [],
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
@@ -141,9 +141,9 @@ export default class Textbox extends React.PureComponent<Props> {
                         profilesInChannel: this.props.profilesInChannel,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
-                        autocompleteGroups: this.props.autocompleteGroups,
+                        autocompleteGroups: this.props.autocompleteGroups || [],
                         searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
-                        priorityProfiles: this.props.priorityProfiles,
+                        priorityProfiles: this.props.priorityProfiles || [],
                     });
                 }
                 if (providers[i] instanceof CommandProvider) {

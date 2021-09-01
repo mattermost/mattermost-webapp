@@ -5,6 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Textbox from 'components/textbox/textbox';
+import {UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
+import {Group} from 'mattermost-redux/types/groups';
 
 describe('components/TextBox', () => {
     const baseProps = {
@@ -15,11 +17,11 @@ describe('components/TextBox', () => {
         profilesInChannel: [
             {id: 'id1'},
             {id: 'id2'},
-        ],
+        ] as UserProfileWithLastViewAt[],
         autocompleteGroups: [
             {id: 'gid1'},
             {id: 'gid2'},
-        ],
+        ] as Group[],
         actions: {
             autocompleteUsersInChannel: jest.fn(),
             autocompleteChannels: jest.fn(),

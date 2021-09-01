@@ -15,11 +15,11 @@ import {SuggestionProps} from '../suggestion';
 
 import SearchChannelSuggestion from './search_channel_suggestion';
 
-type DispatchProps = Record<string, never>;
+// type DispatchProps = Record<string, never>;
 type StateProps = {teammate: UserProfile | undefined; currentUser: string};
 type OwnProps = Omit<SuggestionProps, 'item'> & {item: Channel};
 
-export type SearchChannelSuggestionProps = StateProps & DispatchProps & OwnProps;
+export type SearchChannelSuggestionProps = StateProps & OwnProps;
 
 const mapStateToProps = (state: GlobalState, props: OwnProps) => {
     return {

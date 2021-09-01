@@ -3,10 +3,12 @@
 
 import React from 'react';
 
-import Provider from './provider.tsx';
-import Suggestion from './suggestion.tsx';
+import {Channel} from 'mattermost-redux/types/channels';
 
-class ChannelSuggestion extends Suggestion {
+import Provider, {ResultCallbackParams} from './provider';
+import Suggestion, {SuggestionProps} from './suggestion';
+
+class ChannelSuggestion extends Suggestion<SuggestionProps> {
     render() {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
@@ -52,25 +54,27 @@ class ChannelSuggestion extends Suggestion {
     }
 }
 
+type CallbackParams = Omit<ResultCallbackParams, 'items'> & {items: Channel[]};
+
 export default class ChannelProvider extends Provider {
-    constructor(channelSearchFunc) {
+    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
+
+    constructor(channelSearchFunc: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>) {
         super();
 
         this.autocompleteChannels = channelSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultsCallback) {
+    handlePretextChanged(pretext: string, resultsCallback: (params: CallbackParams) => void): boolean {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(normalizedPretext);
 
         this.autocompleteChannels(
             normalizedPretext,
-            (data) => {
+            (channels: Channel[]) => {
                 if (this.shouldCancelDispatch(normalizedPretext)) {
                     return;
                 }
-
-                const channels = Object.assign([], data);
 
                 resultsCallback({
                     matchedPretext: normalizedPretext,
@@ -79,6 +83,7 @@ export default class ChannelProvider extends Provider {
                     component: ChannelSuggestion,
                 });
             },
+            () => {},
         );
 
         return true;

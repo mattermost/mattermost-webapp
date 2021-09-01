@@ -3,37 +3,20 @@
 
 import React from 'react';
 
-import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
+
+import GenericChannelProvider from 'components/suggestion/generic_channel_provider';
+
 import {PostAction} from 'mattermost-redux/types/integration_actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
-import {ServerError} from 'mattermost-redux/types/errors';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
-import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
+
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
 
-type Error = ServerError & {id: string};
-
-type AutocompleteUsersAction =
-    (username: string) => (doDispatch: DispatchFunc) => Promise<UserProfile[]>;
-
-type AutocompleteChannelsAction = (
-    term: string,
-    success: (channels: Channel[]) => void,
-    error: (error: Error) => void
-) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<ActionResult>;
-
-type SelectAttachmentMenuAction = (
-    postId: string,
-    actionId: string,
-    cookie: string,
-    dataSource: string | undefined,
-    text: string,
-    value: string
-) => (dispatch: DispatchFunc) => Promise<ActionResult>;
+import {AutocompleteChannelsAction, AutocompleteUsersAction, SelectAttachmentMenuAction} from './index';
 
 type Option = {
     text: string;

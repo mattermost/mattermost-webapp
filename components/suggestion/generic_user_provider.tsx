@@ -11,10 +11,12 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
-import Provider from './provider.tsx';
-import Suggestion from './suggestion.tsx';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-class UserSuggestion extends Suggestion {
+import Provider, {ResultCallbackParams} from './provider';
+import Suggestion, {SuggestionProps} from './suggestion';
+
+class UserSuggestion extends Suggestion<SuggestionProps> {
     render() {
         const {item, isSelection} = this.props;
 
@@ -62,22 +64,26 @@ class UserSuggestion extends Suggestion {
     }
 }
 
+type CallbackParams = Omit<ResultCallbackParams, 'items'> & {items: UserProfile[]};
+
 export default class UserProvider extends Provider {
-    constructor(searchUsersFunc) {
+    autocompleteUsers: (search: string) => Promise<UserProfile[]>;
+
+    constructor(searchUsersFunc: (search: string) => Promise<UserProfile[]>) {
         super();
+
         this.autocompleteUsers = searchUsersFunc;
     }
-    async handlePretextChanged(pretext, resultsCallback) {
+
+    async handlePretextChanged(pretext: string, resultsCallback: (params: CallbackParams) => void): Promise<boolean> {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(normalizedPretext);
 
-        const data = await this.autocompleteUsers(normalizedPretext);
+        const users: UserProfile[] = await this.autocompleteUsers(normalizedPretext);
 
         if (this.shouldCancelDispatch(normalizedPretext)) {
             return false;
         }
-
-        const users = Object.assign([], data.users);
 
         resultsCallback({
             matchedPretext: normalizedPretext,

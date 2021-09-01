@@ -88,11 +88,12 @@ describe('components/EmoticonProvider', () => {
         const pretext = ':blocklisted';
         const recentEmojis = ['blocklisted-1'];
 
-        const blocklistedEmojis = EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.map((category, index) => {
+        const blocklistedEmojis = EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.reduce((map, category, index) => {
             const name = `blocklisted-${index}`;
-            return [name, {name, category}];
-        });
-        const customEmojisWithBlocklist = new Map([...blocklistedEmojis, ['not-blocklisted', {name: 'not-blocklisted', category: 'custom'}]]);
+            return map.set(name, {name, category});
+        }, new Map());
+
+        const customEmojisWithBlocklist: Map<string, {name: string; category: string}> = new Map([...blocklistedEmojis, ['not-blocklisted', {name: 'not-blocklisted', category: 'custom'}]]);
         const emojiMapWithBlocklist = new EmojiMap(customEmojisWithBlocklist);
 
         emojis.getEmojiMap.mockReturnValue(emojiMapWithBlocklist);

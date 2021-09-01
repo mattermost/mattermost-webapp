@@ -12,8 +12,16 @@ describe('components/suggestion/search_channel_suggestion', () => {
     const mockChannel = TestHelper.getChannelMock();
     const mockTeamMate = TestHelper.getUserMock();
 
+    // No overload matches this call.
+    // Overload 1 of 2, '(props: Readonly<SearchChannelSuggestionProps>): SearchChannelSuggestion', gave the following error.
+
+    // Type '{ teammate: UserProfile | undefined; currentUser: string; term: string; matchedPretext: string; isSelection?: boolean | undefined; onClick?: ((term: string, matchedPretext: string) => void) | undefined; onMouseMove?: ((term: string) => void) | undefined; item: Channel; }' is not assignable to type 'Readonly<SearchChannelSuggestionProps>'.
+    // Property 'teammate' is incompatible with index signature.
+    // Type 'UserProfile | undefined' is not assignable to type 'never'.
+    // Type 'undefined' is not assignable to type 'never'.
+
     const baseProps = {
-        item: mockChannel,
+        item: mockChannel || undefined,
         isSelection: false,
         teammate: mockTeamMate,
         currentUser: 'userid1',
