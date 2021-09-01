@@ -464,13 +464,5 @@ const state: GlobalState = {
         lastConnectAt: 0,
         lastDisconnectAt: 0,
     },
-    plugins: {
-        adminConsoleCustomComponents: {},
-        adminConsoleReducers: {},
-        components: {},
-        plugins: {},
-        postCardTypes: {},
-        postTypes: {},
-    },
 };
 export default state;

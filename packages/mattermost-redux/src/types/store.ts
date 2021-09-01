@@ -12,7 +12,6 @@ import {GeneralState} from './general';
 import {GroupsState} from './groups';
 import {IntegrationsState} from './integrations';
 import {JobsState} from './jobs';
-import {PluginsState} from './plugins';
 import {PostsState} from './posts';
 import {PreferenceType} from './preferences';
 import {
@@ -85,5 +84,4 @@ export type GlobalState = {
         lastConnectAt: number;
         lastDisconnectAt: number;
     };
-    plugins: PluginsState;
 };

@@ -1,11 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-
-import {AdminConfig} from './config';
-import {Dictionary} from './utilities';
-
 export type Plugin = {
     id: string;
     name: string;
@@ -139,37 +134,3 @@ export type MarketplacePlugin = { // TODO remove this in favour of the definitio
     manifest: PluginManifest;
     installed_version?: string;
 }
-
-export type PluginsState = {
-    plugins: Dictionary<Plugin>;
-    adminConsoleCustomComponents: Dictionary<Dictionary<{
-        pluginId: string;
-        key: string;
-        options: {
-            showTitle?: boolean;
-        };
-    }>>;
-    adminConsoleReducers: Dictionary<{
-        pluginId: string;
-        reducer: (adminConfig: AdminConfig) => AdminConfig;
-    }>;
-    components: Dictionary<{
-        id: string;
-        pluginId: string;
-        text?: React.ReactNode;
-        icon?: React.ReactNode;
-        component?: React.ElementType;
-    }>;
-    postTypes: Dictionary<{
-        id: string;
-        pluginId: string;
-        type: string;
-        component: React.ElementType;
-    }>;
-    postCardTypes: Dictionary<{
-        id: string;
-        pluginId: string;
-        type: string;
-        component: React.ElementType;
-    }>;
-};
