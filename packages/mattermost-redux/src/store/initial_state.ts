@@ -171,6 +171,7 @@ const state: GlobalState = {
         },
         apps: {
             bindings: [],
+            pluginEnabled: true,
         },
         cloud: {},
     },
