@@ -11,6 +11,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
+import ProductBranding from './product_branding';
 import ProductSwitcherMenu from './product_switcher_menu';
 import ProductSwitcherTip from './product_switcher_tip';
 
@@ -25,6 +26,7 @@ interface SwitcherNavEntryProps {
 const ProductSwitcherContainer = styled.nav`
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     > * + * {
         margin-left: 12px;
@@ -122,17 +124,22 @@ const ProductSwitcher = (): JSX.Element => {
             <MenuWrapper
                 open={switcherOpen}
             >
-                <ProductSwitcherContainer>
+                <ProductSwitcherContainer onClick={handleClick}>
                     <IconButton
                         icon={'products'}
-                        onClick={handleClick}
                         size={'sm'}
+
+                        // we currently need this, since not passing a onClick handler is disabling the IconButton
+                        // this is a known issue and is being tracked by UI platform team
+                        // TODO@UI: remove the onClick, when it is not a mandatory prop anymore
+                        onClick={() => {}}
                         compact={true}
                         active={switcherOpen}
                         inverted={true}
                         aria-label='Select to open product switch menu.'
                     />
                     <ProductSwitcherTip/>
+                    <ProductBranding/>
                 </ProductSwitcherContainer>
                 <Menu
                     className={'product-switcher-menu'}

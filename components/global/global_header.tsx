@@ -14,7 +14,6 @@ import {isDesktopApp} from 'utils/user_agent';
 
 import GlobalSearchNav from './global_search_nav/global_search_nav';
 import ProductSwitcher from './product_switcher';
-import ProductBranding from './product_branding';
 import HistoryButtons from './history_buttons';
 import UserGuideDropdown from './user_guide_dropdown';
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
@@ -103,7 +102,6 @@ const GlobalHeader = (): JSX.Element | null => {
         <GlobalHeaderContainer>
             <LeftControls>
                 <ProductSwitcher/>
-                <ProductBranding/>
                 {isDesktopApp() && <HistoryButtons/>}
             </LeftControls>
             <CenterControls>
