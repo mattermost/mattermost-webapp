@@ -244,7 +244,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -506,7 +506,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -768,7 +768,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1158,7 +1158,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1420,7 +1420,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1700,7 +1700,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1900,7 +1900,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2100,7 +2100,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2300,7 +2300,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2512,7 +2512,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2712,7 +2712,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)

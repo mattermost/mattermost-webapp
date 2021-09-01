@@ -4,6 +4,7 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
 <MenuWrapper
   animationComponent={[Function]}
   className="userGuideHelp"
+  id="helpMenuPortal"
   onToggle={[Function]}
 >
   <OverlayTrigger
@@ -60,6 +61,13 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
         text="Help resources"
         url="helpLink"
       />
+      <MenuItemAction
+        icon={false}
+        id="gettingStarted"
+        onClick={[Function]}
+        show={false}
+        text="Getting Started"
+      />
       <MenuItemExternalLink
         id="reportAProblemLink"
         show={true}
@@ -81,6 +89,7 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
 <MenuWrapper
   animationComponent={[Function]}
   className="userGuideHelp"
+  id="helpMenuPortal"
   onToggle={[Function]}
 >
   <OverlayTrigger
@@ -129,6 +138,13 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
         show={true}
         text="Help resources"
         url="helpLink"
+      />
+      <MenuItemAction
+        icon={false}
+        id="gettingStarted"
+        onClick={[Function]}
+        show={false}
+        text="Getting Started"
       />
       <MenuItemExternalLink
         id="reportAProblemLink"
