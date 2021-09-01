@@ -31,13 +31,13 @@ export function bindings(state: AppBinding[] = [], action: GenericAction): AppBi
 
 export function pluginEnabled(state = true, action: GenericAction): boolean {
     switch (action.type) {
-    case AppsTypes.FAILED_TO_FETCH_APP_BINDINGS: {
-        return false;
-    }
     case AppsTypes.APPS_PLUGIN_ENABLED: {
         return true;
     }
     case AppsTypes.APPS_PLUGIN_DISABLED: {
+        return false;
+    }
+    case AppsTypes.FAILED_TO_FETCH_APP_BINDINGS: {
         return false;
     }
 

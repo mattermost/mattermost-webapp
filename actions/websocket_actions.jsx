@@ -185,14 +185,7 @@ export function reconnect(includeWebSocket = true) {
         timestamp: Date.now(),
     });
 
-    const state = getState();
-    const currentTeamId = state.entities.teams.currentTeamId;
-
-    loadPluginsIfNecessary().then(() => {
-        if (currentTeamId) {
-            dispatch(handleRefreshAppsBindings());
-        }
-    });
+    loadPluginsIfNecessary();
 
     Object.values(pluginReconnectHandlers).forEach((handler) => {
         if (handler && typeof handler === 'function') {
@@ -200,12 +193,15 @@ export function reconnect(includeWebSocket = true) {
         }
     });
 
+    const state = getState();
+    const currentTeamId = state.entities.teams.currentTeamId;
     if (currentTeamId) {
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
 
         dispatch(loadChannelsForCurrentUser());
+        dispatch(handleRefreshAppsBindings());
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
