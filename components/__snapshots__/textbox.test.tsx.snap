@@ -49,7 +49,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
-          "priorityProfiles": undefined,
+          "priorityProfiles": Array [],
           "profilesInChannel": Array [
             Object {
               "id": "id1",
@@ -60,6 +60,13 @@ exports[`components/TextBox should match snapshot with additional, optional prop
           ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
+          "store": Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          },
           "triggerCharacter": "@",
           "useChannelMentions": true,
         },
@@ -160,7 +167,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
-          "priorityProfiles": undefined,
+          "priorityProfiles": Array [],
           "profilesInChannel": Array [
             Object {
               "id": "id1",
@@ -171,6 +178,13 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
+          "store": Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          },
           "triggerCharacter": "@",
           "useChannelMentions": true,
         },
@@ -256,7 +270,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
-          "priorityProfiles": undefined,
+          "priorityProfiles": Array [],
           "profilesInChannel": Array [
             Object {
               "id": "id1",
@@ -267,6 +281,13 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
+          "store": Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          },
           "triggerCharacter": "@",
           "useChannelMentions": true,
         },
@@ -352,7 +373,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
-          "priorityProfiles": undefined,
+          "priorityProfiles": Array [],
           "profilesInChannel": Array [
             Object {
               "id": "id1",
@@ -363,6 +384,13 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
+          "store": Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          },
           "triggerCharacter": "@",
           "useChannelMentions": true,
         },
