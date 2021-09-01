@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Permissions} from 'mattermost-redux/constants';
 
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
@@ -21,7 +20,7 @@ import EmptyStateThemeableSvg from 'components/common/svg_images_components/empt
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {isGuest, localizeMessage} from 'utils/utils';
+import {localizeMessage} from 'utils/utils';
 
 import './add_members_button.scss';
 
@@ -42,12 +41,6 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const inviteUsers = totalUsers < usersLimit;
     const currentTeamId = useSelector(getCurrentTeamId);
-    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
-
-
-    if (isGuest(currentUser)) {
-        return null;
-    }
 
     return (
         <TeamPermissionGate

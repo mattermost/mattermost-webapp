@@ -15,7 +15,6 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
@@ -25,7 +24,6 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {ModalIdentifiers} from 'utils/constants';
-import {isGuest} from 'utils/utils';
 
 import {getInviteMembersButtonLocation} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -38,7 +36,6 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
 
     const inviteMembersButtonLocation = getInviteMembersButtonLocation(store.getState());
     const currentTeamId = useSelector(getCurrentTeamId);
-    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
 
     const tooltip = (
         <Tooltip
@@ -137,10 +134,6 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
 
     if (inviteMembersButtonLocation !== props.buttonType || inviteMembersButtonLocation === InviteMembersBtnLocations.NONE) {
         inviteButton = null;
-    }
-
-    if (isGuest(currentUser)) {
-        return null;
     }
 
     return (
