@@ -26,6 +26,7 @@ interface SwitcherNavEntryProps {
 const ProductSwitcherContainer = styled.nav`
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     > * + * {
         margin-left: 12px;
