@@ -264,7 +264,7 @@ h6.markdown__heading {
 
 .markdown__table {
     margin: 5px 0 10px;
-    background: $white;
+    background: var(--center-channel-bg);
 
     th,
     td {
@@ -278,7 +278,7 @@ h6.markdown__heading {
     }
 
     tbody tr {
-        background: $white;
+        background: var(--center-channel-bg);
 
         &:nth-child(2n) {
             background-color: #f8f8f8;
