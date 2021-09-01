@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SearchableUserList from './searchable_user_list.jsx';
+import SearchableUserList from './searchable_user_list.tsx';
 
 export default class SearchableUserListContainer extends React.PureComponent {
     static propTypes = {

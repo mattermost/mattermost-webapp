@@ -3,10 +3,11 @@
 /* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import Scrollbars from 'react-custom-scrollbars';
 
 import QuickInput from 'components/quick_input';
 import UserList from 'components/user_list.jsx';
@@ -19,7 +20,32 @@ import {t} from 'utils/i18n';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
+export function renderView(props: Record<string, any>) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--view'
+        />
+    );
+}
+
+export function renderThumbHorizontal() {
+    return (
+        <div/>
+    );
+}
+
+export function renderThumbVertical(props: Record<string, any>) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--vertical'
+        />
+    );
+}
+
 type Props = {
+    intl: IntlShape;
     users: object[];
     usersPerPage: number;
     total: number;
@@ -27,7 +53,7 @@ type Props = {
     nextPage: () => void;
     previousPage: () => void;
     search: (term: string) => void ;
-    actions?: Function[];
+    actions?: React.ReactNode[];
     actionProps?: {
         mfaEnabled: boolean;
         enableUserAccessTokens: boolean;
@@ -53,15 +79,15 @@ type Props = {
         startCount: number,
         endCount: number,
         isSearch: boolean
-    ) => FormattedMessage;
+    ) => JSX.Element | null;
     filter?: string;
     renderFilterRow?: (handleInput: ((event: React.FormEvent<HTMLInputElement>) => void) | undefined) => JSX.Element; // follow up on this one
     page: number;
     term: string;
     onTermChange: (term: string) => void;
-    intl?: any;
     isDisabled?: boolean;
-    rowComponentType?: object; // follow up on this one
+    rowComponentType?: object; // TODO What type should this be
+    showTeamToggle?: boolean;
 }
 
 type State = {
@@ -69,41 +95,38 @@ type State = {
 };
 
 export class SearchableUserList extends React.PureComponent<Props, State> {
-    // static propTypes = {
-    //     users: PropTypes.arrayOf(PropTypes.object),
-    //     usersPerPage: PropTypes.number,
-    //     total: PropTypes.number,
-    //     extraInfo: PropTypes.object,
-    //     nextPage: PropTypes.func.isRequired,
-    //     previousPage: PropTypes.func.isRequired,
-    //     search: PropTypes.func.isRequired,
-    //     actions: PropTypes.arrayOf(PropTypes.func),
-    //     actionProps: PropTypes.object,
-    //     actionUserProps: PropTypes.object,
-    //     focusOnMount: PropTypes.bool,
-    //     renderCount: PropTypes.func,
-    //     filter: PropTypes.string,
-    //     renderFilterRow: PropTypes.func,
-    //     page: PropTypes.number.isRequired,
-    //     term: PropTypes.string.isRequired,
-    //     onTermChange: PropTypes.func.isRequired,
-    //     intl: PropTypes.any,
-    //     isDisabled: PropTypes.bool,
-
-    //     // the type of user list row to render
-    //     rowComponentType: PropTypes.func,
-    // };
-
-    static defaultProps = {
+    public static defaultProps: Partial<Props> = {
         users: [],
         usersPerPage: 50,
         extraInfo: {},
         actions: [],
-        actionProps: {},
+        actionProps: {
+            mfaEnabled: false,
+            enableUserAccessTokens: false,
+            experimentalEnableAuthenticationTransfer: false,
+            doPasswordReset: function(){},
+            doEmailReset: function(){},
+            doManageTeams: function(){},
+            doManageRoles: function(){},
+            doManageTokens: function(){},
+            isDisabled: false
+        },
         actionUserProps: {},
         showTeamToggle: false,
         focusOnMount: false,
+        renderCount: function(
+            count: number,
+            total: number,
+            startCount: number,
+            endCount: number,
+            isSearch: boolean
+        ) { return null } // TODO fix this
+        // On a default prop function, what is the default return
     };
+
+    private nextTimeoutId!: NodeJS.Timeout;
+    private scrollbarsRef: React.RefObject<Scrollbars>;
+    private filter: React.RefObject<HTMLInputElement>;
 
     constructor(props: Props) {
         super(props);
@@ -112,10 +135,9 @@ export class SearchableUserList extends React.PureComponent<Props, State> {
             nextDisabled: false,
         };
 
+        this.scrollbarsRef = React.createRef();
+        this.filter = React.createRef();
     }
-
-    private nextTimeoutId!: NodeJS.Timeout;
-    private userListRef = React.createRef<HTMLDivElement>(); 
 
     componentDidMount() {
         this.focusSearchBar();
@@ -123,12 +145,16 @@ export class SearchableUserList extends React.PureComponent<Props, State> {
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.page !== prevProps.page || this.props.term !== prevProps.term) {
-            this.userListRef.current?.scrollToTop();
+            this.scrollToTop();
         }
     }
 
     componentWillUnmount() {
         clearTimeout(this.nextTimeoutId);
+    }
+
+    public scrollToTop = (): void => {
+        this.scrollbarsRef.current?.scrollToTop();
     }
 
     nextPage = (e: React.MouseEvent) => {
@@ -138,19 +164,19 @@ export class SearchableUserList extends React.PureComponent<Props, State> {
         this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT);
 
         this.props.nextPage();
-        $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
+        this.scrollToTop();
     }
 
     previousPage = (e: React.MouseEvent) => {
         e.preventDefault();
 
         this.props.previousPage();
-        $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
+        this.scrollToTop();
     }
 
     focusSearchBar = () => {
-        if (this.props.focusOnMount) {
-            this.refs.filter.focus();
+        if (this.props.focusOnMount && this.filter && this.filter.current) {
+            this.filter.current.focus();
         }
     }
 
@@ -294,6 +320,7 @@ export class SearchableUserList extends React.PureComponent<Props, State> {
                         value={this.props.term}
                         onInput={this.handleInput}
                         aria-label={formatMessage(searchUsersPlaceholder).toLowerCase()}
+                        autoFocus
                     />
                 </div>
             );
@@ -313,16 +340,26 @@ export class SearchableUserList extends React.PureComponent<Props, State> {
                         </span>
                     </div>
                 </div>
-                <div ref={this.userListRef} className='more-modal__list'>
-                    <UserList
-                        users={usersToDisplay}
-                        extraInfo={this.props.extraInfo}
-                        actions={this.props.actions}
-                        actionProps={this.props.actionProps}
-                        actionUserProps={this.props.actionUserProps}
-                        rowComponentType={this.props.rowComponentType}
-                        isDisabled={this.props.isDisabled}
-                    />
+                <div className='more-modal__list'>
+                    <Scrollbars
+                        ref={this.scrollbarsRef}
+                        autoHide={true}
+                        autoHideTimeout={500}
+                        autoHideDuration={500}
+                        renderThumbHorizontal={renderThumbHorizontal}
+                        renderThumbVertical={renderThumbVertical}
+                        renderView={renderView}
+                    >
+                        <UserList
+                            users={usersToDisplay}
+                            extraInfo={this.props.extraInfo}
+                            actions={this.props.actions}
+                            actionProps={this.props.actionProps}
+                            actionUserProps={this.props.actionUserProps}
+                            rowComponentType={this.props.rowComponentType}
+                            isDisabled={this.props.isDisabled}
+                        />
+                    </Scrollbars>
                 </div>
                 <div className='filter-controls'>
                     {previousButton}
@@ -333,5 +370,5 @@ export class SearchableUserList extends React.PureComponent<Props, State> {
     }
 }
 
-// export default injectIntl(SearchableUserList);
+export default injectIntl(SearchableUserList);
 /* eslint-enable react/no-string-refs */
