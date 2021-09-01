@@ -909,23 +909,27 @@ export class AppCommandParser {
 
         const form = JSON.parse(JSON.stringify(parsed.form));
         if (!form) {
-            return {form: null,
+            return {
+                form: null,
                 call: null,
                 errorMessage: this.intl.formatMessage({
                     id: 'apps.error.parser.no_form',
                     defaultMessage: 'No form found.',
-                })};
+                }),
+            };
         }
 
         const call = parsed.form?.call || parsed.binding?.call;
 
         if (!call) {
-            return {form: null,
+            return {
+                form: null,
                 call: null,
                 errorMessage: this.intl.formatMessage({
                     id: 'apps.error.parser.no_call',
                     defaultMessage: 'No call found.',
-                })};
+                }),
+            };
         }
 
         const values: AppCallValues = parsed.values;
