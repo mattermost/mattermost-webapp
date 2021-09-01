@@ -212,6 +212,7 @@ h6 {
         border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
         margin: 5px 0;
         border-radius: 0.25em;
+        cursor: auto;
         font-size: 13px;
         overflow-x: auto;
         visibility: visible;
@@ -255,6 +256,7 @@ h6 {
 
     .codespan__pre-wrap {
         code {
+            cursor: auto;
             white-space: pre-wrap;
         }
     }
