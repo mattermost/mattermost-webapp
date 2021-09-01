@@ -24,6 +24,13 @@ export function bindings(state: AppBinding[] = [], action: GenericAction): AppBi
         validateBindings(action.data);
         return action.data || [];
     }
+    case AppsTypes.APPS_PLUGIN_DISABLED: {
+        if (!state.length) {
+            return state;
+        }
+
+        return [];
+    }
     default:
         return state;
     }

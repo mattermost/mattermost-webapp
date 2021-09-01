@@ -520,10 +520,10 @@ export function handleEvent(msg) {
         dispatch(handleRefreshAppsBindings(msg));
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_ENABLED:
-        handleAppsPluginEnabled(msg);
+        dispatch(handleAppsPluginEnabled(msg));
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
-        handleAppsPluginDisabled(msg);
+        dispatch(handleAppsPluginDisabled(msg));
         break;
     default:
     }
@@ -1427,15 +1427,22 @@ function handleRefreshAppsBindings() {
 }
 
 function handleAppsPluginEnabled() {
-    dispatch({
-        type: AppsTypes.APPS_PLUGIN_ENABLED,
-    });
+    return (doDispatch, doGetState) => {
+        doDispatch({
+            type: AppsTypes.APPS_PLUGIN_ENABLED,
+        });
+
+        const state = doGetState();
+        doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
+
+        return {data: true};
+    };
 }
 
 function handleAppsPluginDisabled() {
-    dispatch({
+    return {
         type: AppsTypes.APPS_PLUGIN_DISABLED,
-    });
+    };
 }
 
 function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
