@@ -133,7 +133,7 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
     }
 
     if (inviteMembersButtonLocation !== props.buttonType || inviteMembersButtonLocation === InviteMembersBtnLocations.NONE) {
-        inviteButton = null;
+        return null;
     }
 
     return (
