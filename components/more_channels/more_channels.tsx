@@ -40,7 +40,7 @@ export type Props = {
     teamId: string;
     teamName: string;
     channelsRequestStarted?: boolean;
-    bodyOnly?: boolean;
+    bodyOnly?: boolean; // TODO remove me
     canShowArchivedChannels?: boolean;
     morePublicChannelsModalType?: string;
     actions: Actions;

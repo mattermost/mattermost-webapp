@@ -15,6 +15,7 @@ describe('components/MoreDirectChannels', () => {
         currentTeamId: 'team_id',
         currentTeamName: 'team_name',
         searchTerm: '',
+        totalCount: 3,
         users: [
             {
                 id: 'user_id_1',
