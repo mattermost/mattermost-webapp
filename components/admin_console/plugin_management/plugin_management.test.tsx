@@ -14,11 +14,11 @@ describe('components/PluginManagement', () => {
             PluginSettings: {
                 Enable: true,
                 EnableUploads: true,
-                AllowInsecureDownloadUrl: false,
+                AllowInsecureDownloadURL: false,
                 EnableMarketplace: true,
                 EnableRemoteMarketplace: true,
                 AutomaticPrepackagedPlugins: true,
-                MarketplaceUrl: 'marketplace.example.com',
+                MarketplaceURL: 'marketplace.example.com',
                 RequirePluginSignature: false,
             },
             ExperimentalSettings: {
@@ -204,7 +204,7 @@ describe('components/PluginManagement', () => {
                 ...defaultProps.config,
                 PluginSettings: {
                     ...defaultProps.config.PluginSettings,
-                    AllowInsecureDownloadUrl: true,
+                    AllowInsecureDownloadURL: true,
                 },
             },
         };
@@ -228,7 +228,7 @@ describe('components/PluginManagement', () => {
                     ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
-                    AllowInsecureDownloadUrl: false,
+                    AllowInsecureDownloadURL: false,
                 },
             },
             pluginStatuses: {},
@@ -263,7 +263,7 @@ describe('components/PluginManagement', () => {
                     ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
-                    AllowInsecureDownloadUrl: false,
+                    AllowInsecureDownloadURL: false,
                 },
             },
             pluginStatuses: {
@@ -347,7 +347,7 @@ describe('components/PluginManagement', () => {
                     ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
-                    AllowInsecureDownloadUrl: false,
+                    AllowInsecureDownloadURL: false,
                 },
             },
             pluginStatuses: {
@@ -404,7 +404,7 @@ describe('components/PluginManagement', () => {
                     ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
-                    AllowInsecureDownloadUrl: false,
+                    AllowInsecureDownloadURL: false,
                 },
             },
             pluginStatuses: {
@@ -461,7 +461,7 @@ describe('components/PluginManagement', () => {
                     ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
-                    AllowInsecureDownloadUrl: false,
+                    AllowInsecureDownloadURL: false,
                 },
             },
             pluginStatuses: {

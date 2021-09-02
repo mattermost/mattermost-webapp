@@ -52,11 +52,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
       size="sm"
       userIds={
         Array [
-          "1",
-          "2",
-          "3",
-          "4",
           "5",
+          "4",
+          "3",
+          "2",
+          "1",
         ]
       }
     >
@@ -65,7 +65,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         onMouseLeave={[Function]}
       >
         <UserAvatar
-          key="1"
+          key="5"
           overlayProps={
             Object {
               "animation": true,
@@ -80,12 +80,12 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             }
           }
           tabIndex={0}
-          userId="1"
+          userId="5"
         >
           <SimpleTooltip
             animation={true}
-            content="first.last1"
-            id="name-1"
+            content="first.last5"
+            id="name-5"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -97,10 +97,10 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-1"
+                  id="name-5"
                   placement="top"
                 >
-                  first.last1
+                  first.last5
                 </Tooltip>
               }
               placement="top"
@@ -120,7 +120,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-1"
+                    id="name-5"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -159,7 +159,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                     placement="top"
                   >
-                    first.last1
+                    first.last5
                   </OverlayWrapper>
                 }
                 placement="top"
@@ -183,7 +183,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                   }
                   tabIndex={0}
-                  url="/api/v4/users/1/image?_=0"
+                  url="/api/v4/users/5/image?_=0"
                 >
                   <img
                     alt="user profile image"
@@ -193,7 +193,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     onFocus={[Function]}
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
-                    src="/api/v4/users/1/image?_=0"
+                    src="/api/v4/users/5/image?_=0"
                     style={
                       Object {
                         "background": "rgb(240, 240, 241)",
@@ -207,7 +207,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           </SimpleTooltip>
         </UserAvatar>
         <UserAvatar
-          key="2"
+          key="4"
           overlayProps={
             Object {
               "animation": true,
@@ -222,12 +222,12 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             }
           }
           tabIndex={0}
-          userId="2"
+          userId="4"
         >
           <SimpleTooltip
             animation={true}
-            content="first.last2"
-            id="name-2"
+            content="first.last4"
+            id="name-4"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -239,10 +239,10 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-2"
+                  id="name-4"
                   placement="top"
                 >
-                  first.last2
+                  first.last4
                 </Tooltip>
               }
               placement="top"
@@ -262,7 +262,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-2"
+                    id="name-4"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -301,7 +301,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                     placement="top"
                   >
-                    first.last2
+                    first.last4
                   </OverlayWrapper>
                 }
                 placement="top"
@@ -325,7 +325,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                   }
                   tabIndex={0}
-                  url="/api/v4/users/2/image?_=0"
+                  url="/api/v4/users/4/image?_=0"
                 >
                   <img
                     alt="user profile image"
@@ -335,7 +335,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     onFocus={[Function]}
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
-                    src="/api/v4/users/2/image?_=0"
+                    src="/api/v4/users/4/image?_=0"
                     style={
                       Object {
                         "background": "rgb(240, 240, 241)",
@@ -492,7 +492,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         </UserAvatar>
         <SimpleTooltip
           animation={true}
-          content="first.last4, first.last5"
+          content="first.last2, first.last1"
           id="names-overflow"
           onEntered={[Function]}
         >
@@ -508,7 +508,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 id="names-overflow"
                 placement="top"
               >
-                first.last4, first.last5
+                first.last2, first.last1
               </Tooltip>
             }
             placement="top"
@@ -567,7 +567,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   }
                   placement="top"
                 >
-                  first.last4, first.last5
+                  first.last2, first.last1
                 </OverlayWrapper>
               }
               placement="top"
@@ -953,11 +953,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
       size="sm"
       userIds={
         Array [
-          "1",
-          "2",
-          "3",
-          "4",
           "5",
+          "4",
+          "3",
+          "2",
+          "1",
         ]
       }
     >
@@ -966,7 +966,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         onMouseLeave={[Function]}
       >
         <UserAvatar
-          key="1"
+          key="5"
           overlayProps={
             Object {
               "animation": true,
@@ -981,12 +981,12 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             }
           }
           tabIndex={0}
-          userId="1"
+          userId="5"
         >
           <SimpleTooltip
             animation={true}
-            content="first.last1"
-            id="name-1"
+            content="first.last5"
+            id="name-5"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -998,10 +998,10 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-1"
+                  id="name-5"
                   placement="top"
                 >
-                  first.last1
+                  first.last5
                 </Tooltip>
               }
               placement="top"
@@ -1021,7 +1021,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-1"
+                    id="name-5"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -1060,7 +1060,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                     placement="top"
                   >
-                    first.last1
+                    first.last5
                   </OverlayWrapper>
                 }
                 placement="top"
@@ -1084,7 +1084,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                   }
                   tabIndex={0}
-                  url="/api/v4/users/1/image?_=0"
+                  url="/api/v4/users/5/image?_=0"
                 >
                   <img
                     alt="user profile image"
@@ -1094,7 +1094,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     onFocus={[Function]}
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
-                    src="/api/v4/users/1/image?_=0"
+                    src="/api/v4/users/5/image?_=0"
                     style={
                       Object {
                         "background": "rgb(240, 240, 241)",
@@ -1108,7 +1108,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           </SimpleTooltip>
         </UserAvatar>
         <UserAvatar
-          key="2"
+          key="4"
           overlayProps={
             Object {
               "animation": true,
@@ -1123,12 +1123,12 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             }
           }
           tabIndex={0}
-          userId="2"
+          userId="4"
         >
           <SimpleTooltip
             animation={true}
-            content="first.last2"
-            id="name-2"
+            content="first.last4"
+            id="name-4"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -1140,10 +1140,10 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-2"
+                  id="name-4"
                   placement="top"
                 >
-                  first.last2
+                  first.last4
                 </Tooltip>
               }
               placement="top"
@@ -1163,7 +1163,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-2"
+                    id="name-4"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -1202,7 +1202,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                     placement="top"
                   >
-                    first.last2
+                    first.last4
                   </OverlayWrapper>
                 }
                 placement="top"
@@ -1226,7 +1226,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                   }
                   tabIndex={0}
-                  url="/api/v4/users/2/image?_=0"
+                  url="/api/v4/users/4/image?_=0"
                 >
                   <img
                     alt="user profile image"
@@ -1236,7 +1236,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     onFocus={[Function]}
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
-                    src="/api/v4/users/2/image?_=0"
+                    src="/api/v4/users/4/image?_=0"
                     style={
                       Object {
                         "background": "rgb(240, 240, 241)",
@@ -1393,7 +1393,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         </UserAvatar>
         <SimpleTooltip
           animation={true}
-          content="first.last4, first.last5"
+          content="first.last2, first.last1"
           id="names-overflow"
           onEntered={[Function]}
         >
@@ -1409,7 +1409,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 id="names-overflow"
                 placement="top"
               >
-                first.last4, first.last5
+                first.last2, first.last1
               </Tooltip>
             }
             placement="top"
@@ -1468,7 +1468,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   }
                   placement="top"
                 >
-                  first.last4, first.last5
+                  first.last2, first.last1
                 </OverlayWrapper>
               }
               placement="top"
