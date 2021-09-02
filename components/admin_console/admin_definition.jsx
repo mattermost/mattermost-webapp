@@ -5860,7 +5860,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableThemeSelection.desc'),
                         help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.not(it.licensedForFeature('ThemeManagement')), // E10 and higher
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5871,7 +5871,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.allowCustomThemes.desc'),
                         help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Account Settings.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.not(it.licensedForFeature('ThemeManagement')), // E10 and higher
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
@@ -5912,7 +5912,7 @@ const AdminDefinition = {
                                 display_name_default: 'Onyx',
                             },
                         ],
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.not(it.licensedForFeature('ThemeManagement')), // E10 and higher
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
