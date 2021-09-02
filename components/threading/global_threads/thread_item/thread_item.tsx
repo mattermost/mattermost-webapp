@@ -68,7 +68,7 @@ function ThreadItem({
     const {select, goToInChannel} = useThreadRouting();
     const {formatMessage} = useIntl();
 
-    const renderMessage = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
+    const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
 
     useEffect(() => {
         if (channel?.teammate_id) {
@@ -188,7 +188,7 @@ function ThreadItem({
                 onClick={handleFormattedTextClick}
             >
                 <Markdown
-                    message={post && post.state === Posts.POST_DELETED ? renderMessage : post.message}
+                    message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
                     options={markdownPreviewOptions}
                     imagesMetadata={post?.metadata && post?.metadata?.images}
                     imageProps={imageProps}
