@@ -53,20 +53,26 @@ export type TeamsState = {
 export type TeamUnread = {
     team_id: string;
 
-    // The number of unread mentions in channels on this team, not including DMs and GMs
+    /** The number of unread mentions in channels on this team, not including DMs and GMs */
     mention_count: number;
 
-    // The number of unread mentions in root posts in channels on this team, not including DMs and GMs
+    /** The number of unread mentions in root posts in channels on this team, not including DMs and GMs */
     mention_count_root: number;
 
-    // The number of unread posts in channels on this team, not including DMs and GMs
-    //
-    // Note that this differs from ChannelMember and ChannelUnread since it tracks unread posts instead of read posts.
+    /**
+     * The number of unread posts in channels on this team, not including DMs and GMs
+     *
+     * @remarks Note that this differs from ChannelMembership.msg_count and ChannelUnread.msg_count since it tracks
+     * unread posts instead of read posts.
+     */
     msg_count: number;
 
-    // The number of unread root posts in channels on this team, not including DMs and GMs
-    //
-    // Note that this differs from ChannelMember and ChannelUnread since it tracks unread posts instead of read posts.
+    /**
+     * The number of unread root posts in channels on this team, not including DMs and GMs
+     *
+     * @remarks Note that this differs from ChannelMember.msg_count_root and ChannelUnread.msg_count_root since it
+     * tracks unread posts instead of read posts.
+     */
     msg_count_root: number;
 
     thread_count?: number;
