@@ -106,7 +106,7 @@ export function bindClientFunc({
 
 // Debounce function based on underscores modified to use es6 and a cb
 
-export function debounce(func: (...args: any) => unknown, wait: number, immediate: boolean, cb: () => unknown) {
+export function debounce(func: (...args: any) => unknown, wait: number, immediate?: boolean, cb?: () => unknown) {
     let timeout: NodeJS.Timeout|null;
     return function fx(...args: any[]) {
         const runLater = () => {
