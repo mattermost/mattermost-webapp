@@ -2751,7 +2751,10 @@ const AdminDefinition = {
                         help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org"). New teams can only be created by users from the above domain(s). This setting affects email login for users. For Guest users, please add domains under Signup > Guest Access.',
                         placeholder: t('admin.team.restrictExample'),
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
-                        isHidden: it.not(it.licensed),
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {
@@ -5682,7 +5685,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableAuthenticationTransfer.desc'),
                         help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, any via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.licensed), // documented as E20 and higher, but only E10 in the code
+                        isHidden: it.any( // documented as E20 and higher, but only E10 in the code
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5860,7 +5866,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableThemeSelection.desc'),
                         help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensedForFeature('ThemeManagement')),
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5871,7 +5880,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.allowCustomThemes.desc'),
                         help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Account Settings.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensedForFeature('ThemeManagement')),
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
@@ -5912,7 +5924,10 @@ const AdminDefinition = {
                                 display_name_default: 'Onyx',
                             },
                         ],
-                        isHidden: it.not(it.licensedForFeature('ThemeManagement')),
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -6063,7 +6078,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
                         help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
