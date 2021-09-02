@@ -25,7 +25,7 @@ export type UserNotifyProps = {
 export type UserProfile = {
     id: string;
     create_at: number;
-    value?: string | undefined;
+    value?: string;
     update_at: number;
     delete_at: number;
     username: string;
