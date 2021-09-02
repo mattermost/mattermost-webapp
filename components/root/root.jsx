@@ -20,6 +20,7 @@ import {trackLoadTime} from 'actions/telemetry_actions.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import GlobalHeader from 'components/global/global_header';
+import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
@@ -32,6 +33,7 @@ import Constants, {StoragePrefixes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+import webSocketClient from 'client/web_websocket_client.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
 const LazyLoginController = React.lazy(() => import('components/login/login_controller'));
@@ -363,18 +365,22 @@ export default class Root extends React.PureComponent {
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
                     <CompassThemeProvider theme={this.props.theme}>
+                        <ModalController/>
                         <GlobalHeader/>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route
                                     key={product.id}
                                     path={product.baseURL}
-                                    render={() => (
-                                        <Pluggable
-                                            pluggableName={'Product'}
-                                            subComponentName={'mainComponent'}
-                                            pluggableId={product.id}
-                                        />
+                                    render={(props) => (
+                                        <LoggedIn {...props}>
+                                            <Pluggable
+                                                pluggableName={'Product'}
+                                                subComponentName={'mainComponent'}
+                                                pluggableId={product.id}
+                                                webSocketClient={webSocketClient}
+                                            />
+                                        </LoggedIn>
                                     )}
                                 />
                             ))}

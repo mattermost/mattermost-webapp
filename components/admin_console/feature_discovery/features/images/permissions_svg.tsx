@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-const PermissionsSVG = () => (
+type SvgProps = {
+    width?: number;
+    height?: number;
+}
+
+const PermissionsSVG = (props: SvgProps) => (
     <svg
-        width='290'
-        height='222'
+        width={props.width ? props.width.toString() : '290'}
+        height={props.height ? props.height.toString() : '222'}
         viewBox='0 0 290 222'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

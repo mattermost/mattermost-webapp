@@ -42,7 +42,7 @@ describe('System console', () => {
                 Enable: true,
                 EnableMarketplace: true,
                 EnableRemoteMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
+                MarketplaceURL: 'https://api.integrations.mattermost.com',
             },
         });
 

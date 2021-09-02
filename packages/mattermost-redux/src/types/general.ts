@@ -14,7 +14,6 @@ export type GeneralState = {
     firstAdminVisitMarketplaceStatus: boolean;
     license: ClientLicense;
     serverVersion: string;
-    timezones: string[];
     warnMetricsStatus: Dictionary<WarnMetricStatus>;
 };
 
@@ -22,3 +21,11 @@ export type SystemSetting = {
     name: string;
     value: string;
 };
+
+export enum LicenseSkus {
+    E10 = 'E10',
+    E20 = 'E20',
+    Starter = 'starter',
+    Professional = 'professional',
+    Enterprise = 'enterprise',
+}

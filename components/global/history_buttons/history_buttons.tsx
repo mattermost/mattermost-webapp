@@ -7,20 +7,18 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import * as Utils from 'utils/utils';
-import {isDesktopApp} from 'utils/user_agent';
 import {browserHistory} from 'utils/browser_history';
 
 const HistoryButtonsContainer = styled.nav`
     display: flex;
     align-items: center;
+
+    > :first-child {
+           margin-right: 1px;
+    }
 `;
 
-const HistoryButtons = (): JSX.Element | null => {
-    if (!isDesktopApp()) {
-        // need to re-enable this
-        // return null;
-    }
-
+const HistoryButtons = (): JSX.Element => {
     const goBack = () => {
         trackEvent('ui', 'ui_history_back');
         browserHistory.goBack();

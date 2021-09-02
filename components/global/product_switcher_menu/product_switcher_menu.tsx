@@ -28,6 +28,7 @@ type Props = {
     siteName: string;
     currentUser: UserProfile;
     appDownloadLink: string;
+    isMessaging: boolean;
     enableCommands: boolean;
     enableIncomingWebhooks: boolean;
     enableOAuthServiceProvider: boolean;
@@ -38,8 +39,10 @@ type Props = {
     pluginMenuItems: any;
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
+    onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
+// TODO: rewrite this to a functional component
 class ProductSwitcherMenu extends React.PureComponent<Props> {
     static defaultProps = {
         teamType: '',
@@ -52,25 +55,24 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const {currentUser} = this.props;
+        const {currentUser, isMessaging, isMobile, onClick} = this.props;
 
         if (!currentUser) {
             return null;
         }
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
-        const showIntegrations = !this.props.isMobile && someIntegrationEnabled && this.props.canManageIntegrations;
+        const showIntegrations = !isMobile && someIntegrationEnabled && this.props.canManageIntegrations;
 
         const {formatMessage} = this.props.intl;
 
-        // TODO: Ensure that clicking ItemLink menu items also closes the global header menu.
         return (
-            <>
-                <Menu.Group>
+            <Menu.Group>
+                <div onClick={onClick}>
                     <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                         <Menu.ItemLink
                             id='systemConsole'
-                            show={!this.props.isMobile}
+                            show={!isMobile}
                             to='/admin_console'
                             text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
                             icon={
@@ -83,7 +85,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                     </SystemPermissionGate>
                     <Menu.ItemLink
                         id='integrations'
-                        show={showIntegrations}
+                        show={isMessaging && showIntegrations}
                         to={'/' + this.props.teamName + '/integrations'}
                         text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
                         icon={
@@ -100,7 +102,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                         <Menu.ItemToggleModalRedux
                             id='marketplaceModal'
                             modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
-                            show={!this.props.isMobile && this.props.enablePluginMarketplace}
+                            show={isMessaging && !isMobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
                             icon={
@@ -110,33 +112,33 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                                 />
                             }
                         />
-                        <Menu.ItemExternalLink
-                            id='nativeAppLink'
-                            show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                            url={useSafeUrl(this.props.appDownloadLink)}
-                            text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
-                            icon={
-                                <Icon
-                                    size={16}
-                                    glyph={'download-outline'}
-                                />
-                            }
-                        />
-                        <Menu.ItemToggleModalRedux
-                            id='about'
-                            modalId={ModalIdentifiers.ABOUT}
-                            dialogType={AboutBuildModal}
-                            text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName})}
-                            icon={
-                                <Icon
-                                    size={16}
-                                    glyph={'information-outline'}
-                                />
-                            }
-                        />
                     </TeamPermissionGate>
-                </Menu.Group>
-            </>
+                    <Menu.ItemExternalLink
+                        id='nativeAppLink'
+                        show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
+                        url={useSafeUrl(this.props.appDownloadLink)}
+                        text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
+                        icon={
+                            <Icon
+                                size={16}
+                                glyph={'download-outline'}
+                            />
+                        }
+                    />
+                    <Menu.ItemToggleModalRedux
+                        id='about'
+                        modalId={ModalIdentifiers.ABOUT}
+                        dialogType={AboutBuildModal}
+                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName})}
+                        icon={
+                            <Icon
+                                size={16}
+                                glyph={'information-outline'}
+                            />
+                        }
+                    />
+                </div>
+            </Menu.Group>
         );
     }
 }

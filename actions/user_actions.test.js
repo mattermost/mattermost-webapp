@@ -11,7 +11,6 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import * as UserActions from 'actions/user_actions';
 import {getState} from 'stores/redux_store';
 import TestHelper from 'tests/helpers/client-test-helper';
-import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 const mockStore = configureStore([thunk]);
 
@@ -24,17 +23,6 @@ jest.mock('mattermost-redux/actions/users', () => {
         getProfilesInChannel: (...args) => ({type: 'MOCK_GET_PROFILES_IN_CHANNEL', args, data: [{id: 'user_1'}]}),
         getProfilesInGroupChannels: (...args) => ({type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS', args}),
         getStatusesByIds: (...args) => ({type: 'MOCK_GET_STATUSES_BY_ID', args}),
-    };
-});
-
-jest.mock('mattermost-redux/selectors/entities/channels', () => {
-    const GeneralTypes = jest.requireActual('mattermost-redux/constants').General;
-    const original = jest.requireActual('mattermost-redux/selectors/entities/channels');
-    const mockDmGmUsersInLhs = [{id: 'gmChannel', type: GeneralTypes.GM_CHANNEL}, {id: 'dmChannel', type: GeneralTypes.DM_CHANNEL}];
-
-    return {
-        ...original,
-        getDirectChannels: jest.fn().mockReturnValue(mockDmGmUsersInLhs),
     };
 });
 
@@ -108,9 +96,7 @@ describe('Actions.User', () => {
                 },
             },
             general: {
-                config: {
-                    ExperimentalChannelSidebarOrganization: 'default_on',
-                },
+                config: {},
             },
             preferences: {
                 myPreferences: {
@@ -336,13 +322,6 @@ describe('Actions.User', () => {
                         ...initialState.entities.myMembers,
                         [gmChannel1.id]: {last_viewed_at: 1000},
                         [gmChannel2.id]: {last_viewed_at: 2000},
-                    },
-                },
-                general: {
-                    ...initialState.entities.general,
-                    config: {
-                        ...initialState.entities.general.config,
-                        ExperimentalChannelSidebarOrganization: General.ALWAYS_ON,
                     },
                 },
                 preferences: {
@@ -594,11 +573,5 @@ describe('Actions.User', () => {
         await UserActions.loadProfilesForGM();
         expect(UserActions.queue.onEmpty).toHaveBeenCalled();
         expect(UserActions.queue.add).toHaveBeenCalled();
-    });
-
-    test('trackDMGMOpenChannels', async () => {
-        const testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.trackDMGMOpenChannels());
-        expect(trackEvent).toHaveBeenCalledWith('ui', 'LHS_DM_GM_Count', {count: 2});
     });
 });

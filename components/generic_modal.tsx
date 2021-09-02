@@ -23,6 +23,7 @@ type Props = {
     autoCloseOnCancelButton?: boolean;
     autoCloseOnConfirmButton?: boolean;
     enforceFocus?: boolean;
+    container?: React.ReactNode | React.ReactNodeArray;
 };
 
 type State = {
@@ -131,6 +132,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 role='dialog'
                 aria-labelledby='genericModalLabel'
                 id={this.props.id}
+                container={this.props.container}
             >
                 <Modal.Header
                     closeButton={true}

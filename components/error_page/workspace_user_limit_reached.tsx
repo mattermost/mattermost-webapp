@@ -7,9 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import computerWithAlert from 'images/cloud/computer-with-alert.svg';
-import mattermostCloud from 'images/cloud/mattermost-cloud.svg';
-import wavesBackground from 'images/cloud/waves.svg';
-import blueDots from 'images/cloud/blue.svg';
+
+import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud.svg';
+import BackgroundSvg from 'components/common/svg_images_components/background.svg';
 
 const WorkspaceUserLimitReached: React.FC = () => {
     useEffect(() => {
@@ -19,7 +19,10 @@ const WorkspaceUserLimitReached: React.FC = () => {
     return (
         <div className='ErrorPage__container_max_free_users'>
             <header className='ErrorPage__mattermostCloudImg'>
-                <img src={mattermostCloud}/>
+                <MattermostCloudSvg
+                    width={250}
+                    height={28}
+                />
             </header>
             <section className='ErrorPage__mainContentContainer'>
                 <div className='ErrorPage__mainContentItem'>
@@ -43,15 +46,8 @@ const WorkspaceUserLimitReached: React.FC = () => {
                     </article>
                 </div>
             </section>
-            <div>
-                <img
-                    className='waves'
-                    src={wavesBackground}
-                />
-                <img
-                    className='blue-dots'
-                    src={blueDots}
-                />
+            <div className='background-svg'>
+                <BackgroundSvg/>
             </div>
         </div>
     );

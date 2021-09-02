@@ -5,7 +5,6 @@ import {ChannelCategoryTypes, ChannelTypes} from 'mattermost-redux/action_types'
 
 import {Client4} from 'mattermost-redux/client';
 
-import {unfavoriteChannel, favoriteChannel} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 
@@ -291,13 +290,6 @@ export function moveChannelToCategory(categoryId: string, channelId: string, new
             return {error};
         }
 
-        // Update the favorite preferences locally on the client in case we have any logic relying on that
-        if (targetCategory.type === CategoryTypes.FAVORITES) {
-            await dispatch(favoriteChannel(channelId, false));
-        } else if (sourceCategory && sourceCategory.type === CategoryTypes.FAVORITES) {
-            await dispatch(unfavoriteChannel(channelId, false));
-        }
-
         return result;
     };
 }
@@ -377,15 +369,6 @@ export function moveChannelsToCategory(categoryId: string, channelIds: string[],
             return {error};
         }
 
-        // Update the favorite preferences locally on the client in case we have any logic relying on that
-        await Promise.all(channelIds.map(async (channelId) => {
-            const sourceCategory = unmodifiedCategories[sourceCategories[channelId]];
-            if (targetCategory.type === CategoryTypes.FAVORITES) {
-                await dispatch(favoriteChannel(channelId, false));
-            } else if (sourceCategory && sourceCategory.type === CategoryTypes.FAVORITES) {
-                await dispatch(unfavoriteChannel(channelId, false));
-            }
-        }));
         return result;
     };
 }

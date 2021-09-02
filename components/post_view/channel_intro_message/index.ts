@@ -9,7 +9,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannel, getDirectTeammate, isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentChannel, getCurrentUserId, getUser, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
-import {get, getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 
@@ -53,7 +53,6 @@ function mapStateToProps(state: GlobalState) {
         teammateName: getDisplayNameByUser(state, teammate),
         stats,
         usersLimit,
-        theme: getTheme(state),
     };
 }
 

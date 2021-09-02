@@ -158,7 +158,7 @@ describe('AppsFormComponent', () => {
             const wrapper = shallow<AppsForm>(<AppsForm {...baseProps}/>);
             await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
 
-            expect(wrapper.find(Modal.Footer).exists('.error-text')).toBe(false);
+            expect(wrapper.find(Modal.Footer).find('.error-text').exists()).toBeFalsy();
         });
     });
 
