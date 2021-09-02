@@ -115,6 +115,10 @@ export function sendDesktopNotification(post, msgProps) {
             }
         }
 
+        if (isCrtReply) {
+            title = Utils.localizeMessage('notification.crt', 'Reply in ') + title;
+        }
+
         let notifyText = post.message;
 
         const msgPropsPost = JSON.parse(msgProps.post);
