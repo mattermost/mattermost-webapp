@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
@@ -44,6 +44,9 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
 import {Locations} from 'utils/constants';
+import {allAtMentions} from '../../utils/text_formatting';
+
+import {matchUserMentionTriggersWithMessageMentions} from 'utils/post_utils';
 
 import DotMenu from './dot_menu';
 
@@ -96,7 +99,10 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         if (root) {
             const thread = getThreadOrSynthetic(state, root);
             threadReplyCount = thread.reply_count;
-            isFollowingThread = thread.is_following;
+            const currentUserMentionKeys = getCurrentUserMentionKeys(state);
+            const rootMessageMentionKeys = allAtMentions(root.message);
+            const isMentioned = matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+            isFollowingThread = thread.reply_count === 0 ? isMentioned : thread.is_following;
             threadId = thread.id;
         }
     }

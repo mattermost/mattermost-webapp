@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getCurrentTeamId, getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
@@ -27,12 +27,21 @@ import {
 } from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
 
+import {allAtMentions} from '../../utils/text_formatting';
+
+import {matchUserMentionTriggersWithMessageMentions} from '../../utils/post_utils';
+
 import RhsHeaderPost from './rhs_header_post';
 
 type OwnProps = Pick<ComponentProps<typeof RhsHeaderPost>, 'rootPostId'>
 
 function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     const root = getPost(state, rootPostId);
+    const currentUserMentionKeys = getCurrentUserMentionKeys(state);
+    const rootMessageMentionKeys = allAtMentions(root.message);
+    const isMentioned = matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+    const thread = getThreadOrSynthetic(state, root);
+    const isFollowingThread = thread.reply_count === 0 ? isMentioned : thread.is_following;
 
     return {
         isExpanded: getIsRhsExpanded(state),
@@ -40,7 +49,7 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         currentTeamId: getCurrentTeamId(state),
         currentUserId: getCurrentUserId(state),
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        isFollowingThread: isCollapsedThreadsEnabled(state) && root && getThreadOrSynthetic(state, root).is_following,
+        isFollowingThread: isCollapsedThreadsEnabled(state) && root && isFollowingThread,
     };
 }
 
