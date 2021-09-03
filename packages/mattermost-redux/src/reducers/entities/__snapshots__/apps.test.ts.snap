@@ -8,7 +8,6 @@ Array [
       Object {
         "app_id": "1",
         "call": Object {},
-        "form": undefined,
         "label": "a",
         "location": "/post_menu/locA",
       },
@@ -21,7 +20,6 @@ Array [
       Object {
         "app_id": "2",
         "call": Object {},
-        "form": undefined,
         "label": "a",
         "location": "/post_menu/locA",
       },
@@ -34,7 +32,6 @@ Array [
       Object {
         "app_id": "1",
         "call": Object {},
-        "form": undefined,
         "icon": "icon",
         "label": "b",
         "location": "/channel_header/locB",
@@ -48,7 +45,6 @@ Array [
       Object {
         "app_id": "2",
         "call": Object {},
-        "form": undefined,
         "icon": "icon",
         "label": "c",
         "location": "/channel_header/locC",
@@ -62,7 +58,6 @@ Array [
       Object {
         "app_id": "3",
         "call": Object {},
-        "form": undefined,
         "label": "c",
         "location": "/command/locC",
       },
@@ -80,14 +75,12 @@ Array [
       Object {
         "app_id": "1",
         "call": Object {},
-        "form": undefined,
         "label": "a",
         "location": "/post_menu/locA",
       },
       Object {
         "app_id": "1",
         "call": Object {},
-        "form": undefined,
         "label": "a",
         "location": "/post_menu/locB",
       },
@@ -100,7 +93,6 @@ Array [
       Object {
         "app_id": "1",
         "call": Object {},
-        "form": undefined,
         "icon": "icon",
         "label": "b",
         "location": "/channel_header/locB",
@@ -117,13 +109,10 @@ Array [
           Object {
             "app_id": "3",
             "call": Object {},
-            "form": undefined,
             "label": "c2",
             "location": "/command/locC/subC2",
           },
         ],
-        "call": undefined,
-        "form": undefined,
         "label": "c",
         "location": "/command/locC",
       },
@@ -139,20 +128,17 @@ Array [
           Object {
             "app_id": "2",
             "call": Object {},
-            "form": undefined,
             "label": "c1",
             "location": "/command/locC/subC1",
           },
           Object {
             "app_id": "2",
             "call": Object {},
-            "form": undefined,
             "label": "c2",
             "location": "/command/locC/subC2",
           },
         ],
         "call": Object {},
-        "form": undefined,
         "label": "c",
         "location": "/command/locC",
       },
@@ -170,7 +156,6 @@ Array [
       Object {
         "app_id": "1",
         "call": Object {},
-        "form": undefined,
         "label": "a",
         "location": "/post_menu/locB",
       },
@@ -183,14 +168,12 @@ Array [
       Object {
         "app_id": "2",
         "call": Object {},
-        "form": undefined,
         "label": "a",
         "location": "/post_menu/locA",
       },
       Object {
         "app_id": "2",
         "call": Object {},
-        "form": undefined,
         "label": "b",
         "location": "/post_menu/locB",
       },
@@ -203,7 +186,6 @@ Array [
       Object {
         "app_id": "1",
         "call": Object {},
-        "form": undefined,
         "icon": "icon",
         "label": "b",
         "location": "/channel_header/locB",
@@ -217,7 +199,6 @@ Array [
       Object {
         "app_id": "3",
         "call": Object {},
-        "form": undefined,
         "label": "c",
         "location": "/command/locC",
       },
@@ -235,7 +216,6 @@ Array [
       Object {
         "app_id": "1",
         "call": Object {},
-        "form": undefined,
         "label": "a",
         "location": "/post_menu/locA",
       },
@@ -248,7 +228,6 @@ Array [
       Object {
         "app_id": "2",
         "call": Object {},
-        "form": undefined,
         "label": "a",
         "location": "/post_menu/locA",
       },
@@ -261,7 +240,6 @@ Array [
       Object {
         "app_id": "1",
         "call": Object {},
-        "form": undefined,
         "icon": "icon",
         "label": "b",
         "location": "/channel_header/locB",
@@ -275,7 +253,6 @@ Array [
       Object {
         "app_id": "3",
         "call": Object {},
-        "form": undefined,
         "label": "c",
         "location": "/command/locC",
       },
