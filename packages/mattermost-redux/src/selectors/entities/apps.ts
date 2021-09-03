@@ -24,7 +24,7 @@ export const appsEnabled = createSelector(
 export const makeAppBindingsSelector = (location: string) => {
     return createSelector(
         'makeAppBindingsSelector',
-        (state: GlobalState) => state.entities.apps.bindings,
+        (state: GlobalState) => state.entities.apps.main.bindings,
         (state: GlobalState) => appsEnabled(state),
         (bindings: AppBinding[], areAppsEnabled: boolean) => {
             if (!areAppsEnabled || !bindings) {
@@ -35,4 +35,28 @@ export const makeAppBindingsSelector = (location: string) => {
             return headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
         },
     );
+};
+
+export const makeRHSAppBindingSelector = (location: string) => {
+    return createSelector(
+        'makeRHSAppBindingSelector',
+        (state: GlobalState) => state.entities.apps.rhs.bindings,
+        (state: GlobalState) => appsEnabled(state),
+        (bindings: AppBinding[], areAppsEnabled: boolean) => {
+            if (!areAppsEnabled || !bindings) {
+                return [];
+            }
+
+            const headerBindings = bindings.filter((b) => b.location === location);
+            return headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
+        },
+    );
+};
+
+export const getAppCommandForm = (state: GlobalState, location: string) => {
+    return state.entities.apps.main.forms[location];
+};
+
+export const getAppRHSCommandForm = (state: GlobalState, location: string) => {
+    return state.entities.apps.rhs.forms[location];
 };
