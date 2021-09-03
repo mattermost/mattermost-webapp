@@ -5189,7 +5189,10 @@ const AdminDefinition = {
                         help_text: t('admin.service.integrationAdminDesc'),
                         help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
                         permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                        isHidden: it.licensed,
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
