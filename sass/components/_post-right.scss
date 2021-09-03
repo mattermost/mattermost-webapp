@@ -13,13 +13,6 @@
         position: relative;
 
         .post {
-            &.same--root {
-                &.same--user {
-                    padding-top: 0;
-                    padding-bottom: 0;
-                }
-            }
-
             &:hover {
                 & + .Separator {
                     .separator__hr {
@@ -36,14 +29,6 @@
                         }
                     }
                 }
-            }
-        }
-
-        .Separator {
-            padding-top: 15px;
-
-            & + .post {
-                padding-top: 20px;
             }
         }
     }

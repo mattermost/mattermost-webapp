@@ -126,12 +126,14 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
             this.props.profilesInChannel !== prevProps.profilesInChannel ||
-            this.props.autocompleteGroups !== prevProps.autocompleteGroups) {
+            this.props.autocompleteGroups !== prevProps.autocompleteGroups ||
+            this.props.useChannelMentions !== prevProps.useChannelMentions ||
+            this.props.currentTeamId !== prevProps.currentTeamId ||
+            this.props.priorityProfiles !== prevProps.priorityProfiles) {
             // Update channel id for AtMentionProvider.
-            const providers = this.suggestionProviders;
-            for (let i = 0; i < providers.length; i++) {
-                if (providers[i] instanceof AtMentionProvider) {
-                    (providers[i] as AtMentionProvider).setProps({
+            for (const provider of this.suggestionProviders) {
+                if (provider instanceof AtMentionProvider) {
+                    provider.setProps({
                         currentUserId: this.props.currentUserId,
                         profilesInChannel: this.props.profilesInChannel,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
@@ -141,8 +143,23 @@ export default class Textbox extends React.PureComponent<Props> {
                         priorityProfiles: this.props.priorityProfiles,
                     });
                 }
-                if (providers[i] instanceof CommandProvider) {
-                    (providers[i] as CommandProvider).setProps({
+            }
+        }
+
+        if (this.props.channelId !== prevProps.channelId ||
+            this.props.currentTeamId !== prevProps.currentTeamId ||
+            this.props.rootId !== prevProps.rootId) {
+            // Update channel id for CommandProvider and AppCommandProvider.
+            for (const provider of this.suggestionProviders) {
+                if (provider instanceof CommandProvider) {
+                    provider.setProps({
+                        teamId: this.props.currentTeamId,
+                        channelId: this.props.channelId,
+                        rootId: this.props.rootId,
+                    });
+                }
+                if (provider instanceof AppCommandProvider) {
+                    provider.setProps({
                         teamId: this.props.currentTeamId,
                         channelId: this.props.channelId,
                         rootId: this.props.rootId,
@@ -150,10 +167,12 @@ export default class Textbox extends React.PureComponent<Props> {
                 }
             }
         }
+
         if (prevProps.value !== this.props.value) {
             this.checkMessageLength(this.props.value);
         }
     }
+
     componentDidUpdate(prevProps: Props) {
         if (!prevProps.preview && this.props.preview) {
             this.preview.current?.focus();

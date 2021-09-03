@@ -162,7 +162,6 @@ export default class Post extends React.PureComponent {
 
     handleCommentClick = (e) => {
         e.preventDefault();
-        e.stopPropagation();
 
         const post = this.props.post;
         if (!post) {

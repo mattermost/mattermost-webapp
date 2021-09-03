@@ -156,6 +156,7 @@ const ProductSwitcher = (): JSX.Element => {
                     <ProductSwitcherMenu
                         id='ProductSwitcherMenu'
                         isMessaging={currentProductID === null}
+                        onClick={handleClick}
                     />
                 </Menu>
             </MenuWrapper>
