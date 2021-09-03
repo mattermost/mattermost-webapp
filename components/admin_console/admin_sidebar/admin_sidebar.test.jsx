@@ -249,7 +249,6 @@ describe('components/AdminSidebar', () => {
                 CustomPermissionsSchemes: 'true',
                 OpenId: 'true',
                 GuestAccounts: 'true',
-                ThemeManagement: 'true',
             },
             config: {
                 ExperimentalSettings: {
