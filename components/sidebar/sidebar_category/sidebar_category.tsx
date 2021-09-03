@@ -201,7 +201,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 <div className='SidebarCategory_newDropBox'>
                     <div
                         ref={this.newDropBoxRef}
-                        className={classNames('SidebarCategory_newDropBox-content animating', {
+                        className={classNames('SidebarCategory_newDropBox-content', {
                             collapsed: category.collapsed || (draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id),
                             isDraggingOver,
                         })}
