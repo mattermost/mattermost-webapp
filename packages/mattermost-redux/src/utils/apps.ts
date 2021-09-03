@@ -17,13 +17,13 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
     const usedLabels: {[label: string]: boolean} = {};
     binding.bindings?.forEach((b, i) => {
         // Inheritance and defaults
-        if (!b.call) {
+        if (!b.call && binding.call) {
             b.call = binding.call;
         }
 
         if (b.form) {
             cleanForm(b.form);
-        } else {
+        } else if (binding.form) {
             b.form = binding.form;
         }
 
@@ -64,6 +64,13 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
             }
             break;
         }
+        case AppBindingLocations.IN_POST: {
+            if (usedLabels[b.label]) {
+                toRemove.unshift(i);
+                return;
+            }
+            break;
+        }
         }
 
         if (b.bindings?.length) {
@@ -76,7 +83,7 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
             }
         } else {
             // Remove leaves without a call
-            if (!b.call) {
+            if (!b.call && !b.form?.call) {
                 toRemove.unshift(i);
                 return;
             }
