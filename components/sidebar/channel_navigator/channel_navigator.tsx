@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
@@ -32,14 +32,26 @@ export type Props = {
     offTopicDisplayName: string;
     showTutorialTip: boolean;
     globalHeaderEnabled: boolean;
+    isQuickSwitcherOpen: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
+        closeModal: (modalId: string) => void;
         goBack: () => void;
         goForward: () => void;
     };
 };
 
 export default class ChannelNavigator extends React.PureComponent<Props> {
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleShortcut);
+        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleShortcut);
+        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
+    }
+
     openQuickSwitcher = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
@@ -49,6 +61,43 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
             modalId: ModalIdentifiers.QUICK_SWITCH,
             dialogType: QuickSwitchModal,
         });
+    }
+
+    handleShortcut = (e: KeyboardEvent) => {
+        const {actions: {closeModal}} = this.props;
+
+        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
+                e.preventDefault();
+                closeModal(ModalIdentifiers.QUICK_SWITCH);
+            }
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
+                // just close the modal if it's open, but let someone else handle the shortcut
+                closeModal(ModalIdentifiers.QUICK_SWITCH);
+            }
+        }
+    };
+
+    handleQuickSwitchKeyPress = (e: KeyboardEvent) => {
+        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
+            if (!e.altKey) {
+                e.preventDefault();
+                this.toggleQuickSwitchModal();
+            }
+        }
+    }
+
+    toggleQuickSwitchModal = () => {
+        const {isQuickSwitcherOpen, actions: {openModal, closeModal}} = this.props;
+
+        if (isQuickSwitcherOpen) {
+            closeModal(ModalIdentifiers.QUICK_SWITCH);
+        } else {
+            openModal({
+                modalId: ModalIdentifiers.QUICK_SWITCH,
+                dialogType: QuickSwitchModal,
+            });
+        }
     }
 
     goBack = () => {
