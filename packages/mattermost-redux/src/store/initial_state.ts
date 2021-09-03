@@ -170,7 +170,14 @@ const state: GlobalState = {
             orderByTeam: {},
         },
         apps: {
-            bindings: [],
+            main: {
+                bindings: [],
+                forms: {},
+            },
+            rhs: {
+                bindings: [],
+                forms: {},
+            },
         },
         cloud: {},
     },

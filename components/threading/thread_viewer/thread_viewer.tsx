@@ -40,6 +40,7 @@ type Props = Attrs & {
         getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => Promise<any>|ActionFunc;
         updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
         updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
+        fetchRHSAppsBindings: (channelId: string, rootID: string) => unknown;
     };
     useRelativeTimestamp?: boolean;
     postIds: string[];
@@ -65,6 +66,8 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         }
 
         this.onInit();
+
+        this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
     }
 
     public componentDidUpdate(prevProps: Props) {
@@ -80,6 +83,11 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             this.props.userThread?.id !== prevProps.userThread?.id
         ) {
             this.markThreadRead();
+        }
+
+        if (this.props.channel?.id !== prevProps.channel?.id ||
+            this.props.selected.id !== prevProps.selected.id) {
+            this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
         }
     }
 
