@@ -229,7 +229,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
         className="SidebarCategory_newDropBox"
       >
         <div
-          className="SidebarCategory_newDropBox-content animating"
+          className="SidebarCategory_newDropBox-content"
           onTransitionEnd={[Function]}
         >
           <i
