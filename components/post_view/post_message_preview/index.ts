@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 
 import {GlobalState} from 'types/store';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -17,6 +18,7 @@ type Props = {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
+    const config = getConfig(state);
     let user = null;
     let previewPost = ownProps.previewPost;
     if (ownProps.metadata.post_id && !previewPost) {
@@ -27,6 +29,8 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     }
 
     return {
+        hasImageProxy: config.HasImageProxy === 'true',
+        enablePostIconOverride: config.EnablePostIconOverride === 'true',
         previewPost,
         user,
     };
