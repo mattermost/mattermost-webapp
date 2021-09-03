@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
@@ -110,6 +110,8 @@ type Props = {
          * Function to set the thread as followed/unfollowed
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
+
+        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
 
     }; // TechDebt: Made non-mandatory while converting to typescript
 
@@ -305,7 +307,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     onClickAppBinding = async (binding: AppBinding) => {
         const {post, intl} = this.props;
 
-        if (!binding.call) {
+        const call = binding.form?.call || binding.call;
+
+        if (!call) {
             return;
         }
         const context = createCallContext(
@@ -316,15 +320,20 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.post.id,
             this.props.post.root_id,
         );
-        const call = createCallRequest(
-            binding.call,
+        const callRequest = createCallRequest(
+            call,
             context,
             {
                 post: AppExpandLevels.ALL,
             },
         );
 
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
+        if (binding.form) {
+            this.props.actions.openAppsModal(binding.form, callRequest);
+            return;
+        }
+
+        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
 
         if (res.error) {
             const errorResponse = res.error;
