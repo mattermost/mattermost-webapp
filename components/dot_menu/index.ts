@@ -9,7 +9,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
+import {appsEnabled, makeAppBindingsSelector, makeRHSAppBindingSelector} from 'mattermost-redux/selectors/entities/apps';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -62,7 +62,7 @@ type Props = {
 
 const getPostMenuBindings = makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
 
-// getRHSPostMenuBindings = makeAppRHSBindingsSelector(AppBindingLocation.POST_MENU_ITEM);
+const getRHSPostMenuBindings = makeRHSAppBindingSelector(AppBindingLocations.POST_MENU_ITEM);
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
@@ -107,16 +107,16 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const showBindings = apps && !systemMessage && !isCombinedUserActivityPost(post.id);
     let appBindings = null;
     switch (ownProps.location) {
-    case 'CENTER':
-        appBindings = getPostMenuBindings(state);
-        break;
     case 'RHS_ROOT':
     case 'RHS_COMMENT':
-        //appBindings = getRHSPostMenuBindings(state);
+        appBindings = getRHSPostMenuBindings(state);
         break;
     case 'SEARCH':
-    default:
         appBindings = null;
+        break;
+    case 'CENTER':
+    default:
+        appBindings = getPostMenuBindings(state);
     }
 
     if (!showBindings) {
