@@ -29,9 +29,9 @@ const UserSettings = React.lazy(() => import(/* webpackPrefetch: true */ 'compon
 const SettingsSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../../settings_sidebar'));
 
 const holders = defineMessages({
-    general: {
-        id: t('user.settings.modal.general'),
-        defaultMessage: 'General',
+    profile: {
+        id: t('user.settings.modal.profile'),
+        defaultMessage: 'Profile',
     },
     security: {
         id: t('user.settings.modal.security'),
@@ -77,6 +77,8 @@ export type Props = {
     onExit: () => void;
     intl: IntlShape;
     collapsedThreads: boolean;
+    globalHeaderEnabled: boolean;
+    isContentProductSettings: boolean;
     actions: {
         openModal: (params: {modalId: string; dialogType: any}) => void;
         sendVerificationEmail: (email: string) => Promise<{
@@ -112,7 +114,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            active_tab: 'general',
+            active_tab: props.isContentProductSettings ? 'notifications' : 'profile',
             active_section: '',
             showConfirmModal: false,
             enforceFocus: true,
@@ -169,6 +171,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
 
     handleKeyDown = (e: KeyboardEvent) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.A)) {
+            e.preventDefault();
             this.handleHide();
         }
     }
@@ -188,7 +191,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
     // called after the dialog is fully hidden and faded out
     handleHidden = () => {
         this.setState({
-            active_tab: 'general',
+            active_tab: this.props.isContentProductSettings ? 'notifications' : 'profile',
             active_section: '',
         });
         this.props.onHide();
@@ -298,13 +301,24 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             return (<div/>);
         }
         const tabs = [];
-
-        tabs.push({name: 'general', uiName: formatMessage(holders.general), icon: 'icon fa fa-gear', iconTitle: Utils.localizeMessage('user.settings.general.icon', 'General Settings Icon')});
-        tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
-        tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle', iconTitle: Utils.localizeMessage('user.settings.notifications.icon', 'Notification Settings Icon')});
-        tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye', iconTitle: Utils.localizeMessage('user.settings.display.icon', 'Display Settings Icon')});
-        tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns', iconTitle: Utils.localizeMessage('user.settings.sidebar.icon', 'Sidebar Settings Icon')});
-        tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt', iconTitle: Utils.localizeMessage('user.settings.advance.icon', 'Advanced Settings Icon')});
+        if (this.props.globalHeaderEnabled) {
+            if (this.props.isContentProductSettings) {
+                tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle', iconTitle: Utils.localizeMessage('user.settings.notifications.icon', 'Notification Settings Icon')});
+                tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye', iconTitle: Utils.localizeMessage('user.settings.display.icon', 'Display Settings Icon')});
+                tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns', iconTitle: Utils.localizeMessage('user.settings.sidebar.icon', 'Sidebar Settings Icon')});
+                tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt', iconTitle: Utils.localizeMessage('user.settings.advance.icon', 'Advanced Settings Icon')});
+            } else {
+                tabs.push({name: 'profile', uiName: formatMessage(holders.profile), icon: 'icon fa fa-gear', iconTitle: Utils.localizeMessage('user.settings.profile.icon', 'Profile Settings Icon')});
+                tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
+            }
+        } else {
+            tabs.push({name: 'profile', uiName: formatMessage(holders.profile), icon: 'icon fa fa-gear', iconTitle: Utils.localizeMessage('user.settings.profile.icon', 'Profile Settings Icon')});
+            tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
+            tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle', iconTitle: Utils.localizeMessage('user.settings.notifications.icon', 'Notification Settings Icon')});
+            tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye', iconTitle: Utils.localizeMessage('user.settings.display.icon', 'Display Settings Icon')});
+            tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns', iconTitle: Utils.localizeMessage('user.settings.sidebar.icon', 'Sidebar Settings Icon')});
+            tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt', iconTitle: Utils.localizeMessage('user.settings.advance.icon', 'Advanced Settings Icon')});
+        }
 
         return (
             <Modal
@@ -325,10 +339,17 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                         componentClass='h1'
                         id='accountSettingsModalLabel'
                     >
-                        <FormattedMessage
-                            id='user.settings.modal.title'
-                            defaultMessage='Account Settings'
-                        />
+                        {this.props.globalHeaderEnabled && this.props.isContentProductSettings ? (
+                            <FormattedMessage
+                                id='global_header.productSettings'
+                                defaultMessage='Settings'
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='user.settings.modal.title'
+                                defaultMessage='Account Settings'
+                            />
+                        )}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body ref={this.modalBodyRef}>

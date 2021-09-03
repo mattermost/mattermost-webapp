@@ -3,6 +3,8 @@
 .dropdown-menu {
     @include border-radius(4px);
 
+    background: var(--center-channel-bg);
+
     &.colorpicker {
         z-index: 2500;
         min-width: 125px;
@@ -31,8 +33,8 @@
         width: 20px;
         height: 20px;
         margin-right: 8px;
-        color: v(center-channel-color-56);
-        fill: v(center-channel-color-56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        fill: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 1.6rem;
         text-align: center;
         vertical-align: middle;

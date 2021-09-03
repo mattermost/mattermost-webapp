@@ -5,7 +5,7 @@ import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {UserCustomStatus} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserCustomStatus} from 'mattermost-redux/types/users';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
@@ -82,7 +82,9 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
                     with_duration: duration,
                 })}
             />
-            {duration && (
+            {duration &&
+            duration !== CustomStatusDuration.CUSTOM_DATE_TIME &&
+            duration !== CustomStatusDuration.DATE_AND_TIME && (
                 <span className='statusSuggestion__duration'>
                     <FormattedMessage
                         id={durationValues[duration].id}

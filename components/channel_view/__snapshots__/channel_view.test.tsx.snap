@@ -11,17 +11,7 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
   <withRouter(Connect(injectIntl(ChannelHeader)))
     actions={
       Object {
-        "getProfiles": [MockFunction] {
-          "calls": Array [
-            Array [],
-          ],
-          "results": Array [
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-          ],
-        },
+        "getProfiles": [MockFunction],
         "goToLastViewedChannel": [MockFunction],
         "setShowNextStepsView": [MockFunction],
       }
@@ -84,17 +74,7 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
   <withRouter(Connect(injectIntl(ChannelHeader)))
     actions={
       Object {
-        "getProfiles": [MockFunction] {
-          "calls": Array [
-            Array [],
-          ],
-          "results": Array [
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-          ],
-        },
+        "getProfiles": [MockFunction],
         "goToLastViewedChannel": [MockFunction],
         "setShowNextStepsView": [MockFunction],
       }
@@ -134,17 +114,7 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
   <withRouter(Connect(injectIntl(ChannelHeader)))
     actions={
       Object {
-        "getProfiles": [MockFunction] {
-          "calls": Array [
-            Array [],
-          ],
-          "results": Array [
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-          ],
-        },
+        "getProfiles": [MockFunction],
         "goToLastViewedChannel": [MockFunction],
         "setShowNextStepsView": [MockFunction],
       }

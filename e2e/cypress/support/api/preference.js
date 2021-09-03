@@ -212,7 +212,7 @@ Cypress.Commands.add('apiSaveTutorialStep', (userId, value = '999') => {
     return cy.apiSaveUserPreference([preference], userId);
 });
 
-Cypress.Commands.add('apiSaveCloudOnboardingPreference', (userId, name, value) => {
+Cypress.Commands.add('apiSaveOnboardingPreference', (userId, name, value) => {
     const preference = {
         user_id: userId,
         category: 'recommended_next_steps',
@@ -239,4 +239,15 @@ Cypress.Commands.add('apiGetUserPreference', (userId) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response.body);
     });
+});
+
+Cypress.Commands.add('apiSaveCRTPreference', (userId, value = 'on') => {
+    const preference = {
+        user_id: userId,
+        category: 'display_settings',
+        name: 'collapsed_reply_threads',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference]);
 });

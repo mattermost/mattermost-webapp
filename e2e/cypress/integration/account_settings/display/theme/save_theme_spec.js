@@ -29,8 +29,8 @@ describe('Account Settings - Save Theme', () => {
         cy.get('#themeTitle', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').click();
 
         // # Change to dark theme
-        cy.get('#premadeThemeMattermostDark').should('not.have.class', 'active').click();
-        cy.get('#premadeThemeMattermostDark').should('have.class', 'active');
+        cy.get('#premadeThemeIndigo').should('not.have.class', 'active').click();
+        cy.get('#premadeThemeIndigo').should('have.class', 'active');
         cy.get('#saveSetting').click({force: true});
 
         // # Close Account Settings modal
@@ -44,6 +44,6 @@ describe('Account Settings - Save Theme', () => {
         cy.get('#themeTitle', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').click();
 
         // * Verify dark theme is selected
-        cy.get('#premadeThemeMattermostDark').should('have.class', 'active');
+        cy.get('#premadeThemeIndigo').should('have.class', 'active');
     });
 });

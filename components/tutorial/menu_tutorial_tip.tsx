@@ -10,9 +10,10 @@ import TutorialTip from './tutorial_tip';
 type Props = {
     toggleFunc?: React.MouseEventHandler<HTMLDivElement>;
     onBottom: boolean;
+    inHeading?: boolean;
 }
 
-const MenuTutorialTip = ({toggleFunc, onBottom}: Props) => {
+const MenuTutorialTip = ({inHeading, toggleFunc, onBottom}: Props) => {
     const screens = [];
 
     screens.push(
@@ -20,25 +21,13 @@ const MenuTutorialTip = ({toggleFunc, onBottom}: Props) => {
             <h4>
                 <FormattedMessage
                     id='sidebar_header.tutorial.title'
-                    defaultMessage='Main Menu'
+                    defaultMessage='Invite people'
                 />
             </h4>
             <p>
                 <FormattedMarkdownMessage
                     id='sidebar_header.tutorial.body1'
-                    defaultMessage='The **Main Menu** is where you can **Invite New Members**, access your **Account Settings** and set your **Theme Color**.'
-                />
-            </p>
-            <p>
-                <FormattedMarkdownMessage
-                    id='sidebar_header.tutorial.body2'
-                    defaultMessage='Team administrators can also access their **Team Settings** from this menu.'
-                />
-            </p>
-            <p>
-                <FormattedMarkdownMessage
-                    id='sidebar_header.tutorial.body3'
-                    defaultMessage='System administrators will find a **System Console** option to administrate the entire system.'
+                    defaultMessage='Use this menu to **Invite People** to your team and access **Team Settings** if you’re an Admin.'
                 />
             </p>
         </div>,
@@ -46,6 +35,12 @@ const MenuTutorialTip = ({toggleFunc, onBottom}: Props) => {
 
     let placement = 'right';
     let arrow = 'left';
+    let headerClass = '';
+
+    if (inHeading && !onBottom) {
+        headerClass = ' tip-overlay--header--heading';
+    }
+
     if (onBottom) {
         placement = 'bottom';
         arrow = 'up';
@@ -58,7 +53,7 @@ const MenuTutorialTip = ({toggleFunc, onBottom}: Props) => {
             <TutorialTip
                 placement={placement}
                 screens={screens}
-                overlayClass={'tip-overlay--header--' + arrow}
+                overlayClass={'tip-overlay--header--' + arrow + headerClass}
                 telemetryTag='tutorial_tip_3_main_menu'
             />
         </div>

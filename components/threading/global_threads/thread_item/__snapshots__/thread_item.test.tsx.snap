@@ -16,7 +16,6 @@ exports[`components/threading/global_threads/thread_item should report total num
       Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
-      capitalize={true}
       className="alt-hidden"
       day="numeric"
       units={
@@ -67,6 +66,12 @@ exports[`components/threading/global_threads/thread_item should report total num
     tabIndex={0}
   >
     <Connect(Markdown)
+      imageProps={
+        Object {
+          "onImageHeightChanged": [Function],
+          "onImageLoaded": [Function],
+        }
+      }
       message="test msg"
       options={
         Object {
@@ -84,8 +89,9 @@ exports[`components/threading/global_threads/thread_item should report total num
       size="xs"
       userIds={
         Array [
-          "7n4ach3i53bbmj84dfmu5b7c1c",
+          "mt5td9mdriyapmwuh5pc84dmhr",
           "ij61jet1bbdk8fhhxitywdj4ih",
+          "7n4ach3i53bbmj84dfmu5b7c1c",
         ]
       }
     />
@@ -127,7 +133,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
-      capitalize={true}
       className="alt-hidden"
       day="numeric"
       units={
@@ -178,6 +183,12 @@ exports[`components/threading/global_threads/thread_item should report unread me
     tabIndex={0}
   >
     <Connect(Markdown)
+      imageProps={
+        Object {
+          "onImageHeightChanged": [Function],
+          "onImageLoaded": [Function],
+        }
+      }
       message="test msg"
       options={
         Object {
@@ -195,8 +206,9 @@ exports[`components/threading/global_threads/thread_item should report unread me
       size="xs"
       userIds={
         Array [
-          "7n4ach3i53bbmj84dfmu5b7c1c",
+          "mt5td9mdriyapmwuh5pc84dmhr",
           "ij61jet1bbdk8fhhxitywdj4ih",
+          "7n4ach3i53bbmj84dfmu5b7c1c",
         ]
       }
     />
@@ -236,7 +248,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
-      capitalize={true}
       className="alt-hidden"
       day="numeric"
       units={
@@ -287,6 +298,12 @@ exports[`components/threading/global_threads/thread_item should report unread me
     tabIndex={0}
   >
     <Connect(Markdown)
+      imageProps={
+        Object {
+          "onImageHeightChanged": [Function],
+          "onImageLoaded": [Function],
+        }
+      }
       message="test msg"
       options={
         Object {
@@ -304,8 +321,9 @@ exports[`components/threading/global_threads/thread_item should report unread me
       size="xs"
       userIds={
         Array [
-          "7n4ach3i53bbmj84dfmu5b7c1c",
+          "mt5td9mdriyapmwuh5pc84dmhr",
           "ij61jet1bbdk8fhhxitywdj4ih",
+          "7n4ach3i53bbmj84dfmu5b7c1c",
         ]
       }
     />

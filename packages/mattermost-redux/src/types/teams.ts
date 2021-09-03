@@ -5,12 +5,7 @@ import {ServerError} from './errors';
 import {UserProfile} from './users';
 import {Dictionary, RelationOneToOne} from './utilities';
 
-export type TeamMembership = {
-    mention_count: number;
-    msg_count: number;
-    mention_count_root: number;
-    msg_count_root: number;
-    team_id: string;
+export type TeamMembership = TeamUnread & {
     user_id: string;
     roles: string;
     delete_at: number;
@@ -61,6 +56,8 @@ export type TeamUnread = {
     msg_count: number;
     mention_count_root: number;
     msg_count_root: number;
+    thread_count?: number;
+    thread_mention_count?: number;
 };
 
 export type GetTeamMembersOpts = {

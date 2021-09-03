@@ -39,6 +39,7 @@ describe('components/next_steps_view', () => {
         isFirstAdmin: true,
         isCloud: false,
         team: {name: 'TestTeam'} as Team,
+        globalHeaderEnabled: true,
         actions: {
             setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),

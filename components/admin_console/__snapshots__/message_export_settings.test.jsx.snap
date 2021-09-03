@@ -11,7 +11,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
   >
     <AdminHeader>
       <MemoizedFormattedMessage
-        defaultMessage="Compliance Export (Beta)"
+        defaultMessage="Compliance Export"
         id="admin.complianceExport.title"
       />
     </AdminHeader>
@@ -185,7 +185,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
   >
     <AdminHeader>
       <MemoizedFormattedMessage
-        defaultMessage="Compliance Export (Beta)"
+        defaultMessage="Compliance Export"
         id="admin.complianceExport.title"
       />
     </AdminHeader>
@@ -326,14 +326,14 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           helpText={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="The username that is used to authenticate against the GlobalRelay SMTP server."
-              id="admin.complianceExport.globalRelaySmtpUsername.description"
+              id="admin.complianceExport.globalRelaySMTPUsername.description"
             />
           }
-          id="globalRelaySmtpUsername"
+          id="globalRelaySMTPUsername"
           label={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="SMTP Username:"
-              id="admin.complianceExport.globalRelaySmtpUsername.title"
+              id="admin.complianceExport.globalRelaySMTPUsername.title"
             />
           }
           onChange={[Function]}
@@ -346,14 +346,14 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           helpText={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="The password that is used to authenticate against the GlobalRelay SMTP server."
-              id="admin.complianceExport.globalRelaySmtpPassword.description"
+              id="admin.complianceExport.globalRelaySMTPPassword.description"
             />
           }
-          id="globalRelaySmtpPassword"
+          id="globalRelaySMTPPassword"
           label={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="SMTP Password:"
-              id="admin.complianceExport.globalRelaySmtpPassword.title"
+              id="admin.complianceExport.globalRelaySMTPPassword.title"
             />
           }
           onChange={[Function]}
@@ -456,7 +456,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
   >
     <AdminHeader>
       <MemoizedFormattedMessage
-        defaultMessage="Compliance Export (Beta)"
+        defaultMessage="Compliance Export"
         id="admin.complianceExport.title"
       />
     </AdminHeader>
@@ -630,7 +630,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
   >
     <AdminHeader>
       <MemoizedFormattedMessage
-        defaultMessage="Compliance Export (Beta)"
+        defaultMessage="Compliance Export"
         id="admin.complianceExport.title"
       />
     </AdminHeader>
@@ -771,14 +771,14 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           helpText={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="The username that is used to authenticate against the GlobalRelay SMTP server."
-              id="admin.complianceExport.globalRelaySmtpUsername.description"
+              id="admin.complianceExport.globalRelaySMTPUsername.description"
             />
           }
-          id="globalRelaySmtpUsername"
+          id="globalRelaySMTPUsername"
           label={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="SMTP Username:"
-              id="admin.complianceExport.globalRelaySmtpUsername.title"
+              id="admin.complianceExport.globalRelaySMTPUsername.title"
             />
           }
           onChange={[Function]}
@@ -791,14 +791,14 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           helpText={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="The password that is used to authenticate against the GlobalRelay SMTP server."
-              id="admin.complianceExport.globalRelaySmtpPassword.description"
+              id="admin.complianceExport.globalRelaySMTPPassword.description"
             />
           }
-          id="globalRelaySmtpPassword"
+          id="globalRelaySMTPPassword"
           label={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="SMTP Password:"
-              id="admin.complianceExport.globalRelaySmtpPassword.title"
+              id="admin.complianceExport.globalRelaySMTPPassword.title"
             />
           }
           onChange={[Function]}

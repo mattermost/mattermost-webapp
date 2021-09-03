@@ -82,7 +82,7 @@ export default class SystemRoles extends React.PureComponent<Props> {
             <div className='wrapper--fixed'>
                 <FormattedAdminHeader
                     id='admin.permissions.systemRoles'
-                    defaultMessage='System Roles (Beta)'
+                    defaultMessage='System Roles'
                 />
 
                 <div className='admin-console__wrapper'>

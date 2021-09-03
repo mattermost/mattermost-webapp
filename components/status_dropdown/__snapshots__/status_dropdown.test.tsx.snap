@@ -97,6 +97,47 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         text="Offline"
       />
     </MenuGroup>
+    <MenuGroup>
+      <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": false,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(UserSettingsModal))",
+            "type": [Function],
+          }
+        }
+        icon={
+          <i
+            className="fa fa-cog"
+          />
+        }
+        id="accountSettings"
+        modalId="user_settings"
+        show={true}
+        text="Account Settings"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="fa fa-sign-out"
+          />
+        }
+        id="logout"
+        onClick={[Function]}
+        show={true}
+        text="Log Out"
+      />
+    </MenuGroup>
   </Menu>
 </MenuWrapper>
 `;
@@ -104,7 +145,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
 exports[`components/StatusDropdown should match snapshot with custom status and expiry 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -153,41 +194,6 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         id="status-menu-custom-status"
         modalId="custom_status"
         show={true}
-        sibling={
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                bsClass="tooltip"
-                id="clear-custom-status"
-                placement="right"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Clear"
-                  id="status_dropdown.custom_status.tooltip_clear"
-                />
-              </Tooltip>
-            }
-            placement="top"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="style--none input-clear-x"
-              id="custom_status__clear"
-              onClick={[Function]}
-            >
-              <i
-                className="icon icon-close-circle"
-              />
-            </button>
-          </OverlayTrigger>
-        }
       >
         <span
           className="custom_status__container"
@@ -223,6 +229,39 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
           time="2021-05-03T23:59:59.000Z"
           withinBrackets={true}
         />
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={400}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              id="clear-custom-status"
+              placement="right"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Clear"
+                id="status_dropdown.custom_status.tooltip_clear"
+              />
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <button
+            className="style--none input-clear-x"
+            id="custom_status__clear"
+            onClick={[Function]}
+          >
+            <i
+              className="icon icon-close-circle"
+            />
+          </button>
+        </OverlayTrigger>
       </MenuItemToggleModalRedux>
     </MenuGroup>
     <MenuGroup>
@@ -270,6 +309,47 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         onClick={[Function]}
         show={true}
         text="Offline"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": false,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(UserSettingsModal))",
+            "type": [Function],
+          }
+        }
+        icon={
+          <i
+            className="fa fa-cog"
+          />
+        }
+        id="accountSettings"
+        modalId="user_settings"
+        show={true}
+        text="Account Settings"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="fa fa-sign-out"
+          />
+        }
+        id="logout"
+        onClick={[Function]}
+        show={true}
+        text="Log Out"
       />
     </MenuGroup>
   </Menu>
@@ -279,7 +359,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
 exports[`components/StatusDropdown should match snapshot with custom status enabled 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -392,6 +472,47 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         onClick={[Function]}
         show={true}
         text="Offline"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": false,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(UserSettingsModal))",
+            "type": [Function],
+          }
+        }
+        icon={
+          <i
+            className="fa fa-cog"
+          />
+        }
+        id="accountSettings"
+        modalId="user_settings"
+        show={true}
+        text="Account Settings"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="fa fa-sign-out"
+          />
+        }
+        id="logout"
+        onClick={[Function]}
+        show={true}
+        text="Log Out"
       />
     </MenuGroup>
   </Menu>
@@ -401,7 +522,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
 exports[`components/StatusDropdown should match snapshot with custom status expired 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -450,7 +571,6 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         id="status-menu-custom-status"
         modalId="custom_status"
         show={true}
-        sibling={false}
       >
         <span
           className="custom_status__container"
@@ -515,6 +635,47 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         onClick={[Function]}
         show={true}
         text="Offline"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": false,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(UserSettingsModal))",
+            "type": [Function],
+          }
+        }
+        icon={
+          <i
+            className="fa fa-cog"
+          />
+        }
+        id="accountSettings"
+        modalId="user_settings"
+        show={true}
+        text="Account Settings"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="fa fa-sign-out"
+          />
+        }
+        id="logout"
+        onClick={[Function]}
+        show={true}
+        text="Log Out"
       />
     </MenuGroup>
   </Menu>
@@ -524,7 +685,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
 exports[`components/StatusDropdown should match snapshot with custom status pulsating dot enabled 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -589,9 +750,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
             text="Set a Custom Status"
             tooltipDirection="bottom"
           />
-          <span
-            className="pulsating_dot"
-          />
+          <PulsatingDot />
         </span>
       </MenuItemToggleModalRedux>
     </MenuGroup>
@@ -640,6 +799,47 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         onClick={[Function]}
         show={true}
         text="Offline"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": false,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(UserSettingsModal))",
+            "type": [Function],
+          }
+        }
+        icon={
+          <i
+            className="fa fa-cog"
+          />
+        }
+        id="accountSettings"
+        modalId="user_settings"
+        show={true}
+        text="Account Settings"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="fa fa-sign-out"
+          />
+        }
+        id="logout"
+        onClick={[Function]}
+        show={true}
+        text="Log Out"
       />
     </MenuGroup>
   </Menu>
@@ -747,6 +947,47 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         text="Offline"
       />
     </MenuGroup>
+    <MenuGroup>
+      <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": false,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(UserSettingsModal))",
+            "type": [Function],
+          }
+        }
+        icon={
+          <i
+            className="fa fa-cog"
+          />
+        }
+        id="accountSettings"
+        modalId="user_settings"
+        show={true}
+        text="Account Settings"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="fa fa-sign-out"
+          />
+        }
+        id="logout"
+        onClick={[Function]}
+        show={true}
+        text="Log Out"
+      />
+    </MenuGroup>
   </Menu>
 </MenuWrapper>
 `;
@@ -754,7 +995,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
 exports[`components/StatusDropdown should match snapshot with status dropdown open 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu"
+  className="status-dropdown-menu active"
   onToggle={[Function]}
   open={true}
 >
@@ -846,6 +1087,47 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         onClick={[Function]}
         show={true}
         text="Offline"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemToggleModalRedux
+        accessibilityLabel="Account Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": false,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(UserSettingsModal))",
+            "type": [Function],
+          }
+        }
+        icon={
+          <i
+            className="fa fa-cog"
+          />
+        }
+        id="accountSettings"
+        modalId="user_settings"
+        show={true}
+        text="Account Settings"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="fa fa-sign-out"
+          />
+        }
+        id="logout"
+        onClick={[Function]}
+        show={true}
+        text="Log Out"
       />
     </MenuGroup>
   </Menu>

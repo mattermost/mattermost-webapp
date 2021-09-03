@@ -20,9 +20,9 @@ import Badge from 'components/widgets/badges/badge';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import FileThumbnail from 'components/file_attachment/file_thumbnail';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
-import ViewImageModal from 'components/view_image';
 
 import './file_search_result_item.scss';
+import FilePreviewModal from 'components/file_preview_modal';
 
 type Props = {
     fileInfo: FileInfo;
@@ -190,7 +190,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
                         </a>
                     </OverlayTrigger>
                 </button>
-                <ViewImageModal
+                <FilePreviewModal
                     show={this.state.showPreview}
                     onModalDismissed={() => this.setState({showPreview: false})}
                     startIndex={0}

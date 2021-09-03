@@ -21,7 +21,23 @@
         font-weight: 600;
 
         .footer-text {
-            font-size: 14px;
+            .normal-payment-text {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+                font-size: 14px;
+            }
+
+            .prorrated-payment-text {
+                div {
+                    display: inline-block;
+                    margin-right: 4px;
+                    font-family: "compass-icons";
+                    font-size: 16px;
+                }
+            }
+
+            a {
+                color: var(--button-bg) !important;
+            }
         }
 
         .fineprint-text {
@@ -43,7 +59,7 @@
             width: 25%;
 
             .title {
-                font-size: 24px;
+                font-weight: 600;
             }
 
             .image {
@@ -143,7 +159,7 @@
                         margin-top: 16px;
 
                         label {
-                            color: var(--sys-center-channel-color-rgb);
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
                             font-family: Open Sans;
                             font-size: 12px;
                             font-style: normal;
@@ -203,7 +219,7 @@
                         }
 
                         .selected {
-                            color: var(--sys-center-channel-color);
+                            color: var(--center-channel-color);
                         }
 
                         .radio {
@@ -216,7 +232,7 @@
                             .side-legend {
                                 margin-top: -5px;
                                 margin-left: 5px;
-                                color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+                                color: rgba(var(--center-channel-color-rgb), 0.64);
 
                                 &::before {
                                     content: "(";
@@ -279,6 +295,10 @@
                 font-size: 14px;
                 font-weight: 400;
                 line-height: 20px;
+
+                a {
+                    color: var(--button-bg);
+                }
             }
 
             .monthly-text {
@@ -287,36 +307,6 @@
                 font-size: 14px;
                 font-weight: normal;
             }
-        }
-
-        .waves {
-            position: absolute;
-            z-index: -1;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-
-            stop {
-                stop-color: var(--button-bg);
-            }
-        }
-
-        .blue-dots {
-            position: absolute;
-            z-index: -1;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        }
-
-        .lower-blue-dots {
-            position: absolute;
-            z-index: -1;
-            right: 0;
-            bottom: 100px;
         }
 
         .logo {
@@ -343,9 +333,34 @@
     }
 }
 
+.background-svg {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+
+    >div {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
 .FullScreenModal {
     .close-x {
         top: 12px;
         right: 12px;
     }
+}
+
+.tooltipTitle {
+    font-weight: 700;
+}
+
+.tooltipText {
+    color: #9a9a9a !important;
+    text-align: left;
+}
+
+.proratedTooltip > .tooltip-inner {
+    min-width: 300px;
 }

@@ -27,11 +27,14 @@ import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
 import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
+import NextStepsView from 'components/next_steps_view';
 
 import {useThreadRouting} from '../hooks';
 import ChatIllustration from '../common/chat_illustration';
@@ -55,10 +58,13 @@ const GlobalThreads = () => {
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
+    const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
+    const config = useSelector(getConfig);
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null;
+    const globalHeaderEnabled = useSelector((state: GlobalState) => getGlobalHeaderEnabled(state));
 
     useEffect(() => {
         dispatch(suppressRHS);
@@ -98,6 +104,11 @@ const GlobalThreads = () => {
         setFilter(ThreadFilter.unread);
     }, []);
 
+    const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
+    if (showNextStepsEphemeral && enableOnboardingFlow) {
+        return <NextStepsView/>;
+    }
+
     return (
         <div
             id='app-content'
@@ -114,7 +125,7 @@ const GlobalThreads = () => {
                     id: 'globalThreads.subtitle',
                     defaultMessage: 'Threads you’re participating in will automatically show here',
                 })}
-                right={<RHSSearchNav/>}
+                right={globalHeaderEnabled ? null : <RHSSearchNav/>}
             />
 
             {isEmpty(threadIds) ? (

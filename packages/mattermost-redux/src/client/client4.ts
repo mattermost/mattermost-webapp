@@ -115,7 +115,6 @@ import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
-import fetch from './fetch_etag';
 import {TelemetryHandler} from './telemetry';
 
 const FormData = require('form-data');
@@ -382,10 +381,6 @@ export default class Client4 {
 
     getRolesRoute() {
         return `${this.getBaseRoute()}/roles`;
-    }
-
-    getTimezonesRoute() {
-        return `${this.getBaseRoute()}/system/timezones`;
     }
 
     getSchemesRoute() {
@@ -1241,9 +1236,9 @@ export default class Client4 {
         );
     };
 
-    getMyTeamUnreads = () => {
+    getMyTeamUnreads = (includeCollapsedThreads = false) => {
         return this.doFetch<TeamUnread[]>(
-            `${this.getUserRoute('me')}/teams/unread`,
+            `${this.getUserRoute('me')}/teams/unread${buildQueryString({include_collapsed_threads: includeCollapsedThreads})}`,
             {method: 'get'},
         );
     };
@@ -1420,31 +1415,6 @@ export default class Client4 {
         );
     };
 
-    importTeam = (teamId: string, file: File, importFrom: string) => {
-        const formData = new FormData();
-        formData.append('file', file, file.name);
-        formData.append('filesize', file.size);
-        formData.append('importFrom', importFrom);
-
-        const request: any = {
-            method: 'post',
-            body: formData,
-        };
-
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
-
-        return this.doFetch<{
-            results: string;
-        }>(
-            `${this.getTeamRoute(teamId)}/import`,
-            request,
-        );
-    };
-
     getTeamIconUrl = (teamId: string, lastTeamIconUpdate: number) => {
         const params: any = {};
         if (lastTeamIconUpdate) {
@@ -1563,15 +1533,6 @@ export default class Client4 {
         return this.doFetch<Channel>(
             `${this.getChannelRoute(channel.id)}`,
             {method: 'put', body: JSON.stringify(channel)},
-        );
-    };
-
-    convertChannelToPrivate = (channelId: string) => {
-        this.trackEvent('api', 'api_channels_convert_to_private', {channel_id: channelId});
-
-        return this.doFetch<Channel>(
-            `${this.getChannelRoute(channelId)}/convert`,
-            {method: 'post'},
         );
     };
 
@@ -1978,7 +1939,7 @@ export default class Client4 {
         {
             before = '',
             after = '',
-            pageSize = PER_PAGE_DEFAULT,
+            perPage = PER_PAGE_DEFAULT,
             extended = false,
             deleted = false,
             unread = false,
@@ -1986,7 +1947,7 @@ export default class Client4 {
         },
     ) => {
         return this.doFetch<UserThreadList>(
-            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, pageSize, extended, deleted, unread, since})}`,
+            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since})}`,
             {method: 'get'},
         );
     };
@@ -2680,15 +2641,6 @@ export default class Client4 {
         );
     };
 
-    // Timezone Routes
-
-    getTimezones = () => {
-        return this.doFetch<string[]>(
-            `${this.getTimezonesRoute()}`,
-            {method: 'get'},
-        );
-    };
-
     // Data Retention
 
     getDataRetentionPolicy = () => {
@@ -2847,13 +2799,6 @@ export default class Client4 {
     updateConfig = (config: AdminConfig) => {
         return this.doFetch<AdminConfig>(
             `${this.getBaseRoute()}/config`,
-            {method: 'put', body: JSON.stringify(config)},
-        );
-    };
-
-    patchConfig = (config: AdminConfig) => {
-        return this.doFetch<AdminConfig>(
-            `${this.getBaseRoute()}/config/patch`,
             {method: 'put', body: JSON.stringify(config)},
         );
     };

@@ -22,6 +22,7 @@ import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import ChannelTutorialTip from 'components/sidebar/channel_tutorial_tip';
 
 type Props = {
     channel: Channel;
@@ -60,10 +61,17 @@ type Props = {
 
     teammateId?: string;
 
+    showTutorialTip: boolean;
+
+    townSquareDisplayName: string;
+
+    offTopicDisplayName: string;
+
     actions: {
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
         multiSelectChannelAdd: (channelId: string) => void;
+        openLhs: () => void;
     };
 };
 
@@ -161,7 +169,19 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     showChannelAsUnread = (): boolean => this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
 
     render(): JSX.Element {
-        const {link, label, channel, unreadMentions, icon, isMuted, isChannelSelected} = this.props;
+        const {link, label, channel, unreadMentions, icon, isMuted, isChannelSelected, showTutorialTip, actions} = this.props;
+
+        let tutorialTip: JSX.Element | null = null;
+        if (showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) {
+            tutorialTip = (
+                <ChannelTutorialTip
+                    townSquareDisplayName={this.props.townSquareDisplayName}
+                    offTopicDisplayName={this.props.offTopicDisplayName}
+                    openLhs={actions.openLhs}
+                />
+
+            );
+        }
 
         let labelElement: JSX.Element = (
             <span
@@ -259,6 +279,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 tabIndex={this.props.isCollapsed ? -1 : 0}
             >
                 {content}
+                {tutorialTip}
             </Link>
         );
 

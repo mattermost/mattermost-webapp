@@ -69,6 +69,9 @@ exports[`components/next_steps_view should match snapshot 1`] = `
         <GettingStartedSvg />
       </div>
     </div>
+    <DownloadSection
+      isFirstAdmin={true}
+    />
   </div>
   <div
     className="NextStepsView__viewWrapper NextStepsView__transitionView"
@@ -86,7 +89,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
           id="next_steps_view.nicelyDone"
         />
       </h1>
-      <h2
+      <p
         className="NextStepsView__transitionBottomText"
       >
         <img
@@ -96,12 +99,13 @@ exports[`components/next_steps_view should match snapshot 1`] = `
           defaultMessage="One moment"
           id="next_steps_view.oneMoment"
         />
-      </h2>
+      </p>
     </div>
   </div>
   <NextStepsTips
     animating={false}
     currentUserId="user_id"
+    globalHeaderEnabled={true}
     isCloud={false}
     isFirstAdmin={true}
     savePreferences={[MockFunction]}

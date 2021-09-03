@@ -5,100 +5,72 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
   <div
     className="ThreadViewer"
   >
-    <Connect(FloatingTimestamp)
-      isMobile={false}
-      isRhsPost={true}
-      isScrolling={false}
-      postId=""
-    />
-    <Scrollbars
-      autoHeight={false}
-      autoHeightMax={0}
-      autoHeightMin={0}
-      autoHide={true}
-      autoHideDuration={500}
-      autoHideTimeout={500}
-      hideTracksWhenNotNeeded={false}
-      onScroll={[Function]}
-      renderThumbHorizontal={[Function]}
-      renderThumbVertical={[Function]}
-      renderTrackHorizontal={[Function]}
-      renderTrackVertical={[Function]}
-      renderView={[Function]}
-      tagName="div"
-      thumbMinSize={30}
-      universal={false}
+    <div
+      className="post-right-comments-container"
     >
-      <div
-        className="post-right__scroll"
-      >
-        <div
-          aria-label="message details complimentary region"
-          className="post-right__content a11y__region"
-          data-a11y-focus-child={true}
-          data-a11y-order-reversed={true}
-          data-a11y-sort-order="3"
-          role="application"
-        >
-          <Memo(DateSeparator)
-            date={2017-08-14T12:56:05.009Z}
-          />
-          <Connect(injectIntl(RhsRootPost))
-            commentCount={0}
-            currentUserId="user_id"
-            handleCardClick={[Function]}
-            isLastPost={true}
-            post={
-              Object {
-                "channel_id": "channel_id",
-                "create_at": 1502715365009,
-                "delete_at": 0,
-                "edit_at": 0,
-                "hashtags": "",
-                "id": "id",
-                "is_following": true,
-                "is_pinned": false,
-                "message": "post message",
-                "metadata": Object {
-                  "embeds": Array [],
-                  "emojis": Array [],
-                  "files": Array [],
-                  "images": Object {},
-                  "reactions": Array [],
-                },
-                "original_id": "",
-                "parent_id": "",
-                "pending_post_id": "",
-                "props": Object {},
-                "reply_count": 3,
-                "root_id": "",
-                "type": "system_add_remove",
-                "update_at": 1502715372443,
-                "user_id": "user_id",
-              }
-            }
-            previewCollapsed="false"
-            previewEnabled={true}
-            teamId="team_id"
-          />
-          <div
-            className="post-right-comments-container"
-          />
-        </div>
-        <div
-          className="post-create__container"
-        >
-          <Connect(injectIntl(CreateComment))
-            channelId="channel_id"
-            latestPostId="id"
-            onHeightChange={[Function]}
-            rootDeleted={false}
-            rootId="id"
-            scrollToBottom={[Function]}
-          />
-        </div>
-      </div>
-    </Scrollbars>
+      <DeferredRenderWrapper
+        channel={
+          Object {
+            "create_at": 0,
+            "creator_id": "",
+            "delete_at": 0,
+            "display_name": "",
+            "group_constrained": false,
+            "header": "",
+            "id": "channel_id",
+            "last_post_at": 0,
+            "name": "",
+            "purpose": "",
+            "scheme_id": "",
+            "status": "",
+            "team_id": "team_id",
+            "teammate_id": "",
+            "total_msg_count": 0,
+            "total_msg_count_root": 0,
+            "type": "O",
+            "update_at": 0,
+          }
+        }
+        key="id"
+        onCardClick={[Function]}
+        onCardClickPost={[Function]}
+        postIds={
+          Array [
+            "id",
+          ]
+        }
+        removePost={[MockFunction]}
+        selected={
+          Object {
+            "channel_id": "channel_id",
+            "create_at": 1502715365009,
+            "delete_at": 0,
+            "edit_at": 0,
+            "hashtags": "",
+            "id": "id",
+            "is_following": true,
+            "is_pinned": false,
+            "message": "post message",
+            "metadata": Object {
+              "embeds": Array [],
+              "emojis": Array [],
+              "files": Array [],
+              "images": Object {},
+              "reactions": Array [],
+            },
+            "original_id": "",
+            "pending_post_id": "",
+            "props": Object {},
+            "reply_count": 3,
+            "root_id": "",
+            "type": "system_add_remove",
+            "update_at": 1502715372443,
+            "user_id": "user_id",
+          }
+        }
+        useRelativeTimestamp={false}
+      />
+    </div>
   </div>
 </Fragment>
 `;

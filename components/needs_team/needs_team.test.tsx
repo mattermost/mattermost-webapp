@@ -31,6 +31,7 @@ jest.mock('utils/utils', () => ({
     localizeMessage: jest.fn(),
     areObjectsEqual: jest.fn(),
     isGuest: jest.fn(),
+    makeIsEligibleForClick: jest.fn(),
 }));
 
 describe('components/needs_team', () => {
@@ -91,7 +92,6 @@ describe('components/needs_team', () => {
         selectTeam: jest.fn(),
         setPreviousTeamId: jest.fn(),
         loadStatusesForChannelAndSidebar: jest.fn().mockResolvedValue({data: true}),
-        loadProfilesForDirect: jest.fn().mockResolvedValue({data: true}),
         getAllGroupsAssociatedToChannelsInTeam: jest.fn().mockResolvedValue({data: true}),
         getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
         getGroups: jest.fn().mockResolvedValue({data: true}),
@@ -108,9 +108,9 @@ describe('components/needs_team', () => {
         match,
         teamsList,
         history,
-        useLegacyLHS: true,
         previousTeamId: '',
         selectedThreadId: null,
+        collapsedThreads: true,
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});

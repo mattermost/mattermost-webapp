@@ -2,7 +2,7 @@
 
 exports[`components/sidebar/sidebar_category should match snapshot 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section autoSortedCategory"
+  className="SidebarChannelGroup a11y__section"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -78,7 +78,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
 
 exports[`components/sidebar/sidebar_category should match snapshot when collapsed 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section autoSortedCategory isCollapsed"
+  className="SidebarChannelGroup a11y__section isCollapsed"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -154,7 +154,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
 
 exports[`components/sidebar/sidebar_category should match snapshot when isNewCategory 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section autoSortedCategory"
+  className="SidebarChannelGroup a11y__section"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -227,19 +227,23 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       </PublicDraggable>
       <div
         className="SidebarCategory_newDropBox"
-        onTransitionEnd={[Function]}
       >
-        <i
-          className="icon-hand-right"
-        />
-        <span
-          className="SidebarCategory_newDropBox-label"
+        <div
+          className="SidebarCategory_newDropBox-content"
+          onTransitionEnd={[Function]}
         >
-          <MemoizedFormattedMessage
-            defaultMessage="Drag channels here..."
-            id="sidebar_left.sidebar_category.newDropBoxLabel"
+          <i
+            className="icon-hand-right"
           />
-        </span>
+          <span
+            className="SidebarCategory_newDropBox-label"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Drag channels here..."
+              id="sidebar_left.sidebar_category.newDropBoxLabel"
+            />
+          </span>
+        </div>
       </div>
     </ul>
   </div>
@@ -248,7 +252,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
 
 exports[`components/sidebar/sidebar_category should match snapshot when sorting is set to by recency 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section autoSortedCategory"
+  className="SidebarChannelGroup a11y__section"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -263,6 +267,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
   >
     <Component />
   </Connect(Droppable)>
+  <InviteMembersButton
+    buttonType="lhs_button"
+  />
 </div>
 `;
 
@@ -357,7 +364,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
 
 exports[`components/sidebar/sidebar_category should match snapshot when the category is DM and there are no DMs to display 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section autoSortedCategory"
+  className="SidebarChannelGroup a11y__section"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -372,6 +379,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
   >
     <Component />
   </Connect(Droppable)>
+  <InviteMembersButton
+    buttonType="lhs_button"
+  />
 </div>
 `;
 

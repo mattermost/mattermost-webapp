@@ -9,16 +9,15 @@ import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';
 import AlertBanner from 'components/alert_banner';
 
-import privateCloudImage from 'images/private-cloud-image.svg';
-import freeTrialPrivateCloudImage from 'images/free-trial-private-cloud-image.svg';
-
 import {CloudLinks, CloudProducts} from 'utils/constants';
+import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud.svg';
+import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial.svg';
 
 export const contactSalesCard = (
     contactSalesLink: any,
     isFreeTrial: boolean,
     trialQuestionsLink: any,
-    subscriptionPlan: string | null,
+    subscriptionPlan: string | undefined,
     onUpgradeMattermostCloud: () => void,
     productsLength: number,
 ) => {
@@ -164,7 +163,16 @@ export const contactSalesCard = (
                 }
             </div>
             <div className='PrivateCloudCard__image'>
-                <img src={isFreeTrial ? freeTrialPrivateCloudImage : privateCloudImage}/>
+                {isFreeTrial ?
+                    <CloudTrialSvg
+                        width={170}
+                        height={123}
+                    /> :
+                    <PrivateCloudSvg
+                        width={170}
+                        height={123}
+                    />
+                }
             </div>
         </div>
     );

@@ -105,12 +105,11 @@ export default class PasswordResetSendLink extends React.PureComponent<Props, St
                 <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
-                        <h3>
-                            <FormattedMessage
-                                id='password_send.title'
-                                defaultMessage='Password Reset'
-                            />
-                        </h3>
+                        <FormattedMessage
+                            id='password_send.title'
+                            tagName='h1'
+                            defaultMessage='Password Reset'
+                        />
                         {this.state.updateText}
                         <form
                             onSubmit={this.handleSendLink}

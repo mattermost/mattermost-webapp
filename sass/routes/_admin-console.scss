@@ -85,6 +85,12 @@
     }
 
     .dropdown-menu {
+        background: var(--sys-center-channel-bg);
+
+        > li > button:hover {
+            background: rgba(var(--sys-center-channel-color-rgb), 0.1);
+        }
+
         .divider {
             @include opacity(1);
         }
@@ -574,6 +580,7 @@
             left: 21px;
             width: 16px;
             height: 16px;
+            fill: rgba(var(--sys-sidebar-text-rgb), 0.56);
             stroke: #999;
         }
 
@@ -608,6 +615,11 @@
     .Menu {
         .dropdown-menu {
             overflow: auto;
+            background: var(--sys-center-channel-bg);
+
+            .MenuGroup.menu-divider {
+                background: rgba(var(--sys-center-channel-color-rgb), 0.16);
+            }
         }
     }
 

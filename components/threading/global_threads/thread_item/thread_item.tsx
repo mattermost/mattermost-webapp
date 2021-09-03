@@ -78,9 +78,22 @@ function ThreadItem({
         }
     }, [channel, thread?.post.channel_id]);
 
-    const participantIds = useMemo(() => thread?.participants?.map(({id}) => id), [thread?.participants]);
+    const participantIds = useMemo(() => {
+        const ids = thread?.participants?.flatMap(({id}) => {
+            if (id === post.user_id) {
+                return [];
+            }
+            return id;
+        }).reverse();
+        return [post.user_id, ...ids];
+    }, [thread?.participants]);
 
     const selectHandler = useCallback(() => select(threadId), []);
+
+    const imageProps = useMemo(() => ({
+        onImageHeightChanged: () => {},
+        onImageLoaded: () => {},
+    }), []);
 
     const goToInChannelHandler = useCallback((e: MouseEvent) => {
         e.stopPropagation();
@@ -147,7 +160,6 @@ function ThreadItem({
                     {...THREADING_TIME}
                     className='alt-hidden'
                     value={lastReplyAt}
-                    capitalize={true}
                 />
             </h1>
             <div className='menu-anchor alt-visible'>
@@ -182,6 +194,8 @@ function ThreadItem({
                 <Markdown
                     message={post?.message ?? '(message deleted)'}
                     options={markdownPreviewOptions}
+                    imagesMetadata={post?.metadata && post?.metadata?.images}
+                    imageProps={imageProps}
                 />
             </div>
             <div className='activity'>

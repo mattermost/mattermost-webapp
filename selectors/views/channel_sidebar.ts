@@ -25,10 +25,10 @@ import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
-import {GlobalState} from 'types/store';
+import {DraggingState, GlobalState} from 'types/store';
 
-export function isUnreadFilterEnabled(state: GlobalState) {
-    return state.views.channelSidebar.unreadFilterEnabled;
+export function isUnreadFilterEnabled(state: GlobalState): boolean {
+    return state.views.channelSidebar.unreadFilterEnabled && !shouldShowUnreadsCategory(state);
 }
 
 export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategory[] = (() => {
@@ -223,7 +223,7 @@ export const getDisplayedChannels = (() => {
 
 // Returns a selector that, given a category, returns the ids of channels visible in that category. The returned channels do not
 // include unread channels when the Unreads category is enabled.
-export function makeGetFilteredChannelIdsForCategory() {
+export function makeGetFilteredChannelIdsForCategory(): (state: GlobalState, category: ChannelCategory) => string[] {
     const getChannelIdsForCategory = makeGetChannelIdsForCategory();
 
     return createSelector(
@@ -243,10 +243,10 @@ export function makeGetFilteredChannelIdsForCategory() {
     );
 }
 
-export function getDraggingState(state: GlobalState) {
+export function getDraggingState(state: GlobalState): DraggingState {
     return state.views.channelSidebar.draggingState;
 }
 
-export function isChannelSelected(state: GlobalState, channelId: string) {
+export function isChannelSelected(state: GlobalState, channelId: string): boolean {
     return state.views.channelSidebar.multiSelectedChannelIds.indexOf(channelId) !== -1;
 }

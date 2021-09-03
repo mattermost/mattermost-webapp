@@ -4,7 +4,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants/index';
@@ -15,14 +15,14 @@ import {
 } from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
-import * as PostUtils from 'utils/post_utils.jsx';
-import {intlShape} from 'utils/react_intl';
+import * as PostUtils from 'utils/post_utils';
 import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
 import PostProfilePicture from 'components/post_profile_picture';
 import FailedPostOptions from 'components/post_view/failed_post_options';
+import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostTime from 'components/post_view/post_time';
 import PostReaction from 'components/post_view/post_reaction';
@@ -35,14 +35,12 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
-class RhsComment extends React.PureComponent {
+export default class RhsComment extends React.PureComponent {
     static propTypes = {
         post: PropTypes.object,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
-        author: PropTypes.string,
-        reactions: PropTypes.object,
         isFlagged: PropTypes.bool.isRequired,
         isBusy: PropTypes.bool,
         removePost: PropTypes.func.isRequired,
@@ -57,7 +55,6 @@ class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
-        isInViewport: PropTypes.func.isRequired,
 
         /**
          * If the user that made the post is a bot.
@@ -73,7 +70,6 @@ class RhsComment extends React.PureComponent {
          * To check if the state of emoji for last message and from where it was emitted
          */
         shortcutReactToLastPostEmittedFrom: PropTypes.string,
-        intl: intlShape.isRequired,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
 
@@ -82,14 +78,13 @@ class RhsComment extends React.PureComponent {
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
-        emojiMap: PropTypes.object.isRequired,
         timestampProps: PropTypes.object,
         collapsedThreadsEnabled: PropTypes.bool,
 
         /**
          * To Check if the current post is to be highlighted and scrolled into center view of RHS
          */
-        isFocused: PropTypes.bool,
+        shouldHighlight: PropTypes.bool,
     };
 
     constructor(props) {
@@ -118,9 +113,6 @@ class RhsComment extends React.PureComponent {
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
-            if (this.props.isFocused) {
-                this.scrollIntoHighlight();
-            }
         }
     }
 
@@ -135,7 +127,7 @@ class RhsComment extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost, isFocused} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
@@ -147,23 +139,6 @@ class RhsComment extends React.PureComponent {
             // Opening the emoji picker when more than one post in rhs is present
             this.handleShortcutReactToLastPost(isLastPost);
         }
-
-        if (this.props.post.state === Posts.POST_DELETED && prevProps.post.state !== Posts.POST_DELETED) {
-            // ensure deleted message content does not remain in stale aria-label
-            this.updateAriaLabel();
-        }
-
-        if (isFocused && !prevProps.isFocused) {
-            this.scrollIntoHighlight();
-        }
-    }
-
-    scrollIntoHighlight = () => {
-        window.requestAnimationFrame(() => {
-            if (this.postRef.current && !this.props.isInViewport(this.postRef.current)) {
-                this.postRef.current.scrollIntoView();
-            }
-        });
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -238,7 +213,7 @@ class RhsComment extends React.PureComponent {
     getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--thread same--root post--comment';
 
-        if (this.props.isFocused) {
+        if (this.props.shouldHighlight) {
             className += ' post--highlight';
         }
 
@@ -315,15 +290,6 @@ class RhsComment extends React.PureComponent {
         if (e.altKey) {
             this.props.actions.markPostAsUnread(this.props.post, 'RHS_COMMENT');
         }
-    }
-
-    handlePostFocus = () => {
-        this.updateAriaLabel();
-    }
-
-    updateAriaLabel = () => {
-        const {post, author, reactions, isFlagged, intl, emojiMap} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap)});
     }
 
     render() {
@@ -535,6 +501,7 @@ class RhsComment extends React.PureComponent {
             options = (
                 <div
                     ref={this.dotMenuRef}
+                    data-testid={`post-menu-${this.props.post.id}`}
                     className='col post-menu'
                 >
                     {!collapsedThreadsEnabled && dotMenu}
@@ -593,8 +560,9 @@ class RhsComment extends React.PureComponent {
         }
 
         return (
-            <div
+            <PostAriaLabelDiv
                 role='listitem'
+                post={post}
                 ref={this.postRef}
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
@@ -602,7 +570,6 @@ class RhsComment extends React.PureComponent {
                 onClick={this.handlePostClick}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
-                aria-label={this.state.currentAriaLabel}
                 onFocus={this.handlePostFocus}
                 data-a11y-sort-order={this.props.a11yIndex}
             >
@@ -654,10 +621,7 @@ class RhsComment extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-            </div>
+            </PostAriaLabelDiv>
         );
     }
 }
-
-export default injectIntl(RhsComment);
-/* eslint-enable react/no-string-refs */

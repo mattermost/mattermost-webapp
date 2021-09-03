@@ -32,13 +32,15 @@ import RhsHeaderPost from './rhs_header_post';
 type OwnProps = Pick<ComponentProps<typeof RhsHeaderPost>, 'rootPostId'>
 
 function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
+    const root = getPost(state, rootPostId);
+
     return {
         isExpanded: getIsRhsExpanded(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
         currentTeamId: getCurrentTeamId(state),
         currentUserId: getCurrentUserId(state),
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        isFollowingThread: isCollapsedThreadsEnabled(state) && getThreadOrSynthetic(state, getPost(state, rootPostId)).is_following,
+        isFollowingThread: isCollapsedThreadsEnabled(state) && root && getThreadOrSynthetic(state, root).is_following,
     };
 }
 

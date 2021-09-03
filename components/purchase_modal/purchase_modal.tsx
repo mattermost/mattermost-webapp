@@ -7,18 +7,16 @@ import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
+import {Tooltip} from 'react-bootstrap';
+
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
+
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
-import upgradeImage from 'images/cloud/upgrade.svg';
-import wavesBackground from 'images/cloud/waves.svg';
-import blueDots from 'images/cloud/blue.svg';
-import LowerBlueDots from 'images/cloud/blue-lower.svg';
-import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
+import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -26,6 +24,11 @@ import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RadioButtonGroup from 'components/common/radio_group';
 import Badge from 'components/widgets/badges/badge';
+import OverlayTrigger from 'components/overlay_trigger';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
+import BackgroundSvg from 'components/common/svg_images_components/background.svg';
+import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud.svg';
 
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
@@ -35,18 +38,19 @@ import PaymentForm from '../payment_form/payment_form';
 
 import ProcessPaymentSetup from './process_payment_setup';
 
-import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
+
+import './purchase.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
-type Option = {
+type RadioGroupOption = {
     key: string;
     value: string;
     price: number;
 };
 
-type ProductOptions = Option[];
+type ProductOptions = RadioGroupOption[];
 
 type Props = {
     customer: CloudCustomer | undefined;
@@ -110,8 +114,11 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     return currentProduct;
 }
 
-function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
+function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null, isFreeTrial?: boolean | null) {
     const currentProduct = findProductInDictionary(products, productId);
+    if (isFreeTrial) {
+        return currentProduct;
+    }
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
@@ -130,7 +137,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             processing: false,
             editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
             currentProduct: findProductInDictionary(props.products, props.productId),
-            selectedProduct: getSelectedProduct(props.products, props.productId),
+            selectedProduct: getSelectedProduct(props.products, props.productId, props.isFreeTrial),
         };
     }
 
@@ -141,11 +148,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId),
+                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isFreeTrial),
             });
         }
 
-        // this.fetchProductPrice();
         this.props.actions.getClientConfig();
     }
 
@@ -194,16 +200,27 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const selectedPlan = findProductInDictionary(this.props.products, e.target.value);
-
         this.setState({selectedProduct: selectedPlan});
     }
 
     listPlans = (): JSX.Element => {
         const products = this.props.products!;
-        const flatFeeProducts: ProductOptions = [];
-        const userBasedProducts: ProductOptions = [];
+        const currentProduct = this.state.currentProduct!;
+
+        if (!products || !currentProduct) {
+            return (
+                <LoadingSpinner/>
+            );
+        }
+
+        let flatFeeProducts: ProductOptions = [];
+        let userBasedProducts: ProductOptions = [];
         Object.keys(products).forEach((key: string) => {
-            const tempEl: Option = {key: products[key].name, value: products[key].id, price: products[key].price_per_seat};
+            const tempEl: RadioGroupOption = {
+                key: products[key].name,
+                value: products[key].id,
+                price: products[key].price_per_seat,
+            };
             if (products[key].billing_scheme === BillingSchemes.FLAT_FEE) {
                 flatFeeProducts.push(tempEl);
             } else {
@@ -211,16 +228,21 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             }
         });
 
-        let options = [...flatFeeProducts.sort((a: Option, b: Option) => a.price - b.price), ...userBasedProducts.sort((a: Option, b: Option) => a.price - b.price)];
-
-        const currentPrice = this.state.currentProduct?.price_per_seat;
-
         // if not on trial, only show current plan and those higher than it in terms of price
-        if (!this.props.isFreeTrial && currentPrice) {
-            options = options.filter((option: Option) => {
-                return option.price >= currentPrice;
-            });
+        if (!this.props.isFreeTrial) {
+            if (currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
+                flatFeeProducts = [];
+                userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
+                    return option.price >= currentProduct.price_per_seat;
+                });
+            } else {
+                flatFeeProducts = flatFeeProducts.filter((option: RadioGroupOption) => {
+                    return option.price >= currentProduct.price_per_seat;
+                });
+            }
         }
+
+        const options = [...flatFeeProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price), ...userBasedProducts.sort((a: RadioGroupOption, b: RadioGroupOption) => a.price - b.price)];
 
         const sideLegendTitle = (
             <FormattedMessage
@@ -235,7 +257,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     id='list-plans-radio-buttons'
                     values={options!}
                     value={this.state.selectedProduct?.id as string}
-                    sideLegend={{matchVal: this.state.currentProduct?.id as string, text: sideLegendTitle}}
+                    sideLegend={{matchVal: currentProduct.id as string, text: sideLegendTitle}}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
                 />
             </div>
@@ -281,6 +303,28 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         );
     }
 
+    learnMoreLink = () => {
+        return (
+            <a
+                className='footer-text'
+                onClick={() => {
+                    trackEvent(
+                        TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                        'learn_more_prorated_payment',
+                    );
+                }}
+                href={CloudLinks.PRORATED_PAYMENT}
+                target='_new'
+                rel='noopener noreferrer'
+            >
+                <FormattedMessage
+                    defaultMessage={'Learn more'}
+                    id={'admin.billing.subscription.LearnMore'}
+                />
+            </a>
+        );
+    }
+
     editPaymentInfoHandler = () => {
         this.setState((prevState: State) => {
             return {
@@ -288,6 +332,75 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 editPaymentInfo: !prevState.editPaymentInfo,
             };
         });
+    }
+
+    paymentFooterText = () => {
+        const normalPaymentText = (
+            <div className='normal-payment-text'>
+                <FormattedMessage
+                    defaultMessage={'Payment begins: {beginDate}'}
+                    id={'admin.billing.subscription.paymentBegins'}
+                    values={{
+                        beginDate: getNextBillingDate(),
+                    }}
+                />
+            </div>
+        );
+
+        let payment = normalPaymentText;
+        if (!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
+                this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT) {
+            const announcementTooltip = (
+                <Tooltip
+                    id='proratedPayment__tooltip'
+                    className='proratedTooltip'
+                >
+                    <div className='tooltipTitle'>
+                        <FormattedMessage
+                            defaultMessage={'Prorated Payments'}
+                            id={'admin.billing.subscription.proratedPayment.tooltipTitle'}
+                        />
+                    </div>
+                    <div className='tooltipText'>
+                        <FormattedMessage
+                            defaultMessage={'If you upgrade to {selectedProductName} from {currentProductName} mid-month, you will be charged a prorated amount for both plans.'}
+                            id={'admin.billing.subscription.proratedPayment.tooltipText'}
+                            values={{
+                                beginDate: getNextBillingDate(),
+                                selectedProductName: this.state.selectedProduct?.name,
+                                currentProductName: this.state.currentProduct?.name,
+                            }}
+                        />
+                    </div>
+                </Tooltip>
+            );
+
+            const announcementIcon = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={announcementTooltip}
+                >
+                    <div className='content__icon'>{'\uF5D6'}</div>
+                </OverlayTrigger>
+
+            );
+            const prorratedPaymentText = (
+                <div className='prorrated-payment-text'>
+                    {announcementIcon}
+                    <FormattedMessage
+                        defaultMessage={'Prorated payment begins: {beginDate}. '}
+                        id={'admin.billing.subscription.proratedPaymentBegins'}
+                        values={{
+                            beginDate: getNextBillingDate(),
+                        }}
+                    />
+                    {this.learnMoreLink()}
+                </div>
+            );
+            payment = prorratedPaymentText;
+        }
+        return payment;
     }
 
     purchaseScreen = () => {
@@ -350,13 +463,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
-                    <div className='title'>
+                    <h2 className='title'>
                         {title}
-                    </div>
-                    <img
-                        className='image'
-                        alt='upgrade'
-                        src={upgradeImage}
+                    </h2>
+                    <UpgradeSvg
+                        width={267}
+                        height={227}
                     />
                     <div className='footer-text'>
                         <FormattedMessage
@@ -475,13 +587,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             </div>
                         }
                         <div className='footer-text'>
-                            <FormattedMessage
-                                defaultMessage={'Payment begins: {beginDate}'}
-                                id={'admin.billing.subscription.payamentBegins'}
-                                values={{
-                                    beginDate: getNextBillingDate(),
-                                }}
-                            />
+                            {this.paymentFooterText()}
                         </div>
                         <button
                             disabled={!this.state.paymentInfoIsValid}
@@ -521,7 +627,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         />,
                     )}
                     <div className='logo'>
-                        <img src={cloudLogo}/>
+                        <MattermostCloudSvg
+                            width={250}
+                            height={28}
+                        />
                     </div>
                 </div>
             </div>
@@ -561,7 +670,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.props.actions.completeStripeAddPaymentMethod
                                         }
                                         subscribeCloudSubscription={
-                                            this.props.isFreeTrial ? this.props.actions.subscribeCloudSubscription : null
+                                            this.props.actions.subscribeCloudSubscription
                                         }
                                         isDevMode={this.props.isDevMode}
                                         onClose={() => {
@@ -573,23 +682,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
                                         selectedProduct={this.state.selectedProduct}
+                                        currentProduct={this.state.currentProduct}
+                                        isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
+                                        this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                     />
                                 </div>
                             ) : null}
                             {this.purchaseScreen()}
-                            <div>
-                                <img
-                                    className='waves'
-                                    src={wavesBackground}
-                                />
-                                <img
-                                    className='blue-dots'
-                                    src={blueDots}
-                                />
-                                <img
-                                    className='lower-blue-dots'
-                                    src={LowerBlueDots}
-                                />
+                            <div className='background-svg'>
+                                <BackgroundSvg/>
                             </div>
                         </div>
                     </FullScreenModal>

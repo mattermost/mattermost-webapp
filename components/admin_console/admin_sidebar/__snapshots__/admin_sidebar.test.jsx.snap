@@ -59,7 +59,7 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
             sectionClass=""
             title={
               <Memo(MemoizedFormattedMessage)
-                defaultMessage="Plugins (Beta)"
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -172,20 +172,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              definitionKey="user_management.permissions_feature_discovery"
-              key="user_management.permissions_feature_discovery"
-              name="user_management/permissions/"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Permissions"
-                  id="admin.sidebar.permissions"
-                />
-              }
-            />
-            <AdminSidebarSection
               definitionKey="user_management.system_roles_feature_discovery"
               key="user_management.system_roles_feature_discovery"
               name="user_management/system_roles"
@@ -194,7 +180,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="System Roles (Beta)"
+                  defaultMessage="System Roles"
                   id="admin.sidebar.systemRoles"
                 />
               }
@@ -292,7 +278,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Guest Access (Beta)"
+                  defaultMessage="Guest Access"
                   id="admin.sidebar.guest_access"
                 />
               }
@@ -306,7 +292,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             sectionClass=""
             title={
               <Memo(MemoizedFormattedMessage)
-                defaultMessage="Plugins (Beta)"
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -369,7 +355,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Compliance Export (Beta)"
+                  defaultMessage="Compliance Export"
                   id="admin.sidebar.complianceExport"
                 />
               }
@@ -383,7 +369,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Custom Terms of Service (Beta)"
+                  defaultMessage="Custom Terms of Service"
                   id="admin.sidebar.customTermsOfService"
                 />
               }
@@ -555,6 +541,20 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Users"
                   id="admin.sidebar.users"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.permissions"
+              key="user_management.permissions"
+              name="user_management/permissions/"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Permissions"
+                  id="admin.sidebar.permissions"
                 />
               }
             />
@@ -959,7 +959,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             sectionClass=""
             title={
               <Memo(MemoizedFormattedMessage)
-                defaultMessage="Plugins (Beta)"
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -1517,7 +1517,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="System Roles (Beta)"
+                  defaultMessage="System Roles"
                   id="admin.sidebar.systemRoles"
                 />
               }
@@ -2012,7 +2012,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Guest Access (Beta)"
+                  defaultMessage="Guest Access"
                   id="admin.sidebar.guest_access"
                 />
               }
@@ -2026,7 +2026,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             sectionClass=""
             title={
               <Memo(MemoizedFormattedMessage)
-                defaultMessage="Plugins (Beta)"
+                defaultMessage="Plugins"
                 id="admin.sidebar.plugins"
               />
             }
@@ -2159,7 +2159,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Compliance Export (Beta)"
+                  defaultMessage="Compliance Export"
                   id="admin.sidebar.complianceExport"
                 />
               }
@@ -2187,7 +2187,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Custom Terms of Service (Beta)"
+                  defaultMessage="Custom Terms of Service"
                   id="admin.sidebar.customTermsOfService"
                 />
               }
@@ -2357,7 +2357,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="System Roles (Beta)"
+                  defaultMessage="System Roles"
                   id="admin.sidebar.systemRoles"
                 />
               }
@@ -2418,6 +2418,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 />
               }
             />
+            <AdminSidebarSection
+              definitionKey="authentication.guest_access_feature_discovery"
+              key="authentication.guest_access_feature_discovery"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Guest Access"
+                  id="admin.sidebar.guest_access"
+                />
+              }
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="compliance"
@@ -2455,7 +2469,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Compliance Export (Beta)"
+                  defaultMessage="Compliance Export"
                   id="admin.sidebar.complianceExport"
                 />
               }
@@ -2469,7 +2483,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Custom Terms of Service (Beta)"
+                  defaultMessage="Custom Terms of Service"
                   id="admin.sidebar.customTermsOfService"
                 />
               }

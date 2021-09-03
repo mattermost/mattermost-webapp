@@ -74,7 +74,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // * Verify Invite People field
         const email = `temp-${getRandomId()}@mattermost.com`;
         cy.findByTestId('addPeople').should('be.visible').within(() => {
-            cy.get('h2 > span').should('have.text', 'Invite People');
+            cy.findByRole('heading', {name: /invite people/i}).should('be.visible');
             cy.get('.help-text > span').should('have.text', 'Add existing guests or send email invites to new guests.');
         });
         cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
@@ -90,7 +90,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify Search and Add Channels
         cy.findByTestId('channelPlaceholder').should('be.visible').within(() => {
-            cy.get('h2 > span').should('have.text', 'Search and Add Channels');
+            cy.findByRole('heading', {name: /search and add channels/i}).should('be.visible');
             cy.get('.help-text > span').should('have.text', 'Specify the channels the guests have access to.');
         });
         cy.findByTestId('channelPlaceholder').should('be.visible').within(() => {
@@ -160,7 +160,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify Share Link Header and helper text
         cy.findByTestId('shareLink').should('be.visible').within(() => {
-            cy.get('h2 > span').should('have.text', 'Share This Link');
+            cy.findByRole('heading', {name: /share this link/i}).should('be.visible');
             cy.get('.help-text > span').should('have.text', 'Share this link to invite people to this team.');
         });
 

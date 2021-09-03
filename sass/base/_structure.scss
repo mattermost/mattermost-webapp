@@ -82,6 +82,11 @@ body {
 
     position: relative;
     height: 100%;
+
+    #root {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 #channel_view.channel-view {

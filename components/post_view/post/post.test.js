@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
+import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
@@ -13,7 +13,6 @@ import Post from './post';
 describe('Post', () => {
     const baseProps = {
         post: {id: 'post1', is_pinned: false},
-        createAriaLabel: jest.fn(),
         currentUserId: 'user1',
         center: false,
         compactDisplay: false,
@@ -34,7 +33,7 @@ describe('Post', () => {
     };
 
     test('should do nothing when clicking on the post', () => {
-        const wrapper = shallowWithIntl(<Post {...baseProps}/>);
+        const wrapper = shallow(<Post {...baseProps}/>);
 
         wrapper.find(`#post_${baseProps.post.id}`).simulate('click', {});
 
@@ -42,7 +41,7 @@ describe('Post', () => {
     });
 
     test('should mark post as unread when clicking on the post with alt held', () => {
-        const wrapper = shallowWithIntl(<Post {...baseProps}/>);
+        const wrapper = shallow(<Post {...baseProps}/>);
 
         wrapper.find(`#post_${baseProps.post.id}`).simulate('click', {altKey: true});
 
@@ -55,7 +54,7 @@ describe('Post', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallowWithIntl(<Post {...props}/>);
+        const wrapper = shallow(<Post {...props}/>);
 
         wrapper.find(`#post_${props.post.id}`).simulate('click', {altKey: true});
 
@@ -64,13 +63,13 @@ describe('Post', () => {
 
     describe('getClassName', () => {
         test('should not show cursor pointer normally', () => {
-            const wrapper = shallowWithIntl(<Post {...baseProps}/>);
+            const wrapper = shallow(<Post {...baseProps}/>);
 
             expect(wrapper.instance().getClassName(baseProps.post, false, false, false, false, false)).not.toContain('cursor--pointer');
         });
 
         test('should show cursor pointer when alt is held', () => {
-            const wrapper = shallowWithIntl(<Post {...baseProps}/>);
+            const wrapper = shallow(<Post {...baseProps}/>);
 
             wrapper.setState({alt: true});
 
@@ -83,7 +82,7 @@ describe('Post', () => {
                 channelIsArchived: true,
             };
 
-            const wrapper = shallowWithIntl(<Post {...props}/>);
+            const wrapper = shallow(<Post {...props}/>);
 
             wrapper.setState({alt: true});
 
@@ -99,7 +98,7 @@ describe('Post', () => {
             shouldHighlight: true,
         };
 
-        const wrapper = shallowWithIntl(<Post {...props}/>);
+        const wrapper = shallow(<Post {...props}/>);
         expect(wrapper.state('fadeOutHighlight')).toBe(false);
         expect(wrapper).toMatchSnapshot();
         jest.runOnlyPendingTimers();
@@ -116,20 +115,20 @@ describe('Post', () => {
             isFlagged: true,
         };
 
-        const wrapper = shallowWithIntl(<Post {...props}/>);
+        const wrapper = shallow(<Post {...props}/>);
         expect(wrapper.state('fadeOutHighlight')).toBe(false);
-        expect(wrapper.find('div.post').hasClass('post--highlight')).toBe(true);
-        expect(wrapper.find('div.post').hasClass('post--pinned-or-flagged-highlight')).toBe(true);
+        expect(wrapper.find(PostAriaLabelDiv).hasClass('post--highlight')).toBe(true);
+        expect(wrapper.find(PostAriaLabelDiv).hasClass('post--pinned-or-flagged-highlight')).toBe(true);
         expect(wrapper).toMatchSnapshot();
         jest.runOnlyPendingTimers();
         expect(wrapper.state('fadeOutHighlight')).toBe(true);
-        expect(wrapper.find('div.post').hasClass('post--highlight')).toBe(false);
-        expect(wrapper.find('div.post').hasClass('post--pinned-or-flagged-highlight')).toBe(false);
+        expect(wrapper.find(PostAriaLabelDiv).hasClass('post--highlight')).toBe(false);
+        expect(wrapper.find(PostAriaLabelDiv).hasClass('post--pinned-or-flagged-highlight')).toBe(false);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should pass props correctly to PostPreHeader', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <Post {...baseProps}/>,
         );
 
@@ -141,12 +140,12 @@ describe('Post', () => {
     });
 
     test('should not highlight the post of it is neither flagged nor pinned', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <Post {...baseProps}/>,
         );
 
-        expect(wrapper.find('div.a11y__section')).toHaveLength(1);
-        expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(false);
+        expect(wrapper.find(PostAriaLabelDiv)).toHaveLength(1);
+        expect(wrapper.find(PostAriaLabelDiv).hasClass('post--pinned-or-flagged')).toBe(false);
     });
 
     describe('should handle post highlighting correctly', () => {
@@ -175,12 +174,12 @@ describe('Post', () => {
                     post: {...baseProps.post, is_pinned: testCase.isPinned},
                 };
 
-                const wrapper = shallowWithIntl(
+                const wrapper = shallow(
                     <Post {...props}/>,
                 );
 
-                expect(wrapper.find('div.a11y__section')).toHaveLength(1);
-                expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(true);
+                expect(wrapper.find(PostAriaLabelDiv)).toHaveLength(1);
+                expect(wrapper.find(PostAriaLabelDiv).hasClass('post--pinned-or-flagged')).toBe(true);
             });
         }
     });
@@ -196,7 +195,7 @@ describe('Post', () => {
             isCollapsedThreadsEnabled: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <Post {...props}/>,
         );
 
@@ -214,7 +213,7 @@ describe('Post', () => {
             ...testCaseProps,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <Post {...props}/>,
         );
 

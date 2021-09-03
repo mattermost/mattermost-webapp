@@ -72,7 +72,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
           onKeyPress={[Function]}
           preview={false}
           previewMessageLink="Edit Header"
-          suggestionListStyle="bottom"
+          suggestionListPosition="bottom"
           supportsCommands={false}
           value="Fake Channel"
         />
@@ -196,7 +196,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
           onKeyPress={[Function]}
           preview={false}
           previewMessageLink="Edit Header"
-          suggestionListStyle="bottom"
+          suggestionListPosition="bottom"
           supportsCommands={false}
           value="Fake Channel"
         />
@@ -338,7 +338,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
           onKeyPress={[Function]}
           preview={false}
           previewMessageLink="Edit Header"
-          suggestionListStyle="bottom"
+          suggestionListPosition="bottom"
           supportsCommands={false}
           value="Fake Channel"
         />
@@ -472,7 +472,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
           onKeyPress={[Function]}
           preview={false}
           previewMessageLink="Edit Header"
-          suggestionListStyle="bottom"
+          suggestionListPosition="bottom"
           supportsCommands={false}
           value="Fake Channel"
         />
@@ -596,7 +596,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
           onKeyPress={[Function]}
           preview={false}
           previewMessageLink="Edit Header"
-          suggestionListStyle="bottom"
+          suggestionListPosition="bottom"
           supportsCommands={false}
           value="Fake Channel"
         />

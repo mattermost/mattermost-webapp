@@ -18,7 +18,8 @@ import ShowMore from 'components/post_view/show_more';
 import ButtonBinding from '../button_binding';
 import SelectBinding from '../select_binding';
 
-import {fillBindingsInformation} from 'utils/apps';
+import {cleanBinding} from 'mattermost-redux/utils/apps';
+import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 type Props = {
 
@@ -40,10 +41,28 @@ type Props = {
     currentRelativeTeamUrl: string;
 }
 
-export default class EmbeddedBinding extends React.PureComponent<Props> {
+type State = {
+    checkOverflow: number;
+}
+
+export default class EmbeddedBinding extends React.PureComponent<Props, State> {
+    private imageProps: Record<string, any>;
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            checkOverflow: 0,
+        };
+
+        this.imageProps = {
+            onImageLoaded: this.handleHeightReceived,
+            onImageHeightChanged: this.checkPostOverflow,
+        };
+    }
+
     fillBindings = (binding: AppBinding) => {
         const copiedBindings = JSON.parse(JSON.stringify(binding)) as AppBinding;
-        fillBindingsInformation(copiedBindings);
+        cleanBinding(copiedBindings, AppBindingLocations.IN_POST);
         return copiedBindings.bindings;
     }
 
@@ -98,6 +117,21 @@ export default class EmbeddedBinding extends React.PureComponent<Props> {
 
     handleFormattedTextClick = (e: React.MouseEvent) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
+    checkPostOverflow = () => {
+        // Increment checkOverflow to indicate change in height
+        // and recompute textContainer height at ShowMore component
+        // and see whether overflow text of show more/less is necessary or not.
+        this.setState((prevState) => {
+            return {checkOverflow: prevState.checkOverflow + 1};
+        });
+    }
+
+    handleHeightReceived = (height: number) => {
+        if (height > 0) {
+            this.checkPostOverflow();
+        }
+    };
+
     render() {
         const {embed, options} = this.props;
 
@@ -112,6 +146,7 @@ export default class EmbeddedBinding extends React.PureComponent<Props> {
                             renderer: new LinkOnlyRenderer(),
                             autolinkedUrlSchemes: [],
                         }}
+                        postId={this.props.post.id}
                     />
                 </h1>
             );
@@ -123,10 +158,13 @@ export default class EmbeddedBinding extends React.PureComponent<Props> {
                 <ShowMore
                     isAttachmentText={true}
                     text={embed.description}
+                    maxHeight={200}
                 >
                     <Markdown
                         message={embed.description}
+                        imageProps={this.imageProps}
                         options={options}
+                        postId={this.props.post.id}
                     />
                 </ShowMore>
             );

@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
+<Connect(TutorialTip)
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Organize conversations in channels"
+            id="sidebar.tutorialChannelTypes.title"
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Channels organize conversations across different topics."
+            id="sidebar.tutorialChannelTypes.channels"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Public channels** are open to everyone on your team."
+            id="sidebar.tutorialChannelTypes.public"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Private channels** are for sensitive conversations between invited members."
+            id="sidebar.tutorialChannelTypes.private"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
+            id="sidebar.tutorialChannelTypes.direct"
+          />
+        </p>
+      </div>,
+    ]
+  }
+  telemetryTag="tutorial_tip_2_channels"
+/>
+`;
+
+exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with townSquare and without offTopic 1`] = `
+<Connect(TutorialTip)
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Organize conversations in channels"
+            id="sidebar.tutorialChannelTypes.title"
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Channels organize conversations across different topics."
+            id="sidebar.tutorialChannelTypes.channels"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Public channels** are open to everyone on your team."
+            id="sidebar.tutorialChannelTypes.public"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Private channels** are for sensitive conversations between invited members."
+            id="sidebar.tutorialChannelTypes.private"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
+            id="sidebar.tutorialChannelTypes.direct"
+          />
+        </p>
+      </div>,
+    ]
+  }
+  telemetryTag="tutorial_tip_2_channels"
+/>
+`;
+
+exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, without townSquare and with offTopic 1`] = `
+<Connect(TutorialTip)
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Organize conversations in channels"
+            id="sidebar.tutorialChannelTypes.title"
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Channels organize conversations across different topics."
+            id="sidebar.tutorialChannelTypes.channels"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Public channels** are open to everyone on your team."
+            id="sidebar.tutorialChannelTypes.public"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Private channels** are for sensitive conversations between invited members."
+            id="sidebar.tutorialChannelTypes.private"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
+            id="sidebar.tutorialChannelTypes.direct"
+          />
+        </p>
+      </div>,
+    ]
+  }
+  telemetryTag="tutorial_tip_2_channels"
+/>
+`;
+
+exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, without townSquare and without offTopic 1`] = `
+<Connect(TutorialTip)
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <h4>
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Organize conversations in channels"
+            id="sidebar.tutorialChannelTypes.title"
+          />
+        </h4>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Channels organize conversations across different topics."
+            id="sidebar.tutorialChannelTypes.channels"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Public channels** are open to everyone on your team."
+            id="sidebar.tutorialChannelTypes.public"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Private channels** are for sensitive conversations between invited members."
+            id="sidebar.tutorialChannelTypes.private"
+          />
+        </p>
+        <p>
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="**Direct messages** are for private conversations between individuals or small groups."
+            id="sidebar.tutorialChannelTypes.direct"
+          />
+        </p>
+      </div>,
+    ]
+  }
+  telemetryTag="tutorial_tip_2_channels"
+/>
+`;

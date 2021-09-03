@@ -16,7 +16,6 @@ import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferenc
 import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
-import EnterSupportEmail from './steps/enter_support_email/enter_support_email';
 
 import {isStepForUser} from './step_helpers';
 
@@ -92,16 +91,6 @@ export const Steps: StepType[] = [
         component: InviteMembersStep,
         visible: true,
     },
-    {
-        id: RecommendedNextSteps.ENTER_SUPPORT_EMAIL,
-        title: localizeMessage(
-            'next_steps_view.titles.enterSupportEmail',
-            'Enter support email',
-        ),
-        roles: ['first_admin'],
-        component: EnterSupportEmail,
-        visible: true,
-    },
 ];
 
 export const isFirstAdmin = createSelector(
@@ -150,6 +139,11 @@ export const isOnboardingHidden = createSelector(
     'isOnboardingHidden',
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (stepPreferences) => {
+        // Before onboarding was introduced, there were existing users that didn't have step preferences set.
+        // We don't want onboarding to suddenly pop up for them.
+        if (stepPreferences.length === 0) {
+            return true;
+        }
         return stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'));
     },
 );
@@ -188,9 +182,10 @@ export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
-    (stepPreferences, currentUser, firstAdmin) => {
+    (state: GlobalState) => getSteps(state),
+    (stepPreferences, currentUser, firstAdmin, mySteps) => {
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
-        return !Steps.every(checkPref);
+        return !mySteps.every(checkPref);
     },
 );

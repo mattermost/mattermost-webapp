@@ -30,7 +30,7 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
         let userThreadList: undefined | UserThreadList;
 
         try {
-            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, pageSize: perPage, extended: false, unread});
+            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread});
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -223,6 +223,9 @@ export function handleAllThreadsInChannelMarkedRead(dispatch: DispatchFunc, getS
     const state = getState();
     const threadsInChannel = getThreadsInChannel(state, channelId);
     const channel = getChannel(state, channelId);
+    if (channel == null) {
+        return;
+    }
     const teamId = channel.team_id;
     const actions = [];
 

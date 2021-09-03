@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -14,20 +13,21 @@ import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
+import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
-import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 
 type Props = {
     id: string;
     channelId: string;
     rootId?: string;
+    tabIndex?: number;
     value: string;
-    onChange: (e: ChangeEvent) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (e: KeyboardEvent) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
@@ -39,7 +39,8 @@ type Props = {
     onBlur?: (e: FocusEvent) => void;
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
-    suggestionListStyle?: string;
+    suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
+    suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
     emojiEnabled?: boolean;
     isRHS?: boolean;
     characterLimit: number;
@@ -73,6 +74,7 @@ export default class Textbox extends React.PureComponent<Props> {
         isRHS: false,
         listenForMentionKeyClick: false,
         inputComponent: AutosizeTextarea,
+        suggestionList: SuggestionList,
     };
 
     constructor(props: Props) {
@@ -124,12 +126,14 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
             this.props.profilesInChannel !== prevProps.profilesInChannel ||
-            this.props.autocompleteGroups !== prevProps.autocompleteGroups) {
+            this.props.autocompleteGroups !== prevProps.autocompleteGroups ||
+            this.props.useChannelMentions !== prevProps.useChannelMentions ||
+            this.props.currentTeamId !== prevProps.currentTeamId ||
+            this.props.priorityProfiles !== prevProps.priorityProfiles) {
             // Update channel id for AtMentionProvider.
-            const providers = this.suggestionProviders;
-            for (let i = 0; i < providers.length; i++) {
-                if (providers[i] instanceof AtMentionProvider) {
-                    (providers[i] as AtMentionProvider).setProps({
+            for (const provider of this.suggestionProviders) {
+                if (provider instanceof AtMentionProvider) {
+                    provider.setProps({
                         currentUserId: this.props.currentUserId,
                         profilesInChannel: this.props.profilesInChannel,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
@@ -139,8 +143,23 @@ export default class Textbox extends React.PureComponent<Props> {
                         priorityProfiles: this.props.priorityProfiles,
                     });
                 }
-                if (providers[i] instanceof CommandProvider) {
-                    (providers[i] as CommandProvider).setProps({
+            }
+        }
+
+        if (this.props.channelId !== prevProps.channelId ||
+            this.props.currentTeamId !== prevProps.currentTeamId ||
+            this.props.rootId !== prevProps.rootId) {
+            // Update channel id for CommandProvider and AppCommandProvider.
+            for (const provider of this.suggestionProviders) {
+                if (provider instanceof CommandProvider) {
+                    provider.setProps({
+                        teamId: this.props.currentTeamId,
+                        channelId: this.props.channelId,
+                        rootId: this.props.rootId,
+                    });
+                }
+                if (provider instanceof AppCommandProvider) {
+                    provider.setProps({
                         teamId: this.props.currentTeamId,
                         channelId: this.props.channelId,
                         rootId: this.props.rootId,
@@ -148,10 +167,12 @@ export default class Textbox extends React.PureComponent<Props> {
                 }
             }
         }
+
         if (prevProps.value !== this.props.value) {
             this.checkMessageLength(this.props.value);
         }
     }
+
     componentDidUpdate(prevProps: Props) {
         if (!prevProps.preview && this.props.preview) {
             this.preview.current?.focus();
@@ -247,7 +268,7 @@ export default class Textbox extends React.PureComponent<Props> {
 
             preview = (
                 <div
-                    tabIndex={0}
+                    tabIndex={this.props.tabIndex || 0}
                     ref={this.preview}
                     className='form-control custom-textarea textbox-preview-area'
                     onKeyPress={this.props.onKeyPress}
@@ -287,8 +308,8 @@ export default class Textbox extends React.PureComponent<Props> {
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={this.props.inputComponent}
-                    listComponent={SuggestionList}
-                    listStyle={this.props.suggestionListStyle}
+                    listComponent={this.props.suggestionList}
+                    listPosition={this.props.suggestionListPosition}
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
                     value={this.props.value}
@@ -305,4 +326,3 @@ export default class Textbox extends React.PureComponent<Props> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
