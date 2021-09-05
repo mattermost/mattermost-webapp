@@ -27,7 +27,7 @@ const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_C
 const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
 
 export class CommandSuggestion extends Suggestion<SuggestionProps> {
-    render(): JSX.Element {
+    render(): React.ReactNode {
         const {isSelection} = this.props;
         const item = this.props.item as AutocompleteSuggestion;
 
@@ -106,12 +106,12 @@ export default class CommandProvider extends Provider {
         this.triggerCharacter = '/';
     }
 
-    setProps(props: Props) {
+    setProps(props: Props): void {
         this.props = props;
         this.appCommandParser.setChannelContext(props.channelId, props.teamId, props.rootId);
     }
 
-    handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
+    handlePretextChanged(pretext: string, resultCallback: ResultsCallback): boolean {
         if (!pretext.startsWith(this.triggerCharacter)) {
             return false;
         }
@@ -144,11 +144,11 @@ export default class CommandProvider extends Provider {
         return true;
     }
 
-    handleCompleteWord(term: string, pretext: string, callback: (s: string) => void) {
+    handleCompleteWord(term: string, pretext: string, callback: (s: string) => void): void {
         callback(term + ' ');
     }
 
-    handleMobile(pretext: string, resultCallback: ResultsCallback) {
+    handleMobile(pretext: string, resultCallback: ResultsCallback): void {
         const {teamId} = this.props;
 
         const command = pretext.toLowerCase();
@@ -200,7 +200,7 @@ export default class CommandProvider extends Provider {
         );
     }
 
-    handleWebapp(pretext: string, resultCallback: ResultsCallback) {
+    handleWebapp(pretext: string, resultCallback: ResultsCallback): void {
         const command = pretext.toLowerCase();
 
         const {teamId, channelId, rootId} = this.props;
@@ -275,7 +275,7 @@ export default class CommandProvider extends Provider {
         );
     }
 
-    shouldAddExecuteItem(data: AutocompleteSuggestion[], pretext: string) {
+    shouldAddExecuteItem(data: AutocompleteSuggestion[], pretext: string): boolean {
         if (data.length === 0) {
             return false;
         }
@@ -287,7 +287,7 @@ export default class CommandProvider extends Provider {
         return data.findIndex((item) => item.Suggestion === '') !== -1;
     }
 
-    contains(matches: AutocompleteSuggestion[], complete: string) {
+    contains(matches: AutocompleteSuggestion[], complete: string): boolean {
         return matches.findIndex((match) => match.Complete === complete) !== -1;
     }
 }
