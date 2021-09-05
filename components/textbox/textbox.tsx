@@ -4,8 +4,6 @@
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import ChannelMentionProvider from 'components/suggestion/channel_mention_provider';
-import EmoticonProvider from 'components/suggestion/emoticon_provider';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
@@ -14,8 +12,10 @@ import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
+import ChannelMentionProvider from 'components/suggestion/channel_mention_provider';
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
+import EmoticonProvider from 'components/suggestion/emoticon_provider';
 
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
@@ -99,7 +99,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 profilesInChannel: this.props.profilesInChannel,
                 autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
-                autocompleteGroups: this.props.autocompleteGroups == null ? [] : this.props.autocompleteGroups,
+                autocompleteGroups: this.props.autocompleteGroups || [],
                 searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
                 priorityProfiles: this.props.priorityProfiles || [],
             }),

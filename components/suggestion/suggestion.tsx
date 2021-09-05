@@ -3,8 +3,6 @@
 
 import React, {MouseEvent} from 'react';
 
-// import {Channel} from 'mattermost-redux/types/channels';
-
 export interface SuggestionProps {
     item: any;
     term: string;

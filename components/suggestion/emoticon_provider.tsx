@@ -124,13 +124,12 @@ export default class EmoticonProvider extends Provider {
         const recentEmojis = getRecentEmojis(state);
 
         // Check for named emoji
-        // @ts-expect-error: Is this possible to fix without porting EmojiMap to Typescript?
         for (const [name, emoji] of emojiMap) {
             if (EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.includes(emoji.category)) {
                 continue;
             }
 
-            if (emoji.short_names) {
+            if ('short_names' in emoji) {
                 // This is a system emoji so it may have multiple names
                 for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {

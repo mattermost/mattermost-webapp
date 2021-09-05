@@ -7,11 +7,16 @@ import {imageURLForUser} from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
-import Suggestion from '../suggestion';
+import Suggestion, {SuggestionProps} from '../suggestion';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-import {SearchChannelSuggestionProps} from './index';
+interface SearchChannelSuggestionProps extends Omit<SuggestionProps, 'item'> {
+    teammate: UserProfile | undefined;
+    currentUser: string;
+    item: Channel;
+}
 
 function itemToName(item: Channel, currentUser: string): {icon: React.ReactElement; name: string; description: string} | null {
     if (item.type === Constants.DM_CHANNEL) {

@@ -24,7 +24,9 @@ export default class Provider {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    handlePretextChanged(pretext: string, resultCallback: (params: ResultCallbackParams) => any) {}
+    handlePretextChanged(pretext: string, resultCallback: (params: ResultCallbackParams) => any) {
+        // NO-OP for inherited classes to override
+    }
 
     resetRequest(): void {
         this.requestStarted = false;

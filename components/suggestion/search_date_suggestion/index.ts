@@ -12,15 +12,7 @@ import {getCurrentLocale} from 'selectors/i18n';
 
 import {GlobalState} from 'types/store';
 
-import {SuggestionProps} from '../suggestion';
-
 import SearchDateSuggestion from './search_date_suggestion';
-
-type DispatchProps = Record<string, never>;
-type StateProps = {currentDate: Date | undefined; locale: string };
-type OwnProps = SuggestionProps;
-
-export type SearchDateSuggestionProps = StateProps & DispatchProps & OwnProps;
 
 function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);

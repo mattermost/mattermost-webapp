@@ -7,8 +7,6 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {SuggestionProps} from '../suggestion';
@@ -16,10 +14,7 @@ import {SuggestionProps} from '../suggestion';
 import SearchChannelSuggestion from './search_channel_suggestion';
 
 // type DispatchProps = Record<string, never>;
-type StateProps = {teammate: UserProfile | undefined; currentUser: string};
 type OwnProps = Omit<SuggestionProps, 'item'> & {item: Channel};
-
-export type SearchChannelSuggestionProps = StateProps & OwnProps;
 
 const mapStateToProps = (state: GlobalState, props: OwnProps) => {
     return {
