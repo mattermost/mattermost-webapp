@@ -5,9 +5,7 @@ import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} 
 import {FormattedMessage} from 'react-intl';
 
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider';
-
 import EmoticonProvider from 'components/suggestion/emoticon_provider';
-
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
@@ -16,7 +14,6 @@ import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
-
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 
@@ -25,6 +22,7 @@ import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 import {Group} from 'mattermost-redux/types/groups';
+import {UserAutocomplete} from 'mattermost-redux/types/autocomplete';
 
 type Props = {
     id: string;
@@ -58,9 +56,9 @@ type Props = {
     profilesInChannel: UserProfileWithLastViewAt[];
     autocompleteGroups: Group[] | null;
     actions: {
-        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<ActionResult>;
+        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{data: UserAutocomplete}>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>;
-        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<ActionResult>;
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{data: Group[]}>;
     };
     useChannelMentions: boolean;
     inputComponent?: ElementType;

@@ -7,77 +7,90 @@ import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-r
 
 import {Constants} from 'utils/constants';
 
-import Provider, {ResultCallbackParams} from '../provider';
-
 import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
 
 import {Group} from 'mattermost-redux/types/groups';
 
-import Store from 'stores/redux_store';
-import {GlobalState} from 'types/store';
-import type {ActionResult, DispatchFunc} from 'mattermost-redux/types/actions';
+import {UserAutocomplete} from 'mattermost-redux/types/autocomplete';
+
+import Provider, {ResultCallbackParams} from '../provider';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {GlobalState} from '../../../types/store';
+import {getStore} from '../command_provider/app_command_parser/app_command_parser_dependencies';
 
 import AtMentionSuggestion from './at_mention_suggestion';
 
-export interface Store {
-    dispatch: DispatchFunc;
-    getState: () => GlobalState;
-}
-
-interface Props {
-    currentUserId: string;
-    profilesInChannel: UserProfileWithLastViewAt[];
-    autocompleteUsersInChannel: (prefix: string) => (dispatch: any, getState: any) => Promise<ActionResult>;
-    useChannelMentions: boolean;
-    autocompleteGroups: Group[];
-    searchAssociatedGroupsForReference: (prefix: string) => (dispatch: any, getState: any) => Promise<ActionResult>;
-    priorityProfiles: UserProfile[];
-}
-
 export interface LocalMember extends UserProfile {
-    type: string;
     last_viewed_at?: number;
     isCurrentUser?: boolean;
+    type?: string;
 }
 
 export interface LocalGroup extends Group {
     type: string;
+    loading?: boolean;
 }
 
 export interface SpecialMention {
     username: string;
-    type: string;
+    type?: string;
 }
 
-export type Item = LocalMember & LocalGroup & SpecialMention;
+interface MentionMoreMember {
+    type: string;
+    loading: boolean;
+}
+
+interface AtMentionProviderData extends UserAutocomplete {
+    groups: Group[];
+}
+
+interface Store {
+    dispatch: DispatchFunc;
+    getState: () => GlobalState;
+}
+
+type CallbackParams = Omit<ResultCallbackParams, 'items'> & {items: Item[]};
+
+export type Item = LocalMember & LocalGroup & SpecialMention & MentionMoreMember;
+
+interface Props {
+    currentUserId: string;
+    profilesInChannel: LocalMember[];
+    autocompleteUsersInChannel: (prefix: string) => (dispatch: any, getState: any) => Promise<{data: UserAutocomplete}>;
+    useChannelMentions: boolean;
+    autocompleteGroups: Group[];
+    searchAssociatedGroupsForReference: (prefix: string) => (dispatch: any, getState: any) => Promise<{data: Group[]}>;
+    priorityProfiles: UserProfile[];
+}
 
 // The AtMentionProvider provides matches for at mentions, including @here, @channel, @all,
 // users in the channel and users not in the channel. It mixes together results from the local
 // store with results fetch from the server.
 export default class AtMentionProvider extends Provider {
-    data: any;
+    data: AtMentionProviderData | null = null;
     lastCompletedWord: string;
     lastPrefixWithNoResults: string;
     triggerCharacter: string;
 
     currentUserId!: string;
-    profilesInChannel!: UserProfileWithLastViewAt[];
-    autocompleteUsersInChannel!: (prefix: string) => (dispatch: any, getState: any) => Promise<ActionResult>;
+    profilesInChannel!: LocalMember[];
+    autocompleteUsersInChannel!: (prefix: string) => (dispatch: any, getState: any) => Promise<{data: UserAutocomplete}>;
     useChannelMentions!: boolean;
     autocompleteGroups!: Group[];
-    searchAssociatedGroupsForReference!: (prefix: string) => (dispatch: any, getState: any) => Promise<ActionResult>;
+    searchAssociatedGroupsForReference!: (prefix: string) => (dispatch: any, getState: any) => Promise<{data: Group[]}>;
     priorityProfiles!: UserProfile[];
     store!: Store;
 
     constructor(props: Props) {
         super();
 
-        this.data = null;
         this.lastCompletedWord = '';
         this.lastPrefixWithNoResults = '';
         this.triggerCharacter = '@';
+        this.store = getStore();
 
-        this.store = Store;
         this.setProps(props);
     }
 
@@ -207,9 +220,9 @@ export default class AtMentionProvider extends Provider {
             return [];
         }
 
-        return (this.data.users || []).
-            filter((profile: UserProfileWithLastViewAt) => this.filterProfile(profile)).
-            map((profile: UserProfileWithLastViewAt) => this.createFromProfile(profile, Constants.MENTION_MEMBERS));
+        return this.data?.users.
+            filter((profile: UserProfile) => this.filterProfile(profile)).
+            map((profile: UserProfile) => this.createFromProfile(profile, Constants.MENTION_MEMBERS));
     }
 
     // remoteGroups matches the users listed in the channel by the server.
@@ -230,8 +243,8 @@ export default class AtMentionProvider extends Provider {
         }
 
         return (this.data.out_of_channel || []).
-            filter((profile: UserProfileWithLastViewAt) => this.filterProfile(profile)).
-            map((profile: UserProfileWithLastViewAt) => this.createFromProfile(profile, Constants.MENTION_NONMEMBERS));
+            filter((profile: UserProfile) => this.filterProfile(profile)).
+            map((profile: UserProfile) => this.createFromProfile(profile, Constants.MENTION_NONMEMBERS));
     }
 
     items(): Item[] {
@@ -323,7 +336,7 @@ export default class AtMentionProvider extends Provider {
     }
 
     // updateMatches invokes the resultCallback with the metadata for rendering at mentions
-    updateMatches(resultCallback: (params: ResultCallbackParams) => void, items: any[]): void {
+    updateMatches(resultCallback: (params: CallbackParams) => void, items: Item[]): boolean {
         if (items.length === 0) {
             this.lastPrefixWithNoResults = this.latestPrefix;
         } else if (this.lastPrefixWithNoResults === this.latestPrefix) {
@@ -344,9 +357,11 @@ export default class AtMentionProvider extends Provider {
             items,
             component: AtMentionSuggestion,
         });
+
+        return true;
     }
 
-    async handlePretextChanged(pretext: string, resultCallback: (params: ResultCallbackParams) => void): Promise<boolean> {
+    handlePretextChanged(pretext: string, resultCallback: (params: ResultCallbackParams) => void): boolean {
         const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_. ]*)$', 'i').exec(pretext.toLowerCase());
         if (!captured) {
             return false;
@@ -372,26 +387,32 @@ export default class AtMentionProvider extends Provider {
                 return;
             }
 
-            this.updateMatches(resultCallback, [...this.items(), {type: Constants.MENTION_MORE_MEMBERS, loading: true}]);
+            this.updateMatches(resultCallback, [...this.items(), {type: Constants.MENTION_MORE_MEMBERS, loading: true} as Item]);
 
             showLoadingIndicator = null;
         }, 500);
 
         // Query the server for remote results to add to the local results.
-        const {data} = await this.store.dispatch(this.autocompleteUsersInChannel(prefix));
-        if (showLoadingIndicator) {
-            clearTimeout(showLoadingIndicator);
-        }
-
-        if (!this.shouldCancelDispatch(prefix)) {
-            this.data = data;
-
-            const groupsData = await this.store.dispatch(this.searchAssociatedGroupsForReference(prefix));
-            if (this.data && groupsData && groupsData.data) {
-                this.data.groups = groupsData.data;
+        this.store.dispatch(this.autocompleteUsersInChannel(prefix)).then(({data}) => {
+            if (showLoadingIndicator) {
+                clearTimeout(showLoadingIndicator);
             }
-            this.updateMatches(resultCallback, this.items());
-        }
+
+            if (!this.shouldCancelDispatch(prefix)) {
+                this.data = data as AtMentionProviderData;
+
+                this.store.dispatch(this.searchAssociatedGroupsForReference(prefix)).then(({data}) => {
+                    if (this.data && data && data) {
+                        this.data.groups = data;
+                    }
+                    this.updateMatches(resultCallback, this.items());
+                }).catch(() => {
+                    // Ignore this since we have the local result to display
+                });
+            }
+        }).catch(() => {
+            // Ignore this since we have the local result to display
+        });
 
         return true;
     }
@@ -403,8 +424,8 @@ export default class AtMentionProvider extends Provider {
 
     createFromProfile(profile: UserProfileWithLastViewAt | UserProfile, type: string): LocalMember {
         const localMember: LocalMember = {
-            type,
             ...profile,
+            type,
         };
 
         if (profile.id === this.currentUserId) {

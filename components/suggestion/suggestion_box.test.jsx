@@ -158,8 +158,8 @@ describe('components/SuggestionBox', () => {
             currentUserId: 'userid1',
             profilesInChannel: [userid1, userid2, userid3],
             autocompleteGroups: [groupid1, groupid2],
-            autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
-            searchAssociatedGroupsForReference: jest.fn().mockResolvedValue(false),
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => () => Promise.resolve(false)),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => () => Promise.resolve(false)),
         };
         const provider = new AtMentionProvider(baseParams);
         const props = {

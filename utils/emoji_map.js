@@ -50,7 +50,7 @@ export default class EmojiMap {
 
                     this.systemIndex += 1;
 
-                    return {value: [emoji.short_names[0], emoji]};
+                    return {value: [emoji.short_names[0], emoji], done: false};
                 }
 
                 if (this.customIndex < customEmojisArray.length) {
@@ -58,10 +58,10 @@ export default class EmojiMap {
 
                     this.customIndex += 1;
                     const name = emoji.short_name || emoji.name;
-                    return {value: [name, emoji]};
+                    return {value: [name, emoji], done: false};
                 }
 
-                return {done: true};
+                return {value: ['', null], done: true};
             },
         };
     }
