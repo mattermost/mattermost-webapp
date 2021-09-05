@@ -543,7 +543,6 @@
   "admin.complianceExport.globalRelaySMTPUsername.description": "Der Benutzername, der für die Authentifizierung gegenüber dem GlobalRelay-SMTP-Server verwendet wird.",
   "admin.complianceExport.globalRelaySMTPUsername.example": "Z.B.: \"globalRelayBenutzer\"",
   "admin.complianceExport.globalRelaySMTPUsername.title": "SMTP-Benutzername:",
-  "admin.complianceExport.globalRelaySmtpUsername.description": "Der Benutzername zur Authentifizierung am Global-Relay-Server.",
   "admin.complianceExport.messagesExportedCount": "{count} Nachrichten exportiert.",
   "admin.complianceExport.title": "Compliance-Export",
   "admin.complianceExport.warningCount": "Es wurden {count} Warnungen festgestellt. Schauen Sie in die warning.txt. für weitere Informationen",

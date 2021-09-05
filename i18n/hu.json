@@ -536,7 +536,6 @@
   "admin.complianceExport.globalRelayEmailAddress.example": "Pl.: \"globalrelay@mattermost.com\"",
   "admin.complianceExport.globalRelayEmailAddress.title": "Global Relay e-mail cím:",
   "admin.complianceExport.globalRelaySMTPPassword.title": "SMTP jelszó:",
-  "admin.complianceExport.globalRelaySmtpUsername.description": "A Global Relay SMTP szerveren hitelesítéshez használt felhasználónév.",
   "admin.complianceExport.messagesExportedCount": "{count} üzenet exportálva.",
   "admin.complianceExport.title": "Megfelelősségi export",
   "admin.complianceExport.warningCount": "{count} figyelmeztetés merült fel, a részletekért lásd a warning.txt fájlt",
