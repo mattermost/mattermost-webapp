@@ -23,7 +23,7 @@ interface Props extends Omit<SuggestionProps, 'item'>{
 }
 
 export default class AtMentionSuggestion extends Suggestion<Props> {
-    render(): JSX.Element {
+    render(): React.ReactNode {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
 
