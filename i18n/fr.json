@@ -497,6 +497,7 @@
   "admin.cluster.StreamingPort": "Port de streaming :",
   "admin.cluster.StreamingPortDesc": "Le port utilisé pour streamer des données entre les serveurs.",
   "admin.cluster.StreamingPortEx": "Ex. : « 8075 »",
+  "admin.cluster.UseIPAddress": "Utiliser l'adresse IP :",
   "admin.cluster.enableDescription": "Lorsqu'activé, Mattermost est lancé en mode haute disponibilité. Consultez notre [documentation](!http://docs.mattermost.com/deployment/cluster.html) pour en savoir plus sur la configuration de la haute disponibilité pour Mattermost.",
   "admin.cluster.enableTitle": "Activer le mode haute disponibilité :",
   "admin.cluster.loadedFrom": "Le fichier de configuration a été chargé par le noeud ID {clusterId}. Consultez le guide de résolution des problèmes de notre [documentation](!http://docs.mattermost.com/deployment/cluster.html) si vous accédez à la console système à partir d'un répartiteur de charge et que vous rencontrez des problèmes.",
