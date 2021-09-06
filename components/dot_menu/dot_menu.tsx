@@ -9,7 +9,7 @@ import {Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
-import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
@@ -28,7 +28,6 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';
-import {Client4} from 'mattermost-redux/client';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -111,6 +110,11 @@ type Props = {
          * Function to set the thread as followed/unfollowed
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
+
+        /**
+         * Function to get the post menu bindings for this post.
+         */
+        getBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
 
     }; // TechDebt: Made non-mandatory while converting to typescript
 
@@ -371,17 +375,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     fetchBindings = () => {
-        Client4.getAppsBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(
-            (bindings) => {
-                const headerBindings = bindings.filter((b) => b.location === AppBindingLocations.POST_MENU_ITEM);
-                const postMenuBindings = headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
-                this.setState({appBindings: postMenuBindings});
-            },
-            () => {
-                this.setState({appBindings: []});
-            },
-        ).catch(() => {
-            this.setState({appBindings: []});
+        this.props.actions.getBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(({data}) => {
+            this.setState({appBindings: data});
         });
     }
 

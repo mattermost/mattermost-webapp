@@ -28,7 +28,7 @@ import {setThreadFollow} from 'mattermost-redux/actions/threads';
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall, postEphemeralCallResponseForPost} from 'actions/apps';
+import {doAppCall, makeGetBindings, postEphemeralCallResponseForPost} from 'actions/apps';
 
 import {
     flagPost,
@@ -44,6 +44,8 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
 import {Locations} from 'utils/constants';
+
+import {AppBinding} from 'mattermost-redux/types/apps';
 
 import DotMenu from './dot_menu';
 
@@ -63,6 +65,8 @@ type Props = {
 const getPostMenuBindings = makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
 
 const getRHSPostMenuBindings = makeRHSAppBindingSelector(AppBindingLocations.POST_MENU_ITEM);
+
+const getBindings = makeGetBindings(AppBindingLocations.POST_MENU_ITEM);
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
@@ -156,6 +160,7 @@ type Actions = {
     doAppCall: DoAppCall;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
+    getBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -171,6 +176,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             doAppCall,
             postEphemeralCallResponseForPost,
             setThreadFollow,
+            getBindings,
         }, dispatch),
     };
 }
