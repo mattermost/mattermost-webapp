@@ -33,7 +33,7 @@ function makeMapStateToProps() {
         preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
         isAdmin: isCurrentUserSystemAdmin(state),
         enableOnboardingFlow: getConfig(state).EnableOnboardingFlow === 'true',
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        globalHeaderEnabled: getGlobalHeaderEnabled(),
     });
 }
 

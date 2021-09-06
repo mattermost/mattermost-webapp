@@ -34,7 +34,7 @@ function makeMapStateToProps() {
             isFirstAdmin: isFirstAdmin(state),
             team,
             isCloud: getLicense(state).Cloud === 'true',
-            globalHeaderEnabled: getGlobalHeaderEnabled(state),
+            globalHeaderEnabled: getGlobalHeaderEnabled(),
         };
     };
 }
