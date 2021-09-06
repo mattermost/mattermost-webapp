@@ -200,7 +200,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             }
         }
 
-        if (userScrolledToBottom || this.isNewMessagesVisible()) {
+        if (userScrolledToBottom) {
             updatedState.lastViewedBottom = Date.now();
         }
 
@@ -278,7 +278,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
     handleCreateCommentHeightChange = (height: number, maxHeight: number) => {
         let createCommentHeight = height > maxHeight ? maxHeight : height;
-        createCommentHeight += CREATE_COMMENT_BUTTON_HEIGHT + 10;
+        createCommentHeight += CREATE_COMMENT_BUTTON_HEIGHT;
 
         if (createCommentHeight !== this.state.createCommentHeight) {
             this.setState({createCommentHeight});
