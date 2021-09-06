@@ -163,8 +163,8 @@
                 background-image:
                     linear-gradient(
                         0deg,
-                        var(--sidebar-text-08),
-                        var(--sidebar-text-08)
+                        rgba(var(--global-header-text-rgb), 0.08),
+                        rgba(var(--global-header-text-rgb), 0.08)
                     );
             }
         }
