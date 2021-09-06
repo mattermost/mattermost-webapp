@@ -10,9 +10,10 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getInt, shouldShowUnreadsCategory, getAddChannelButtonTreatment} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {openModal} from 'actions/views/modals';
+import {openModal, closeModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
-import {Constants, Preferences, TutorialSteps} from 'utils/constants';
+import {Constants, ModalIdentifiers, Preferences, TutorialSteps} from 'utils/constants';
+import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 
 import ChannelNavigator from './channel_navigator';
@@ -46,11 +47,13 @@ function mapStateToProps(state: GlobalState) {
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
         addChannelButton: getAddChannelButtonTreatment(state),
+        isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
     };
 }
 
 type Actions = {
     openModal: (modalData: any) => Promise<{data: boolean}>;
+    closeModal: (modalId: string) => void;
     goBack: () => void;
     goForward: () => void;
 }
@@ -59,6 +62,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             openModal,
+            closeModal,
             goBack,
             goForward,
         }, dispatch),

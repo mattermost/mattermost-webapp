@@ -64,9 +64,9 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
         }
 
         if (direction === -1) {
-            dispatch(moveHistoryIndexBack(Posts.MESSAGE_TYPES.COMMENT));
+            dispatch(moveHistoryIndexBack(Posts.MESSAGE_TYPES.COMMENT as 'comment'));
         } else if (direction === 1) {
-            dispatch(moveHistoryIndexForward(Posts.MESSAGE_TYPES.COMMENT));
+            dispatch(moveHistoryIndexForward(Posts.MESSAGE_TYPES.COMMENT as 'comment'));
         }
 
         const nextMessageInHistory = getMessageInHistory(getState());

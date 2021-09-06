@@ -219,7 +219,7 @@ export default class CommandProvider extends Provider {
                     cmd = '⌘';
                 }
 
-                if (appsEnabled(this.store.getState()) && this.appCommandParser) {
+                if (appsEnabled(this.store.getState())) {
                     const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext).map((suggestion) => ({
                         ...suggestion,
                         Complete: '/' + suggestion.Complete,

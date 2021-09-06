@@ -212,6 +212,7 @@ h6.markdown__heading {
         border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
         margin: 5px 0;
         border-radius: 0.25em;
+        cursor: auto;
         font-size: 13px;
         overflow-x: auto;
         visibility: visible;
@@ -255,6 +256,7 @@ h6.markdown__heading {
 
     .codespan__pre-wrap {
         code {
+            cursor: auto;
             white-space: pre-wrap;
         }
     }
@@ -262,7 +264,7 @@ h6.markdown__heading {
 
 .markdown__table {
     margin: 5px 0 10px;
-    background: $white;
+    background: var(--center-channel-bg);
 
     th,
     td {
@@ -276,7 +278,7 @@ h6.markdown__heading {
     }
 
     tbody tr {
-        background: $white;
+        background: var(--center-channel-bg);
 
         &:nth-child(2n) {
             background-color: #f8f8f8;
