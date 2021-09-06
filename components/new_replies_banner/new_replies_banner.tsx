@@ -1,26 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Toast from 'components/toast/toast';
-import {RelativeRanges} from 'components/timestamp';
-import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants';
-
-const TOAST_TEXT_COLLAPSE_WIDTH = 500;
-
-const TOAST_REL_RANGES = [
-    RelativeRanges.TODAY_YESTERDAY,
-];
 
 type Props = {
     hasNewReplies: boolean;
     width: number;
     onClick: () => void;
     onDismiss: () => void;
+    actions: {
+        updateThreadToastStatus: (status: boolean) => void;
+    };
 }
 
 function NewRepliesBanner({
@@ -28,8 +22,13 @@ function NewRepliesBanner({
     onClick,
     onDismiss,
     width,
+    actions,
 }: Props) {
     const onClickMessage = Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages');
+
+    useEffect(() => {
+        actions.updateThreadToastStatus(hasNewReplies);
+    }, [hasNewReplies]);
 
     return (
         <React.Fragment>

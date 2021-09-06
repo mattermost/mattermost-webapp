@@ -7,7 +7,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ViewsState} from 'types/store/views';
 
-import {Threads} from 'utils/constants';
+import {Threads, ActionTypes} from 'utils/constants';
 
 export const selectedThreadIdInTeam = (state: ViewsState['threads']['selectedThreadIdInTeam'] | null = null, action: GenericAction) => {
     switch (action.type) {
@@ -47,8 +47,19 @@ export function manuallyUnread(state: ViewsState['threads']['manuallyUnread'] | 
     return state;
 }
 
+export function toastStatus(state: ViewsState['threads']['toastStatus'] = false, action: GenericAction ) {
+    switch (action.type) {
+    case ActionTypes.SELECT_POST:
+        return false;
+    case ActionTypes.UPDATE_THREAD_TOAST_STATUS:
+        return action.data;
+    }
+    return state;
+}
+
 export default combineReducers({
     selectedThreadIdInTeam,
     lastViewedAt,
     manuallyUnread,
+    toastStatus,
 });

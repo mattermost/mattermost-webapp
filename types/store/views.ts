@@ -159,5 +159,6 @@ export type ViewsState = {
         selectedThreadIdInTeam: RelationOneToOne<Team, $ID<UserThread> | null>;
         lastViewedAt: {[id: string]: number};
         manuallyUnread: {[id: string]: boolean};
+        toastStatus: boolean;
     };
 };

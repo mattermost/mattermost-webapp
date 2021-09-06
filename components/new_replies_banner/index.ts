@@ -1,15 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
 import {createSelector} from 'reselect';
 
 import {$ID} from 'mattermost-redux/types/utilities';
 import {Post} from 'mattermost-redux/types/posts';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
+import {updateThreadToastStatus} from 'actions/views/threads';
 
 import {GlobalState} from 'types/store';
 
@@ -48,4 +52,12 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(NewRepliesBanner);
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    return {
+        actions: bindActionCreators({
+            updateThreadToastStatus,
+        }, dispatch),
+    };
+}
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(NewRepliesBanner);
