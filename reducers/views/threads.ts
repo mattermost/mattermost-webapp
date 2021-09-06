@@ -47,7 +47,7 @@ export function manuallyUnread(state: ViewsState['threads']['manuallyUnread'] | 
     return state;
 }
 
-export function toastStatus(state: ViewsState['threads']['toastStatus'] = false, action: GenericAction ) {
+export function toastStatus(state: ViewsState['threads']['toastStatus'] = false, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
         return false;
