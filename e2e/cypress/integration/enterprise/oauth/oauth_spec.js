@@ -61,7 +61,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
+        cy.uiGetProductSwitchButton().click();
         cy.get('#integrations').click();
         cy.get('#oauthApps').click();
 
@@ -80,7 +80,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
+        cy.uiGetProductSwitchButton().click();
         cy.get('#integrations').click();
         cy.get('#oauthApps').click();
 
@@ -146,7 +146,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
+        cy.uiGetProductSwitchButton().click();
         cy.get('#integrations').click();
         cy.get('#oauthApps').click();
 
@@ -232,25 +232,28 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
+        cy.uiGetProductSwitchButton().click();
         cy.get('#integrations').click();
         cy.get('#oauthApps').click();
 
         // # Other users should not see the apps from other users
-        cy.contains('.item-details', oauthClientID).should('not.exist');
+        cy.get('.item-details').should('not.exist');
 
         // # Login as sysadmin
         cy.apiAdminLogin();
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
+        cy.uiGetProductSwitchButton().click();
         cy.get('#integrations').click();
         cy.get('#oauthApps').click();
 
-        // * Sys admin should see the app
+        // * Sysadmin should see the app
+        cy.get('.item-details').should('be.visible');
         cy.contains('.item-details', oauthClientID).should('exist').within(() => {
-            // * Sys admin should see the Edit button
+            cy.get('.item-details__token').should('contain', oauthClientID);
+
+            // * Sysadmin should see the Edit button
             // # Click on the edit button
             cy.findByText('Edit').should('exist').click();
         });
@@ -259,7 +262,7 @@ describe('Integrations page', () => {
         cy.get('#description').type('Edited');
 
         // # Save
-        cy.get('#saveOauthApp').click();
+        cy.get('#saveOauthApp').click({force: true});
 
         cy.contains('.item-details', oauthClientID).should('exist').within(() => {
             // * Description should be edited
@@ -290,7 +293,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Go to OAuth apps settings
-        cy.get('#headerInfo').click();
+        cy.uiGetSetStatusButton().click();
         cy.get('#accountSettings').click();
         cy.get('#securityButton').click();
         cy.get('#appsEdit').click();
@@ -363,7 +366,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
+        cy.uiGetProductSwitchButton().click();
         cy.get('#integrations').click();
         cy.get('#oauthApps').click();
 
@@ -439,7 +442,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
+        cy.uiGetProductSwitchButton().click();
         cy.get('#integrations').click();
         cy.get('#oauthApps').click();
 

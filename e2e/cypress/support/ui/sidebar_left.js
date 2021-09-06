@@ -1,6 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+Cypress.Commands.add('uiGetLHS', () => {
+    return cy.get('#SidebarContainer').should('be.visible');
+});
+
+Cypress.Commands.add('uiGetLHSHeader', () => {
+    return cy.uiGetLHS().
+        find('header').
+        should('be.visible');
+});
+
+Cypress.Commands.add('uiGetLHSAddChannelButton', () => {
+    return cy.uiGetLHS().
+        findByRole('button', {name: 'Add Channel Dropdown'}).
+        should('be.visible');
+});
+
+Cypress.Commands.add('uiGetLHSTeamMenu', () => {
+    return cy.uiGetLHS().find('#sidebarDropdownMenu');
+});
+
 Cypress.Commands.add('uiGetLhsSection', (section) => {
     if (section === 'UNREADS') {
         return cy.findByText(section).parent().parent().parent();
