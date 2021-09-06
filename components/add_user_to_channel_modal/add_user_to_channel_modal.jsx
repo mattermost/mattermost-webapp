@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {getFullName} from 'mattermost-redux/utils/user_utils';
 
-import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider.jsx';
+import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider.tsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 

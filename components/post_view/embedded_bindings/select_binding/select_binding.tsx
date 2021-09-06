@@ -51,7 +51,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
         this.providers = [];
         if (binding.bindings) {
             const options = binding.bindings.map((b) => {
-                return {text: b.label, value: b.location};
+                return {text: b.label, value: b.location || ''};
             });
             this.providers = [new MenuActionProvider(options)];
         }

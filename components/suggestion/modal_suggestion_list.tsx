@@ -1,25 +1,54 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import SuggestionList, {SuggestionItem} from 'components/suggestion/suggestion_list.jsx';
 import {getClosestParent} from 'utils/utils.jsx';
 
-export default class ModalSuggestionList extends React.PureComponent {
-    static propTypes = {
-        position: PropTypes.string.isRequired,
-        open: PropTypes.bool.isRequired,
-        cleared: PropTypes.bool.isRequired,
-        inputRef: PropTypes.object.isRequired,
-        onLoseVisibility: PropTypes.func.isRequired,
-    }
+interface InputBounds {
+    top: number;
+    bottom: number;
+    width: number;
+}
 
-    constructor(props) {
+interface Props {
+    open: boolean;
+    cleared: boolean;
+    inputRef: React.RefObject<any>;
+    onLoseVisibility: () => void;
+    position?: 'top' | 'bottom';
+
+    onCompleteWord: (term: string, matchedPretext: string[], e?: React.UIEvent<ReactNode>) => boolean;
+    onItemHover: (term: string) => void;
+    pretext: string;
+    matchedPretext: string[];
+    items: SuggestionItem[];
+    terms: string[];
+    selection: string;
+    components: Array<React.Component<{item: SuggestionItem}>>;
+}
+
+interface State {
+    scroll: number;
+    modalBounds: {top: number; bottom: number};
+    inputBounds: InputBounds;
+    open: boolean;
+    cleared: boolean;
+    position?: 'top' | 'bottom';
+}
+
+export default class ModalSuggestionList extends React.PureComponent<Props, State> {
+    container: React.RefObject<any>;
+    suggestionList: React.RefObject<any>;
+    latestHeight: number;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
+            open: props.open,
+            cleared: props.cleared,
             scroll: 0,
             modalBounds: {top: 0, bottom: 0},
             inputBounds: {top: 0, bottom: 0, width: 0},
@@ -31,7 +60,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         this.latestHeight = 0;
     }
 
-    calculateInputRect = () => {
+    calculateInputRect(): InputBounds {
         if (this.props.inputRef.current) {
             const rect = this.props.inputRef.current.getInput().getBoundingClientRect();
             return {top: rect.top, bottom: rect.bottom, width: rect.width};
@@ -39,14 +68,15 @@ export default class ModalSuggestionList extends React.PureComponent {
         return {top: 0, bottom: 0, width: 0};
     }
 
-    onModalScroll = (e) => {
-        if (this.state.scroll !== e.target.scrollTop &&
+    onModalScroll(e: React.UIEvent<ReactNode>): void {
+        const target = e.target as HTMLElement;
+        if (this.state.scroll !== target.scrollTop &&
             this.latestHeight !== 0) {
-            this.setState({scroll: e.target.scrollTop});
+            this.setState({scroll: target.scrollTop});
         }
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         if (this.container.current) {
             const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
             modalBodyContainer.addEventListener('scroll', this.onModalScroll);
@@ -54,7 +84,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         window.addEventListener('resize', this.updateModalBounds);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         if (this.container.current) {
             const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
             modalBodyContainer.removeEventListener('scroll', this.onModalScroll);
@@ -62,7 +92,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         window.removeEventListener('resize', this.updateModalBounds);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State): void {
         if (!this.props.open || this.props.cleared) {
             return;
         }
@@ -87,7 +117,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         }
     }
 
-    getChildHeight = () => {
+    getChildHeight(): number {
         if (!this.container.current) {
             return 0;
         }
@@ -100,7 +130,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         return listElement.getBoundingClientRect().height;
     }
 
-    updateInputBounds = () => {
+    updateInputBounds(): InputBounds {
         const inputBounds = this.calculateInputRect();
         if (inputBounds.top !== this.state.inputBounds.top ||
             inputBounds.bottom !== this.state.inputBounds.bottom ||
@@ -110,7 +140,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         return inputBounds;
     }
 
-    updatePosition = (newInputBounds) => {
+    updatePosition(newInputBounds: InputBounds): void {
         let inputBounds = newInputBounds;
         if (!newInputBounds) {
             inputBounds = this.state.inputBounds;
@@ -135,7 +165,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         }
     }
 
-    updateModalBounds = () => {
+    updateModalBounds(): void {
         if (!this.container.current) {
             return;
         }
@@ -148,7 +178,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         }
     }
 
-    render() {
+    render(): React.ReactNode {
         const {
             ...props
         } = this.props;

@@ -12,7 +12,7 @@ import GenericChannelProvider from 'components/suggestion/generic_channel_provid
 
 import TextSetting from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
-import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
+import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.tsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 

@@ -3,14 +3,14 @@
 
 import configureStore from 'redux-mock-store';
 
-import {getState} from 'stores/redux_store';
-
-import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider.jsx';
+import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider';
 
 jest.mock('stores/redux_store', () => ({
     dispatch: jest.fn(),
     getState: jest.fn(),
 }));
+
+const getState = jest.requireMock('stores/redux_store').getState;
 
 describe('components/SearchChannelWithPermissionsProvider', () => {
     const defaultState = {
@@ -114,7 +114,7 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
         },
     };
 
-    let searchProvider;
+    let searchProvider: SearchChannelWithPermissionsProvider;
 
     beforeEach(() => {
         const channelSearchFunc = jest.fn();

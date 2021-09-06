@@ -15,7 +15,7 @@ import {UserAutocomplete} from 'mattermost-redux/types/autocomplete';
 
 import Provider, {ResultCallbackParams} from '../provider';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from '../../../types/store';
 import {getStore} from '../command_provider/app_command_parser/app_command_parser_dependencies';
 
@@ -58,10 +58,10 @@ export type Item = LocalMember & LocalGroup & SpecialMention & MentionMoreMember
 interface Props {
     currentUserId: string;
     profilesInChannel: LocalMember[];
-    autocompleteUsersInChannel: (prefix: string) => (dispatch: any, getState: any) => Promise<{data: UserAutocomplete}>;
+    autocompleteUsersInChannel: (prefix: string) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<{data: UserAutocomplete}>;
     useChannelMentions: boolean;
     autocompleteGroups: Group[];
-    searchAssociatedGroupsForReference: (prefix: string) => (dispatch: any, getState: any) => Promise<{data: Group[]}>;
+    searchAssociatedGroupsForReference: (prefix: string) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<{data: Group[]}>;
     priorityProfiles: UserProfile[];
 }
 
@@ -76,10 +76,10 @@ export default class AtMentionProvider extends Provider {
 
     currentUserId!: string;
     profilesInChannel!: LocalMember[];
-    autocompleteUsersInChannel!: (prefix: string) => (dispatch: any, getState: any) => Promise<{data: UserAutocomplete}>;
+    autocompleteUsersInChannel!: (prefix: string) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<{data: UserAutocomplete}>;
     useChannelMentions!: boolean;
     autocompleteGroups!: Group[];
-    searchAssociatedGroupsForReference!: (prefix: string) => (dispatch: any, getState: any) => Promise<{data: Group[]}>;
+    searchAssociatedGroupsForReference!: (prefix: string) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<{data: Group[]}>;
     priorityProfiles!: UserProfile[];
     store!: Store;
 

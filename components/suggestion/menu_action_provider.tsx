@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import Provider from './provider.tsx';
-import Suggestion from './suggestion.tsx';
+import Provider, {ResultCallbackParams} from './provider';
+import Suggestion, {SuggestionProps} from './suggestion';
 
-class MenuActionSuggestion extends Suggestion {
-    render() {
+class MenuActionSuggestion extends Suggestion<SuggestionProps> {
+    render(): React.ReactNode {
         const {item, isSelection} = this.props;
 
         let className = 'suggestion-list__item';
@@ -27,14 +27,16 @@ class MenuActionSuggestion extends Suggestion {
         );
     }
 }
-
+type Option = {value: string; text: string};
 export default class MenuActionProvider extends Provider {
-    constructor(options) {
+    options: Option[];
+
+    constructor(options: Option[]) {
         super();
         this.options = options;
     }
 
-    handlePretextChanged(prefix, resultsCallback) {
+    handlePretextChanged(prefix: string, resultsCallback: (params: ResultCallbackParams) => void): boolean {
         if (prefix.length === 0) {
             this.displayAllOptions(resultsCallback);
             return true;
@@ -48,7 +50,7 @@ export default class MenuActionProvider extends Provider {
         return false;
     }
 
-    async displayAllOptions(resultsCallback) {
+    displayAllOptions(resultsCallback: (params: ResultCallbackParams) => void): void {
         const terms = this.options.map((option) => option.text);
 
         resultsCallback({
@@ -59,7 +61,7 @@ export default class MenuActionProvider extends Provider {
         });
     }
 
-    async filterOptions(prefix, resultsCallback) {
+    filterOptions(prefix: string, resultsCallback: (params: ResultCallbackParams) => void): void {
         const filteredOptions = this.options.filter((option) => option.text.toLowerCase().indexOf(prefix.toLowerCase()) >= 0);
         const terms = filteredOptions.map((option) => option.text);
 

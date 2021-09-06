@@ -15,20 +15,20 @@ import {Permissions} from 'mattermost-redux/constants';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 import {logError} from 'mattermost-redux/actions/errors';
 
-import store from 'stores/redux_store.jsx';
+import store from 'stores/redux_store';
 import {Constants} from 'utils/constants';
 
-import Provider from './provider.tsx';
-import Suggestion from './suggestion.tsx';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
-class SearchChannelWithPermissionsSuggestion extends Suggestion {
-    static get propTypes() {
-        return {
-            ...super.propTypes,
-        };
-    }
+import {Channel} from 'mattermost-redux/types/channels';
 
-    render() {
+import Provider, {ResultCallbackParams} from './provider';
+import Suggestion, {SuggestionProps} from './suggestion';
+
+class SearchChannelWithPermissionsSuggestion extends Suggestion<SuggestionProps> {
+    node: HTMLDivElement | null = null;
+
+    render(): React.ReactNode {
         const {item, isSelection} = this.props;
         const channel = item.channel;
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
@@ -75,7 +75,7 @@ class SearchChannelWithPermissionsSuggestion extends Suggestion {
 
 let prefix = '';
 
-function channelSearchSorter(wrappedA, wrappedB) {
+function channelSearchSorter(wrappedA: WrappedChannel, wrappedB: WrappedChannel) {
     const aIsArchived = wrappedA.channel.delete_at ? wrappedA.channel.delete_at !== 0 : false;
     const bIsArchived = wrappedB.channel.delete_at ? wrappedB.channel.delete_at !== 0 : false;
     if (aIsArchived && !bIsArchived) {
@@ -105,13 +105,22 @@ function channelSearchSorter(wrappedA, wrappedB) {
     return 1;
 }
 
+interface WrappedChannel {
+    channel: Channel;
+    name: string;
+    deactivated: boolean;
+    type?: string;
+}
+
 export default class SearchChannelWithPermissionsProvider extends Provider {
-    constructor(channelSearchFunc) {
+    autocompleteChannelsForSearch: (teamId: string, term: string) => ActionFunc;
+
+    constructor(channelSearchFunc: (teamId: string, term: string) => ActionFunc) {
         super();
         this.autocompleteChannelsForSearch = channelSearchFunc;
     }
 
-    makeChannelSearchFilter(channelPrefix) {
+    makeChannelSearchFilter(channelPrefix: string): (channel: Channel) => boolean {
         const channelPrefixLower = channelPrefix.toLowerCase();
 
         return (channel) => {
@@ -133,7 +142,7 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
         };
     }
 
-    handlePretextChanged(channelPrefix, resultsCallback) {
+    handlePretextChanged(channelPrefix: string, resultsCallback: (params: ResultCallbackParams) => void): boolean {
         if (channelPrefix) {
             prefix = channelPrefix;
             this.startNewRequest(channelPrefix);
@@ -144,20 +153,20 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
             this.formatChannelsAndDispatch(channelPrefix, resultsCallback, channels);
 
             // Fetch data from the server and dispatch
-            this.fetchChannels(channelPrefix, resultsCallback);
+            this.fetchChannels(channelPrefix, resultsCallback).catch();
         }
 
         return true;
     }
 
-    async fetchChannels(channelPrefix, resultsCallback) {
+    async fetchChannels(channelPrefix: string, resultsCallback: (params: ResultCallbackParams) => void): Promise<void> {
         const state = store.getState();
         const teamId = getCurrentTeamId(state);
         if (!teamId) {
             return;
         }
 
-        const channelsAsync = this.autocompleteChannelsForSearch(teamId, channelPrefix);
+        const channelsAsync = store.dispatch(this.autocompleteChannelsForSearch(teamId, channelPrefix));
 
         let channelsFromServer = [];
         try {
@@ -175,9 +184,7 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
         this.formatChannelsAndDispatch(channelPrefix, resultsCallback, channels);
     }
 
-    formatChannelsAndDispatch(channelPrefix, resultsCallback, allChannels) {
-        const channels = [];
-
+    formatChannelsAndDispatch(channelPrefix: string, resultsCallback: (params: ResultCallbackParams) => void, allChannels: Channel[]): void {
         const state = store.getState();
 
         const members = getMyChannelMemberships(state);
@@ -186,43 +193,39 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
             return;
         }
 
-        const completedChannels = {};
+        const completedChannels: Map<string, boolean> = new Map();
 
         const channelFilter = this.makeChannelSearchFilter(channelPrefix);
 
         const config = getConfig(state);
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
-        for (const id of Object.keys(allChannels)) {
-            const channel = allChannels[id];
-            if (!channel) {
-                continue;
+        const channels: WrappedChannel[] = allChannels.reduce((wrappedChannels: WrappedChannel[], channel: Channel) => {
+            if (completedChannels.has(channel.id) || !channelFilter(channel)) {
+                return wrappedChannels;
             }
 
-            if (completedChannels[channel.id]) {
-                continue;
+            const newChannel = Object.assign({}, channel);
+            const channelIsArchived = channel.delete_at !== 0;
+
+            const wrappedChannel: WrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
+            if (!viewArchivedChannels && channelIsArchived) {
+                return wrappedChannels;
+            } else if (!members[channel.id]) {
+                return wrappedChannels;
+            } else if (channel.type === Constants.OPEN_CHANNEL) {
+                wrappedChannel.type = Constants.OPEN_CHANNEL;
+            } else if (channel.type === Constants.PRIVATE_CHANNEL) {
+                wrappedChannel.type = Constants.PRIVATE_CHANNEL;
+            } else {
+                return wrappedChannels;
             }
 
-            if (channelFilter(channel)) {
-                const newChannel = Object.assign({}, channel);
-                const channelIsArchived = channel.delete_at !== 0;
+            completedChannels.set(channel.id, true);
+            wrappedChannels.push(wrappedChannel);
 
-                const wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
-                if (!viewArchivedChannels && channelIsArchived) {
-                    continue;
-                } else if (!members[channel.id]) {
-                    continue;
-                } else if (channel.type === Constants.OPEN_CHANNEL) {
-                    wrappedChannel.type = Constants.OPEN_CHANNEL;
-                } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-                    wrappedChannel.type = Constants.PRIVATE_CHANNEL;
-                } else {
-                    continue;
-                }
-                completedChannels[channel.id] = true;
-                channels.push(wrappedChannel);
-            }
-        }
+            return wrappedChannels;
+        }, []);
 
         const channelNames = channels.
             sort(channelSearchSorter).

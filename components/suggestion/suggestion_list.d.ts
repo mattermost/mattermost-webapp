@@ -7,7 +7,7 @@ import React from 'react';
 // to define a shared type for them. Confirming that a SuggestionItem matches what its component expects will be left
 // up to the component.
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface SuggestionItem {}
+export interface SuggestionItem {}
 
 interface Props {
     ariaLiveRef?: React.Ref<HTMLDivElement>;
