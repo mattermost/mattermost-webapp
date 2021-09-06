@@ -1,0 +1,51 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import {connect} from 'react-redux';
+
+import {createSelector} from 'reselect';
+
+import {$ID} from 'mattermost-redux/types/utilities';
+import {Post} from 'mattermost-redux/types/posts';
+
+import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
+import {GlobalState} from 'types/store';
+
+import NewRepliesBanner from './new_replies_banner';
+
+type Props = {
+    threadId: $ID<Post>;
+    lastViewedBottom: number;
+    canShow: boolean;
+}
+
+function makeGetHasNewRepliesSince(): (state: GlobalState, threadId: string, lastViewed: number) => boolean {
+    const getPostsForThread = makeGetPostsForThread();
+
+    return createSelector(
+        'makeGetHasNewRepliesSince',
+        getPostsForThread,
+        getCurrentUser,
+        (_state: GlobalState, _threadId: string, lastViewed: number) => lastViewed,
+        (posts, currentUser, lastViewed) => posts.
+            some((post) => post.create_at > lastViewed && post.user_id !== currentUser.id),
+    );
+}
+
+function makeMapStateToProps() {
+    const getHasNewRepliesSince = makeGetHasNewRepliesSince();
+
+    return (state: GlobalState, ownProps: Props) => {
+        const {threadId, lastViewedBottom, canShow} = ownProps;
+
+        const hasNewReplies = canShow ? getHasNewRepliesSince(state, threadId, lastViewedBottom) : false;
+
+        return {
+            hasNewReplies,
+        };
+    };
+}
+
+export default connect(makeMapStateToProps)(NewRepliesBanner);
