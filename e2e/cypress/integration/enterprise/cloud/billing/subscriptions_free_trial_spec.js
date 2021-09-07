@@ -137,25 +137,9 @@ describe('System Console - Subscriptions section', () => {
         cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
 
         // # Enter card details
-        getIframeBody().find('[name="cardnumber"]').clear().type('4242424242424242');
-        getIframeBody().find('[name="exp-date"]').clear().type('4242');
-        getIframeBody().find('[name="cvc"]').clear().type('412');
-        cy.get('#input_name').clear().type('test name');
-        cy.contains('legend', 'Country').parent().find('.icon-chevron-down').click();
-        cy.contains('legend', 'Country').parent().find("input[type='text']").type('India{enter}');
-        cy.get('#input_address').type('test1');
-        cy.get('#input_address2').type('test2');
-        cy.get('#input_city').clear().type('testcity');
-        cy.get('#input_state').type('test');
-        cy.get('#input_postalCode').type('444');
-
-        // * Check for enable status of Subscribe button
-        cy.get('.RHS').find('button').should('be.enabled');
-
-        // # Enter card details
-        getIframeBody().find('[name="cardnumber"]').clear().type('4242424242424242');
-        getIframeBody().find('[name="exp-date"]').clear().type('4242');
-        getIframeBody().find('[name="cvc"]').clear().type('412');
+        cy.getIframeBody().find('[name="cardnumber"]').clear().type('4242424242424242');
+        cy.getIframeBody().find('[name="exp-date"]').clear().type('4242');
+        cy.getIframeBody().find('[name="cvc"]').clear().type('412');
         cy.get('#input_name').clear().type('test name');
         cy.contains('legend', 'Country').parent().find('.icon-chevron-down').click();
         cy.contains('legend', 'Country').parent().find("input[type='text']").type('India{enter}');
@@ -169,7 +153,7 @@ describe('System Console - Subscriptions section', () => {
         cy.get('.RHS').find('button').should('be.enabled');
 
         // # Enter invalid csv
-        getIframeBody().find('[name="cvc"]').clear().type('12');
+        cy.getIframeBody().find('[name="cvc"]').clear().type('12');
         cy.get('#input_name').clear().type('test user');
         cy.get('.RHS').find('button').should('be.disabled');
 
@@ -186,19 +170,11 @@ describe('System Console - Subscriptions section', () => {
         cy.get('#input_postalCode').type('444');
 
         // * Check for disabled Subscribe button for having wrong card details
-        getIframeBody().find('[name="cardnumber"]').clear().type('4242424242424141');
-        getIframeBody().find('[name="exp-date"]').clear().type('4242');
-        getIframeBody().find('[name="cvc"]').clear().type('472');
+        cy.getIframeBody().find('[name="cardnumber"]').clear().type('4242424242424141');
+        cy.getIframeBody().find('[name="exp-date"]').clear().type('4242');
+        cy.getIframeBody().find('[name="cvc"]').clear().type('472');
         cy.get('#input_name').clear().type('test user');
         cy.get('.RHS').find('button').should('be.disabled');
     });
 });
-
-const getIframeBody = () => {
-    // # Get the body of iframe element
-    return cy.
-        get('.__PrivateStripeElement > iframe').
-        its('0.contentDocument.body').should('not.be.empty').
-        then(cy.wrap);
-};
 
