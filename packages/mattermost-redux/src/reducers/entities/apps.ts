@@ -44,6 +44,9 @@ export function pluginEnabled(state = true, action: GenericAction): boolean {
     case AppsTypes.APPS_PLUGIN_DISABLED: {
         return false;
     }
+    case AppsTypes.RECEIVED_APP_BINDINGS: {
+        return true;
+    }
     case AppsTypes.FAILED_TO_FETCH_APP_BINDINGS: {
         return false;
     }

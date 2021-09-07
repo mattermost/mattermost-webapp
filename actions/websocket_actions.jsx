@@ -72,7 +72,6 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
@@ -517,13 +516,13 @@ export function handleEvent(msg) {
         dispatch(handleThreadUpdated(msg));
         break;
     case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS:
-        dispatch(handleRefreshAppsBindings(msg));
+        dispatch(handleRefreshAppsBindings());
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_ENABLED:
-        dispatch(handleAppsPluginEnabled(msg));
+        dispatch(handleAppsPluginEnabled());
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
-        dispatch(handleAppsPluginDisabled(msg));
+        dispatch(handleAppsPluginDisabled());
         break;
     default:
     }
@@ -1419,14 +1418,12 @@ function handleCloudPaymentStatusUpdated() {
 function handleRefreshAppsBindings() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
-        if (appsEnabled(state)) {
-            doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
-        }
+        doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
         return {data: true};
     };
 }
 
-function handleAppsPluginEnabled() {
+export function handleAppsPluginEnabled() {
     return (doDispatch, doGetState) => {
         doDispatch({
             type: AppsTypes.APPS_PLUGIN_ENABLED,
@@ -1439,7 +1436,7 @@ function handleAppsPluginEnabled() {
     };
 }
 
-function handleAppsPluginDisabled() {
+export function handleAppsPluginDisabled() {
     return {
         type: AppsTypes.APPS_PLUGIN_DISABLED,
     };
