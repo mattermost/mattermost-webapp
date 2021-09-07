@@ -170,7 +170,7 @@
         }
 
         &.active {
-            background: var(--sidebar-text-16);
+            background: rgba(var(--global-header-text-rgb), 0.16);
 
             .status {
                 background-image:
