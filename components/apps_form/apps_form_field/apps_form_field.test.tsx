@@ -40,14 +40,30 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             performLookup: jest.fn(),
         };
 
+        const requiredLabel = (
+            <React.Fragment>
+                {[textField.modal_label]}
+            </React.Fragment>
+        );
+
+        const optionalText = (
+            <span
+                className='light'
+            >
+                {' (optional)'}
+            </span>
+        );
+
+        const optionalLabel = (
+            <React.Fragment>
+                {[textField.modal_label,
+                    optionalText]}
+            </React.Fragment>
+        );
+
         const baseTextSettingProps = {
             inputClassName: '',
-            label: (
-                <React.Fragment>
-                    {baseDialogTextProps.field.modal_label}
-                    <span className='error-text'>{' *'}</span>
-                </React.Fragment>
-            ),
+            label: (requiredLabel),
             maxLength: 100,
             placeholder: 'The hint',
             resizable: false,
@@ -56,6 +72,27 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             id: baseDialogTextProps.name,
             helpText: (<Markdown message='The description'/>),
         };
+
+        it('subtype blank - optional field', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogTextProps}
+                    field={{
+                        ...textField,
+                        label: (optionalLabel),
+                        is_required: false,
+                    }}
+                />,
+            );
+            expect(wrapper.matchesElement(
+                <TextSetting
+                    {...baseTextSettingProps}
+                    label={optionalLabel}
+                    type='input'
+                />,
+            )).toEqual(true);
+        });
+
         it('subtype blank', () => {
             const wrapper = shallow(
                 <AppsFormField
