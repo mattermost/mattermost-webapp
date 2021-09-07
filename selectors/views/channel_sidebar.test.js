@@ -71,10 +71,10 @@ describe('isUnreadFilterEnabled', () => {
 });
 
 describe('getUnreadChannels', () => {
-    const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});
-    const readChannel = {id: 'readChannel', delete_at: 0, total_msg_count: 10, last_post_at: 300};
-    const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, total_msg_count: 10, last_post_at: 100};
-    const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, total_msg_count: 10, last_post_at: 200};
+    const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, last_post_at: 0});
+    const readChannel = {id: 'readChannel', delete_at: 0, last_post_at: 300};
+    const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, last_post_at: 100};
+    const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, last_post_at: 200};
 
     const baseState = {
         entities: {
@@ -89,6 +89,12 @@ describe('getUnreadChannels', () => {
                     team1: ['unreadChannel1', 'unreadChannel2', 'readChannel'],
                 },
                 currentChannelId: 'currentChannel',
+                messageCounts: {
+                    currentChannel: {total: 0},
+                    readChannel: {total: 10},
+                    unreadChannel1: {total: 10},
+                    unreadChannel2: {total: 10},
+                },
                 myMembers: {
                     currentChannel: {notify_props: {}, mention_count: 0, msg_count: 0},
                     readChannel: {notify_props: {}, mention_count: 0, msg_count: 10},
@@ -317,7 +323,7 @@ describe('getUnreadChannels', () => {
                     ...baseState.entities.channels,
                     myMembers: {
                         ...baseState.entities.channels.myMembers,
-                        unreadChannel2: {notify_props: {mark_unread: 'all'}, total_msg_count: 10, mention_count: 2},
+                        unreadChannel2: {notify_props: {mark_unread: 'all'}, msg_count: 10, mention_count: 2},
                     },
                 },
                 general: {
@@ -340,7 +346,7 @@ describe('getUnreadChannels', () => {
                     ...state.entities.channels,
                     myMembers: {
                         ...state.entities.channels.myMembers,
-                        unreadChannel2: {notify_props: {mark_unread: 'mention'}, total_msg_count: 10, mention_count: 2},
+                        unreadChannel2: {notify_props: {mark_unread: 'mention'}, msg_count: 10, mention_count: 2},
                     },
                 },
                 general: {
@@ -357,7 +363,7 @@ describe('getUnreadChannels', () => {
     });
 
     test('should not show archived channels unless they are the current channel', () => {
-        const archivedChannel = {id: 'archivedChannel', delete_at: 1, total_msg_count: 10, last_post_at: 400};
+        const archivedChannel = {id: 'archivedChannel', delete_at: 1, last_post_at: 400};
 
         let state = {
             ...baseState,
@@ -375,6 +381,10 @@ describe('getUnreadChannels', () => {
                             ...baseState.entities.channels.channelsInTeam.team1,
                             'archivedChannel',
                         ],
+                    },
+                    messageCounts: {
+                        ...baseState.entities.channels.messageCounts,
+                        archivedChannel: {total: 10},
                     },
                     myMembers: {
                         ...baseState.entities.channels.myMembers,
@@ -409,10 +419,10 @@ describe('getUnreadChannels', () => {
 });
 
 describe('getDisplayedChannels', () => {
-    const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});
-    const readChannel = {id: 'readChannel', delete_at: 0, total_msg_count: 10, last_post_at: 300};
-    const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, total_msg_count: 10, last_post_at: 100};
-    const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, total_msg_count: 10, last_post_at: 200};
+    const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, last_post_at: 0});
+    const readChannel = {id: 'readChannel', delete_at: 0, last_post_at: 300};
+    const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, last_post_at: 100};
+    const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, last_post_at: 200};
 
     const category1 = {id: 'category1', team_id: 'team1', channel_ids: [currentChannel.id, unreadChannel1.id]};
     const category2 = {id: 'category2', team_id: 'team1', channel_ids: [readChannel.id, unreadChannel2.id]};
@@ -430,6 +440,12 @@ describe('getDisplayedChannels', () => {
                     team1: ['unreadChannel1', 'unreadChannel2', 'readChannel'],
                 },
                 currentChannelId: 'currentChannel',
+                messageCounts: {
+                    currentChannel: {total: 0},
+                    readChannel: {total: 10},
+                    unreadChannel1: {total: 10},
+                    unreadChannel2: {total: 10},
+                },
                 myMembers: {
                     currentChannel: {notify_props: {}, mention_count: 0, msg_count: 0},
                     readChannel: {notify_props: {}, mention_count: 0, msg_count: 10},
@@ -579,10 +595,10 @@ describe('getDisplayedChannels', () => {
 });
 
 describe('makeGetFilteredChannelIdsForCategory', () => {
-    const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});
-    const readChannel = {id: 'readChannel', delete_at: 0, total_msg_count: 10, last_post_at: 300};
-    const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, total_msg_count: 10, last_post_at: 100};
-    const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, total_msg_count: 10, last_post_at: 200};
+    const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, last_post_at: 0});
+    const readChannel = {id: 'readChannel', delete_at: 0, last_post_at: 300};
+    const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, last_post_at: 100};
+    const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, last_post_at: 200};
 
     const baseState = {
         entities: {
@@ -597,6 +613,12 @@ describe('makeGetFilteredChannelIdsForCategory', () => {
                     team1: ['unreadChannel1', 'unreadChannel2', 'readChannel'],
                 },
                 currentChannelId: 'currentChannel',
+                messageCounts: {
+                    currentChannel: {total: 0},
+                    readChannel: {total: 10},
+                    unreadChannel1: {total: 10},
+                    unreadChannel2: {total: 10},
+                },
                 myMembers: {
                     currentChannel: {notify_props: {}, mention_count: 0, msg_count: 0},
                     readChannel: {notify_props: {}, mention_count: 0, msg_count: 10},
