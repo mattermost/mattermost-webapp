@@ -134,6 +134,7 @@ describe('makeFilterAutoclosedDMs', () => {
         entities: {
             channels: {
                 currentChannelId: 'channel1',
+                messageCounts: {},
                 myMembers: {
                     channel2: {
                         channel_id: 'channel2',
@@ -172,12 +173,16 @@ describe('makeFilterAutoclosedDMs', () => {
     test('Should always show an unread channel', () => {
         const filterAutoclosedDMs = Selectors.makeFilterAutoclosedDMs();
 
-        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL, total_msg_count: 5};
+        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL};
         const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL};
 
         const state = mergeObjects(baseState, {
             entities: {
                 channels: {
+                    messageCounts: {
+                        gmChannel1: {total: 5},
+                        gmChannel2: {total: 0},
+                    },
                     myMembers: {
                         gmChannel1: {msg_count: 1, notify_props: {mark_unread: MarkUnread.ALL}},
                         gmChannel2: {msg_count: 0, notify_props: {mark_unread: MarkUnread.ALL}},
@@ -359,6 +364,7 @@ describe('makeFilterManuallyClosedDMs', () => {
                 config: {},
             },
             channels: {
+                messageCounts: {},
                 myMembers: {},
             },
             preferences: {
@@ -413,14 +419,20 @@ describe('makeFilterManuallyClosedDMs', () => {
     test('should show unread DMs and GMs, regardless of preferences', () => {
         const filterManuallyClosedDMs = Selectors.makeFilterManuallyClosedDMs();
 
-        const dmChannel1 = {id: 'dmChannel1', type: General.DM_CHANNEL, name: `${currentUser.id}__${otherUser1.id}`, total_msg_count: 1};
-        const dmChannel2 = {id: 'dmChannel2', type: General.DM_CHANNEL, name: `${currentUser.id}__${otherUser2.id}`, total_msg_count: 0};
-        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL, total_msg_count: 1};
-        const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL, total_msg_count: 0};
+        const dmChannel1 = {id: 'dmChannel1', type: General.DM_CHANNEL, name: `${currentUser.id}__${otherUser1.id}`};
+        const dmChannel2 = {id: 'dmChannel2', type: General.DM_CHANNEL, name: `${currentUser.id}__${otherUser2.id}`};
+        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL};
+        const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL};
 
         const state = mergeObjects(baseState, {
             entities: {
                 channels: {
+                    messageCounts: {
+                        dmChannel1: {total: 1},
+                        dmChannel2: {total: 0},
+                        gmChannel1: {total: 1},
+                        gmChannel2: {total: 0},
+                    },
                     myMembers: {
                         dmChannel1: {msg_count: 0},
                         dmChannel2: {msg_count: 0},
@@ -770,6 +782,7 @@ describe('makeGetChannelIdsForCategory', () => {
                     dmChannel2,
                     gmChannel1,
                 },
+                messageCounts: {},
                 myMembers: {
                     [channel1.id]: {},
                     [channel2.id]: {},
@@ -1229,6 +1242,7 @@ describe('makeGetChannelsByCategory', () => {
                     dmChannel2,
                     gmChannel1,
                 },
+                messageCounts: {},
                 myMembers: {
                     [channel1.id]: {},
                     [channel2.id]: {},

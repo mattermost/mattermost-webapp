@@ -29,7 +29,6 @@ const initialState = {
                     display_name: 'Default',
                     delete_at: 0,
                     type: 'O',
-                    total_msg_count: 10,
                     team_id: 'team_id',
                 },
                 current_user_id__existingId: {
@@ -38,12 +37,15 @@ const initialState = {
                     display_name: 'Default',
                     delete_at: 0,
                     type: '0',
-                    total_msg_count: 0,
                     team_id: 'team_id',
                 },
             },
             channelsInTeam: {
                 'team-id': ['current_channel_id'],
+            },
+            messageCounts: {
+                current_channel_id: {total: 10},
+                current_user_id__existingId: {total: 0},
             },
         },
         teams: {

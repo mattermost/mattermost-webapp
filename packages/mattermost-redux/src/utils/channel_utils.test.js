@@ -190,7 +190,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelA',
             type: 'O',
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelB = {
@@ -199,7 +198,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelB',
             type: 'O',
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         assert.equal(sortChannelsByDisplayName('en', channelA, channelB), -1);
@@ -218,7 +216,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelA',
             type: General.OPEN_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelOpen2 = {
@@ -227,7 +224,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelB',
             type: General.OPEN_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelPrivate = {
@@ -236,7 +232,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelC',
             type: General.PRIVATE_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelDM = {
@@ -245,7 +240,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelD',
             type: General.DM_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelGM = {
@@ -254,7 +248,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelE',
             type: General.GM_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         let sortfn = sortChannelsByTypeListAndDisplayName.bind(null, 'en', [General.OPEN_CHANNEL, General.PRIVATE_CHANNEL, General.DM_CHANNEL, General.GM_CHANNEL]);
