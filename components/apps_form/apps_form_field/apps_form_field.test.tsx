@@ -47,11 +47,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
         );
 
         const optionalText = (
-            <span
-                className='light'
-            >
-                {' (optional)'}
-            </span>
+            <span className='light'>{' (optional)'}</span>
         );
 
         const optionalLabel = (
