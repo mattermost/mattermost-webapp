@@ -42,6 +42,8 @@ import {
     handleUserUpdatedEvent,
     handleLeaveTeamEvent,
     reconnect,
+    handleAppsPluginEnabled,
+    handleAppsPluginDisabled,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
@@ -1021,6 +1023,31 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             expect(console.error).toHaveBeenCalledTimes(0);
         });
+    });
+});
+
+describe('handleAppsPluginEnabled', () => {
+    test('plugin enabled action is dispatched, fetch bindings is called', async () => {
+        handleAppsPluginEnabled()(store.dispatch, store.getState);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(2);
+
+        const enableAction = store.dispatch.mock.calls[0][0];
+        expect(enableAction).toEqual({type: 'APPS_PLUGIN_ENABLED'});
+
+        const refreshBindingsFunc = store.dispatch.mock.calls[1][0];
+        expect(typeof refreshBindingsFunc).toBe('function');
+    });
+});
+
+describe('handleAppsPluginDisabled', () => {
+    test('plugin disabled action is dispatched', async () => {
+        store.dispatch(handleAppsPluginDisabled());
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+
+        const disableAction = store.dispatch.mock.calls[0][0];
+        expect(disableAction).toEqual({type: 'APPS_PLUGIN_DISABLED'});
     });
 });
 
