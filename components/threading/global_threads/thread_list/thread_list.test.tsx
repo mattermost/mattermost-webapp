@@ -8,8 +8,6 @@ import {shallow} from 'enzyme';
 import {markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
 jest.mock('mattermost-redux/actions/threads');
 
-import {GlobalState} from 'types/store';
-
 import Header from 'components/widgets/header';
 
 import Button from '../../common/button';
