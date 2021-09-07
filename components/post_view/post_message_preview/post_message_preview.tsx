@@ -19,7 +19,7 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
 
 export type Props = {
-    user?: UserProfile;
+    user: UserProfile | null;
     previewPost?: Post;
     metadata: PostPreviewMetadata;
     hasImageProxy: boolean;

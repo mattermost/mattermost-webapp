@@ -36,4 +36,4 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     };
 }
 
-export default connect(mapStateToProps, null)(PostMessagePreview);
+export default connect(mapStateToProps)(PostMessagePreview);
