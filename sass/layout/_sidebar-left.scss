@@ -573,6 +573,7 @@
             border: 1px dashed rgba(var(--sidebar-text-rgb), 0.3);
             margin: 0 16px;
             border-radius: 4px;
+            opacity: 1;
 
             > i {
                 color: rgba(var(--sidebar-text-rgb), 0.6);
@@ -589,7 +590,7 @@
 
             &.animating {
                 transition-duration: 0.15s; /* collapse animation speed */
-                transition-property: height, padding, color;
+                transition-property: height, padding, color, opacity;
                 transition-timing-function: ease-out;
             }
 
@@ -600,6 +601,10 @@
                 border-top: none;
                 border-bottom: none;
                 overflow-y: hidden;
+            }
+
+            &.isDraggingOver {
+                opacity: 0.25;
             }
         }
     }

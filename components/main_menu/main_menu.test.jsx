@@ -257,6 +257,18 @@ describe('components/Menu', () => {
         expect(wrapper.find('UpgradeLink')).toHaveLength(0);
     });
 
+    test('should hide start trial menu item because user state does not have permission to write license', () => {
+        const store = mockStore(defaultState);
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <MainMenu {...defaultProps}/>
+            </Provider>,
+        );
+
+        expect(wrapper.find('#startTrial')).toHaveLength(0);
+    });
+
     describe('should show integrations', () => {
         it('when incoming webhooks enabled', () => {
             const props = {...defaultProps, enableIncomingWebhooks: true};
