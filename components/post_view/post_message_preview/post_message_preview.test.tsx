@@ -29,6 +29,8 @@ describe('PostMessagePreview', () => {
         },
         previewPost,
         user,
+        hasImageProxy: false,
+        enablePostIconOverride: false
     };
 
     test('should render correctly', () => {
@@ -41,7 +43,52 @@ describe('PostMessagePreview', () => {
         const wrapper = shallow(
             <PostMessagePreview
                 {...baseProps}
-                previewPost={undefined}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should not render bot icon', () => {
+        const postProps = {
+            override_icon_url: 'https://fakeicon.com/image.jpg',
+            use_user_icon: 'false',
+            from_webhook: 'false',
+        };
+        const props = {
+            ...baseProps,
+            previewPost: {
+                ...baseProps.previewPost,
+                props: postProps,
+            },
+        };
+        const wrapper = shallow(
+            <PostMessagePreview
+                {...props}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+
+    test('should render bot icon', () => {
+        const postProps = {
+            override_icon_url: 'https://fakeicon.com/image.jpg',
+            use_user_icon: false,
+            from_webhook: 'true',
+        };
+        const props = {
+            ...baseProps,
+            previewPost: {
+                ...baseProps.previewPost,
+                props: postProps,
+            },
+            enablePostIconOverride: true
+        };
+        const wrapper = shallow(
+            <PostMessagePreview
+                {...props}
             />,
         );
 
