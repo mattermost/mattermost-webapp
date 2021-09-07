@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import {Tooltip} from 'react-bootstrap';
-
 import {useIntl, FormattedMessage} from 'react-intl';
 
 import {useSelector} from 'react-redux';
