@@ -8,8 +8,6 @@ import configureStore from 'redux-mock-store';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
-
 import InviteMembersButton from 'components/sidebar/invite_members_button';
 
 import * as preferences from 'mattermost-redux/selectors/entities/preferences';
@@ -54,63 +52,19 @@ describe('components/sidebar/invite_members_button', () => {
 
     const mockStore = configureStore();
     const store = mockStore(state);
-    jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('user_icon');
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team_id2sss');
 
     test('should match snapshot', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.NONE}/>
+                <InviteMembersButton/>
             </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should return the user icon button when button type is USER_ICON', () => {
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>
-            </Provider>,
-        );
-        expect(wrapper.find('i').prop('className')).toBe('icon-account-plus-outline');
-    });
-
-    test('should return the left hand side button when button type is LHS_BUTTON', () => {
-        jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('lhs_button');
-
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.LHS_BUTTON}/>
-            </Provider>,
-        );
-        expect(wrapper.find('i').prop('className')).toBe('icon-plus-box');
-    });
-
-    test('should return the sticky to the bottom button when button type is STICKY', () => {
-        jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('sticky_button');
-
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.STICKY}/>
-            </Provider>,
-        );
-        expect(wrapper.find('i').prop('className')).toBe('icon-account-plus-outline');
-    });
-
-    test('should returnnothing when button type is NONE', () => {
-        jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('none');
-
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.NONE}/>
-            </Provider>,
-        );
-        expect(wrapper.find('i').exists()).toBeFalsy();
-    });
-
     test('should return nothing when user does not have permissions', () => {
-        jest.spyOn(preferences, 'getInviteMembersButtonLocation').mockReturnValue('sticky_button');
         const guestUser = {
             currentUserId: 'guest_user_id',
             profiles: {
@@ -125,7 +79,7 @@ describe('components/sidebar/invite_members_button', () => {
 
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton buttonType={InviteMembersBtnLocations.STICKY}/>
+                <InviteMembersButton/>
             </Provider>,
         );
         expect(wrapper.find('i').exists()).toBeFalsy();
