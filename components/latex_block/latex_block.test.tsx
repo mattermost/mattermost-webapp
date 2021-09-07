@@ -15,7 +15,6 @@ describe('components/LatexBlock', () => {
     test('should match snapshot', async () => {
         const wrapper = shallow(<LatexBlock {...defaultProps}/>);
         await import('katex'); //manually import katex
-        wrapper.update();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -27,7 +26,6 @@ describe('components/LatexBlock', () => {
 
         const wrapper = shallow(<LatexBlock {...props}/>);
         await import('katex'); //manually import katex
-        wrapper.update();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -39,7 +37,6 @@ describe('components/LatexBlock', () => {
 
         const wrapper = shallow(<LatexBlock {...props}/>);
         await import('katex'); //manually import katex
-        wrapper.update();
         expect(wrapper).toMatchSnapshot();
     });
 });
