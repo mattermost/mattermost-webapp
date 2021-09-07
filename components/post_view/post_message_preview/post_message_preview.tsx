@@ -69,19 +69,17 @@ const PostMessagePreview = (props: Props) => {
     );
     if (isSystemMessage && !fromWebhook && !isBot) {
         avatar = (<MattermostLogo className='icon'/>);
-    } else {
-        if (user?.id) {
-            avatar = (
-                <Avatar
-                    username={user.username}
-                    size={'sm'}
-                    url={src}
-                    className={'avatar-post-preview'}
-                />
-            );
-        }
+    } else if (user?.id) {
+        avatar = (
+            <Avatar
+                username={user.username}
+                size={'sm'}
+                url={src}
+                className={'avatar-post-preview'}
+            />
+        );
     }
-    
+
     return (
         <PostAttachmentContainer
             className='permalink'
