@@ -828,8 +828,8 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
         }
       />
       <MemoizedFormattedMessage
-        defaultMessage="Edit Account Settings"
-        id="user_profile.account.editSettings"
+        defaultMessage="Edit Profile"
+        id="user_profile.account.editProfile"
       />
     </a>
   </div>

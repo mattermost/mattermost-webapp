@@ -1909,18 +1909,9 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
 describe('Selectors.Channels.getUnreadStatusInCurrentTeam', () => {
     const team1 = TestHelper.fakeTeamWithId();
 
-    const channel1 = {
-        ...TestHelper.fakeChannelWithId(team1.id),
-        total_msg_count: 2,
-    };
-    const channel2 = {
-        ...TestHelper.fakeChannelWithId(team1.id),
-        total_msg_count: 8,
-    };
-    const channel3 = {
-        ...TestHelper.fakeChannelWithId(team1.id),
-        total_msg_count: 5,
-    };
+    const channel1 = TestHelper.fakeChannelWithId(team1.id);
+    const channel2 = TestHelper.fakeChannelWithId(team1.id);
+    const channel3 = TestHelper.fakeChannelWithId(team1.id);
 
     const channels = {
         [channel1.id]: channel1,
@@ -1950,6 +1941,11 @@ describe('Selectors.Channels.getUnreadStatusInCurrentTeam', () => {
                 currentChannelId: channel1.id,
                 channels,
                 channelsInTeam,
+                messageCounts: {
+                    [channel1.id]: {total: 2},
+                    [channel2.id]: {total: 8},
+                    [channel3.id]: {total: 5},
+                },
                 myMembers: myChannelMembers,
             },
             users: {
@@ -2073,14 +2069,8 @@ describe('Selectors.Channels.getUnreadStatus', () => {
         [team2.id]: {mention_count: 64, msg_count: 128},
     };
 
-    const channel1 = {
-        ...TestHelper.fakeChannelWithId(team1.id),
-        total_msg_count: 2,
-    };
-    const channel2 = {
-        ...TestHelper.fakeChannelWithId(team1.id),
-        total_msg_count: 8,
-    };
+    const channel1 = TestHelper.fakeChannelWithId(team1.id);
+    const channel2 = TestHelper.fakeChannelWithId(team1.id);
 
     const channels = {
         [channel1.id]: channel1,
@@ -2108,6 +2098,10 @@ describe('Selectors.Channels.getUnreadStatus', () => {
             },
             channels: {
                 channels,
+                messageCounts: {
+                    [channel1.id]: {total: 2},
+                    [channel2.id]: {total: 8},
+                },
                 myMembers: myChannelMembers,
             },
             users: {
@@ -2189,12 +2183,12 @@ describe('Selectors.Channels.getUnreadStatus', () => {
     const team1 = {id: 'team1', delete_at: 0};
     const team2 = {id: 'team2', delete_at: 0};
 
-    const channelA = {id: 'channelA', name: 'channelA', team_id: 'team1', total_msg_count: 11, delete_at: 0};
-    const channelB = {id: 'channelB', name: 'channelB', team_id: 'team1', total_msg_count: 13, delete_at: 0};
-    const channelC = {id: 'channelB', name: 'channelB', team_id: 'team2', total_msg_count: 17, delete_at: 0};
+    const channelA = {id: 'channelA', name: 'channelA', team_id: 'team1', delete_at: 0};
+    const channelB = {id: 'channelB', name: 'channelB', team_id: 'team1', delete_at: 0};
+    const channelC = {id: 'channelB', name: 'channelB', team_id: 'team2', delete_at: 0};
 
-    const dmChannel = {id: 'dmChannel', name: 'user1__user2', team_id: '', total_msg_count: 11, delete_at: 0, type: General.DM_CHANNEL};
-    const gmChannel = {id: 'gmChannel', name: 'gmChannel', team_id: 'team1', total_msg_count: 11, delete_at: 0, type: General.GM_CHANNEL};
+    const dmChannel = {id: 'dmChannel', name: 'user1__user2', team_id: '', delete_at: 0, type: General.DM_CHANNEL};
+    const gmChannel = {id: 'gmChannel', name: 'gmChannel', team_id: 'team1', delete_at: 0, type: General.GM_CHANNEL};
 
     test('should return the correct number of messages and mentions from channels on the current team', () => {
         const myMemberA = {mention_count: 2, msg_count: 3, notify_props: {mark_unread: 'all'}};
@@ -2213,6 +2207,10 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     channels: {
                         channelA,
                         channelB,
+                    },
+                    messageCounts: {
+                        channelA: {total: 11},
+                        channelB: {total: 13},
                     },
                     myMembers: {
                         channelA: myMemberA,
@@ -2258,6 +2256,10 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                         channelA,
                         channelB,
                     },
+                    messageCounts: {
+                        channelA: {total: 11},
+                        channelB: {total: 13},
+                    },
                     myMembers: {
                         channelA: myMemberA,
                         channelB: myMemberB,
@@ -2299,6 +2301,9 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                 channels: {
                     channels: {
                         dmChannel,
+                    },
+                    messageCounts: {
+                        dmChannel: {total: 11},
                     },
                     myMembers: {
                         dmChannel: dmMember,
@@ -2343,6 +2348,9 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     channels: {
                         dmChannel,
                     },
+                    messageCounts: {
+                        dmChannel: {total: 11},
+                    },
                     myMembers: {
                         dmChannel: dmMember,
                     },
@@ -2383,6 +2391,9 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                 channels: {
                     channels: {
                         gmChannel,
+                    },
+                    messageCounts: {
+                        gmChannel: {total: 11},
                     },
                     myMembers: {
                         gmChannel: gmMember,
@@ -2429,6 +2440,10 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     channels: {
                         channelA,
                         channelC,
+                    },
+                    messageCounts: {
+                        channelA: {total: 11},
+                        channelC: {total: 17},
                     },
                     myMembers: {
                         channelA: myMemberA,

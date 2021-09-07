@@ -14,6 +14,7 @@ import MenuItemAction from './menu_items/menu_item_action';
 import MenuItemExternalLink from './menu_items/menu_item_external_link';
 import MenuItemLink from './menu_items/menu_item_link';
 import MenuTopNotification from './menu_items/menu_top_notification';
+import MenuStartTrial from './menu_items/menu_start_trial';
 import MenuItemToggleModalRedux from './menu_items/menu_item_toggle_modal_redux';
 
 import './menu.scss';
@@ -37,6 +38,7 @@ export default class Menu extends React.PureComponent<Props> {
     public static ItemToggleModalRedux = MenuItemToggleModalRedux
     public static ItemSubMenu = SubMenuItem
     public static TopNotification = MenuTopNotification
+    public static StartTrial = MenuStartTrial
 
     public node: React.RefObject<HTMLUListElement>; //Public because it is used by tests
     private observer: MutationObserver;

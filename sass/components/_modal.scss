@@ -134,6 +134,8 @@
     }
 
     .modal-footer {
+        background: var(--center-channel-bg);
+
         &.modal-footer--invisible {
             overflow: hidden;
             height: 0;

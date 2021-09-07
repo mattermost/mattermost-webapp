@@ -82,11 +82,12 @@
 
 .UpgradeMattermostCloud__title {
     align-self: flex-start;
-    margin-top: 32px;
+    margin-top: 16px;
     color: var(--sys-center-channel-color);
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
+    text-align: left;
 }
 
 .UpgradeMattermostCloud__description {
@@ -94,6 +95,7 @@
     color: var(--sys-center-channel-color);
     font-size: 14px;
     line-height: 20px;
+    text-align: left;
 }
 
 .UpgradeMattermostCloud__upgradeButton {
@@ -142,6 +144,7 @@
 }
 
 .PrivateCloudCard__text {
+    max-width: 563px;
     flex-grow: 1;
     color: var(--sys-center-channel-color);
 }
@@ -159,8 +162,8 @@
 }
 
 .PrivateCloudCard__image {
-    flex: 0 0 234px;
-    margin-left: 96px;
+    flex: 0 0 173px;
+    margin-left: 85px;
 }
 
 .PrivateCloudCard__actionButton {

@@ -38,10 +38,12 @@
     "moment-timezone": "0.5.33",
     "mysql": "2.18.1",
     "path": "0.12.7",
+    "pdf-parse": "1.1.1",
     "pg": "8.6.0",
     "recursive-readdir": "2.2.2",
     "shelljs": "0.8.4",
     "start-server-and-test": "1.12.1",
+    "timezones.json": "1.5.3",
     "uuid": "8.3.2",
     "yargs": "17.0.1"
   },

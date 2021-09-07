@@ -89,8 +89,9 @@ exports[`components/threading/global_threads/thread_item should report total num
       size="xs"
       userIds={
         Array [
-          "7n4ach3i53bbmj84dfmu5b7c1c",
+          "mt5td9mdriyapmwuh5pc84dmhr",
           "ij61jet1bbdk8fhhxitywdj4ih",
+          "7n4ach3i53bbmj84dfmu5b7c1c",
         ]
       }
     />
@@ -205,8 +206,9 @@ exports[`components/threading/global_threads/thread_item should report unread me
       size="xs"
       userIds={
         Array [
-          "7n4ach3i53bbmj84dfmu5b7c1c",
+          "mt5td9mdriyapmwuh5pc84dmhr",
           "ij61jet1bbdk8fhhxitywdj4ih",
+          "7n4ach3i53bbmj84dfmu5b7c1c",
         ]
       }
     />
@@ -319,8 +321,9 @@ exports[`components/threading/global_threads/thread_item should report unread me
       size="xs"
       userIds={
         Array [
-          "7n4ach3i53bbmj84dfmu5b7c1c",
+          "mt5td9mdriyapmwuh5pc84dmhr",
           "ij61jet1bbdk8fhhxitywdj4ih",
+          "7n4ach3i53bbmj84dfmu5b7c1c",
         ]
       }
     />

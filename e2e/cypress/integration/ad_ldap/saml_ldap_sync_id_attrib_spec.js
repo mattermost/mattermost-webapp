@@ -39,8 +39,8 @@ describe('AD / LDAP', () => {
         SamlSettings: {
             Enable: true,
             Encrypt: false,
-            IdpUrl: idpUrl,
-            IdpDescriptorUrl: idpDescriptorUrl,
+            IdpURL: idpUrl,
+            IdpDescriptorURL: idpDescriptorUrl,
             ServiceProviderIdentifier: `${baseUrl}/login/sso/saml`,
             AssertionConsumerServiceURL: `${baseUrl}/login/sso/saml`,
             SignatureAlgorithm: 'RSAwithSHA256',

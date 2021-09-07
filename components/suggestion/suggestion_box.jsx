@@ -610,7 +610,7 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     handleReceivedSuggestions = (suggestions) => {
-        const newComponents = [];
+        let newComponents = [];
         const newPretext = [];
         if (this.props.onSuggestionsReceived) {
             this.props.onSuggestionsReceived(suggestions);
@@ -620,6 +620,11 @@ export default class SuggestionBox extends React.PureComponent {
             newComponents.push(suggestions.component);
             newPretext.push(suggestions.matchedPretext);
         }
+
+        if (suggestions.components) {
+            newComponents = suggestions.components;
+        }
+
         const terms = suggestions.terms;
         const items = suggestions.items;
         let selection = this.state.selection;

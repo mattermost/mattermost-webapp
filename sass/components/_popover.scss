@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 @import 'compass/css3/transition';
 
@@ -18,6 +18,7 @@
     @include border-radius($border-rad * 2);
 
     padding: 0;
+    background: var(--center-channel-bg);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     color: lighten($black, 25%);
     font-family: inherit;
@@ -138,6 +139,22 @@
         }
     }
 
+    &.right {
+        > .arrow {
+            &::after {
+                border-right-color: var(--center-channel-bg);
+            }
+        }
+    }
+
+    &.top {
+        > .arrow {
+            &::after {
+                border-top-color: var(--center-channel-bg);
+            }
+        }
+    }
+
     ul + p,
     ol + p {
         margin-top: 0.6em;
@@ -174,6 +191,10 @@
         > span {
             display: flex;
             justify-content: space-between;
+        }
+
+        .user-popover__username {
+            font-family: 'Open Sans', sans-serif;
         }
     }
 
