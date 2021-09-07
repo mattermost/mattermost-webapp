@@ -147,7 +147,7 @@ export function isWindows7(): boolean {
 
 export function getDesktopVersion(): string {
     // use if the value window.desktop.version is not set yet
-    const regex = /Mattermost\/(\d\.\d\.\d{0,1})/gm;
+    const regex = /Mattermost\/(\d+\.\d+\.\d+)/gm;
     const match = regex.exec(window.navigator.appVersion)?.[1] || '';
     return match;
 }

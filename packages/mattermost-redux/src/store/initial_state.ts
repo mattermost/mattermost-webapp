@@ -13,7 +13,6 @@ const state: GlobalState = {
             deviceToken: '',
             license: {},
             serverVersion: '',
-            timezones: [],
             warnMetricsStatus: {},
             firstAdminVisitMarketplaceStatus: false,
         },
@@ -170,7 +169,14 @@ const state: GlobalState = {
             orderByTeam: {},
         },
         apps: {
-            bindings: [],
+            main: {
+                bindings: [],
+                forms: {},
+            },
+            rhs: {
+                bindings: [],
+                forms: {},
+            },
             pluginEnabled: true,
         },
         cloud: {},

@@ -33,6 +33,7 @@ import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {
     getCurrentRelativeTeamUrl,
+    getCurrentTeam,
     getCurrentTeamId,
     getTeam,
     getTeamByName,
@@ -214,6 +215,14 @@ export function getTeamRelativeUrl(team) {
     }
 
     return '/' + team.name;
+}
+
+export function getPermalinkURL(state, teamId, postId) {
+    let team = getTeam(state, teamId);
+    if (!team) {
+        team = getCurrentTeam(state);
+    }
+    return `${getTeamRelativeUrl(team)}/pl/${postId}`;
 }
 
 export function getChannelURL(state, channel, teamId) {
@@ -555,45 +564,6 @@ export function toRgbValues(hexStr) {
 }
 
 export function applyTheme(theme) {
-    if (theme.centerChannelBg) {
-        changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
-        changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a, .app__body .post .Menu .MenuItem', 'background:' + theme.centerChannelBg);
-        changeCss('#post-create, .app__body .emoji-picker__preview', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
-        changeCss('.dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .popover.right>.arrow:after, .app__body .tip-overlay.tip-overlay--sidebar .arrow, .app__body .tip-overlay.tip-overlay--header .arrow', 'border-right-color:' + theme.centerChannelBg);
-        changeCss('.app__body .popover.top>.arrow:after, .app__body .tip-overlay.tip-overlay--chat .arrow', 'border-top-color:' + theme.centerChannelBg);
-        changeCss('.app__body .attachment__content, .app__body .attachment-actions button', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .shortcut-key, .app__body .post-list__new-messages-below', 'color:' + theme.centerChannelBg);
-        changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
-
-        // Fade out effect for collapsed posts (not hovered, not from current user)
-        changeCss(
-            '.app__body .post-list__table .post:not(.current--user) .post-collapse__gradient, ' +
-            '.app__body .post-list__table .post.post--compact .post-collapse__gradient, ' +
-            '.app__body .sidebar-right__body .post.post--compact .post-collapse__gradient',
-            `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
-        );
-        changeCss(
-            '.app__body .post-list__table .post-attachment-collapse__gradient, ' +
-            '.app__body .sidebar-right__body .post-attachment-collapse__gradient',
-            `background:linear-gradient(${changeOpacity(theme.centerChannelBg, 0)}, ${theme.centerChannelBg})`,
-        );
-
-        changeCss(
-            '.app__body .post-list__table .post:not(.current--user) .post-collapse__show-more, ' +
-            '.app__body .post-list__table .post.post--compact .post-collapse__show-more, ' +
-            '.app__body .sidebar-right__body .post:not(.post--root) .post-collapse__show-more',
-            `background-color:${theme.centerChannelBg}`,
-        );
-        changeCss(
-            '.app__body .post-list__table .post-attachment-collapse__show-more, ' +
-            '.app__body .sidebar-right__body .post-attachment-collapse__show-more',
-            `background-color:${theme.centerChannelBg}`,
-        );
-    }
-
     if (theme.centerChannelColor) {
         changeCss('.app__body .bg-text-200', 'background:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .user-popover__role', 'background:' + changeOpacity(theme.centerChannelColor, 0.3));
@@ -636,7 +606,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.3));
+        changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.16));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
         changeCss('.app__body .input-group-addon, .app__body .channel-intro .channel-intro__content, .app__body .webhooks__container', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
@@ -768,6 +738,7 @@ export function applyTheme(theme) {
 
     if (theme.mentionHighlightLink) {
         changeCss('.app__body .mention--highlight .mention-link, .app__body .mention--highlight, .app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
+        changeCss('.app__body .mention--highlight .mention-link > a, .app__body .mention--highlight > a, .app__body .search-highlight > a', 'color: inherit');
     }
 
     if (!theme.codeTheme) {

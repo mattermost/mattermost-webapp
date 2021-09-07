@@ -4,12 +4,14 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect, {ValueType} from 'react-select';
+import {Timezone} from 'timezones.json';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
+import {getTimezoneLabel} from 'mattermost-redux/utils/timezone_utils';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
@@ -21,9 +23,9 @@ type Props = {
     useAutomaticTimezone: boolean;
     automaticTimezone: string;
     manualTimezone: string;
-    timezones: string[];
+    timezones: Timezone[];
+    timezoneLabel: string;
     actions: Actions;
-
 }
 type SelectedOption = {
     value: string;
@@ -34,7 +36,6 @@ type State = {
     useAutomaticTimezone: boolean;
     automaticTimezone: string;
     manualTimezone: string;
-    manualTimezoneInput: string;
     isSaving: boolean;
     serverError?: string;
     openMenu: boolean;
@@ -44,38 +45,24 @@ type State = {
 export default class ManageTimezones extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
-
         this.state = {
             useAutomaticTimezone: props.useAutomaticTimezone,
             automaticTimezone: props.automaticTimezone,
             manualTimezone: props.manualTimezone,
-            manualTimezoneInput: props.manualTimezone,
             isSaving: false,
             openMenu: false,
-            selectedOption: {label: props.manualTimezone, value: props.manualTimezone},
+            selectedOption: {label: props.timezoneLabel, value: props.useAutomaticTimezone ? props.automaticTimezone : props.manualTimezone},
         };
     }
 
     onChange = (selectedOption: ValueType<SelectedOption>) => {
         if (selectedOption && 'value' in selectedOption) {
             this.setState({
-                manualTimezoneInput: selectedOption.value,
                 manualTimezone: selectedOption.value,
                 selectedOption,
             });
         }
     }
-
-    handleTimezoneSelected = (selected: string) => {
-        if (!selected) {
-            return;
-        }
-
-        this.setState({
-            manualTimezone: selected,
-            manualTimezoneInput: selected,
-        });
-    };
 
     timezoneNotChanged = () => {
         const {
@@ -141,14 +128,27 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
     handleAutomaticTimezone = (e: React.ChangeEvent<HTMLInputElement>) => {
         const useAutomaticTimezone = e.target.checked;
         let automaticTimezone = '';
+        let timezoneLabel: string;
+        let selectedOptionValue: string;
 
         if (useAutomaticTimezone) {
             automaticTimezone = getBrowserTimezone();
+            timezoneLabel = getTimezoneLabel(this.props.timezones, automaticTimezone);
+            selectedOptionValue = automaticTimezone;
+        } else {
+            timezoneLabel = getTimezoneLabel(this.props.timezones, this.props.manualTimezone || getBrowserTimezone());
+            selectedOptionValue = this.props.manualTimezone || getBrowserTimezone();
+            if (!this.props.manualTimezone) {
+                this.setState({
+                    manualTimezone: getBrowserTimezone(),
+                });
+            }
         }
 
         this.setState({
             useAutomaticTimezone,
             automaticTimezone,
+            selectedOption: {label: timezoneLabel, value: selectedOptionValue},
         });
     };
 
@@ -156,16 +156,15 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         this.setState({manualTimezone: e.target.value});
     };
     render() {
-        const timeOptions = this.props.timezones.map((timeString) => {
-            return {
-                value: timeString,
-                label: timeString,
-            };
-        },
-        );
         const {timezones} = this.props;
         const {useAutomaticTimezone} = this.state;
 
+        const timeOptions = this.props.timezones.map((timeObject) => {
+            return {
+                value: timeObject.utc[0],
+                label: timeObject.text,
+            };
+        });
         let serverError;
         if (this.state.serverError) {
             serverError = <label className='has-error'>{this.state.serverError}</label>;
@@ -214,7 +213,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                     options={timeOptions}
                     clearable={false}
                     onChange={this.onChange}
-                    value={useAutomaticTimezone ? {label: this.state.automaticTimezone, value: this.state.automaticTimezone} : this.state.selectedOption}
+                    value={this.state.selectedOption}
                     aria-labelledby='changeInterfaceTimezoneLabel'
                     isDisabled={useAutomaticTimezone}
                 />

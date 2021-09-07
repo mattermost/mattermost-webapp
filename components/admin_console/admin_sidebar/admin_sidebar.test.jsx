@@ -248,6 +248,7 @@ describe('components/AdminSidebar', () => {
                 Elasticsearch: 'true',
                 CustomPermissionsSchemes: 'true',
                 OpenId: 'true',
+                GuestAccounts: 'true',
             },
             config: {
                 ExperimentalSettings: {

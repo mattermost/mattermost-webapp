@@ -241,7 +241,8 @@ type Props = {
     getChannelMemberCountsByGroup: (channelID: string) => void;
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
-    onHeightChange?: () => void;
+    onHeightChange?: (height: number, maxHeight: number) => void;
+    focusOnMount?: boolean;
 }
 
 type State = {
@@ -274,6 +275,10 @@ class CreateComment extends React.PureComponent<Props, State> {
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
     private createCommentControlsRef: React.RefObject<HTMLSpanElement>;
+
+    static defaultProps = {
+        focusOnMount: true,
+    }
 
     static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {
@@ -324,7 +329,10 @@ class CreateComment extends React.PureComponent<Props, State> {
         onResetHistoryIndex();
         setShowPreview(false);
 
-        this.focusTextbox();
+        if (this.props.focusOnMount) {
+            this.focusTextbox();
+        }
+
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
         window.addEventListener('beforeunload', this.saveDraft);
@@ -341,7 +349,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
-        this.props.resetCreatePostRequest();
+        this.props.resetCreatePostRequest?.();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
         window.removeEventListener('beforeunload', this.saveDraft);
@@ -1053,7 +1061,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             showPostDeletedModal: false,
         });
 
-        this.props.resetCreatePostRequest();
+        this.props.resetCreatePostRequest?.();
     }
 
     handleBlur = () => {
@@ -1069,7 +1077,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         });
 
         if (this.props.onHeightChange) {
-            this.props.onHeightChange();
+            this.props.onHeightChange(height, maxHeight);
         }
     }
 

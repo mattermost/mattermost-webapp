@@ -36,6 +36,7 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 import {getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
+    getThreads as fetchThreads,
     handleAllMarkedRead,
     handleReadChanged,
     handleFollowChanged,
@@ -74,9 +75,9 @@ import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {fetchAppBindings} from 'mattermost-redux/actions/apps';
+import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
-import {getSelectedChannelId} from 'selectors/rhs';
+import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
@@ -195,6 +196,7 @@ export function reconnect(includeWebSocket = true) {
     const state = getState();
     const currentTeamId = state.entities.teams.currentTeamId;
     if (currentTeamId) {
+        const currentUserId = getCurrentUserId(state);
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
@@ -210,7 +212,9 @@ export function reconnect(includeWebSocket = true) {
             dispatch(getPosts(currentChannelId));
         }
         StatusActions.loadStatusesForChannelAndSidebar();
-        dispatch(TeamActions.getMyTeamUnreads());
+
+        dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state), true));
+        dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
     }
 
     if (state.websocket.lastDisconnectAt) {
@@ -698,7 +702,8 @@ export function handlePostUnreadEvent(msg) {
 async function handleTeamAddedEvent(msg) {
     await dispatch(TeamActions.getTeam(msg.data.team_id));
     await dispatch(TeamActions.getMyTeamMembers());
-    await dispatch(TeamActions.getMyTeamUnreads());
+    const state = getState();
+    await dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
 }
 
 export function handleLeaveTeamEvent(msg) {
@@ -1418,7 +1423,30 @@ function handleCloudPaymentStatusUpdated() {
 function handleRefreshAppsBindings() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
-        doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
+
+        doDispatch(fetchAppBindings(getCurrentChannelId(state)));
+
+        const siteURL = state.entities.general.config.SiteURL;
+        const currentURL = window.location.href;
+        let threadIdentifier;
+        if (currentURL.startsWith(siteURL)) {
+            const parts = currentURL.substr(siteURL.length + (siteURL.endsWith('/') ? 0 : 1)).split('/');
+            if (parts.length === 3 && parts[1] === 'threads') {
+                threadIdentifier = parts[2];
+            }
+        }
+        const rhsPost = getSelectedPost(state);
+        let selectedThread;
+        if (threadIdentifier) {
+            selectedThread = getThread(state, threadIdentifier);
+        }
+        const rootID = threadIdentifier || rhsPost?.id;
+        const channelID = selectedThread?.post?.channel_id || rhsPost?.channel_id;
+        if (!rootID) {
+            return {data: true};
+        }
+
+        doDispatch(fetchRHSAppsBindings(channelID));
         return {data: true};
     };
 }

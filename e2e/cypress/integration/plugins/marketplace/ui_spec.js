@@ -32,7 +32,7 @@ describe('Plugin Marketplace', () => {
                 Enable: true,
                 EnableMarketplace: true,
                 EnableRemoteMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
+                MarketplaceURL: 'https://api.integrations.mattermost.com',
                 PluginStates: {
                     github: {
                         Enable: false,
@@ -150,7 +150,7 @@ describe('Plugin Marketplace', () => {
             PluginSettings: {
                 Enable: true,
                 EnableMarketplace: true,
-                MarketplaceUrl: 'example.com',
+                MarketplaceURL: 'example.com',
             },
         });
 

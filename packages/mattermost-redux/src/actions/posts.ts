@@ -927,10 +927,15 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         return Promise.resolve();
     }
 
-    const posts = Object.values(postsArrayOrMap);
+    const postsArray: Post[] = Object.values(postsArrayOrMap);
 
-    if (posts.length === 0) {
+    if (postsArray.length === 0) {
         return Promise.resolve();
+    }
+
+    const postsDictionary: Dictionary<Post> = {};
+    for (let i = 0; i < postsArray.length; i++) {
+        postsDictionary[postsArray[i].id] = postsArray[i];
     }
 
     const state = getState();
@@ -940,8 +945,21 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     const userIdsToLoad = new Set<string>();
     const statusesToLoad = new Set<string>();
 
-    Object.values(posts).forEach((post) => {
+    postsArray.forEach((post) => {
         const userId = post.user_id;
+
+        if (post.metadata && post.metadata.embeds) {
+            post.metadata.embeds.forEach((embed: any) => {
+                if (embed.type === 'permalink' && embed.data) {
+                    if (embed.data.post?.user_id && !profiles[embed.data.post.user_id] && embed.data.post.user_id !== currentUserId) {
+                        userIdsToLoad.add(embed.data.post.user_id);
+                    }
+                    if (embed.data.post?.user_id && !statuses[embed.data.post.user_id]) {
+                        statusesToLoad.add(embed.data.post.user_id);
+                    }
+                }
+            });
+        }
 
         if (!statuses[userId]) {
             statusesToLoad.add(userId);
@@ -966,7 +984,7 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     }
 
     // Profiles of users mentioned in the posts
-    const usernamesToLoad = getNeededAtMentionedUsernames(state, posts);
+    const usernamesToLoad = getNeededAtMentionedUsernames(state, postsArray);
 
     if (usernamesToLoad.size > 0) {
         promises.push(getProfilesByUsernames(Array.from(usernamesToLoad))(dispatch, getState));

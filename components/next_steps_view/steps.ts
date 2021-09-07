@@ -16,7 +16,6 @@ import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferenc
 import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
-import EnterSupportEmail from './steps/enter_support_email/enter_support_email';
 
 import {isStepForUser} from './step_helpers';
 
@@ -92,16 +91,6 @@ export const Steps: StepType[] = [
         component: InviteMembersStep,
         visible: true,
     },
-    {
-        id: RecommendedNextSteps.ENTER_SUPPORT_EMAIL,
-        title: localizeMessage(
-            'next_steps_view.titles.enterSupportEmail',
-            'Enter support email',
-        ),
-        roles: ['first_admin'],
-        component: EnterSupportEmail,
-        visible: true,
-    },
 ];
 
 export const isFirstAdmin = createSelector(
@@ -109,9 +98,10 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     (currentUser, users) => {
-        if (!currentUser.roles.includes('system_admin')) {
+        if (currentUser && !currentUser.roles.includes('system_admin')) {
             return false;
         }
+
         const userIds = Object.keys(users);
         for (const userId of userIds) {
             const user = users[userId];
@@ -129,6 +119,10 @@ export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (currentUser, firstAdmin) => {
+        if (!currentUser) {
+            return Steps.filter((step) => step.visible);
+        }
+
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
             isStepForUser(step, roles) && step.visible,
@@ -195,6 +189,10 @@ export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => isFirstAdmin(state),
     (state: GlobalState) => getSteps(state),
     (stepPreferences, currentUser, firstAdmin, mySteps) => {
+        if (!currentUser) {
+            return true;
+        }
+
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !mySteps.every(checkPref);

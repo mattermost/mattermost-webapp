@@ -11,7 +11,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import Setting from './setting';
 
-export default class CustomUrlSchemesSetting extends React.PureComponent {
+export default class CustomURLSchemesSetting extends React.PureComponent {
     static get propTypes() {
         return {
             id: PropTypes.string.isRequired,

@@ -8,8 +8,9 @@ import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
 import {openModal} from 'actions/views/modals';
 
@@ -18,19 +19,16 @@ import UserSettingsModal, {Props} from './user_settings_modal';
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
-    const closeUnusedDirectMessages = config.CloseUnusedDirectMessages === 'true';
-    const experimentalChannelOrganization = config.ExperimentalChannelOrganization === 'true';
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
     const requireEmailVerification = config.RequireEmailVerification === 'true';
     const collapsedThreads = isCollapsedThreadsEnabled(state);
 
     return {
         currentUser: getCurrentUser(state),
-        closeUnusedDirectMessages,
-        experimentalChannelOrganization,
         sendEmailNotifications,
         requireEmailVerification,
         collapsedThreads,
+        globalHeaderEnabled: getGlobalHeaderEnabled(state),
     };
 }
 
