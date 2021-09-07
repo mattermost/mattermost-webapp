@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from 'mattermost-redux/types/users';
 import {MutableRefObject, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useLocation} from 'react-router';
@@ -11,6 +10,7 @@ import {ProductComponent} from 'types/store/plugins';
 import {getBasePath} from 'utils/url';
 import {Preferences} from 'utils/constants';
 
+import {UserProfile} from 'mattermost-redux/types/users';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
