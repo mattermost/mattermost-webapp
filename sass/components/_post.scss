@@ -2161,15 +2161,16 @@
     background-color: rgba(var(--mention-highlight-bg-rgb), 0.12);
 
     .post-collapse {
-        .post-collapse__gradient, .post-attachment-collapse__gradient {
-            background: linear-gradient(transparent, rgb(var(--pinned-highlight-bg-mixed-rgb)));
+        .post-collapse__gradient,
+        .post-attachment-collapse__gradient {
             position: relative;
+            background: linear-gradient(transparent, rgb(var(--pinned-highlight-bg-mixed-rgb)));
         }
 
-        .post-collapse__show-more, .post-attachment-collapse__show-more {
+        .post-collapse__show-more,
+        .post-attachment-collapse__show-more {
             background: rgb(var(--pinned-highlight-bg-mixed-rgb));
             pointer-events: auto;
         }
-
     }
 }
