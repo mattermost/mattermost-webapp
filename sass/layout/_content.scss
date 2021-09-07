@@ -55,7 +55,7 @@
     height: 100%;
     padding-top: 50px;
     margin-left: 220px;
-    background: $white;
+    background: var(--center-channel-bg);
 
     .channel__wrap & {
         padding-top: 0;

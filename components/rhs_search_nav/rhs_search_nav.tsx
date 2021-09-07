@@ -7,10 +7,8 @@ import classNames from 'classnames';
 import Search from 'components/search';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
-import QuickSwitchModal from 'components/quick_switch_modal';
 import {
     Constants,
-    ModalIdentifiers,
     RHSStates,
 } from 'utils/constants';
 
@@ -25,14 +23,11 @@ const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 type Props = {
     rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
     rhsOpen: boolean;
-    isQuickSwitcherOpen?: boolean;
     actions: {
         showFlaggedPosts: () => void;
         showMentions: () => void;
         openRHSSearch: () => void;
         closeRightHandSide: () => void;
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
-        closeModal: (modalId: string) => void;
     };
 };
 
@@ -52,13 +47,11 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleShortcut);
-        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
         window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleShortcut);
-        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
         window.removeEventListener('resize', this.handleResize);
     }
 
@@ -105,42 +98,13 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
     };
 
     handleShortcut = (e: KeyboardEvent) => {
-        const {actions: {closeModal}} = this.props;
-
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
                 e.preventDefault();
-                closeModal(ModalIdentifiers.QUICK_SWITCH);
                 this.searchMentions();
-            }
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
-                // just close the modal if it's open, but let someone else handle the shortcut
-                closeModal(ModalIdentifiers.QUICK_SWITCH);
             }
         }
     };
-
-    handleQuickSwitchKeyPress = (e: KeyboardEvent) => {
-        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-            if (!e.altKey) {
-                e.preventDefault();
-                this.toggleQuickSwitchModal();
-            }
-        }
-    }
-
-    toggleQuickSwitchModal = () => {
-        const {isQuickSwitcherOpen, actions: {openModal, closeModal}} = this.props;
-
-        if (isQuickSwitcherOpen) {
-            closeModal(ModalIdentifiers.QUICK_SWITCH);
-        } else {
-            openModal({
-                modalId: ModalIdentifiers.QUICK_SWITCH,
-                dialogType: QuickSwitchModal,
-            });
-        }
-    }
 
     render() {
         const {

@@ -38,6 +38,7 @@
     "moment-timezone": "0.5.33",
     "mysql": "2.18.1",
     "path": "0.12.7",
+    "pdf-parse": "1.1.1",
     "pg": "8.6.0",
     "recursive-readdir": "2.2.2",
     "shelljs": "0.8.4",

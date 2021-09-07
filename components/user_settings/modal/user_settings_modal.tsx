@@ -78,7 +78,7 @@ export type Props = {
     intl: IntlShape;
     collapsedThreads: boolean;
     globalHeaderEnabled: boolean;
-    isContentChannelPreferences: boolean;
+    isContentProductSettings: boolean;
     actions: {
         openModal: (params: {modalId: string; dialogType: any}) => void;
         sendVerificationEmail: (email: string) => Promise<{
@@ -114,7 +114,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            active_tab: props.isContentChannelPreferences ? 'notifications' : 'profile',
+            active_tab: props.isContentProductSettings ? 'notifications' : 'profile',
             active_section: '',
             showConfirmModal: false,
             enforceFocus: true,
@@ -191,7 +191,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
     // called after the dialog is fully hidden and faded out
     handleHidden = () => {
         this.setState({
-            active_tab: this.props.isContentChannelPreferences ? 'notifications' : 'profile',
+            active_tab: this.props.isContentProductSettings ? 'notifications' : 'profile',
             active_section: '',
         });
         this.props.onHide();
@@ -302,7 +302,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
         }
         const tabs = [];
         if (this.props.globalHeaderEnabled) {
-            if (this.props.isContentChannelPreferences) {
+            if (this.props.isContentProductSettings) {
                 tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle', iconTitle: Utils.localizeMessage('user.settings.notifications.icon', 'Notification Settings Icon')});
                 tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye', iconTitle: Utils.localizeMessage('user.settings.display.icon', 'Display Settings Icon')});
                 tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns', iconTitle: Utils.localizeMessage('user.settings.sidebar.icon', 'Sidebar Settings Icon')});
@@ -339,10 +339,10 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                         componentClass='h1'
                         id='accountSettingsModalLabel'
                     >
-                        {this.props.globalHeaderEnabled && this.props.isContentChannelPreferences ? (
+                        {this.props.globalHeaderEnabled && this.props.isContentProductSettings ? (
                             <FormattedMessage
-                                id='channel_header.channelPreferences'
-                                defaultMessage='Channel Preferences'
+                                id='global_header.productSettings'
+                                defaultMessage='Settings'
                             />
                         ) : (
                             <FormattedMessage

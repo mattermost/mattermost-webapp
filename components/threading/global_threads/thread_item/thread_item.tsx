@@ -78,7 +78,15 @@ function ThreadItem({
         }
     }, [channel, thread?.post.channel_id]);
 
-    const participantIds = useMemo(() => thread?.participants?.map(({id}) => id), [thread?.participants]);
+    const participantIds = useMemo(() => {
+        const ids = thread?.participants?.flatMap(({id}) => {
+            if (id === post.user_id) {
+                return [];
+            }
+            return id;
+        }).reverse();
+        return [post.user_id, ...ids];
+    }, [thread?.participants]);
 
     const selectHandler = useCallback(() => select(threadId), []);
 
