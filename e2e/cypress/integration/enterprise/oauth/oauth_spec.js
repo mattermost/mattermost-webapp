@@ -61,8 +61,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.uiGetProductSwitchButton().click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('#oauthApps').click();
 
         // # Click on the Add button
@@ -80,8 +79,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.uiGetProductSwitchButton().click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('#oauthApps').click();
 
         // # Click on the Add button
@@ -146,8 +144,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.uiGetProductSwitchButton().click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('#oauthApps').click();
 
         // # Click on the Add button
@@ -232,8 +229,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.uiGetProductSwitchButton().click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('#oauthApps').click();
 
         // # Other users should not see the apps from other users
@@ -244,8 +240,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.uiGetProductSwitchButton().click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('#oauthApps').click();
 
         // * Sysadmin should see the app
@@ -366,8 +361,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.uiGetProductSwitchButton().click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('#oauthApps').click();
 
         cy.contains('.item-details', oauthClientID).within(() => {
@@ -442,8 +436,7 @@ describe('Integrations page', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.uiGetProductSwitchButton().click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('#oauthApps').click();
 
         cy.contains('.item-details', oauthClientID).within(() => {
