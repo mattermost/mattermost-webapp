@@ -95,16 +95,11 @@ export const Preferences = {
     CATEGORY_THEME: 'theme',
     CATEGORY_FLAGGED_POST: 'flagged_post',
     CATEGORY_NOTIFICATIONS: 'notifications',
-    CATEGORY_FAVORITE_CHANNEL: 'favorite_channel',
     EMAIL_INTERVAL: 'email_interval',
     INTERVAL_IMMEDIATE: 30, // "immediate" is a 30 second interval
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
-    GLOBAL_HEADER_DISPLAY: 'global_header_display',
-    GLOBAL_HEADER_DISPLAY_ON: 'global_header_display_on',
-    GLOBAL_HEADER_DISPLAY_OFF: 'global_header_display_off',
-    GLOBAL_HEADER_DISPLAY_DEFAULT: 'global_header_display_off',
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
@@ -307,6 +302,7 @@ export const ModalIdentifiers = {
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
+    START_TRIAL_MODAL: 'start_trial_modal',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
@@ -957,7 +953,7 @@ export const exportFormats = {
 };
 
 export const ZoomSettings = {
-    DEFAULT_SCALE: 1,
+    DEFAULT_SCALE: 1.75,
     SCALE_DELTA: 0.25,
     MIN_SCALE: 0.25,
     MAX_SCALE: 3.0,
@@ -1048,7 +1044,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 5,
+    MAX_UPLOAD_FILES: 10,
     MAX_FILENAME_LENGTH: 35,
     EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT: 100,
     THUMBNAIL_WIDTH: 128,

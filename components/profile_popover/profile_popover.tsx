@@ -228,6 +228,7 @@ ProfilePopoverState
         this.props.actions.openModal({
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
+            dialogProps: {isContentProductSettings: false},
         });
         this.handleCloseModals();
     };
@@ -526,8 +527,8 @@ ProfilePopoverState
                             }}
                         />
                         <FormattedMessage
-                            id='user_profile.account.editSettings'
-                            defaultMessage='Edit Account Settings'
+                            id='user_profile.account.editProfile'
+                            defaultMessage='Edit Profile'
                         />
                     </a>
                 </div>,

@@ -34,28 +34,6 @@ Cypress.Commands.add('toAccountSettingsModal', () => {
     cy.get('#accountSettingsModal').should('be.visible');
 });
 
-/**
- * Change the message display setting
- * @param {String} setting - as 'STANDARD' or 'COMPACT'
- */
-Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => {
-    const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
-
-    cy.toAccountSettingsModal();
-    cy.get('#displayButton').click();
-
-    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
-
-    cy.get('#message_displayTitle').scrollIntoView();
-    cy.get('#message_displayTitle').click();
-    cy.get('.section-max').scrollIntoView();
-
-    cy.get(SETTINGS[setting]).check().should('be.checked');
-
-    cy.get('#saveSetting').click();
-    cy.get('#accountSettingsHeader > .close').click();
-});
-
 // ***********************************************************
 // Key Press
 // ***********************************************************

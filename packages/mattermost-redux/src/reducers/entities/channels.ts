@@ -213,21 +213,6 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         return {...state, [channelId]: {...channel, scheme_id: schemeId}};
     }
 
-    case ChannelTypes.RECEIVED_MY_CHANNELS_WITH_MEMBERS: { // Used by the mobile app
-        const nextState = {...state};
-        const myChannels: Channel[] = action.data.channels;
-        let hasNewValues = false;
-
-        if (myChannels && myChannels.length) {
-            hasNewValues = true;
-            myChannels.forEach((c: Channel) => {
-                nextState[c.id] = c;
-            });
-        }
-
-        return hasNewValues ? nextState : state;
-    }
-
     case AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS: {
         const {channels} = action.data;
         const nextState = {...state};
@@ -268,15 +253,6 @@ function channelsInTeam(state: RelationOneToMany<Team, Channel> = {}, action: Ge
             return removeChannelFromSet(state, action);
         }
         return state;
-    }
-    case ChannelTypes.RECEIVED_MY_CHANNELS_WITH_MEMBERS: { // Used by the mobile app
-        const values: GenericAction = {
-            type: action.type,
-            teamId: action.data.teamId,
-            sync: action.data.sync,
-            data: action.data.channels,
-        };
-        return channelListToSet(state, values);
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
@@ -469,35 +445,6 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             return state;
         }
         return {...state, [data.channelId]: {...channelState, msg_count: data.msgCount, mention_count: data.mentionCount, msg_count_root: data.msgCountRoot, mention_count_root: data.mentionCountRoot, last_viewed_at: data.lastViewedAt}};
-    }
-
-    case ChannelTypes.RECEIVED_MY_CHANNELS_WITH_MEMBERS: { // Used by the mobile app
-        const nextState = {...state};
-        const current = Object.values(nextState);
-        const {sync, channelMembers} = action.data;
-        let hasNewValues = channelMembers && channelMembers.length > 0;
-
-        // Remove existing channel memberships when the user is no longer a member
-        if (sync) {
-            current.forEach((member: ChannelMembership) => {
-                const id = member.channel_id;
-                if (channelMembers.find((cm: ChannelMembership) => cm.channel_id === id)) {
-                    delete nextState[id];
-                    hasNewValues = true;
-                }
-            });
-        }
-
-        if (hasNewValues) {
-            channelMembers.forEach((cm: ChannelMembership) => {
-                const id: string = cm.channel_id;
-                nextState[id] = cm;
-            });
-
-            return nextState;
-        }
-
-        return state;
     }
 
     case UserTypes.LOGOUT_SUCCESS:

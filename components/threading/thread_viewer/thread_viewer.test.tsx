@@ -41,10 +41,8 @@ describe('components/threading/ThreadViewer', () => {
         purpose: '',
         creator_id: '',
         scheme_id: '',
-        isCurrent: false,
         teammate_id: '',
         status: '',
-        fake: false,
     });
 
     const actions = {
@@ -54,6 +52,7 @@ describe('components/threading/ThreadViewer', () => {
         getThread: jest.fn(),
         updateThreadRead: jest.fn(),
         updateThreadLastOpened: jest.fn(),
+        fetchRHSAppsBindings: jest.fn(),
     };
 
     const directTeammate: UserProfile = TestHelper.getUserMock();

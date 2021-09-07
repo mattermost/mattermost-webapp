@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import HelpLinks from 'components/help/components/help_links';
+import {HelpLink} from 'components/help/types';
 
 export default function Mentioning(): JSX.Element {
     return (
@@ -106,54 +107,7 @@ export default function Mentioning(): JSX.Element {
                     defaultMessage='Select `@` next to the Search box to query for your most recent @mentions and words that trigger mentions. Select **Jump** next to a search result in the right-hand sidebar to jump the center pane to the channel and location of the message with the mention.'
                 />
             </p>
-            <p className='links'>
-                <FormattedMessage
-                    id='help.learnMore'
-                    defaultMessage='Learn more about:'
-                />
-            </p>
-            <ul>
-                <li>
-                    <Link to='/help/messaging'>
-                        <FormattedMessage
-                            id='help.link.messaging'
-                            defaultMessage='Basic Messaging'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/composing'>
-                        <FormattedMessage
-                            id='help.link.composing'
-                            defaultMessage='Composing Messages and Replies'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/formatting'>
-                        <FormattedMessage
-                            id='help.link.formatting'
-                            defaultMessage='Formatting Messages Using Markdown'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/attaching'>
-                        <FormattedMessage
-                            id='help.link.attaching'
-                            defaultMessage='Attaching Files'
-                        />
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help/commands'>
-                        <FormattedMessage
-                            id='help.link.commands'
-                            defaultMessage='Executing Commands'
-                        />
-                    </Link>
-                </li>
-            </ul>
+            <HelpLinks excludedLinks={[HelpLink.Mentioning]}/>
         </div>
     );
 }

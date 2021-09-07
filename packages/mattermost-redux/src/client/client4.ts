@@ -6,7 +6,7 @@ import {SystemSetting} from 'mattermost-redux/types/general';
 import {General} from '../constants';
 
 import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
-import type {AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import type {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
 import {Bot, BotPatch} from 'mattermost-redux/types/bots';
@@ -115,7 +115,6 @@ import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
-import fetch from './fetch_etag';
 import {TelemetryHandler} from './telemetry';
 
 const FormData = require('form-data');
@@ -382,10 +381,6 @@ export default class Client4 {
 
     getRolesRoute() {
         return `${this.getBaseRoute()}/roles`;
-    }
-
-    getTimezonesRoute() {
-        return `${this.getBaseRoute()}/system/timezones`;
     }
 
     getSchemesRoute() {
@@ -1541,15 +1536,6 @@ export default class Client4 {
         );
     };
 
-    convertChannelToPrivate = (channelId: string) => {
-        this.trackEvent('api', 'api_channels_convert_to_private', {channel_id: channelId});
-
-        return this.doFetch<Channel>(
-            `${this.getChannelRoute(channelId)}/convert`,
-            {method: 'post'},
-        );
-    };
-
     updateChannelPrivacy = (channelId: string, privacy: any) => {
         this.trackEvent('api', 'api_channels_update_privacy', {channel_id: channelId, privacy});
 
@@ -1953,7 +1939,7 @@ export default class Client4 {
         {
             before = '',
             after = '',
-            pageSize = PER_PAGE_DEFAULT,
+            perPage = PER_PAGE_DEFAULT,
             extended = false,
             deleted = false,
             unread = false,
@@ -1961,7 +1947,7 @@ export default class Client4 {
         },
     ) => {
         return this.doFetch<UserThreadList>(
-            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, pageSize, extended, deleted, unread, since})}`,
+            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since})}`,
             {method: 'get'},
         );
     };
@@ -2651,15 +2637,6 @@ export default class Client4 {
     autocompleteCustomEmoji = (name: string) => {
         return this.doFetch<CustomEmoji[]>(
             `${this.getEmojisRoute()}/autocomplete${buildQueryString({name})}`,
-            {method: 'get'},
-        );
-    };
-
-    // Timezone Routes
-
-    getTimezones = () => {
-        return this.doFetch<string[]>(
-            `${this.getTimezonesRoute()}`,
             {method: 'get'},
         );
     };
@@ -3439,7 +3416,7 @@ export default class Client4 {
             user_agent: 'webapp',
         };
 
-        return this.doFetch(
+        return this.doFetch<AppBinding[]>(
             `${this.getAppsProxyRoute()}/api/v1/bindings${buildQueryString(params)}`,
             {method: 'get'},
         );

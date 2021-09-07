@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useRef, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -10,9 +9,9 @@ import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon'
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import {TutorialSteps} from 'utils/constants';
 
-import {useClickOutsideRef, useCurrentProductId, useProducts, useShowTutorialStep} from './hooks';
+import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
+import ProductBranding from './product_branding';
 import ProductSwitcherMenu from './product_switcher_menu';
 import ProductSwitcherTip from './product_switcher_tip';
 
@@ -27,18 +26,11 @@ interface SwitcherNavEntryProps {
 const ProductSwitcherContainer = styled.nav`
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     > * + * {
         margin-left: 12px;
     }
-`;
-
-const SwitcherMenuDescriptiveText = styled.div`
-    height: 32px;
-    padding-left: 20px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 20px;
 `;
 
 const MenuItem = styled(Link)`
@@ -48,9 +40,9 @@ const MenuItem = styled(Link)`
     }
 
     height: 40px;
-    width: 273px;
+    width: 270px;
     padding-left: 16px;
-    padding-right: 16px;
+    padding-right: 20px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -67,7 +59,7 @@ const MenuItem = styled(Link)`
 `;
 
 const StyledIcon = styled(Icon)`
-    color: var(--sidebar-bg);
+    color: var(--button-bg);
 `;
 
 const MenuItemTextContainer = styled.div`
@@ -84,12 +76,15 @@ const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNa
             to={destination}
             onClick={onClick}
         >
-            <StyledIcon glyph={icon || 'none'}/>
+            <StyledIcon
+                size={20}
+                glyph={icon || 'none'}
+            />
             <MenuItemTextContainer>
                 {text}
             </MenuItemTextContainer>
             {active &&
-                <Icon
+                <StyledIcon
                     size={16}
                     glyph='check'
                 />
@@ -100,7 +95,6 @@ const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNa
 
 const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
-    const showTutorialStep = useShowTutorialStep(TutorialSteps.PRODUCT_SWITCHER, products);
     const [switcherOpen, setSwitcherOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -130,26 +124,27 @@ const ProductSwitcher = (): JSX.Element => {
             <MenuWrapper
                 open={switcherOpen}
             >
-                <ProductSwitcherContainer>
+                <ProductSwitcherContainer onClick={handleClick}>
                     <IconButton
                         icon={'products'}
-                        onClick={handleClick}
                         size={'sm'}
+
+                        // we currently need this, since not passing a onClick handler is disabling the IconButton
+                        // this is a known issue and is being tracked by UI platform team
+                        // TODO@UI: remove the onClick, when it is not a mandatory prop anymore
+                        onClick={() => {}}
                         compact={true}
-                        toggled={switcherOpen}
+                        active={switcherOpen}
                         inverted={true}
                         aria-label='Select to open product switch menu.'
                     />
+                    <ProductSwitcherTip/>
+                    <ProductBranding/>
                 </ProductSwitcherContainer>
                 <Menu
+                    className={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >
-                    <SwitcherMenuDescriptiveText>
-                        <FormattedMessage
-                            defaultMessage='Open...'
-                            id='global_header.open'
-                        />
-                    </SwitcherMenuDescriptiveText>
                     <SwitcherNavEntry
                         destination={'/'}
                         icon={'product-channels'}
@@ -158,8 +153,11 @@ const ProductSwitcher = (): JSX.Element => {
                         onClick={handleClick}
                     />
                     {productItems}
-                    {showTutorialStep && <ProductSwitcherTip/>}
-                    <ProductSwitcherMenu id='ProductSwitcherMenu'/>
+                    <ProductSwitcherMenu
+                        id='ProductSwitcherMenu'
+                        isMessaging={currentProductID === null}
+                        onClick={handleClick}
+                    />
                 </Menu>
             </MenuWrapper>
         </div>

@@ -7,11 +7,13 @@ import {logError} from 'mattermost-redux/actions/errors';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentChannel, getMyChannelMember, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeammateNameDisplaySetting, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
+
+import {isThreadOpen} from 'selectors/views/threads';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
@@ -47,25 +49,38 @@ export function sendDesktopNotification(post, msgProps) {
         if (msgProps.mentions) {
             mentions = JSON.parse(msgProps.mentions);
         }
+
+        let followers = [];
+        if (msgProps.followers) {
+            followers = JSON.parse(msgProps.followers);
+            mentions = [...new Set([...followers, ...mentions])];
+        }
+
         const teamId = msgProps.team_id;
 
         let channel = makeGetChannel()(state, {id: post.channel_id});
         const user = getCurrentUser(state);
         const userStatus = getStatusForUserId(state, user.id);
         const member = getMyChannelMember(state, post.channel_id);
+        const isCrtReply = isCollapsedThreadsEnabled(state) && post.root_id !== '';
 
         if (!member || isChannelMuted(member) || userStatus === UserStatuses.DND || userStatus === UserStatuses.OUT_OF_OFFICE) {
             return;
         }
 
-        let notifyLevel = member && member.notify_props ? member.notify_props.desktop : NotificationLevels.DEFAULT;
-        if (notifyLevel === NotificationLevels.DEFAULT) {
-            notifyLevel = user && user.notify_props ? user.notify_props.desktop : NotificationLevels.ALL;
+        let notifyLevel = member?.notify_props?.desktop || NotificationLevels.DEFAULT;
+
+        // disregard channel notification settings on CRT 'on' replies
+        if (notifyLevel === NotificationLevels.DEFAULT || isCrtReply) {
+            notifyLevel = user?.notify_props?.desktop || NotificationLevels.ALL;
         }
 
         if (notifyLevel === NotificationLevels.NONE) {
             return;
         } else if (notifyLevel === NotificationLevels.MENTION && mentions.indexOf(user.id) === -1 && msgProps.channel_type !== Constants.DM_CHANNEL) {
+            return;
+        } else if (isCrtReply && notifyLevel === NotificationLevels.ALL && followers.indexOf(currentUserId) === -1) {
+            // if user is not following the thread don't notify
             return;
         }
 
@@ -141,11 +156,26 @@ export function sendDesktopNotification(post, msgProps) {
         // the window itself is not active
         const activeChannel = getCurrentChannel(state);
         const channelId = channel ? channel.id : null;
-        const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
+
+        let notify = false;
+        if (isCrtReply) {
+            notify = !isThreadOpen(state, post.root_id);
+        } else {
+            notify = activeChannel && activeChannel.id !== channelId;
+        }
+        notify = notify || !state.views.browser.focused;
+
         const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
 
         if (notify) {
-            dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
+            const updatedState = getState();
+            let url = Utils.getChannelURL(updatedState, channel, teamId);
+
+            if (isCrtReply) {
+                url = Utils.getPermalinkURL(updatedState, teamId, post.id);
+            }
+
+            dispatch(notifyMe(title, body, channel, teamId, !sound, soundName, url));
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
@@ -155,7 +185,7 @@ export function sendDesktopNotification(post, msgProps) {
     };
 }
 
-const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch, getState) => {
+const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (dispatch) => {
     // handle notifications in desktop app >= 4.3.0
     if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
         const msg = {
@@ -166,8 +196,14 @@ const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch,
             silent,
         };
 
-        if (isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.6.0')) {
-            msg.data = {soundName};
+        if (isDesktopApp() && window.desktop) {
+            if (semver.gte(window.desktop.version, '4.6.0')) {
+                msg.data = {soundName};
+            }
+
+            if (semver.gte(window.desktop.version, '4.7.2')) {
+                msg.url = url;
+            }
         }
 
         // get the desktop app to trigger the notification
@@ -186,7 +222,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch,
             silent,
             onClick: () => {
                 window.focus();
-                browserHistory.push(Utils.getChannelURL(getState(), channel, teamId));
+                browserHistory.push(url);
             },
         }).catch((error) => {
             dispatch(logError(error));

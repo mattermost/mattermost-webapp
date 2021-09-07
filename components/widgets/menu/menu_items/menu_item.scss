@@ -13,6 +13,10 @@
             }
         }
 
+        .destructive {
+            color: var(--error-text);
+        }
+
         .MenuItem__icon {
             width: 20px;
             margin-right: 8px;
@@ -45,7 +49,11 @@
             white-space: normal;
 
             @media (max-width: 768px) {
-                padding-left: 5px !important;
+                padding-left: 28px !important;
+
+                .mobile-main-menu & {
+                    padding-left: 36px !important;
+                }
             }
         }
 
@@ -135,16 +143,38 @@
         border-radius: 4px;
 
         .upgradeLink {
-            color: --button-bg;
+            color: var(--button-bg);
             font-style: normal;
             font-weight: 600;
 
             &:hover {
-                color: --button-bg;
+                color: var(--button-bg);
                 font-style: normal;
                 font-weight: 600;
                 text-decoration: none;
             }
+        }
+    }
+
+    .MenuStartTrial {
+        padding: 8px;
+        padding-left: 16px;
+        margin: 8px;
+        margin-top: 0;
+        background-color: rgba(var(--button-bg-rgb), 0.04);
+        border-radius: 4px;
+
+        button {
+            padding: 3px 0;
+            border: none;
+            background-color: transparent;
+            color: var(--button-bg);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: transparent;
         }
     }
 }
