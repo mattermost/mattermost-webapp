@@ -31,7 +31,6 @@ import {
     getStatusForUserId,
     getUser,
     getUserIdsInChannels,
-    isCurrentUserSystemAdmin,
 } from 'mattermost-redux/selectors/entities/users';
 
 import {
