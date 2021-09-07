@@ -40,26 +40,12 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             performLookup: jest.fn(),
         };
 
-        const requiredLabel = (
-            <React.Fragment>
-                {[textField.modal_label]}
-            </React.Fragment>
-        );
-
-        const optionalText = (
-            <span className='light'>{' (optional)'}</span>
-        );
-
-        const optionalLabel = (
-            <React.Fragment>
-                {[textField.modal_label,
-                    optionalText]}
-            </React.Fragment>
-        );
-
         const baseTextSettingProps = {
             inputClassName: '',
-            label: (requiredLabel),
+            label: (<React.Fragment>
+                {textField.modal_label}
+                {false}
+            </React.Fragment>),
             maxLength: 100,
             placeholder: 'The hint',
             resizable: false,
@@ -75,7 +61,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                     {...baseDialogTextProps}
                     field={{
                         ...textField,
-                        label: (optionalLabel),
+                        label: '',
                         is_required: false,
                     }}
                 />,
@@ -83,7 +69,11 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             expect(wrapper.matchesElement(
                 <TextSetting
                     {...baseTextSettingProps}
-                    label={optionalLabel}
+                    label={(<React.Fragment>
+                        {textField.modal_label}
+                        {<span className='light'>{' (optional)'}</span>}
+                    </React.Fragment>
+                    )}
                     type='input'
                 />,
             )).toEqual(true);
