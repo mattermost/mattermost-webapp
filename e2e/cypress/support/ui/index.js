@@ -14,7 +14,6 @@ import './modal';
 import './post_dropdown_menu';
 import './search';
 import './sidebar_left';
-import './subscription_stripe';
 import './suggestion_list';
 import './system';
 import './team';
