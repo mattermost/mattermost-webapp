@@ -22,25 +22,20 @@ const Setting: React.FC<Props> = ({
     footer,
     helpText,
 }: Props) => {
-    let labelContent;
-    if (label) {
-        labelContent = (
-            <label
-                data-testid={inputId + 'label'}
-                className={'control-label ' + labelClassName}
-                htmlFor={inputId}
-            >
-                {label}
-            </label>
-        );
-    }
-
     return (
         <div
             data-testid={inputId}
             className='form-group'
         >
-            {labelContent}
+            {label && (
+                <label
+                    data-testid={inputId + 'label'}
+                    className={'control-label ' + labelClassName}
+                    htmlFor={inputId}
+                >
+                    {label}
+                </label>
+            )}
             <div className={inputClassName}>
                 {children}
                 <div
