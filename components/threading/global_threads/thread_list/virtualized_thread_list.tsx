@@ -3,6 +3,7 @@
 
 import React, {memo, useCallback, useMemo} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import InfiniteLoader from 'react-window-infinite-loader';
 import {FixedSizeList} from 'react-window';
 
 import {$ID} from 'mattermost-redux/types/utilities';
@@ -12,31 +13,53 @@ import Row from './virtualized_thread_list_row';
 
 type Props = {
     ids: Array<$ID<UserThread>>;
+    loadMoreItems: (startIndex: number, stopIndex: number) => Promise<any>;
     selectedThreadId?: $ID<UserThread>;
+    total: number;
 };
 
 function VirtualizedThreadList({
     ids,
     selectedThreadId,
+    loadMoreItems,
+    total,
 }: Props) {
     const itemKey = useCallback((index) => ids[index], [ids]);
 
     const data = useMemo(() => ({ids, selectedThreadId}), [ids, selectedThreadId]);
 
+    const isItemLoaded = useCallback((index) => {
+        return ids.length === total || index < ids.length;
+    }, [ids]);
+
+    const handleLoadMoreItems = useCallback((startIndex, stopIndex) => {
+        return loadMoreItems(startIndex, stopIndex);
+    }, [loadMoreItems]);
+
     return (
         <AutoSizer>
             {({height, width}) => (
-                <FixedSizeList
-                    height={height}
-                    itemCount={ids.length}
-                    itemData={data}
-                    itemKey={itemKey}
-                    itemSize={133}
-                    style={{willChange: 'auto'}}
-                    width={width}
+                <InfiniteLoader
+                    itemCount={total}
+                    loadMoreItems={handleLoadMoreItems}
+                    isItemLoaded={isItemLoaded}
                 >
-                    {Row}
-                </FixedSizeList>
+                    {({onItemsRendered, ref}) => (
+                        <FixedSizeList
+                            onItemsRendered={onItemsRendered}
+                            ref={ref}
+                            height={height}
+                            itemCount={ids.length}
+                            itemData={data}
+                            itemKey={itemKey}
+                            itemSize={133}
+                            style={{willChange: 'auto'}}
+                            width={width}
+                        >
+                            {Row}
+                        </FixedSizeList>
+                    )}
+                </InfiniteLoader>
             )}
         </AutoSizer>
     );

@@ -3,12 +3,15 @@
 
 import React, {memo, useCallback, PropsWithChildren} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
 
-import {markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
+import {getTeamThreadCounts} from 'mattermost-redux/selectors/entities/threads';
+import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
+
+import {GlobalState} from 'types/store';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
@@ -51,6 +54,8 @@ const ThreadList = ({
     const dispatch = useDispatch();
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
+    const {total = 0, total_unread_threads: totalUnread} = useSelector((state: GlobalState) => getTeamThreadCounts(state, currentTeamId));
+
     const handleRead = useCallback(() => {
         setFilter(ThreadFilter.none);
     }, [setFilter]);
@@ -58,6 +63,13 @@ const ThreadList = ({
     const handleUnread = useCallback(() => {
         setFilter(ThreadFilter.unread);
     }, [setFilter]);
+
+    const handleLoadMoreItems = useCallback(async (startIndex) => {
+        const page = Math.round(startIndex / 10);
+        await dispatch(getThreads(currentUserId, currentTeamId, {unread: currentFilter === 'unread', perPage: 10, page}));
+
+        return {data: true};
+    }, [currentTeamId, selectedThreadId, currentFilter]);
 
     const handleAllMarkedRead = useCallback(() => {
         dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
@@ -118,8 +130,10 @@ const ThreadList = ({
             <div className='threads'>
                 <VirtualizedThreadList
                     key={`threads_list_${currentFilter}`}
+                    loadMoreItems={handleLoadMoreItems}
                     ids={currentFilter === ThreadFilter.unread ? unreadIds : ids}
                     selectedThreadId={selectedThreadId}
+                    total={currentFilter === ThreadFilter.unread ? totalUnread : total}
                 />
                 {currentFilter === ThreadFilter.unread && !someUnread && isEmpty(unreadIds) ? (
                     <NoResultsIndicator

@@ -84,7 +84,8 @@ const GlobalThreads = () => {
     }, [currentTeamId, selectedThreadId, threadIdentifier]);
 
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 200}));
+        // this is needed to reset threads when changing tabs
+        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 10, page: 0}));
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
