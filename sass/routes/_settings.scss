@@ -257,14 +257,14 @@
                 }
 
                 .theme-sync-with-os-explanation {
-                    font-size: 12px;
                     margin: 4px 0 4px 20px;
+                    font-size: 12px;
                 }
 
                 .theme-chooser-header {
+                    margin: 12px 0;
                     font-weight: 600;
                     line-height: 20px;
-                    margin: 12px 0;
                 }
 
                 .themes-grid {
@@ -276,18 +276,18 @@
                     }
 
                     .themes-grid__thumbnail {
-                        cursor: pointer;
+                        position: relative;
+                        display: flex;
+                        overflow: hidden;
                         width: 94px;
                         height: 70px;
-                        border-radius: 4px;
-                        border: 1px solid rgba(var(--center-channel-color-rgb), .16);
-                        background: rgba(var(--center-channel-color-rgb), .08);
-                        display: flex;
                         align-items: center;
                         justify-content: center;
+                        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                        border-radius: 4px;
+                        cursor: pointer;
                         font-size: 18px;
-                        position: relative;
-                        overflow: hidden;
 
                         svg {
                             width: 100%;
@@ -297,25 +297,25 @@
                     }
 
                     .themes-grid__thumbnail_active {
-                        border-color: var(--sidebar-text-active-border);
                         border-width: 2px;
+                        border-color: var(--sidebar-text-active-border);
                     }
 
                     .themes-grid__thumbnail-active-check {
-                        color: var(--sidebar-text-active-border);
                         position: absolute;
-                        bottom: 2px;
                         right: 2px;
+                        bottom: 2px;
+                        color: var(--sidebar-text-active-border);
                         font-size: 20px;
                     }
 
                     .themes-grid__label {
                         overflow: hidden;
                         margin-top: 5px;
+                        font-size: 12px;
                         font-weight: 400;
                         text-overflow: ellipsis;
                         white-space: nowrap;
-                        font-size: 12px;
                     }
                 }
 
@@ -402,7 +402,8 @@
                         }
                     }
 
-                    .theme-elements__body, .theme-elements__body-advanced-theme {
+                    .theme-elements__body,
+                    .theme-elements__body-advanced-theme {
                         @include border-radius(0 0 3px 3px);
                         @include legacy-pie-clearfix;
                         @include alpha-property(background-color, $white, 0.05);
@@ -418,14 +419,18 @@
                             margin: 0 20px 0 0;
                         }
                     }
+
                     .theme-elements__body {
                         padding: 0 0 0 24px;
+
                         &.open {
                             padding: 24px 0 0 24px;
                         }
                     }
+
                     .theme-elements__body-advanced-theme {
                         padding: 0 12px;
+
                         &.open {
                             padding: 12px;
                         }

@@ -138,7 +138,7 @@ function firstAdminVisitMarketplaceStatus(state = false, action: GenericAction) 
     }
 }
 
-function osColorScheme(state: OsColorSchemeName = 'light', action:GenericAction) {
+function osColorScheme(state: OsColorSchemeName = 'light', action: GenericAction) {
     switch (action.type) {
     case GeneralTypes.OS_COLOR_SCHEME_INIT:
     case GeneralTypes.OS_COLOR_SCHEME_CHANGED:
