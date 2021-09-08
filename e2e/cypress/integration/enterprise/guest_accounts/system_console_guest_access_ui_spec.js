@@ -102,9 +102,8 @@ describe('Guest Account - Verify Guest Access UI', () => {
             cy.findByText('Switch to eligendi').click();
         });
 
-        // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').click();
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
 
         // * Verify that an option to Invite via Guest should not be available
         cy.findByTestId('inviteGuestLink').should('not.exist');
