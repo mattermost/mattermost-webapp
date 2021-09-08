@@ -12,7 +12,6 @@ import Constants from 'utils/constants';
 
 import ListItem from '../list_item';
 import {Option, optionValue, OptionValue} from '../types';
-import { options } from 'marked';
 
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 export const USERS_PER_PAGE = 50;
@@ -28,7 +27,6 @@ type Props = {
     options: Option[];
     saving: boolean;
     search: (term: string) => void;
-    searchTerm: string;
     selectedItemRef: React.RefObject<HTMLDivElement>;
     totalCount: number;
     users: UserProfile[];
@@ -40,43 +38,6 @@ type Props = {
 }
 
 const List = React.forwardRef((props: Props, ref?: React.Ref<MultiSelect<OptionValue>>) => {
-    // const computeOptions = (): Option[] => {
-    //     const {
-    //         currentUserId,
-    //         searchTerm,
-    //         myDirectChannels,
-    //         dmUsers,
-    //         values,
-    //     } = props;
-
-    //     const [activeUsers, inactiveUsers] = partition(this.props.users, ({delete_at: deleteAt}) => deleteAt === 0);
-
-    //     const groupChannelsWithAvailableProfiles = this.props.groupChannels.filter(({profiles}) => differenceBy(profiles, values, 'id').length);
-    //     const [recentGroupChannels, groupChannels] = partition(groupChannelsWithAvailableProfiles, 'last_post_at');
-
-    //     let users = values.length ? activeUsers.filter(({id}) => id !== currentUserId) : activeUsers.concat(inactiveUsers);
-
-    //     users = users.filter((user) => (
-    //         (user.delete_at === 0 || myDirectChannels.some(({name}) => name.includes(user.id))) &&
-    //         !dmUsers.some(({id}) => id === user.id)
-    //     ));
-
-    //     const recent = [
-    //         ...values.length ? dmUsers.filter(({id}) => id !== currentUserId) : dmUsers,
-    //         ...recentGroupChannels,
-    //     ].sort((a, b) => b.last_post_at - a.last_post_at);
-
-    //     if (recent.length && !searchTerm) {
-    //         return recent.slice(0, 20);
-    //     }
-
-    //     return [
-    //         ...recent,
-    //         ...users,
-    //         ...groupChannels,
-    //     ];
-    // };
-
     const renderOptionValue = useCallback((
         option: OptionValue,
         isSelected: boolean,

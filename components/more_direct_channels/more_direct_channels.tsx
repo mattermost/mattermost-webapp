@@ -288,7 +288,6 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 loading={this.state.loadingUsers}
                 saving={this.state.saving}
                 search={this.search}
-                searchTerm={this.props.searchTerm}
                 selectedItemRef={this.selectedItemRef}
                 totalCount={this.props.totalCount}
                 users={this.props.users}

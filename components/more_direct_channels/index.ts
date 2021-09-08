@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, ActionCreatorsMapObject, Dispatch} from 'redux';
 
@@ -63,7 +62,7 @@ const makeMapStateToProps = () => {
                 users = searchProfilesInCurrentTeam(state, searchTerm, false);
             }
         } else if (restrictDirectMessage === 'any') {
-            users = selectProfiles(state); // TODO this ain't memoized right
+            users = selectProfiles(state);
         } else {
             users = getProfilesInCurrentTeam(state);
         }
@@ -84,20 +83,6 @@ const makeMapStateToProps = () => {
         };
     };
 };
-
-// const filterGroupChannels = memoizeResult((channels: GroupChannel[], term: string) => {
-//     return channels.filter((channel) => {
-//         const matches = filterProfilesStartingWithTerm(channel.profiles, term);
-//         return matches.length > 0;
-//     });
-// });
-
-// const filterDirectChannels = memoizeResult((channels: Record<string, Channel>, userId: string) => {
-//     return Object.values(channels).filter((channel) => (
-//         channel.type === Constants.DM_CHANNEL &&
-//         channel.name.includes(userId)
-//     ));
-// });
 
 type Actions = {
     getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;

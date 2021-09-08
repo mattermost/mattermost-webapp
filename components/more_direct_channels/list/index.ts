@@ -24,15 +24,6 @@ type OwnProps = {
     values: OptionValue[];
 }
 
-/*
-Ideal:
-1. Recent DMs/GMs matching filter
-    => DMs = DMs with user in users and user is active
-    => GMs = GMs with user in users
-2. Other users alphabetically matching filter
-
-*/
-
 function makeGetOptions() {
     return (state: GlobalState, users: UserProfile[], values: OptionValue[]) => {
         const currentUserId = getCurrentUserId(state);
@@ -96,79 +87,14 @@ function makeGetOptions() {
             return a.username.localeCompare(b.username);
         });
 
+        // Returns an array containing:
+        //  1. All recent DMs (represented by UserProfiles) and GMs matching the filter
+        //      - GMs are also filtered to only show ones containing each selected user
+        //  2. Other non-deactivated users sorted by username
         return [
-            ...recents, // TODO this isn't limited to 20 and that's probably fine
+            ...recents,
             ...usersWithoutDMs,
         ];
-
-        // users = [...users].sort(sortByUsername);
-
-        // const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
-        // const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
-
-        // // dmUsers is the list of every user we have a DM with that has posts in it
-        // let dmUsers: UserProfile[] = myDirectChannels.reduce((results, channel) => {
-        //     if (!channel.last_post_at) {
-        //         return results;
-        //     }
-
-        //     const user = getUser(state, getUserIdFromChannelName(currentUserId, channel.name));
-
-        //     if (user) {
-        //         results!.push({...user, last_post_at: channel.last_post_at});
-        //     }
-
-        //     return results;
-        // }, []);
-
-        // // That is filtered by the users fitting our searchTerms
-        // if (searchTerm) {
-        //     dmUsers = intersectionBy(dmUsers, users, 'id');
-        // }
-
-        // // Sort active users before inactive users
-        // const [activeUsers, inactiveUsers] = partition(users, ({delete_at: deleteAt}) => deleteAt === 0);
-        // users = activeUsers.concat(inactiveUsers);
-
-        // // After this, users will only contain undeleted users and users with DMs that are not in dmUsers
-        // users = users.filter((user) => (
-        //     (user.delete_at === 0 || myDirectChannels.some(({name}) => name.includes(user.id))) &&
-        //     !dmUsers.some(({id}) => id === user.id)
-        // ));
-
-        // // Get group channels where the user has selected a subset of the channel's members already
-        // const groupChannelsWithAvailableProfiles = filteredGroupChannels.filter(({profiles}) => differenceBy(profiles, values, 'id').length);
-
-        // // Separate out those group channels by whether or not those channels contain posts
-        // const [recentGroupChannels, groupChannels] = partition(groupChannelsWithAvailableProfiles, 'last_post_at');
-
-        // const recent = [
-        //     ...dmUsers,
-        //     ...recentGroupChannels,
-        // ].sort((a, b) => b.last_post_at - a.last_post_at);
-
-        // /*
-        // 1. recent (limited up to 20 without search term)?
-        //     sorted by last_post_at
-        //     - dmUsers
-
-        // 2. users
-        // 3. groupChannels
-        //     group channels with members that are a subset of selected and have no last_post_at
-
-        // */
-
-        // if (recent.length && !searchTerm) {
-        //     return recent.slice(0, 20);
-        // }
-
-        // // TODO filter out users and the user's self-DM channel in the component
-
-        // return [
-        //     ...recent,
-        //     ...users,
-        //     ...groupChannels,
-        // ];
     };
 }
 
