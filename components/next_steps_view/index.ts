@@ -13,11 +13,11 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {closeRightHandSide} from 'actions/views/rhs';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
 import {getSteps, isFirstAdmin} from './steps';
-
 import NextStepsView from './next_steps_view';
 
 function makeMapStateToProps() {
@@ -34,6 +34,7 @@ function makeMapStateToProps() {
             isFirstAdmin: isFirstAdmin(state),
             team,
             isCloud: getLicense(state).Cloud === 'true',
+            globalHeaderEnabled: getGlobalHeaderEnabled(state),
         };
     };
 }

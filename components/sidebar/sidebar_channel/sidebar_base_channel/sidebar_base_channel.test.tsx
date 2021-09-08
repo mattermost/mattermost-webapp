@@ -22,9 +22,6 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
             header: '',
             purpose: '',
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
-            extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,
@@ -91,18 +88,5 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should use correct close handler when experimental setting is enabled', () => {
-        const props = {
-            ...baseProps,
-            enableXToLeaveChannelsFromLHS: 'true',
-        };
-
-        const wrapper = shallow<SidebarBaseChannel>(
-            <SidebarBaseChannel {...props}/>,
-        );
-
-        expect(wrapper.instance().getCloseHandler()).toBe(wrapper.instance().handleLeavePublicChannel);
     });
 });

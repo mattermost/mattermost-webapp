@@ -9,7 +9,6 @@ import TestHelper from 'mattermost-redux/test/test_helper';
 import {
     areChannelMentionsIgnored,
     canManageMembersOldPermissions,
-    isAutoClosed,
     filterChannelsMatchingTerm,
     sortChannelsByRecency,
     sortChannelsByDisplayName,
@@ -105,56 +104,6 @@ describe('ChannelUtils', () => {
         assert.ok(!canManageMembersOldPermissions(privateChannel, systemUser, teamUser, channelUser, systemAdminsCanManageMembers, licensed));
     });
 
-    it('isAutoClosed', () => {
-        const autoCloseEnabled = {CloseUnusedDirectMessages: 'true'};
-        const autoCloseDisabled = {CloseUnusedDirectMessages: 'false'};
-        const activeChannel = {id: 'channelid', last_post_at: new Date().getTime()};
-        const inactiveChannel = {id: 'channelid', last_post_at: 1};
-        const now = new Date().getTime();
-
-        assert.ok(isAutoClosed(autoCloseEnabled, {}, inactiveChannel));
-
-        assert.ok(isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-        }, inactiveChannel));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-        }, inactiveChannel, now));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-        }, activeChannel));
-
-        assert.ok(!isAutoClosed(autoCloseDisabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-        }, inactiveChannel));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-            'channel_open_time--channelid': {value: now.toString()},
-        }, inactiveChannel));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'never'},
-        }, inactiveChannel));
-
-        assert.ok(isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-            'channel_open_time--channelid': {value: (now - 1000).toString()},
-        }, inactiveChannel, 0, now));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-            'channel_open_time--channelid': {value: now.toString()},
-        }, inactiveChannel, 0, now - 1000));
-
-        assert.ok(!isAutoClosed(autoCloseEnabled, {
-            'sidebar_settings--close_unused_direct_messages': {value: 'after_seven_days'},
-            'channel_open_time--channelid': {value: (now - 1000).toString()},
-        }, inactiveChannel, 0, now, 'channelid'));
-    });
-
     it('areChannelMentionsIgnored', () => {
         const currentUserNotifyProps1 = {channel: 'true'};
         const channelMemberNotifyProps1 = {ignore_channel_mentions: Users.IGNORE_CHANNEL_MENTIONS_DEFAULT};
@@ -241,7 +190,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelA',
             type: 'O',
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelB = {
@@ -250,7 +198,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelB',
             type: 'O',
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         assert.equal(sortChannelsByDisplayName('en', channelA, channelB), -1);
@@ -269,7 +216,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelA',
             type: General.OPEN_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelOpen2 = {
@@ -278,7 +224,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelB',
             type: General.OPEN_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelPrivate = {
@@ -287,7 +232,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelC',
             type: General.PRIVATE_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelDM = {
@@ -296,7 +240,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelD',
             type: General.DM_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         const channelGM = {
@@ -305,7 +248,6 @@ describe('ChannelUtils', () => {
             display_name: 'Unit Test channelE',
             type: General.GM_CHANNEL,
             delete_at: 0,
-            total_msg_count: 0,
         };
 
         let sortfn = sortChannelsByTypeListAndDisplayName.bind(null, 'en', [General.OPEN_CHANNEL, General.PRIVATE_CHANNEL, General.DM_CHANNEL, General.GM_CHANNEL]);

@@ -41,6 +41,16 @@
 
         .DropDown__control {
             min-height: 0;
+            background-color: var(--center-channel-bg) !important;
+
+            .DropDown__value-container > div {
+                color: var(--center-channel-color) !important;
+            }
+        }
+
+        .DropDown__menu {
+            background-color: var(--center-channel-bg) !important;
+            box-shadow: 0 0 0 1px var(--center-channel-color), 0 4px 11px var(--center-channel-color) !important;
         }
     }
 
@@ -94,6 +104,7 @@
 
         .Input {
             height: 32px;
+            background: inherit;
 
             &::placeholder {
                 color: var(--center-channel-color);

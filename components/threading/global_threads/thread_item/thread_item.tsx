@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useCallback, useEffect, MouseEvent, useMemo} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
 
@@ -30,6 +30,7 @@ import ThreadMenu from '../thread_menu';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
+import {Posts} from 'mattermost-redux/constants';
 
 export type OwnProps = {
     isSelected: boolean;
@@ -65,6 +66,9 @@ function ThreadItem({
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
     const {select, goToInChannel} = useThreadRouting();
+    const {formatMessage} = useIntl();
+
+    const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
 
     useEffect(() => {
         if (channel?.teammate_id) {
@@ -78,7 +82,15 @@ function ThreadItem({
         }
     }, [channel, thread?.post.channel_id]);
 
-    const participantIds = useMemo(() => thread?.participants?.map(({id}) => id), [thread?.participants]);
+    const participantIds = useMemo(() => {
+        const ids = thread?.participants?.flatMap(({id}) => {
+            if (id === post.user_id) {
+                return [];
+            }
+            return id;
+        }).reverse();
+        return [post.user_id, ...ids];
+    }, [thread?.participants]);
 
     const selectHandler = useCallback(() => select(threadId), []);
 
@@ -184,7 +196,7 @@ function ThreadItem({
                 onClick={handleFormattedTextClick}
             >
                 <Markdown
-                    message={post?.message ?? '(message deleted)'}
+                    message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
                     options={markdownPreviewOptions}
                     imagesMetadata={post?.metadata && post?.metadata?.images}
                     imageProps={imageProps}

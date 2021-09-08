@@ -244,27 +244,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -521,27 +506,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -798,27 +768,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -1032,21 +987,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         className="divider-dark"
       />
     </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1218,27 +1158,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -1495,27 +1420,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -1790,27 +1700,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -2005,27 +1900,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -2220,27 +2100,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -2435,27 +2300,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -2662,27 +2512,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}
@@ -2877,27 +2712,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
-        describe="English"
+        describe="English (US)"
         section="languages"
         title={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Language"
             id="user.settings.display.language"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <SettingItemMin
-        section="global_header_display"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Global Header"
-            id="user.settings.display.global_header_display"
           />
         }
         updateSection={[Function]}

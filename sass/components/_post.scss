@@ -216,6 +216,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
+        background: var(--center-channel-bg);
 
         &.active {
             display: inline;
@@ -386,6 +387,7 @@
 
     z-index: 12;
     width: 100%;
+    background: var(--center-channel-bg);
 
     label {
         font-weight: normal;
@@ -1893,6 +1895,10 @@
             }
         }
     }
+
+    .Menu .MenuItem {
+        background: var(--center-channel-bg);
+    }
 }
 
 .Badge {
@@ -1937,12 +1943,12 @@
     .post-collapse__gradient,
     .post-attachment-collapse__gradient {
         position: relative;
-        background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), v(center-channel-bg));
+        background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), var(--center-channel-bg));
     }
 
     .post-collapse__show-more,
     .post-attachment-collapse__show-more {
-        background: v(center-channel-bg);
+        background: var(--center-channel-bg);
         pointer-events: auto;
     }
 }

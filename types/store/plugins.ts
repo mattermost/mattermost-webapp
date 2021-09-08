@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
+
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
 import {FileInfo} from 'mattermost-redux//types/files';
 import {PostEmbed} from 'mattermost-redux/types/posts';
@@ -79,10 +81,11 @@ export type PostWillRenderEmbedPluginComponent = {
 export type ProductComponent = {
     id: string;
     pluginId: string;
-    switcherIcon: React.ReactNode;
-    switcherText: React.ReactNode;
+    switcherIcon: TIconGlyph;
+    switcherText: string;
     baseURL: string;
     switcherLinkURL: string;
     mainComponent: React.ReactNode;
-    headerComponent: React.ReactNode;
+    headerCentreComponent?: React.ReactNode;
+    headerRightComponent?: React.ReactNode;
 };

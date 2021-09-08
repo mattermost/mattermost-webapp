@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CollapsedThreads, InviteMembersBtnLocations} from '../constants/config';
+import {AddChannelButtonTreatments, CollapsedThreads} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
@@ -9,6 +9,7 @@ import {ThemeKey} from './themes';
 
 export type ClientConfig = {
     AboutLink: string;
+    AddChannelButton: AddChannelButtonTreatments;
     AllowBannerDismissal: string;
     AllowCustomThemes: string;
     AllowedThemes: string;
@@ -26,15 +27,13 @@ export type ClientConfig = {
     BuildHash: string;
     BuildHashEnterprise: string;
     BuildNumber: string;
-    CloseUnusedDirectMessages: string;
     CollapsedThreads: CollapsedThreads;
-    InviteMembersBtnLocations: InviteMembersBtnLocations;
     CustomBrandText: string;
     CustomDescriptionText: string;
     CustomTermsOfServiceId: string;
     CustomTermsOfServiceReAcceptancePeriod: string;
     CustomUrlSchemes: string;
-    CWSUrl: string;
+    CWSURL: string;
     DataRetentionEnableFileDeletion: string;
     DataRetentionEnableMessageDeletion: string;
     DataRetentionFileRetentionDays: string;
@@ -74,7 +73,6 @@ export type ClientConfig = {
     EnableIncomingWebhooks: string;
     EnableLatex: string;
     EnableLdap: string;
-    EnableLegacySidebar: string;
     EnableLinkPreviews: string;
     EnableMarketplace: string;
     EnableMetrics: string;
@@ -102,13 +100,12 @@ export type ClientConfig = {
     EnableTesting: string;
     EnableThemeSelection: string;
     EnableTutorial: string;
+    EnableOnboardingFlow: string;
     EnableUserAccessTokens: string;
     EnableUserCreation: string;
     EnableUserDeactivation: string;
     EnableUserTypingMessages: string;
-    EnableXToLeaveChannelsFromLHS: string;
     EnforceMultifactorAuthentication: string;
-    ExperimentalChannelOrganization: string;
     ExperimentalClientSideCertCheck: string;
     ExperimentalClientSideCertEnable: string;
     ExperimentalCloudBilling: string;
@@ -120,14 +117,13 @@ export type ClientConfig = {
     ExperimentalEnableDefaultChannelLeaveJoinMessages: string;
     ExperimentalEnablePostMetadata: string;
     ExperimentalGroupUnreadChannels: string;
-    ExperimentalHideTownSquareinLHS: string;
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
     ExperimentalTownSquareIsReadOnly: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
-    GfycatApiKey: string;
-    GfycatApiSecret: string;
+    GfycatAPIKey: string;
+    GfycatAPISecret: string;
     GoogleDeveloperKey: string;
     GuestAccountsEnforceMultifactorAuthentication: string;
     HasImageProxy: string;
@@ -303,8 +299,8 @@ export type ServiceSettings = {
     EnableCustomEmoji: boolean;
     EnableEmojiPicker: boolean;
     EnableGifPicker: boolean;
-    GfycatApiKey: string;
-    GfycatApiSecret: string;
+    GfycatAPIKey: string;
+    GfycatAPISecret: string;
     RestrictCustomEmojiCreation: string;
     RestrictPostDelete: string;
     AllowEditPost: string;
@@ -317,12 +313,11 @@ export type ServiceSettings = {
     EnableUserStatuses: boolean;
     ExperimentalEnableAuthenticationTransfer: boolean;
     ClusterLogTimeoutMilliseconds: number;
-    CloseUnusedDirectMessages: boolean;
     EnablePreviewFeatures: boolean;
     EnableTutorial: boolean;
+    EnableOnboardingFlow: boolean;
     ExperimentalEnableDefaultChannelLeaveJoinMessages: boolean;
     ExperimentalGroupUnreadChannels: string;
-    ExperimentalChannelOrganization: boolean;
     ExperimentalDataPrefetch: boolean;
     ImageProxyType: string;
     ImageProxyURL: string;
@@ -338,7 +333,6 @@ export type ServiceSettings = {
     EnableLatex: boolean;
     EnableLocalMode: boolean;
     LocalModeSocketLocation: string;
-    EnableLegacySidebar: boolean;
     CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
 };
 
@@ -363,7 +357,6 @@ export type TeamSettings = {
     RestrictPublicChannelDeletion: string;
     RestrictPrivateChannelDeletion: string;
     RestrictPrivateChannelManageMembers: string;
-    EnableXToLeaveChannelsFromLHS: boolean;
     UserStatusAwayTimeout: number;
     MaxChannelsPerTeam: number;
     MaxNotificationsPerChannel: number;
@@ -371,7 +364,6 @@ export type TeamSettings = {
     TeammateNameDisplay: string;
     ExperimentalViewArchivedChannels: boolean;
     ExperimentalEnableAutomaticReplies: boolean;
-    ExperimentalHideTownSquareinLHS: boolean;
     ExperimentalTownSquareIsReadOnly: boolean;
     LockTeammateNameDisplay: boolean;
     ExperimentalPrimaryTeam: string;
@@ -550,7 +542,7 @@ export type SSOSettings = {
     Scope: string;
     AuthEndpoint: string;
     TokenEndpoint: string;
-    UserApiEndpoint: string;
+    UserAPIEndpoint: string;
     DiscoveryEndpoint: string;
     ButtonText: string;
     ButtonColor: string;
@@ -563,7 +555,7 @@ export type Office365Settings = {
     Scope: string;
     AuthEndpoint: string;
     TokenEndpoint: string;
-    UserApiEndpoint: string;
+    UserAPIEndpoint: string;
     DiscoveryEndpoint: string;
     DirectoryId: string;
 };
@@ -624,9 +616,9 @@ export type SamlSettings = {
     Verify: boolean;
     Encrypt: boolean;
     SignRequest: boolean;
-    IdpUrl: string;
-    IdpDescriptorUrl: string;
-    IdpMetadataUrl: string;
+    IdpURL: string;
+    IdpDescriptorURL: string;
+    IdpMetadataURL: string;
     AssertionConsumerServiceURL: string;
     SignatureAlgorithm: string;
     CanonicalAlgorithm: string;
@@ -665,7 +657,7 @@ export type ClusterSettings = {
     NetworkInterface: string;
     BindAddress: string;
     AdvertiseAddress: string;
-    UseIpAddress: boolean;
+    UseIPAddress: boolean;
     EnableExperimentalGossipEncryption: boolean;
     ReadOnlyConfig: boolean;
     GossipPort: number;
@@ -696,7 +688,7 @@ export type AnalyticsSettings = {
 };
 
 export type ElasticsearchSettings = {
-    ConnectionUrl: string;
+    ConnectionURL: string;
     Username: string;
     Password: string;
     EnableIndexing: boolean;
@@ -744,8 +736,8 @@ export type MessageExportSettings = {
     BatchSize: number;
     GlobalRelaySettings: {
         CustomerType: string;
-        SmtpUsername: string;
-        SmtpPassword: string;
+        SMTPUsername: string;
+        SMTPPassword: string;
         EmailAddress: string;
     };
 };
@@ -758,7 +750,7 @@ export type JobSettings = {
 export type PluginSettings = {
     Enable: boolean;
     EnableUploads: boolean;
-    AllowInsecureDownloadUrl: boolean;
+    AllowInsecureDownloadURL: boolean;
     EnableHealthCheck: boolean;
     Directory: string;
     ClientDirectory: string;
@@ -768,12 +760,12 @@ export type PluginSettings = {
     EnableRemoteMarketplace: boolean;
     AutomaticPrepackagedPlugins: boolean;
     RequirePluginSignature: boolean;
-    MarketplaceUrl: string;
+    MarketplaceURL: string;
     SignaturePublicKeyFiles: string[];
 };
 
 export type DisplaySettings = {
-    CustomUrlSchemes: string[];
+    CustomURLSchemes: string[];
     ExperimentalTimezone: boolean;
 };
 

@@ -2364,6 +2364,34 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
+            definitionKey="site"
+            icon="fa-cogs"
+            key="site"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Site Configuration"
+                id="admin.sidebar.site"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="site.announcement_banner_feature_discovery"
+              key="site.announcement_banner_feature_discovery"
+              name="site_config/announcement_banner"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Announcement Banner"
+                  id="admin.sidebar.announcement"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             definitionKey="authentication"
             icon="fa-shield"
             key="authentication"
@@ -2415,6 +2443,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
                   id="admin.sidebar.openid"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.guest_access_feature_discovery"
+              key="authentication.guest_access_feature_discovery"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Guest Access"
+                  id="admin.sidebar.guest_access"
                 />
               }
             />
