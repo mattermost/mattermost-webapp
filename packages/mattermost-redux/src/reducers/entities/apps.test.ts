@@ -362,7 +362,7 @@ describe('bindings', () => {
             },
         ] as AppBinding[];
 
-        const state = Reducers.bindings(
+        const state = Reducers.mainBindings(
             initialState,
             {
                 type: AppsTypes.APPS_PLUGIN_DISABLED,
