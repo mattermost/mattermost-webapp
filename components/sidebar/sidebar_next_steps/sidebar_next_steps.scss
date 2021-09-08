@@ -14,11 +14,11 @@
     transition: 0.2s ease-in-out;
 
     &:hover:not(.active) {
-        background-color: rgba(var(--button-color-rgb), 0.08);
+        background-color: var(--sidebar-text-hover-bg);
     }
 
     &.active {
-        background-color: var(--sidebar-text-hover-bg);
+        background-color: rgba(var(--sidebar-text-rgb), 0.08);
 
         &::before {
             position: absolute;
@@ -26,7 +26,7 @@
             left: -2px;
             width: 4px;
             height: 100%;
-            background: var(--sidebar-text-active-border);
+            background: rgb(var(--sidebar-text-active-border));
             border-radius: 4px;
             content: '';
         }
