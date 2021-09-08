@@ -471,6 +471,7 @@ export default class SwitchChannelProvider extends Provider {
                 type: Constants.DM_CHANNEL,
                 last_picture_update: user.last_picture_update || 0,
             },
+            type: 'search.direct',
             name: user.username,
             deactivated: user.delete_at,
         };
