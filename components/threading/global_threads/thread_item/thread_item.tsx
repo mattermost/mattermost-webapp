@@ -152,7 +152,7 @@ function ThreadItem({
                         )}
                     </div>
                 )}
-                <span>{displayName}</span>
+                <span>{post.props?.override_username ? post.props.override_username : displayName}</span>
                 {Boolean(channel) && (
                     <Badge
                         onClick={goToInChannelHandler}
