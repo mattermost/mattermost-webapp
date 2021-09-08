@@ -90,15 +90,9 @@ function makeGetOptions() {
 
         // Other users sorted by whether or not they've been deactivated followed by alphabetically
         const usersWithoutDMs = users.
-            filter((user) => !usersWithDMs.some((other) => other.id === user.id)).
+            filter((user) => user.delete_at === 0 && !usersWithDMs.some((other) => other.id === user.id)).
             map((user) => ({...user, last_post_at: 0}));
         usersWithoutDMs.sort((a, b) => {
-            if (a.delete_at > 0 && b.delete_at === 0) {
-                return -1;
-            } else if (a.delete_at === 0 && b.delete_at > 0) {
-                return 1;
-            }
-
             return a.username.localeCompare(b.username);
         });
 
