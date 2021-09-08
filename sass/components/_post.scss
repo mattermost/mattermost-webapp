@@ -2158,7 +2158,7 @@
 }
 
 .post--pinned-or-flagged {
-    background-color: rgba(var(--mention-highlight-bg-rgb), 0.12);
+    background-color: rgb(var(--pinned-highlight-bg-mixed-rgb));
 
     .post-collapse {
         .post-collapse__gradient,
