@@ -23,8 +23,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot 1`] = `
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -58,8 +56,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when DM channe
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "D",
         "update_at": 0,
       }
@@ -93,8 +89,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when GM channe
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "G",
         "update_at": 0,
       }
@@ -128,8 +122,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when active 1`
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -163,8 +155,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when collapsed
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -198,8 +188,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when unread 1`
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }

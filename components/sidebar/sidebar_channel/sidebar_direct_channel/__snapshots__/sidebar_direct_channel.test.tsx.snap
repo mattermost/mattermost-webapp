@@ -16,8 +16,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
-      "total_msg_count_root": 0,
       "type": "O",
       "update_at": 0,
     }
@@ -58,8 +56,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
-      "total_msg_count_root": 0,
       "type": "O",
       "update_at": 0,
     }
@@ -101,8 +97,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
-      "total_msg_count_root": 0,
       "type": "O",
       "update_at": 0,
     }
@@ -143,8 +137,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "purpose": "",
       "scheme_id": "",
       "team_id": "",
-      "total_msg_count": 0,
-      "total_msg_count_root": 0,
       "type": "O",
       "update_at": 0,
     }

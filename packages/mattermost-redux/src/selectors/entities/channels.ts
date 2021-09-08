@@ -36,7 +36,15 @@ import {
     isCurrentUserSystemAdmin,
 } from 'mattermost-redux/selectors/entities/users';
 
-import {Channel, ChannelStats, ChannelMembership, ChannelModeration, ChannelMemberCountsByGroup, ChannelSearchOpts} from 'mattermost-redux/types/channels';
+import {
+    Channel,
+    ChannelMemberCountsByGroup,
+    ChannelMembership,
+    ChannelMessageCount,
+    ChannelModeration,
+    ChannelSearchOpts,
+    ChannelStats,
+} from 'mattermost-redux/types/channels';
 import {ClientConfig} from 'mattermost-redux/types/config';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {TeamMembership, Team} from 'mattermost-redux/types/teams';
@@ -62,7 +70,7 @@ import {
     isDefault,
     isDirectChannel,
     filterChannelsMatchingTerm,
-    getMsgCountInChannel,
+    calculateUnreadCount,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {Constants} from 'utils/constants';
@@ -163,6 +171,10 @@ export function makeGetChannel(): (state: GlobalState, props: {id: string}) => C
 // display_name for DM/GM channels.
 export function getChannel(state: GlobalState, id: string) {
     return getAllChannels(state)[id];
+}
+
+export function getMyChannelMembership(state: GlobalState, channelId: string): ChannelMembership {
+    return getMyChannelMemberships(state)[channelId];
 }
 
 // makeGetChannelsForIds returns a selector that, given an array of channel IDs, returns a list of the corresponding
@@ -280,18 +292,42 @@ export function isChannelReadOnly(state: GlobalState, channel: Channel): boolean
     return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true';
 }
 
+export function getChannelMessageCounts(state: GlobalState): RelationOneToOne<Channel, ChannelMessageCount> {
+    return state.entities.channels.messageCounts;
+}
+
+export function getChannelMessageCount(state: GlobalState, channelId: string): ChannelMessageCount {
+    return getChannelMessageCounts(state)[channelId];
+}
+
+function getCurrentChannelMessageCount(state: GlobalState) {
+    return getChannelMessageCount(state, getCurrentChannelId(state));
+}
+
 export const countCurrentChannelUnreadMessages: (state: GlobalState) => number = createSelector(
     'countCurrentChannelUnreadMessages',
-    getCurrentChannel,
+    getCurrentChannelMessageCount,
     getMyCurrentChannelMembership,
     isCollapsedThreadsEnabled,
-    (channel: Channel, membership?: ChannelMembership, isCollapsed?: boolean): number => {
+    (messageCount: ChannelMessageCount, membership?: ChannelMembership, crtEnabled?: boolean): number => {
         if (!membership) {
             return 0;
         }
-        return isCollapsed ? channel.total_msg_count_root - membership.msg_count_root : channel.total_msg_count - membership.msg_count;
+        return crtEnabled ? messageCount.root - membership.msg_count_root : messageCount.total - membership.msg_count;
     },
 );
+
+export function makeGetChannelUnreadCount(): (state: GlobalState, channelId: string) => ReturnType<typeof calculateUnreadCount> {
+    return createSelector(
+        'makeGetChannelUnreadCount',
+        (state: GlobalState, channelId: string) => getChannelMessageCount(state, channelId),
+        (state: GlobalState, channelId: string) => getMyChannelMembership(state, channelId),
+        isCollapsedThreadsEnabled,
+        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled: boolean) => {
+            return calculateUnreadCount(messageCount, member, crtEnabled);
+        },
+    );
+}
 
 export function getChannelByName(state: GlobalState, channelName: string): Channel | undefined | null {
     return getChannelByNameHelper(getAllChannels(state), channelName);
@@ -477,6 +513,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     'getUnreadStatus',
     getAllChannels,
     getMyChannelMemberships,
+    getChannelMessageCounts,
     getUsers,
     getCurrentUserId,
     getCurrentTeamId,
@@ -487,6 +524,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     (
         channels,
         myMembers,
+        messageCounts,
         users,
         currentUserId,
         currentTeamId,
@@ -524,8 +562,9 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
                 counts.mentions += mentions;
             }
 
-            if (membership.notify_props && membership.notify_props.mark_unread !== 'mention') {
-                counts.messages += getMsgCountInChannel(collapsedThreads, channel, membership);
+            const unreadCount = calculateUnreadCount(messageCounts[channelId], myMembers[channelId], collapsedThreads);
+            if (unreadCount.showUnread) {
+                counts.messages += unreadCount.messages;
             }
 
             return counts;
@@ -574,6 +613,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
     getCurrentChannelId,
     getMyChannels,
     getMyChannelMemberships,
+    getChannelMessageCounts,
     getUsers,
     getCurrentUserId,
     getCurrentTeamId,
@@ -583,6 +623,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
         currentChannelId,
         channels,
         myMembers,
+        messageCounts,
         users,
         currentUserId,
         currentTeamId,
@@ -609,8 +650,9 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
                 counts.mentions += mentions;
             }
 
-            if (m.notify_props && m.notify_props.mark_unread !== 'mention') {
-                counts.messages += getMsgCountInChannel(collapsedThreads, channel, m);
+            const unreadCount = calculateUnreadCount(messageCounts[channel.id], m, collapsedThreads);
+            if (unreadCount.showUnread) {
+                counts.messages += unreadCount.messages;
             }
 
             return counts;
@@ -754,31 +796,19 @@ export const getChannelIdsForCurrentTeam: (state: GlobalState) => string[] = cre
 export const getUnreadChannelIds: (state: GlobalState, lastUnreadChannel?: Channel | null) => string[] = createIdsSelector(
     'getUnreadChannelIds',
     isCollapsedThreadsEnabled,
-    getAllChannels,
     getMyChannelMemberships,
+    getChannelMessageCounts,
     getChannelIdsForCurrentTeam,
     (state: GlobalState, lastUnreadChannel: Channel | undefined | null = null): Channel | undefined | null => lastUnreadChannel,
     (
         collapsedThreads,
-        channels: IDMappedObjects<Channel>,
         members: RelationOneToOne<Channel, ChannelMembership>,
+        messageCounts: RelationOneToOne<Channel, ChannelMessageCount>,
         teamChannelIds: string[],
         lastUnreadChannel?: Channel | null,
     ): string[] => {
         const unreadIds = teamChannelIds.filter((id) => {
-            const c = channels[id];
-            const m = members[id];
-
-            if (c && m) {
-                const chHasUnread = getMsgCountInChannel(collapsedThreads, c, m) > 0;
-                const chHasMention = (collapsedThreads ? m.mention_count_root : m.mention_count) > 0;
-
-                if ((m.notify_props && m.notify_props.mark_unread !== 'mention' && chHasUnread) || chHasMention) {
-                    return true;
-                }
-            }
-
-            return false;
+            return calculateUnreadCount(messageCounts[id], members[id], collapsedThreads).showUnread;
         });
 
         if (lastUnreadChannel && !unreadIds.includes(lastUnreadChannel.id)) {

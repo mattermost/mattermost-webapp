@@ -82,12 +82,14 @@ describe('Actions.User', () => {
                 },
                 channels: {
                     current_channel_id: {
-                        total_msg_count: 10,
                         team_id: 'team_1',
                     },
                 },
                 channelsInTeam: {
                     team_1: ['current_channel_id'],
+                },
+                messageCounts: {
+                    current_channel_id: {total: 10},
                 },
                 membersInChannel: {
                     current_channel_id: {
@@ -543,6 +545,7 @@ describe('Actions.User', () => {
                 channels: {
                     channels,
                     channelsInTeam,
+                    messageCounts: {},
                     myMembers,
                 },
                 preferences: {
