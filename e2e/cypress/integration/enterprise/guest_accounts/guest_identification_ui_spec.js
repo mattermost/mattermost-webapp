@@ -90,8 +90,9 @@ describe('Verify Guest User Identification in different screens', () => {
     });
 
     it('Verify Guest Badge in Team Members dialog', () => {
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#viewMembers').click().wait(TIMEOUTS.FIVE_SEC);
+        // # Open team menu and click 'View Members'
+        cy.uiOpenTeamMenu('View Members');
+
         cy.get('#teamMembersModal').should('be.visible').within(($el) => {
             cy.wrap($el).findAllByTestId('userListItemDetails').each(($elChild) => {
                 cy.wrap($elChild).invoke('text').then((username) => {
