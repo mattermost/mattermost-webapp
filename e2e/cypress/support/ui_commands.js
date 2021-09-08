@@ -437,8 +437,8 @@ Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
 });
 
 Cypress.Commands.add('leaveTeam', () => {
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#sidebarDropdownMenu #leaveTeam').should('be.visible').click();
+    // # Open team menu and click "Leave Team"
+    cy.uiOpenTeamMenu('Leave Team');
 
     // * Check that the "leave team modal" opened up
     cy.get('#leaveTeamModal').should('be.visible');
