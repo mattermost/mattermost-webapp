@@ -19,6 +19,7 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {AppBinding} from 'mattermost-redux/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -28,7 +29,7 @@ import {setThreadFollow} from 'mattermost-redux/actions/threads';
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall, makeGetBindings, postEphemeralCallResponseForPost} from 'actions/apps';
+import {doAppCall, makeFetchBindings, postEphemeralCallResponseForPost} from 'actions/apps';
 
 import {
     flagPost,
@@ -44,8 +45,6 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
 import {Locations} from 'utils/constants';
-
-import {AppBinding} from 'mattermost-redux/types/apps';
 
 import DotMenu from './dot_menu';
 
@@ -66,7 +65,7 @@ const getPostMenuBindings = makeAppBindingsSelector(AppBindingLocations.POST_MEN
 
 const getRHSPostMenuBindings = makeRHSAppBindingSelector(AppBindingLocations.POST_MENU_ITEM);
 
-const getBindings = makeGetBindings(AppBindingLocations.POST_MENU_ITEM);
+const fetchBindings = makeFetchBindings(AppBindingLocations.POST_MENU_ITEM);
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
@@ -111,14 +110,14 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const showBindings = apps && !systemMessage && !isCombinedUserActivityPost(post.id);
     let appBindings = null;
     switch (ownProps.location) {
-    case 'RHS_ROOT':
-    case 'RHS_COMMENT':
+    case Locations.RHS_ROOT:
+    case Locations.RHS_COMMENT:
         appBindings = getRHSPostMenuBindings(state);
         break;
-    case 'SEARCH':
+    case Locations.SEARCH:
         appBindings = null;
         break;
-    case 'CENTER':
+    case Locations.CENTER:
     default:
         appBindings = getPostMenuBindings(state);
     }
@@ -160,7 +159,7 @@ type Actions = {
     doAppCall: DoAppCall;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
-    getBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+    fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -176,7 +175,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             doAppCall,
             postEphemeralCallResponseForPost,
             setThreadFollow,
-            getBindings,
+            fetchBindings,
         }, dispatch),
     };
 }

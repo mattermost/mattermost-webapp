@@ -114,7 +114,7 @@ type Props = {
         /**
          * Function to get the post menu bindings for this post.
          */
-        getBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+        fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
 
     }; // TechDebt: Made non-mandatory while converting to typescript
 
@@ -375,7 +375,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     fetchBindings = () => {
-        this.props.actions.getBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(({data}) => {
+        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(({data}) => {
             this.setState({appBindings: data});
         });
     }

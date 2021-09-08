@@ -90,7 +90,7 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
     };
 }
 
-export function makeGetBindings(location: string): (userId: string, channelId: string, teamId: string) => ActionFunc {
+export function makeFetchBindings(location: string): (userId: string, channelId: string, teamId: string) => ActionFunc {
     return (userId: string, channelId: string, teamId: string): ActionFunc => {
         return async () => {
             try {
