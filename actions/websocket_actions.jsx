@@ -1453,14 +1453,12 @@ function handleRefreshAppsBindings() {
 
 export function handleAppsPluginEnabled() {
     return (doDispatch, doGetState) => {
-        const state = doGetState();
+        doDispatch({
+            type: AppsTypes.APPS_PLUGIN_ENABLED,
+        });
 
-        doDispatch(batchActions([
-            {
-                type: AppsTypes.APPS_PLUGIN_ENABLED,
-            },
-            fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)),
-        ]));
+        const state = doGetState();
+        doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
 
         return {data: true};
     };
