@@ -939,7 +939,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             dispatchArg = store.dispatch.mock.calls[2][0];
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
-            expect(dispatchArg.data).toBe(manifest);
+            expect(dispatchArg.data).toBe(manifestv2);
 
             expect(store.dispatch).toHaveBeenCalledTimes(6);
             const dispatchRemovedArg = store.dispatch.mock.calls[3][0];
@@ -948,7 +948,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             dispatchArg = store.dispatch.mock.calls[4][0];
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
-            expect(dispatchArg.data).toBe(manifest);
+            expect(dispatchArg.data).toBe(manifestv2);
 
             const dispatchReceivedArg2 = store.dispatch.mock.calls[5][0];
             expect(dispatchReceivedArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
