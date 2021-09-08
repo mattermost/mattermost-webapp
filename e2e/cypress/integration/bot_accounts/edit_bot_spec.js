@@ -30,8 +30,7 @@ describe('Edit bot', () => {
     function createBot(userName, displayName) {
         // # Go to bot integrations page
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#headerInfo').click();
-        cy.get('#integrations a').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('a.integration-option[href$="/bots"]').click();
         cy.get('#addBotAccount').click();
 

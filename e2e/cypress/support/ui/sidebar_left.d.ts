@@ -18,6 +18,38 @@ declare namespace Cypress {
     interface Chainable {
 
         /**
+         * Get LHS
+         *
+         * @example
+         *   cy.uiGetLHS();
+         */
+        uiGetLHS(): Chainable;
+
+        /**
+         * Get LHS header
+         *
+         * @example
+         *   cy.uiGetLHSHeader().click();
+         */
+        uiGetLHSHeader(): Chainable;
+
+        /**
+         * Get LHS add channel button
+         *
+         * @example
+         *   cy.uiGetLHSAddChannelButton().click();
+         */
+        uiGetLHSAddChannelButton(): Chainable;
+
+        /**
+         * Get LHS team menu
+         *
+         * @example
+         *   cy.uiGetLHSTeamMenu().should('not.exist);
+         */
+        uiGetLHSTeamMenu(): Chainable;
+
+        /**
          * Get LHS section
          * @param {string} section - section such as UNREADS, CHANNELS, FAVORITES, DIRECT MESSAGES and other custom category
          *

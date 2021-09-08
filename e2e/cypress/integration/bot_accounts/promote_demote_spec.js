@@ -38,9 +38,8 @@ describe('Managing bots in Teams and Channels', () => {
             const bot = await client.createBot(createBotPatch());
             await client.addToTeam(team.id, bot.user_id);
 
-            // # Open member invite screen
-            cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-            cy.get('#manageMembers > button').should('contain.text', 'Manage Members').click();
+            // # Open team menu and click 'Manage Members'
+            cy.uiOpenTeamMenu('Manage Members');
 
             // # Find bot
             cy.get('.more-modal__list').find('.more-modal__row').its('length').should('be.gt', 0);
