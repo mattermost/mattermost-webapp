@@ -12,6 +12,7 @@ describe('components/user_settings/display/CustomThemeChooser', () => {
     const baseProps = {
         theme: Preferences.THEMES.denim,
         updateTheme: jest.fn(),
+        onImportBtnClick: jest.fn(),
     };
 
     it('should match, init', () => {

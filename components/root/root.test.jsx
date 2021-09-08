@@ -50,6 +50,8 @@ describe('components/Root', () => {
         showTermsOfService: false,
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
+            initOsColorScheme: jest.fn(),
+            changeOsColorScheme: jest.fn(),
         },
         location: {
             pathname: '/',

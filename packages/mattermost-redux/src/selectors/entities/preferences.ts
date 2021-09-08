@@ -20,7 +20,9 @@ import {Theme} from 'mattermost-redux/types/themes';
 import {createShallowSelector, isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+// getCurrentTeamId duplicated from 'mattermost-redux/selectors/entities/teams' because jest module mock didn't work
+const getCurrentTeamId = (state: GlobalState) => state.entities.teams.currentTeamId;
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
     return state.entities.preferences.myPreferences;
