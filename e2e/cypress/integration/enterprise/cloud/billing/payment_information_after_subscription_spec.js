@@ -26,7 +26,7 @@ describe('System Console - Payment Information section', () => {
         cy.contains('.admin-console__header', 'Subscription').should('be.visible');
 
         // # Click Subscribe Now button
-        cy.contains('span', 'Upgrade Now').parent().click();
+        cy.contains('span', 'Subscribe Now').parent().click();
 
         cy.intercept('POST', '/api/v4/cloud/payment/confirm').as('confirm');
 
