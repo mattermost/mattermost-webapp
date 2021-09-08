@@ -36,6 +36,15 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch,
 }));
 
+jest.mock('react-intl', () => ({
+    ...jest.requireActual('react-intl'),
+    useIntl: () => {
+        return {
+            formatMessage: () => jest.fn(),
+        };
+    },
+}));
+
 describe('components/threading/global_threads/thread_item', () => {
     let props: ComponentProps<typeof ThreadItem>;
 
