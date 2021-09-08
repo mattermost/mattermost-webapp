@@ -44,7 +44,6 @@ describe('components/channel_invite_modal', () => {
         name: 'testing',
         purpose: 'test',
         team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
-        total_msg_count: 0,
         type: 'O',
         update_at: 1508265709607,
     } as Channel;
