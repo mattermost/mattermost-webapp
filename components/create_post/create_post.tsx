@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
+import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -41,7 +42,6 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
-import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
@@ -57,6 +57,9 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
+
+import CreatePostTip from './create_post_tip';
+import PrewrittenChips from './prewritten_chips';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -89,6 +92,11 @@ type Props = {
     currentChannel: Channel;
 
     /**
+  *  Data used for DM prewritten messages
+  */
+    currentChannelTeammateUsername?: string;
+
+    /**
   *  Data used in executing commands for channel actions passed down to client4 function
   */
     currentTeamId: string;
@@ -117,6 +125,11 @@ type Props = {
   *  Data used for deciding if tutorial tip is to be shown
   */
     showTutorialTip: boolean;
+
+    /**
+  *  A/B test treatments for presenting prewritten messages to first time users
+  */
+    prewrittenMessages?: PrewrittenMessagesTreatments;
 
     /**
   *  Data used populating message state when triggered by shortcuts
@@ -1230,6 +1243,27 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
     }
 
+    prefillMessage = (message: string, shouldFocus?: boolean) => {
+        this.setMessageAndCaretPostion(message, message.length); 
+
+        const draft = {
+            ...this.props.draft,
+            message,
+        };
+        const channelId = this.props.currentChannel.id;
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.draftsForChannel[channelId] = draft;
+
+        if (shouldFocus) {
+            const inputBox = this.textboxRef.current?.getInputBox();
+            if (inputBox) {
+                // programmatic click needed to close the create post tip
+                inputBox.click();
+            }
+            this.focusTextbox(true);
+        }
+    }
+
     handleEmojiClick = (emoji: Emoji) => {
         const emojiAlias = ('short_names' in emoji && emoji.short_names && emoji.short_names[0]) || emoji.name;
 
@@ -1264,42 +1298,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.handleEmojiClose();
     }
 
-    createTutorialTip() {
-        const screens = [];
-
-        screens.push(
-            <div>
-                <h4>
-                    <FormattedMessage
-                        id='create_post.tutorialTip.title'
-                        defaultMessage='Send a message'
-                    />
-                </h4>
-                <p>
-                    <FormattedMarkdownMessage
-                        id='create_post.tutorialTip1'
-                        defaultMessage='Type your first message and select **Enter** to send it.'
-                    />
-                </p>
-                <p>
-                    <FormattedMarkdownMessage
-                        id='create_post.tutorialTip2'
-                        defaultMessage='Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages.'
-                    />
-                </p>
-            </div>,
-        );
-
-        return (
-            <TutorialTip
-                placement='top'
-                screens={screens}
-                overlayClass='tip-overlay--chat'
-                telemetryTag='tutorial_tip_1_sending_messages'
-            />
-        );
-    }
-
     shouldEnableSendButton() {
         return this.state.message.trim().length !== 0 || this.props.draft.fileInfos.length !== 0;
     }
@@ -1314,6 +1312,49 @@ class CreatePost extends React.PureComponent<Props, State> {
                 this.setState({scrollbarWidth: Utils.scrollbarWidth(this.textboxRef.current.getInputBox())});
             }
         });
+    }
+
+    renderPrewrittenMessages() {
+        if (this.props.prewrittenMessages !== PrewrittenMessagesTreatments.AROUND_INPUT) {
+            return null
+        }
+
+        let id = 'create_post.prewritten.around_input.team';
+        let defaultMessage = '**Send your first message** to your team';
+        if (this.props.currentChannel.type === 'D') {
+            if (this.props.currentChannel.teammate_id === this.props.currentUserId) {
+                id = 'create_post.prewritten.around_input.self'
+                defaultMessage = '**Send your first message** to yourself'
+            } else {
+                id = 'create_post.prewritten.around_input.dm'
+                defaultMessage = '**Send your first message** to your teammate'
+            }
+        }
+        return (
+            <div>
+                <div className="post-create-prewritten-title">
+                    <FormattedMarkdownMessage
+                        id={id}
+                        defaultMessage={defaultMessage}
+                    />
+                    <button
+                        type='button'
+                        className='btn-icon'
+                        aria-label='Got it'
+                        onClick={function(){}}
+                    >
+                        <i className='icon icon-close'/>
+                    </button>
+                </div>
+                <PrewrittenChips
+                    prewrittenMessages={this.props.prewrittenMessages}
+                    prefillMessage={this.prefillMessage}
+                    currentChannel={this.props.currentChannel}
+                    currentUserId={this.props.currentUserId}
+                    currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
+                />
+            </div>
+        );
     }
 
     render() {
@@ -1463,12 +1504,23 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         let tutorialTip = null;
         if (showTutorialTip) {
-            tutorialTip = this.createTutorialTip();
+            tutorialTip = <CreatePostTip
+                prewrittenMessages={this.props.prewrittenMessages}
+                prefillMessage={this.prefillMessage}
+                currentChannel={this.props.currentChannel}
+                currentUserId={this.props.currentUserId}
+                currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
+            />;
         }
 
         let centerClass = '';
         if (!fullWidthTextBox) {
             centerClass = 'center';
+        }
+
+        let prewrittenClass = '';
+        if (this.props.prewrittenMessages === PrewrittenMessagesTreatments.AROUND_INPUT) {
+            prewrittenClass = 'prewritten';
         }
 
         let sendButtonClass = 'send-button theme';
@@ -1558,9 +1610,10 @@ class CreatePost extends React.PureComponent<Props, State> {
             <form
                 id='create_post'
                 ref={this.topDiv}
-                className={centerClass}
+                className={centerClass + prewrittenClass}
                 onSubmit={this.handleSubmit}
             >
+                {this.renderPrewrittenMessages()}
                 <div
                     className={'post-create' + attachmentsDisabled + scrollbarClass}
                     style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as any : undefined}
