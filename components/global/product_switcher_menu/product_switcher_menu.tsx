@@ -19,6 +19,7 @@ import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
+import {PluginComponent} from 'types/store/plugins';
 
 type Props = {
     isMobile: boolean;
@@ -36,7 +37,7 @@ type Props = {
     canManageSystemBots: boolean;
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
-    pluginMenuItems: any;
+    pluginMenuItems: PluginComponent[];
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
@@ -45,22 +46,17 @@ type Props = {
 // TODO: rewrite this to a functional component
 class ProductSwitcherMenu extends React.PureComponent<Props> {
     static defaultProps = {
-        teamType: '',
         isMobile: false,
         pluginMenuItems: [],
     };
 
-    handleEmitUserLoggedOutEvent = () => {
-        GlobalActions.emitUserLoggedOutEvent();
-    }
+    handleEmitUserLoggedOutEvent = (): void => GlobalActions.emitUserLoggedOutEvent();
 
-    render() {
-        const {isMessaging, isMobile, onClick} = this.props;
+    render(): JSX.Element {
+        const {appDownloadLink, isMessaging, isMobile, onClick, intl: {formatMessage}} = this.props;
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !isMobile && someIntegrationEnabled && this.props.canManageIntegrations;
-
-        const {formatMessage} = this.props.intl;
 
         return (
             <Menu.Group>
@@ -118,8 +114,8 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
                     </TeamPermissionGate>
                     <Menu.ItemExternalLink
                         id='nativeAppLink'
-                        show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                        url={useSafeUrl(this.props.appDownloadLink)}
+                        show={appDownloadLink && !UserAgent.isMobileApp()}
+                        url={useSafeUrl(appDownloadLink)}
                         text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                         icon={
                             <Icon
