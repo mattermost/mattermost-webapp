@@ -34,10 +34,7 @@ describe('Account Settings > Full Name', () => {
         // # Go to Account Settings -> General -> Full Name -> Edit
         cy.apiLogin(firstUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.toAccountSettingsModal();
-
-        // # Click General button
-        cy.get('#generalButton').click();
+        cy.uiOpenAccountSettingsModal();
 
         // # Open Full Name section
         cy.get('#nameDesc').click();
@@ -53,12 +50,13 @@ describe('Account Settings > Full Name', () => {
 
         // * Full name field shows first and last name.
         cy.contains('#nameDesc', `${firstName} ${lastName}`);
+
+        // # Close account settings modal
+        cy.uiClose();
     });
 
     it('MM-T2047 Truncated in popover (visual verification)', () => {
-        cy.get('#accountSettingsHeader button.close').click();
-
-        // # open user profile popover
+        // # Open user profile popover
         cy.postMessage(`this is a test message ${getRandomId()}`);
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).should('be.visible');
@@ -72,10 +70,7 @@ describe('Account Settings > Full Name', () => {
 
     it('MM-T2048 Empty full name: @ still displays before username', () => {
         // # Open any user list ("View Members", "Add Members", "Manage Members", ..)
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click view members
-        cy.get('#viewMembers').should('be.visible').click();
+        cy.uiOpenTeamMenu('View Members');
 
         // # Find a user who hasn't set their full name
         cy.get('.modal-title').should('be.visible');
