@@ -156,7 +156,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
             {id: 'status-menu-custom-status', label: 'Custom Status dialog'},
             {id: 'status-menu-online', label: 'online'},
             {id: 'status-menu-away', label: 'away'},
-            {id: 'status-menu-dnd', label: 'do not disturb. disables all notifications'},
+            {id: 'status-menu-dnd_menuitem', label: 'do not disturb. disables all notifications'},
             {id: 'status-menu-offline', label: 'offline'},
         ];
 

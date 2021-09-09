@@ -16,7 +16,7 @@ describe('Status dropdown menu', () => {
     const statusTestCases = [
         {id: 'status-menu-online', icon: 'online--icon', text: 'Online'},
         {id: 'status-menu-away', icon: 'away--icon', text: 'Away'},
-        {id: 'status-menu-dnd', icon: 'dnd--icon', text: 'Do Not Disturb'},
+        {id: 'status-menu-dnd_menuitem', icon: 'dnd--icon', text: 'Do Not Disturb'},
         {id: 'status-menu-offline', text: 'Offline'},
     ];
 
@@ -100,7 +100,11 @@ function stepThroughStatuses(statusTestCases = []) {
     // * Verify the user's status icon changes correctly every time
     statusTestCases.forEach((tc) => {
         // # Open status menu and click option
-        cy.uiOpenSetStatusMenu(tc.text);
+        if (tc.text === 'Do Not Disturb') {
+            cy.uiOpenDndStatusSubMenu().find('#dndTime-30mins_menuitem').click();
+        } else {
+            cy.uiOpenSetStatusMenu(tc.text);
+        }
 
         // # Verify correct status icon is shown on user's profile picture
         cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${tc.text} Icon`);

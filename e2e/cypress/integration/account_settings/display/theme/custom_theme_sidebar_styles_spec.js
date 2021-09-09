@@ -105,7 +105,7 @@ describe('Custom Theme - Sidebar Styles', () => {
         cy.get('.away--icon').should('have.css', 'fill', rgbArrayToString(themeRgbColor.awayIndicator));
 
         // # Set user status to do not disturb
-        cy.uiCloseMainMenu().uiOpenSetStatusMenu('Do Not Disturb');
+        cy.uiOpenDndStatusSubMenu().find('#dndTime-30mins_menuitem').click();
 
         // * Check Do Not Disturb Indicator color
         cy.get('.dnd--icon').should('have.css', 'fill', rgbArrayToString(themeRgbColor.dndIndicator));
