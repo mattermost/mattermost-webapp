@@ -26,7 +26,7 @@
             left: -2px;
             width: 4px;
             height: 100%;
-            background: rgb(var(--sidebar-text-active-border));
+            background: var(--sidebar-text-active-border);
             border-radius: 4px;
             content: '';
         }
