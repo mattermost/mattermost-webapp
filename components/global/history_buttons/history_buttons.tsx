@@ -18,7 +18,7 @@ const HistoryButtonsContainer = styled.nav`
     }
 `;
 
-const HistoryButtons = (): JSX.Element => {
+const HistoryButtons: React.FC = (): JSX.Element => {
     const goBack = (): void => {
         trackEvent('ui', 'ui_history_back');
         browserHistory.goBack();
