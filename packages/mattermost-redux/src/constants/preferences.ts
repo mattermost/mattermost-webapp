@@ -40,6 +40,7 @@ const Preferences = {
     NAME_CUSTOM_STATUS_TUTORIAL_STATE: 'custom_status_tutorial_state',
     NAME_RECENT_CUSTOM_STATUSES: 'recent_custom_statuses',
     CUSTOM_STATUS_MODAL_VIEWED: 'custom_status_modal_viewed',
+    NAME_COLLAPSED_THREADS_TUTORIAL_STATE: 'collapsed_threads_tutorial_state',
 
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CHANNEL_SIDEBAR_ORGANIZATION: 'channel_sidebar_organization',
