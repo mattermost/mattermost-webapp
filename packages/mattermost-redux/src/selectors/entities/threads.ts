@@ -134,7 +134,7 @@ export const getUnreadThreadOrderInCurrentTeam: (
     ) => {
         const ids = threadsInTeam.filter((id) => {
             const thread = threads[id];
-            return thread.is_following;
+            return thread.is_following && (thread.unread_replies || thread.unread_mentions);
         });
 
         if (selectedThreadIdInTeam && !ids.includes(selectedThreadIdInTeam)) {

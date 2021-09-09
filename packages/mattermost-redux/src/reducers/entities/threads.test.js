@@ -98,8 +98,12 @@ describe('threads', () => {
 
     test('READ_CHANGED_THREAD should update the count for thread per channel', () => {
         const state = deepFreeze({
-            threadsInTeam: {},
-            unreadThreadsInTeam: {},
+            threadsInTeam: {
+                a: ['id'],
+            },
+            unreadThreadsInTeam: {
+                a: ['a', 'id', 'c'],
+            },
             threads: {},
             counts: {
                 a: {
@@ -112,6 +116,7 @@ describe('threads', () => {
         const nextState2 = threadsReducer(state, {
             type: ThreadTypes.READ_CHANGED_THREAD,
             data: {
+                id: 'id',
                 teamId: 'a',
                 prevUnreadMentions: 3,
                 newUnreadMentions: 0,
@@ -125,10 +130,13 @@ describe('threads', () => {
             total_unread_threads: 1,
             total_unread_mentions: 0,
         });
+        expect(nextState2.threadsInTeam.a).toEqual(['id']);
+        expect(nextState2.unreadThreadsInTeam.a).toEqual(['a', 'c']);
 
         const nextState3 = threadsReducer(nextState2, {
             type: ThreadTypes.READ_CHANGED_THREAD,
             data: {
+                id: 'id',
                 teamId: 'a',
                 prevUnreadMentions: 0,
                 newUnreadMentions: 3,
@@ -137,6 +145,8 @@ describe('threads', () => {
         });
 
         expect(nextState3).not.toBe(nextState2);
+        expect(nextState3.threadsInTeam.a).toEqual(['id']);
+        expect(nextState3.unreadThreadsInTeam.a).toEqual(['a', 'c', 'id']);
         expect(nextState3.counts.a).toEqual({
             total: 3,
             total_unread_threads: 1,

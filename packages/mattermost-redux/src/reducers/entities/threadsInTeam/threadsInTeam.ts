@@ -121,6 +121,44 @@ export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, 
 
 export const unreadThreadsInTeamReducer = (state: ThreadsState['unreadThreadsInTeam'] = {}, action: GenericAction, extra: ExtraData) => {
     switch (action.type) {
+    case ThreadTypes.READ_CHANGED_THREAD: {
+        const {
+            id,
+            teamId,
+            newUnreadMentions,
+            newUnreadReplies,
+        } = action.data;
+
+        const team = state[teamId];
+        if (!team) {
+            return {
+                ...state,
+                [teamId]: [id],
+            };
+        }
+
+        if (newUnreadReplies || newUnreadMentions) {
+            const newSet = new Set(team);
+            newSet.add(id);
+
+            return {
+                ...state,
+                [teamId]: [...newSet],
+            };
+        }
+        const index = team.indexOf(id);
+        if (index === -1) {
+            return state;
+        }
+
+        return {
+            ...state,
+            [teamId]: [
+                ...team.slice(0, index),
+                ...team.slice(index + 1),
+            ],
+        };
+    }
     case PostTypes.POST_REMOVED:
         return handlePostRemoved(state, action);
     case ThreadTypes.RECEIVED_UNREAD_THREADS:
