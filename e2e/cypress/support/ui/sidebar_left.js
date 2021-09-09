@@ -37,6 +37,34 @@ Cypress.Commands.add('uiGetLHSTeamMenu', () => {
     return cy.uiGetLHS().find('#sidebarDropdownMenu');
 });
 
+Cypress.Commands.add('uiOpenSystemConsoleMenu', (item = '') => {
+    // # Click on LHS header button
+    cy.uiGetSystemConsoleButton().click();
+
+    if (!item) {
+        // # Return the menu if no item is passed
+        return cy.uiGetSystemConsoleMenu();
+    }
+
+    // # Click on a particular item
+    return cy.uiGetSystemConsoleMenu().
+        findByText(item).
+        scrollIntoView().
+        should('be.visible').
+        click();
+});
+
+Cypress.Commands.add('uiGetSystemConsoleButton', () => {
+    return cy.get('.admin-sidebar').
+        findByRole('button', {name: 'Menu Icon'});
+});
+
+Cypress.Commands.add('uiGetSystemConsoleMenu', () => {
+    return cy.get('.admin-sidebar').
+        find('.dropdown-menu').
+        should('be.visible');
+});
+
 Cypress.Commands.add('uiGetLhsSection', (section) => {
     if (section === 'UNREADS') {
         return cy.findByText(section).
