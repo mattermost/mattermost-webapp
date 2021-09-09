@@ -19,12 +19,12 @@ const HistoryButtonsContainer = styled.nav`
 `;
 
 const HistoryButtons = (): JSX.Element => {
-    const goBack = () => {
+    const goBack = (): void => {
         trackEvent('ui', 'ui_history_back');
         browserHistory.goBack();
     };
 
-    const goForward = () => {
+    const goForward = (): void => {
         trackEvent('ui', 'ui_history_forward');
         browserHistory.goForward();
     };
