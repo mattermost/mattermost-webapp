@@ -9,6 +9,8 @@ import {FixedSizeList} from 'react-window';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
 
+import {Constants} from 'utils/constants';
+
 import Row from './virtualized_thread_list_row';
 
 type Props = {
@@ -43,6 +45,7 @@ function VirtualizedThreadList({
                     itemCount={total}
                     loadMoreItems={loadMoreItems}
                     isItemLoaded={isItemLoaded}
+                    minimumBatchSize={Constants.THREADS_PAGE_SIZE}
                 >
                     {({onItemsRendered, ref}) => (
                         <FixedSizeList

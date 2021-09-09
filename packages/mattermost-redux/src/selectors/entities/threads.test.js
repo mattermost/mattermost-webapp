@@ -67,8 +67,8 @@ describe('Selectors.Threads.getUnreadThreadOrderInCurrentTeam', () => {
                 },
                 threads: {
                     threads: {
-                        a: {last_reply_at: 1, is_following: true},
-                        b: {last_reply_at: 2, is_following: true},
+                        a: {last_reply_at: 1, is_following: true, unread_replies: 1},
+                        b: {last_reply_at: 2, is_following: true, unread_replies: 1},
                     },
                     threadsInTeam: {},
                     unreadThreadsInTeam: {
