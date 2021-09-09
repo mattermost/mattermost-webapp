@@ -7,41 +7,36 @@ import {useDispatch, useSelector} from 'react-redux';
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 
 import {closeRightHandSide, showMentions} from 'actions/views/rhs';
-import Search from 'components/search';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
+import {RhsState} from 'types/store/rhs';
 import {
     Constants,
     RHSStates,
 } from 'utils/constants';
 import * as Utils from 'utils/utils';
+import Search from 'components/search';
 
 const GlobalSearchNav = (): JSX.Element => {
     const dispatch = useDispatch();
-    const rhsState = useSelector((state: GlobalState) => getRhsState(state));
-    const isRhsOpen = useSelector((state: GlobalState) => getIsRhsOpen(state));
+    const rhsState = useSelector<GlobalState, RhsState>((state: GlobalState) => getRhsState(state));
+    const isRhsOpen = useSelector<GlobalState, boolean>((state: GlobalState) => getIsRhsOpen(state));
 
-    useEffect(() => {
+    useEffect((): () => void => {
         document.addEventListener('keydown', handleShortcut);
         return () => {
             document.removeEventListener('keydown', handleShortcut);
         };
     }, []);
 
-    const searchMentions = () => {
-        if (rhsState === RHSStates.MENTION) {
-            dispatch(closeRightHandSide());
-        } else {
-            dispatch(showMentions());
-        }
+    const searchMentions = (): void => {
+        dispatch(rhsState === RHSStates.MENTION ? closeRightHandSide() : showMentions());
     };
 
-    const handleShortcut = (e: KeyboardEvent) => {
-        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
-                e.preventDefault();
-                searchMentions();
-            }
+    const handleShortcut = (e: KeyboardEvent): void => {
+        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
+            e.preventDefault();
+            searchMentions();
         }
     };
 
