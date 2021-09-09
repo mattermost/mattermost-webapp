@@ -55,11 +55,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const {currentUser, isMessaging, isMobile, onClick} = this.props;
-
-        if (!currentUser) {
-            return null;
-        }
+        const {isMessaging, isMobile, onClick} = this.props;
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !isMobile && someIntegrationEnabled && this.props.canManageIntegrations;
