@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {createSelector} from 'reselect';
 
 import {getAllChannels, getChannelsWithUserProfiles} from 'mattermost-redux/selectors/entities/channels';
@@ -16,7 +17,7 @@ import {GlobalState} from 'types/store';
 
 import Constants from 'utils/constants';
 
-import {OptionValue} from '../types';
+import {Option, OptionValue} from '../types';
 
 import List from './list';
 
@@ -25,7 +26,7 @@ type OwnProps = {
     values: OptionValue[];
 }
 
-function makeGetOptions() {
+export function makeGetOptions(): (state: GlobalState, users: UserProfile[], values: OptionValue[]) => Option[] {
     // Gets all loaded DMs (as UserProfiles)
     const getUsersWithDMs = createSelector(
         'getUsersWithDMs',
