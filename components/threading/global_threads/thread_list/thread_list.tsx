@@ -12,6 +12,7 @@ import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
 
 import {GlobalState} from 'types/store';
+import {Constants} from 'utils/constants';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
@@ -69,7 +70,7 @@ const ThreadList = ({
 
     const handleLoadMoreItems = useCallback(async (startIndex) => {
         const before = data[startIndex - 1];
-        await dispatch(getThreads(currentUserId, currentTeamId, {unread, perPage: 10, before}));
+        await dispatch(getThreads(currentUserId, currentTeamId, {unread, perPage: Constants.THREADS_PAGE_SIZE, before}));
         return {data: true};
     }, [currentTeamId, data, unread]);
 
