@@ -18,6 +18,10 @@ type Props = {
     total: number;
 };
 
+const style = {
+    willChange: 'auto',
+};
+
 function VirtualizedThreadList({
     ids,
     selectedThreadId,
@@ -30,18 +34,14 @@ function VirtualizedThreadList({
 
     const isItemLoaded = useCallback((index) => {
         return ids.length === total || index < ids.length;
-    }, [ids]);
-
-    const handleLoadMoreItems = useCallback((startIndex, stopIndex) => {
-        return loadMoreItems(startIndex, stopIndex);
-    }, [loadMoreItems]);
+    }, [ids, total]);
 
     return (
         <AutoSizer>
             {({height, width}) => (
                 <InfiniteLoader
                     itemCount={total}
-                    loadMoreItems={handleLoadMoreItems}
+                    loadMoreItems={loadMoreItems}
                     isItemLoaded={isItemLoaded}
                 >
                     {({onItemsRendered, ref}) => (
@@ -53,7 +53,7 @@ function VirtualizedThreadList({
                             itemData={data}
                             itemKey={itemKey}
                             itemSize={133}
-                            style={{willChange: 'auto'}}
+                            style={style}
                             width={width}
                         >
                             {Row}

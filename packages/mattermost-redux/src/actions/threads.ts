@@ -25,12 +25,12 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
 
-export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, page = 0} = {}) {
+export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false} = {}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let userThreadList: undefined | UserThreadList;
 
         try {
-            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread, page});
+            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread});
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -47,7 +47,7 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
         }
 
         dispatch({
-            type: ThreadTypes.RECEIVED_THREADS,
+            type: unread ? ThreadTypes.RECEIVED_UNREAD_THREADS : ThreadTypes.RECEIVED_THREADS,
             data: {
                 ...userThreadList,
                 threads: userThreadList?.threads?.map((thread) => ({...thread, is_following: true})) ?? [],

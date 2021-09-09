@@ -50,6 +50,9 @@ const ThreadList = ({
     unreadIds,
     ids,
 }: PropsWithChildren<Props>) => {
+    const unread = ThreadFilter.unread === currentFilter;
+    const data = unread ? unreadIds : ids;
+
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
@@ -65,11 +68,10 @@ const ThreadList = ({
     }, [setFilter]);
 
     const handleLoadMoreItems = useCallback(async (startIndex) => {
-        const page = Math.round(startIndex / 10);
-        await dispatch(getThreads(currentUserId, currentTeamId, {unread: currentFilter === 'unread', perPage: 10, page}));
-
+        const before = data[startIndex - 1];
+        await dispatch(getThreads(currentUserId, currentTeamId, {unread, perPage: 10, before}));
         return {data: true};
-    }, [currentTeamId, selectedThreadId, currentFilter]);
+    }, [currentTeamId, data, unread]);
 
     const handleAllMarkedRead = useCallback(() => {
         dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
@@ -131,11 +133,11 @@ const ThreadList = ({
                 <VirtualizedThreadList
                     key={`threads_list_${currentFilter}`}
                     loadMoreItems={handleLoadMoreItems}
-                    ids={currentFilter === ThreadFilter.unread ? unreadIds : ids}
+                    ids={data}
                     selectedThreadId={selectedThreadId}
-                    total={currentFilter === ThreadFilter.unread ? totalUnread : total}
+                    total={unread ? totalUnread : total}
                 />
-                {currentFilter === ThreadFilter.unread && !someUnread && isEmpty(unreadIds) ? (
+                {unread && !someUnread && isEmpty(unreadIds) ? (
                     <NoResultsIndicator
                         expanded={true}
                         iconGraphic={BalloonIllustration}

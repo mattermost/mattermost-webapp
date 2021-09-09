@@ -62,6 +62,7 @@ const GlobalThreads = () => {
     const config = useSelector(getConfig);
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
+    console.log('unreadThreadIds', unreadThreadIds)
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null;
     const globalHeaderEnabled = useSelector((state: GlobalState) => getGlobalHeaderEnabled(state));
@@ -85,7 +86,7 @@ const GlobalThreads = () => {
 
     useEffect(() => {
         // this is needed to reset threads when changing tabs
-        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 10, page: 0}));
+        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 10}));
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
