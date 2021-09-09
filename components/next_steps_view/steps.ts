@@ -98,10 +98,9 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     (currentUser, users) => {
-        if (currentUser && !currentUser.roles.includes('system_admin')) {
+        if (!currentUser.roles.includes('system_admin')) {
             return false;
         }
-
         const userIds = Object.keys(users);
         for (const userId of userIds) {
             const user = users[userId];
@@ -119,10 +118,6 @@ export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (currentUser, firstAdmin) => {
-        if (!currentUser) {
-            return Steps.filter((step) => step.visible);
-        }
-
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
             isStepForUser(step, roles) && step.visible,
@@ -189,10 +184,6 @@ export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => isFirstAdmin(state),
     (state: GlobalState) => getSteps(state),
     (stepPreferences, currentUser, firstAdmin, mySteps) => {
-        if (!currentUser) {
-            return true;
-        }
-
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !mySteps.every(checkPref);

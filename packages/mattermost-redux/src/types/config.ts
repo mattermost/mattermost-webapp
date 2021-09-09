@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AddChannelButtonTreatments, CollapsedThreads, InviteMembersBtnLocations} from '../constants/config';
+import {AddChannelButtonTreatments, CollapsedThreads} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
@@ -28,7 +28,6 @@ export type ClientConfig = {
     BuildHashEnterprise: string;
     BuildNumber: string;
     CollapsedThreads: CollapsedThreads;
-    InviteMembersBtnLocations: InviteMembersBtnLocations;
     CustomBrandText: string;
     CustomDescriptionText: string;
     CustomTermsOfServiceId: string;

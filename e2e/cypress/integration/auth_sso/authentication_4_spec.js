@@ -270,14 +270,8 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        // * Verify the side bar is visible
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-        // # Click on the side bar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // * Verify Invite People button is visible and exist and then click it
-        cy.findByText('Invite People').should('be.visible').and('exist').click();
+        // # Open team menu and click on "Invite People"
+        cy.uiOpenTeamMenu('Invite People');
 
         // # Click invite members
         cy.findByText('Members').click();

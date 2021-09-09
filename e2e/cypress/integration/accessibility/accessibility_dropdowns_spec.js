@@ -13,14 +13,9 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Verify Accessibility Support in Dropdown Menus', () => {
-    let siteName;
     let testTeam;
 
     before(() => {
-        cy.apiGetConfig().then(({config}) => {
-            siteName = config.TeamSettings.SiteName;
-        });
-
         cy.apiCreateCustomAdmin().then(({sysadmin}) => {
             cy.apiLogin(sysadmin);
 
@@ -89,81 +84,69 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
     });
 
     it('MM-T1476 Accessibility Support in Main Menu Dropdown', () => {
-        // # Press tab from the Set Status button
-        cy.get('.status-wrapper button.status').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
-
-        // * Verify the aria-label in main menu button
-        cy.get('#headerInfo button').should('have.attr', 'aria-label', 'main menu').and('have.class', 'a11y--active a11y--focused').click();
+        // # Open team menu
+        cy.uiGetLHSHeader().click();
 
         // * Verify the accessibility support in the Main Menu Dropdown
-        cy.get('#sidebarDropdownMenu').should('have.attr', 'aria-label', 'main menu').and('have.class', 'a11y__popup').and('have.attr', 'role', 'menu');
+        cy.findByRole('menu').
+            should('exist').
+            and('have.attr', 'aria-label', 'main menu').
+            and('have.class', 'a11y__popup');
 
         // * Verify the first option is not selected by default
-        cy.get('#sidebarDropdownMenu .MenuItem').children().eq(0).should('not.have.class', 'a11y--active a11y--focused');
-
-        // # Press tab
-        cy.focused().tab();
+        cy.uiGetLHSTeamMenu().find('.MenuItem').
+            children().eq(0).
+            should('not.have.class', 'a11y--active a11y--focused').
+            focus();
 
         // * Verify the accessibility support in the Main Menu Dropdown items
         const menuItems = [
-            {id: 'accountSettings', label: 'Account Settings dialog'},
             {id: 'invitePeople', label: 'Invite People dialog'},
             {id: 'teamSettings', label: 'Team Settings dialog'},
             {id: 'manageMembers', label: 'Manage Members dialog'},
-            {id: 'createTeam', text: 'Create a Team'},
             {id: 'joinTeam', text: 'Join Another Team'},
             {id: 'leaveTeam', label: 'Leave Team dialog'},
-            {id: 'integrations', text: 'Integrations'},
-            {id: 'marketplaceModal', label: 'Marketplace dialog'},
-            {id: 'systemConsole', text: 'System Console'},
-            {id: 'helpLink', text: 'Help', directLink: true},
-            {id: 'gettingStarted', text: 'Getting Started'},
-            {id: 'keyboardShortcuts', text: 'Keyboard Shortcuts'},
-            {id: 'reportLink', text: 'Report a Problem', directLink: true},
-            {id: 'nativeAppLink', text: 'Download Apps', directLink: true},
-            {id: 'about', label: `About ${siteName} dialog`},
-            {id: 'logout', text: 'Log Out'},
+            {id: 'createTeam', text: 'Create a Team'},
         ];
 
         menuItems.forEach((item) => {
-            if (!item.shouldSkip) {
-                // * Verify that the menu item is focused
-                cy.get('#sidebarDropdownMenu').find(`#${item.id}`).should('be.visible').within(() => {
-                    if (item.label) {
-                        cy.findByLabelText(item.label).should('have.class', 'a11y--active a11y--focused');
-                    } else if (item.directLink) {
-                        cy.findByText(item.text).should('have.class', 'a11y--active a11y--focused');
-                    } else {
-                        cy.findByText(item.text).parent().should('have.class', 'a11y--active a11y--focused');
-                    }
-                });
-
-                // # Press tab for next item
-                cy.focused().tab();
+            // * Verify that the menu item is focused
+            if (item.label) {
+                cy.focused().should('have.attr', 'aria-label', item.label);
+            } else {
+                cy.focused().should('have.text', item.text);
             }
+
+            // # Press tab for next item
+            cy.focused().tab();
         });
 
-        cy.get('#sidebarDropdownMenu .MenuItem').each((el) => {
+        cy.uiGetLHSTeamMenu().find('.MenuItem').each((el) => {
             cy.wrap(el).should('have.attr', 'role', 'menuitem');
         });
 
         // * Verify if menu is closed when we press Escape
         cy.get('body').type('{esc}', {force: true});
-        cy.get('#sidebarDropdownMenu').should('not.exist');
+        cy.uiGetLHSTeamMenu().should('not.exist');
     });
 
     it('MM-T1477 Accessibility Support in Status Dropdown', () => {
-        // # Press tab from the test team button
-        cy.get(`#${testTeam.name}TeamButton`).focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab().tab();
+        // # Focus to set status button
+        cy.uiGetSetStatusButton().focus().tab({shift: true}).tab();
 
         // * Verify the aria-label in status menu button
-        cy.get('.status-wrapper button.status').should('have.attr', 'aria-label', 'set status').and('have.class', 'a11y--active a11y--focused').click();
+        cy.uiGetSetStatusButton().
+            should('have.class', 'a11y--active a11y--focused').
+            click();
 
         // * Verify the accessibility support in the Status Dropdown
-        cy.get('#statusDropdownMenu').should('have.attr', 'aria-label', 'set status').and('have.class', 'a11y__popup').and('have.attr', 'role', 'menu');
+        cy.uiGetStatusMenuContainer().
+            should('have.attr', 'aria-label', 'set status').
+            and('have.class', 'a11y__popup').
+            and('have.attr', 'role', 'menu');
 
         // * Verify the first option is not selected by default
-        cy.get('#statusDropdownMenu .MenuItem').children().eq(0).should('not.have.class', 'a11y--active a11y--focused');
+        cy.uiGetStatusMenuContainer().find('.dropdown-menu').children().eq(0).should('not.have.class', 'a11y--active a11y--focused');
 
         // # Press tab
         cy.focused().tab();
@@ -179,7 +162,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
         menuItems.forEach((item) => {
             // * Verify that the menu item is focused
-            cy.get('#statusDropdownMenu').find(`#${item.id}`).
+            cy.uiGetStatusMenuContainer().find(`#${item.id}`).
                 should('be.visible').
                 findAllByLabelText(item.label).first().
                 should('have.class', 'a11y--active a11y--focused');
@@ -190,6 +173,6 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
         // * Verify if menu is closed when we press Escape
         cy.get('body').type('{esc}', {force: true});
-        cy.get('#statusDropdownMenu').should('not.exist');
+        cy.uiGetStatusMenuContainer({exist: false});
     });
 });
