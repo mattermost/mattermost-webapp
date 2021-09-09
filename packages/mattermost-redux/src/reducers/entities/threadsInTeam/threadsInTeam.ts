@@ -128,15 +128,9 @@ export const unreadThreadsInTeamReducer = (state: ThreadsState['unreadThreadsInT
             newUnreadMentions,
             newUnreadReplies,
         } = action.data;
+        const team = state[teamId] || [];
 
-        const team = state[teamId];
-        if (!team) {
-            return {
-                ...state,
-                [teamId]: [id],
-            };
-        }
-
+        // if the thread is unread keep it or add it
         if (newUnreadReplies || newUnreadMentions) {
             const newSet = new Set(team);
             newSet.add(id);
@@ -146,6 +140,8 @@ export const unreadThreadsInTeamReducer = (state: ThreadsState['unreadThreadsInT
                 [teamId]: [...newSet],
             };
         }
+
+        // if the thread is read remove it
         const index = team.indexOf(id);
         if (index === -1) {
             return state;
