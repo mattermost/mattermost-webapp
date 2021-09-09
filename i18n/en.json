@@ -609,7 +609,7 @@
   "admin.customization.enableLatexTitle": "Enable Latex Rendering:",
   "admin.customization.enableLinkPreviewsDesc": "Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.",
   "admin.customization.enableLinkPreviewsTitle": "Enable website link previews:",
-  "admin.customization.enablePermalinkPreviewsDesc": "When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](https://docs.mattermost.com/messaging/sharing-messages.html) for details.",
+  "admin.customization.enablePermalinkPreviewsDesc": "When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](!https://docs.mattermost.com/messaging/sharing-messages.html) for details.",
   "admin.customization.enablePermalinkPreviewsTitle": "Enable message link previews:",
   "admin.customization.enableSVGsDesc": "Enable previews for SVG file attachments and allow them to appear in messages.",
   "admin.customization.enableSVGsTitle": "Enable SVGs:",
