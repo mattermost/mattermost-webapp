@@ -188,10 +188,8 @@ describe('Integrations page', () => {
     it('MM-T570 Integration Page titles are bolded', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Go to Main Menu -> Integrations
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-
-        cy.get('.dropdown-menu').should('be.visible').findByText('Integrations').click();
+        // # Open product menu and click 'Integrations'
+        cy.uiOpenProductSwitchMenu('Integrations');
 
         cy.get('.integration-option__title').contains('Incoming Webhooks').click();
 
@@ -207,7 +205,7 @@ describe('Integrations page', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Click 'Integrations' at main menu
-        cy.uiOpenMainMenu('Integrations');
+        cy.uiOpenProductSwitchMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');
@@ -279,7 +277,7 @@ describe('Integrations page', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Click 'Integrations' at main menu
-        cy.uiOpenMainMenu('Integrations');
+        cy.uiOpenProductSwitchMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');
@@ -367,7 +365,7 @@ describe('Integrations page', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Click 'Integrations' at main menu
-        cy.uiOpenMainMenu('Integrations');
+        cy.uiOpenProductSwitchMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');

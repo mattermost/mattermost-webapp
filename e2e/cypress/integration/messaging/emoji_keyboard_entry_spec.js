@@ -20,7 +20,7 @@ describe('MM-T154 Use keyboard navigation in emoji picker', () => {
 
     beforeEach(() => {
         // # Open emoji picker
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
 
         // # Wait for emoji picker to load
         cy.get('#emojiPicker').should('be.visible');

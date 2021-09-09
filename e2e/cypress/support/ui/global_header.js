@@ -86,3 +86,12 @@ Cypress.Commands.add('uiOpenSettingsModal', (section = '') => {
 
     return settingsModal();
 });
+
+Cypress.Commands.add('uiLogout', () => {
+    // # Click logout via user menu
+    cy.uiOpenUserMenu('Log Out');
+
+    cy.url().should('include', '/login');
+    cy.get('#site_name').should('be.visible');
+    cy.get('#site_description').should('be.visible');
+});

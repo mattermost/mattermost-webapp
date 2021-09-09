@@ -26,7 +26,7 @@ describe('Emoji sorting', () => {
         cy.postMessage(':cat:');
 
         // # Open emoji picker
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
 
         // # Assert first recently used emoji has the data-test-id value of 'cat' which was the last one we sent
         cy.findAllByTestId('emojiItem').
@@ -43,7 +43,7 @@ describe('Emoji sorting', () => {
         cy.postMessage(':white_small_square:');
 
         // # Open emoji picker
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
 
         // # Search sma text in emoji searching input
         cy.findByTestId('emojiInputSearch').should('be.visible').type('sma');
