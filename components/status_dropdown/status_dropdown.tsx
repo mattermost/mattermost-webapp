@@ -365,7 +365,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 </div>
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
-                    id={'statusDropdownMenu-timedDND'}
+                    id={'statusDropdownMenu'}
                 >
                     {!this.props.isCustomStatusEnabled && (
                         <Menu.Header>

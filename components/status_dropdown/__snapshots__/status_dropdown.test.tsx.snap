@@ -78,8 +78,9 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusIcon
@@ -88,9 +89,49 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
-        rightDecorator={false}
+        openUp={false}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
@@ -309,8 +350,9 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusIcon
@@ -319,9 +361,49 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
-        rightDecorator={false}
+        openUp={false}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
@@ -489,8 +571,9 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusIcon
@@ -499,9 +582,49 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
-        rightDecorator={false}
+        openUp={false}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
@@ -669,8 +792,9 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusIcon
@@ -679,9 +803,49 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
-        rightDecorator={false}
+        openUp={false}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
@@ -850,8 +1014,9 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusIcon
@@ -860,9 +1025,49 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
-        rightDecorator={false}
+        openUp={false}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
@@ -1013,8 +1218,9 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusIcon
@@ -1023,9 +1229,49 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
-        rightDecorator={false}
+        openUp={false}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
@@ -1172,8 +1418,9 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusIcon
@@ -1182,9 +1429,49 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
-        rightDecorator={false}
+        openUp={false}
+        selectedValueText={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction
