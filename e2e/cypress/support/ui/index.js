@@ -10,6 +10,7 @@ import './compliance_export';
 import './data_retention';
 import './extend_testing_library';
 import './global_header';
+import './emoji';
 import './menu';
 import './modal';
 import './post_dropdown_menu';

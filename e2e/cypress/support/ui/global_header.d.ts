@@ -26,6 +26,24 @@ declare namespace Cypress {
         uiGetProductSwitchButton(): Chainable;
 
         /**
+         * Get product switch menu
+         *
+         * @example
+         *   cy.uiGetProductSwitchMenu().click();
+         */
+        uiGetProductSwitchMenu(): Chainable;
+
+        /**
+         * Open product switch menu
+         *
+         * @param {string} item - menu item ex. System Console, Integrations, etc.
+         *
+         * @example
+         *   cy.uiOpenProductSwitchMenu().click();
+         */
+        uiOpenProductSwitchMenu(item: string): Chainable;
+
+        /**
          * Get set status button
          *
          * @example
@@ -40,15 +58,50 @@ declare namespace Cypress {
          * @example
          *   cy.uiGetStatusMenuContainer({exist: false});
          */
-        uiGetStatusMenuContainer(): Chainable;
+        uiGetStatusMenuContainer(option: Record<string, boolean>): Chainable;
 
         /**
-         * Get status menu
+         * Get user menu
          *
-         * @param {bool} option.visible - Set to false to not verify if the element is visible. Otherwise, true (default) to check visibility.
          * @example
          *   cy.uiGetStatusMenu();
          */
         uiGetStatusMenu(): Chainable;
+
+        /**
+         * Open user menu
+         *
+         * @param {string} item - menu item ex. Account Settings, Logout, etc.
+         *
+         * @example
+         *   cy.uiOpenUserMenu();
+         */
+        uiOpenUserMenu(): Chainable;
+
+        /**
+         * Get settings button
+         *
+         * @example
+         *   cy.uiGetSettingsButton();
+         */
+        uiGetSettingsButton(option: Record<string, boolean>): Chainable;
+
+        /**
+         * Open settings modal
+         *
+         * @param {string} section - ex. Display, Sidebar, etc.
+         *
+         * @example
+         *   cy.uiOpenSettingsModal();
+         */
+        uiOpenSettingsModal(): Chainable;
+
+        /**
+         * User log out via user menu
+         *
+         * @example
+         *   cy.uiLogout();
+         */
+        uiLogout(): Chainable;
     }
 }
