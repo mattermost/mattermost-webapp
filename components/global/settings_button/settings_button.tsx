@@ -14,11 +14,11 @@ import UserSettingsModal from 'components/user_settings/modal';
 
 type Props = {
     actions: {
-        openModal: (params: {modalId: string; dialogType: any; dialogProps: any}) => void;
+        openModal: (params: {modalId: string; dialogType: React.ReactNode; dialogProps: {isContentProductSettings: boolean}}) => void;
     };
 };
 
-const SettingsButton = (props: Props): JSX.Element | null => {
+const SettingsButton: React.FC<Props> = (props: Props): JSX.Element | null => {
     const tooltip = (
         <Tooltip id='productSettings'>
             <FormattedMessage
