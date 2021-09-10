@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {MutableRefObject, useEffect, useRef} from 'react';
+import {MutableRefObject, RefObject, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useLocation} from 'react-router';
 
@@ -23,12 +23,12 @@ export const useProducts = (): ProductComponent[] | undefined => {
 };
 
 /**
- * Hook that alerts clicks outside of the passed ref.
+ * Hook that handles clicks outside of the passed ref with a passed click-handler.
  */
 export function useClickOutsideRef(ref: MutableRefObject<HTMLElement | null>, handler: () => void): void {
     useEffect(() => {
         function onMouseDown(event: MouseEvent) {
-            const target = event.target as any;
+            const target = event.target as Node;
             if (ref.current && target instanceof Node && !ref.current.contains(target)) {
                 handler();
             }
@@ -43,8 +43,11 @@ export function useClickOutsideRef(ref: MutableRefObject<HTMLElement | null>, ha
     }, [ref, handler]);
 }
 
+/**
+ * Hook that returns the productId of the currently used product.
+ */
 export const useCurrentProductId = (products?: ProductComponent[]): string | null => {
-    if (!products) {
+    if (!products || products.length === 0) {
         return null;
     }
 
@@ -75,9 +78,9 @@ export const useIsLoggedIn = (): boolean => {
  * Hook that returns the current open state of the specified modal
  * - returns both the direct boolean for regular use and a ref that contains the boolean for usage in a callback
  */
-export const useIsModalOpen = (modalIdentifier: string): [boolean, React.RefObject<boolean>] => {
-    const modalOpenState = useSelector((state: GlobalState) => isModalOpen(state, modalIdentifier));
-    const modalOpenStateRef = useRef(modalOpenState);
+export const useIsModalOpen = (modalIdentifier: string): [boolean, RefObject<boolean>] => {
+    const modalOpenState = useSelector<GlobalState, boolean>((state: GlobalState) => isModalOpen(state, modalIdentifier));
+    const modalOpenStateRef = useRef<boolean>(modalOpenState);
 
     useEffect(() => {
         modalOpenStateRef.current = modalOpenState;
