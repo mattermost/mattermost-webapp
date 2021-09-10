@@ -23,6 +23,8 @@ const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 type Props = {
     rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
     rhsOpen: boolean;
+    windowWidth: number;
+    isMobileView: boolean;
     actions: {
         showFlaggedPosts: () => void;
         showMentions: () => void;
@@ -31,41 +33,17 @@ type Props = {
     };
 };
 
-type State = {
-    showSearchBar: boolean;
-};
-
 const HEADER_ICON = 'channel-header__icon';
 const HEADER_ICON_ACTIVE = 'channel-header__icon--active';
 
-class RHSSearchNav extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {showSearchBar: RHSSearchNav.getShowSearchBar(props)};
-    }
-
+class RHSSearchNav extends React.PureComponent<Props> {
     componentDidMount() {
         document.addEventListener('keydown', this.handleShortcut);
-        window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleShortcut);
-        window.removeEventListener('resize', this.handleResize);
     }
-
-    static getDerivedStateFromProps(nextProps: Props) {
-        return {showSearchBar: RHSSearchNav.getShowSearchBar(nextProps)};
-    }
-
-    static getShowSearchBar(props: Props) {
-        return !Utils.isMobile() && (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE || props.rhsOpen);
-    }
-
-    handleResize = () => {
-        this.setState({showSearchBar: RHSSearchNav.getShowSearchBar(this.props)});
-    };
 
     mentionButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -110,13 +88,17 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
         const {
             rhsOpen,
             rhsState,
+            windowWidth,
+            isMobileView,
         } = this.props;
+
+        const showSearchBar = !isMobileView && (windowWidth > SEARCH_BAR_MINIMUM_WINDOW_SIZE || rhsOpen);
 
         return (
             <>
                 <Search
                     isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
-                    hideSearchBar={!this.state.showSearchBar}
+                    hideSearchBar={!showSearchBar}
                     enableFindShortcut={true}
                 />
                 <HeaderIconWrapper

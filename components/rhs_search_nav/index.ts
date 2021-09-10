@@ -15,6 +15,7 @@ import {
 } from 'actions/views/rhs';
 
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {getBrowserWindowSize, getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store/index';
 
 import RHSSearchNav from './rhs_search_nav';
@@ -22,9 +23,12 @@ import RHSSearchNav from './rhs_search_nav';
 type Props = ComponentProps<typeof RHSSearchNav>;
 
 function mapStateToProps(state: GlobalState): Omit<Props, 'actions'> {
+    const windowSize = getBrowserWindowSize(state);
     return {
         rhsState: getRhsState(state),
         rhsOpen: getIsRhsOpen(state),
+        windowWidth: windowSize.width,
+        isMobileView: getIsMobileView(state),
     };
 }
 
