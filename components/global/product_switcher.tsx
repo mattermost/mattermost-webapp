@@ -70,6 +70,7 @@ const MenuItemTextContainer = styled.div`
     line-height: 20px;
 `;
 
+// TODO: extract this to a separate file
 const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNavEntryProps) => {
     return (
         <MenuItem
@@ -93,14 +94,14 @@ const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNa
     );
 };
 
-const ProductSwitcher = (): JSX.Element => {
+const ProductSwitcher: React.FC = (): JSX.Element => {
     const products = useProducts();
-    const [switcherOpen, setSwitcherOpen] = useState(false);
+    const [switcherOpen, setSwitcherOpen] = useState<boolean>(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
     const currentProductID = useCurrentProductId(products);
 
-    const handleClick = () => setSwitcherOpen(!switcherOpen);
+    const handleClick = (): void => setSwitcherOpen(!switcherOpen);
 
     useClickOutsideRef(menuRef, () => {
         setSwitcherOpen(false);
