@@ -59,6 +59,7 @@ const screens = [
     </div>,
 ];
 
+// TODO: rewrite to functional component
 export class ProductSwitcherTip extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -69,18 +70,15 @@ export class ProductSwitcherTip extends React.PureComponent<Props, State> {
     }
 
     // Checking in both componentDidMount and componentDidUpdate protects against changes in data load & component render order.
-    componentDidMount() {
+    componentDidMount(): void {
         this.skipIfIrrelevant();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(): void {
         this.skipIfIrrelevant();
     }
 
-    checkRelevance() {
-    }
-
-    skipIfIrrelevant() {
+    skipIfIrrelevant(): void {
         // We check this at the component level because we want to wait until
         // global header is visible to the user.
         // Otherwise, it could happen that a user on a mattermost instance
@@ -96,12 +94,13 @@ export class ProductSwitcherTip extends React.PureComponent<Props, State> {
         }
 
         const userHasProducts = this.props.products && checkHasPlaybooks(this.props.products) && checkHasBoards(this.props.products);
+
         if (userHasProducts) {
             return;
         }
 
         // If user does not have access to these products, we do not want to show them the tutorial.
-        this.setState({skippedBecauseIrrelevant: true}, () => {
+        this.setState({skippedBecauseIrrelevant: true}, (): void => {
             this.props.actions.savePreferences(
                 this.props.currentUserId,
                 [{
@@ -114,7 +113,7 @@ export class ProductSwitcherTip extends React.PureComponent<Props, State> {
         });
     }
 
-    render() {
+    render(): JSX.Element | null {
         const tipIsRelevant = (this.props.step === TutorialSteps.PRODUCT_SWITCHER) && !this.state.skippedBecauseIrrelevant && this.props.products && checkHasPlaybooks(this.props.products) && checkHasBoards(this.props.products);
         if (!tipIsRelevant) {
             return null;
