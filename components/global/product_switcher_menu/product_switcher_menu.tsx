@@ -20,7 +20,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 
-type Props = {
+export type Props = {
     isMobile: boolean;
     id: string;
     teamId: string;
@@ -36,9 +36,7 @@ type Props = {
     canManageSystemBots: boolean;
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
-    pluginMenuItems: any;
-    intl: IntlShape;
-    firstAdminVisitMarketplaceStatus: boolean;
+    intl?: IntlShape | undefined;
     onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
@@ -47,7 +45,6 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     static defaultProps = {
         teamType: '',
         isMobile: false,
-        pluginMenuItems: [],
     };
 
     handleEmitUserLoggedOutEvent = () => {
