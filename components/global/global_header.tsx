@@ -11,6 +11,7 @@ import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {TutorialSteps} from 'utils/constants';
 import Pluggable from 'plugins/pluggable';
 import {isDesktopApp} from 'utils/user_agent';
+import {GlobalState} from '../../types/store';
 
 import GlobalSearchNav from './global_search_nav/global_search_nav';
 import ProductSwitcher from './product_switcher';
@@ -77,10 +78,11 @@ const RightControls = styled.div`
 `;
 
 const GlobalHeader = (): JSX.Element | null => {
-    const enabled = useSelector(getGlobalHeaderEnabled);
+    const enabled = useSelector<GlobalState, boolean>(getGlobalHeaderEnabled);
     const isLoggedIn = useIsLoggedIn();
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
+    const isChannels = currentProductID === null;
     const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
 
     useEffect(() => {
@@ -106,36 +108,34 @@ const GlobalHeader = (): JSX.Element | null => {
                 {isDesktopApp() && <HistoryButtons/>}
             </LeftControls>
             <CenterControls>
-                {currentProductID !== null &&
+                {isChannels ? (
+                    <>
+                        <GlobalSearchNav/>
+                        <UserGuideDropdown/>
+                    </>
+                ) : (
                     <Pluggable
                         pluggableName={'Product'}
                         subComponentName={'headerCentreComponent'}
                         pluggableId={currentProductID}
                     />
-                }
-                {currentProductID === null &&
-                    <>
-                        <GlobalSearchNav/>
-                        <UserGuideDropdown/>
-                    </>
-                }
+                )}
             </CenterControls>
             <RightControls>
-                {currentProductID !== null &&
-                    <Pluggable
-                        pluggableName={'Product'}
-                        subComponentName={'headerRightComponent'}
-                        pluggableId={currentProductID}
-                    />
-                }
-                {currentProductID === null &&
+                {isChannels ? (
                     <>
                         <AtMentionsButton/>
                         <SavedPostsButton/>
                         <SettingsButton/>
                         {showSettingsTip && <SettingsTip/>}
                     </>
-                }
+                ) : (
+                    <Pluggable
+                        pluggableName={'Product'}
+                        subComponentName={'headerRightComponent'}
+                        pluggableId={currentProductID}
+                    />
+                )}
                 <StatusDropdown globalHeader={true}/>
             </RightControls>
         </GlobalHeaderContainer>
