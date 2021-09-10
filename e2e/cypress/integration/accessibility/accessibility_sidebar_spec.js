@@ -57,10 +57,15 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Press tab to the Add Public Channel button
-        cy.get('#headerInfo button').focus().tab().tab();
+        cy.uiGetLHSAddChannelButton().focus().tab().tab({shift: true});
 
         // * Verify if the Plus button has focus
-        cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('be.focused').and('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '4px').tab();
+        cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('be.focused');
+        cy.focused().tab();
+
+        // * Verify if the Plus button has focus
+        cy.findByRole('button', {name: 'Channel Switcher'}).should('be.focused');
+        cy.focused().tab();
 
         // * Verify if focus changes to different channels in Unread section
         cy.get('.SidebarChannel.unread').each((el) => {
@@ -117,7 +122,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
 
     it('MM-T1473 Verify Tab Support in Unreads section', () => {
         // # Press tab from the Main Menu button
-        cy.get('#headerInfo button').focus().tab().tab().tab();
+        cy.uiGetLHSAddChannelButton().focus().tab().tab();
 
         // * Verify if focus changes to different channels in Unread section
         cy.get('.SidebarChannel.unread').each((el) => {
@@ -132,7 +137,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         markAsFavorite('town-square');
 
         // # Press tab from the Main Menu button down to all unread channels
-        cy.get('#headerInfo button').focus().tab().tab().tab();
+        cy.uiGetLHSAddChannelButton().focus().tab().tab();
         cy.get('.SidebarChannel.unread').each(() => {
             cy.focused().tab().tab();
         });
@@ -158,7 +163,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         markAsFavorite('town-square');
 
         // # Press tab from the Main Menu button
-        cy.get('#headerInfo button').focus().tab().tab().tab();
+        cy.uiGetLHSAddChannelButton().focus().tab().tab();
 
         // # Press Down Arrow and then Up Arrow
         cy.get('body').type('{downarrow}{uparrow}');

@@ -24,8 +24,6 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
             header: '',
             purpose: '',
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,

@@ -72,7 +72,7 @@ describe('Messaging', () => {
             });
 
             // * Reaction appears in recently used section of emoji picker
-            cy.get('#emojiPickerButton').click().then(() => {
+            cy.uiOpenEmojiPicker().then(() => {
                 cy.findAllByTestId('emojiItem').first().within(($el) => {
                     cy.wrap($el).findByTestId('upside_down_face').should('exist');
                 });
