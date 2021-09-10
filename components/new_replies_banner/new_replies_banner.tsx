@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import Toast from 'components/toast/toast';
 import * as Utils from 'utils/utils.jsx';
 
+import './new_replies_banner.scss';
+
 type Props = {
     hasNewReplies: boolean;
     width: number;
@@ -31,21 +33,24 @@ function NewRepliesBanner({
     }, [hasNewReplies]);
 
     return (
-        <React.Fragment>
+        <div
+            className='new-replies-banner'
+            style={{width}}
+        >
             <Toast
                 show={hasNewReplies}
                 showActions={true}
                 onClick={onClick}
                 onDismiss={onDismiss}
                 onClickMessage={onClickMessage}
-                width={width}
+                width={156}
             >
                 <FormattedMessage
                     id='rhs_thread.toast.newReplies'
                     defaultMessage='New Replies'
                 />
             </Toast>
-        </React.Fragment>
+        </div>
     );
 }
 
