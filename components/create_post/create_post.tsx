@@ -1548,7 +1548,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         }
 
         let prewrittenClass = '';
-        if (this.props.prewrittenMessages === PrewrittenMessagesTreatments.AROUND_INPUT) {
+        if (this.props.prewrittenMessages === PrewrittenMessagesTreatments.AROUND_INPUT && this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER) {
             prewrittenClass = 'prewritten';
         }
 
