@@ -3802,6 +3802,7 @@
   "no_results.mentions.title": "No mentions yet",
   "no_results.pinned_posts.subtitle": "Pin important messages which are visible to the whole channel. Open the context menu on a message and choose {text} to save it here.",
   "no_results.pinned_posts.title": "No pinned posts yet",
+  "notification.crt": "Reply in {title}",
   "notification.dm": "Direct Message",
   "notify_all.confirm": "Confirm",
   "notify_all.question": "By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?",
