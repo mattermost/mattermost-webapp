@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import TutorialTip from 'components/tutorial/tutorial_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default function SettingsTip() {
+export default function SettingsTip(): JSX.Element {
     const screens = [
         <div key='first-screen'>
             <h4>
