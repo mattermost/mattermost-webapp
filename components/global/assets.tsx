@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-export const ChannelsIcon = () => {
+export const ChannelsIcon = (): JSX.Element => {
     return (
         <svg
             width='24'
@@ -22,7 +22,7 @@ export const ChannelsIcon = () => {
     );
 };
 
-export const SwitcherIcon = () => {
+export const SwitcherIcon = (): JSX.Element => {
     return (
         <svg
             width='14'
