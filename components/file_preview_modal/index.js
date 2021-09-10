@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
+import {getIsMobileView} from 'selectors/views/browser';
+
 import {canDownloadFiles} from 'utils/file_utils.jsx';
 
 import FilePreviewModal from './file_preview_modal';
@@ -18,6 +20,7 @@ function mapStateToProps(state, ownProps) {
         enablePublicLink: config.EnablePublicLink === 'true',
         pluginFilePreviewComponents: state.plugins.components.FilePreview,
         post: ownProps.post || getPost(state, ownProps.postId),
+        isMobileView: getIsMobileView(state),
     };
 }
 

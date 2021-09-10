@@ -59,6 +59,7 @@ export default class FilePreviewModal extends React.PureComponent {
         canDownloadFiles: PropTypes.bool,
         enablePublicLink: PropTypes.bool,
         pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
+        isMobileView: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -71,10 +72,8 @@ export default class FilePreviewModal extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        const isMobile = Utils.isMobile();
 
         this.state = {
-            isMobile,
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
@@ -128,21 +127,6 @@ export default class FilePreviewModal extends React.PureComponent {
         if (this.videoRef.current) {
             this.videoRef.current.stop();
         }
-    }
-    handleWindowResize = () => {
-        const isMobile = Utils.isMobile();
-        if (isMobile !== this.state.isMobile) {
-            this.setState({
-                isMobile,
-            });
-        }
-    }
-    componentDidMount() {
-        window.addEventListener('resize', this.handleWindowResize);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.handleWindowResize);
     }
 
     componentDidUpdate(prevProps) {
@@ -401,7 +385,7 @@ export default class FilePreviewModal extends React.PureComponent {
                                 className='file-preview-modal__title'
                             >
                                 <FilePreviewModalHeader
-                                    isMobile={this.state.isMobile}
+                                    isMobile={this.props.isMobileView}
                                     post={this.props.post}
                                     showPublicLink={showPublicLink}
                                     fileIndex={this.state.imageIndex}
@@ -424,7 +408,7 @@ export default class FilePreviewModal extends React.PureComponent {
                             >
                                 {content}
                             </div>
-                            { this.state.isMobile &&
+                            { this.props.isMobileView &&
                                 <FilePreviewModalFooter
                                     post={this.props.post}
                                     showPublicLink={showPublicLink}
