@@ -10,26 +10,21 @@
 // Stage: @prod
 // Group: @integrations
 
-const testCases = [
-    {command: '/away', ariaLabel: 'Away Icon', message: 'You are now away'},
-    {command: '/dnd', ariaLabel: 'Do Not Disturb Icon', message: 'Do Not Disturb is enabled. You will not receive desktop or mobile push notifications until Do Not Disturb is turned off.'},
-    {command: '/offline', ariaLabel: 'Offline Icon', message: 'You are now offline'},
-    {command: '/online', ariaLabel: 'Online Icon', message: 'You are now online'},
-];
-
 describe('Integrations', () => {
+    const testCases = [
+        {command: '/away', className: 'icon-clock', message: 'You are now away'},
+        {command: '/dnd', className: 'icon-minus-circle', message: 'Do Not Disturb is enabled. You will not receive desktop or mobile push notifications until Do Not Disturb is turned off.'},
+        {command: '/offline', className: 'icon-circle-outline', message: 'You are now offline'},
+        {command: '/online', className: 'icon-check-circle', message: 'You are now online'},
+    ];
+
     let testChannelUrl;
 
     before(() => {
         // # Login as test user, go to town-square and set user status to online
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testChannelUrl = `/${team.name}/channels/town-square`;
         });
-    });
-
-    after(() => {
-        // # Set user status to online
-        cy.apiUpdateUserStatus('online');
     });
 
     it('I18456 Built-in slash commands: change user status via post', () => {
@@ -66,7 +61,10 @@ describe('Integrations', () => {
 
 function verifyUserStatus(testCase, isCompactMode) {
     // * Verify that the user status is as indicated
-    cy.get('#lhsHeader').find('svg').should('be.visible').and('have.attr', 'aria-label', testCase.ariaLabel);
+    cy.uiGetProfileHeader().
+        find('i').
+        should('be.visible').
+        and('have.class', testCase.className);
 
     cy.uiWaitUntilMessagePostedIncludes(testCase.message);
 

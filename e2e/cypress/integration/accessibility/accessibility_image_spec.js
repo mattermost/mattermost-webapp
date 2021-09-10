@@ -26,9 +26,9 @@ describe('Verify Accessibility Support in Different Images', () => {
 
     it('MM-T1508 Accessibility support in different images', () => {
         // * Verify image alt in profile image
-        cy.get('#lhsHeader').should('be.visible').within(() => {
-            cy.get('.Avatar').should('have.attr', 'alt', 'user profile image');
-        });
+        cy.uiGetProfileHeader().
+            find('.Avatar').
+            should('have.attr', 'alt', 'user profile image');
 
         // # Upload an image in the post
         cy.get('#fileUploadInput').attachFile('small-image.png');
@@ -60,16 +60,17 @@ describe('Verify Accessibility Support in Different Images', () => {
         });
 
         // # Open Account Settings > Display > Themes
-        cy.toAccountSettingsModal();
-        cy.get('#displayButton').click();
-        cy.get('#displaySettingsTitle').should('exist');
-        cy.get('#themeTitle').should('be.visible');
-        cy.get('#themeEdit').click();
+        cy.uiOpenSettingsModal('Display').within(() => {
+            cy.get('#displayButton').click();
+            cy.get('#displaySettingsTitle').should('exist');
+            cy.get('#themeTitle').scrollIntoView().should('be.visible');
+            cy.get('#themeEdit').click();
 
-        // * Verify image alt in Theme Images
-        cy.get('#displaySettings').within(() => {
-            cy.get('.appearance-section>div').children().each(($el) => {
-                cy.wrap($el).get('#denim-theme-icon').should('have.text', 'Denim theme icon');
+            // * Verify image alt in Theme Images
+            cy.get('#displaySettings').within(() => {
+                cy.get('.appearance-section>div').children().each(($el) => {
+                    cy.wrap($el).get('#denim-theme-icon').should('have.text', 'Denim theme icon');
+                });
             });
         });
     });

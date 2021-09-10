@@ -20,7 +20,7 @@ describe('Account Settings -> Security -> View Access History', () => {
 
     beforeEach(() => {
         // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        cy.uiOpenAccountSettingsModal('Security');
 
         // * Check that the Security tab is loaded
         cy.get('#securityButton').should('be.visible');
