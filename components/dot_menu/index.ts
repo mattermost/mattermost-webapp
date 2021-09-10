@@ -9,7 +9,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {appsEnabled, makeAppBindingsSelector, makeRHSAppBindingSelector} from 'mattermost-redux/selectors/entities/apps';
+import {appsEnabled, makeGetPostOptionBinding} from 'mattermost-redux/selectors/entities/apps';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -61,9 +61,9 @@ type Props = {
     location?: ComponentProps<typeof DotMenu>['location'];
 };
 
-const getPostMenuBindings = makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
+const emptyBindings: AppBinding[] = [];
 
-const getRHSPostMenuBindings = makeRHSAppBindingSelector(AppBindingLocations.POST_MENU_ITEM);
+const getPostOptionBinding = makeGetPostOptionBinding();
 
 const fetchBindings = makeFetchBindings(AppBindingLocations.POST_MENU_ITEM);
 
@@ -108,22 +108,9 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
     const apps = appsEnabled(state);
     const showBindings = apps && !systemMessage && !isCombinedUserActivityPost(post.id);
-    let appBindings = null;
-    switch (ownProps.location) {
-    case Locations.RHS_ROOT:
-    case Locations.RHS_COMMENT:
-        appBindings = getRHSPostMenuBindings(state);
-        break;
-    case Locations.SEARCH:
-        appBindings = null;
-        break;
-    case Locations.CENTER:
-    default:
-        appBindings = getPostMenuBindings(state);
-    }
-
-    if (!showBindings) {
-        appBindings = [];
+    let appBindings: AppBinding[] | null = emptyBindings;
+    if (showBindings) {
+        appBindings = getPostOptionBinding(state, ownProps.location);
     }
 
     return {
