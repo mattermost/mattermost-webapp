@@ -17,33 +17,10 @@ type Props = {
     teamDisplayName: string;
     teamId: string;
     actions: Actions;
+    isMobileView: boolean;
 }
 
-type State = {
-    isMobile: boolean;
-}
-
-export default class LegacySidebarHeader extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            isMobile: Utils.isMobile(),
-        };
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', this.handleResize);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.handleResize);
-    }
-
-    handleResize = () => {
-        const isMobile = Utils.isMobile();
-        this.setState({isMobile});
-    }
-
+export default class LegacySidebarHeader extends React.PureComponent<Props> {
     render() {
         const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsHeader', 'team menu region');
 
@@ -59,7 +36,7 @@ export default class LegacySidebarHeader extends React.PureComponent<Props, Stat
                 <div
                     className='d-flex'
                 >
-                    {!this.state.isMobile && <StatusDropdown/>}
+                    {!this.props.isMobileView && <StatusDropdown/>}
                     <SidebarHeaderDropdown/>
                 </div>
             </div>

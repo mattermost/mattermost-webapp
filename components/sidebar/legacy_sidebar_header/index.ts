@@ -16,6 +16,8 @@ import * as Utils from 'utils/utils.jsx';
 
 import {openModal} from 'actions/views/modals';
 
+import {getIsMobileView} from 'selectors/views/browser';
+
 import LegacySidebarHeader from './legacy_sidebar_header';
 
 function mapStateToProps(state: GlobalState) {
@@ -33,6 +35,7 @@ function mapStateToProps(state: GlobalState) {
         teamDescription: currentTeam.description,
         teamDisplayName: currentTeam.display_name,
         teamId: currentTeam.id,
+        isMobileView: getIsMobileView(state),
     };
 }
 
