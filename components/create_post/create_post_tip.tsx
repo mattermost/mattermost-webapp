@@ -21,7 +21,7 @@ type Props = {
 }
 
 const controlContent = [
-    <div>
+    <div key='screen'>
         <h4>
             <FormattedMessage
                 id='create_post.tutorialTip.title'
@@ -44,14 +44,12 @@ const controlContent = [
 ];
 
 class CreatePostTip extends React.PureComponent<Props> {
-
     render() {
         let screens = controlContent;
 
         if (this.props.prewrittenMessages === PrewrittenMessagesTreatments.TOUR_POINT) {
-
             screens = [
-                <div>
+                <div key='screen'>
                     <h4>
                         <FormattedMessage
                             id='create_post.prewritten.tip.title'

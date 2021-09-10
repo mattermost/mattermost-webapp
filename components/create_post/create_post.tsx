@@ -48,6 +48,7 @@ import MessageSubmitError from 'components/message_submit_error';
 import {Channel, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
 import {PostDraft} from 'types/store/rhs';
 import {Post, PostMetadata} from 'mattermost-redux/types/posts';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
@@ -125,6 +126,11 @@ type Props = {
   *  Data used for deciding if tutorial tip is to be shown
   */
     showTutorialTip: boolean;
+
+    /**
+  *  Data used for advancing from create post tip
+  */
+    tutorialStep: number;
 
     /**
   *  A/B test treatments for presenting prewritten messages to first time users
@@ -299,6 +305,11 @@ type Props = {
         emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
 
         getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
+
+        /**
+      * Function used to advance the tutorial forward
+      */
+        savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
     };
 
     groupsWithAllowReference: Map<string, Group> | null;
@@ -603,6 +614,10 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
+
+        if (this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER) {
+            this.proceedFromPostTip();
+        }
     }
 
     handleNotifyAllConfirmation = () => {
@@ -1244,7 +1259,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     prefillMessage = (message: string, shouldFocus?: boolean) => {
-        this.setMessageAndCaretPostion(message, message.length); 
+        this.setMessageAndCaretPostion(message, message.length);
 
         const draft = {
             ...this.props.draft,
@@ -1314,25 +1329,37 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
     }
 
+    proceedFromPostTip = () => {
+        this.props.actions.savePreferences(
+            this.props.currentUserId,
+            [{
+                user_id: this.props.currentUserId,
+                category: Constants.Preferences.TUTORIAL_STEP,
+                name: this.props.currentUserId,
+                value: (Constants.TutorialSteps.POST_POPOVER + 1).toString(),
+            }],
+        );
+    }
+
     renderPrewrittenMessages() {
-        if (this.props.prewrittenMessages !== PrewrittenMessagesTreatments.AROUND_INPUT) {
-            return null
+        if (this.props.prewrittenMessages !== PrewrittenMessagesTreatments.AROUND_INPUT || this.props.tutorialStep !== Constants.TutorialSteps.POST_POPOVER) {
+            return null;
         }
 
         let id = 'create_post.prewritten.around_input.team';
         let defaultMessage = '**Send your first message** to your team';
         if (this.props.currentChannel.type === 'D') {
             if (this.props.currentChannel.teammate_id === this.props.currentUserId) {
-                id = 'create_post.prewritten.around_input.self'
-                defaultMessage = '**Send your first message** to yourself'
+                id = 'create_post.prewritten.around_input.self';
+                defaultMessage = '**Send your first message** to yourself';
             } else {
-                id = 'create_post.prewritten.around_input.dm'
-                defaultMessage = '**Send your first message** to your teammate'
+                id = 'create_post.prewritten.around_input.dm';
+                defaultMessage = '**Send your first message** to your teammate';
             }
         }
         return (
             <div>
-                <div className="post-create-prewritten-title">
+                <div className='post-create-prewritten-title'>
                     <FormattedMarkdownMessage
                         id={id}
                         defaultMessage={defaultMessage}
@@ -1341,7 +1368,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                         type='button'
                         className='btn-icon'
                         aria-label='Got it'
-                        onClick={function(){}}
+                        onClick={this.proceedFromPostTip}
                     >
                         <i className='icon icon-close'/>
                     </button>
@@ -1504,13 +1531,15 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         let tutorialTip = null;
         if (showTutorialTip) {
-            tutorialTip = <CreatePostTip
-                prewrittenMessages={this.props.prewrittenMessages}
-                prefillMessage={this.prefillMessage}
-                currentChannel={this.props.currentChannel}
-                currentUserId={this.props.currentUserId}
-                currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
-            />;
+            tutorialTip = (
+                <CreatePostTip
+                    prewrittenMessages={this.props.prewrittenMessages}
+                    prefillMessage={this.prefillMessage}
+                    currentChannel={this.props.currentChannel}
+                    currentUserId={this.props.currentUserId}
+                    currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
+                />
+            );
         }
 
         let centerClass = '';

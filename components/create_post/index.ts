@@ -26,6 +26,8 @@ import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId, getUser}
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool, getPrewrittenMessagesTreatment} from 'mattermost-redux/selectors/entities/preferences';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
@@ -130,6 +132,7 @@ function makeMapStateToProps() {
             channelMemberCountsByGroup,
             isLDAPEnabled,
             prewrittenMessages,
+            tutorialStep,
         };
     };
 }
@@ -160,6 +163,7 @@ type Actions = {
     scrollPostListToBottom: () => void;
     emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
+    savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
 }
 
 // Temporarily store draft manually in localStorage since the current version of redux-persist
@@ -195,6 +199,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             scrollPostListToBottom,
             setShowPreview: setShowPreviewOnCreatePost,
             getChannelMemberCountsByGroup,
+            savePreferences,
         }, dispatch),
     };
 }
