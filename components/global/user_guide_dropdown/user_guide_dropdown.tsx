@@ -31,6 +31,7 @@ type State = {
     buttonActive: boolean;
 };
 
+// TODO: rewrite to functional component
 class UserGuideDropdown extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -39,22 +40,22 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
         };
     }
 
-    toggleShortcutsModal = (e: MouseEvent) => {
+    toggleShortcutsModal = (e: MouseEvent): void => {
         e.preventDefault();
         toggleShortcutsModal();
     }
 
-    buttonToggleState = (menuActive: boolean) => {
+    buttonToggleState = (menuActive: boolean): void => {
         this.setState({
             buttonActive: menuActive,
         });
     }
 
-    askTheCommunityClick = () => {
+    askTheCommunityClick = (): void => {
         trackEvent('ui', 'help_ask_the_community');
     }
 
-    renderDropdownItems = (): React.ReactNode => {
+    renderDropdownItems = (): JSX.Element => {
         const {intl, showGettingStarted, showNextStepsTips} = this.props;
 
         return (
@@ -95,6 +96,8 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
 
     render() {
         const {intl} = this.props;
+        const {buttonActive} = this.state;
+
         const tooltip = (
             <Tooltip
                 id='userGuideHelpTooltip'
@@ -116,13 +119,13 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 <OverlayTrigger
                     delayShow={500}
                     placement='bottom'
-                    overlay={this.state.buttonActive ? <></> : tooltip}
+                    overlay={buttonActive ? <></> : tooltip}
                 >
                     <IconButton
                         size={'sm'}
                         icon={'help-circle-outline'}
                         onClick={() => {}} // icon button currently requires onclick ... needs to revisit
-                        active={this.state.buttonActive}
+                        active={buttonActive}
                         inverted={true}
                         compact={true}
                         aria-label='Select to toggle the help menu.' // proper wording and translation needed
