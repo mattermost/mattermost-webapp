@@ -9,23 +9,20 @@ import {useDispatch, useSelector} from 'react-redux';
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {closeRightHandSide, showFlaggedPosts} from 'actions/views/rhs';
-import OverlayTrigger from 'components/overlay_trigger';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
+import {RhsState} from 'types/store/rhs';
 import Constants, {RHSStates} from 'utils/constants';
+import OverlayTrigger from 'components/overlay_trigger';
 
 const SavedPostsButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
-    const rhsState = useSelector((state: GlobalState) => getRhsState(state));
-    const isRhsOpen = useSelector((state: GlobalState) => getIsRhsOpen(state));
+    const rhsState = useSelector<GlobalState, RhsState>((state: GlobalState) => getRhsState(state));
+    const isRhsOpen = useSelector<GlobalState, boolean>((state: GlobalState) => getIsRhsOpen(state));
 
     const savedPostsButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (rhsState === RHSStates.FLAG) {
-            dispatch(closeRightHandSide());
-        } else {
-            dispatch(showFlaggedPosts());
-        }
+        dispatch(rhsState === RHSStates.FLAG ? closeRightHandSide() : showFlaggedPosts());
     };
 
     const tooltip = (
