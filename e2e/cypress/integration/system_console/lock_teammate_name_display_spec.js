@@ -37,11 +37,8 @@ describe('System Console', () => {
         // # Go to main page
         cy.visit(townsquareUrl);
 
-        // # Go to Account settings
-        cy.toAccountSettingsModal();
-
-        // # Click Display on the left hand side
-        cy.get('#displayButton').click();
+        // # Go to Account Settings - Display
+        cy.uiOpenSettingsModal('Display');
 
         // # Click Edit button beside Temmate Name Display
         cy.get('#name_formatEdit').click();
@@ -50,7 +47,7 @@ describe('System Console', () => {
         cy.get('#name_formatFormatC').check();
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // * Assert the description under the Teammate Name Display title has changed to Show first and last name
         cy.get('#name_formatDesc').contains('Show first and last name').should('be.visible');
@@ -63,16 +60,13 @@ describe('System Console', () => {
         cy.findByTestId('TeamSettings.LockTeammateNameDisplaytrue').click();
 
         // # Click save button
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // # Go to main page
         cy.visit(townsquareUrl);
 
-        // # Go to Account settings
-        cy.toAccountSettingsModal();
-
-        // # Click Display on the left hand side
-        cy.get('#displayButton').click();
+        // # Go to Account Settings - Display
+        cy.uiOpenSettingsModal('Display');
 
         // * Assert the description under the Teammate Name Display title has changed to Show username
         cy.get('#name_formatDesc').contains('Show username').should('be.visible');
