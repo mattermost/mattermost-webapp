@@ -55,11 +55,8 @@ describe('Custom emojis', () => {
 
         const messageText = 'test message';
 
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -68,10 +65,10 @@ describe('Custom emojis', () => {
         cy.get('#name').type(customEmojiWithColons);
 
         // # Select emoji image
-        cy.get('input#select-emoji').attachFile(largeEmojiFile);
+        cy.get('input#select-emoji').attachFile(largeEmojiFile).wait(TIMEOUTS.THREE_SEC);
 
         // # Click on Save
-        cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
@@ -129,11 +126,8 @@ describe('Custom emojis', () => {
 
         const messageText = 'test message';
 
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -142,10 +136,10 @@ describe('Custom emojis', () => {
         cy.get('#name').type(customEmojiWithColons);
 
         // # Select emoji image
-        cy.get('input#select-emoji').attachFile(largeEmojiFile);
+        cy.get('input#select-emoji').attachFile(largeEmojiFile).wait(TIMEOUTS.THREE_SEC);
 
         // # Click on Save
-        cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
@@ -171,11 +165,8 @@ describe('Custom emojis', () => {
     it('MM-T2188 Custom emoji - delete emoji after using in post and reaction', () => {
         const {customEmoji, customEmojiWithColons} = getCustomEmoji();
 
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -184,10 +175,10 @@ describe('Custom emojis', () => {
         cy.get('#name').type(customEmojiWithColons);
 
         // # Select emoji image
-        cy.get('input#select-emoji').attachFile(largeEmojiFile);
+        cy.get('input#select-emoji').attachFile(largeEmojiFile).wait(TIMEOUTS.THREE_SEC);
 
         // # Click on Save
-        cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
@@ -195,11 +186,8 @@ describe('Custom emojis', () => {
         // # Post a message with the emoji
         cy.postMessage(customEmojiWithColons);
 
-        // * Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // * Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Select delete new emoji
         cy.findByRoleExtended('cell', {name: customEmojiWithColons}).scrollIntoView().should('be.visible').
@@ -212,7 +200,7 @@ describe('Custom emojis', () => {
         cy.reload();
 
         // * Show emoji list
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
         cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);

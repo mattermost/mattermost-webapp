@@ -85,7 +85,6 @@ type Props = {
     restrictDirectMessage?: string;
     onModalDismissed: () => void;
     onHide?: () => void;
-    bodyOnly?: boolean;
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
         getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
@@ -208,10 +207,6 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
-
-        if (this.props.bodyOnly) {
-            this.handleExit();
-        }
     }
 
     setUsersLoadingState = (loadingState: boolean) => {
@@ -510,7 +505,6 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     }
 
     render() {
-        const {bodyOnly} = this.props;
         const {values} = this.state;
 
         const buttonSubmitText = localizeMessage('multiselect.go', 'Go');
@@ -555,10 +549,6 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
             />
         );
-
-        if (bodyOnly) {
-            return body;
-        }
 
         return (
             <Modal

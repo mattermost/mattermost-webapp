@@ -17,7 +17,11 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 
 import {ModalIdentifiers} from 'utils/constants';
 
-const InviteMembersButton: React.FC = (): JSX.Element => {
+type Props = {
+    className?: string;
+}
+
+const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element => {
     const intl = useIntl();
 
     const currentTeamId = useSelector(getCurrentTeamId);
@@ -30,7 +34,7 @@ const InviteMembersButton: React.FC = (): JSX.Element => {
             <ToggleModalButtonRedux
                 accessibilityLabel={intl.formatMessage({id: 'sidebar_left.inviteUsers', defaultMessage: 'Invite Users'})}
                 id='introTextInvite'
-                className='intro-links color--link cursor--pointer'
+                className={`intro-links color--link cursor--pointer${props.className ? ` ${props.className}` : ''}`}
                 modalId={ModalIdentifiers.INVITATION}
                 dialogType={InvitationModal}
             >

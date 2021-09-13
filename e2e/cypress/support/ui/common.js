@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 Cypress.Commands.add('uiSave', () => {
-    return cy.findByRole('button', {name: 'Save'}).click();
+    return cy.findByRole('button', {name: 'Save'}).scrollIntoView().click();
 });
 
 Cypress.Commands.add('uiCancel', () => {
