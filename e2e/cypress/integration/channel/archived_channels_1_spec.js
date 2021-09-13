@@ -10,7 +10,6 @@
 // Stage: @prod
 // Group: @channel
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Leave an archived channel', () => {
@@ -29,8 +28,8 @@ describe('Leave an archived channel', () => {
 
             cy.visit(`/${team.name}/channels/town-square`);
 
-            // # Wait for the team to load
-            cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            // # Post a message to the channel
+            cy.postMessage('hello');
         });
     });
 

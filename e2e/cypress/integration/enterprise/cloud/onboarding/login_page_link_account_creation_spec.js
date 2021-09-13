@@ -92,7 +92,7 @@ describe('Onboarding', () => {
         cy.get('#loginButton').click();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
-        cy.get('#headerTeamName', {timeout: TIMEOUTS.HALF_MIN}).should('contain.text', testTeam.display_name);
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active').within(() => {
