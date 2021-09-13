@@ -108,14 +108,14 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
         helpText={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
-            id="admin.cluster.UseIpAddressDesc"
+            id="admin.cluster.UseIPAddressDesc"
           />
         }
-        id="UseIpAddress"
+        id="UseIPAddress"
         label={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Use IP Address:"
-            id="admin.cluster.UseIpAddress"
+            id="admin.cluster.UseIPAddress"
           />
         }
         onChange={[Function]}
@@ -381,14 +381,14 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
         helpText={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
-            id="admin.cluster.UseIpAddressDesc"
+            id="admin.cluster.UseIPAddressDesc"
           />
         }
-        id="UseIpAddress"
+        id="UseIPAddress"
         label={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Use IP Address:"
-            id="admin.cluster.UseIpAddress"
+            id="admin.cluster.UseIPAddress"
           />
         }
         onChange={[Function]}
@@ -654,14 +654,14 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         helpText={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
-            id="admin.cluster.UseIpAddressDesc"
+            id="admin.cluster.UseIPAddressDesc"
           />
         }
-        id="UseIpAddress"
+        id="UseIPAddress"
         label={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Use IP Address:"
-            id="admin.cluster.UseIpAddress"
+            id="admin.cluster.UseIPAddress"
           />
         }
         onChange={[Function]}
@@ -927,14 +927,14 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         helpText={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="When true, the cluster will attempt to communicate via IP Address vs using the hostname."
-            id="admin.cluster.UseIpAddressDesc"
+            id="admin.cluster.UseIPAddressDesc"
           />
         }
-        id="UseIpAddress"
+        id="UseIPAddress"
         label={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Use IP Address:"
-            id="admin.cluster.UseIpAddress"
+            id="admin.cluster.UseIPAddress"
           />
         }
         onChange={[Function]}

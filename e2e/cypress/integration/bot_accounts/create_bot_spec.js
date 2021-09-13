@@ -46,8 +46,7 @@ function createBot() {
     cy.apiInitSetup().then(({team}) => {
         // # go to bot integrations page
         cy.visit(`/${team.name}/channels/town-square`);
-        cy.get('#headerInfo').click();
-        cy.get('#integrations a').click();
+        cy.uiOpenProductSwitchMenu('Integrations');
         cy.get('a.integration-option[href$="/bots"]').click();
         cy.get('#addBotAccount').click();
 

@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .status-wrapper {
     position: relative;
@@ -64,6 +64,7 @@
         width: 15px;
         height: 15px;
         margin: 0;
+        background: var(--center-channel-bg);
         border-radius: 100px;
         line-height: 0;
         visibility: visible;
@@ -167,8 +168,6 @@
     i,
     path,
     ellipse {
-        @include opacity(0.5);
-
         &.online--icon,
         &.away--icon,
         &.dnd--icon {

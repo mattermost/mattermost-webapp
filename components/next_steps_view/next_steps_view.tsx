@@ -36,6 +36,7 @@ type Props = {
     steps: StepType[];
     team: Team;
     isCloud: boolean;
+    globalHeaderEnabled: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
@@ -348,6 +349,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
                         team={this.props.team}
                         isCloud={this.props.isCloud}
+                        globalHeaderEnabled={this.props.globalHeaderEnabled}
                     />
                 </>}
             </section>

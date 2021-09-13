@@ -8,8 +8,8 @@
   "dependencies": {
     "@formatjs/intl-pluralrules": "4.0.6",
     "@formatjs/intl-relativetimeformat": "6.2.3",
-    "@mattermost/compass-components": "0.2.9",
-    "@mattermost/compass-icons": "0.1.6",
+    "@mattermost/compass-components": "^0.2.12",
+    "@mattermost/compass-icons": "^0.1.10",
     "@stripe/react-stripe-js": "1.1.2",
     "@stripe/stripe-js": "1.9.0",
     "@types/country-list": "2.1.0",

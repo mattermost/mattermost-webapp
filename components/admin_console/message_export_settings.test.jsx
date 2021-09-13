@@ -79,8 +79,8 @@ describe('components/MessageExportSettings', () => {
                 BatchSize: 10000,
                 GlobalRelaySettings: {
                     CustomerType: 'A10',
-                    SmtpUsername: 'globalRelayUser',
-                    SmtpPassword: 'globalRelayPassword',
+                    SMTPUsername: 'globalRelayUser',
+                    SMTPPassword: 'globalRelayPassword',
                     EmailAddress: 'globalRelay@mattermost.com',
                 },
             },
@@ -99,8 +99,8 @@ describe('components/MessageExportSettings', () => {
 
         // globalrelay config fiels are disabled
         expect(wrapper.find('#globalRelayCustomerType').prop('disabled')).toBe(true);
-        expect(wrapper.find('#globalRelaySmtpUsername').prop('disabled')).toBe(true);
-        expect(wrapper.find('#globalRelaySmtpPassword').prop('disabled')).toBe(true);
+        expect(wrapper.find('#globalRelaySMTPUsername').prop('disabled')).toBe(true);
+        expect(wrapper.find('#globalRelaySMTPPassword').prop('disabled')).toBe(true);
         expect(wrapper.find('#globalRelayEmailAddress').prop('disabled')).toBe(true);
 
         // controls should reflect config
@@ -108,8 +108,8 @@ describe('components/MessageExportSettings', () => {
         expect(wrapper.find('#exportJobStartTime').prop('value')).toBe('01:00');
         expect(wrapper.find('#exportFormat').prop('value')).toBe('globalrelay');
         expect(wrapper.find('#globalRelayCustomerType').prop('value')).toBe('A10');
-        expect(wrapper.find('#globalRelaySmtpUsername').prop('value')).toBe('globalRelayUser');
-        expect(wrapper.find('#globalRelaySmtpPassword').prop('value')).toBe('globalRelayPassword');
+        expect(wrapper.find('#globalRelaySMTPUsername').prop('value')).toBe('globalRelayUser');
+        expect(wrapper.find('#globalRelaySMTPPassword').prop('value')).toBe('globalRelayPassword');
         expect(wrapper.find('#globalRelayEmailAddress').prop('value')).toBe('globalRelay@mattermost.com');
     });
 
@@ -123,8 +123,8 @@ describe('components/MessageExportSettings', () => {
                 BatchSize: 10000,
                 GlobalRelaySettings: {
                     CustomerType: 'A10',
-                    SmtpUsername: 'globalRelayUser',
-                    SmtpPassword: 'globalRelayPassword',
+                    SMTPUsername: 'globalRelayUser',
+                    SMTPPassword: 'globalRelayPassword',
                     EmailAddress: 'globalRelay@mattermost.com',
                 },
             },
@@ -143,8 +143,8 @@ describe('components/MessageExportSettings', () => {
 
         // globalrelay config fiels are enabled
         expect(wrapper.find('#globalRelayCustomerType').prop('disabled')).toBe(false);
-        expect(wrapper.find('#globalRelaySmtpUsername').prop('disabled')).toBe(false);
-        expect(wrapper.find('#globalRelaySmtpPassword').prop('disabled')).toBe(false);
+        expect(wrapper.find('#globalRelaySMTPUsername').prop('disabled')).toBe(false);
+        expect(wrapper.find('#globalRelaySMTPPassword').prop('disabled')).toBe(false);
         expect(wrapper.find('#globalRelayEmailAddress').prop('disabled')).toBe(false);
 
         // controls should reflect config
@@ -152,8 +152,8 @@ describe('components/MessageExportSettings', () => {
         expect(wrapper.find('#exportJobStartTime').prop('value')).toBe('01:00');
         expect(wrapper.find('#exportFormat').prop('value')).toBe('globalrelay');
         expect(wrapper.find('#globalRelayCustomerType').prop('value')).toBe('A10');
-        expect(wrapper.find('#globalRelaySmtpUsername').prop('value')).toBe('globalRelayUser');
-        expect(wrapper.find('#globalRelaySmtpPassword').prop('value')).toBe('globalRelayPassword');
+        expect(wrapper.find('#globalRelaySMTPUsername').prop('value')).toBe('globalRelayUser');
+        expect(wrapper.find('#globalRelaySMTPPassword').prop('value')).toBe('globalRelayPassword');
         expect(wrapper.find('#globalRelayEmailAddress').prop('value')).toBe('globalRelay@mattermost.com');
     });
 });

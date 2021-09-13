@@ -51,6 +51,7 @@ type Props = {
     isFirstAdmin: boolean;
     team: Team;
     isCloud: boolean;
+    globalHeaderEnabled: boolean;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     setShowNextStepsView: (show: boolean) => void;
@@ -81,6 +82,7 @@ export default function NextStepsTips(props: Props) {
                 'sidebar_next_steps.tipsAndNextSteps',
                 'Tips & Next Steps',
             ),
+            globalHeaderEnabled: props.globalHeaderEnabled,
             onConfirm: () => {
                 props.savePreferences(props.currentUserId, [
                     {

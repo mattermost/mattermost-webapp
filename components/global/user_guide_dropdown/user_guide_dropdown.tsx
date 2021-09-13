@@ -11,6 +11,7 @@ import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import {toggleShortcutsModal} from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions';
+import * as Utils from 'utils/utils';
 
 const askTheCommunityUrl = 'https://mattermost.com/pl/default-ask-mattermost-community/';
 
@@ -19,6 +20,11 @@ type Props = {
     helpLink: string;
     reportAProblemLink: string;
     enableAskCommunityLink: string;
+    showGettingStarted: boolean;
+    showNextStepsTips: boolean;
+    actions: {
+        unhideNextSteps: () => void;
+    };
 };
 
 type State = {
@@ -49,7 +55,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
     }
 
     renderDropdownItems = (): React.ReactNode => {
-        const {intl} = this.props;
+        const {intl, showGettingStarted, showNextStepsTips} = this.props;
 
         return (
             <Menu.Group>
@@ -65,6 +71,13 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     id='helpResourcesLink'
                     url={this.props.helpLink}
                     text={intl.formatMessage({id: 'userGuideHelp.helpResources', defaultMessage: 'Help resources'})}
+                />
+                <Menu.ItemAction
+                    id='gettingStarted'
+                    show={showGettingStarted}
+                    onClick={() => this.props.actions.unhideNextSteps()}
+                    text={intl.formatMessage({id: showNextStepsTips ? 'sidebar_next_steps.tipsAndNextSteps' : 'navbar_dropdown.gettingStarted', defaultMessage: showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
+                    icon={Utils.isMobile() && <i className={`icon ${showNextStepsTips ? 'icon-lightbulb-outline' : 'icon-play'}`}/>}
                 />
                 <Menu.ItemExternalLink
                     id='reportAProblemLink'
@@ -96,6 +109,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
 
         return (
             <MenuWrapper
+                id='helpMenuPortal'
                 className='userGuideHelp'
                 onToggle={this.buttonToggleState}
             >

@@ -176,6 +176,7 @@ export const ActionTypes = keyMirror({
     MODAL_CLOSE: null,
 
     SELECT_CHANNEL_WITH_MEMBER: null,
+    SET_LAST_UNREAD_CHANNEL: null,
     UPDATE_CHANNEL_LAST_VIEWED_AT: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
@@ -302,6 +303,7 @@ export const ModalIdentifiers = {
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
+    START_TRIAL_MODAL: 'start_trial_modal',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',

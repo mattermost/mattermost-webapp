@@ -107,21 +107,9 @@ describe('Channel sidebar - group unreads separately', () => {
     });
 });
 
-function navigateToSidebarSettings() {
-    cy.get('#channel_view').should('be.visible');
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#accountSettings').should('be.visible').click();
-    cy.get('#accountSettingsModal').should('be.visible');
-
-    cy.get('#sidebarButton').should('be.visible');
-    cy.get('#sidebarButton').click();
-
-    cy.get('#sidebarLi.active').should('be.visible');
-    cy.get('#sidebarTitle > .tab-header').should('have.text', 'Sidebar Settings');
-}
-
 function toggleOnOrOffUnreadsCategory(toggleOn = true) {
-    navigateToSidebarSettings();
+    // # Go to Sidebar Settings
+    cy.uiOpenSettingsModal('Sidebar');
 
     cy.get('#showUnreadsCategoryEdit').click();
 
@@ -135,11 +123,12 @@ function toggleOnOrOffUnreadsCategory(toggleOn = true) {
 function enableOrDisableUnreadsCategory(enable = true) {
     toggleOnOrOffUnreadsCategory(enable);
 
-    cy.get('#saveSetting').click();
+    cy.uiSave();
     if (enable) {
         cy.get('#showUnreadsCategoryDesc').should('have.text', 'On');
     } else {
         cy.get('#showUnreadsCategoryDesc').should('have.text', 'Off');
     }
-    cy.get('#accountSettingsHeader > .close').click();
+
+    cy.uiClose();
 }

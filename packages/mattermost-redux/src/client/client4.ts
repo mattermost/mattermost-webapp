@@ -6,7 +6,7 @@ import {SystemSetting} from 'mattermost-redux/types/general';
 import {General} from '../constants';
 
 import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
-import type {AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import type {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
 import {Bot, BotPatch} from 'mattermost-redux/types/bots';
@@ -24,6 +24,7 @@ import {
     ChannelViewResponse,
     ChannelWithTeamData,
     ChannelSearchOpts,
+    ServerChannel,
 } from 'mattermost-redux/types/channels';
 import {Options, StatusOK, ClientResponse} from 'mattermost-redux/types/client4';
 import {Compliance} from 'mattermost-redux/types/compliance';
@@ -115,7 +116,6 @@ import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
-import fetch from './fetch_etag';
 import {TelemetryHandler} from './telemetry';
 
 const FormData = require('form-data');
@@ -1486,7 +1486,7 @@ export default class Client4 {
     createChannel = (channel: Channel) => {
         this.trackEvent('api', 'api_channels_create', {team_id: channel.team_id});
 
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getChannelsRoute()}`,
             {method: 'post', body: JSON.stringify(channel)},
         );
@@ -1495,7 +1495,7 @@ export default class Client4 {
     createDirectChannel = (userIds: string[]) => {
         this.trackEvent('api', 'api_channels_create_direct');
 
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getChannelsRoute()}/direct`,
             {method: 'post', body: JSON.stringify(userIds)},
         );
@@ -1504,7 +1504,7 @@ export default class Client4 {
     createGroupChannel = (userIds: string[]) => {
         this.trackEvent('api', 'api_channels_create_group');
 
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getChannelsRoute()}/group`,
             {method: 'post', body: JSON.stringify(userIds)},
         );
@@ -1522,7 +1522,7 @@ export default class Client4 {
     unarchiveChannel = (channelId: string) => {
         this.trackEvent('api', 'api_channels_unarchive', {channel_id: channelId});
 
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getChannelRoute(channelId)}/restore`,
             {method: 'post'},
         );
@@ -1531,7 +1531,7 @@ export default class Client4 {
     updateChannel = (channel: Channel) => {
         this.trackEvent('api', 'api_channels_update', {channel_id: channel.id});
 
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getChannelRoute(channel.id)}`,
             {method: 'put', body: JSON.stringify(channel)},
         );
@@ -1540,7 +1540,7 @@ export default class Client4 {
     updateChannelPrivacy = (channelId: string, privacy: any) => {
         this.trackEvent('api', 'api_channels_update_privacy', {channel_id: channelId, privacy});
 
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getChannelRoute(channelId)}/privacy`,
             {method: 'put', body: JSON.stringify({privacy})},
         );
@@ -1549,7 +1549,7 @@ export default class Client4 {
     patchChannel = (channelId: string, channelPatch: Partial<Channel>) => {
         this.trackEvent('api', 'api_channels_patch', {channel_id: channelId});
 
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getChannelRoute(channelId)}/patch`,
             {method: 'put', body: JSON.stringify(channelPatch)},
         );
@@ -1578,14 +1578,14 @@ export default class Client4 {
     getChannel = (channelId: string) => {
         this.trackEvent('api', 'api_channel_get', {channel_id: channelId});
 
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getChannelRoute(channelId)}`,
             {method: 'get'},
         );
     };
 
     getChannelByName = (teamId: string, channelName: string, includeDeleted = false) => {
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getTeamRoute(teamId)}/channels/name/${channelName}?include_deleted=${includeDeleted}`,
             {method: 'get'},
         );
@@ -1594,28 +1594,28 @@ export default class Client4 {
     getChannelByNameAndTeamName = (teamName: string, channelName: string, includeDeleted = false) => {
         this.trackEvent('api', 'api_channel_get_by_name_and_teamName', {include_deleted: includeDeleted});
 
-        return this.doFetch<Channel>(
+        return this.doFetch<ServerChannel>(
             `${this.getTeamNameRoute(teamName)}/channels/name/${channelName}?include_deleted=${includeDeleted}`,
             {method: 'get'},
         );
     };
 
     getChannels = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
-        return this.doFetch<Channel[]>(
+        return this.doFetch<ServerChannel[]>(
             `${this.getTeamRoute(teamId)}/channels${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
 
     getArchivedChannels = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
-        return this.doFetch<Channel[]>(
+        return this.doFetch<ServerChannel[]>(
             `${this.getTeamRoute(teamId)}/channels/deleted${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
 
     getMyChannels = (teamId: string, includeDeleted = false) => {
-        return this.doFetch<Channel[]>(
+        return this.doFetch<ServerChannel[]>(
             `${this.getUserRoute('me')}/teams/${teamId}/channels${buildQueryString({include_deleted: includeDeleted})}`,
             {method: 'get'},
         );
@@ -1940,7 +1940,7 @@ export default class Client4 {
         {
             before = '',
             after = '',
-            pageSize = PER_PAGE_DEFAULT,
+            perPage = PER_PAGE_DEFAULT,
             extended = false,
             deleted = false,
             unread = false,
@@ -1948,7 +1948,7 @@ export default class Client4 {
         },
     ) => {
         return this.doFetch<UserThreadList>(
-            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, pageSize, extended, deleted, unread, since})}`,
+            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since})}`,
             {method: 'get'},
         );
     };
@@ -3417,7 +3417,7 @@ export default class Client4 {
             user_agent: 'webapp',
         };
 
-        return this.doFetch(
+        return this.doFetch<AppBinding[]>(
             `${this.getAppsProxyRoute()}/api/v1/bindings${buildQueryString(params)}`,
             {method: 'get'},
         );

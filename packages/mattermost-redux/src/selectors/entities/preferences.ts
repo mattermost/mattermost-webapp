@@ -7,6 +7,7 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
+import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Theme} from 'mattermost-redux/types/themes';
@@ -204,10 +205,10 @@ export function isTimedDNDEnabled(state: GlobalState): boolean {
     );
 }
 
-export function getInviteMembersButtonLocation(state: GlobalState): string | undefined {
-    return getFeatureFlagValue(state, 'InviteMembersButton');
-}
-
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
+}
+
+export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButtonTreatments | undefined {
+    return getFeatureFlagValue(state, 'AddChannelButton') as AddChannelButtonTreatments | undefined;
 }
