@@ -444,6 +444,7 @@ class setNotificationSchedule extends React.PureComponent {
                     name: 'Saturday',
                 },
             ];
+            const EnableDayInfo = !this.state.sunEnable && !this.state.monEnable && !this.state.tueEnable && !this.state.wedEnable && !this.state.thuEnable && !this.state.friEnable && !this.state.satEnable;
             return (
                 <div className='ns-item'>
                     <SettingItemMax
@@ -969,6 +970,41 @@ class setNotificationSchedule extends React.PureComponent {
                                                             />
                                                         </div>
                                                     </div>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {(EnableDayInfo !== true) && this.state.sunEnable === false ? (
+                                                    <div className='disabled'/>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {(EnableDayInfo !== true) && this.state.monEnable === false ? (
+                                                    <div className='disabled'/>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {(EnableDayInfo !== true) && this.state.tueEnable === false ? (
+                                                    <div className='disabled'/>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {(EnableDayInfo !== true) && this.state.wedEnable === false ? (
+                                                    <div className='disabled'/>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {(EnableDayInfo !== true) && this.state.thuEnable === false ? (
+                                                    <div className='disabled'/>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {(EnableDayInfo !== true) && this.state.friEnable === false ? (
+                                                    <div className='disabled'/>
+                                                ) : (
+                                                    <div/>
+                                                )}
+                                                {(EnableDayInfo !== true) && this.state.satEnable === false ? (
+                                                    <div className='disabled'/>
                                                 ) : (
                                                     <div/>
                                                 )}
