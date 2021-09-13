@@ -286,7 +286,7 @@ class JobTable extends React.PureComponent {
             );
         }
 
-        const date = new Date(new Date(millis).toUTCString().substr(0, 25))
+        const date = new Date(new Date(millis).toUTCString().substr(0, 25));
 
         return (
             <span className='whitespace--nowrap'>
