@@ -3802,6 +3802,7 @@
   "no_results.mentions.title": "Bisher keine Erwähnungen",
   "no_results.pinned_posts.subtitle": "Heften Sie wichtige Nachrichten an, die für den gesamten Kanal sichtbar sind. Öffnen Sie das Kontextmenü auf einer Nachricht und wählen Sie {text}, um sie hier zu speichern.",
   "no_results.pinned_posts.title": "Noch keine angehefteten Beiträge",
+  "notification.crt": "Antwort in {title}",
   "notification.dm": "Direktnachricht",
   "notify_all.confirm": "Bestätigen",
   "notify_all.question": "Durch die Verwendung von @all oder @channel werden Sie Benachrichtigungen an {totalMembers} Personen senden. Sind Sie sicher, dass Sie dies tun wollen?",
