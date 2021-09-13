@@ -5,6 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
+import ActionsMenu from 'components/actions_menu';
+
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -130,6 +132,7 @@ type Props = {
 type State = {
     showEmojiPicker: boolean;
     showDotMenu: boolean;
+    showActionsMenu: boolean;
     showOptionsMenuWithoutHover: boolean;
 };
 
@@ -144,6 +147,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             showEmojiPicker: false,
             showOptionsMenuWithoutHover: false,
             showDotMenu: false,
+            showActionsMenu: false,
         };
 
         this.postHeaderRef = React.createRef();
@@ -184,6 +188,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
+    handleActionsMenuOpened = (open: boolean) => {
+        this.setState({showActionsMenu: open});
+        this.props.handleDropdownOpened(open);
+    };
+
     getDotMenu = (): HTMLDivElement => {
         return this.dotMenuRef.current as HTMLDivElement;
     };
@@ -194,6 +203,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         const {isMobile, isReadOnly, collapsedThreadsEnabled} = this.props;
+        console.log('this.state', this.state);
         const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
@@ -242,6 +252,18 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        let actionsMenu;
+        const showActionsMenuIcon = isMobile || hover;
+        if (showActionsMenuIcon) {
+            actionsMenu = (
+                <ActionsMenu
+                    post={post}
+                    handleDropdownOpened={this.handleActionsMenuOpened}
+                    isMenuOpen={this.state.showDotMenu}
+                />
+            );
+        }
+
         const showFlagIcon = !isSystemMessage && !isMobile && (hover || this.props.isFlagged);
         let postFlagIcon;
         if (showFlagIcon) {
@@ -259,10 +281,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 data-testid={`post-menu-${post.id}`}
                 className={'col post-menu'}
             >
-                {!collapsedThreadsEnabled && dotMenu}
                 {postReaction}
                 {postFlagIcon}
+                {actionsMenu}
                 {commentIcon}
+                {!collapsedThreadsEnabled && dotMenu}
                 {collapsedThreadsEnabled && dotMenu}
             </div>
         );

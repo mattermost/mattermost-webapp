@@ -25,7 +25,6 @@ import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 
 const MENU_BOTTOM_MARGIN = 80;
 
-export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
     intl: IntlShape;
     post: Post;
