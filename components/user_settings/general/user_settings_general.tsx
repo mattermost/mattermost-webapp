@@ -45,7 +45,7 @@ const holders = defineMessages({
     },
     validImage: {
         id: t('user.settings.general.validImage'),
-        defaultMessage: 'Only BMP, JPG or PNG images may be used for profile pictures',
+        defaultMessage: 'Only BMP, JPG, JPEG, or PNG images may be used for profile pictures',
     },
     imageTooLarge: {
         id: t('user.settings.general.imageTooLarge'),
@@ -1260,7 +1260,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 helpText = (
                     <FormattedMessage
                         id={'setting_picture.help.profile'}
-                        defaultMessage='Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}'
+                        defaultMessage='Upload a picture in BMP, JPG, JPEG, or PNG format. Maximum file size: {max}'
                         values={{max: Utils.fileSizeToString(this.props.maxFileSize)}}
                     />
                 );
@@ -1352,8 +1352,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                             </FormattedMessage>
                         </div>
                         <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
+                            id='user.settings.modal.profile'
+                            defaultMessage='Profile'
                         />
                     </h4>
                 </div>
@@ -1363,8 +1363,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         className='tab-header'
                     >
                         <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
+                            id='user.settings.modal.profile'
+                            defaultMessage='Profile'
                         />
                     </h3>
                     <div className='divider-dark first'/>

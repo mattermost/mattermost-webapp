@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {createSelector} from 'reselect';
 
 import {
@@ -31,6 +32,7 @@ import Items from './channel_header_dropdown_items';
 import Mobile from './mobile_channel_header_dropdown';
 
 const getTeammateId = createSelector(
+    'getTeammateId',
     getCurrentChannel,
     getCurrentUserId,
     (channel, currentUserId) => {
@@ -43,6 +45,7 @@ const getTeammateId = createSelector(
 );
 
 const getTeammateStatus = createSelector(
+    'getTeammateStatus',
     getUserStatuses,
     getTeammateId,
     (userStatuses, teammateId) => {

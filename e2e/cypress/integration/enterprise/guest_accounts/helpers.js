@@ -15,9 +15,8 @@ export function changeGuestFeatureSettings(featureFlag = true, emailInvitation =
 }
 
 export function invitePeople(typeText, resultsCount, verifyText, channelName = 'Town Square', clickInvite = true) {
-    // # Open Invite People
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#invitePeople').should('be.visible').click();
+    // # Open team menu and click 'Invite People'
+    cy.uiOpenTeamMenu('Invite People');
 
     // # Click on the next icon to invite guest
     cy.findByTestId('inviteGuestLink').find('.arrow').click();
@@ -87,4 +86,10 @@ export function verifyInvitationSuccess(user, team, successText, verifyGuestBadg
 
     // * Verify if Invitation Modal was closed
     cy.get('.InvitationModal').should('not.exist');
+}
+
+export function verifyGuest(userStatus = 'Guest ') {
+    // * Verify if Guest User is displayed
+    cy.findAllByTestId('userListRow').should('have.length', 1);
+    cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').and('have.text', userStatus);
 }

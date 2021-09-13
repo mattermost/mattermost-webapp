@@ -27,10 +27,12 @@ export default class AtMentionSuggestion extends Suggestion {
         if (item.username === 'all') {
             itemname = 'all';
             description = (
-                <FormattedMessage
-                    id='suggestion.mention.all'
-                    defaultMessage='Notifies everyone in this channel'
-                />
+                <span className='ml-2'>
+                    <FormattedMessage
+                        id='suggestion.mention.all'
+                        defaultMessage='Notifies everyone in this channel'
+                    />
+                </span>
             );
             icon = (
                 <FormattedMessage
@@ -50,10 +52,12 @@ export default class AtMentionSuggestion extends Suggestion {
         } else if (item.username === 'channel') {
             itemname = 'channel';
             description = (
-                <FormattedMessage
-                    id='suggestion.mention.channel'
-                    defaultMessage='Notifies everyone in this channel'
-                />
+                <span className='ml-2'>
+                    <FormattedMessage
+                        id='suggestion.mention.channel'
+                        defaultMessage='Notifies everyone in this channel'
+                    />
+                </span>
             );
             icon = (
                 <FormattedMessage
@@ -73,10 +77,12 @@ export default class AtMentionSuggestion extends Suggestion {
         } else if (item.username === 'here') {
             itemname = 'here';
             description = (
-                <FormattedMessage
-                    id='suggestion.mention.here'
-                    defaultMessage='Notifies everyone online in this channel'
-                />
+                <span className='ml-2'>
+                    <FormattedMessage
+                        id='suggestion.mention.here'
+                        defaultMessage='Notifies everyone online in this channel'
+                    />
+                </span>
             );
             icon = (
                 <FormattedMessage
@@ -103,7 +109,7 @@ export default class AtMentionSuggestion extends Suggestion {
                 >
                     {(title) => (
                         <i
-                            className='mention__image fa fa-users fa-2x'
+                            className='suggestion-list__icon fa fa-users fa-2x'
                             title={title}
                         />
                     )}
@@ -115,14 +121,14 @@ export default class AtMentionSuggestion extends Suggestion {
             if (item.isCurrentUser) {
                 if (item.first_name || item.last_name) {
                     description = (
-                        <span className='light ml-2'>
+                        <span className='ml-2'>
                             {Utils.getFullName(item)}
                         </span>
                     );
                 }
             } else if (item.first_name || item.last_name || item.nickname) {
                 description = (
-                    <span className='light ml-2'>
+                    <span className='ml-2'>
                         {`${Utils.getFullName(item)} ${
                             item.nickname ? `(${item.nickname})` : ''
                         }`.trim()}
@@ -153,7 +159,7 @@ export default class AtMentionSuggestion extends Suggestion {
         let youElement = null;
         if (item.isCurrentUser) {
             youElement =
-            (<span className='light ml-1'>
+            (<span className='ml-1'>
                 <FormattedMessage
                     id='suggestion.user.isCurrent'
                     defaultMessage='(you)'
@@ -161,7 +167,7 @@ export default class AtMentionSuggestion extends Suggestion {
             </span>);
         }
 
-        let className = 'mentions__name';
+        let className = 'suggestion-list__item';
         if (isSelection) {
             className += ' suggestion--selected';
         }
@@ -185,8 +191,8 @@ export default class AtMentionSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span>
-                    <span className='mention--align'>
+                <span className='suggestion-list__ellipsis'>
+                    <span className='suggestion-list__main'>
                         {'@' + itemname}
                     </span>
                     <BotBadge

@@ -7,4 +7,31 @@
         position: initial !important;
         text-align: left !important;
     }
+
+    .new-separator {
+        .NotificationSeparator {
+            padding-top: 0;
+        }
+
+        & + .post {
+            padding-top: 1em !important;
+        }
+    }
+
+    .post-right-comments-container > .new-separator,
+    .post + .new-separator {
+        .NotificationSeparator {
+            padding-top: 1em;
+        }
+    }
+
+    .Separator + .new-separator {
+        .NotificationSeparator {
+            padding-top: 2em;
+        }
+    }
+
+    > div {
+        flex: 1 1 auto;
+    }
 }

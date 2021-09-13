@@ -29,7 +29,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
               "IsLicensed": "true",
               "IssuedAt": "1517714643650",
               "Name": "LicenseName",
-              "SkuShortName": "SkuName",
+              "SkuShortName": "E20",
               "StartsAt": "1517714643650",
               "Users": "100",
             }
@@ -42,7 +42,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -52,7 +52,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           >
             <div>
               <p>
-                Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.
+                Mattermost Starter Edition. A license is required to unlock enterprise features.
               </p>
               <div>
                 <p>
@@ -71,7 +71,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
                       loading={false}
                       text="Restarting"
                     >
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="Restart Server"
                         id="admin.license.enterprise.restart"
                       />
@@ -88,7 +88,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -115,7 +115,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -174,7 +174,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
               "IsLicensed": "true",
               "IssuedAt": "1517714643650",
               "Name": "LicenseName",
-              "SkuShortName": "SkuName",
+              "SkuShortName": "E20",
               "StartsAt": "1517714643650",
               "Users": "100",
             }
@@ -187,7 +187,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -197,7 +197,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           >
             <div>
               <p>
-                Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.
+                Mattermost Starter Edition. A license is required to unlock enterprise features.
               </p>
               <div>
                 <p>
@@ -209,7 +209,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
                     <LoadingWrapper
                       loading={true}
                       text={
-                        <FormattedMessage
+                        <Memo(MemoizedFormattedMessage)
                           defaultMessage="Upgrading {percentage}%"
                           id="admin.license.enterprise.upgrading"
                           values={
@@ -220,7 +220,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
                         />
                       }
                     >
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="Upgrade to Enterprise Edition"
                         id="admin.license.enterprise.upgrade"
                       />
@@ -245,7 +245,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -272,7 +272,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -302,7 +302,161 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
 </div>
 `;
 
-exports[`components/admin_console/license_settings/LicenseSettings should match snapshot enterprise build with license 1`] = `
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot after starting trial and removing license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              Mattermost Enterprise Edition. A license is required to unlock enterprise features.
+              <p
+                className="trial"
+              >
+                <button
+                  className="btn btn-primary"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <LoadingWrapper
+                    loading={false}
+                    text="Getting trial"
+                  >
+                    <MemoizedFormattedMessage
+                      defaultMessage="Start trial"
+                      id="admin.license.trial-request.submit"
+                    />
+                  </LoadingWrapper>
+                </button>
+              </p>
+              <p
+                className="trial-legal-terms"
+              >
+                <injectIntl(FormattedMarkdownMessage)
+                  defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+                  id="admin.license.trial-request.accept-terms"
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                type="button"
+              >
+                <MemoizedFormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.license.choose"
+                />
+              </button>
+              <input
+                accept=".mattermost-license"
+                disabled={false}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              id="upload-button"
+              onClick={[Function]}
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Upload"
+                id="admin.license.upload"
+              />
+            </button>
+            <div
+              className="help-text m-0"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="No file uploaded"
+                id="admin.license.noFile"
+              />
+            </div>
+            <br />
+            <p
+              className="help-text m-0"
+            >
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key."
+                id="admin.license.uploadDesc"
+              />
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot enterprise build with E10 license 1`] = `
 <div
   className="wrapper--fixed"
 >
@@ -331,7 +485,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               "IsLicensed": "true",
               "IssuedAt": "1517714643650",
               "Name": "LicenseName",
-              "SkuShortName": "SkuName",
+              "SkuShortName": "E10",
               "StartsAt": "1517714643650",
               "Users": "100",
             }
@@ -344,7 +498,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -352,7 +506,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <div
             className="col-sm-8"
           >
-            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.
+            Mattermost Professional Edition. Enterprise features on this server have been unlocked with a license key.
           </div>
         </div>
         <div
@@ -361,7 +515,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -381,7 +535,7 @@ Your subscription details are as follows:
               <br />
               Company or organization name: Mattermost Inc.
               <br />
-              Edition: Mattermost Enterprise Edition SkuName
+              Edition: Mattermost Enterprise Edition E10
               <br />
               Number of users: 100
               <br />
@@ -431,7 +585,7 @@ Your subscription details are as follows:
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -447,8 +601,338 @@ Your subscription details are as follows:
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
-                defaultMessage="Remove Enterprise License and Downgrade Server"
+              <MemoizedFormattedMessage
+                defaultMessage="Remove License and Downgrade Server"
+                id="admin.license.keyRemove"
+              />
+            </button>
+            <br />
+            <br />
+            <p
+              className="help-text"
+            >
+              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot enterprise build with E20 license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <RenewLicenseCard
+          isDisabled={false}
+          isLicenseExpired={false}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": "1620335443650",
+              "IsLicensed": "true",
+              "IssuedAt": "1517714643650",
+              "Name": "LicenseName",
+              "SkuShortName": "E20",
+              "StartsAt": "1517714643650",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+
+Your subscription details are as follows:
+              </p>
+              Name: LicenseName
+              <br />
+              Company or organization name: Mattermost Inc.
+              <br />
+              Edition: Mattermost Enterprise Edition E20
+              <br />
+              Number of users: 100
+              <br />
+              License issued: 
+              <FormattedDate
+                value={2018-02-04T03:24:03.650Z}
+              />
+               
+              <FormattedTime
+                value={2018-02-04T03:24:03.650Z}
+              />
+              <br />
+              Start date of license: 
+              <FormattedDate
+                value={2018-02-04T03:24:03.650Z}
+              />
+              <br />
+              Expiry date of license: 
+              <FormattedDate
+                value={2021-05-06T21:10:43.650Z}
+              />
+              <br />
+              <br />
+              See also 
+              <a
+                href="https://about.mattermost.com/enterprise-edition-terms/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Enterprise Edition Terms of Service
+              </a>
+               and 
+              <a
+                data-testid="privacyPolicyLink"
+                href="https://about.mattermost.com/default-privacy-policy/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Privacy Policy.
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <button
+              className="btn btn-danger"
+              data-testid="remove-button"
+              disabled={false}
+              id="remove-button"
+              onClick={[Function]}
+              type="button"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Remove License and Downgrade Server"
+                id="admin.license.keyRemove"
+              />
+            </button>
+            <br />
+            <br />
+            <p
+              className="help-text"
+            >
+              If you migrate servers you may need to remove your license key to install it elsewhere. You can remove the key here, which will revert functionality to that of Team Edition.
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot enterprise build with license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <RenewLicenseCard
+          isDisabled={false}
+          isLicenseExpired={false}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": "1620335443650",
+              "IsLicensed": "true",
+              "IssuedAt": "1517714643650",
+              "Name": "LicenseName",
+              "SkuShortName": "E20",
+              "StartsAt": "1517714643650",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              <p>
+                This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+
+Your subscription details are as follows:
+              </p>
+              Name: LicenseName
+              <br />
+              Company or organization name: Mattermost Inc.
+              <br />
+              Edition: Mattermost Enterprise Edition E20
+              <br />
+              Number of users: 100
+              <br />
+              License issued: 
+              <FormattedDate
+                value={2018-02-04T03:24:03.650Z}
+              />
+               
+              <FormattedTime
+                value={2018-02-04T03:24:03.650Z}
+              />
+              <br />
+              Start date of license: 
+              <FormattedDate
+                value={2018-02-04T03:24:03.650Z}
+              />
+              <br />
+              Expiry date of license: 
+              <FormattedDate
+                value={2021-05-06T21:10:43.650Z}
+              />
+              <br />
+              <br />
+              See also 
+              <a
+                href="https://about.mattermost.com/enterprise-edition-terms/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Enterprise Edition Terms of Service
+              </a>
+               and 
+              <a
+                data-testid="privacyPolicyLink"
+                href="https://about.mattermost.com/default-privacy-policy/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Privacy Policy.
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <button
+              className="btn btn-danger"
+              data-testid="remove-button"
+              disabled={false}
+              id="remove-button"
+              onClick={[Function]}
+              type="button"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Remove License and Downgrade Server"
                 id="admin.license.keyRemove"
               />
             </button>
@@ -496,7 +980,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               "IsLicensed": "true",
               "IssuedAt": "1517714643650",
               "Name": "LicenseName",
-              "SkuShortName": "SkuName",
+              "SkuShortName": "E20",
               "StartsAt": "1517714643650",
               "Users": "100",
             }
@@ -509,7 +993,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -517,7 +1001,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <div
             className="col-sm-8"
           >
-            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.
+            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
           </div>
         </div>
         <div
@@ -526,7 +1010,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -546,7 +1030,7 @@ Your subscription details are as follows:
               <br />
               Company or organization name: Mattermost Inc.
               <br />
-              Edition: Mattermost Enterprise Edition SkuName
+              Edition: Mattermost Enterprise Edition E20
               <br />
               Number of users: 100
               <br />
@@ -596,7 +1080,7 @@ Your subscription details are as follows:
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -612,8 +1096,8 @@ Your subscription details are as follows:
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
-                defaultMessage="Remove Enterprise License and Downgrade Server"
+              <MemoizedFormattedMessage
+                defaultMessage="Remove License and Downgrade Server"
                 id="admin.license.keyRemove"
               />
             </button>
@@ -661,7 +1145,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               "IsLicensed": "true",
               "IssuedAt": "1517714643650",
               "Name": "LicenseName",
-              "SkuShortName": "SkuName",
+              "SkuShortName": "E20",
               "StartsAt": "1517714643650",
               "Users": "100",
             }
@@ -674,7 +1158,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -682,7 +1166,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <div
             className="col-sm-8"
           >
-            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.
+            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key.
           </div>
         </div>
         <div
@@ -691,7 +1175,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -715,7 +1199,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               <br />
               Company or organization name: Mattermost Inc.
               <br />
-              Edition: Mattermost Enterprise Edition SkuName
+              Edition: Mattermost Enterprise Edition E20
               <br />
               Number of users: 100
               <br />
@@ -765,7 +1249,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -781,8 +1265,8 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
-                defaultMessage="Remove Enterprise License and Downgrade Server"
+              <MemoizedFormattedMessage
+                defaultMessage="Remove License and Downgrade Server"
                 id="admin.license.keyRemove"
               />
             </button>
@@ -801,7 +1285,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -866,7 +1350,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -874,7 +1358,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <div
             className="col-sm-8"
           >
-            Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.
+            Mattermost Professional Edition. Enterprise features on this server have been unlocked with a license key.
           </div>
         </div>
         <div
@@ -883,7 +1367,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -951,7 +1435,7 @@ Your subscription details are as follows:
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -967,8 +1451,8 @@ Your subscription details are as follows:
               onClick={[Function]}
               type="button"
             >
-              <FormattedMessage
-                defaultMessage="Remove Enterprise License and Downgrade Server"
+              <MemoizedFormattedMessage
+                defaultMessage="Remove License and Downgrade Server"
                 id="admin.license.keyRemove"
               />
             </button>
@@ -1012,7 +1496,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1035,7 +1519,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     loading={false}
                     text="Getting trial"
                   >
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                     />
@@ -1059,7 +1543,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1078,7 +1562,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -1093,7 +1577,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
                 className="btn btn-primary"
                 type="button"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Choose File"
                   id="admin.license.choose"
                 />
@@ -1111,7 +1595,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
               id="upload-button"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload"
                 id="admin.license.upload"
               />
@@ -1119,7 +1603,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
             <div
               className="help-text m-0"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="No file uploaded"
                 id="admin.license.noFile"
               />
@@ -1166,7 +1650,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1189,7 +1673,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     loading={false}
                     text="Getting trial"
                   >
-                    <FormattedMessage
+                    <MemoizedFormattedMessage
                       defaultMessage="Start trial"
                       id="admin.license.trial-request.submit"
                     />
@@ -1213,7 +1697,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1237,7 +1721,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License Key: "
               id="admin.license.key"
             />
@@ -1252,7 +1736,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 className="btn btn-primary"
                 type="button"
               >
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Choose File"
                   id="admin.license.choose"
                 />
@@ -1270,7 +1754,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               id="upload-button"
               onClick={[Function]}
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="Upload"
                 id="admin.license.upload"
               />
@@ -1278,7 +1762,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             <div
               className="help-text m-0"
             >
-              <FormattedMessage
+              <MemoizedFormattedMessage
                 defaultMessage="No file uploaded"
                 id="admin.license.noFile"
               />
@@ -1300,7 +1784,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -1359,7 +1843,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               "IsLicensed": "true",
               "IssuedAt": "1517714643650",
               "Name": "LicenseName",
-              "SkuShortName": "SkuName",
+              "SkuShortName": "E20",
               "StartsAt": "1517714643650",
               "Users": "100",
             }
@@ -1372,7 +1856,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1382,7 +1866,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             <div>
               <p>
-                Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.
+                Mattermost Starter Edition. A license is required to unlock enterprise features.
               </p>
               <div>
                 <p>
@@ -1394,7 +1878,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     <LoadingWrapper
                       loading={false}
                       text={
-                        <FormattedMessage
+                        <Memo(MemoizedFormattedMessage)
                           defaultMessage="Upgrading {percentage}%"
                           id="admin.license.enterprise.upgrading"
                           values={
@@ -1405,7 +1889,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                         />
                       }
                     >
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="Upgrade to Enterprise Edition"
                         id="admin.license.enterprise.upgrade"
                       />
@@ -1430,7 +1914,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1457,7 +1941,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -1512,7 +1996,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Edition: "
               id="admin.license.edition"
             />
@@ -1522,7 +2006,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             <div>
               <p>
-                Mattermost Team Edition. Upgrade to Mattermost Enterprise Edition to add the ability to unlock enterprise features.
+                Mattermost Starter Edition. A license is required to unlock enterprise features.
               </p>
               <div>
                 <p>
@@ -1534,7 +2018,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     <LoadingWrapper
                       loading={false}
                       text={
-                        <FormattedMessage
+                        <Memo(MemoizedFormattedMessage)
                           defaultMessage="Upgrading {percentage}%"
                           id="admin.license.enterprise.upgrading"
                           values={
@@ -1545,7 +2029,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                         />
                       }
                     >
-                      <FormattedMessage
+                      <MemoizedFormattedMessage
                         defaultMessage="Upgrade to Enterprise Edition"
                         id="admin.license.enterprise.upgrade"
                       />
@@ -1570,7 +2054,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="License: "
               id="admin.license.type"
             />
@@ -1597,7 +2081,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           <label
             className="control-label col-sm-4"
           >
-            <FormattedMessage
+            <MemoizedFormattedMessage
               defaultMessage="Enterprise Edition License:"
               id="admin.license.enterprise-edition-license"
             />
@@ -1619,6 +2103,148 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 EXCEPT AS OTHERWISE SET FORTH IN A BINDING WRITTEN AGREEMENT BETWEEN YOU AND MATTERMOST, THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
               </p>
             </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot team edition with expired trial in the past 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <form
+        className="form-horizontal"
+        role="form"
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Edition: "
+              id="admin.license.edition"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div>
+              Mattermost Enterprise Edition. A license is required to unlock enterprise features.
+              <div
+                className="purchase-card"
+              >
+                <PurchaseLink
+                  buttonTextElement={
+                    <Memo(MemoizedFormattedMessage)
+                      defaultMessage="Purchase a license"
+                      id="admin.license.trialCard.purchase_license"
+                    />
+                  }
+                  eventID="post_trial_purchase_license"
+                />
+                <ContactUsButton
+                  eventID="post_trial_contact_sales"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License: "
+              id="admin.license.type"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            This software is offered under a commercial license.
+
+See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label col-sm-4"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="License Key: "
+              id="admin.license.key"
+            />
+          </label>
+          <div
+            className="col-sm-8"
+          >
+            <div
+              className="file__upload"
+            >
+              <button
+                className="btn btn-primary"
+                type="button"
+              >
+                <MemoizedFormattedMessage
+                  defaultMessage="Choose File"
+                  id="admin.license.choose"
+                />
+              </button>
+              <input
+                accept=".mattermost-license"
+                disabled={false}
+                onChange={[Function]}
+                type="file"
+              />
+            </div>
+            <button
+              className="btn"
+              disabled={true}
+              id="upload-button"
+              onClick={[Function]}
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Upload"
+                id="admin.license.upload"
+              />
+            </button>
+            <div
+              className="help-text m-0"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="No file uploaded"
+                id="admin.license.noFile"
+              />
+            </div>
+            <br />
+            <p
+              className="help-text m-0"
+            >
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="Upload a license key for Mattermost Enterprise Edition to upgrade this server. [Visit us online](!http://mattermost.com) to learn more about the benefits of Enterprise Edition or to purchase a key."
+                id="admin.license.uploadDesc"
+              />
+            </p>
           </div>
         </div>
       </form>

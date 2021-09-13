@@ -25,10 +25,10 @@ import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
-import {GlobalState} from 'types/store';
+import {DraggingState, GlobalState} from 'types/store';
 
-export function isUnreadFilterEnabled(state: GlobalState) {
-    return state.views.channelSidebar.unreadFilterEnabled;
+export function isUnreadFilterEnabled(state: GlobalState): boolean {
+    return state.views.channelSidebar.unreadFilterEnabled && !shouldShowUnreadsCategory(state);
 }
 
 export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategory[] = (() => {
@@ -41,6 +41,7 @@ export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategor
 })();
 
 export const getAutoSortedCategoryIds: (state: GlobalState) => Set<string> = (() => createSelector(
+    'getAutoSortedCategoryIds',
     (state: GlobalState) => getCategoriesForCurrentTeam(state),
     (categories) => {
         return new Set(categories.filter((category) =>
@@ -59,6 +60,7 @@ export const getChannelsByCategoryForCurrentTeam: (state: GlobalState) => Relati
 })();
 
 const getUnreadChannelIdsSet = createSelector(
+    'getUnreadChannelIdsSet',
     (state: GlobalState) => getUnreadChannelIds(state, state.views.channel.lastUnreadChannel),
     (unreadChannelIds) => {
         return new Set(unreadChannelIds);
@@ -69,6 +71,7 @@ const getUnreadChannelIdsSet = createSelector(
 // Channels are returned in the same order as in the sidebar. Channels in the Unreads category are not included.
 export const getChannelsInCategoryOrder = (() => {
     return createSelector(
+        'getChannelsInCategoryOrder',
         getCategoriesForCurrentTeam,
         getChannelsByCategoryForCurrentTeam,
         getCurrentChannelId,
@@ -106,6 +109,7 @@ export const getChannelsInCategoryOrder = (() => {
 // enabled. Channels are sorted by recency with channels containing a mention grouped first.
 export const getUnreadChannels = (() => {
     const getUnsortedUnreadChannels = createSelector(
+        'getUnreadChannels',
         getAllChannels,
         getUnreadChannelIdsSet,
         getCurrentChannelId,
@@ -138,6 +142,7 @@ export const getUnreadChannels = (() => {
     );
 
     const sortChannels = createSelector(
+        'sortChannels',
         (state: GlobalState, channels: Channel[]) => channels,
         getMyChannelMemberships,
         getLastPostPerChannel,
@@ -218,10 +223,11 @@ export const getDisplayedChannels = (() => {
 
 // Returns a selector that, given a category, returns the ids of channels visible in that category. The returned channels do not
 // include unread channels when the Unreads category is enabled.
-export function makeGetFilteredChannelIdsForCategory() {
+export function makeGetFilteredChannelIdsForCategory(): (state: GlobalState, category: ChannelCategory) => string[] {
     const getChannelIdsForCategory = makeGetChannelIdsForCategory();
 
     return createSelector(
+        'makeGetFilteredChannelIdsForCategory',
         getChannelIdsForCategory,
         getUnreadChannelIdsSet,
         shouldShowUnreadsCategory,
@@ -237,10 +243,10 @@ export function makeGetFilteredChannelIdsForCategory() {
     );
 }
 
-export function getDraggingState(state: GlobalState) {
+export function getDraggingState(state: GlobalState): DraggingState {
     return state.views.channelSidebar.draggingState;
 }
 
-export function isChannelSelected(state: GlobalState, channelId: string) {
+export function isChannelSelected(state: GlobalState, channelId: string): boolean {
     return state.views.channelSidebar.multiSelectedChannelIds.indexOf(channelId) !== -1;
 }

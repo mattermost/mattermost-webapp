@@ -9,14 +9,15 @@ import {getProfiles} from 'mattermost-redux/actions/users';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {closeRightHandSide} from 'actions/views/rhs';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
 import {getSteps, isFirstAdmin} from './steps';
-
 import NextStepsView from './next_steps_view';
 
 function makeMapStateToProps() {
@@ -32,6 +33,8 @@ function makeMapStateToProps() {
             steps: getSteps(state),
             isFirstAdmin: isFirstAdmin(state),
             team,
+            isCloud: getLicense(state).Cloud === 'true',
+            globalHeaderEnabled: getGlobalHeaderEnabled(state),
         };
     };
 }

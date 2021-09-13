@@ -45,7 +45,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
           <ArchiveIcon
             className="channel-icon channel-icon__archive"
           />
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Archive Channel"
             id="admin.channel_settings.channel_details.archiveChannel"
           />
@@ -103,7 +103,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
           channelType="O"
           className="shared-channel-icon"
         />
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Shared with trusted organizations"
           id="admin.channel_settings.channel_detail.channelOrganizationsMessage"
         />
@@ -118,7 +118,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
           <ArchiveIcon
             className="channel-icon channel-icon__archive"
           />
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Archive Channel"
             id="admin.channel_settings.channel_details.archiveChannel"
           />

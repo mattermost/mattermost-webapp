@@ -22,38 +22,38 @@ describe('components/widgets/admin_console/AdminPanel', () => {
             <AdminPanel {...defaultProps}>{'Test'}</AdminPanel>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-      <div
-        className="AdminPanel clearfix test-class-name"
-        id="test-id"
-      >
-        <div
-          className="header"
-        >
-          <div>
-            <h3>
-              <FormattedMessage
-                defaultMessage="test-title-default"
-                id="test-title-id"
-              />
-            </h3>
             <div
-              className="mt-2"
+              className="AdminPanel clearfix test-class-name"
+              id="test-id"
             >
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="test-subtitle-default"
-                id="test-subtitle-id"
-                values={
-                  Object {
-                    "foo": "bar",
-                  }
-                }
-              />
+              <div
+                className="header"
+              >
+                <div>
+                  <h3>
+                    <MemoizedFormattedMessage
+                      defaultMessage="test-title-default"
+                      id="test-title-id"
+                    />
+                  </h3>
+                  <div
+                    className="mt-2"
+                  >
+                    <injectIntl(FormattedMarkdownMessage)
+                      defaultMessage="test-subtitle-default"
+                      id="test-subtitle-id"
+                      values={
+                        Object {
+                          "foo": "bar",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              Test
             </div>
-          </div>
-        </div>
-        Test
-      </div>
-    `);
+        `);
     });
 
     test('should match snapshot with button', () => {
@@ -66,45 +66,45 @@ describe('components/widgets/admin_console/AdminPanel', () => {
             </AdminPanel>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-      <div
-        className="AdminPanel clearfix test-class-name"
-        id="test-id"
-      >
-        <div
-          className="header"
-        >
-          <div>
-            <h3>
-              <FormattedMessage
-                defaultMessage="test-title-default"
-                id="test-title-id"
-              />
-            </h3>
             <div
-              className="mt-2"
+              className="AdminPanel clearfix test-class-name"
+              id="test-id"
             >
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="test-subtitle-default"
-                id="test-subtitle-id"
-                values={
-                  Object {
-                    "foo": "bar",
-                  }
-                }
-              />
+              <div
+                className="header"
+              >
+                <div>
+                  <h3>
+                    <MemoizedFormattedMessage
+                      defaultMessage="test-title-default"
+                      id="test-title-id"
+                    />
+                  </h3>
+                  <div
+                    className="mt-2"
+                  >
+                    <injectIntl(FormattedMarkdownMessage)
+                      defaultMessage="test-subtitle-default"
+                      id="test-subtitle-id"
+                      values={
+                        Object {
+                          "foo": "bar",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+                <div
+                  className="button"
+                >
+                  <span>
+                    TestButton
+                  </span>
+                </div>
+              </div>
+              Test
             </div>
-          </div>
-          <div
-            className="button"
-          >
-            <span>
-              TestButton
-            </span>
-          </div>
-        </div>
-        Test
-      </div>
-    `);
+        `);
     });
 
     test('should match snapshot with onHeaderClick', () => {
@@ -117,38 +117,38 @@ describe('components/widgets/admin_console/AdminPanel', () => {
             </AdminPanel>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-      <div
-        className="AdminPanel clearfix test-class-name"
-        id="test-id"
-      >
-        <div
-          className="header"
-          onClick={[MockFunction]}
-        >
-          <div>
-            <h3>
-              <FormattedMessage
-                defaultMessage="test-title-default"
-                id="test-title-id"
-              />
-            </h3>
             <div
-              className="mt-2"
+              className="AdminPanel clearfix test-class-name"
+              id="test-id"
             >
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="test-subtitle-default"
-                id="test-subtitle-id"
-                values={
-                  Object {
-                    "foo": "bar",
-                  }
-                }
-              />
+              <div
+                className="header"
+                onClick={[MockFunction]}
+              >
+                <div>
+                  <h3>
+                    <MemoizedFormattedMessage
+                      defaultMessage="test-title-default"
+                      id="test-title-id"
+                    />
+                  </h3>
+                  <div
+                    className="mt-2"
+                  >
+                    <injectIntl(FormattedMarkdownMessage)
+                      defaultMessage="test-subtitle-default"
+                      id="test-subtitle-id"
+                      values={
+                        Object {
+                          "foo": "bar",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              Test
             </div>
-          </div>
-        </div>
-        Test
-      </div>
-    `);
+        `);
     });
 });

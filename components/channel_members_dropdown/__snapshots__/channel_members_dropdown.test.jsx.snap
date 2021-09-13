@@ -13,7 +13,7 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
       className="sr-only"
     />
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Admin"
         id="channel_members_dropdown.channel_admin"
       />
@@ -48,7 +48,7 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
       className="sr-only"
     />
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Guest"
         id="channel_members_dropdown.channel_guest"
       />
@@ -83,7 +83,7 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
         id="sharedTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="From trusted organizations"
           id="shared_user_indicator.tooltip"
         />
@@ -98,7 +98,7 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
     }
   >
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Shared Member"
         id="channel_members_dropdown.shared_member"
       />
@@ -112,7 +112,7 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
 
 exports[`components/channel_members_dropdown should match snapshot for group_constrained channel 1`] = `
 <div>
-  <FormattedMessage
+  <MemoizedFormattedMessage
     defaultMessage="Channel Admin"
     id="channel_members_dropdown.channel_admin"
   />
@@ -132,7 +132,7 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
       className="sr-only"
     />
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Guest"
         id="channel_members_dropdown.channel_guest"
       />
@@ -167,7 +167,7 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
       className="sr-only"
     />
     <span>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Channel Admin"
         id="channel_members_dropdown.channel_admin"
       />

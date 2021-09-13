@@ -2,21 +2,20 @@
 $positions: 't b l r';
 
 $positions: 't'top,
-'b'bottom,
-'l'left,
-'r'right;
+    'b'bottom,
+    'l'left,
+    'r'right;
 
 @for $i from 0 through 20 {
-
     @each $label,
-    $position in $positions {
+        $position in $positions {
         .p#{$label}-#{$i} {
             padding-#{$position}: #{$i*4}px !important;
         }
     }
 
     @each $label,
-    $position in $positions {
+        $position in $positions {
         .m#{$label}-#{$i} {
             margin-#{$position}: #{$i*4}px !important;
         }
@@ -28,6 +27,18 @@ $positions: 't'top,
 
     .p-#{$i} {
         padding: #{$i*4}px !important;
+    }
+
+    .px-#{$i} {
+        padding: 0 #{$i*4}px 0 #{$i*4}px !important;
+    }
+
+    .py-#{$i} {
+        padding: #{$i*4}px 0 #{$i*4}px 0 !important;
+    }
+
+    .h-#{$i} {
+        height: #{$i*4}px !important;
     }
 }
 
@@ -41,7 +52,7 @@ $positions: 't'top,
 
 .a11y--focused {
     border-radius: 4px;
-    box-shadow: 0 0 0 1px 2px $primary-color;
+    box-shadow: 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), 0 0 0 1px var(--link-color);
 }
 
 .pos-relative {
@@ -51,13 +62,17 @@ $positions: 't'top,
 .hidden-label {
     position: absolute;
     overflow: hidden;
-    height: 1px;
     width: 1px;
-    margin: -1px;
+    height: 1px;
     padding: 0;
     border: 0;
+    margin: -1px;
 }
 
 .overflow--visible {
     overflow: visible;
+}
+
+.bg--white {
+    background: var(--center-channel-bg);
 }

@@ -885,7 +885,7 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
         if (emojiMap && emojiMap.hasUnicode(emojiCode)) {
             const emoji = emojiMap.getUnicode(emojiCode);
 
-            return Emoticons.renderEmoji(emoji.aliases[0], emojiMatch);
+            return Emoticons.renderEmoji(emoji.short_names[0], emojiMatch);
         }
 
         // wrap unsupported unicode emoji in span to style as needed

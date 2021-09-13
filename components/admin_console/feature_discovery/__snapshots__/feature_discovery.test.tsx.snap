@@ -11,7 +11,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       className="FeatureDiscovery_title"
       data-testid="featureDiscovery_title"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Foo"
         id="translation.test.title"
       />
@@ -19,7 +19,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
     <div
       className="FeatureDiscovery_copy"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Bar"
         id="translation.test.copy"
       />
@@ -34,7 +34,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
         loading={false}
         text="Getting trial"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Start trial"
           id="admin.ldap_feature_discovery.call_to_action.primary"
         />
@@ -47,7 +47,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       rel="noopener noreferrer"
       target="_blank"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Learn more"
         id="admin.ldap_feature_discovery.call_to_action.secondary"
       />

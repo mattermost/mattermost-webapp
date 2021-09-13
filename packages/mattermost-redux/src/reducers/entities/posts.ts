@@ -13,6 +13,7 @@ import {
     PostOrderBlock,
     MessageHistory,
 } from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {
     $ID,
@@ -22,7 +23,7 @@ import {
     RelationOneToMany,
 } from 'mattermost-redux/types/utilities';
 
-import {comparePosts} from 'mattermost-redux/utils/post_utils';
+import {comparePosts, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 
 export function removeUnneededMetadata(post: Post) {
     if (!post.metadata) {
@@ -52,16 +53,27 @@ export function removeUnneededMetadata(post: Post) {
         let embedsChanged = false;
 
         const newEmbeds = metadata.embeds.map((embed) => {
-            if (embed.type !== 'opengraph') {
+            switch (embed.type) {
+            case 'opengraph': {
+                const newEmbed = {...embed};
+                Reflect.deleteProperty(newEmbed, 'data');
+
+                embedsChanged = true;
+
+                return newEmbed;
+            }
+            case 'permalink': {
+                const permalinkEmbed = {...embed};
+                if (permalinkEmbed.data) {
+                    Reflect.deleteProperty(permalinkEmbed.data, 'post');
+                }
+                embedsChanged = true;
+
+                return permalinkEmbed;
+            }
+            default:
                 return embed;
             }
-
-            const newEmbed = {...embed};
-            Reflect.deleteProperty(newEmbed, 'data');
-
-            embedsChanged = true;
-
-            return newEmbed;
         });
 
         if (embedsChanged) {
@@ -261,9 +273,13 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
 }
 
 function handlePostReceived(nextState: any, post: Post) {
-    if (nextState[post.id] && nextState[post.id].update_at >= post.update_at) {
-        // The stored post is newer than the one we've received
+    if (!shouldUpdatePost(post, nextState[post.id])) {
         return nextState;
+    }
+
+    // Edited posts that don't have 'is_following' specified should maintain 'is_following' state
+    if (post.update_at > 0 && post.is_following == null && nextState[post.id]) {
+        post.is_following = nextState[post.id].is_following;
     }
 
     if (post.delete_at > 0) {
@@ -277,12 +293,36 @@ function handlePostReceived(nextState: any, post: Post) {
             };
         }
     } else {
+        if (post.metadata && post.metadata.embeds) {
+            post.metadata.embeds.forEach((embed) => {
+                if (embed.type === 'permalink') {
+                    if (embed.data && 'post_id' in embed.data && embed.data.post) {
+                        nextState[embed.data.post_id] = removeUnneededMetadata(embed.data.post);
+                    }
+                }
+            });
+        }
         nextState[post.id] = removeUnneededMetadata(post);
     }
 
     // Delete any pending post that existed for this post
     if (post.pending_post_id && post.id !== post.pending_post_id && nextState[post.pending_post_id]) {
         Reflect.deleteProperty(nextState, post.pending_post_id);
+    }
+
+    const rootPost: Post = nextState[post.root_id];
+    if (post.root_id && rootPost) {
+        const participants = rootPost.participants || [];
+        const nextRootPost = {...rootPost};
+        if (!participants.find((user: UserProfile) => user.id === post.user_id)) {
+            nextRootPost.participants = [...participants, {id: post.user_id}];
+        }
+
+        if (post.reply_count) {
+            nextRootPost.reply_count = post.reply_count;
+        }
+
+        nextState[post.root_id] = nextRootPost;
     }
 
     return nextState;

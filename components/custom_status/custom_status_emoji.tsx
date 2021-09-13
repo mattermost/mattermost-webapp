@@ -1,14 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
-import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {getCurrentUserTimezone} from 'selectors/general';
+import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
+
+import ExpiryTime from './expiry_time';
 
 interface ComponentProps {
     emojiSize?: number;
@@ -21,13 +25,15 @@ interface ComponentProps {
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {
-    const getCustomStatus = makeGetCustomStatus();
+    const getCustomStatus = useMemo(makeGetCustomStatus, []);
     const {emojiSize, emojiStyle, spanStyle, showTooltip, tooltipDirection, userID, onClick} = props;
 
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => getCustomStatus(state, userID));
-    const isCustomStatusSet = Boolean(customStatusEnabled && customStatus && customStatus.emoji);
+    const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, customStatus));
+    const timezone = useSelector(getCurrentUserTimezone);
 
+    const isCustomStatusSet = Boolean(customStatusEnabled && customStatus?.emoji && !customStatusExpired);
     if (!isCustomStatusSet) {
         return null;
     }
@@ -68,6 +74,15 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                             </span>
                         }
                     </div>
+                    {customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR &&
+                        <div>
+                            <ExpiryTime
+                                time={customStatus.expires_at}
+                                timezone={timezone}
+                                className='custom-status-expiry'
+                            />
+                        </div>
+                    }
                 </Tooltip>
             }
         >

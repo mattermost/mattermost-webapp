@@ -19,7 +19,7 @@ describe('SupportSettings', () => {
     const helpLink = 'https://github.com/mattermost/platform/blob/master/doc/help/README.md';
     const problemLink = 'https://forum.mattermost.org/c/general/trouble-shoot';
 
-    const defaultTosLink = 'https://about.mattermost.com/default-terms/';
+    const defaultTosLink = 'https://mattermost.com/terms-of-service/';
 
     let testTeam;
 

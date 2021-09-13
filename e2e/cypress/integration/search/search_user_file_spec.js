@@ -63,7 +63,7 @@ describe('Search in DMs', () => {
         cy.get('#searchBox').type('in:');
 
         // # Select user from suggestion list
-        cy.contains('.search-autocomplete__item', `@${otherUser.username}`).scrollIntoView().click();
+        cy.contains('.suggestion-list__item', `@${otherUser.username}`).scrollIntoView().click();
 
         // # Validate searchbox contains the username
         cy.get('#searchBox').should('have.value', 'in:@' + otherUser.username + ' ');

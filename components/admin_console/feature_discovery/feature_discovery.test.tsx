@@ -22,9 +22,13 @@ describe('components/feature_discovery', () => {
                     featureDiscoveryImage={<SamlSVG/>}
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     stats={{TOTAL_USERS: 20}}
+                    prevTrialLicense={{IsLicensed: 'false'}}
+                    isCloud={false}
                     actions={{
                         requestTrialLicense: jest.fn(),
                         getLicenseConfig: jest.fn(),
+                        getPrevTrialLicense: jest.fn(),
+                        openModal: jest.fn(),
                     }}
                 />,
             );

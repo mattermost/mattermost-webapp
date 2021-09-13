@@ -48,15 +48,12 @@ const getEmojiName = (emoji: Emoji, searchedName: string) => {
         return '';
     }
 
-    if ('name' in emoji) {
-        return emoji.name;
+    // does it have aliases?
+    if (searchedName && 'short_names' in emoji) {
+        return emoji.short_names.find((alias: string) => alias.startsWith(searchedName)) || emoji.short_name;
     }
 
-    if (searchedName) {
-        return emoji.aliases.find((alias) => alias.startsWith(searchedName)) || emoji.aliases[0];
-    }
-
-    return emoji.aliases[0];
+    return 'short_name' in emoji ? emoji.short_name : emoji.name;
 };
 
 export function compareEmojis(emojiA: Emoji, emojiB: Emoji, searchedName: string) {

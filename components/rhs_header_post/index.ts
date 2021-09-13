@@ -10,7 +10,8 @@ import {getCurrentTeamId, getCurrentRelativeTeamUrl} from 'mattermost-redux/sele
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
-import {getThread} from 'mattermost-redux/selectors/entities/threads';
+import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
 
@@ -31,13 +32,15 @@ import RhsHeaderPost from './rhs_header_post';
 type OwnProps = Pick<ComponentProps<typeof RhsHeaderPost>, 'rootPostId'>
 
 function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
+    const root = getPost(state, rootPostId);
+
     return {
         isExpanded: getIsRhsExpanded(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
         currentTeamId: getCurrentTeamId(state),
         currentUserId: getCurrentUserId(state),
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        isFollowingThread: getThread(state, rootPostId)?.is_following,
+        isFollowingThread: isCollapsedThreadsEnabled(state) && root && getThreadOrSynthetic(state, root).is_following,
     };
 }
 

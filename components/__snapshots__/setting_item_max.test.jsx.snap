@@ -29,7 +29,7 @@ exports[`components/SettingItemMax should match snapshot 1`] = `
         <SaveButton
           btnClass="btn-primary"
           defaultMessage={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Save"
               id="save_button.save"
             />
@@ -39,7 +39,7 @@ exports[`components/SettingItemMax should match snapshot 1`] = `
           onClick={[Function]}
           saving={false}
           savingMessage={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Saving"
               id="save_button.saving"
             />
@@ -50,7 +50,7 @@ exports[`components/SettingItemMax should match snapshot 1`] = `
           id="cancelSetting"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
           />
@@ -100,7 +100,7 @@ exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
         <SaveButton
           btnClass="btn-primary"
           defaultMessage={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Save"
               id="save_button.save"
             />
@@ -110,7 +110,7 @@ exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
           onClick={[Function]}
           saving={false}
           savingMessage={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Saving"
               id="save_button.saving"
             />
@@ -121,7 +121,7 @@ exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
           id="cancelSetting"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
           />
@@ -171,7 +171,7 @@ exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
         <SaveButton
           btnClass="btn-primary"
           defaultMessage={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Save"
               id="save_button.save"
             />
@@ -181,7 +181,7 @@ exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
           onClick={[Function]}
           saving={false}
           savingMessage={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Saving"
               id="save_button.saving"
             />
@@ -192,7 +192,7 @@ exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
           id="cancelSetting"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
           />
@@ -237,7 +237,7 @@ exports[`components/SettingItemMax should match snapshot, with new saveTextButto
           onClick={[Function]}
           saving={false}
           savingMessage={
-            <FormattedMessage
+            <Memo(MemoizedFormattedMessage)
               defaultMessage="Saving"
               id="save_button.saving"
             />
@@ -248,7 +248,7 @@ exports[`components/SettingItemMax should match snapshot, with new saveTextButto
           id="cancelSetting"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
           />
@@ -290,7 +290,7 @@ exports[`components/SettingItemMax should match snapshot, without submit 1`] = `
           id="cancelSetting"
           onClick={[Function]}
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Cancel"
             id="setting_item_max.cancel"
           />

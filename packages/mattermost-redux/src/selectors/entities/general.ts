@@ -6,7 +6,7 @@ import {createSelector} from 'reselect';
 import {General} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {ClientConfig, FeatureFlags} from 'mattermost-redux/types/config';
+import {ClientConfig, FeatureFlags, ClientLicense} from 'mattermost-redux/types/config';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
@@ -21,12 +21,8 @@ export function getFeatureFlagValue(state: GlobalState, key: keyof FeatureFlags)
     return getConfig(state)?.[`FeatureFlag${key}` as keyof Partial<ClientConfig>];
 }
 
-export function getLicense(state: GlobalState): any {
+export function getLicense(state: GlobalState): ClientLicense {
     return state.entities.general.license;
-}
-
-export function getSupportedTimezones(state: GlobalState): string[] {
-    return state.entities.general.timezones;
 }
 
 export function getCurrentUrl(state: GlobalState): string {
@@ -58,6 +54,7 @@ export function hasNewPermissions(state: GlobalState): boolean {
 }
 
 export const canUploadFilesOnMobile: (a: GlobalState) => boolean = createSelector(
+    'canUploadFilesOnMobile',
     getConfig,
     getLicense,
     (config: Partial<ClientConfig>, license: any): boolean => {
@@ -68,6 +65,7 @@ export const canUploadFilesOnMobile: (a: GlobalState) => boolean = createSelecto
 );
 
 export const canDownloadFilesOnMobile: (a: GlobalState) => boolean = createSelector(
+    'canDownloadFilesOnMobile',
     getConfig,
     getLicense,
     (config: Partial<ClientConfig>, license: any): boolean => {
@@ -77,6 +75,7 @@ export const canDownloadFilesOnMobile: (a: GlobalState) => boolean = createSelec
 );
 
 export const getAutolinkedUrlSchemes: (a: GlobalState) => string[] = createSelector(
+    'getAutolinkedUrlSchemes',
     getConfig,
     (config: Partial<ClientConfig>): string[] => {
         if (!config.CustomUrlSchemes) {
@@ -91,6 +90,7 @@ export const getAutolinkedUrlSchemes: (a: GlobalState) => string[] = createSelec
 );
 
 export const getManagedResourcePaths: (state: GlobalState) => string[] = createSelector(
+    'getManagedResourcePaths',
     getConfig,
     (config) => {
         if (!config.ManagedResourcePaths) {

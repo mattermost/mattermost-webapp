@@ -123,6 +123,8 @@ export default keyMirror({
     REMOVE_LICENSE_SUCCESS: null,
     REMOVE_LICENSE_FAILURE: null,
 
+    PREV_TRIAL_LICENSE_SUCCESS: null,
+
     GET_ANALYTICS_REQUEST: null,
     GET_ANALYTICS_SUCCESS: null,
     GET_ANALYTICS_FAILURE: null,

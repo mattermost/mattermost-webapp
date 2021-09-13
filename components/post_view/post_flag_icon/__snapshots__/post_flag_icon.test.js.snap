@@ -13,7 +13,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
       id="flagTooltip"
       placement="right"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Save"
         id="flag_post.flag"
       />
@@ -53,7 +53,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
       id="flagTooltip"
       placement="right"
     >
-      <FormattedMessage
+      <Memo(MemoizedFormattedMessage)
         defaultMessage="Remove from Saved"
         id="flag_post.unflag"
       />

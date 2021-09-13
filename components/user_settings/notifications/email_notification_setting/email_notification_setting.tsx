@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {Preferences} from 'utils/constants';
+import {Preferences, NotificationLevels} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
@@ -18,7 +18,7 @@ type Props = {
     currentUserId: string;
     activeSection: string;
     updateSection: (section: string) => void;
-    enableEmail: string;
+    enableEmail: boolean;
     emailInterval: number;
     onSubmit: () => void;
     onCancel: () => void;
@@ -31,12 +31,15 @@ type Props = {
         savePreferences: (currentUserId: string, emailIntervalPreference: PreferenceType[]) =>
         Promise<{data: boolean}>;
     };
+    isCollapsedThreadsEnabled: boolean;
+    threads: string;
+    setParentState: (key: string, value: any) => void;
 };
 
 type State = {
     activeSection: string;
     emailInterval: number;
-    enableEmail: string;
+    enableEmail: boolean;
     enableEmailBatching: boolean;
     sendEmailNotifications: boolean;
     newInterval: number;
@@ -60,7 +63,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
             enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
-            newInterval: getEmailInterval(JSON.parse(enableEmail) && sendEmailNotifications, enableEmailBatching, emailInterval),
+            newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
         };
     }
 
@@ -81,7 +84,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
-                newInterval: getEmailInterval(JSON.parse(enableEmail) && sendEmailNotifications, enableEmailBatching, emailInterval),
+                newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
             };
         }
 
@@ -96,7 +99,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
-                newInterval: getEmailInterval(JSON.parse(enableEmail) && sendEmailNotifications, enableEmailBatching, emailInterval),
+                newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
             };
         }
 
@@ -108,11 +111,16 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
         const newInterval = parseInt(e.currentTarget.getAttribute('data-email-interval')!, 10);
 
         this.setState({
-            enableEmail,
+            enableEmail: enableEmail === 'true',
             newInterval,
         });
 
         this.props.onChange(enableEmail);
+    }
+
+    handleThreadsOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked ? NotificationLevels.ALL : NotificationLevels.MENTION;
+        this.props.setParentState('emailThreads', value);
     }
 
     handleSubmit = async () => {
@@ -130,9 +138,9 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
             };
 
             await actions.savePreferences(currentUserId, [emailIntervalPreference]);
-
-            this.props.onSubmit();
         }
+
+        this.props.onSubmit();
     }
 
     handleUpdateSection = (section?: string) => {
@@ -294,6 +302,45 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
             );
         }
 
+        let threadsNotificationSelection = null;
+        if (this.props.isCollapsedThreadsEnabled && this.props.enableEmail) {
+            threadsNotificationSelection = (
+                <React.Fragment key='userNotificationEmailThreadsOptions'>
+                    <hr/>
+                    <fieldset>
+                        <legend className='form-legend'>
+                            <FormattedMessage
+                                id='user.settings.notifications.threads.desktop'
+                                defaultMessage='Thread reply notifications'
+                            />
+                        </legend>
+                        <div className='checkbox'>
+                            <label>
+                                <input
+                                    id='desktopThreadsNotificationAllActivity'
+                                    type='checkbox'
+                                    name='desktopThreadsNotificationLevel'
+                                    checked={this.props.threads === NotificationLevels.ALL}
+                                    onChange={this.handleThreadsOnChange}
+                                />
+                                <FormattedMessage
+                                    id='user.settings.notifications.threads.allActivity'
+                                    defaultMessage={'Notify me about threads I\'m following'}
+                                />
+                            </label>
+                            <br/>
+                        </div>
+                        <div className='mt-5'>
+                            <FormattedMessage
+                                id='user.settings.notifications.threads'
+                                defaultMessage={'When enabled, any replies to a thread you\'re following will send a desktop notification.'}
+                            />
+                        </div>
+                    </fieldset>
+                </React.Fragment>
+            );
+        }
+
         return (
             <SettingItemMax
                 title={localizeMessage('user.settings.notifications.emailNotifications', 'Email Notifications')}
@@ -349,6 +396,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                             {batchingInfo}
                         </div>
                     </fieldset>,
+                    threadsNotificationSelection,
                 ]}
                 submit={this.handleSubmit}
                 saving={this.props.saving}

@@ -35,7 +35,6 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
-                ExperimentalChannelOrganization: false,
             },
             DisplaySettings: {
                 ExperimentalTimezone: true,
@@ -53,7 +52,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
 
     beforeEach(() => {
         // # Open Account Settings
-        cy.toAccountSettingsModal();
+        cy.uiOpenAccountSettingsModal();
 
         // # Wait until the content in the settings are loaded
         cy.get('.settings-content > div').should('be.visible');
@@ -151,13 +150,13 @@ describe('Verify Accessibility Support in different sections in Account Settings
         cy.get('@inputEl').type('{downarrow}{downarrow}');
         cy.get('#displayLanguage>span').as('ariaEl').within(($el) => {
             cy.wrap($el).should('have.attr', 'aria-live', 'assertive');
-            cy.get('#aria-context').should('contain', 'option Español focused').and('contain', 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.');
+            cy.get('#aria-context').should('contain', 'option English Australian (Beta) focused').and('contain', 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.');
         });
 
         // # Check if language setting gets changed after user presses enter
         cy.get('@inputEl').type('{enter}');
-        cy.get('#displayLanguage').should('contain', 'Español');
-        cy.get('@ariaEl').get('#aria-selection-event').should('contain', 'option Español, selected');
+        cy.get('#displayLanguage').should('contain', 'English Australian (Beta)');
+        cy.get('@ariaEl').get('#aria-selection-event').should('contain', 'option English Australian (Beta), selected');
 
         // # Press down arrow, then up arrow and press enter
         cy.get('@inputEl').type('{downarrow}{downarrow}{downarrow}{uparrow}');

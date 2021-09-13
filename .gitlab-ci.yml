@@ -5,6 +5,7 @@ stages:
   - trigger
 
 variables:
+  IMAGE_BUILD_WEBAPP: $CI_REGISTRY/mattermost/ci/images/mattermost-build-webapp:20210524_node-16
   BUILD: "yes"
   TEST: "yes"
 
@@ -20,7 +21,7 @@ empty:
 
 test: #todo check on how to create junit.xml, there currently is none
   stage: test
-  image: $CI_REGISTRY/mattermost/ci/images/mattermost-build-webapp:20210524_node-16
+  image: ${IMAGE_BUILD_WEBAPP}
   cache:
     key:
       files:

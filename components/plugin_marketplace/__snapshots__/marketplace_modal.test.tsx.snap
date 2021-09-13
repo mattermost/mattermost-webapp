@@ -11,7 +11,7 @@ exports[`components/marketplace/ AllListing should render with no plugins 1`] = 
   <div
     className="mt-3 light"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="There are no plugins available at this time."
       id="marketplace_modal.no_plugins"
     />
@@ -132,7 +132,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
   <div
     className="mt-3 light"
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="You do not have any plugins installed."
       id="marketplace_modal.no_plugins_installed"
     />
@@ -142,7 +142,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
     data-testid="Install-Plugins-button"
     onClick={[Function]}
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Install Plugins"
       id="marketplace_modal.install_plugins"
     />
@@ -205,7 +205,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
     >
       <h1>
         <strong>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Marketplace"
             id="marketplace_modal.title"
           />
@@ -287,7 +287,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
     >
       <h1>
         <strong>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Marketplace"
             id="marketplace_modal.title"
           />
@@ -369,7 +369,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
     >
       <h1>
         <strong>
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Marketplace"
             id="marketplace_modal.title"
           />

@@ -253,7 +253,7 @@ describe('Group Message', () => {
 
             // # Open previously closed group message
             cy.get('#selectItems input').type(`${participants[0].username}`).wait(TIMEOUTS.HALF_SEC);
-            cy.get('#multiSelectList .mentions__name').last().click().wait(TIMEOUTS.HALF_SEC);
+            cy.get('#multiSelectList .suggestion-list__item').last().click().wait(TIMEOUTS.HALF_SEC);
 
             // * Verify that participants are listed in the input field
             cy.get('#selectItems').should('contain', `${sortedParticipants[0].username}${sortedParticipants[1].username}`);

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {ShallowWrapper} from 'enzyme';
 
 import {ChannelType} from 'mattermost-redux/types/channels';
@@ -15,6 +15,8 @@ import {isChrome, isFirefox} from 'utils/user_agent';
 
 import FaviconTitleHandler, {FaviconTitleHandlerClass} from 'components/favicon_title_handler/favicon_title_handler';
 
+type Props = ComponentProps<typeof FaviconTitleHandlerClass>;
+
 jest.mock('utils/user_agent', () => {
     const original = jest.requireActual('utils/user_agent');
     return {
@@ -26,10 +28,7 @@ jest.mock('utils/user_agent', () => {
 
 describe('components/FaviconTitleHandler', () => {
     const defaultProps = {
-        unreads: {
-            messageCount: 0,
-            mentionCount: 0,
-        },
+        unreadStatus: false,
         siteName: 'Test site',
         currentChannel: TestHelper.getChannelMock({
             id: 'c1',
@@ -49,24 +48,37 @@ describe('components/FaviconTitleHandler', () => {
     };
 
     test('set correctly the title when needed', () => {
-        const wrapper: ShallowWrapper<any, any, FaviconTitleHandlerClass> = shallowWithIntl(
+        const wrapper = shallowWithIntl(
             <FaviconTitleHandler {...defaultProps}/>,
-        ) as unknown as ShallowWrapper<any, any, FaviconTitleHandlerClass>;
+        ) as unknown as ShallowWrapper<Props, any, FaviconTitleHandlerClass>;
         const instance = wrapper.instance();
         instance.updateTitle();
         instance.componentDidUpdate = jest.fn();
         instance.render = jest.fn();
         expect(document.title).toBe('Public test 1 - Test team display name Test site');
-        wrapper.setProps({siteName: null});
+
+        wrapper.setProps({
+            siteName: undefined,
+        });
         instance.updateTitle();
         expect(document.title).toBe('Public test 1 - Test team display name');
-        wrapper.setProps({currentChannel: {id: 1, type: Constants.DM_CHANNEL}, currentTeammate: {display_name: 'teammate'}});
+
+        wrapper.setProps({
+            currentChannel: {id: '1', type: Constants.DM_CHANNEL} as Props['currentChannel'],
+            currentTeammate: {display_name: 'teammate'} as Props['currentTeammate'],
+        });
         instance.updateTitle();
         expect(document.title).toBe('teammate - Test team display name');
-        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
+
+        wrapper.setProps({
+            unreadStatus: 3,
+        });
         instance.updateTitle();
         expect(document.title).toBe('(3) teammate - Test team display name');
-        wrapper.setProps({currentChannel: {}, currentTeammate: {}});
+
+        wrapper.setProps({
+            currentChannel: {} as Props['currentChannel'],
+            currentTeammate: {} as Props['currentTeammate']});
         instance.updateTitle();
         expect(document.title).toBe('Mattermost - Join a team');
     });
@@ -76,13 +88,21 @@ describe('components/FaviconTitleHandler', () => {
         // supported, hence we need to show * in title on mentions
         (isFirefox as jest.Mock).mockImplementation(() => false);
         (isChrome as jest.Mock).mockImplementation(() => false);
-        const wrapper: ShallowWrapper<any, any, FaviconTitleHandlerClass> = shallowWithIntl(
+        const wrapper = shallowWithIntl(
             <FaviconTitleHandler {...defaultProps}/>,
-        ) as unknown as ShallowWrapper<any, any, FaviconTitleHandlerClass>;
+        ) as unknown as ShallowWrapper<Props, any, FaviconTitleHandlerClass>;
         const instance = wrapper.instance();
-        wrapper.setProps({siteName: null});
-        wrapper.setProps({currentChannel: {id: 1, type: Constants.DM_CHANNEL}, currentTeammate: {display_name: 'teammate'}});
-        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
+
+        wrapper.setProps({
+            siteName: undefined,
+        });
+        wrapper.setProps({
+            currentChannel: {id: '1', type: Constants.DM_CHANNEL} as Props['currentChannel'],
+            currentTeammate: {display_name: 'teammate'} as Props['currentTeammate'],
+        });
+        wrapper.setProps({
+            unreadStatus: 3,
+        });
         instance.updateTitle();
         expect(document.title).toBe('(3) * teammate - Test team display name');
     });
@@ -92,19 +112,25 @@ describe('components/FaviconTitleHandler', () => {
         link.rel = 'icon';
         document.head.appendChild(link);
 
-        const wrapper: ShallowWrapper<any, any, FaviconTitleHandlerClass> = shallowWithIntl(
+        const wrapper = shallowWithIntl(
             <FaviconTitleHandler {...defaultProps}/>,
-        ) as unknown as ShallowWrapper<any, any, FaviconTitleHandlerClass>;
+        ) as unknown as ShallowWrapper<Props, any, FaviconTitleHandlerClass>;
         const instance = wrapper.instance();
         instance.updateFavicon = jest.fn();
 
-        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
+        wrapper.setProps({
+            unreadStatus: 3,
+        });
         expect(instance.updateFavicon).lastCalledWith('Mention');
 
-        wrapper.setProps({unreads: {mentionCount: 0, messageCount: 4}});
+        wrapper.setProps({
+            unreadStatus: true,
+        });
         expect(instance.updateFavicon).lastCalledWith('Unread');
 
-        wrapper.setProps({unreads: {mentionCount: 0, messageCount: 0}});
+        wrapper.setProps({
+            unreadStatus: false,
+        });
         expect(instance.updateFavicon).lastCalledWith('None');
     });
 });

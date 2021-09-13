@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import CreatePost from 'components/create_post/create_post';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
@@ -14,7 +16,6 @@ import EmojiMap from 'utils/emoji_map';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import CreatePost from 'components/create_post/create_post.jsx';
 import FileUpload from 'components/file_upload';
 import Textbox from 'components/textbox';
 
@@ -56,8 +57,6 @@ const ctrlSendProp = false;
 
 const currentUsersLatestPostProp = {id: 'b', root_id: 'a', channel_id: currentChannelProp.id};
 
-const commentCountForPostProp = 10;
-
 const actionsProp = {
     addMessageIntoHistory: jest.fn(),
     moveHistoryIndexBack: jest.fn(),
@@ -83,6 +82,7 @@ const actionsProp = {
     },
     scrollPostListToBottom: jest.fn(),
     getChannelMemberCountsByGroup: jest.fn(),
+    emitShortcutReactToLastPostFrom: jest.fn(),
 };
 
 /* eslint-disable react/prop-types */
@@ -100,7 +100,6 @@ function createPost({
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
-    commentCountForPost = commentCountForPostProp,
     readOnlyChannel = false,
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
@@ -121,7 +120,6 @@ function createPost({
             locale={locale}
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
-            commentCountForPost={commentCountForPost}
             actions={actions}
             readOnlyChannel={readOnlyChannel}
             canUploadFiles={canUploadFiles}
@@ -145,7 +143,8 @@ function createPost({
 /* eslint-enable react/prop-types */
 
 describe('components/create_post', () => {
-    jest.useFakeTimers();
+    jest.useFakeTimers('legacy');
+
     beforeEach(() => {
         jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
     });
@@ -840,7 +839,7 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost({}));
         wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
 
-        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
+        expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
     });
 
     it('Remove preview from fileInfos', () => {
@@ -917,7 +916,7 @@ describe('components/create_post', () => {
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
     it('Should call edit action as post for arrow up', () => {
@@ -936,7 +935,7 @@ describe('components/create_post', () => {
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
     it('Should call moveHistoryIndexForward as ctrlKey and down arrow', () => {
@@ -1069,15 +1068,12 @@ describe('components/create_post', () => {
         wrapper.setState({
             message: '/fakecommand some text',
         });
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(executeCommand).toHaveBeenCalled();
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
         expect(onSubmitPost).not.toHaveBeenCalled();
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         expect(onSubmitPost).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -1108,17 +1104,14 @@ describe('components/create_post', () => {
         wrapper.setState({
             message: '/fakecommand some text',
         });
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(executeCommand).toHaveBeenCalled();
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(true);
         expect(onSubmitPost).not.toHaveBeenCalled();
 
         wrapper.instance().handleChange({
             target: {value: 'some valid text'},
         });
-        expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 

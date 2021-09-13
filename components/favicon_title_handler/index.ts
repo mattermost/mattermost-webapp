@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 import {withRouter, RouteChildrenProps, matchPath} from 'react-router-dom';
 
-import {getCurrentChannel, getUnreads} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getUnreadStatus} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -27,7 +27,7 @@ function mapStateToProps(state: GlobalState, {location: {pathname}}: Props): Com
         currentTeam,
         currentTeammate,
         siteName: config.SiteName,
-        unreads: getUnreads(state),
+        unreadStatus: getUnreadStatus(state),
         inGlobalThreads: matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'}) != null,
     };
 }

@@ -3,14 +3,6 @@
 
 import moment from 'moment-timezone';
 
-import {getSupportedTimezones as getTimezones} from 'mattermost-redux/selectors/entities/general';
-
-import store from 'stores/redux_store.jsx';
-
-export function getSupportedTimezones(state = store.getState()) {
-    return getTimezones(state);
-}
-
 export function getBrowserTimezone() {
     return moment.tz.guess();
 }
@@ -26,4 +18,13 @@ export function getUtcOffsetForTimeZone(timezone) {
 export function getCurrentDateForTimezone(timezone) {
     const tztime = moment().tz(timezone);
     return new Date(tztime.year(), tztime.month(), tztime.date());
+}
+
+export function getCurrentDateTimeForTimezone(timezone) {
+    const tztime = moment().tz(timezone);
+    return new Date(tztime.year(), tztime.month(), tztime.date(), tztime.hour(), tztime.minute(), tztime.second());
+}
+
+export function getCurrentMomentForTimezone(timezone) {
+    return timezone ? moment.tz(timezone) : moment();
 }

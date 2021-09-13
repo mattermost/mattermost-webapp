@@ -27,7 +27,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
     className="remove"
     onClick={[Function]}
   >
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Remove"
       id="admin.permissions.teamScheme.removeTeam"
     />

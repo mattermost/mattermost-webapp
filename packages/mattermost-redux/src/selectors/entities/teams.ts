@@ -36,6 +36,7 @@ export function getTeams(state: GlobalState): IDMappedObjects<Team> {
 
 export function getTeamsInPolicy() {
     return (createSelector(
+        'getTeamsInPolicy',
         getTeams,
         (state: GlobalState, props: {policyId: string}) => getDataRetentionCustomPolicy(state, props.policyId),
         (allTeams, policy) => {
@@ -71,6 +72,7 @@ export function getMembersInTeams(state: GlobalState) {
 }
 
 export const getTeamsList: (state: GlobalState) => Team[] = createSelector(
+    'getTeamsList',
     getTeams,
     (teams) => {
         return Object.values(teams);
@@ -78,6 +80,7 @@ export const getTeamsList: (state: GlobalState) => Team[] = createSelector(
 );
 
 export const getCurrentTeam: (state: GlobalState) => Team = createSelector(
+    'getCurrentTeam',
     getTeams,
     getCurrentTeamId,
     (teams, currentTeamId) => {
@@ -91,6 +94,7 @@ export function getTeam(state: GlobalState, id: string): Team {
 }
 
 export const getCurrentTeamMembership: (state: GlobalState) => TeamMembership = createSelector(
+    'getCurrentTeamMembership',
     getCurrentTeamId,
     getTeamMemberships,
     (currentTeamId: string, teamMemberships: {[teamId: string]: TeamMembership}): TeamMembership => {
@@ -99,6 +103,7 @@ export const getCurrentTeamMembership: (state: GlobalState) => TeamMembership = 
 );
 
 export const isCurrentUserCurrentTeamAdmin: (state: GlobalState) => boolean = createSelector(
+    'isCurrentUserCurrentTeamAdmin',
     getCurrentTeamMembership,
     (member) => {
         if (member) {
@@ -110,6 +115,7 @@ export const isCurrentUserCurrentTeamAdmin: (state: GlobalState) => boolean = cr
 );
 
 export const getCurrentTeamUrl: (state: GlobalState) => string = createSelector(
+    'getCurrentTeamUrl',
     getCurrentUrl,
     getCurrentTeam,
     (state) => getConfig(state).SiteURL,
@@ -124,6 +130,7 @@ export const getCurrentTeamUrl: (state: GlobalState) => string = createSelector(
 );
 
 export const getCurrentRelativeTeamUrl: (state: GlobalState) => string = createSelector(
+    'getCurrentRelativeTeamUrl',
     getCurrentTeam,
     (currentTeam) => {
         if (!currentTeam) {
@@ -134,6 +141,7 @@ export const getCurrentRelativeTeamUrl: (state: GlobalState) => string = createS
 );
 
 export const getCurrentTeamStats: (state: GlobalState) => TeamStats = createSelector(
+    'getCurrentTeamStats',
     getCurrentTeamId,
     getTeamStats,
     (currentTeamId, teamStats) => {
@@ -142,6 +150,7 @@ export const getCurrentTeamStats: (state: GlobalState) => TeamStats = createSele
 );
 
 export const getMyTeams: (state: GlobalState) => Team[] = createSelector(
+    'getMyTeams',
     getTeams,
     getTeamMemberships,
     (teams, members) => {
@@ -150,6 +159,7 @@ export const getMyTeams: (state: GlobalState) => Team[] = createSelector(
 );
 
 export const getMyTeamMember: (state: GlobalState, teamId: string) => TeamMembership = createSelector(
+    'getMyTeamMember',
     getTeamMemberships,
     (state: GlobalState, teamId: string) => teamId,
     (teamMemberships, teamId) => {
@@ -158,6 +168,7 @@ export const getMyTeamMember: (state: GlobalState, teamId: string) => TeamMember
 );
 
 export const getMembersInCurrentTeam: (state: GlobalState) => RelationOneToOne<UserProfile, TeamMembership> = createSelector(
+    'getMembersInCurrentTeam',
     getCurrentTeamId,
     getMembersInTeams,
     (currentTeamId, teamMembers) => {
@@ -175,6 +186,7 @@ export function getTeamMember(state: GlobalState, teamId: string, userId: string
 }
 
 export const getListableTeamIds: (state: GlobalState) => Array<$ID<Team>> = createIdsSelector(
+    'getListableTeamIds',
     getTeams,
     getTeamMemberships,
     (state) => haveISystemPermission(state, {permission: Permissions.LIST_PUBLIC_TEAMS}),
@@ -194,6 +206,7 @@ export const getListableTeamIds: (state: GlobalState) => Array<$ID<Team>> = crea
 );
 
 export const getListableTeams: (state: GlobalState) => Team[] = createSelector(
+    'getListableTeams',
     getTeams,
     getListableTeamIds,
     (teams, listableTeamIds) => {
@@ -202,6 +215,7 @@ export const getListableTeams: (state: GlobalState) => Team[] = createSelector(
 );
 
 export const getSortedListableTeams: (state: GlobalState, locale: string) => Team[] = createSelector(
+    'getSortedListableTeams',
     getTeams,
     getListableTeamIds,
     (state: GlobalState, locale: string) => locale,
@@ -217,6 +231,7 @@ export const getSortedListableTeams: (state: GlobalState, locale: string) => Tea
 );
 
 export const getJoinableTeamIds: (state: GlobalState) => Array<$ID<Team>> = createIdsSelector(
+    'getJoinableTeamIds',
     getTeams,
     getTeamMemberships,
     (state: GlobalState) => haveISystemPermission(state, {permission: Permissions.JOIN_PUBLIC_TEAMS}),
@@ -236,6 +251,7 @@ export const getJoinableTeamIds: (state: GlobalState) => Array<$ID<Team>> = crea
 );
 
 export const getJoinableTeams: (state: GlobalState) => Team[] = createSelector(
+    'getJoinableTeams',
     getTeams,
     getJoinableTeamIds,
     (teams, joinableTeamIds) => {
@@ -244,6 +260,7 @@ export const getJoinableTeams: (state: GlobalState) => Team[] = createSelector(
 );
 
 export const getSortedJoinableTeams: (state: GlobalState, locale: string) => Team[] = createSelector(
+    'getSortedJoinableTeams',
     getTeams,
     getJoinableTeamIds,
     (state: GlobalState, locale: string) => locale,
@@ -259,6 +276,7 @@ export const getSortedJoinableTeams: (state: GlobalState, locale: string) => Tea
 );
 
 export const getMySortedTeamIds: (state: GlobalState, locale: string) => Array<$ID<Team>> = createIdsSelector(
+    'getMySortedTeamIds',
     getMyTeams,
     (state: GlobalState, locale: string) => locale,
     (teams, locale) => {
@@ -275,6 +293,7 @@ export function getMyTeamsCount(state: GlobalState) {
 // 0 means that there are no unread messages
 // -1 means that there are unread messages but no mentions
 export const getChannelDrawerBadgeCount: (state: GlobalState) => number = createSelector(
+    'getChannelDrawerBadgeCount',
     getCurrentTeamId,
     getTeamMemberships,
     isCollapsedThreadsEnabled,
@@ -305,6 +324,7 @@ export const getChannelDrawerBadgeCount: (state: GlobalState) => number = create
 // -1 means that there are unread messages but no mentions
 export function makeGetBadgeCountForTeamId(): (state: GlobalState, id: string) => number {
     return createSelector(
+        'makeGetBadgeCountForTeamId',
         getTeamMemberships,
         (state: GlobalState, id: string) => id,
         isCollapsedThreadsEnabled,

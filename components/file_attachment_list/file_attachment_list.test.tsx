@@ -29,6 +29,7 @@ describe('FileAttachmentList', () => {
         enableSVGs: false,
         isEmbedVisible: false,
         locale: 'en',
+        handleFileDropdownOpened: jest.fn(),
         actions: {getMissingFilesForPost: jest.fn()},
     };
 

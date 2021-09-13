@@ -32,14 +32,16 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;
@@ -76,14 +78,16 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;
@@ -120,14 +124,16 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;
@@ -164,14 +170,16 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;
@@ -208,14 +216,16 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;
@@ -252,14 +262,16 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;
@@ -296,14 +308,16 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;
@@ -340,14 +354,16 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;
@@ -384,14 +400,16 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;
@@ -428,14 +446,16 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
       ]
     }
   >
-    <span>
+    <div
+      className="announcement-bar__text"
+    >
       <injectIntl(FormattedMarkdownMessage)
         id="text"
       />
       <span
         className="announcement-bar__link"
       />
-    </span>
+    </div>
   </OverlayTrigger>
 </div>
 `;

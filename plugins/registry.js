@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint max-lines: 0 */
+
 import React from 'react';
 
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
@@ -49,6 +51,14 @@ const resolveReactElement = (element) => {
     }
 
     return element;
+};
+
+const standardizeRoute = (route) => {
+    let fixedRoute = route.trim();
+    if (fixedRoute[0] === '/') {
+        fixedRoute = fixedRoute.substring(1);
+    }
+    return fixedRoute;
 };
 
 export default class PluginRegistry {
@@ -105,7 +115,7 @@ export default class PluginRegistry {
     // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or React element shown for the dropdown button description
-    // - tooltip_text - string shown for tooltip appear on hover
+    // - tooltip_text - string or React element shown for tooltip appear on hover
     registerChannelHeaderButtonAction(icon, action, dropdownText, tooltipText) {
         const id = generateId();
 
@@ -115,7 +125,7 @@ export default class PluginRegistry {
             icon: resolveReactElement(icon),
             action,
             dropdownText: resolveReactElement(dropdownText),
-            tooltipText,
+            tooltipText: resolveReactElement(tooltipText),
         };
 
         store.dispatch({
@@ -276,6 +286,30 @@ export default class PluginRegistry {
             data: {
                 id,
                 pluginId: this.id,
+                text: resolveReactElement(text),
+                action,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a files dropdown list item by providing some text and an action function.
+    // Accepts the following:
+    // - match - A function  that receives the fileInfo and returns a boolean indicating if the plugin is able to process it.
+    // - text - A string or React element to display in the menu
+    // - action - A function that receives the fileInfo and is called when the menu items is clicked.
+    // Returns a unique identifier.
+    registerFileDropdownMenuAction(match, text, action) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'FilesDropdown',
+            data: {
+                id,
+                pluginId: this.id,
+                match,
                 text: resolveReactElement(text),
                 action,
             },
@@ -488,7 +522,6 @@ export default class PluginRegistry {
     //            channel_id: channelId,
     //            team_id: teamId,
     //            root_id: rootId,
-    //            parent_id: rootId,
     //        }
     //
     // To reject a command, return an object containing an error:
@@ -630,10 +663,7 @@ export default class PluginRegistry {
     // - id: a unique identifier
     registerNeedsTeamRoute(route, component) {
         const id = generateId();
-        let fixedRoute = route.trim();
-        if (fixedRoute[0] === '/') {
-            fixedRoute = fixedRoute.substring(1);
-        }
+        let fixedRoute = standardizeRoute(route);
         fixedRoute = this.id + '/' + fixedRoute;
 
         store.dispatch({
@@ -658,10 +688,7 @@ export default class PluginRegistry {
     // - id: a unique identifier
     registerCustomRoute(route, component) {
         const id = generateId();
-        let fixedRoute = route.trim();
-        if (fixedRoute[0] === '/') {
-            fixedRoute = fixedRoute.substring(1);
-        }
+        let fixedRoute = standardizeRoute(route);
         fixedRoute = this.id + '/' + fixedRoute;
 
         store.dispatch({
@@ -672,6 +699,41 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 component,
                 route: fixedRoute,
+            },
+        });
+
+        return id;
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // DANGER: Interferes with historic routes.
+    // Register a global header menu item
+    // Accepts the following:
+    // - baseURL - The route to be displayed at starting from the siteURL
+    // - switcherIcon - A react element to display as the icon in the product switcher
+    // - switcherText - A string or React element to display in the product switcher
+    // - switcherLinkURL - A string specifying the URL the switcher item should point to.
+    // - mainComponent - The component to be displayed below the global header when your route is active.
+    // - headerComponent - A component to fill the generic area in the center of
+    //                     the global header when your route is active.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'Product',
+            data: {
+                id,
+                pluginId: this.id,
+                switcherIcon: resolveReactElement(switcherIcon),
+                switcherText: resolveReactElement(switcherText),
+                baseURL: '/' + standardizeRoute(baseURL),
+                switcherLinkURL: '/' + standardizeRoute(switcherLinkURL),
+                mainComponent,
+                headerCentreComponent,
+                headerRightComponent,
             },
         });
 

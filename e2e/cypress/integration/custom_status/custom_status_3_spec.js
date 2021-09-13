@@ -82,7 +82,7 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
         cy.get('#statusDropdownMenu').should('exist');
 
         // * Correct custom status text and emoji should be displayed in the status dropdown
-        cy.get('.status-dropdown-menu .custom_status__row').should('have.text', customStatus.text);
+        cy.get('.status-dropdown-menu .custom_status__container').should('have.text', customStatus.text);
         cy.get('.status-dropdown-menu .custom_status__row span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
 
         // * Clear button should be visible in the status dropdown

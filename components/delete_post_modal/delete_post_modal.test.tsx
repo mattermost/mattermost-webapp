@@ -30,7 +30,6 @@ describe('components/delete_post_modal', () => {
         delete_at: 0,
         is_pinned: false,
         user_id: '',
-        parent_id: '',
         original_id: '',
         props: {} as Record<string, any>,
         hashtags: '',

@@ -15,7 +15,7 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
         className="fa fa-linux"
         title="Linux Icon"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Native Desktop App"
         id="activity_log_modal.desktop"
       />
@@ -24,7 +24,7 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
       className="report__info"
     >
       <div>
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Last activity: {date}, {time}"
           id="activity_log.lastActivity"
           values={
@@ -78,7 +78,7 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
       className="btn btn-primary"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Log Out"
         id="activity_log.logout"
       />

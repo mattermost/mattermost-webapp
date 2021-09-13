@@ -53,9 +53,9 @@ exports[`/components/common/InfiniteScroll should not show loading screen if the
         <div
           className="loading__content"
         >
-          <h3>
+          <p>
              
-          </h3>
+          </p>
           <div
             className="round round-1"
           />

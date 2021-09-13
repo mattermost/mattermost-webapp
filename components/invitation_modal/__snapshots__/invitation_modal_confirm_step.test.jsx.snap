@@ -40,7 +40,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="invitation-modal-confirm-sent"
   >
     <h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Successful Invites"
         id="invitation_modal.confirm.sent-header"
       />
@@ -62,7 +62,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="invitation-modal-confirm-not-sent"
   >
     <h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invitations Not Sent"
         id="invitation_modal.confirm.not-sent-header"
       />
@@ -87,7 +87,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn invite-more"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
       />
@@ -96,7 +96,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
       />
@@ -145,7 +145,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="invitation-modal-confirm-sent"
   >
     <h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Successful Invites"
         id="invitation_modal.confirm.sent-header"
       />
@@ -167,7 +167,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="invitation-modal-confirm-not-sent"
   >
     <h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invitations Not Sent"
         id="invitation_modal.confirm.not-sent-header"
       />
@@ -192,7 +192,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn invite-more"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
       />
@@ -201,7 +201,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
       />
@@ -249,7 +249,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="invitation-modal-confirm-sent"
   >
     <h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Successful Invites"
         id="invitation_modal.confirm.sent-header"
       />
@@ -274,7 +274,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn invite-more"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
       />
@@ -283,7 +283,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
       />
@@ -329,7 +329,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn invite-more"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
       />
@@ -338,7 +338,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
       />
@@ -386,7 +386,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
     className="invitation-modal-confirm-not-sent"
   >
     <h2>
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invitations Not Sent"
         id="invitation_modal.confirm.not-sent-header"
       />
@@ -411,7 +411,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn invite-more"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Invite More People"
         id="invitation_modal.invite.more"
       />
@@ -420,7 +420,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
       className="btn btn-primary confirm-done"
       onClick={[MockFunction]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Done"
         id="invitation_modal.confirm.done"
       />

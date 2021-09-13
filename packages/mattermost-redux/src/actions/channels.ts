@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import * as Redux from 'redux';
+
 import {ChannelTypes, PreferenceTypes, UserTypes} from 'mattermost-redux/action_types';
 
 import {Client4} from 'mattermost-redux/client';
@@ -19,7 +21,6 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -33,7 +34,7 @@ import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {addChannelToInitialCategory, addChannelToCategory} from './channel_categories';
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
-import {savePreferences, deletePreferences} from './preferences';
+import {savePreferences} from './preferences';
 import {loadRolesIfNeeded} from './roles';
 import {getMissingProfilesByIds} from './users';
 
@@ -193,13 +194,15 @@ export function createGroupChannel(userIds: string[]): ActionFunc {
             return {error};
         }
 
-        let member: Partial<ChannelMembership|undefined> = {
+        let member: Partial<ChannelMembership> | undefined = {
             channel_id: created.id,
             user_id: currentUserId,
             roles: `${General.CHANNEL_USER_ROLE}`,
             last_viewed_at: 0,
             msg_count: 0,
             mention_count: 0,
+            msg_count_root: 0,
+            mention_count_root: 0,
             notify_props: {desktop: 'default', mark_unread: 'all'},
             last_update_at: created.create_at,
         };
@@ -341,37 +344,6 @@ export function updateChannelPrivacy(channelId: string, privacy: string): Action
         ]));
 
         return {data: updatedChannel};
-    };
-}
-
-export function convertChannelToPrivate(channelId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch({type: ChannelTypes.UPDATE_CHANNEL_REQUEST, data: null});
-
-        let convertedChannel;
-        try {
-            convertedChannel = await Client4.convertChannelToPrivate(channelId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(batchActions([
-                {type: ChannelTypes.UPDATE_CHANNEL_FAILURE, error},
-                logError(error),
-            ]));
-            return {error};
-        }
-
-        dispatch(batchActions([
-            {
-                type: ChannelTypes.RECEIVED_CHANNEL,
-                data: convertedChannel,
-            },
-            {
-                type: ChannelTypes.UPDATE_CHANNEL_SUCCESS,
-            },
-        ]));
-
-        return {data: convertedChannel};
     };
 }
 
@@ -834,43 +806,44 @@ export function viewChannel(channelId: string, prevChannelId = ''): ActionFunc {
     };
 }
 
-export function markChannelAsViewed(channelId: string, prevChannelId = ''): ActionFunc {
+export function markChannelAsViewed(channelId: string, prevChannelId?: string): ActionFunc {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const actions: Action[] = [];
+        const actions = actionsToMarkChannelAsViewed(getState, channelId, prevChannelId);
 
-        const {myMembers} = getState().entities.channels;
-        const member = myMembers[channelId];
-        const state = getState();
-        if (member) {
-            actions.push({
-                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-                data: {...member, last_viewed_at: Date.now()},
-            });
-            if (isManuallyUnread(state, channelId)) {
-                actions.push({
-                    type: ChannelTypes.REMOVE_MANUALLY_UNREAD,
-                    data: {channelId},
-                });
-            }
-
-            dispatch(loadRolesIfNeeded(member.roles.split(' ')));
-        }
-
-        const prevMember = myMembers[prevChannelId];
-        if (prevMember && !isManuallyUnread(getState(), prevChannelId)) {
-            actions.push({
-                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-                data: {...prevMember, last_viewed_at: Date.now()},
-            });
-            dispatch(loadRolesIfNeeded(prevMember.roles.split(' ')));
-        }
-
-        if (actions.length) {
-            dispatch(batchActions(actions));
-        }
-
-        return {data: true};
+        return dispatch(batchActions(actions));
     };
+}
+
+export function actionsToMarkChannelAsViewed(getState: GetStateFunc, channelId: string, prevChannelId = '') {
+    const actions: Redux.AnyAction[] = [];
+
+    const state = getState();
+    const {myMembers} = state.entities.channels;
+
+    const member = myMembers[channelId];
+    if (member) {
+        actions.push({
+            type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
+            data: {...member, last_viewed_at: Date.now()},
+        });
+
+        if (isManuallyUnread(state, channelId)) {
+            actions.push({
+                type: ChannelTypes.REMOVE_MANUALLY_UNREAD,
+                data: {channelId},
+            });
+        }
+    }
+
+    const prevMember = myMembers[prevChannelId];
+    if (prevMember && !isManuallyUnread(state, prevChannelId)) {
+        actions.push({
+            type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
+            data: {...prevMember, last_viewed_at: Date.now()},
+        });
+    }
+
+    return actions;
 }
 
 export function getChannels(teamId: string, page = 0, perPage: number = General.CHANNELS_CHUNK_SIZE): ActionFunc {
@@ -1259,80 +1232,15 @@ export function updateChannelPurpose(channelId: string, purpose: string): Action
 
 export function markChannelAsRead(channelId: string, prevChannelId?: string, updateLastViewedAt = true): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const prevChanManuallyUnread = isManuallyUnread(getState(), prevChannelId);
+        const state = getState();
+        const prevChanManuallyUnread = isManuallyUnread(state, prevChannelId);
 
         // Send channel last viewed at to the server
         if (updateLastViewedAt) {
-            Client4.viewMyChannel(channelId, prevChanManuallyUnread ? '' : prevChannelId).then().catch((error) => {
-                forceLogoutIfNecessary(error, dispatch, getState);
-                dispatch(logError(error));
-                return {error};
-            });
+            dispatch(markChannelAsReadOnServer(channelId, prevChanManuallyUnread ? '' : prevChannelId));
         }
 
-        const state = getState();
-        const {channels, myMembers} = state.entities.channels;
-
-        // Update channel member objects to set all mentions and posts as viewed
-        const channel = channels[channelId];
-        const prevChannel = (!prevChanManuallyUnread && prevChannelId) ? channels[prevChannelId] : null; // May be null since prevChannelId is optional
-
-        // Update team member objects to set mentions and posts in channel as viewed
-        const channelMember = myMembers[channelId];
-        const prevChannelMember = (!prevChanManuallyUnread && prevChannelId) ? myMembers[prevChannelId] : null; // May also be null
-
-        const actions: Action[] = [];
-
-        if (channel && channelMember) {
-            actions.push({
-                type: ChannelTypes.DECREMENT_UNREAD_MSG_COUNT,
-                data: {
-                    teamId: channel.team_id,
-                    channelId,
-                    amount: channel.total_msg_count - channelMember.msg_count,
-                    amountRoot: channel.total_msg_count_root - channelMember.msg_count_root,
-                },
-            });
-
-            actions.push({
-                type: ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT,
-                data: {
-                    teamId: channel.team_id,
-                    channelId,
-                    amount: channelMember.mention_count,
-                    amountRoot: channelMember.mention_count_root,
-                },
-            });
-        }
-
-        if (channel && isManuallyUnread(getState(), channelId)) {
-            actions.push({
-                type: ChannelTypes.REMOVE_MANUALLY_UNREAD,
-                data: {channelId},
-            });
-        }
-
-        if (prevChannel && prevChannelMember) {
-            actions.push({
-                type: ChannelTypes.DECREMENT_UNREAD_MSG_COUNT,
-                data: {
-                    teamId: prevChannel.team_id,
-                    channelId: prevChannelId,
-                    amount: prevChannel.total_msg_count - prevChannelMember.msg_count,
-                    amountRoot: prevChannel.total_msg_count_root - prevChannelMember.msg_count_root,
-                },
-            });
-
-            actions.push({
-                type: ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT,
-                data: {
-                    teamId: prevChannel.team_id,
-                    channelId: prevChannelId,
-                    amount: prevChannelMember.mention_count,
-                    amountRoot: prevChannelMember.mention_count_root,
-                },
-            });
-        }
+        const actions = actionsToMarkChannelAsRead(getState, channelId, prevChannelId);
 
         if (actions.length > 0) {
             dispatch(batchActions(actions));
@@ -1342,8 +1250,91 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
     };
 }
 
-// Increments the number of posts in the channel by 1 and marks it as unread if necessary
+export function markChannelAsReadOnServer(channelId: string, prevChannelId?: string): ActionFunc {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        Client4.viewMyChannel(channelId, prevChannelId).then().catch((error) => {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        });
 
+        return {data: true};
+    };
+}
+
+export function actionsToMarkChannelAsRead(getState: GetStateFunc, channelId: string, prevChannelId?: string) {
+    const state = getState();
+    const {channels, messageCounts, myMembers} = state.entities.channels;
+
+    const prevChanManuallyUnread = isManuallyUnread(state, prevChannelId);
+
+    // Update channel member objects to set all mentions and posts as viewed
+    const channel = channels[channelId];
+    const messageCount = messageCounts[channelId];
+    const prevChannel = (!prevChanManuallyUnread && prevChannelId) ? channels[prevChannelId] : null; // May be null since prevChannelId is optional
+    const prevMessageCount = (!prevChanManuallyUnread && prevChannelId) ? messageCounts[prevChannelId] : null;
+
+    // Update team member objects to set mentions and posts in channel as viewed
+    const channelMember = myMembers[channelId];
+    const prevChannelMember = (!prevChanManuallyUnread && prevChannelId) ? myMembers[prevChannelId] : null; // May also be null
+
+    const actions: Redux.AnyAction[] = [];
+
+    if (channel && channelMember) {
+        actions.push({
+            type: ChannelTypes.DECREMENT_UNREAD_MSG_COUNT,
+            data: {
+                teamId: channel.team_id,
+                channelId,
+                amount: messageCount.total - channelMember.msg_count,
+                amountRoot: messageCount.root - channelMember.msg_count_root,
+            },
+        });
+
+        actions.push({
+            type: ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT,
+            data: {
+                teamId: channel.team_id,
+                channelId,
+                amount: channelMember.mention_count,
+                amountRoot: channelMember.mention_count_root,
+            },
+        });
+    }
+
+    if (channel && isManuallyUnread(getState(), channelId)) {
+        actions.push({
+            type: ChannelTypes.REMOVE_MANUALLY_UNREAD,
+            data: {channelId},
+        });
+    }
+
+    if (prevChannel && prevChannelMember && prevMessageCount) {
+        actions.push({
+            type: ChannelTypes.DECREMENT_UNREAD_MSG_COUNT,
+            data: {
+                teamId: prevChannel.team_id,
+                channelId: prevChannelId,
+                amount: prevMessageCount.total - prevChannelMember.msg_count,
+                amountRoot: prevMessageCount.root - prevChannelMember.msg_count_root,
+            },
+        });
+
+        actions.push({
+            type: ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT,
+            data: {
+                teamId: prevChannel.team_id,
+                channelId: prevChannelId,
+                amount: prevChannelMember.mention_count,
+                amountRoot: prevChannelMember.mention_count_root,
+            },
+        });
+    }
+
+    return actions;
+}
+
+// Increments the number of posts in the channel by 1 and marks it as unread if necessary
 export function markChannelAsUnread(teamId: string, channelId: string, mentions: string[], fetchedChannelMember = false, isRoot = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
@@ -1393,6 +1384,51 @@ export function markChannelAsUnread(teamId: string, channelId: string, mentions:
     };
 }
 
+export function actionsToMarkChannelAsUnread(getState: GetStateFunc, teamId: string, channelId: string, mentions: string[], fetchedChannelMember = false, isRoot = false) {
+    const state = getState();
+    const {myMembers} = state.entities.channels;
+    const {currentUserId} = state.entities.users;
+
+    const actions: Redux.AnyAction[] = [{
+        type: ChannelTypes.INCREMENT_UNREAD_MSG_COUNT,
+        data: {
+            teamId,
+            channelId,
+            amount: 1,
+            amountRoot: isRoot ? 1 : 0,
+            onlyMentions: myMembers[channelId] && myMembers[channelId].notify_props &&
+                myMembers[channelId].notify_props.mark_unread === MarkUnread.MENTION,
+            fetchedChannelMember,
+        },
+    }];
+
+    if (!fetchedChannelMember) {
+        actions.push({
+            type: ChannelTypes.INCREMENT_TOTAL_MSG_COUNT,
+            data: {
+                channelId,
+                amountRoot: isRoot ? 1 : 0,
+                amount: 1,
+            },
+        });
+    }
+
+    if (mentions && mentions.indexOf(currentUserId) !== -1) {
+        actions.push({
+            type: ChannelTypes.INCREMENT_UNREAD_MENTION_COUNT,
+            data: {
+                teamId,
+                channelId,
+                amountRoot: isRoot ? 1 : 0,
+                amount: 1,
+                fetchedChannelMember,
+            },
+        });
+    }
+
+    return actions;
+}
+
 export function getChannelMembersByIds(channelId: string, userIds: string[]) {
     return bindClientFunc({
         clientFunc: Client4.getChannelMembersByIds,
@@ -1425,81 +1461,41 @@ export function getMyChannelMember(channelId: string) {
     });
 }
 
-export function favoriteChannel(channelId: string, updateCategories = true): ActionFunc {
+// favoriteChannel moves the provided channel into the current team's Favorites category.
+export function favoriteChannel(channelId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
-        const currentUserId = getCurrentUserId(state);
-
-        const preference: PreferenceType = {
-            user_id: currentUserId,
-            category: Preferences.CATEGORY_FAVORITE_CHANNEL,
-            name: channelId,
-            value: 'true',
-        };
+        const channel = getChannelSelector(state, channelId);
+        const category = getCategoryInTeamByType(state, channel.team_id || getCurrentTeamId(state), CategoryTypes.FAVORITES);
 
         Client4.trackEvent('action', 'action_channels_favorite');
 
-        if (config.EnableLegacySidebar === 'true') {
-            // The old sidebar is enabled, so favorite the channel by calling the preferences API
-            return dispatch(savePreferences(currentUserId, [preference]));
+        if (!category) {
+            return {data: false};
         }
 
-        // The new sidebar is enabled, so favorite the channel by moving it into the current team's Favorites category
-        if (updateCategories) {
-            const channel = getChannelSelector(state, channelId);
-            const category = getCategoryInTeamByType(state, channel.team_id || getCurrentTeamId(state), CategoryTypes.FAVORITES);
-
-            if (category) {
-                await dispatch(addChannelToCategory(category.id, channelId));
-            }
-        }
-
-        return dispatch({
-            type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: [preference],
-        });
+        return dispatch(addChannelToCategory(category.id, channelId));
     };
 }
 
-export function unfavoriteChannel(channelId: string, updateCategories = true): ActionFunc {
+// unfavoriteChannel moves the provided channel into the current team's Channels/DMs category.
+export function unfavoriteChannel(channelId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
-        const currentUserId = getCurrentUserId(state);
-
-        const preference: PreferenceType = {
-            user_id: currentUserId,
-            category: Preferences.CATEGORY_FAVORITE_CHANNEL,
-            name: channelId,
-            value: '',
-        };
+        const channel = getChannelSelector(state, channelId);
+        const category = getCategoryInTeamByType(
+            state,
+            channel.team_id || getCurrentTeamId(state),
+            channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL ? CategoryTypes.DIRECT_MESSAGES : CategoryTypes.CHANNELS,
+        );
 
         Client4.trackEvent('action', 'action_channels_unfavorite');
 
-        if (config.EnableLegacySidebar === 'true') {
-            // The old sidebar is enabled, so unfavorite the channel by calling the preferences API
-            return dispatch(deletePreferences(currentUserId, [preference]));
+        if (!category) {
+            return {data: false};
         }
 
-        // The new sidebar is enabled, so unfavorite the channel by moving it into the current team's Channels/DMs category
-        if (updateCategories) {
-            const channel = getChannelSelector(state, channelId);
-            const category = getCategoryInTeamByType(
-                state,
-                channel.team_id || getCurrentTeamId(state),
-                channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL ? CategoryTypes.DIRECT_MESSAGES : CategoryTypes.CHANNELS,
-            );
-
-            if (category) {
-                await dispatch(addChannelToCategory(category.id, channel.id));
-            }
-        }
-
-        return dispatch({
-            type: PreferenceTypes.DELETED_PREFERENCES,
-            data: [preference],
-        });
+        return dispatch(addChannelToCategory(category.id, channel.id));
     };
 }
 

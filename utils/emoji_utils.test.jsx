@@ -25,17 +25,20 @@ describe('compareEmojis', () => {
         expect(emojiArray).toEqual([dashEmoji, goatEmoji, smileEmoji]);
     });
 
-    test('should have partiall matched emoji first', () => {
+    test('should have partial matched emoji first', () => {
         const goatEmoji = {
-            name: 'goat',
+            short_name: 'goat',
+            short_names: ['goat'],
         };
 
         const dashEmoji = {
-            name: 'dash',
+            short_name: 'dash',
+            short_names: ['dash'],
         };
 
         const smileEmoji = {
-            name: 'smile',
+            short_name: 'smile',
+            short_names: ['smile'],
         };
 
         const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
@@ -46,15 +49,18 @@ describe('compareEmojis', () => {
 
     test('should be able to sort on aliases', () => {
         const goatEmoji = {
-            aliases: [':goat:'],
+            short_names: [':goat:'],
+            short_name: ':goat:',
         };
 
         const dashEmoji = {
-            aliases: [':dash:'],
+            short_names: [':dash:'],
+            short_name: ':dash:',
         };
 
         const smileEmoji = {
-            aliases: [':smile:'],
+            short_names: [':smile:'],
+            short_name: ':smile:',
         };
 
         const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
@@ -65,15 +71,18 @@ describe('compareEmojis', () => {
 
     test('special case for thumbsup emoji should sort it before thumbsdown by aliases', () => {
         const thumbsUpEmoji = {
-            aliases: ['+1'],
+            short_names: ['+1'],
+            short_name: '+1',
         };
 
         const thumbsDownEmoji = {
-            aliases: ['-1'],
+            short_names: ['-1'],
+            short_name: '-1',
         };
 
         const smileEmoji = {
-            aliases: ['smile'],
+            short_names: ['smile'],
+            short_name: 'smile',
         };
 
         const emojiArray = [thumbsDownEmoji, thumbsUpEmoji, smileEmoji];
@@ -84,15 +93,15 @@ describe('compareEmojis', () => {
 
     test('special case for thumbsup emoji should sort it before thumbsdown by names', () => {
         const thumbsUpEmoji = {
-            name: 'thumbsup',
+            short_name: 'thumbsup',
         };
 
         const thumbsDownEmoji = {
-            name: 'thumbsdown',
+            short_name: 'thumbsdown',
         };
 
         const smileEmoji = {
-            name: 'smile',
+            short_name: 'smile',
         };
 
         const emojiArray = [thumbsDownEmoji, thumbsUpEmoji, smileEmoji];
@@ -103,15 +112,15 @@ describe('compareEmojis', () => {
 
     test('special case for thumbsup emoji should sort it when emoji is matched', () => {
         const thumbsUpEmoji = {
-            name: 'thumbsup',
+            short_name: 'thumbsup',
         };
 
         const thumbsDownEmoji = {
-            name: 'thumbsdown',
+            short_name: 'thumbsdown',
         };
 
         const smileEmoji = {
-            name: 'smile',
+            short_name: 'smile',
         };
 
         const emojiArray = [thumbsDownEmoji, thumbsUpEmoji, smileEmoji];
@@ -122,17 +131,17 @@ describe('compareEmojis', () => {
 
     test('special case for thumbsup emoji should sort custom "thumb" emojis after system', () => {
         const thumbsUpEmoji = {
-            aliases: ['+1', 'thumbsup'],
+            short_names: ['+1', 'thumbsup'],
             category: 'default',
         };
 
         const thumbsDownEmoji = {
-            name: 'thumbsdown',
+            short_name: 'thumbsdown',
             category: 'default',
         };
 
         const thumbsUpCustomEmoji = {
-            name: 'thumbsup-custom',
+            short_name: 'thumbsup-custom',
             category: 'custom',
         };
 

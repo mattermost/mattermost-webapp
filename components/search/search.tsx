@@ -68,7 +68,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut} = props;
+    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut, globalHeaderEnabled} = props;
 
     const intl = useIntl();
 
@@ -110,9 +110,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     actions.openRHSSearch();
                     setKeepInputFocused(true);
                 }
-                if (currentChannel) {
-                    handleUpdateSearchTerms(`in:${currentChannel.name} `);
-                }
+                actions.updateSearchTermsForShortcut();
                 handleFocus();
             }
         };
@@ -121,7 +119,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [currentChannel, hideSearchBar]);
+    }, [hideSearchBar]);
 
     useEffect((): void => {
         if (!Utils.isMobile()) {
@@ -454,6 +452,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
                 searchType={searchType}
+                globalHeaderEnabled={globalHeaderEnabled}
                 clearSearchType={() => actions.updateSearchType('')}
             >
                 {!Utils.isMobile() && renderHintPopover()}
@@ -483,7 +482,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return (
             <div
                 id='searchbarContainer'
-                className='flex-child search-bar__container'
+                className={globalHeaderEnabled ? 'search-bar-container--global' : 'search-bar__container flex-child'}
             >
                 <div className='sidebar-right__table'>
                     {renderSearchBar()}

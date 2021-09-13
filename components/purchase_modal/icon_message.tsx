@@ -8,12 +8,15 @@ import {FormattedMessage} from 'react-intl';
 import './icon_message.scss';
 
 type Props = {
-    icon: string;
-    title: string;
+    icon: JSX.Element;
+    title?: string;
     subtitle?: string;
     date?: string;
     error?: boolean;
     buttonText?: string;
+    formattedButonText?: JSX.Element;
+    formattedTitle?: JSX.Element;
+    formattedSubtitle?: JSX.Element;
     buttonHandler?: () => void;
     linkText?: string;
     linkURL?: string;
@@ -29,6 +32,9 @@ export default function IconMessage(props: Props) {
         date,
         error,
         buttonText,
+        formattedButonText,
+        formattedTitle,
+        formattedSubtitle,
         buttonHandler,
         linkText,
         linkURL,
@@ -37,7 +43,7 @@ export default function IconMessage(props: Props) {
     } = props;
 
     let button = null;
-    if (buttonText && buttonHandler) {
+    if ((buttonText || formattedButonText) && buttonHandler) {
         button = (
             <div className={classNames('IconMessage-button', error ? 'error' : '')}>
                 <button
@@ -45,9 +51,7 @@ export default function IconMessage(props: Props) {
                     className='btn btn-primary Form-btn'
                     onClick={buttonHandler}
                 >
-                    <FormattedMessage
-                        id={buttonText}
-                    />
+                    {formattedButonText || <FormattedMessage id={buttonText}/>}
                 </button>
             </div>
         );
@@ -75,13 +79,10 @@ export default function IconMessage(props: Props) {
             className='IconMessage'
         >
             <div className={classNames('content', className || '')}>
-                <img
-                    className='IconMessage-img'
-                    src={icon}
-                    alt='Payment icon'
-                />
+                {icon}
                 <h3 className='IconMessage-h3'>
-                    <FormattedMessage id={title}/>
+                    {title ? <FormattedMessage id={title}/> : null}
+                    {formattedTitle || null}
                 </h3>
                 <div className={classNames('IconMessage-sub', error || '')}>
                     {subtitle ? (
@@ -90,6 +91,7 @@ export default function IconMessage(props: Props) {
                             values={{date}}
                         />
                     ) : null}
+                    {formattedSubtitle || null}
                 </div>
                 {button}
                 {link}

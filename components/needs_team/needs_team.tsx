@@ -24,6 +24,7 @@ import ChannelController from 'components/channel_layout/channel_controller';
 import Pluggable from 'plugins/pluggable';
 
 import LocalStorageStore from 'stores/local_storage_store';
+import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
@@ -46,10 +47,9 @@ type Props = {
     };
     currentChannelId?: string;
     currentTeamId?: string;
-    useLegacyLHS: boolean;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
-        getMyTeamUnreads: () => Promise<{data: any; error?: any}>;
+        getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
         getTeamByName: (teamName: string) => Promise<{data: Team}>;
@@ -57,7 +57,6 @@ type Props = {
         selectTeam: (team: Team) => Promise<{data: boolean}>;
         setPreviousTeamId: (teamId: string) => Promise<{data: boolean}>;
         loadStatusesForChannelAndSidebar: () => Promise<{data: UserStatus[]}>;
-        loadProfilesForDirect: () => Promise<{data: boolean}>;
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getGroupsByUserId: (userID: string) => Promise<{data: Group[]}>;
@@ -75,7 +74,9 @@ type Props = {
     };
     teamsList: Team[];
     theme: any;
+    collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     plugins?: any;
+    selectedThreadId: string | null;
 }
 
 type State = {
@@ -141,7 +142,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         // Set up tracking for whether the window is active
         window.isActive = true;
-        Utils.applyTheme(this.props.theme);
 
         if (UserAgent.isIosSafari()) {
             // Use iNoBounce to prevent scrolling past the boundaries of the page
@@ -191,13 +191,15 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     handleFocus = () => {
+        if (this.props.selectedThreadId) {
+            window.isActive = true;
+        }
         if (this.props.currentChannelId) {
             this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
             window.isActive = true;
         }
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {
             this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
-            this.props.actions.loadProfilesForDirect();
         }
     }
 
@@ -226,7 +228,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         // If current team is set, then this is not first load
         // The first load action pulls team unreads
-        this.props.actions.getMyTeamUnreads();
+        this.props.actions.getMyTeamUnreads(this.props.collapsedThreads);
         this.props.actions.selectTeam(team);
         this.props.actions.setPreviousTeamId(team.id);
 
@@ -241,7 +243,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             },
         );
         this.props.actions.loadStatusesForChannelAndSidebar();
-        this.props.actions.loadProfilesForDirect();
 
         if (this.props.license &&
             this.props.license.IsLicensed === 'true' &&
@@ -319,11 +320,9 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     />
                 ))}
                 <Route
-                    render={(renderProps) => (
+                    render={() => (
                         <ChannelController
-                            pathName={renderProps.location.pathname}
                             fetchingChannels={!this.state.finishedFetchingChannels}
-                            useLegacyLHS={this.props.useLegacyLHS}
                         />
                     )}
                 />

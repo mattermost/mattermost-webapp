@@ -32,6 +32,16 @@ export const YESTERDAY_TITLE_CASE: RangeDescriptor = {
     ),
 };
 
+export const TOMORROW_TITLE_CASE: RangeDescriptor = {
+    equals: ['day', 1],
+    display: (
+        <FormattedMessage
+            id='date_separator.tomorrow'
+            defaultMessage='Tomorrow'
+        />
+    ),
+};
+
 export const STANDARD_UNITS: {[key in Unit]: RangeDescriptor} & {[key: string]: RangeDescriptor} = {
     now: {within: ['second', -45], display: ['second', 0]},
     second: {within: ['second', -59], display: ['second']},

@@ -17,10 +17,8 @@ import MoreChannels from 'components/more_channels';
 import TeamMembersModal from 'components/team_members_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
 import RemoveNextStepsModal from 'components/sidebar/sidebar_next_steps/remove_next_steps_modal';
-import downloadApps from 'images/download-app.svg';
 
 import {browserHistory} from 'utils/browser_history';
-import * as UserAgent from 'utils/user_agent';
 import {
     ModalIdentifiers,
     RecommendedNextSteps,
@@ -29,64 +27,12 @@ import {
 import CloseIcon from 'components/widgets/icons/close_icon';
 import * as Utils from 'utils/utils';
 
+import DownloadSection from './download_section';
+
 import {getAnalyticsCategory} from './step_helpers';
 import IncidentsSvg from './images/incidents.svg';
 import DocumentsSvg from './images/documents.svg';
 import PluginsSvg from './images/plugins.svg';
-
-const seeAllApps = (isAdmin: boolean) => {
-    trackEvent(getAnalyticsCategory(isAdmin), 'cloud_see_all_apps');
-    window.open('https://mattermost.com/download/#mattermostApps', '_blank');
-};
-
-const downloadLatest = (isAdmin: boolean) => {
-    const baseLatestURL = 'https://latest.mattermost.com/mattermost-desktop-';
-
-    if (UserAgent.isWindows()) {
-        trackEvent(getAnalyticsCategory(isAdmin), 'click_download_app', {app: 'windows'});
-        window.open(`${baseLatestURL}exe`, '_blank');
-        return;
-    }
-
-    if (UserAgent.isMac()) {
-        trackEvent(getAnalyticsCategory(isAdmin), 'click_download_app', {app: 'mac'});
-        window.open(`${baseLatestURL}dmg`, '_blank');
-        return;
-    }
-
-    // TODO: isLinux?
-
-    seeAllApps(isAdmin);
-};
-
-const getDownloadButtonString = () => {
-    if (UserAgent.isWindows()) {
-        return (
-            <FormattedMessage
-                id='next_steps_view.tips.getForWindows'
-                defaultMessage='Get Mattermost for Windows'
-            />
-        );
-    }
-
-    if (UserAgent.isMac()) {
-        return (
-            <FormattedMessage
-                id='next_steps_view.tips.getForMac'
-                defaultMessage='Get Mattermost for Mac'
-            />
-        );
-    }
-
-    // TODO: isLinux?
-
-    return (
-        <FormattedMessage
-            id='next_steps_view.tips.getForDefault'
-            defaultMessage='Get Mattermost'
-        />
-    );
-};
 
 const openAdminConsole = (isAdmin: boolean) => {
     trackEvent(getAnalyticsCategory(isAdmin), 'click_admin_console');
@@ -104,6 +50,8 @@ type Props = {
     currentUserId: string;
     isFirstAdmin: boolean;
     team: Team;
+    isCloud: boolean;
+    globalHeaderEnabled: boolean;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     setShowNextStepsView: (show: boolean) => void;
@@ -134,6 +82,7 @@ export default function NextStepsTips(props: Props) {
                 'sidebar_next_steps.tipsAndNextSteps',
                 'Tips & Next Steps',
             ),
+            globalHeaderEnabled: props.globalHeaderEnabled,
             onConfirm: () => {
                 props.savePreferences(props.currentUserId, [
                     {
@@ -159,12 +108,12 @@ export default function NextStepsTips(props: Props) {
                         <div className='Card__image'>
                             <PluginsSvg/>
                         </div>
-                        <h3>
+                        <h4>
                             <FormattedMessage
                                 id='next_steps_view.tips.connectPlugins'
                                 defaultMessage='Connect your favorite tools'
                             />
-                        </h3>
+                        </h4>
                         <FormattedMessage
                             id='next_steps_view.tips.connectPlugins.text'
                             defaultMessage='Install Mattermost plugins to connect with your favorite tools'
@@ -180,32 +129,34 @@ export default function NextStepsTips(props: Props) {
                         </button>
                     </div>
                 </Card>
-                <Card expanded={true}>
-                    <div className='Card__body'>
-                        <div className='Card__image'>
-                            <IncidentsSvg/>
+                {props.isCloud && (
+                    <Card expanded={true}>
+                        <div className='Card__body'>
+                            <div className='Card__image'>
+                                <IncidentsSvg/>
+                            </div>
+                            <h4>
+                                <FormattedMessage
+                                    id='next_steps_view.tips.resolveIncidents'
+                                    defaultMessage='Resolve incidents faster'
+                                />
+                            </h4>
+                            <FormattedMessage
+                                id='next_steps_view.tips.resolveIncidents.text'
+                                defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
+                            />
+                            <button
+                                className='NextStepsView__button NextStepsView__finishButton primary'
+                                onClick={() => openIncidentsPlugin(props.isFirstAdmin, props.team)}
+                            >
+                                <FormattedMessage
+                                    id='next_steps_view.tips.resolveIncidents.button'
+                                    defaultMessage='Open playbooks'
+                                />
+                            </button>
                         </div>
-                        <h3>
-                            <FormattedMessage
-                                id='next_steps_view.tips.resolveIncidents'
-                                defaultMessage='Resolve incidents faster'
-                            />
-                        </h3>
-                        <FormattedMessage
-                            id='next_steps_view.tips.resolveIncidents.text'
-                            defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
-                        />
-                        <button
-                            className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={() => openIncidentsPlugin(props.isFirstAdmin, props.team)}
-                        >
-                            <FormattedMessage
-                                id='next_steps_view.tips.resolveIncidents.button'
-                                defaultMessage='Open playbooks'
-                            />
-                        </button>
-                    </div>
-                </Card>
+                    </Card>
+                )}
             </>
         );
     } else if (!Utils.isMobile() && !props.isFirstAdmin) {
@@ -213,12 +164,12 @@ export default function NextStepsTips(props: Props) {
             <>
                 <Card expanded={true}>
                     <div className='Card__body'>
-                        <h3>
+                        <h4>
                             <FormattedMessage
                                 id='next_steps_view.tips.configureLogins'
                                 defaultMessage='See who else is here'
                             />
-                        </h3>
+                        </h4>
                         <FormattedMessage
                             id='next_steps_view.tips.configureLogin.texts'
                             defaultMessage='Browse or search through the team members directory'
@@ -236,12 +187,12 @@ export default function NextStepsTips(props: Props) {
                 </Card>
                 <Card expanded={true}>
                     <div className='Card__body'>
-                        <h3>
+                        <h4>
                             <FormattedMessage
                                 id='next_steps_view.tips.addPluginss'
                                 defaultMessage='Learn Keyboard Shortcuts'
                             />
-                        </h3>
+                        </h4>
                         <FormattedMessage
                             id='next_steps_view.tips.addPlugins.texts'
                             defaultMessage='Work more efficiently with Keyboard Shortcuts in Mattermost.'
@@ -261,54 +212,6 @@ export default function NextStepsTips(props: Props) {
         );
     }
 
-    let downloadSection;
-    if (Utils.isMobile()) {
-        downloadSection = (
-            <div className='NextStepsView__tipsMobileMessage'>
-                <Card expanded={true}>
-                    <div className='Card__body'>
-                        <i className='icon icon-laptop'/>
-                        <FormattedMessage
-                            id='next_steps_view.mobile_tips_message'
-                            defaultMessage='To configure your workspace, continue on a desktop computer.'
-                        />
-                    </div>
-                </Card>
-            </div>
-        );
-    } else if (!UserAgent.isDesktopApp()) {
-        downloadSection = (
-            <div className='NextStepsView__download'>
-                <img src={downloadApps}/>
-                <div className='NextStepsView__downloadText'>
-                    <h3>
-                        <FormattedMessage
-                            id='next_steps_view.downloadDesktopAndMobile'
-                            defaultMessage='Download the Desktop and Mobile apps'
-                        />
-                    </h3>
-                    <div className='NextStepsView__downloadButtons'>
-                        <button
-                            className='NextStepsView__button NextStepsView__downloadForPlatformButton secondary'
-                            onClick={() => downloadLatest(props.isFirstAdmin)}
-                        >
-                            {getDownloadButtonString()}
-                        </button>
-                        <button
-                            className='NextStepsView__button NextStepsView__downloadAnyButton tertiary'
-                            onClick={() => seeAllApps(props.isFirstAdmin)}
-                        >
-                            <FormattedMessage
-                                id='next_steps_view.seeAllTheApps'
-                                defaultMessage='See all the apps'
-                            />
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     let channelsSection;
     if (props.isFirstAdmin) {
         channelsSection = (
@@ -317,12 +220,12 @@ export default function NextStepsTips(props: Props) {
                     <div className='Card__image'>
                         <DocumentsSvg/>
                     </div>
-                    <h3>
+                    <h4>
                         <FormattedMessage
                             id='next_steps_view.tips.manageWorkspace'
                             defaultMessage='Manage your workspace'
                         />
-                    </h3>
+                    </h4>
                     <FormattedMessage
                         id='next_steps_view.tips.manageWorkspace.text'
                         defaultMessage='Visit the system console to manage users, teams, and plugins'
@@ -343,12 +246,12 @@ export default function NextStepsTips(props: Props) {
         channelsSection = (
             <Card expanded={true}>
                 <div className='Card__body'>
-                    <h3>
+                    <h4>
                         <FormattedMessage
                             id='next_steps_view.tips.exploreChannels'
                             defaultMessage='Explore channels'
                         />
-                    </h3>
+                    </h4>
                     <FormattedMessage
                         id='next_steps_view.tips.exploreChannels.text'
                         defaultMessage='See the channels in your workspace or create a new channel.'
@@ -404,7 +307,7 @@ export default function NextStepsTips(props: Props) {
                     {nonMobileTips}
                     {channelsSection}
                 </div>
-                {downloadSection}
+                <DownloadSection isFirstAdmin={props.isFirstAdmin}/>
             </div>
         </div>
     );

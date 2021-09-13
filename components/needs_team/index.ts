@@ -5,11 +5,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {loadProfilesForDirect} from 'mattermost-redux/actions/users';
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
@@ -23,6 +22,7 @@ import {getPreviousTeamId} from 'selectors/local_storage';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {addUserToTeam} from 'actions/team_actions';
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
+import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 import {checkIfMFARequired} from 'utils/route';
 
 import NeedsTeam from './needs_team';
@@ -41,6 +41,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     return {
         license,
+        collapsedThreads: isCollapsedThreadsEnabled(state),
         theme: getTheme(state),
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
         currentUser,
@@ -48,8 +49,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         previousTeamId: getPreviousTeamId(state) as string,
         teamsList: getMyTeams(state),
         currentChannelId: getCurrentChannelId(state),
-        useLegacyLHS: config.EnableLegacySidebar === 'true',
         plugins,
+        selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
     };
 }
 
@@ -65,7 +66,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setPreviousTeamId,
             selectTeam,
             loadStatusesForChannelAndSidebar,
-            loadProfilesForDirect,
             getAllGroupsAssociatedToChannelsInTeam,
             getAllGroupsAssociatedToTeam,
             getGroupsByUserId,

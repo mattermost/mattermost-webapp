@@ -7,10 +7,10 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {PreferenceType, Theme} from 'mattermost-redux/types/preferences';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {$ID} from 'mattermost-redux/types/utilities';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
@@ -43,6 +43,7 @@ export function getInt(state: GlobalState, category: string, name: string, defau
 
 export function makeGetCategory(): (state: GlobalState, category: string) => PreferenceType[] {
     return createSelector(
+        'makeGetCategory',
         getMyPreferences,
         (state: GlobalState, category: string) => category,
         (preferences, category) => {
@@ -72,28 +73,8 @@ export function getGroupShowPreferences(state: GlobalState) {
     return getGroupShowCategory(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW);
 }
 
-const getFavoritesCategory = makeGetCategory();
-
-export function getFavoritesPreferences(state: GlobalState) {
-    const favorites = getFavoritesCategory(state, Preferences.CATEGORY_FAVORITE_CHANNEL);
-    return favorites.filter((f) => f.value === 'true').map((f) => f.name);
-}
-
-export const getVisibleTeammate: (state: GlobalState) => Array<$ID<UserProfile>> = createSelector(
-    getDirectShowPreferences,
-    (direct) => {
-        return direct.filter((dm) => dm.value === 'true' && dm.name).map((dm) => dm.name);
-    },
-);
-
-export const getVisibleGroupIds: (state: GlobalState) => string[] = createSelector(
-    getGroupShowPreferences,
-    (groups) => {
-        return groups.filter((dm) => dm.value === 'true' && dm.name).map((dm) => dm.name);
-    },
-);
-
 export const getTeammateNameDisplaySetting: (state: GlobalState) => string = createSelector(
+    'getTeammateNameDisplaySetting',
     getConfig,
     getMyPreferences,
     getLicense,
@@ -110,6 +91,7 @@ export const getTeammateNameDisplaySetting: (state: GlobalState) => string = cre
 );
 
 const getThemePreference = createSelector(
+    'getThemePreference',
     getMyPreferences,
     (state) => state.entities.teams.currentTeamId,
     (myPreferences, currentTeamId) => {
@@ -128,7 +110,7 @@ const getThemePreference = createSelector(
     },
 );
 
-const getDefaultTheme = createSelector(getConfig, (config): Theme => {
+const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): Theme => {
     if (config.DefaultTheme && config.DefaultTheme in Preferences.THEMES) {
         const theme: Theme = Preferences.THEMES[config.DefaultTheme];
         if (theme) {
@@ -137,10 +119,11 @@ const getDefaultTheme = createSelector(getConfig, (config): Theme => {
     }
 
     // If no config.DefaultTheme or value doesn't refer to a valid theme name...
-    return Preferences.THEMES.default;
+    return Preferences.THEMES.denim;
 });
 
 export const getTheme: (state: GlobalState) => Theme = createShallowSelector(
+    'getTheme',
     getThemePreference,
     getDefaultTheme,
     (themePreference, defaultTheme): Theme => {
@@ -156,6 +139,7 @@ export const getTheme: (state: GlobalState) => Theme = createShallowSelector(
 
 export function makeGetStyleFromTheme<Style>(): (state: GlobalState, getStyleFromTheme: (theme: Theme) => Style) => Style {
     return createSelector(
+        'makeGetStyleFromTheme',
         getTheme,
         (state: GlobalState, getStyleFromTheme: (theme: Theme) => Style) => getStyleFromTheme,
         (theme, getStyleFromTheme) => {
@@ -164,54 +148,9 @@ export function makeGetStyleFromTheme<Style>(): (state: GlobalState, getStyleFro
     );
 }
 
-export type SidebarPreferences = {
-    grouping: 'by_type' | 'none';
-    unreads_at_top: 'true' | 'false';
-    favorite_at_top: 'true' | 'false';
-    sorting: 'alpha' | 'recent';
-}
-
-const defaultSidebarPrefs: SidebarPreferences = {
-    grouping: 'by_type',
-    unreads_at_top: 'true',
-    favorite_at_top: 'true',
-    sorting: 'alpha',
-};
-
-export const getSidebarPreferences: (state: GlobalState) => SidebarPreferences = createSelector(
-    (state: GlobalState) => {
-        const config = getConfig(state);
-        return config.ExperimentalGroupUnreadChannels !== General.DISABLED && getBool(
-            state,
-            Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            'show_unread_section',
-            config.ExperimentalGroupUnreadChannels === General.DEFAULT_ON,
-        );
-    },
-    (state) => {
-        return get(
-            state,
-            Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            '',
-            null,
-        );
-    },
-    (showUnreadSection, sidebarPreference) => {
-        let sidebarPrefs = JSON.parse(sidebarPreference);
-        if (sidebarPrefs === null) {
-            // Support unread settings for old implementation
-            sidebarPrefs = {
-                ...defaultSidebarPrefs,
-                unreads_at_top: showUnreadSection ? 'true' : 'false',
-            };
-        }
-
-        return sidebarPrefs;
-    },
-);
-
 // shouldShowUnreadsCategory returns true if the user has unereads grouped separately with the new sidebar enabled.
 export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = createSelector(
+    'shouldShowUnreadsCategory',
     (state: GlobalState) => get(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION),
     (state: GlobalState) => get(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, ''),
     (state: GlobalState) => getConfig(state).ExperimentalGroupUnreadChannels,
@@ -229,16 +168,6 @@ export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = create
         return serverDefault === General.DEFAULT_ON;
     },
 );
-
-export function shouldAutocloseDMs(state: GlobalState) {
-    const config = getConfig(state);
-    if (!config.CloseUnusedDirectMessages || config.CloseUnusedDirectMessages === 'false') {
-        return false;
-    }
-
-    const preference = get(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.CHANNEL_SIDEBAR_AUTOCLOSE_DMS, Preferences.AUTOCLOSE_DMS_ENABLED);
-    return preference === Preferences.AUTOCLOSE_DMS_ENABLED;
-}
 
 export function getCollapsedThreadsPreference(state: GlobalState): string {
     const configValue = getConfig(state)?.CollapsedThreads;
@@ -268,4 +197,18 @@ export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
     const userPreference = getCollapsedThreadsPreference(state);
 
     return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads as string === 'always_on');
+}
+
+export function isTimedDNDEnabled(state: GlobalState): boolean {
+    return (
+        getFeatureFlagValue(state, 'TimedDND') === 'true'
+    );
+}
+
+export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
+    return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
+}
+
+export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButtonTreatments | undefined {
+    return getFeatureFlagValue(state, 'AddChannelButton') as AddChannelButtonTreatments | undefined;
 }

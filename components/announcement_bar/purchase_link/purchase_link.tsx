@@ -4,15 +4,17 @@
 import React from 'react';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import './purchase_link.scss';
 
 export interface Props {
     buttonTextElement: JSX.Element;
+    eventID?: string;
 }
 
 const PurchaseLink: React.FC<Props> = (props: Props) => {
     const handlePurchaseLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        trackEvent('admin', 'in_trial_purchase_license');
+        trackEvent('admin', props.eventID || 'in_trial_purchase_license');
         window.open('https://customers.mattermost.com/signup', '_blank');
     };
 

@@ -17,6 +17,7 @@ export function getJobsByType(state: GlobalState): JobsByType {
 
 export function makeGetJobsByType(type: JobType): (state: GlobalState) => Job[] {
     return createSelector(
+        'makeGetJobsByType',
         getJobsByType,
         (jobsByType) => {
             return jobsByType[type] || [];

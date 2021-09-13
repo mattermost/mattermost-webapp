@@ -31,6 +31,7 @@ const getUsersTypingImpl = (profiles: IDMappedObjects<UserProfile>, teammateName
 
 export function makeGetUsersTypingByChannelAndPost(): (state: GlobalState, props: {channelId: string; postId: string}) => string[] {
     return createSelector(
+        'makeGetUsersTypingByChannelAndPost',
         getUsers,
         getTeammateNameDisplaySetting,
         (state: GlobalState, options: {channelId: string; postId: string}) => options.channelId,
@@ -41,6 +42,7 @@ export function makeGetUsersTypingByChannelAndPost(): (state: GlobalState, props
 }
 
 export const getUsersTyping: (state: GlobalState) => string[] = createSelector(
+    'getUsersTyping',
     getUsers,
     getTeammateNameDisplaySetting,
     getCurrentChannelId,

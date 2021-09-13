@@ -102,7 +102,17 @@ export default class EmojiPickerTabs extends PureComponent {
                         eventKey={1}
                         onEnter={this.handleEnterEmojiTab}
                         onExit={this.handleExitEmojiTab}
-                        title={<EmojiIcon/>}
+                        title={
+                            <div className={'custom-emoji-tab__icon__text'}>
+                                <EmojiIcon
+                                    className='custom-emoji-tab__icon'
+                                />
+                                <div>
+                                    {'Emojis'}
+                                </div>
+                            </div>
+                        }
+                        tabClassName={'custom-emoji-tab'}
                     >
                         <EmojiPicker
                             style={this.props.style}
@@ -119,6 +129,7 @@ export default class EmojiPickerTabs extends PureComponent {
                         title={<GfycatIcon/>}
                         mountOnEnter={true}
                         unmountOnExit={true}
+                        tabClassName={'custom-emoji-tab'}
                     >
                         <GifPicker
                             onGifClick={this.props.onGifClick}

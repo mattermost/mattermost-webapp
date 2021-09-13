@@ -7,16 +7,24 @@
 
 .nav-tabs {
     margin-bottom: 10px;
+    background: var(--center-channel-bg);
 
     > li {
         margin-right: 5px;
 
+        &.active {
+            > a {
+                background: var(--center-channel-bg);
+            }
+        }
+
         > a {
-            border-bottom-color: transparent !important;
             padding: 7px 15px;
+            border-bottom-color: transparent !important;
 
             .small {
-                @include opacity(.8);
+                @include opacity(0.8);
+
                 margin-left: 4px;
             }
         }
@@ -51,10 +59,10 @@
     }
 
     .navbar-default {
-        background: $primary-color;
-        border: none;
-        min-height: 50px;
         position: absolute;
+        min-height: 50px;
+        border: none;
+        background: var(--sidebar-teambar-bg);
 
         .navbar-nav {
             > li {
@@ -75,29 +83,35 @@
         }
 
         .navbar-toggle {
-            border-color: transparent;
-            border-radius: 0;
-            border-width: 0;
-            fill: $white;
-            float: left;
-            height: 50px;
-            line-height: 48px;
-            margin: 0;
-            padding: 0 10px;
-            width: 50px;
             z-index: 5;
+            width: 50px;
+            height: 50px;
+            padding: 0 10px;
+            border-width: 0;
+            border-color: transparent;
+            margin: 0;
+            border-radius: 0;
+            fill: var(--sidebar-header-text-color);
+            float: left;
+            line-height: 48px;
 
             &.navbar-right__icon {
                 @include border-radius(50px);
+
                 display: flex;
-                background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
+                width: 32px;
+                height: 32px;
                 align-items: center;
                 justify-content: center;
-                height: 32px;
-                line-height: 0;
-                margin: 9px 10px 0 0;
                 padding: 0;
-                width: 32px;
+                margin: 9px 10px 0 0;
+                background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
+                line-height: 0;
+
+                &:hover,
+                &:focus {
+                    background: rgba(var(--sidebar-header-text-color-rgb), 0.3);
+                }
             }
 
             &.menu-toggle {
@@ -105,14 +119,14 @@
             }
 
             .icon-bar {
-                background: var(--sidebar-header-text-color);
                 width: 21px;
+                background: var(--sidebar-header-text-color);
             }
 
             .icon__search {
                 svg {
-                    left: -1px;
                     position: relative;
+                    left: -1px;
                     width: 17px;
                 }
             }
@@ -120,8 +134,8 @@
             &.icon__mute {
                 width: 30px;
                 padding: 0;
-                opacity: .6;
                 font-size: 15px;
+                opacity: 0.6;
             }
 
             .icon--white {
@@ -130,45 +144,47 @@
         }
 
         .navbar-brand {
-            flex: 1 1 auto;
-            font-size: 16px;
-            height: 50px;
-            line-height: 50px;
-            overflow: hidden;
-            padding: 0;
             display: flex;
+            overflow: hidden;
+            height: 50px;
+            flex: 1 1 auto;
+            padding: 0;
+            font-size: 16px;
+            line-height: 50px;
 
             .app__body & {
-                color: var(--sidebar-header-text-color)
+                color: var(--sidebar-header-text-color);
             }
 
-            .dropdown, .MenuWrapper {
+            .dropdown,
+            .MenuWrapper {
                 max-width: calc(100% - 40px);
             }
 
             .heading {
-                white-space: nowrap;
                 overflow: hidden;
-                text-overflow: ellipsis;
                 width: auto;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             .header-dropdown__icon {
                 margin-left: 6px;
             }
 
-            .dropdown-toggle, .MenuWrapper > a {
-                align-items: center;
-                color: inherit;
+            .dropdown-toggle,
+            .MenuWrapper > a {
                 display: flex;
                 overflow: hidden;
+                align-items: center;
+                color: inherit;
                 text-decoration: none;
             }
 
             .description {
-                color: inherit;
                 display: inline-block;
                 margin-right: 1em;
+                color: inherit;
             }
         }
     }
@@ -189,8 +205,8 @@
     }
 
     .more-channel-table {
-        border: 1px solid #dbdbdc;
         width: 100%;
+        border: 1px solid #dbdbdc;
 
         td {
             padding: 7px;

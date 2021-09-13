@@ -16,7 +16,7 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
         id="userGuideHelpTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Help"
           id="channel_header.userHelpGuide"
         />
@@ -94,7 +94,7 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
         id="userGuideHelpTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Help"
           id="channel_header.userHelpGuide"
         />

@@ -21,23 +21,24 @@
     }
 
     &.form-sm {
-        font-size: 13px;
         height: 32px;
+        font-size: 13px;
     }
 }
 
 .form-legend {
     border: none;
+    margin: 0 0 0.8rem;
     color: inherit;
     font-size: inherit;
     font-weight: 600;
-    margin: 0 0 0.8rem;
 }
 
 .input__help {
-    @include opacity(.8);
-    color: inherit;
+    @include opacity(0.8);
+
     margin: 10px 0 0 0;
+    color: inherit;
     word-break: break-word;
 
     &.dark {
@@ -55,17 +56,18 @@
     }
 
     .form__label {
+        padding-right: 3px;
         font-size: 1.1em;
         font-weight: 600;
-        padding-right: 3px;
         text-align: left;
 
         &.light {
-            @include opacity(.6);
+            @include opacity(0.6);
+
+            padding-top: 2px;
             font-size: 1.05em;
             font-style: italic;
             font-weight: normal;
-            padding-top: 2px;
         }
     }
 
@@ -83,9 +85,9 @@
 }
 
 .help-block {
-    color: $dark-gray;
-    font-size: .95em;
     margin: 10px 0 0;
+    color: $dark-gray;
+    font-size: 0.95em;
 }
 
 .form-group {
@@ -128,8 +130,8 @@
     }
 
     input[type='radio'] {
-        margin-top: 0;
         width: 13px;
+        margin-top: 0;
     }
 
     .flex-parent {
@@ -139,34 +141,34 @@
 
     .icon {
         display: flex;
+        width: 14px;
         height: 21px;
         align-items: center;
+        justify-content: center;
         padding-right: 1px;
         margin-right: 6px;
-        width: 14px;
-        justify-content: center;
 
         & + span {
-            font-weight: 600;
             margin-right: 4px;
+            font-weight: 600;
         }
     }
 
     span {
         &:last-child {
-            @include opacity(.8);
+            @include opacity(0.8);
         }
     }
 }
 
 .app__body {
     .form-control {
-        color: v(center-channel-color);
         border-color: rgba(var(--center-channel-color-rgb), 0.16);
         background: v(center-channel-bg);
+        color: v(center-channel-color);
 
         &:focus {
-            border-color: rgba(var(--center-channel-color-rgb), 0.40);
+            border-color: rgba(var(--center-channel-color-rgb), 0.4);
         }
 
         &.inline {
@@ -177,7 +179,7 @@
         &::-moz-placeholder,
         &:-moz-placeholder {
             color: inherit !important;
-            opacity: .6;
+            opacity: 0.6;
         }
     }
 }

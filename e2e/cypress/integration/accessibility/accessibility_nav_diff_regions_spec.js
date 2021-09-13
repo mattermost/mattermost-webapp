@@ -89,25 +89,27 @@ describe('Verify Quick Navigation support across different regions in the app', 
             cy.get('#fileUploadButton').focus().tab({shift: true});
 
             // * Verify post input on RHS reads out correctly
-            verifyNavSupport('.post-create', 'reply input region', '4');
+            cy.get('.post-create').
+                should('have.attr', 'aria-label', 'reply input region').
+                and('have.attr', 'data-a11y-sort-order', '4').
+                and('have.class', 'a11y__region');
+            cy.get('#reply_textbox').
+                should('have.class', 'a11y--active a11y--focused');
         });
     });
 
     it('MM-T1460_5 Verify Navigation Support in LHS Sidebar', () => {
         // # Change the focus to Main Menu button
-        cy.get('#headerInfo button').focus().tab({shift: true}).tab();
-
-        // * Verify nav support in LHS sidebar header
-        verifyNavSupport('#lhsHeader', 'team menu region', '5');
+        cy.uiGetLHSAddChannelButton().focus().tab({shift: true}).tab();
 
         // # Change the focus to the LHS sidebar
-        cy.get('#headerInfo button').focus().tab();
+        cy.focused().tab();
 
         // * Verify nav support in LHS channel navigator
         verifyNavSupport('#lhsNavigator', 'channel navigator region', '6');
 
         // # Change the focus to the LHS sidebar
-        cy.get('#headerInfo button').focus().tab().tab().tab().tab();
+        cy.focused().tab().tab().tab().tab();
 
         // * Verify nav support in LHS sidebar
         verifyNavSupport('#sidebar-left', 'channel sidebar region', '7');

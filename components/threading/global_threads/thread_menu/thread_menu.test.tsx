@@ -8,6 +8,9 @@ import {shallow} from 'enzyme';
 import {setThreadFollow, updateThreadRead} from 'mattermost-redux/actions/threads';
 jest.mock('mattermost-redux/actions/threads');
 
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+jest.mock('actions/views/threads');
+
 import ThreadMenu from '../thread_menu';
 import Menu from 'components/widgets/menu/menu';
 
@@ -138,7 +141,8 @@ describe('components/threading/common/thread_menu', () => {
         wrapper.find('button').simulate('click');
         wrapper.find(Menu.ItemAction).find({text: 'Mark as read'}).simulate('click');
         expect(updateThreadRead).toHaveBeenCalledWith('uid', 'tid', '1y8hpek81byspd4enyk9mp1ncw', 1612582579566);
-        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(manuallyMarkThreadAsUnread).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw', 1612582579566);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
         resetFakeDate();
     });
 
@@ -152,7 +156,8 @@ describe('components/threading/common/thread_menu', () => {
         wrapper.find('button').simulate('click');
         wrapper.find(Menu.ItemAction).find({text: 'Mark as unread'}).simulate('click');
         expect(updateThreadRead).toHaveBeenCalledWith('uid', 'tid', '1y8hpek81byspd4enyk9mp1ncw', 1610486901110);
-        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(manuallyMarkThreadAsUnread).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw', 1610486901110);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
     });
 
     test('should allow saving', () => {

@@ -1,23 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import * as reselect from 'reselect';
+
 import moment from 'moment-timezone';
 
-import {Posts, Preferences} from '../constants';
+import * as reselect from 'reselect';
+
+import {Posts, Preferences} from 'mattermost-redux/constants';
+
 import {makeGetPostsForIds} from 'mattermost-redux/selectors/entities/posts';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
 import {createIdsSelector, memoizeResult} from 'mattermost-redux/utils/helpers';
 import {isUserActivityPost, shouldFilterJoinLeavePost, isFromWebhook} from 'mattermost-redux/utils/post_utils';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
-import * as types from 'mattermost-redux/types';
+
+import {Post, UserActivityPost} from 'mattermost-redux/types/posts';
+import {GlobalState} from 'mattermost-redux/types/store';
+
 export const COMBINED_USER_ACTIVITY = 'user-activity-';
+export const CREATE_COMMENT = 'create-comment';
 export const DATE_LINE = 'date-';
 export const START_OF_NEW_MESSAGES = 'start-of-new-messages';
 export const MAX_COMBINED_SYSTEM_POSTS = 100;
-
-import {GlobalState} from 'mattermost-redux/types/store';
 
 function shouldShowJoinLeaveMessages(state: GlobalState) {
     // This setting is true or not set if join/leave messages are to be displayed
@@ -47,6 +53,7 @@ export function makeFilterPostsAndAddSeparators() {
     const getPostsForIds = makeGetPostsForIds();
 
     return createIdsSelector(
+        'makeFilterPostsAndAddSeparators',
         (state: GlobalState, {postIds}: PostFilterOptions) => getPostsForIds(state, postIds),
         (state: GlobalState, {lastViewedAt}: PostFilterOptions) => lastViewedAt,
         (state: GlobalState, {indicateNewMessages}: PostFilterOptions) => indicateNewMessages,
@@ -121,6 +128,7 @@ export function makeFilterPostsAndAddSeparators() {
 
 export function makeCombineUserActivityPosts() {
     return createIdsSelector(
+        'makeCombineUserActivityPosts',
         (state: GlobalState, postIds: string[]) => postIds,
         (state) => state.entities.posts.posts,
         (postIds, posts) => {
@@ -132,7 +140,7 @@ export function makeCombineUserActivityPosts() {
             for (let i = 0; i < postIds.length; i++) {
                 const postId = postIds[i];
 
-                if (postId === START_OF_NEW_MESSAGES || postId.startsWith(DATE_LINE)) {
+                if (postId === START_OF_NEW_MESSAGES || postId.startsWith(DATE_LINE) || isCreateComment(postId)) {
                     // Not a post, so it won't be combined
                     out.push(postId);
 
@@ -182,6 +190,10 @@ export function isStartOfNewMessages(item: string) {
     return item === START_OF_NEW_MESSAGES;
 }
 
+export function isCreateComment(item: string) {
+    return item === CREATE_COMMENT;
+}
+
 export function isDateLine(item: string) {
     return item.startsWith(DATE_LINE);
 }
@@ -202,7 +214,7 @@ export function getFirstPostId(items: string[]) {
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
 
-        if (isStartOfNewMessages(item) || isDateLine(item)) {
+        if (isStartOfNewMessages(item) || isDateLine(item) || isCreateComment(item)) {
             // This is not a post at all
             continue;
         }
@@ -225,7 +237,7 @@ export function getLastPostId(items: string[]) {
     for (let i = items.length - 1; i >= 0; i--) {
         const item = items[i];
 
-        if (isStartOfNewMessages(item) || isDateLine(item)) {
+        if (isStartOfNewMessages(item) || isDateLine(item) || isCreateComment(item)) {
             // This is not a post at all
             continue;
         }
@@ -248,7 +260,7 @@ export function getLastPostIndex(postIds: string[]) {
     let index = 0;
     for (let i = postIds.length - 1; i > 0; i--) {
         const item = postIds[i];
-        if (!isStartOfNewMessages(item) && !isDateLine(item)) {
+        if (!isStartOfNewMessages(item) && !isDateLine(item) && !isCreateComment(item)) {
             index = i;
             break;
         }
@@ -257,11 +269,12 @@ export function getLastPostIndex(postIds: string[]) {
     return index;
 }
 
-export function makeGenerateCombinedPost() {
+export function makeGenerateCombinedPost(): (state: GlobalState, combinedId: string) => UserActivityPost {
     const getPostsForIds = makeGetPostsForIds();
     const getPostIds = memoizeResult(getPostIdsForCombinedUserActivityPost);
 
     return reselect.createSelector(
+        'makeGenerateCombinedPost',
         (state: GlobalState, combinedId: string) => combinedId,
         (state: GlobalState, combinedId: string) => getPostsForIds(state, getPostIds(combinedId)),
         (combinedId, posts) => {
@@ -275,21 +288,34 @@ export function makeGenerateCombinedPost() {
 
             return {
                 id: combinedId,
-                root_id: '',
-                channel_id: channelId,
                 create_at: createAt,
+                update_at: 0,
+                edit_at: 0,
                 delete_at: 0,
+                is_pinned: false,
+                user_id: '',
+                channel_id: channelId,
+                root_id: '',
+                parent_id: '',
+                original_id: '',
                 message: messages.join('\n'),
+                type: Posts.POST_TYPES.COMBINED_USER_ACTIVITY,
                 props: {
                     messages,
                     user_activity: combineUserActivitySystemPost(posts),
                 },
-                state: '',
+                hashtags: '',
+                pending_post_id: '',
+                reply_count: 0,
+                metadata: {
+                    embeds: [],
+                    emojis: [],
+                    files: [],
+                    images: {},
+                    reactions: [],
+                },
                 system_post_ids: posts.map((post) => post.id),
-                type: Posts.POST_TYPES.COMBINED_USER_ACTIVITY,
                 user_activity_posts: posts,
-                user_id: '',
-                metadata: {},
             };
         },
     );
@@ -369,12 +395,12 @@ function extractUserActivityData(userActivities: any) {
     };
 }
 
-export function combineUserActivitySystemPost(systemPosts: types.posts.Post[] = []) {
+export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
     if (systemPosts.length === 0) {
         return null;
     }
 
-    const userActivities = systemPosts.reduce((acc: any, post: types.posts.Post) => {
+    const userActivities = systemPosts.reduce((acc: any, post: Post) => {
         const postType = post.type;
         let userActivityProps = acc;
         const combinedPostType = userActivityProps[postType as string];

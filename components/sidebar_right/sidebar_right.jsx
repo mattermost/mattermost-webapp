@@ -20,6 +20,7 @@ export default class SidebarRight extends React.PureComponent {
     static propTypes = {
         isExpanded: PropTypes.bool.isRequired,
         isOpen: PropTypes.bool.isRequired,
+        isSuppressed: PropTypes.bool,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
         postRightSameAsSelectedThread: PropTypes.bool,
@@ -114,7 +115,13 @@ export default class SidebarRight extends React.PureComponent {
             actions.showChannelFiles(rhsChannel.id);
         }
 
-        if (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) {
+        // in the case of navigating to another channel
+        // or from global threads to a channel
+        // we shrink the sidebar
+        if (
+            (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) ||
+            (channel && !prevProps.channel)
+        ) {
             this.props.actions.setRhsExpanded(false);
         }
 
@@ -122,7 +129,10 @@ export default class SidebarRight extends React.PureComponent {
     }
 
     determineTransition = () => {
-        const transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
+        let transitionInfo;
+        if (this.sidebarRight.current) {
+            transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
+        }
         const hasTransition = Boolean(transitionInfo) && transitionInfo !== 'all 0s ease 0s';
 
         if (this.sidebarRight.current && hasTransition) {
@@ -168,6 +178,7 @@ export default class SidebarRight extends React.PureComponent {
             isPluginView,
             isOpen,
             isExpanded,
+            isSuppressed,
         } = this.props;
 
         let content = null;
@@ -196,7 +207,11 @@ export default class SidebarRight extends React.PureComponent {
 
         return (
             <div
-                className={classNames('sidebar--right', {'sidebar--right--expanded': isSidebarRightExpanded}, {'move--left': isOpen})}
+                className={classNames('sidebar--right', {
+                    'sidebar--right--expanded': isSidebarRightExpanded,
+                    'move--left': isOpen,
+                    hidden: !isOpen,
+                })}
                 id='sidebar-right'
                 role='complementary'
                 ref={this.sidebarRight}
@@ -207,13 +222,13 @@ export default class SidebarRight extends React.PureComponent {
                 />
                 <div className='sidebar-right-container'>
                     <Search
-                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts && !isChannelFiles}
+                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts && !isChannelFiles && !isSuppressed}
                         isSideBarRight={true}
                         isSideBarRightOpen={this.state.isOpened}
                         getFocus={this.getSearchBarFocus}
                         channelDisplayName={rhsChannel ? rhsChannel.display_name : ''}
                     >
-                        {content}
+                        {isOpen && content}
                     </Search>
                 </div>
             </div>

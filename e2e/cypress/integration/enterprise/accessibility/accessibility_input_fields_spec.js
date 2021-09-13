@@ -33,9 +33,8 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     it('MM-T1456 Verify Accessibility Support in Input fields in Invite People Flow', () => {
-        // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').click();
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
 
         // # Click on Invite Members link
         cy.findByTestId('inviteMembersLink').should('be.visible').within(() => {
@@ -128,8 +127,8 @@ describe('Verify Accessibility Support in different input fields', () => {
                     cy.get('#post_textbox').type('@').wait(TIMEOUTS.FIVE_SEC);
 
                     // # Select the first user in the list
-                    cy.get('#suggestionList').find('.mentions__name').eq(0).within((el) => {
-                        cy.get('.mention--align').invoke('text').then((text) => {
+                    cy.get('#suggestionList').find('.suggestion-list__item').eq(0).within((el) => {
+                        cy.get('.suggestion-list__main').invoke('text').then((text) => {
                             cy.wrap(el).parents('body').find('#post_textbox').clear().type(text);
                         });
                     });
@@ -174,7 +173,7 @@ describe('Verify Accessibility Support in different input fields', () => {
             cy.get('#fileUploadButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'attachment').tab();
 
             // * Verify if the focus is on the emoji picker
-            cy.get('.emoji-picker__container').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'emoji picker').tab();
+            cy.get('.emoji-picker__container').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'select an emoji').tab();
         });
 
         // * Verify if the focus is on the help link
@@ -201,7 +200,7 @@ describe('Verify Accessibility Support in different input fields', () => {
             cy.get('#fileUploadButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'attachment').tab();
 
             // * Verify if the focus is on the emoji picker
-            cy.get('.emoji-picker__container').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'emoji picker').tab();
+            cy.get('.emoji-picker__container').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'select an emoji').tab();
 
             // * Verify if the focus is on the help link
             cy.get('.textbox-help-link').should('have.class', 'a11y--active a11y--focused').tab();
@@ -212,10 +211,8 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 });
 
-function getUserMentionAriaLabel(rawFullText, fullName) {
-    const position = rawFullText.length - fullName.length;
-    return [rawFullText.slice(0, position), fullName].
-        join(' ').
+function getUserMentionAriaLabel(displayName) {
+    return displayName.
         replace('(you)', '').
         replace(/[@()]/g, '').
         toLowerCase().
@@ -223,16 +220,16 @@ function getUserMentionAriaLabel(rawFullText, fullName) {
 }
 
 function verifySearchAutocomplete(index, type = 'user') {
-    cy.get('#search-autocomplete__popover').find('.search-autocomplete__item').eq(index).should('be.visible').and('have.class', 'selected a11y--focused').within((el) => {
+    cy.get('#search-autocomplete__popover').find('.suggestion-list__item').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
         if (type === 'user') {
-            cy.get('.mention--align').invoke('text').then((text) => {
-                cy.get('.mention__fullname').invoke('text').then((fullName) => {
-                    const usernameFullNameNickName = getUserMentionAriaLabel(text, fullName);
-                    cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
-                });
+            cy.get('.suggestion-list__ellipsis').invoke('text').then((text) => {
+                const usernameLength = 12;
+                const displayName = text.substring(1, usernameLength) + ' ' + text.substring(usernameLength, text.length);
+                const userAriaLabel = getUserMentionAriaLabel(displayName);
+                cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', userAriaLabel);
             });
         } else if (type === 'channel') {
-            cy.get('.search-autocomplete__name').invoke('text').then((text) => {
+            cy.get('.ml-2').invoke('text').then((text) => {
                 const channel = text.split('~')[1].toLowerCase().trim();
                 cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
             });
@@ -241,11 +238,11 @@ function verifySearchAutocomplete(index, type = 'user') {
 }
 
 function verifyMessageAutocomplete(index, type = 'user') {
-    cy.get('#suggestionList').find('.mentions__name').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
+    cy.get('#suggestionList').find('.suggestion-list__item').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
         if (type === 'user') {
-            cy.wrap(el).invoke('text').then((text) => {
-                cy.get('.light').invoke('text').then((fullName) => {
-                    const usernameFullNameNickName = getUserMentionAriaLabel(text, fullName);
+            cy.get('.suggestion-list__main').invoke('text').then((username) => {
+                cy.get('.ml-2').invoke('text').then((fullName) => {
+                    const usernameFullNameNickName = getUserMentionAriaLabel(username + ' ' + fullName);
                     cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
                 });
             });

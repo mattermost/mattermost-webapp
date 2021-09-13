@@ -19,6 +19,7 @@ export function getRoles(state: GlobalState) {
 }
 
 export const getMySystemRoles: (state: GlobalState) => Set<string> = createSelector(
+    'getMySystemRoles',
     getCurrentUser,
     (user: UserProfile) => {
         if (user) {
@@ -30,6 +31,7 @@ export const getMySystemRoles: (state: GlobalState) => Set<string> = createSelec
 );
 
 export const getMySystemPermissions: (state: GlobalState) => Set<string> = createSelector(
+    'getMySystemPermissions',
     getMySystemRoles,
     getRoles,
     (mySystemRoles: Set<string>, roles) => {
@@ -48,6 +50,7 @@ export const getMySystemPermissions: (state: GlobalState) => Set<string> = creat
 );
 
 export const haveISystemPermission: (state: GlobalState, options: PermissionsOptions) => boolean = createSelector(
+    'haveISystemPermission',
     getMySystemPermissions,
     (state: GlobalState, options: PermissionsOptions) => options.permission,
     (permissions, permission) => {

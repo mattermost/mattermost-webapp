@@ -3,11 +3,11 @@
     padding: 24px 40px;
 
     h3 {
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 20px;
-        color: var(--center-channel-color);
         margin: 0;
+        color: var(--center-channel-color);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
     }
 }
 
@@ -28,27 +28,27 @@
     }
 
     .TeamIcon__initials {
-        font-size: 38px;
-        line-height: 21px;
         padding: 35px 0;
-        text-transform: capitalize;
-        text-align: center;
-        font-weight: 600;
-        color: var(--sidebar-text);
         background-color: var(--sidebar-bg);
         border-radius: 8px;
+        color: var(--sidebar-text);
+        font-size: 38px;
+        font-weight: 600;
+        line-height: 21px;
+        text-align: center;
+        text-transform: capitalize;
     }
 }
 
 .TeamProfileStep__textInputs {
-    margin-left: 64px;
-    flex-grow: 0.75;
     max-width: 600px;
+    flex-grow: 0.75;
+    margin-left: 64px;
 
     .Input_wrapper {
+        padding: 0 16px;
         font-size: 14px;
         line-height: 38px;
-        padding: 0 16px;
     }
 
     .Input {
@@ -66,19 +66,19 @@
 }
 
 .TeamProfileStep__pictureError {
+    padding: 0 40px;
+    color: var(--error-text);
     font-size: 12px;
     line-height: 16px;
-    color: var(--error-text);
-    padding: 0 40px;
 
     > span {
         margin-left: 4px;
     }
 
     i {
+        margin-top: -2px;
         font-size: 14px;
         vertical-align: middle;
-        margin-top: -2px;
     }
 }
 
@@ -89,9 +89,9 @@
     }
 
     .TeamProfileStep__textInputs {
-        margin-left: 0;
-        margin-top: 32px;
         max-width: unset;
+        margin-top: 32px;
+        margin-left: 0;
 
         .Input_container {
             margin-top: 20px;

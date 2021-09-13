@@ -7,7 +7,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @system_console @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -15,6 +15,8 @@ describe('System Console > Site Statistics', () => {
     let testUser;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiInitSetup().then(({team, user}) => {
             // # Login as test user and visit town-square
             testUser = user;

@@ -3,7 +3,7 @@
 
 import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {$ID} from 'mattermost-redux/types/utilities';
@@ -11,6 +11,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {setThreadFollow, updateThreadRead} from 'mattermost-redux/actions/threads';
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 
 import {
     flagPost as savePost,
@@ -56,7 +57,21 @@ function ThreadMenu({
         goToInChannel,
     } = useThreadRouting();
 
-    const isSaved = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, threadId, null) != null);
+    const isSaved = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, threadId, null) != null, shallowEqual);
+
+    const handleReadUnread = useCallback(() => {
+        const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
+
+        dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
+        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, lastViewedAt));
+    }, [
+        currentUserId,
+        currentTeamId,
+        threadId,
+        hasUnreads,
+        updateThreadRead,
+        unreadTimestamp,
+    ]);
 
     return (
         <MenuWrapper
@@ -108,9 +123,7 @@ function ThreadMenu({
                         id: t('threading.threadMenu.markUnread'),
                         defaultMessage: 'Mark as unread',
                     })}
-                    onClick={useCallback(() => {
-                        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : unreadTimestamp));
-                    }, [currentUserId, currentTeamId, threadId, hasUnreads, updateThreadRead, unreadTimestamp])}
+                    onClick={handleReadUnread}
                 />
 
                 <Menu.ItemAction
@@ -139,4 +152,13 @@ function ThreadMenu({
     );
 }
 
-export default memo(ThreadMenu);
+function areEqual(prevProps: Props, nextProps: Props) {
+    return (
+        prevProps.threadId === nextProps.threadId &&
+        prevProps.isFollowing === nextProps.isFollowing &&
+        prevProps.unreadTimestamp === nextProps.unreadTimestamp &&
+        prevProps.hasUnreads === nextProps.hasUnreads
+    );
+}
+
+export default memo(ThreadMenu, areEqual);

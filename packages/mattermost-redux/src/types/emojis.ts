@@ -23,10 +23,14 @@ export type CustomEmoji = {
     category: 'custom';
 };
 export type SystemEmoji = {
-    filename: string;
-    aliases: string[];
+    name: string;
+    image: string;
+    short_name: string;
+    short_names: string[];
     category: EmojiCategory;
     batch: number;
+    skins?: string[];
+    skin_variations?: unknown[]; // we currently don't have a use for it other than knowing the field exists.
 };
 export type Emoji = SystemEmoji | CustomEmoji;
 export type EmojisState = {

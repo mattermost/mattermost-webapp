@@ -32,7 +32,7 @@ describe('Plugin Marketplace', () => {
                 Enable: true,
                 EnableMarketplace: true,
                 EnableRemoteMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
+                MarketplaceURL: 'https://api.integrations.mattermost.com',
                 PluginStates: {
                     github: {
                         Enable: false,
@@ -50,16 +50,8 @@ describe('Plugin Marketplace', () => {
         // # Visit the Town Square channel
         cy.visit(townsquareLink);
 
-        cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
-            // # Click hamburger main menu
-            cy.get('#sidebarHeaderDropdownButton').click();
-
-            // * Verify dropdown menu should be visible
-            cy.get('.dropdown-menu').should('be.visible').within(() => {
-                // * Plugin Marketplace button should be visible then click
-                cy.findByText('Marketplace').should('be.visible').click();
-            });
-        });
+        // # Open up marketplace
+        cy.uiOpenProductSwitchMenu('Marketplace');
 
         // * Verify error bar should not be visible
         cy.get('#error_bar').should('not.exist');
@@ -81,18 +73,10 @@ describe('Plugin Marketplace', () => {
     });
 
     it('MM-T2001 autofocus on search plugin input box', () => {
-        cy.findByLabelText('Close').click();
+        cy.uiClose();
 
-        cy.get('#lhsHeader').should('be.visible').within(() => {
-            // # Click hamburger main menu
-            cy.findByLabelText('main menu').click();
-
-            // * Verify dropdown menu should be visible
-            cy.get('.dropdown-menu').should('be.visible').within(() => {
-                // * Plugin Marketplace button should be visible then click
-                cy.findByText('Marketplace').should('be.visible').click();
-            });
-        });
+        // # Open up marketplace
+        cy.uiOpenProductSwitchMenu('Marketplace');
 
         // * Verify search plugins should be focused
         cy.findByPlaceholderText('Search Marketplace').should('be.focused');
@@ -127,21 +111,29 @@ describe('Plugin Marketplace', () => {
         cy.get('#modal_marketplace').should('be.visible');
 
         // # Close marketplace modal
-        cy.get('#closeIcon').click();
+        cy.uiClose();
 
         // * Verify marketplace should not be visible
         cy.get('#modal_marketplace').should('not.exist');
     });
 
     it('should filter all on search', () => {
+        // # Load all plugins before searching
+        cy.get('.more-modal__row').should('have.length', 15);
+
         // # Filter to jira plugin only
-        cy.findByPlaceholderText('Search Marketplace').scrollIntoView().should('be.visible').type('jira');
+        cy.findByPlaceholderText('Search Marketplace').
+            scrollIntoView().
+            should('be.visible').
+            type('jira');
 
         // * Verify jira plugin should be visible
         cy.get('#marketplace-plugin-jira').should('be.visible');
 
         // * Verify no other plugins should be visible
-        cy.get('#marketplaceTabs-pane-allListing').find('.more-modal__row').should('have.length', 1);
+        cy.get('#marketplaceTabs-pane-allListing').
+            find('.more-modal__row').
+            should('have.length', 1);
     });
 
     it('should show an error bar on failing to filter', () => {
@@ -150,7 +142,7 @@ describe('Plugin Marketplace', () => {
             PluginSettings: {
                 Enable: true,
                 EnableMarketplace: true,
-                MarketplaceUrl: 'example.com',
+                MarketplaceURL: 'example.com',
             },
         });
 

@@ -33,9 +33,6 @@ describe('components/AdminSidebar', () => {
                 Enable: true,
                 EnableUploads: true,
             },
-            FeatureFlags: {
-                CustomDataRetentionEnabled: true,
-            },
         },
         adminDefinition: AdminDefinition,
         buildEnterpriseReady: false,
@@ -251,13 +248,12 @@ describe('components/AdminSidebar', () => {
                 Elasticsearch: 'true',
                 CustomPermissionsSchemes: 'true',
                 OpenId: 'true',
+                GuestAccounts: 'true',
+                Announcement: 'true',
             },
             config: {
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
-                },
-                FeatureFlags: {
-                    CustomDataRetentionEnabled: true,
                 },
                 PluginSettings: {
                     Enable: true,

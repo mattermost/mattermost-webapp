@@ -22,9 +22,6 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             header: '',
             purpose: '',
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
-            extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,
@@ -33,16 +30,19 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         label: 'channel_label',
         icon: null,
         unreadMentions: 0,
-        unreadMsgs: 0,
-        showUnreadForMsgs: false,
+        isUnread: false,
         isMuted: false,
         isCollapsed: false,
         isChannelSelected: false,
+        showTutorialTip: false,
+        townSquareDisplayName: 'Town Square',
+        offTopicDisplayName: 'Off-Topic',
         actions: {
             multiSelectChannel: jest.fn(),
             multiSelectChannelAdd: jest.fn(),
             multiSelectChannelTo: jest.fn(),
             clearChannelSelection: jest.fn(),
+            openLhs: jest.fn(),
         },
     };
 
@@ -77,6 +77,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
     test('should match snapshot with aria label prefix and unread mentions', () => {
         const props = {
             ...baseProps,
+            isUnread: true,
             unreadMentions: 2,
             ariaLabelPrefix: 'aria_label_prefix_',
         };

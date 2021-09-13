@@ -1,20 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {General, Preferences, Permissions, Users} from '../constants';
+import {General, Permissions, Users} from '../constants';
 import {MarkUnread} from 'mattermost-redux/constants/channels';
 
 import {hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
 import {haveITeamPermission, haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {Channel, ChannelMembership, ChannelType, ChannelNotifyProps} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership, ChannelType, ChannelNotifyProps, ChannelMessageCount} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UsersState, UserProfile, UserNotifyProps} from 'mattermost-redux/types/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {TeamMembership} from 'mattermost-redux/types/teams';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToOne} from 'mattermost-redux/types/utilities';
 
-import {getPreferenceKey} from './preference_utils';
 import {displayUsername} from './user_utils';
 
 const channelTypeOrder = {
@@ -40,6 +38,10 @@ export function completeDirectChannelInfo(usersState: UsersState, teammateNameDi
     }
 
     return channel;
+}
+
+export function splitRoles(roles: string): Set<string> {
+    return roles ? new Set<string>(roles.split(' ')) : new Set<string>([]);
 }
 
 // newCompleteDirectChannelInfo is a variant of completeDirectChannelInfo that accepts the minimal
@@ -123,162 +125,20 @@ export function getUserIdFromChannelName(userId: string, channelName: string): s
     return otherUserId;
 }
 
-export function isAutoClosed(
-    config: any,
-    myPreferences: {
-        [x: string]: PreferenceType;
-    },
-    channel: Channel,
-    channelActivity: number,
-    channelArchiveTime: number,
-    currentChannelId = '',
-    now = Date.now(),
-): boolean {
-    const cutoff = now - (7 * 24 * 60 * 60 * 1000);
-    const viewTimePref = myPreferences[`${Preferences.CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME}--${channel.id}`];
-    const viewTime = viewTimePref ? parseInt(viewTimePref.value!, 10) : 0;
-
-    // Note that viewTime is not set correctly at the time of writing
-    if (viewTime > cutoff) {
-        return false;
-    }
-
-    const openTimePref = myPreferences[`${Preferences.CATEGORY_CHANNEL_OPEN_TIME}--${channel.id}`];
-    const openTime = openTimePref ? parseInt(openTimePref.value!, 10) : 0;
-
-    // Only close archived channels when not being viewed
-    if (channel.id !== currentChannelId && channelArchiveTime && channelArchiveTime > openTime) {
-        return true;
-    }
-
-    if (config.CloseUnusedDirectMessages !== 'true' || isFavoriteChannelOld(myPreferences, channel.id)) {
-        return false;
-    }
-
-    const autoClose = myPreferences[getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.CHANNEL_SIDEBAR_AUTOCLOSE_DMS)];
-    if (!autoClose || autoClose.value === Preferences.AUTOCLOSE_DMS_ENABLED) {
-        if (channelActivity && channelActivity > cutoff) {
-            return false;
-        }
-        if (openTime > cutoff) {
-            return false;
-        }
-        const lastActivity = channel.last_post_at;
-        return !lastActivity || lastActivity < cutoff;
-    }
-
-    return false;
-}
-
 export function isDirectChannel(channel: Channel): boolean {
     return channel.type === General.DM_CHANNEL;
-}
-
-export function isDirectChannelVisible(
-    otherUserOrOtherUserId: UserProfile | string,
-    config: any,
-    myPreferences: {
-        [x: string]: PreferenceType;
-    },
-    channel: Channel,
-    lastPost?: Post | null,
-    isUnread?: boolean,
-    currentChannelId = '',
-    now?: number,
-): boolean {
-    const otherUser = typeof otherUserOrOtherUserId === 'object' ? otherUserOrOtherUserId : null;
-    const otherUserId = typeof otherUserOrOtherUserId === 'object' ? otherUserOrOtherUserId.id : otherUserOrOtherUserId;
-    const dm = myPreferences[`${Preferences.CATEGORY_DIRECT_CHANNEL_SHOW}--${otherUserId}`];
-
-    if (!dm || dm.value !== 'true') {
-        return false;
-    }
-
-    return isUnread || !isAutoClosed(
-        config,
-        myPreferences,
-        channel,
-        lastPost ? lastPost.create_at : 0,
-        otherUser ? otherUser.delete_at : 0,
-        currentChannelId,
-        now,
-    );
 }
 
 export function isGroupChannel(channel: Channel): boolean {
     return channel.type === General.GM_CHANNEL;
 }
 
-export function isGroupChannelVisible(
-    config: any,
-    myPreferences: {
-        [x: string]: PreferenceType;
-    },
-    channel: Channel,
-    lastPost?: Post,
-    isUnread?: boolean,
-    now?: number,
-): boolean {
-    const gm = myPreferences[`${Preferences.CATEGORY_GROUP_CHANNEL_SHOW}--${channel.id}`];
-
-    if (!gm || gm.value !== 'true') {
-        return false;
-    }
-
-    return isUnread || !isAutoClosed(
-        config,
-        myPreferences,
-        channel,
-        lastPost ? lastPost.create_at : 0,
-        0,
-        '',
-        now,
-    );
-}
-
-export function isGroupOrDirectChannelVisible(
-    channel: Channel,
-    memberships: RelationOneToOne<Channel, ChannelMembership>,
-    config: any,
-    myPreferences: {
-        [x: string]: PreferenceType;
-    },
-    currentUserId: string,
-    users: IDMappedObjects<UserProfile>,
-    lastPosts: RelationOneToOne<Channel, Post>,
-    currentChannelId?: string,
-    now?: number,
-): boolean {
-    const lastPost = lastPosts[channel.id];
-
-    if (isGroupChannel(channel) && isGroupChannelVisible(config, myPreferences, channel, lastPost, isUnreadChannel(memberships, channel), now)) {
-        return true;
-    }
-
-    if (!isDirectChannel(channel)) {
-        return false;
-    }
-
-    const otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
-
-    return isDirectChannelVisible(
-        users[otherUserId] || otherUserId,
-        config,
-        myPreferences,
-        channel,
-        lastPost,
-        isUnreadChannel(memberships, channel),
-        currentChannelId,
-        now,
-    );
-}
-
 export function showCreateOption(state: GlobalState, config: any, license: any, teamId: string, channelType: ChannelType, isAdmin: boolean, isSystemAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channelType === General.OPEN_CHANNEL) {
-            return haveITeamPermission(state, {team: teamId, permission: Permissions.CREATE_PUBLIC_CHANNEL});
+            return haveITeamPermission(state, teamId, Permissions.CREATE_PUBLIC_CHANNEL);
         } else if (channelType === General.PRIVATE_CHANNEL) {
-            return haveITeamPermission(state, {team: teamId, permission: Permissions.CREATE_PRIVATE_CHANNEL});
+            return haveITeamPermission(state, teamId, Permissions.CREATE_PRIVATE_CHANNEL);
         }
         return true;
     }
@@ -308,9 +168,9 @@ export function showCreateOption(state: GlobalState, config: any, license: any, 
 export function showManagementOptions(state: GlobalState, config: any, license: any, channel: Channel, isAdmin: boolean, isSystemAdmin: boolean, isChannelAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channel.type === General.OPEN_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
         } else if (channel.type === General.PRIVATE_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES);
         }
         return true;
     }
@@ -348,9 +208,9 @@ export function showManagementOptions(state: GlobalState, config: any, license: 
 export function showDeleteOption(state: GlobalState, config: any, license: any, channel: Channel, isAdmin: boolean, isSystemAdmin: boolean, isChannelAdmin: boolean): boolean {
     if (hasNewPermissions(state)) {
         if (channel.type === General.OPEN_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.DELETE_PUBLIC_CHANNEL});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.DELETE_PUBLIC_CHANNEL);
         } else if (channel.type === General.PRIVATE_CHANNEL) {
-            return haveIChannelPermission(state, {channel: channel.id, team: channel.team_id, permission: Permissions.DELETE_PRIVATE_CHANNEL});
+            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.DELETE_PRIVATE_CHANNEL);
         }
         return true;
     }
@@ -429,10 +289,10 @@ export function getChannelsIdForTeam(state: GlobalState, teamId: string): string
     }, [] as string[]);
 }
 
-export function getGroupDisplayNameFromUserIds(userIds: string[], profiles: IDMappedObjects<UserProfile>, currentUserId: string, teammateNameDisplay: string): string {
+export function getGroupDisplayNameFromUserIds(userIds: string[], profiles: IDMappedObjects<UserProfile>, currentUserId: string, teammateNameDisplay: string, omitCurrentUser = true): string {
     const names: string[] = [];
     userIds.forEach((id) => {
-        if (id !== currentUserId) {
+        if (!(id === currentUserId && omitCurrentUser)) {
             names.push(displayUsername(profiles[id], teammateNameDisplay));
         }
     });
@@ -445,24 +305,17 @@ export function getGroupDisplayNameFromUserIds(userIds: string[], profiles: IDMa
     return names.sort(sortUsernames).join(', ');
 }
 
-export function isFavoriteChannelOld(myPreferences: {
-    [x: string]: PreferenceType;
-}, id: string) {
-    const fav = myPreferences[`${Preferences.CATEGORY_FAVORITE_CHANNEL}--${id}`];
-    return fav ? fav.value === 'true' : false;
-}
-
 export function isDefault(channel: Channel): boolean {
     return channel.name === General.DEFAULT_CHANNEL;
 }
 
-function completeDirectGroupInfo(usersState: UsersState, teammateNameDisplay: string, channel: Channel) {
+export function completeDirectGroupInfo(usersState: UsersState, teammateNameDisplay: string, channel: Channel, omitCurrentUser = true) {
     const {currentUserId, profiles, profilesInChannel} = usersState;
     const profilesIds = profilesInChannel[channel.id];
     const gm = {...channel};
 
     if (profilesIds) {
-        gm.display_name = getGroupDisplayNameFromUserIds(profilesIds, profiles, currentUserId, teammateNameDisplay);
+        gm.display_name = getGroupDisplayNameFromUserIds(profilesIds, profiles, currentUserId, teammateNameDisplay, omitCurrentUser);
         return gm;
     }
 
@@ -512,17 +365,6 @@ function newCompleteDirectGroupInfo(currentUserId: string, profiles: IDMappedObj
     }
 
     return channel;
-}
-
-export function isUnreadChannel(members: RelationOneToOne<Channel, ChannelMembership>, channel: Channel): boolean {
-    const member = members[channel.id];
-    if (member) {
-        const msgCount = channel.total_msg_count - member.msg_count;
-        const onlyMentions = member.notify_props && member.notify_props.mark_unread === MarkUnread.MENTION;
-        return (member.mention_count > 0 || (Boolean(msgCount) && !onlyMentions));
-    }
-
-    return false;
 }
 
 export function isOpenChannel(channel: Channel): boolean {
@@ -673,6 +515,34 @@ export function channelListToMap(channelList: Channel[]): IDMappedObjects<Channe
     return channels;
 }
 
-export function getMsgCountInChannel(collapsed: boolean, channel: Channel, member: ChannelMembership): number {
-    return collapsed ? Math.max(channel.total_msg_count_root - member.msg_count_root, 0) : Math.max(channel.total_msg_count - member.msg_count, 0);
+// calculateUnreadCount returns an object containing the number of unread mentions/mesasges in a channel and whether
+// or not that channel would be shown as unread in the sidebar.
+export function calculateUnreadCount(
+    messageCount: ChannelMessageCount | undefined,
+    member: ChannelMembership | undefined,
+    crtEnabled: boolean,
+): {showUnread: boolean; mentions: number; messages: number} {
+    if (!member || !messageCount) {
+        return {
+            showUnread: false,
+            mentions: 0,
+            messages: 0,
+        };
+    }
+
+    let messages;
+    let mentions;
+    if (crtEnabled) {
+        messages = messageCount.root - member.msg_count_root;
+        mentions = member.mention_count_root;
+    } else {
+        mentions = member.mention_count;
+        messages = messageCount.total - member.msg_count;
+    }
+
+    return {
+        showUnread: mentions > 0 || (!isChannelMuted(member) && messages > 0),
+        messages,
+        mentions,
+    };
 }

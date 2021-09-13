@@ -18,29 +18,29 @@ exports[`components/Toast should match snapshot for hiding toast 1`] = `
       child
     </span>
   </div>
-  <div
-    className="toast__dismiss"
-    data-testid="dismissToast"
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={<div />}
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={<div />}
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <div
+      className="toast__dismiss"
+      data-testid="dismissToast"
+      onClick={[Function]}
     >
       <CloseIcon
         className="close-btn"
         id="dismissToast"
       />
-    </OverlayTrigger>
-  </div>
+    </div>
+  </OverlayTrigger>
 </div>
 `;
 
@@ -62,48 +62,48 @@ exports[`components/Toast should match snapshot for showing toast 1`] = `
       child
     </span>
   </div>
-  <div
-    className="toast__dismiss"
-    data-testid="dismissToast"
-    onClick={[Function]}
-  >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="toast-close__tooltip"
-          placement="right"
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="toast-close__tooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Close"
+          id="general_button.close"
+        />
+        <div
+          className="tooltip__shortcut--txt"
         >
-          <FormattedMessage
-            defaultMessage="Close"
-            id="general_button.close"
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="esc"
+            id="general_button.esc"
           />
-          <div
-            className="tooltip__shortcut--txt"
-          >
-            <FormattedMessage
-              defaultMessage="esc"
-              id="general_button.esc"
-            />
-          </div>
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+        </div>
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <div
+      className="toast__dismiss"
+      data-testid="dismissToast"
+      onClick={[Function]}
     >
       <CloseIcon
         className="close-btn"
         id="dismissToast"
       />
-    </OverlayTrigger>
-  </div>
+    </div>
+  </OverlayTrigger>
 </div>
 `;
 
@@ -125,48 +125,48 @@ exports[`components/Toast should match snapshot for toast width less than 780px 
       child
     </span>
   </div>
-  <div
-    className="toast__dismiss"
-    data-testid="dismissToast"
-    onClick={[Function]}
-  >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="toast-close__tooltip"
-          placement="right"
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="toast-close__tooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Close"
+          id="general_button.close"
+        />
+        <div
+          className="tooltip__shortcut--txt"
         >
-          <FormattedMessage
-            defaultMessage="Close"
-            id="general_button.close"
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="esc"
+            id="general_button.esc"
           />
-          <div
-            className="tooltip__shortcut--txt"
-          >
-            <FormattedMessage
-              defaultMessage="esc"
-              id="general_button.esc"
-            />
-          </div>
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+        </div>
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <div
+      className="toast__dismiss"
+      data-testid="dismissToast"
+      onClick={[Function]}
     >
       <CloseIcon
         className="close-btn"
         id="dismissToast"
       />
-    </OverlayTrigger>
-  </div>
+    </div>
+  </OverlayTrigger>
 </div>
 `;
 
@@ -188,48 +188,48 @@ exports[`components/Toast should match snapshot to have extraClasses 1`] = `
       child
     </span>
   </div>
-  <div
-    className="toast__dismiss"
-    data-testid="dismissToast-extraClasses"
-    onClick={[Function]}
-  >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="toast-close__tooltip"
-          placement="right"
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="toast-close__tooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Close"
+          id="general_button.close"
+        />
+        <div
+          className="tooltip__shortcut--txt"
         >
-          <FormattedMessage
-            defaultMessage="Close"
-            id="general_button.close"
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="esc"
+            id="general_button.esc"
           />
-          <div
-            className="tooltip__shortcut--txt"
-          >
-            <FormattedMessage
-              defaultMessage="esc"
-              id="general_button.esc"
-            />
-          </div>
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+        </div>
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <div
+      className="toast__dismiss"
+      data-testid="dismissToast-extraClasses"
+      onClick={[Function]}
     >
       <CloseIcon
         className="close-btn"
         id="dismissToast"
       />
-    </OverlayTrigger>
-  </div>
+    </div>
+  </OverlayTrigger>
 </div>
 `;
 
@@ -244,28 +244,28 @@ exports[`components/Toast should match snapshot to not have actions 1`] = `
       child
     </span>
   </div>
-  <div
-    className="toast__dismiss"
-    data-testid="dismissToast"
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={<div />}
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={<div />}
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <div
+      className="toast__dismiss"
+      data-testid="dismissToast"
+      onClick={[Function]}
     >
       <CloseIcon
         className="close-btn"
         id="dismissToast"
       />
-    </OverlayTrigger>
-  </div>
+    </div>
+  </OverlayTrigger>
 </div>
 `;

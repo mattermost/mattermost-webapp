@@ -32,6 +32,7 @@ export type AppManifest = {
     app_type: AppType;
     version?: string;
     homepage_url?: string;
+    icon?: string;
     display_name: string;
     description?: string;
     requested_permissions?: Permission[];
@@ -44,8 +45,16 @@ export type AppModalState = {
     call: AppCallRequest;
 }
 
-export type AppsState = {
+export type AppCommandFormMap = {[location: string]: AppForm}
+
+export type BindingsInfo = {
     bindings: AppBinding[];
+    forms: AppCommandFormMap;
+}
+
+export type AppsState = {
+    main: BindingsInfo;
+    rhs: BindingsInfo;
 };
 
 export type AppBinding = {

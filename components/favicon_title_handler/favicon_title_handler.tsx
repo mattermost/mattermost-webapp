@@ -10,6 +10,8 @@ import {Team} from 'mattermost-redux/types/teams';
 import * as UserAgent from 'utils/user_agent';
 import {Constants} from 'utils/constants';
 
+import {basicUnreadMeta, BasicUnreadStatus} from 'mattermost-redux/selectors/entities/channels';
+
 // default favicons
 import faviconDefault16x16 from 'images/favicon/favicon-default-16x16.png';
 import faviconDefault24x24 from 'images/favicon/favicon-default-24x24.png';
@@ -37,14 +39,9 @@ enum BadgeStatus {
     None = 'None'
 }
 
-type Unreads = {
-    messageCount: number;
-    mentionCount: number;
-};
-
 type Props = {
     intl: IntlShape;
-    unreads: Unreads;
+    unreadStatus: BasicUnreadStatus;
     siteName?: string;
     currentChannel?: Channel;
     currentTeam: Team;
@@ -55,8 +52,8 @@ type Props = {
 export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
     componentDidUpdate(prevProps: Props) {
         this.updateTitle();
-        const oldBadgeStatus = this.getBadgeStatus(prevProps.unreads);
-        const newBadgeStatus = this.getBadgeStatus(this.props.unreads);
+        const oldBadgeStatus = this.getBadgeStatus(prevProps.unreadStatus);
+        const newBadgeStatus = this.getBadgeStatus(this.props.unreadStatus);
 
         if (oldBadgeStatus !== newBadgeStatus) {
             this.updateFavicon(newBadgeStatus);
@@ -67,11 +64,10 @@ export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
         return UserAgent.isChrome() || UserAgent.isFirefox();
     }
 
-    getBadgeStatus(unreads: Unreads) {
-        if (unreads.mentionCount > 0) {
+    getBadgeStatus(unreadStatus: BasicUnreadStatus) {
+        if (typeof unreadStatus === 'number') {
             return BadgeStatus.Mention;
-        }
-        if (unreads.messageCount > 0) {
+        } else if (unreadStatus) {
             return BadgeStatus.Unread;
         }
         return BadgeStatus.None;
@@ -83,15 +79,17 @@ export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
             currentChannel,
             currentTeam,
             currentTeammate,
-            unreads,
+            unreadStatus,
             inGlobalThreads,
         } = this.props;
         const {formatMessage} = this.props.intl;
 
         const currentSiteName = siteName || '';
 
-        const mentionTitle = unreads.mentionCount > 0 ? `(${unreads.mentionCount}) ` : '';
-        const unreadTitle = !this.isDynamicFaviconSupported && unreads.messageCount > 0 ? '* ' : '';
+        const {isUnread, unreadMentionCount} = basicUnreadMeta(unreadStatus);
+
+        const mentionTitle = unreadMentionCount > 0 ? `(${unreadMentionCount}) ` : '';
+        const unreadTitle = !this.isDynamicFaviconSupported && isUnread ? '* ' : '';
 
         if (currentChannel && currentTeam && currentChannel.id) {
             let currentChannelName = currentChannel.display_name;

@@ -12,7 +12,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
         className="fa fa-angle-left back"
         to="/admin_console/compliance/data_retention_settings"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Custom Retention Policy"
         id="admin.data_retention.customTitle"
       />
@@ -31,13 +31,13 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
         <CardHeader>
           <TitleAndButtonCardHeader
             subtitle={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Give your policy a name and configure retention settings."
                 id="admin.data_retention.custom_policy.form.subTitle"
               />
             }
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Name and retention"
                 id="admin.data_retention.custom_policy.form.title"
               />
@@ -149,20 +149,20 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
         <CardHeader>
           <TitleAndButtonCardHeader
             buttonText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add teams"
                 id="admin.data_retention.custom_policy.team_selector.addTeams"
               />
             }
             onClick={[Function]}
             subtitle={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add teams that will follow this retention policy."
                 id="admin.data_retention.custom_policy.team_selector.subTitle"
               />
             }
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Assigned teams"
                 id="admin.data_retention.custom_policy.team_selector.title"
               />
@@ -187,20 +187,20 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
         <CardHeader>
           <TitleAndButtonCardHeader
             buttonText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add channels"
                 id="admin.data_retention.custom_policy.channel_selector.addChannels"
               />
             }
             onClick={[Function]}
             subtitle={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add channels that will follow this retention policy."
                 id="admin.data_retention.custom_policy.channel_selector.subTitle"
               />
             }
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Assigned channels"
                 id="admin.data_retention.custom_policy.channel_selector.title"
               />
@@ -226,7 +226,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="admin.data_retention.custom_policy.save"
         />
@@ -236,7 +236,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
       onClick={[Function]}
       saving={false}
       savingMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Saving"
           id="save_button.saving"
         />
@@ -246,7 +246,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
       className="cancel-button"
       to="/admin_console/compliance/data_retention_settings"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="admin.data_retention.custom_policy.cancel"
       />
@@ -267,7 +267,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
         className="fa fa-angle-left back"
         to="/admin_console/compliance/data_retention_settings"
       />
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Custom Retention Policy"
         id="admin.data_retention.customTitle"
       />
@@ -286,13 +286,13 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
         <CardHeader>
           <TitleAndButtonCardHeader
             subtitle={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Give your policy a name and configure retention settings."
                 id="admin.data_retention.custom_policy.form.subTitle"
               />
             }
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Name and retention"
                 id="admin.data_retention.custom_policy.form.title"
               />
@@ -399,20 +399,20 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
         <CardHeader>
           <TitleAndButtonCardHeader
             buttonText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add teams"
                 id="admin.data_retention.custom_policy.team_selector.addTeams"
               />
             }
             onClick={[Function]}
             subtitle={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add teams that will follow this retention policy."
                 id="admin.data_retention.custom_policy.team_selector.subTitle"
               />
             }
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Assigned teams"
                 id="admin.data_retention.custom_policy.team_selector.title"
               />
@@ -438,20 +438,20 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
         <CardHeader>
           <TitleAndButtonCardHeader
             buttonText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add channels"
                 id="admin.data_retention.custom_policy.channel_selector.addChannels"
               />
             }
             onClick={[Function]}
             subtitle={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Add channels that will follow this retention policy."
                 id="admin.data_retention.custom_policy.channel_selector.subTitle"
               />
             }
             title={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Assigned channels"
                 id="admin.data_retention.custom_policy.channel_selector.title"
               />
@@ -478,7 +478,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="admin.data_retention.custom_policy.save"
         />
@@ -488,7 +488,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
       onClick={[Function]}
       saving={false}
       savingMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Saving"
           id="save_button.saving"
         />
@@ -498,7 +498,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
       className="cancel-button"
       to="/admin_console/compliance/data_retention_settings"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Cancel"
         id="admin.data_retention.custom_policy.cancel"
       />

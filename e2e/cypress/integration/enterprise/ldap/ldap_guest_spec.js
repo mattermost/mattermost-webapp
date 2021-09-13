@@ -217,9 +217,8 @@ describe('LDAP guest', () => {
                     // # Go to the new team
                     cy.visit(`/${team.name}/channels/town-square`);
 
-                    // # Open Invite People
-                    cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-                    cy.get('#invitePeople').should('be.visible').click();
+                    // # Open team menu and click 'Invite People'
+                    cy.uiOpenTeamMenu('Invite People');
 
                     cy.wait(TIMEOUTS.TWO_SEC);
 
@@ -233,7 +232,7 @@ describe('LDAP guest', () => {
 
 function gotoGuestAccessSettings() {
     cy.visit('/admin_console/authentication/guest_access');
-    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Guest Access (Beta)');
+    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Guest Access');
 }
 
 function gotoLDAPSettings() {

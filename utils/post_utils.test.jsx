@@ -1,14 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import assert from 'assert';
 
 import {createIntl} from 'react-intl';
 
-import {Posts} from 'mattermost-redux/constants';
+import {Preferences} from 'mattermost-redux/constants';
 
-import * as PostUtils from 'utils/post_utils.jsx';
-import {PostListRowListIds} from 'utils/constants';
+import * as PostUtils from 'utils/post_utils';
+import {PostListRowListIds, Constants} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 import EmojiMap from 'utils/emoji_map';
 
 const enMessages = require('../i18n/en');
@@ -667,8 +669,9 @@ describe('PostUtils.getLatestPostId', () => {
 
 describe('PostUtils.createAriaLabelForPost', () => {
     const emojiMap = new EmojiMap(new Map());
+
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
-        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const testPost = {
             message: 'test_message',
@@ -681,23 +684,25 @@ describe('PostUtils.createAriaLabelForPost', () => {
                 ],
             },
             file_ids: ['test_file_id_1'],
+            is_pinned: true,
         };
         const author = 'test_author';
         const reactions = {
-            reaction1: 'reaction 1',
-            reaction2: 'reaction 2',
+            reaction1: {emoji_name: 'reaction 1'},
+            reaction2: {emoji_name: 'reaction 2'},
         };
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        assert.ok(ariaLabel.indexOf(author));
-        assert.ok(ariaLabel.indexOf(testPost.message));
-        assert.ok(ariaLabel.indexOf('3 attachments'));
-        assert.ok(ariaLabel.indexOf('2 reactions'));
-        assert.ok(ariaLabel.indexOf('message is saved and pinned'));
+        expect(ariaLabel.indexOf(author)).not.toBe(-1);
+        expect(ariaLabel.indexOf(testPost.message)).not.toBe(-1);
+        expect(ariaLabel.indexOf('3 attachments')).not.toBe(-1);
+        expect(ariaLabel.indexOf('2 reactions')).not.toBe(-1);
+        expect(ariaLabel.indexOf('message is saved and pinned')).not.toBe(-1);
     });
+
     test('Should show that message is a reply', () => {
-        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const testPost = {
             message: 'test_message',
@@ -709,10 +714,11 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        assert.ok(ariaLabel.indexOf('reply'));
+        expect(ariaLabel.indexOf('replied')).not.toBe(-1);
     });
+
     test('Should translate emoji into {emoji-name} emoji', () => {
-        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const testPost = {
             message: 'emoji_test :smile: :+1: :non-potable_water: :space emoji: :not_an_emoji:',
@@ -723,14 +729,15 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const isFlagged = true;
 
         const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
-        assert.ok(ariaLabel.indexOf('smile emoji'));
-        assert.ok(ariaLabel.indexOf('+1 emoji'));
-        assert.ok(ariaLabel.indexOf('non-potable water emoji'));
-        assert.ok(ariaLabel.indexOf(':space emoji:'));
-        assert.ok(ariaLabel.indexOf(':not_an_emoji:'));
+        expect(ariaLabel.indexOf('smile emoji')).not.toBe(-1);
+        expect(ariaLabel.indexOf('+1 emoji')).not.toBe(-1);
+        expect(ariaLabel.indexOf('non-potable water emoji')).not.toBe(-1);
+        expect(ariaLabel.indexOf(':space emoji:')).not.toBe(-1);
+        expect(ariaLabel.indexOf(':not_an_emoji:')).not.toBe(-1);
     });
+
     test('Generating aria label should not break if message is undefined', () => {
-        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const testPost = {
             id: 32,
@@ -741,7 +748,23 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        assert.doesNotThrow(() => PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap));
+        expect(() => PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap)).not.toThrow();
+    });
+
+    test('Should not mention reactions if passed an empty object', () => {
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
+
+        const testPost = {
+            message: 'test_message',
+            root_id: 'test_id',
+            create_at: (new Date().getTime() / 1000) || 0,
+        };
+        const author = 'test_author';
+        const reactions = {};
+        const isFlagged = true;
+
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
+        expect(ariaLabel.indexOf('reaction')).toBe(-1);
     });
 });
 
@@ -758,106 +781,98 @@ describe('PostUtils.splitMessageBasedOnCaretPosition', () => {
     });
 });
 
-describe('makeGetReplyCount', () => {
-    test('should return the number of comments when called on a root post', () => {
-        const getReplyCount = PostUtils.makeGetReplyCount();
+describe('PostUtils.getPostURL', () => {
+    const currentTeam = TestHelper.getTeamMock({id: 'current_team_id', name: 'current_team_name'});
+    const team = TestHelper.getTeamMock({id: 'team_id_1', name: 'team_1'});
 
-        const state = {
-            entities: {
-                posts: {
-                    posts: {
-                        post1: {id: 'post1'},
-                        post2: {id: 'post2', root_id: 'post1'},
-                        post3: {id: 'post3', root_id: 'post1'},
-                    },
-                    postsInThread: {
-                        post1: ['post2', 'post3'],
+    const dmChannel = TestHelper.getChannelMock({id: 'dm_channel_id', name: 'current_user_id__user_id_1', type: Constants.DM_CHANNEL, team_id: ''});
+    const gmChannel = TestHelper.getChannelMock({id: 'gm_channel_id', name: 'gm_channel_name', type: Constants.GM_CHANNEL, team_id: ''});
+    const channel = TestHelper.getChannelMock({id: 'channel_id', name: 'channel_name', team_id: team.id});
+
+    const dmPost = TestHelper.getPostMock({id: 'dm_post_id', channel_id: dmChannel.id});
+    const gmPost = TestHelper.getPostMock({id: 'gm_post_id', channel_id: gmChannel.id});
+    const post = TestHelper.getPostMock({id: 'post_id', channel_id: channel.id});
+    const dmReply = TestHelper.getPostMock({id: 'dm_reply_id', root_id: 'root_post_id_1', channel_id: dmChannel.id});
+    const gmReply = TestHelper.getPostMock({id: 'gm_reply_id', root_id: 'root_post_id_1', channel_id: gmChannel.id});
+    const reply = TestHelper.getPostMock({id: 'reply_id', root_id: 'root_post_id_1', channel_id: channel.id});
+
+    const getState = (collapsedThreads) => ({
+        entities: {
+            general: {
+                config: {
+                    FeatureFlagCollapsedThreads: 'true',
+                    CollapsedThreads: 'default_off',
+                },
+            },
+            preferences: {
+                myPreferences: {
+                    [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSED_REPLY_THREADS}`]: {
+                        value: collapsedThreads ? 'on' : 'off',
                     },
                 },
             },
-        };
-        const post = state.entities.posts.posts.post1;
-
-        expect(getReplyCount(state, post)).toBe(2);
+            users: {
+                currentUserId: 'current_user_id',
+                profiles: {
+                    user_id_1: {
+                        id: 'user_id_1',
+                        username: 'jessicahyde',
+                    },
+                    current_user_id: {
+                        id: 'current_user_id',
+                        username: 'currentuser',
+                    },
+                },
+            },
+            channels: {
+                channels: {
+                    gm_channel_id: gmChannel,
+                    dm_channel_id: dmChannel,
+                    channel_id: channel,
+                },
+                myMembers: {channelid1: {channel_id: 'channelid1', user_id: 'current_user_id'}},
+            },
+            teams: {
+                currentTeamId: currentTeam.id,
+                teams: {
+                    current_team_id: currentTeam,
+                    team_id_1: team,
+                },
+            },
+            posts: {
+                dm_post_id: dmPost,
+                gm_post_id: gmPost,
+                post_id: post,
+                dm_reply_id: dmReply,
+                gm_reply_id: gmReply,
+                reply_id: reply,
+            },
+        },
     });
 
-    test('should return the number of comments when called on a root post with reply_count and postsInThread meta does not exist', () => {
-        const getReplyCount = PostUtils.makeGetReplyCount();
+    test.each([
+        ['/current_team_name/messages/@jessicahyde/dm_post_id', dmPost, true],
+        ['/current_team_name/messages/gm_channel_name/gm_post_id', gmPost, true],
+        ['/team_1/channels/channel_name/post_id', post, true],
 
-        const state = {
-            entities: {
-                posts: {
-                    posts: {
-                        post1: {id: 'post1', reply_count: 22},
-                    },
-                    postsInThread: {},
-                },
-            },
-        };
-        const post = state.entities.posts.posts.post1;
-
-        expect(getReplyCount(state, post)).toBe(22);
+        ['/current_team_name/messages/@jessicahyde/dm_post_id', dmPost, false],
+        ['/current_team_name/messages/gm_channel_name/gm_post_id', gmPost, false],
+        ['/team_1/channels/channel_name/post_id', post, false],
+    ])('root posts should return %s', (expected, postCase, collapsedThreads) => {
+        const state = getState(collapsedThreads);
+        expect(PostUtils.getPostURL(state, postCase)).toBe(expected);
     });
 
-    test('should return the number of comments when called on a comment', () => {
-        const getReplyCount = PostUtils.makeGetReplyCount();
+    test.each([
+        ['/current_team_name/messages/@jessicahyde', dmReply, true],
+        ['/current_team_name/messages/gm_channel_name', gmReply, true],
+        ['/team_1/channels/channel_name', reply, true],
 
-        const state = {
-            entities: {
-                posts: {
-                    posts: {
-                        post1: {id: 'post1'},
-                        post2: {id: 'post2', root_id: 'post1'},
-                        post3: {id: 'post3', root_id: 'post1'},
-                    },
-                    postsInThread: {
-                        post1: ['post2', 'post3'],
-                    },
-                },
-            },
-        };
-        const post = state.entities.posts.posts.post3;
-
-        expect(getReplyCount(state, post)).toBe(2);
-    });
-
-    test('should return 0 when called on a post without comments without reply_count', () => {
-        const getReplyCount = PostUtils.makeGetReplyCount();
-
-        const state = {
-            entities: {
-                posts: {
-                    posts: {
-                        post1: {id: 'post1'},
-                    },
-                    postsInThread: {},
-                },
-            },
-        };
-        const post = state.entities.posts.posts.post1;
-
-        expect(getReplyCount(state, post)).toBe(0);
-    });
-
-    test('should not count ephemeral comments', () => {
-        const getReplyCount = PostUtils.makeGetReplyCount();
-
-        const state = {
-            entities: {
-                posts: {
-                    posts: {
-                        post1: {id: 'post1'},
-                        post2: {id: 'post2', root_id: 'post1', type: Posts.POST_TYPES.EPHEMERAL},
-                        post3: {id: 'post3', root_id: 'post1'},
-                    },
-                    postsInThread: {
-                        post1: ['post2', 'post3'],
-                    },
-                },
-            },
-        };
-        const post = state.entities.posts.posts.post1;
-
-        expect(getReplyCount(state, post)).toBe(1);
+        ['/current_team_name/messages/@jessicahyde/dm_reply_id', dmReply, false],
+        ['/current_team_name/messages/gm_channel_name/gm_reply_id', gmReply, false],
+        ['/team_1/channels/channel_name/reply_id', reply, false],
+    ])('replies should return %s', (expected, postCase, collapsedThreads) => {
+        const state = getState(collapsedThreads);
+        expect(PostUtils.getPostURL(state, postCase)).toBe(expected);
     });
 });

@@ -26,6 +26,7 @@ export function getScheme(state: GlobalState, id: string): Scheme {
 
 export function makeGetSchemeChannels() {
     return (createSelector(
+        'makeGetSchemeChannels',
         getAllChannels,
         (state: GlobalState, props: {schemeId: string}) => getScheme(state, props.schemeId),
         (allChannels, scheme) => {
@@ -56,6 +57,7 @@ export function makeGetSchemeChannels() {
 
 export function makeGetSchemeTeams() {
     return (createSelector(
+        'makeGetSchemeTeams',
         getTeams,
         (state: GlobalState, props: {schemeId: string}) => getScheme(state, props.schemeId),
         (allTeams, scheme) => {

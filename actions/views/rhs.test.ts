@@ -16,6 +16,7 @@ import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 import {
     updateRhsState,
     selectPostFromRightHandSideSearch,
+    selectPostAndHighlight,
     updateSearchTerms,
     performSearch,
     showSearchResults,
@@ -31,9 +32,11 @@ import {
     closeMenu,
     openAtPrevious,
     updateSearchType,
+    suppressRHS,
+    unsuppressRHS,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {ActionTypes, RHSStates} from 'utils/constants';
+import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
@@ -755,6 +758,94 @@ describe('rhs view actions', () => {
             expect(store.getActions()).toEqual([{
                 type: ActionTypes.UPDATE_RHS_SEARCH_TYPE,
                 searchType: 'files',
+            }]);
+        });
+    });
+
+    describe('selectPostAndHighlight', () => {
+        const post1 = {id: '42'} as Post;
+        const post2 = {id: '43'} as Post;
+        const post3 = {id: '44'} as Post;
+
+        beforeEach(() => {
+            jest.useFakeTimers('modern');
+            jest.setSystemTime(POST_CREATED_TIME);
+        });
+
+        const batchedActions = (postId: string, delay = 0) => [{
+            meta: {batch: true},
+            payload: [{
+                postId,
+                timestamp: POST_CREATED_TIME + delay,
+                type: ActionTypes.SELECT_POST,
+            }, {
+                postId,
+                type: ActionTypes.HIGHLIGHT_REPLY,
+            }],
+            type: 'BATCHING_REDUCER.BATCH',
+        }];
+
+        it('should select, and highlight a post, and after a delay clear the highlight', () => {
+            const store = mockStore(initialState);
+            store.dispatch(selectPostAndHighlight(post1));
+
+            expect(store.getActions()).toEqual([
+                ...batchedActions('42'),
+            ]);
+
+            expect(jest.getTimerCount()).toBe(1);
+
+            jest.advanceTimersByTime(Constants.PERMALINK_FADEOUT);
+
+            expect(jest.getTimerCount()).toBe(0);
+
+            expect(store.getActions()).toEqual([
+                ...batchedActions('42'),
+                {type: ActionTypes.CLEAR_HIGHLIGHT_REPLY},
+            ]);
+        });
+
+        it('should clear highlight only once after last call no matter how many times called', () => {
+            const store = mockStore(initialState);
+            store.dispatch(selectPostAndHighlight(post1));
+            jest.advanceTimersByTime(1000);
+            store.dispatch(selectPostAndHighlight(post2));
+            jest.advanceTimersByTime(1000);
+            store.dispatch(selectPostAndHighlight(post3));
+
+            expect(jest.getTimerCount()).toBe(1);
+
+            jest.advanceTimersByTime(Constants.PERMALINK_FADEOUT - 2000);
+
+            expect(jest.getTimerCount()).toBe(1);
+
+            jest.advanceTimersByTime(2000);
+
+            expect(jest.getTimerCount()).toBe(0);
+
+            expect(store.getActions()).toEqual([
+                ...batchedActions('42'),
+                ...batchedActions('43', 1000),
+                ...batchedActions('44', 2000),
+                {type: ActionTypes.CLEAR_HIGHLIGHT_REPLY},
+            ]);
+        });
+    });
+
+    describe('rsh suppress actions', () => {
+        it('should suppress rhs', () => {
+            const store = mockStore(initialState);
+            store.dispatch(suppressRHS);
+
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.SUPPRESS_RHS,
+            }]);
+        });
+
+        it('should unsuppresses rhs', () => {
+            store.dispatch(unsuppressRHS);
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.UNSUPPRESS_RHS,
             }]);
         });
     });

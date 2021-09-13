@@ -35,7 +35,7 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
         }
       }
     />
-    <FormattedMessage
+    <MemoizedFormattedMessage
       defaultMessage="Only visible to System Admins"
       id="system_notice.adminVisible"
     />
@@ -48,7 +48,7 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
       id="systemnotice_remindme"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
       />
@@ -58,7 +58,7 @@ exports[`components/SystemNotice should match snapshot for admin, admin notice 1
       id="systemnotice_dontshow"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
       />
@@ -98,7 +98,7 @@ exports[`components/SystemNotice should match snapshot for admin, regular notice
       id="systemnotice_remindme"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
       />
@@ -108,7 +108,7 @@ exports[`components/SystemNotice should match snapshot for admin, regular notice
       id="systemnotice_dontshow"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
       />
@@ -148,7 +148,7 @@ exports[`components/SystemNotice should match snapshot for regular user, admin a
       id="systemnotice_remindme"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
       />
@@ -158,7 +158,7 @@ exports[`components/SystemNotice should match snapshot for regular user, admin a
       id="systemnotice_dontshow"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
       />
@@ -206,7 +206,7 @@ exports[`components/SystemNotice should match snapshot for regular user, regular
       id="systemnotice_remindme"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
       />
@@ -216,7 +216,7 @@ exports[`components/SystemNotice should match snapshot for regular user, regular
       id="systemnotice_dontshow"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
       />
@@ -258,7 +258,7 @@ exports[`components/SystemNotice should match snapshot for show function returni
       id="systemnotice_remindme"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
       />
@@ -268,7 +268,7 @@ exports[`components/SystemNotice should match snapshot for show function returni
       id="systemnotice_dontshow"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Don't Show Again"
         id="system_notice.dont_show"
       />
@@ -308,7 +308,7 @@ exports[`components/SystemNotice should match snapshot for with allowForget equa
       id="systemnotice_remindme"
       onClick={[Function]}
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Remind Me Later"
         id="system_notice.remind_me"
       />

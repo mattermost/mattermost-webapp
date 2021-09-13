@@ -12,6 +12,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {UserMentionKey} from './users';
 
 export const getCurrentSearchForCurrentTeam: (state: GlobalState) => string = createSelector(
+    'getCurrentSearchForCurrentTeam',
     (state: GlobalState) => state.entities.search.current,
     getCurrentTeamId,
     (current, teamId) => {
@@ -20,6 +21,7 @@ export const getCurrentSearchForCurrentTeam: (state: GlobalState) => string = cr
 );
 
 export const getAllUserMentionKeys: (state: GlobalState) => UserMentionKey[] = createSelector(
+    'getAllUserMentionKeys',
     getCurrentUserMentionKeys,
     getMyGroupMentionKeys,
     (userMentionKeys, groupMentionKeys) => {

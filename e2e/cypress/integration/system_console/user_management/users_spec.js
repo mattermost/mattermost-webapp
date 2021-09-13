@@ -33,8 +33,35 @@ describe('System Console > User Management > Users', () => {
         // # Visit the system console.
         cy.visit('/admin_console');
 
-        // # Go to the Server Logs section.
-        cy.get('#user_management\\/users').click().wait(TIMEOUTS.ONE_SEC);
+        // # Go to the User management/Users section.
+        cy.findByTestId('user_management.system_users').
+            click().
+            wait(TIMEOUTS.ONE_SEC);
+    });
+
+    it('MM-T925 Users - Profile image on User Configuration page is round', () => {
+        // # Find the created user by entering in the search
+        cy.findByPlaceholderText('Search users').
+            should('be.visible').
+            clear().
+            type(testUser.email).
+            wait(TIMEOUTS.HALF_SEC);
+
+        // # Click on the searched user name
+        cy.findByText(`@${testUser.username}`).
+            should('be.visible').
+            click({force: true});
+
+        // * Verify we landed on the user configuration page
+        cy.location('pathname').should(
+            'equal',
+            `/admin_console/user_management/user/${testUser.id}`,
+        );
+
+        // * Verify that user profile image is round
+        cy.findByAltText('user profile image').
+            should('be.visible').
+            and('have.css', 'border-radius', '50%');
     });
 
     it('MM-T932 Users - Change a user\'s password', () => {

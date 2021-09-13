@@ -18,9 +18,7 @@ import ShortcutsModal from 'components/shortcuts_modal.jsx';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
-import ModalController from 'components/modal_controller';
-import LegacyTeamSidebar from 'components/legacy_team_sidebar';
-import LegacySidebar from 'components/legacy_sidebar';
+import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
 import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
@@ -29,16 +27,10 @@ import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
 
-export default class ChannelController extends React.Component {
+export default class ChannelController extends React.PureComponent {
     static propTypes = {
-        pathName: PropTypes.string.isRequired,
         fetchingChannels: PropTypes.bool.isRequired,
-        useLegacyLHS: PropTypes.bool.isRequired,
     };
-
-    shouldComponentUpdate(nextProps) {
-        return this.props.pathName !== nextProps.pathName || this.props.fetchingChannels !== nextProps.fetchingChannels || this.props.useLegacyLHS !== nextProps.useLegacyLHS;
-    }
 
     componentDidMount() {
         const platform = window.navigator.platform;
@@ -63,9 +55,6 @@ export default class ChannelController extends React.Component {
     }
 
     render() {
-        const PreferredTeamSidebar = LegacyTeamSidebar; // TODO: Replace with switch when we rewrite team sidebar
-        const PreferredSidebar = this.props.useLegacyLHS ? LegacySidebar : Sidebar;
-
         return (
             <div
                 id='channel_view'
@@ -78,8 +67,8 @@ export default class ChannelController extends React.Component {
                 <div className='container-fluid'>
                     <SidebarRight/>
                     <SidebarRightMenu/>
-                    <Route component={PreferredTeamSidebar}/>
-                    <Route component={PreferredSidebar}/>
+                    <TeamSidebar/>
+                    <Sidebar/>
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}
                     <Pluggable pluggableName='Root'/>
@@ -89,7 +78,6 @@ export default class ChannelController extends React.Component {
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>
                     <ShortcutsModal isMac={Utils.isMac()}/>
-                    <ModalController/>
                 </div>
             </div>
         );

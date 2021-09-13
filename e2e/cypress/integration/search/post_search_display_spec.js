@@ -119,7 +119,7 @@ describe('Search', () => {
             cy.get('#searchBox').click().type(testSearch, {force: true});
 
             // # Select user from suggestion list
-            cy.contains('.search-autocomplete__item', `@${testUser.username}`).scrollIntoView().click({force: true});
+            cy.contains('.suggestion-list__item', `@${testUser.username}`).scrollIntoView().click({force: true});
 
             // # Verify that search box has the updated query
             cy.get('#searchBox').should('have.value', `FROM:${testUser.username} `);
@@ -163,10 +163,10 @@ describe('Search', () => {
         cy.get('#searchBox').click().type('in:');
 
         // # Select option from suggestion list
-        cy.get('.search-autocomplete__item').first().click({force: true});
+        cy.get('.suggestion-list__item').first().click({force: true});
 
         // * Assert suggestions are not present after selecting item
-        cy.get('.search-autocomplete__item').should('not.exist');
+        cy.get('.suggestion-list__item').should('not.exist');
 
         // # Clear search box
         cy.get('.input-clear-x').first().click({force: true}).wait(TIMEOUTS.HALF_SEC);
@@ -184,7 +184,7 @@ describe('Search', () => {
         cy.get('#searchBox').click().type('in:town-square').wait(TIMEOUTS.HALF_SEC);
 
         // * Assert that channel name displays appropriately
-        cy.get('.search-autocomplete__item').first().should('contain.text', 'Town Square~town-square');
+        cy.get('.suggestion-list__item').first().should('contain.text', 'Town Square~town-square');
 
         // # Press enter to register search term
         cy.get('#searchBox').click().type('{enter}');
@@ -199,7 +199,7 @@ describe('Search', () => {
         cy.get('#searchBox').click().type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Assert autocomplete list is gone
-        cy.get('.search-autocomplete__item').should('not.exist');
+        cy.get('.suggestion-list__item').should('not.exist');
     });
 
     it('MM-T2286 - Clicking a hashtag from a message opens messages with that hashtag on RHS', () => {

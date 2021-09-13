@@ -32,6 +32,7 @@ export function getFilePublicLink(state: GlobalState) {
 
 export function makeGetFilesForPost(): (state: GlobalState, postId: string) => FileInfo[] {
     return createSelector(
+        'makeGetFilesForPost',
         getAllFiles,
         getFilesIdsForPost,
         getCurrentUserLocale,
@@ -44,6 +45,7 @@ export function makeGetFilesForPost(): (state: GlobalState, postId: string) => F
 }
 
 export const getSearchFilesResults: (state: GlobalState) => FileSearchResultItem[] = createSelector(
+    'getSearchFilesResults',
     getAllFilesFromSearch,
     (state: GlobalState) => state.entities.search.fileResults,
     (files, fileIds) => {

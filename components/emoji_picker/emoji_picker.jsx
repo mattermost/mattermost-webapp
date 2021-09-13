@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -21,9 +22,9 @@ import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
+import EmojiPickerSkin from './components/emoji_picker_skin';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
-t('emoji_picker.searchResults');
 
 const EMOJI_HEIGHT = 27;
 
@@ -39,88 +40,50 @@ const EMOJI_TO_LOAD_PER_UPDATE = 135;
 const SYSTEM_EMOJIS_COUNT = 1476;
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 100;
 
-const recentEmojiCategory = {
-    recent: {
-        name: 'recent',
-        className: 'fa fa-clock-o',
-        id: t('emoji_picker.recent'),
-        message: 'Recently Used',
-        offset: 0,
-    },
-};
+// we know some categories, but there might be new ones in an upgrade
+const categoryClass = new Map([
+    ['recent', 'icon-clock-outline'],
+    ['searchResults', ''],
+    ['smileys-emotion', 'icon-emoticon-happy-outline'],
+    ['people-body', 'icon-account-outline'],
+    ['animals-nature', 'icon-leaf-outline'],
+    ['food-drink', 'icon-food-apple'],
+    ['activities', 'icon-basketball'],
+    ['travel-places', 'icon-airplane-variant'],
+    ['objects', 'icon-lightbulb-outline'],
+    ['symbols', 'icon-heart-outline'],
+    ['flags', 'icon-flag-outline'],
+    ['custom', 'icon-emoticon-custom-outline'],
+]);
 
-const peopleEmojiCategory = {
-    people: {
-        name: 'people',
-        className: 'fa fa-smile-o',
-        id: t('emoji_picker.people'),
-        message: 'People',
-        offset: 0,
-    },
-};
+const DEFAULT_CLASS = categoryClass.get('smileys-emotion');
 
-const CATEGORIES = {
-    ...peopleEmojiCategory,
-    nature: {
-        name: 'nature',
-        className: 'fa fa-leaf',
-        id: t('emoji_picker.nature'),
-        message: 'Nature',
+function createCategory(name) {
+    return {
+        name,
+        id: Emoji.CategoryTranslations.get(name, `emoji_picker.${name}`),
+        className: categoryClass.get(name, DEFAULT_CLASS),
+        message: Emoji.CategoryMessage.get(name, name),
         offset: 0,
-    },
-    foods: {
-        name: 'foods',
-        className: 'fa fa-cutlery',
-        id: t('emoji_picker.foods'),
-        message: 'Foods',
-        offset: 0,
-    },
-    activity: {
-        name: 'activity',
-        className: 'fa fa-futbol-o',
-        id: t('emoji_picker.activity'),
-        message: 'Activity',
-        offset: 0,
-    },
-    places: {
-        name: 'places',
-        className: 'fa fa-plane',
-        id: t('emoji_picker.places'),
-        message: 'Places',
-        offset: 0,
-    },
-    objects: {
-        name: 'objects',
-        className: 'fa fa-lightbulb-o',
-        id: t('emoji_picker.objects'),
-        message: 'Objects',
-        offset: 0,
-    },
-    symbols: {
-        name: 'symbols',
-        className: 'fa fa-heart-o',
-        id: t('emoji_picker.symbols'),
-        message: 'Symbols',
-        offset: 0,
-    },
-    flags: {
-        name: 'flags',
-        className: 'fa fa-flag-o',
-        id: t('emoji_picker.flags'),
-        message: 'Flags',
-        offset: 0,
-    },
-    custom: {
-        name: 'custom',
-        className: 'fa fa-at',
-        id: t('emoji_picker.custom'),
-        message: 'Custom',
-        offset: 0,
-    },
-};
+    };
+}
+
+const CATEGORIES = {};
+
+for (const cat of Emoji.CategoryNames) {
+    if (cat === 'recent' || cat === 'searchResults') {
+        continue;
+    }
+    CATEGORIES[cat] = createCategory(cat);
+}
+
+const smileysCategory = {'smileys-emotion': CATEGORIES['smileys-emotion']};
+const recentEmojiCategory = {recent: createCategory('recent')};
+
+const searchResultsCategory = createCategory(CATEGORY_SEARCH_RESULTS);
 
 function getEmojiFilename(emoji) {
-    return emoji.filename || emoji.id;
+    return emoji.image || emoji.filename || emoji.id;
 }
 
 export function filterEmojiSearchInput(input) {
@@ -132,18 +95,19 @@ const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
 
 export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
-        listHeight: PropTypes.number,
-        onEmojiClose: PropTypes.func.isRequired,
         onEmojiClick: PropTypes.func.isRequired,
         customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
         recentEmojis: PropTypes.array.isRequired,
+        userSkinTone: PropTypes.string.isRequired,
         customEmojiPage: PropTypes.number.isRequired,
         visible: PropTypes.bool,
+        currentTeamName: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             getCustomEmojis: PropTypes.func.isRequired,
             searchCustomEmojis: PropTypes.func.isRequired,
             incrementEmojiPickerPage: PropTypes.func.isRequired,
+            setUserSkinTone: PropTypes.func.isRequired,
         }).isRequired,
         filter: PropTypes.string.isRequired,
         handleFilterChange: PropTypes.func.isRequired,
@@ -170,7 +134,7 @@ export default class EmojiPicker extends React.PureComponent {
                     return emojiMap.get(name);
                 });
             } else {
-                const indices = Emoji.EmojiIndicesByCategory.get(category) || [];
+                const indices = Emoji.EmojiIndicesByCategory.get(props.userSkinTone).get(category) || [];
                 categoryEmojis = indices.map((index) => Emoji.Emojis[index]);
                 if (category === 'custom') {
                     categoryEmojis = categoryEmojis.concat([...customEmojiMap.values()]);
@@ -185,13 +149,13 @@ export default class EmojiPicker extends React.PureComponent {
                     visible: false,
                     offset: null,
                 };
-                if (!currentEmoji.filename) {
+                if (!currentEmoji.image) {
                     // if custom emoji, set proper attributes
                     allEmojis[fileName] = {
                         ...allEmojis[fileName],
-                        aliases: [currentEmoji.name],
+                        aliases: currentEmoji.short_names ? currentEmoji.short_names : [currentEmoji.name],
                         category: 'custom',
-                        filename: fileName,
+                        image: fileName,
                     };
                 }
             }
@@ -201,8 +165,8 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        let updatedState = {emojiMap: props.emojiMap};
-        if (JSON.stringify(Object.keys(state.categories)) !== state.categoryKeys || props.emojiMap !== state.emojiMap) {
+        let updatedState = {emojiMap: props.emojiMap, userSkinTone: props.userSkinTone};
+        if (JSON.stringify(Object.keys(state.categories)) !== state.categoryKeys || props.emojiMap !== state.emojiMap || props.userSkinTone !== state.userSkinTone) {
             const {categories, allEmojis} = EmojiPicker.getEmojis(props, state);
             updatedState = {...updatedState, categories, allEmojis, categoryKeys: JSON.stringify(Object.keys(categories))};
         }
@@ -218,7 +182,8 @@ export default class EmojiPicker extends React.PureComponent {
         this.divHeight = 0;
         this.missingPages = true;
         this.loadingMoreEmojis = false;
-        const categories = props.recentEmojis.length ? {...recentEmojiCategory, ...peopleEmojiCategory} : peopleEmojiCategory;
+
+        const categories = props.recentEmojis.length ? {...recentEmojiCategory, ...smileysCategory} : smileysCategory;
         this.state = {
             allEmojis: {},
             categories,
@@ -347,9 +312,10 @@ export default class EmojiPicker extends React.PureComponent {
         this.setState({
             cursor: [Object.keys(this.state.categories).indexOf(categoryName), 0],
         });
-        this.updateEmojisToShow(this.state.categories[categoryName].offset);
-        this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
-        this.searchInput.focus();
+        if (this.state.categories[categoryName]) {
+            this.updateEmojisToShow(this.state.categories[categoryName].offset);
+            this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
+        }
     }
 
     handleFilterChange = (e) => {
@@ -518,7 +484,11 @@ export default class EmojiPicker extends React.PureComponent {
         }
     }
 
-    getCategoryByIndex(index) {
+    onSkinSelected = (skin) => {
+        this.props.actions.setUserSkinTone(skin);
+    }
+
+    getCategoryByIndex = (index) => {
         if (this.props.filter && index !== 0) {
             return null;
         }
@@ -534,10 +504,7 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getCategoriesByKey(key) {
-        return this.props.filter ? {
-            id: CATEGORY_SEARCH_RESULTS,
-            name: CATEGORY_SEARCH_RESULTS,
-        } : this.state.categories[key];
+        return this.props.filter ? searchResultsCategory : this.state.categories[key];
     }
 
     sortEmojis(emojis) {
@@ -547,8 +514,9 @@ export default class EmojiPicker extends React.PureComponent {
 
         Object.values(emojis).forEach((emoji) => {
             let emojiArray = emojisMinusRecent;
-            for (let i = 0; i < emoji.aliases.length; i++) {
-                if (recentEmojisProps.includes(emoji.aliases[i].toLowerCase())) {
+            const alias = 'short_names' in emoji ? emoji.short_names : [emoji.name];
+            for (let i = 0; i < alias.length; i++) {
+                if (recentEmojisProps.includes(alias[i].toLowerCase())) {
                     emojiArray = recentEmojis;
                 }
             }
@@ -573,8 +541,9 @@ export default class EmojiPicker extends React.PureComponent {
     getEmojisByCategory(category) {
         if (this.props.filter) {
             const emojis = Object.values(this.state.allEmojis).filter((emoji) => {
-                for (let i = 0; i < emoji.aliases.length; i++) {
-                    if (emoji.aliases[i].toLowerCase().includes(this.props.filter)) {
+                const alias = 'short_names' in emoji ? emoji.short_names : [emoji.name];
+                for (let i = 0; i < alias.length; i++) {
+                    if (alias[i].toLowerCase().includes(this.props.filter)) {
                         return true;
                     }
                 }
@@ -593,8 +562,8 @@ export default class EmojiPicker extends React.PureComponent {
         if (!emoji) {
             return '';
         }
-
-        return emoji.aliases[0].replace(/_/g, ' ');
+        const name = 'short_name' in emoji ? emoji.short_name : emoji.name;
+        return name.replace(/_/g, ' ');
     }
 
     getCurrentEmojiCategoryName() {
@@ -622,19 +591,11 @@ export default class EmojiPicker extends React.PureComponent {
             return (
                 <EmojiPickerCategory
                     key={'header-' + category.name}
-                    category={category.name}
+                    category={category}
                     icon={
-                        <FormattedMessage
-                            id={category.id}
-                            defaultMessage={category.message}
-                        >
-                            {(title) => (
-                                <i
-                                    className={category.className}
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <i
+                            className={category.className}
+                        />
                     }
                     onCategoryClick={this.handleCategoryClick}
                     selected={currentCategoryName === category.name}
@@ -656,27 +617,33 @@ export default class EmojiPicker extends React.PureComponent {
     emojiSearch() {
         return (
             <div className='emoji-picker__search-container'>
-                <span className='fa fa-search emoji-picker__search-icon'/>
-                <FormattedMessage
-                    id='emoji_picker.search_emoji'
-                    defaultMessage='Search for an emoji'
-                >
-                    {(ariaLabel) => (
-                        <LocalizedInput
-                            id='emojiPickerSearch'
-                            aria-label={ariaLabel}
-                            ref={this.emojiSearchInput}
-                            className='emoji-picker__search'
-                            data-testid='emojiInputSearch'
-                            type='text'
-                            onChange={this.handleFilterChange}
-                            onKeyDown={this.handleKeyDown}
-                            autocomplete='off'
-                            placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
-                            value={this.props.filter}
-                        />
-                    )}
-                </FormattedMessage>
+                <div className='emoji-picker__text-container'>
+                    <span className='icon-magnify icon emoji-picker__search-icon'/>
+                    <FormattedMessage
+                        id='emoji_picker.search_emoji'
+                        defaultMessage='Search for an emoji'
+                    >
+                        {(ariaLabel) => (
+                            <LocalizedInput
+                                id='emojiPickerSearch'
+                                aria-label={ariaLabel}
+                                ref={this.emojiSearchInput}
+                                className='emoji-picker__search'
+                                data-testid='emojiInputSearch'
+                                type='text'
+                                onChange={this.handleFilterChange}
+                                onKeyDown={this.handleKeyDown}
+                                autoComplete='off'
+                                placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
+                                value={this.props.filter}
+                            />
+                        )}
+                    </FormattedMessage>
+                </div>
+                <EmojiPickerSkin
+                    userSkinTone={this.props.userSkinTone}
+                    onSkinSelected={this.onSkinSelected}
+                />
             </div>
         );
     }
@@ -754,7 +721,8 @@ export default class EmojiPicker extends React.PureComponent {
             }
             return (
                 <EmojiPickerItem
-                    key={emoji.filename + ':' + emojiIndex}
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={emoji.image + ':' + emojiIndex}
                     emoji={emoji}
                     onItemOver={this.handleItemOver}
                     onItemClick={this.handleItemClick}
@@ -806,8 +774,14 @@ export default class EmojiPicker extends React.PureComponent {
                 {this.emojiSearch()}
                 {this.emojiCategories()}
                 {this.emojiCurrentResults()}
-                <EmojiPickerPreview emoji={this.getCurrentEmojiByCursor(this.state.cursor)}/>
+                <EmojiPickerPreview
+                    emoji={this.getCurrentEmojiByCursor(this.state.cursor)}
+                    customEmojisEnabled={this.props.customEmojisEnabled}
+                    currentTeamName={this.props.currentTeamName}
+                />
             </div>
         );
     }
 }
+
+/* eslint-enable max-lines */

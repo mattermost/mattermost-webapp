@@ -6,7 +6,7 @@ import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import DelayedAction from 'utils/delayed_action';
 import Constants from 'utils/constants.jsx';
@@ -38,6 +38,11 @@ export default class PostBody extends React.PureComponent {
          * The poster of the parent post, if exists
          */
         parentPostUser: PropTypes.object,
+
+        /**
+         * Callback func for file menu open
+         */
+        handleFileDropdownOpened: PropTypes.func,
 
         /**
          * The function called when the comment icon is clicked
@@ -162,6 +167,7 @@ export default class PostBody extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                 />
             );
         }

@@ -3,11 +3,14 @@
 
 import {shallow} from 'enzyme';
 import React from 'react';
+import nock from 'nock';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
+import {Client4} from 'mattermost-redux/client';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {Preferences} from 'mattermost-redux/constants';
+import TestHelper from 'mattermost-redux/test/test_helper';
 
 import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -49,6 +52,10 @@ jest.mock('mattermost-redux/actions/posts', () => ({
             return {type: 'MOCK_GET_POST_THREAD'};
         }
     }),
+}));
+
+jest.mock('mattermost-redux/actions/users', () => ({
+    getMissingProfilesByIds: (userIds) => ({type: 'MOCK_GET_MISSING_PROFILES', userIds}),
 }));
 
 jest.mock('mattermost-redux/actions/channels', () => ({
@@ -125,6 +132,7 @@ describe('components/PermalinkView', () => {
     describe('actions', () => {
         const initialState = {
             entities: {
+                general: {},
                 users: {
                     currentUserId: 'current_user_id',
                     profiles: {
@@ -184,6 +192,13 @@ describe('components/PermalinkView', () => {
             test('should redirect to DM link with postId for permalink', async () => {
                 const dateNowOrig = Date.now;
                 Date.now = () => new Date(0).getMilliseconds();
+                const nextTick = () => new Promise((res) => process.nextTick(res));
+
+                TestHelper.initBasic(Client4);
+                nock(Client4.getUsersRoute()).
+                    put('/current_user_id/preferences').
+                    reply(200, {status: 'OK'});
+
                 const modifiedState = {
                     entities: {
                         ...initialState.entities,
@@ -197,12 +212,15 @@ describe('components/PermalinkView', () => {
                     },
                 };
 
-                const testStore = await mockStore(modifiedState);
-                await testStore.dispatch(focusPost('dmpostid1'));
+                const testStore = mockStore(modifiedState);
+                testStore.dispatch(focusPost('dmpostid1'));
 
+                await nextTick();
+                expect.assertions(3);
                 expect(getPostThread).toHaveBeenCalledWith('dmpostid1');
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {dmpostid1: {id: 'dmpostid1', message: 'some message', channel_id: 'dmchannelid'}}, order: ['dmpostid1']}},
+                    {type: 'MOCK_GET_MISSING_PROFILES', userIds: ['dmchannel']},
                     {
                         type: 'RECEIVED_PREFERENCES',
                         data: [
@@ -215,8 +233,10 @@ describe('components/PermalinkView', () => {
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['dmchannelid']},
                 ]);
+
                 expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/messages/@otherUser/dmpostid1');
                 Date.now = dateNowOrig;
+                TestHelper.tearDown();
             });
 
             test('should redirect to GM link with postId for permalink', async () => {

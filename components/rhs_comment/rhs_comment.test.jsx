@@ -1,11 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RhsComment from 'components/rhs_comment/rhs_comment.jsx';
 import EmojiMap from 'utils/emoji_map';
@@ -14,7 +13,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import {Locations} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
 
-jest.mock('utils/post_utils.jsx', () => ({
+jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
     isSystemMessage: jest.fn().mockReturnValue(false),
     fromAutoResponder: jest.fn().mockReturnValue(false),
@@ -37,7 +36,6 @@ describe('components/RhsComment', () => {
         is_pinned: false,
         message: 'post message',
         original_id: '',
-        parent_id: '',
         pending_post_id: '',
         props: {},
         root_id: '',
@@ -54,6 +52,7 @@ describe('components/RhsComment', () => {
         reactions: {},
         isFlagged: true,
         isBusy: false,
+        shouldHighlight: false,
         removePost: jest.fn(),
         previewCollapsed: '',
         previewEnabled: false,
@@ -72,10 +71,11 @@ describe('components/RhsComment', () => {
         emojiMap: new EmojiMap(new Map()),
         isBot: false,
         collapsedThreadsEnabled: false,
+        isInViewport: jest.fn(),
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -83,7 +83,7 @@ describe('components/RhsComment', () => {
     });
 
     test('should match snapshot hovered', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -94,7 +94,7 @@ describe('components/RhsComment', () => {
 
     test('should match snapshot mobile', () => {
         isMobile.mockImplementation(() => true);
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -109,7 +109,7 @@ describe('components/RhsComment', () => {
                 state: Posts.POST_DELETED,
             },
         };
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...props}/>,
         );
         wrapper.setState({hover: true});
@@ -118,7 +118,7 @@ describe('components/RhsComment', () => {
     });
 
     test('should match snapshot on CRT enabled', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment
                 {...baseProps}
                 collapsedThreadsEnabled={true}
@@ -128,8 +128,19 @@ describe('components/RhsComment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when highlighted', () => {
+        const wrapper = shallow(
+            <RhsComment
+                {...baseProps}
+                shouldHighlight={true}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should show pointer when alt is held down', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -146,7 +157,7 @@ describe('components/RhsComment', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...props}/>,
         );
 
@@ -158,7 +169,7 @@ describe('components/RhsComment', () => {
     });
 
     test('should call markPostAsUnread when post is alt+clicked on', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -177,7 +188,7 @@ describe('components/RhsComment', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...props}/>,
         );
 
@@ -193,7 +204,7 @@ describe('components/RhsComment', () => {
     test('should pass props correctly to PostFlagIcon', () => {
         isMobile.mockImplementationOnce(() => false);
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -205,7 +216,7 @@ describe('components/RhsComment', () => {
     });
 
     test('should pass props correctly to PostPreHeader', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
 
@@ -224,7 +235,7 @@ describe('components/RhsComment', () => {
             isBot: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <RhsComment {...props}/>,
         );
 

@@ -20,6 +20,7 @@ export type OwnProps = {
     channelDisplayName?: string;
     getFocus?: (searchBarFocus: () => void) => void;
     children?: React.ReactNode;
+    globalHeaderEnabled?: boolean;
 }
 
 export type StateProps = {
@@ -39,6 +40,7 @@ export type StateProps = {
 export type DispatchProps = {
     actions: {
         updateSearchTerms: (term: string) => Action;
+        updateSearchTermsForShortcut: () => void;
         updateSearchType: (searchType: string) => Action;
         showSearchResults: (isMentionSearch: boolean) => Record<string, any>;
         showChannelFiles: (channelId: string) => void;

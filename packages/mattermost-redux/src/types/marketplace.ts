@@ -51,4 +51,5 @@ export interface MarketplacePlugin extends MarketplaceBaseItem {
 export interface MarketplaceApp extends MarketplaceBaseItem {
     manifest: AppManifest;
     installed: boolean;
+    icon_url?: string;
 }

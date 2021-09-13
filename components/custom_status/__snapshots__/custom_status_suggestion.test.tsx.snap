@@ -22,3 +22,34 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
   />
 </div>
 `;
+
+exports[`components/custom_status/custom_status_emoji should match snapshot with duration 1`] = `
+<div
+  className="statusSuggestion__row cursor--pointer"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="statusSuggestion__icon"
+  >
+    <Memo(RenderEmoji)
+      emojiName=""
+      size={20}
+    />
+  </div>
+  <CustomStatusText
+    className="statusSuggestion__text with_duration"
+    text=""
+    tooltipDirection="top"
+  />
+  <span
+    className="statusSuggestion__duration"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Today"
+      id="custom_status.expiry_dropdown.today"
+    />
+  </span>
+</div>
+`;

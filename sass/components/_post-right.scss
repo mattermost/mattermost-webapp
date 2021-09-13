@@ -1,6 +1,7 @@
 @charset 'UTF-8';
 
-.post-right__container, .ThreadViewer {
+.post-right__container,
+.ThreadViewer {
     @include display-flex;
     @include flex-direction(column);
 
@@ -12,37 +13,22 @@
         position: relative;
 
         .post {
-            &.same--root {
-                &.same--user {
-                    padding-top: 0;
-                    padding-bottom: 0;
-                }
-            }
-
             &:hover {
                 & + .Separator {
                     .separator__hr {
                         overflow: visible;
 
-                        &:before {
-                            content: '';
-                            background: rgba(v(center-channel-color-rgb), 0.04);
+                        &::before {
+                            position: absolute;
+                            top: -16px;
+                            left: 0;
                             width: 100%;
                             height: 16px;
-                            position: absolute;
-                            left: 0;
-                            top: -16px;
+                            background: rgba(v(center-channel-color-rgb), 0.04);
+                            content: '';
                         }
                     }
                 }
-            }
-        }
-
-        .Separator {
-            padding-top: 15px;
-
-            & + .post {
-                padding-top: 20px;
             }
         }
     }
@@ -61,15 +47,16 @@
         }
 
         .post-pre-header__icons-container {
-            padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
             width: 60px; // If the width of post__img changes, this needs to be adjusted accordingly
-            margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
+            padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
+            margin-left: 0; // if left margin of post__content changes, this needs to be adjusted accordingly
         }
 
         .post__header {
             .post-menu {
                 text-align: right;
             }
+
             .col__name {
                 &.Badge {
                     flex: none;
@@ -88,8 +75,8 @@
         }
 
         .post__body {
-            padding-left: 0;
             width: 100%;
+            padding-left: 0;
         }
 
         &.post--compact {
@@ -102,12 +89,12 @@
                     padding-left: 1em;
 
                     .post__header {
+                        height: auto;
                         margin-left: 0;
                         float: none;
-                        height: auto;
 
                         .post__time {
-                            opacity: .6;
+                            opacity: 0.6;
                         }
                     }
                 }
@@ -126,7 +113,7 @@
             }
 
             .card-icon__container {
-                margin: 0px 0 0 6px;
+                margin: 0 0 0 6px;
             }
         }
 
@@ -139,6 +126,10 @@
             img {
                 max-height: 200px;
             }
+        }
+
+        .post-preview .post__img {
+            width: 24px;
         }
     }
 
@@ -153,39 +144,41 @@
             margin-bottom: 10px;
 
             &.disabled {
-                background: grey !important;
                 border-color: transparent !important;
+                background: grey !important;
             }
         }
 
         .custom-textarea {
-            max-height: calc(50vh - 80px);
             min-height: 100px;
+            max-height: calc(50vh - 80px);
         }
 
         .msg-typing {
-            @include opacity(.7);
+            @include opacity(0.7);
+
             display: block;
-            float: left;
-            font-size: 13px;
+            min-width: 1px;
+            max-width: 230px;
             height: 20px;
-            line-height: 20px;
             margin-top: 3px;
             margin-bottom: 0;
-            max-width: 230px;
-            min-width: 1px;
+            float: left;
+            font-size: 13px;
+            line-height: 20px;
         }
 
         .post-right-comments-upload-in-progress {
-            @include opacity(.7);
-            margin-right: 10px;
+            @include opacity(0.7);
+
             padding: 6px 0;
+            margin-right: 10px;
         }
 
         .emoji-picker {
             position: absolute;
             top: -361px;
-            right: 0px;
+            right: 0;
         }
 
         form {
@@ -193,63 +186,66 @@
         }
 
         .post-create {
-            padding: .5em 15px 0;
+            padding: 0.5em 15px 0;
         }
 
         .post-create-footer {
             .post-error {
-                @include opacity(.55);
-                display: inline-block;
-                font-size: .85em;
-                font-weight: normal;
-                margin-bottom: 0;
+                @include opacity(0.55);
+
                 position: relative;
                 top: 0;
+                display: inline-block;
+                margin-bottom: 0;
+                font-size: 0.85em;
+                font-weight: normal;
             }
         }
     }
 }
+
 .post-right__container {
     height: 100%;
+
     .ThreadViewer {
         height: 100%;
     }
 }
 
 .post-right-header {
+    height: 39px;
+    padding: 10px 10px 0 15px;
     border-bottom: $border-gray;
     color: #999;
     font-size: 1em;
     font-weight: 400;
-    height: 39px;
-    padding: 10px 10px 0 15px;
     text-transform: uppercase;
 }
 
 .post-right-root-container {
-    border-bottom: $border-gray;
     padding: 5px 10px;
+    border-bottom: $border-gray;
 
     ul {
-        margin-bottom: 2px;
         padding-left: 0;
+        margin-bottom: 2px;
     }
 }
 
 .post-right-channel__name {
-    font-weight: 600;
     margin: 8px 0 12px;
+    font-weight: 600;
 }
 
 .card-info-channel__name {
-    font-weight: 600;
     margin: 0 0 15px 14px;
+    font-weight: 600;
 }
 
 .post-right-root-container li {
     display: inline;
-    list-style-type: none;
     padding-right: 3px;
+    list-style-type: none;
 }
 
 .post-right-root-time {
@@ -257,19 +253,20 @@
 }
 
 .post-right-create-comment-container {
+    position: absolute;
     bottom: 0;
     left: 0;
-    margin-bottom: 18px;
-    padding: 5px;
-    position: absolute;
     width: 100%;
+    padding: 5px;
+    margin-bottom: 18px;
 }
 
 .post-right__scroll {
-    -webkit-overflow-scrolling: touch;
-    @include flex(1 1 auto);
-    padding-top: 28px;
     position: relative;
+    padding-top: 28px;
+    -webkit-overflow-scrolling: touch;
+
+    @include flex(1 1 auto);
 
     .file-preview__container {
         margin-top: 5px;

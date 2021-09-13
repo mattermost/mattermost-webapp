@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as reselect from 'reselect';
 import shallowEqual from 'shallow-equals';
+
+import * as reselect from 'reselect';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function memoizeResult<F extends Function>(func: F): F {
+export function memoizeResult<F extends Function>(func: F, measure: Function | undefined = undefined): F {
     let lastArgs: IArguments|null = null;
     let lastResult: any = null;
 
@@ -20,6 +21,10 @@ export function memoizeResult<F extends Function>(func: F): F {
             if (!shallowEqual(lastResult, result)) {
                 lastResult = result;
             }
+        }
+
+        if (measure) {
+            measure();
         }
 
         lastArgs = arguments; //eslint-disable-line prefer-rest-params

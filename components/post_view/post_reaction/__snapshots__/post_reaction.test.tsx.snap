@@ -33,7 +33,7 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
         id="reaction-icon-tooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Add Reaction"
           id="post_info.tooltip.add_reactions"
         />

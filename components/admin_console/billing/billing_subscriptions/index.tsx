@@ -13,8 +13,6 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {Product} from 'mattermost-redux/types/cloud';
-
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 
@@ -28,10 +26,11 @@ import {
     CloudBanners,
     TELEMETRY_CATEGORIES,
     ModalIdentifiers,
-    CloudProducts,
+    TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {useQuery} from 'utils/http_utils';
 
 import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
@@ -68,36 +67,33 @@ const BillingSubscriptions: React.FC = () => {
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
+    const query = useQuery();
+    const actionQueryParam = query.get('action');
+
     const product = useSelector((state: GlobalState) => {
-        const products = state.entities.cloud.products!;
-        if (!products) {
-            return null;
+        if (state.entities.cloud.products && subscription) {
+            return state.entities.cloud.products[subscription?.product_id];
         }
-        const keys = Object.keys(products);
-        let product: Product;
-        if (products && subscription) {
-            product = products[subscription?.product_id];
-            if (!product) {
-                keys.forEach((key) => {
-                    if (products[key].name.toLowerCase().includes('professional')) {
-                        product = products[key];
-                    }
-                });
-            }
-            if (product) {
-                return product;
-            }
-        }
-        return products[keys[0]];
+        return undefined;
     });
 
-    const subscriptionPlan = product?.sku || CloudProducts.PROFESSIONAL;
+    // show the upgrade section when is a free tier customer
+    const onUpgradeMattermostCloud = () => {
+        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
+        dispatch(openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        }));
+    };
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
+        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
+            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+        }
     }
 
     useEffect(() => {
@@ -115,6 +111,10 @@ const BillingSubscriptions: React.FC = () => {
 
         if (analytics && shouldShowInfoBanner()) {
             trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'bannerview_user_limit_warning');
+        }
+
+        if (actionQueryParam === 'show_purchase_modal') {
+            onUpgradeMattermostCloud();
         }
     }, []);
 
@@ -149,26 +149,18 @@ const BillingSubscriptions: React.FC = () => {
         ]));
     };
 
-    // show the upgrade section when is a free tier customer
-    const onUpgradeMattermostCloud = () => {
-        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        }));
-    };
-
     if (!subscription || !products) {
         return null;
     }
 
     const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
+    const productsLength = Object.keys(products).length;
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
             <FormattedAdminHeader
                 id='admin.billing.subscription.title'
-                defaultMessage='Subscriptions'
+                defaultMessage='Subscription'
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
@@ -178,7 +170,7 @@ const BillingSubscriptions: React.FC = () => {
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
-                            subscriptionPlan={subscriptionPlan}
+                            subscriptionPlan={product?.sku}
                         />
                         <BillingSummary
                             isPaidTier={isPaidTier}
@@ -187,7 +179,7 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, subscriptionPlan, onUpgradeMattermostCloud)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, product?.sku, onUpgradeMattermostCloud, productsLength)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>

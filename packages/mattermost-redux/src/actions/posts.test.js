@@ -9,7 +9,7 @@ import nock from 'nock';
 import * as Actions from 'mattermost-redux/actions/posts';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {login} from 'mattermost-redux/actions/users';
-import {setSystemEmojis, createCustomEmoji} from 'mattermost-redux/actions/emojis';
+import {createCustomEmoji} from 'mattermost-redux/actions/emojis';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences, Posts, RequestStatus} from '../constants';
 import {PostTypes} from 'mattermost-redux/action_types';
@@ -26,7 +26,16 @@ describe('Actions.Posts', () => {
     });
 
     beforeEach(() => {
-        store = configureStore();
+        store = configureStore({
+            entities: {
+                general: {
+                    config: {
+                        FeatureFlagCollapsedThreads: 'true',
+                        CollapsedThreads: 'always_on',
+                    },
+                },
+            },
+        });
     });
 
     afterAll(() => {
@@ -410,7 +419,7 @@ describe('Actions.Posts', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false`).
+            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
             reply(200, postList);
         await Actions.getPostThread(post.id)(store.dispatch, store.getState);
 
@@ -440,8 +449,8 @@ describe('Actions.Posts', () => {
         const post0 = {id: 'post0', channel_id: 'channel1', create_at: 1000, message: ''};
         const post1 = {id: 'post1', channel_id: 'channel1', create_at: 1001, message: ''};
         const post2 = {id: 'post2', channel_id: 'channel1', create_at: 1002, message: ''};
-        const post3 = {id: 'post3', channel_id: 'channel1', root_id: 'post2', create_at: 1003, message: ''};
-        const post4 = {id: 'post4', channel_id: 'channel1', root_id: 'post0', create_at: 1004, message: ''};
+        const post3 = {id: 'post3', channel_id: 'channel1', root_id: 'post2', create_at: 1003, message: '', user_id: 'user1'};
+        const post4 = {id: 'post4', channel_id: 'channel1', root_id: 'post0', create_at: 1004, message: '', user_id: 'user2'};
 
         const postList = {
             order: ['post4', 'post3', 'post2', 'post1'],
@@ -466,9 +475,9 @@ describe('Actions.Posts', () => {
         const state = store.getState();
 
         expect(state.entities.posts.posts).toEqual({
-            post0,
+            post0: {...post0, participants: [{id: 'user2'}]},
             post1,
-            post2,
+            post2: {...post2, participants: [{id: 'user1'}]},
             post3,
             post4,
         });
@@ -560,213 +569,12 @@ describe('Actions.Posts', () => {
         );
     });
 
-    describe('getNeededCustomEmojis', () => {
-        const state = {
-            entities: {
-                emojis: {
-                    customEmoji: {
-                        1: {
-                            id: '1',
-                            creator_id: '1',
-                            name: 'name1',
-                        },
-                    },
-                    nonExistentEmoji: new Set(['name2']),
-                },
-                general: {
-                    config: {
-                        EnableCustomEmoji: 'true',
-                    },
-                },
-            },
-        };
-
-        setSystemEmojis(new Map([['systemEmoji1', {}]]));
-
-        it('no emojis in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: 'aaa'},
-                ]),
-                new Set(),
-            );
-        });
-
-        it('already loaded custom emoji in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':name1:'},
-                ]),
-                new Set(),
-            );
-        });
-
-        it('system emoji in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':systemEmoji1:'},
-                ]),
-                new Set(),
-            );
-        });
-
-        it('mixed emojis in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':systemEmoji1: :name1: :name2: :name3:'},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('custom emojis and text in post', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: 'aaa :name3: :name4:'},
-                ]),
-                new Set(['name3', 'name4']),
-            );
-        });
-
-        it('custom emoji followed by punctuation', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':name3:!'},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('custom emoji including hyphen', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':name-3:'},
-                ]),
-                new Set(['name-3']),
-            );
-        });
-
-        it('custom emoji including underscore', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':name_3:'},
-                ]),
-                new Set(['name_3']),
-            );
-        });
-
-        it('custom emoji in message attachment text', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{text: ':name3:'}]}},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('custom emoji in message attachment pretext', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{pretext: ':name3:'}]}},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('custom emoji in message attachment field', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{fields: [{value: ':name3:'}]}]}},
-                ]),
-                new Set(['name3']),
-            );
-        });
-
-        it('mixed emojis in message attachment', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{text: ':name4: :name1:', pretext: ':name3: :systemEmoji1:', fields: [{value: ':name3:'}]}]}},
-                ]),
-                new Set(['name3', 'name4']),
-            );
-        });
-
-        it('empty message attachment field', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{fields: [{}]}]}},
-                ]),
-                new Set([]),
-            );
-        });
-
-        it('null message attachment contents', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: [{text: null, pretext: null, fields: null}]}},
-                ]),
-                new Set([]),
-            );
-        });
-
-        it('null message attachment', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: '', props: {attachments: null}},
-                ]),
-                new Set([]),
-            );
-        });
-
-        it('multiple posts', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {message: ':emoji3:'},
-                    {message: ':emoji4:'},
-                ]),
-                new Set(['emoji3', 'emoji4']),
-            );
-        });
-
-        it('with custom emojis disabled', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis({
-                    entities: {
-                        ...state.entities,
-                        general: {
-                            config: {
-                                EnableCustomEmoji: 'false',
-                            },
-                        },
-                    },
-                }, [
-                    {message: ':emoji3:'},
-                ]),
-                new Set([]),
-            );
-        });
-
-        it('do not load emojis when the post has metadata', () => {
-            assert.deepEqual(
-                Actions.getNeededCustomEmojis(state, [
-                    {
-                        message: ':emoji3:',
-                        metadata: {
-                            emojis: [{name: 'emoji3'}],
-                        },
-                    },
-                ]),
-                new Set([]),
-            );
-        });
-    });
-
     it('getPostsSince', async () => {
         const post0 = {id: 'post0', channel_id: 'channel1', create_at: 1000, message: ''};
         const post1 = {id: 'post1', channel_id: 'channel1', create_at: 1001, message: ''};
         const post2 = {id: 'post2', channel_id: 'channel1', create_at: 1002, message: ''};
         const post3 = {id: 'post3', channel_id: 'channel1', create_at: 1003, message: ''};
-        const post4 = {id: 'post4', channel_id: 'channel1', root_id: 'post0', create_at: 1004, message: ''};
+        const post4 = {id: 'post4', channel_id: 'channel1', root_id: 'post0', create_at: 1004, message: '', user_id: 'user1'};
 
         store = configureStore({
             entities: {
@@ -806,7 +614,7 @@ describe('Actions.Posts', () => {
         const state = store.getState();
 
         expect(state.entities.posts.posts).toEqual({
-            post0,
+            post0: {...post0, participants: [{id: 'user1'}]},
             post1,
             post2,
             post3,
@@ -878,7 +686,7 @@ describe('Actions.Posts', () => {
         const channelId = 'channel1';
 
         const post1 = {id: 'post1', channel_id: channelId, create_at: 1001, message: ''};
-        const post2 = {id: 'post2', channel_id: channelId, root_id: 'post1', create_at: 1002, message: ''};
+        const post2 = {id: 'post2', channel_id: channelId, root_id: 'post1', create_at: 1002, message: '', user_id: 'user1'};
         const post3 = {id: 'post3', channel_id: channelId, create_at: 1003, message: ''};
 
         store = configureStore({
@@ -915,7 +723,11 @@ describe('Actions.Posts', () => {
 
         const state = store.getState();
 
-        expect(state.entities.posts.posts).toEqual({post1, post2, post3});
+        expect(state.entities.posts.posts).toEqual({
+            post1: {...post1, participants: [{id: 'user1'}]},
+            post2,
+            post3,
+        });
         expect(state.entities.posts.postsInChannel.channel1).toEqual([
             {order: ['post3', 'post2', 'post1'], recent: false},
         ]);
@@ -928,7 +740,7 @@ describe('Actions.Posts', () => {
         const channelId = 'channel1';
 
         const post1 = {id: 'post1', channel_id: channelId, create_at: 1001, message: ''};
-        const post2 = {id: 'post2', channel_id: channelId, root_id: 'post1', create_at: 1002, message: ''};
+        const post2 = {id: 'post2', channel_id: channelId, root_id: 'post1', create_at: 1002, message: '', user_id: 'user1'};
         const post3 = {id: 'post3', channel_id: channelId, create_at: 1003, message: ''};
 
         store = configureStore({
@@ -966,7 +778,11 @@ describe('Actions.Posts', () => {
 
         const state = store.getState();
 
-        expect(state.entities.posts.posts).toEqual({post1, post2, post3});
+        expect(state.entities.posts.posts).toEqual({
+            post1: {...post1, participants: [{id: 'user1'}]},
+            post2,
+            post3,
+        });
         expect(state.entities.posts.postsInChannel.channel1).toEqual([
             {order: ['post3', 'post2', 'post1'], recent: true},
         ]);
@@ -1129,7 +945,10 @@ describe('Actions.Posts', () => {
             entities: {
                 channels: {
                     channels: {
-                        [channelId]: {team_id: teamId, total_msg_count: 10},
+                        [channelId]: {team_id: teamId},
+                    },
+                    messageCounts: {
+                        [channelId]: {total: 10},
                     },
                     myMembers: {
                         [channelId]: {msg_count: 10, mention_count: 0, last_viewed_at: 0},
@@ -1162,7 +981,7 @@ describe('Actions.Posts', () => {
         await store.dispatch(Actions.setUnreadPost(userId, postId));
         const state = store.getState();
 
-        assert.equal(state.entities.channels.channels[channelId].total_msg_count, 10);
+        assert.equal(state.entities.channels.messageCounts[channelId].total, 10);
         assert.equal(state.entities.channels.myMembers[channelId].msg_count, 3);
         assert.equal(state.entities.channels.myMembers[channelId].mention_count, 1);
         assert.equal(state.entities.channels.myMembers[channelId].last_viewed_at, 1565605543);
@@ -1190,7 +1009,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 
@@ -1229,7 +1048,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 

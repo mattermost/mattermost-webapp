@@ -19,7 +19,7 @@ import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import DelayedAction from 'utils/delayed_action';
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import Pluggable from 'plugins/pluggable';
@@ -37,7 +37,6 @@ type Props = {
     post: Post;
     teamId?: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
-    commentCount?: number;
     isFlagged?: boolean;
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
     handleDropdownOpened?: (open: boolean) => void;
@@ -75,7 +74,7 @@ type Props = {
         /**
          * Function to set the editing post
          */
-        setEditingPost: (postId?: string, commentCount?: number, refocusId?: string, title?: string, isRHS?: boolean) => void;
+        setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
          * Function to pin the post
@@ -132,7 +131,6 @@ type State = {
 
 export class DotMenuClass extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
-        commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
         location: Locations.CENTER,
@@ -235,7 +233,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             dialogType: DeletePostModal,
             dialogProps: {
                 post: this.props.post,
-                commentCount: this.props.commentCount,
                 isRHS: this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
             },
         };
@@ -246,7 +243,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     handleEditMenuItemActivated = () => {
         this.props.actions.setEditingPost(
             this.props.post.id,
-            this.props.commentCount,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
             this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
             this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,

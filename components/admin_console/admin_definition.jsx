@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
+import {LicenseSkus} from 'mattermost-redux/types/general';
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -27,7 +28,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import OpenIdConvert from './openid_convert';
 import Audits from './audits';
-import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
+import CustomURLSchemesSetting from './custom_url_schemes_setting.jsx';
 import CustomEnableDisableGuestAccountsSetting from './custom_enable_disable_guest_accounts_setting';
 import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
@@ -38,7 +39,7 @@ import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
-import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
+import BrandImageSetting from './brand_image_setting/brand_image_setting';
 import GroupSettings from './group_settings/group_settings.jsx';
 import GroupDetails from './group_settings/group_details';
 import TeamSettings from './team_channel_settings/team';
@@ -47,7 +48,6 @@ import ChannelSettings from './team_channel_settings/channel';
 import ChannelDetails from './team_channel_settings/channel/details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
-import DataRetentionSettingsOld from './data_retention_settings.jsx';
 import DataRetentionSettings from './data_retention_settings/index.ts';
 import GlobalDataRetentionForm from './data_retention_settings/global_policy_form';
 import CustomDataRetentionForm from './data_retention_settings/custom_policy_form';
@@ -77,7 +77,6 @@ import {
     GuestAccessFeatureDiscovery,
     SystemRolesFeatureDiscovery,
     GroupsFeatureDiscovery,
-    PermissionsFeatureDiscovery,
 } from './feature_discovery/features';
 
 import * as DefinitionConstants from './admin_definition_constants';
@@ -197,6 +196,7 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
+    licensedForSku: (skuName) => (config, state, license) => license.IsLicensed && license.SkuShortName === skuName,
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         return cloud?.subscription?.is_paid_tier !== 'true' || cloud?.subscription?.is_free_trial === 'true';
     },
@@ -605,36 +605,12 @@ const AdminDefinition = {
                 'admin.permissions.teamOverrideSchemesNewButton',
             ],
             isHidden: it.any(
-                it.not(it.licensed),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
-            },
-        },
-        permissions_feature_discovery: {
-            url: 'user_management/permissions/',
-            isDiscovery: true,
-            title: t('admin.sidebar.permissions'),
-            title_default: 'Permissions',
-            isHidden: it.any(
-                it.licensed,
-                it.not(it.enterpriseReady),
-            ),
-            schema: {
-                id: 'PermissionSchemes',
-                name: t('admin.permissions.permissionSchemes'),
-                name_default: 'Permission Schemes',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_CUSTOM,
-                        component: PermissionsFeatureDiscovery,
-                        key: 'PermissionsFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
-                    },
-                ],
             },
         },
         system_role: {
@@ -648,7 +624,7 @@ const AdminDefinition = {
         system_roles: {
             url: 'user_management/system_roles',
             title: t('admin.sidebar.systemRoles'),
-            title_default: 'System Roles (Beta)',
+            title_default: 'System Roles',
             searchableStrings: [],
             isHidden: it.any(
                 it.not(it.licensedForFeature('LDAPGroups')),
@@ -664,7 +640,7 @@ const AdminDefinition = {
             url: 'user_management/system_roles',
             isDiscovery: true,
             title: t('admin.sidebar.systemRoles'),
-            title_default: 'System Roles (Beta)',
+            title_default: 'System Roles',
             isHidden: it.any(
                 it.licensedForFeature('LDAPGroups'),
                 it.not(it.enterpriseReady),
@@ -672,7 +648,7 @@ const AdminDefinition = {
             schema: {
                 id: 'SystemRoles',
                 name: t('admin.permissions.systemRoles'),
-                name_default: 'System Roles (Beta)',
+                name_default: 'System Roles',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -1494,8 +1470,8 @@ const AdminDefinition = {
                 'admin.cluster.ClusterNameDesc',
                 'admin.cluster.OverrideHostname',
                 'admin.cluster.OverrideHostnameDesc',
-                'admin.cluster.UseIpAddress',
-                'admin.cluster.UseIpAddressDesc',
+                'admin.cluster.UseIPAddress',
+                'admin.cluster.UseIPAddressDesc',
                 'admin.cluster.EnableExperimentalGossipEncryption',
                 'admin.cluster.EnableExperimentalGossipEncryptionDesc',
                 'admin.cluster.EnableGossipCompression',
@@ -2100,17 +2076,6 @@ const AdminDefinition = {
                 name_default: 'Users and Teams',
                 settings: [
                     {
-                        type: Constants.SettingsTypes.TYPE_PERMISSION,
-                        key: 'TeamSettings.EnableTeamCreation',
-                        label: t('admin.team.teamCreationTitle'),
-                        label_default: 'Enable Team Creation: ',
-                        help_text: t('admin.team.teamCreationDescription'),
-                        help_text_default: 'When false, only System Administrators can create teams.',
-                        permissions_mapping_name: 'enableTeamCreation',
-                        isHidden: it.licensed,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'TeamSettings.MaxUsersPerTeam',
                         label: t('admin.team.maxUsersTitle'),
@@ -2190,27 +2155,12 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_PERMISSION,
-                        key: 'TeamSettings.EditOthersPosts',
-                        label: t('admin.team.editOthersPostsTitle'),
-                        label_default: 'Allow Team Administrators to edit others\' posts:',
-                        help_text: t('admin.team.editOthersPostsDesc'),
-                        help_text_default: 'When **true**, both Team Admins and System Admins can edit other users\' posts.  When **false**, only System Admins can edit other users\' posts. However, Team Admins and System Admins can always delete other users\' posts.',
-                        help_text_markdown: true,
-                        permissions_mapping_name: 'editOthersPosts',
-                        isHidden: it.any(
-                            it.licensed,
-                            it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.ExperimentalViewArchivedChannels',
                         label: t('admin.viewArchivedChannelsTitle'),
                         label_default: 'Allow users to view archived channels: ',
                         help_text: t('admin.viewArchivedChannelsHelpText'),
-                        help_text_default: '(Beta) When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
+                        help_text_default: 'When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
                     {
@@ -2446,7 +2396,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
             isHidden: it.any(
-                it.not(it.licensed),
+                it.not(it.licensedForFeature('Announcement')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.ANNOUNCEMENT_BANNER)),
             ),
             schema: {
@@ -2516,7 +2466,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.announcement'),
             title_default: 'Announcement Banner',
             isHidden: it.any(
-                it.licensed,
+                it.licensedForFeature('Announcement'),
                 it.not(it.enterpriseReady),
             ),
             schema: {
@@ -2578,7 +2528,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableLinkPreviews',
                         label: t('admin.customization.enableLinkPreviewsTitle'),
-                        label_default: 'Enable Link Previews:',
+                        label_default: 'Enable website link previews:',
                         help_text: t('admin.customization.enableLinkPreviewsDesc'),
                         help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
@@ -2587,7 +2537,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ServiceSettings.RestrictLinkPreviews',
                         label: t('admin.customization.restrictLinkPreviewsTitle'),
-                        label_default: 'Disable link previews from these domains:',
+                        label_default: 'Disable website link previews from these domains:',
                         help_text: t('admin.customization.restrictLinkPreviewsDesc'),
                         help_text_default: 'Link previews and image link previews will not be shown for the above list of comma-separated domains.',
                         placeholder: t('admin.customization.restrictLinkPreviewsExample'),
@@ -2596,6 +2546,16 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                             it.configIsFalse('ServiceSettings', 'EnableLinkPreviews'),
                         ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnablePermalinkPreviews',
+                        label: t('admin.customization.enablePermalinkPreviewsTitle'),
+                        label_default: 'Enable message link previews:',
+                        help_text: t('admin.customization.enablePermalinkPreviewsDesc'),
+                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](!https://docs.mattermost.com/messaging/sharing-messages.html) for details.',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2617,8 +2577,8 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
-                        component: CustomUrlSchemesSetting,
-                        key: 'DisplaySettings.CustomUrlSchemes',
+                        component: CustomURLSchemesSetting,
+                        key: 'DisplaySettings.CustomURLSchemes',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
@@ -2792,7 +2752,10 @@ const AdminDefinition = {
                         help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org"). New teams can only be created by users from the above domain(s). This setting affects email login for users. For Guest users, please add domains under Signup > Guest Access.',
                         placeholder: t('admin.team.restrictExample'),
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
-                        isHidden: it.not(it.licensed),
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {
@@ -3766,7 +3729,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SamlSettings.IdpMetadataUrl',
+                        key: 'SamlSettings.IdpMetadataURL',
                         label: t('admin.saml.idpMetadataUrlTitle'),
                         label_default: 'Identity Provider Metadata URL:',
                         help_text: t('admin.saml.idpMetadataUrlDesc'),
@@ -3793,13 +3756,13 @@ const AdminDefinition = {
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
-                            it.stateEquals('SamlSettings.IdpMetadataUrl', ''),
+                            it.stateEquals('SamlSettings.IdpMetadataURL', ''),
                         ),
-                        sourceUrlKey: 'SamlSettings.IdpMetadataUrl',
+                        sourceUrlKey: 'SamlSettings.IdpMetadataURL',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SamlSettings.IdpUrl',
+                        key: 'SamlSettings.IdpURL',
                         label: t('admin.saml.idpUrlTitle'),
                         label_default: 'SAML SSO URL:',
                         help_text: t('admin.saml.idpUrlDesc'),
@@ -3814,7 +3777,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SamlSettings.IdpDescriptorUrl',
+                        key: 'SamlSettings.IdpDescriptorURL',
                         label: t('admin.saml.idpDescriptorUrlTitle'),
                         label_default: 'Identity Provider Issuer URL:',
                         help_text: t('admin.saml.idpDescriptorUrlDesc'),
@@ -4243,12 +4206,12 @@ const AdminDefinition = {
                 name_default: 'GitLab',
                 onConfigLoad: (config) => {
                     const newState = {};
-                    newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                    newState['GitLabSettings.Url'] = config.GitLabSettings.UserAPIEndpoint.replace('/api/v4/user', '');
                     return newState;
                 },
                 onConfigSave: (config) => {
                     const newConfig = {...config};
-                    newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
+                    newConfig.GitLabSettings.UserAPIEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
                     return newConfig;
                 },
                 settings: [
@@ -4306,7 +4269,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GitLabSettings.UserApiEndpoint',
+                        key: 'GitLabSettings.UserAPIEndpoint',
                         label: t('admin.gitlab.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: (value, config, state) => {
@@ -4383,7 +4346,7 @@ const AdminDefinition = {
                         newState.oauthType = Constants.GOOGLE_SERVICE;
                     }
 
-                    newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                    newState['GitLabSettings.Url'] = config.GitLabSettings.UserAPIEndpoint.replace('/api/v4/user', '');
 
                     return newState;
                 },
@@ -4398,7 +4361,7 @@ const AdminDefinition = {
                     newConfig.Office365Settings.Enable = false;
                     newConfig.GoogleSettings.Enable = false;
                     newConfig.OpenIdSettings.Enable = false;
-                    newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
+                    newConfig.GitLabSettings.UserAPIEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
 
                     if (config.oauthType === Constants.GITLAB_SERVICE) {
                         newConfig.GitLabSettings.Enable = true;
@@ -4501,7 +4464,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GitLabSettings.UserApiEndpoint',
+                        key: 'GitLabSettings.UserAPIEndpoint',
                         label: t('admin.gitlab.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: (value, config, state) => {
@@ -4567,7 +4530,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'GoogleSettings.UserApiEndpoint',
+                        key: 'GoogleSettings.UserAPIEndpoint',
                         label: t('admin.google.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata',
@@ -4630,7 +4593,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'Office365Settings.UserApiEndpoint',
+                        key: 'Office365Settings.UserAPIEndpoint',
                         label: t('admin.office365.userTitle'),
                         label_default: 'User API Endpoint:',
                         dynamic_value: () => 'https://graph.microsoft.com/v1.0/me',
@@ -4694,8 +4657,8 @@ const AdminDefinition = {
                     if (config.OpenIdSettings && config.OpenIdSettings.Enable) {
                         newState.openidType = Constants.OPENID_SERVICE;
                     }
-                    if (config.GitLabSettings.UserApiEndpoint) {
-                        newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                    if (config.GitLabSettings.UserAPIEndpoint) {
+                        newState['GitLabSettings.Url'] = config.GitLabSettings.UserAPIEndpoint.replace('/api/v4/user', '');
                     } else if (config.GitLabSettings.DiscoveryEndpoint) {
                         newState['GitLabSettings.Url'] = config.GitLabSettings.DiscoveryEndpoint.replace('/.well-known/openid-configuration', '');
                     }
@@ -4728,7 +4691,7 @@ const AdminDefinition = {
                     if (configSetting !== '') {
                         newConfig[configSetting].Enable = true;
                         newConfig[configSetting].Scope = Constants.OPENID_SCOPES;
-                        newConfig[configSetting].UserApiEndpoint = '';
+                        newConfig[configSetting].UserAPIEndpoint = '';
                         newConfig[configSetting].AuthEndpoint = '';
                         newConfig[configSetting].TokenEndpoint = '';
                     }
@@ -5024,15 +4987,15 @@ const AdminDefinition = {
         guest_access: {
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
-            title_default: 'Guest Access (Beta)',
+            title_default: 'Guest Access',
             isHidden: it.any(
-                it.not(it.licensed),
+                it.not(it.licensedForFeature('GuestAccounts')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
             ),
             schema: {
                 id: 'GuestAccountsSettings',
                 name: t('admin.authentication.guest_access'),
-                name_default: 'Guest Access (Beta)',
+                name_default: 'Guest Access',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -5098,15 +5061,15 @@ const AdminDefinition = {
             isDiscovery: true,
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
-            title_default: 'Guest Access (Beta)',
+            title_default: 'Guest Access',
             isHidden: it.any(
-                it.licensed,
+                it.licensedForFeature('GuestAccounts'),
                 it.not(it.enterpriseReady),
             ),
             schema: {
                 id: 'GuestAccountsSettings',
                 name: t('admin.authentication.guest_access'),
-                name_default: 'Guest Access (Beta)',
+                name_default: 'Guest Access',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -5121,7 +5084,7 @@ const AdminDefinition = {
     plugins: {
         icon: 'fa-plug',
         sectionTitle: t('admin.sidebar.plugins'),
-        sectionTitleDefault: 'Plugins (Beta)',
+        sectionTitleDefault: 'Plugins',
         id: 'plugins',
         isHidden: it.not(it.userHasReadPermissionOnResource('plugins')),
         plugin_management: {
@@ -5227,7 +5190,10 @@ const AdminDefinition = {
                         help_text: t('admin.service.integrationAdminDesc'),
                         help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
                         permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                        isHidden: it.licensed,
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5323,7 +5289,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'ServiceSettings.GfycatApiKey',
+                        key: 'ServiceSettings.GfycatAPIKey',
                         label: t('admin.customization.gfycatApiKey'),
                         label_default: 'Gfycat API Key:',
                         help_text: t('admin.customization.gfycatApiKeyDescription'),
@@ -5333,7 +5299,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'ServiceSettings.GfycatApiSecret',
+                        key: 'ServiceSettings.GfycatAPISecret',
                         label: t('admin.customization.gfycatApiSecret'),
                         label_default: 'Gfycat API Secret:',
                         help_text: t('admin.customization.gfycatApiSecretDescription'),
@@ -5410,7 +5376,6 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
             schema: {
@@ -5424,7 +5389,6 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
             schema: {
@@ -5438,7 +5402,6 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
             schema: {
@@ -5467,41 +5430,11 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
             schema: {
                 id: 'DataRetentionSettings',
                 component: DataRetentionSettings,
-            },
-        },
-        data_retention_old: {
-            url: 'compliance/data_retention',
-            title: t('admin.sidebar.dataRetentionPolicy'),
-            title_default: 'Data Retention Policy',
-            searchableStrings: [
-                'admin.data_retention.title',
-                'admin.data_retention.messageRetentionDays.description',
-                'admin.data_retention.fileRetentionDays.description',
-                ['admin.data_retention.note.description', {documentationLink: ''}],
-                'admin.data_retention.enableMessageDeletion.title',
-                'admin.data_retention.enableMessageDeletion.description',
-                'admin.data_retention.enableFileDeletion.title',
-                'admin.data_retention.enableFileDeletion.description',
-                'admin.data_retention.deletionJobStartTime.title',
-                'admin.data_retention.deletionJobStartTime.description',
-                'admin.data_retention.createJob.title',
-                'admin.data_retention.createJob.help',
-            ],
-            isHidden: it.any(
-                it.not(it.licensedForFeature('DataRetention')),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-                it.configIsTrue('FeatureFlags', 'CustomDataRetentionEnabled'),
-            ),
-            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
-            schema: {
-                id: 'DataRetentionSettings',
-                component: DataRetentionSettingsOld,
             },
         },
         data_retention_feature_discovery: {
@@ -5530,7 +5463,7 @@ const AdminDefinition = {
         message_export: {
             url: 'compliance/export',
             title: t('admin.sidebar.complianceExport'),
-            title_default: 'Compliance Export (Beta)',
+            title_default: 'Compliance Export',
             searchableStrings: [
                 'admin.service.complianceExportTitle',
                 'admin.service.complianceExportDesc',
@@ -5542,10 +5475,10 @@ const AdminDefinition = {
                 'admin.complianceExport.createJob.help',
                 'admin.complianceExport.globalRelayCustomerType.title',
                 'admin.complianceExport.globalRelayCustomerType.description',
-                'admin.complianceExport.globalRelaySmtpUsername.title',
-                'admin.complianceExport.globalRelaySmtpUsername.description',
-                'admin.complianceExport.globalRelaySmtpPassword.title',
-                'admin.complianceExport.globalRelaySmtpPassword.description',
+                'admin.complianceExport.globalRelaySMTPUsername.title',
+                'admin.complianceExport.globalRelaySMTPUsername.description',
+                'admin.complianceExport.globalRelaySMTPPassword.title',
+                'admin.complianceExport.globalRelaySMTPPassword.description',
                 'admin.complianceExport.globalRelayEmailAddress.title',
                 'admin.complianceExport.globalRelayEmailAddress.description',
             ],
@@ -5563,7 +5496,7 @@ const AdminDefinition = {
             isDiscovery: true,
             url: 'compliance/export',
             title: t('admin.sidebar.complianceExport'),
-            title_default: 'Compliance Export (Beta)',
+            title_default: 'Compliance Export',
             isHidden: it.any(
                 it.licensedForFeature('MessageExport'),
                 it.not(it.enterpriseReady),
@@ -5571,7 +5504,7 @@ const AdminDefinition = {
             schema: {
                 id: 'MessageExportSettings',
                 name: t('admin.complianceExport.title'),
-                name_default: 'Compliance Export (Beta)',
+                name_default: 'Compliance Export',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -5587,7 +5520,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.complianceMonitoring'),
             title_default: 'Compliance Monitoring',
             isHidden: it.any(
-                it.not(it.licensed),
+                it.not(it.licensedForFeature('Compliance')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
@@ -5656,7 +5589,7 @@ const AdminDefinition = {
         custom_terms_of_service: {
             url: 'compliance/custom_terms_of_service',
             title: t('admin.sidebar.customTermsOfService'),
-            title_default: 'Custom Terms of Service (Beta)',
+            title_default: 'Custom Terms of Service',
             searchableStrings: [
                 'admin.support.termsOfServiceTitle',
                 'admin.support.enableTermsOfServiceTitle',
@@ -5680,7 +5613,7 @@ const AdminDefinition = {
             url: 'compliance/custom_terms_of_service',
             isDiscovery: true,
             title: t('admin.sidebar.customTermsOfService'),
-            title_default: 'Custom Terms of Service (Beta)',
+            title_default: 'Custom Terms of Service',
             isHidden: it.any(
                 it.licensedForFeature('CustomTermsOfService'),
                 it.not(it.enterpriseReady),
@@ -5688,7 +5621,7 @@ const AdminDefinition = {
             schema: {
                 id: 'TermsOfServiceSettings',
                 name: t('admin.support.termsOfServiceTitle'),
-                name_default: 'Custom Terms of Service (Beta)',
+                name_default: 'Custom Terms of Service',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -5756,7 +5689,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableAuthenticationTransfer.desc'),
                         help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, any via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.licensed), // documented as E20 and higher, but only E10 in the code
+                        isHidden: it.any( // documented as E20 and higher, but only E10 in the code
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5863,7 +5799,9 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.clientSideCertEnable.desc'),
                         help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.any(
+                            it.licensedForSku(LicenseSkus.Enterprise),
+                            it.licensedForSku(LicenseSkus.E20))),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5886,7 +5824,9 @@ const AdminDefinition = {
                                 display_name_default: 'secondary',
                             },
                         ],
-                        isHidden: it.not(it.licensedForFeature('SAML')),
+                        isHidden: it.not(it.any(
+                            it.licensedForSku(LicenseSkus.Enterprise),
+                            it.licensedForSku(LicenseSkus.E20))),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ExperimentalSettings.ClientSideCertEnable'),
@@ -5930,7 +5870,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableThemeSelection.desc'),
                         help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5941,7 +5884,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.allowCustomThemes.desc'),
                         help_text_default: 'Enables the **Display > Theme > Custom Theme** section in Account Settings.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
@@ -5957,27 +5903,35 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         options: [
                             {
-                                value: 'default',
-                                display_name: 'Mattermost',
-                                display_name_default: 'Mattermost',
+                                value: 'denim',
+                                display_name: 'Denim',
+                                display_name_default: 'Denim',
                             },
                             {
-                                value: 'organization',
-                                display_name: 'Organization',
-                                display_name_default: 'Organization',
+                                value: 'sapphire',
+                                display_name: 'Sapphire',
+                                display_name_default: 'Sapphire',
                             },
                             {
-                                value: 'mattermostDark',
-                                display_name: 'Mattermost Dark',
-                                display_name_default: 'Mattermost Dark',
+                                value: 'quartz',
+                                display_name: 'Quartz',
+                                display_name_default: 'Quartz',
                             },
                             {
-                                value: 'windows10',
-                                display_name: 'Windows Dark',
-                                display_name_default: 'Windows Dark',
+                                value: 'indigo',
+                                display_name: 'Indigo',
+                                display_name_default: 'Indigo',
+                            },
+                            {
+                                value: 'onyx',
+                                display_name: 'Onyx',
+                                display_name_default: 'Onyx',
                             },
                         ],
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -5987,6 +5941,16 @@ const AdminDefinition = {
                         label_default: 'Enable Tutorial:',
                         help_text: t('admin.experimental.enableTutorial.desc'),
                         help_text_default: 'When true, users are prompted with a tutorial when they open Mattermost for the first time after account creation. When false, the tutorial is disabled, and users are placed in Town Square when they open Mattermost for the first time after account creation.',
+                        help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableOnboardingFlow',
+                        label: t('admin.experimental.enableOnboardingFlow.title'),
+                        label_default: 'Enable Onboarding:',
+                        help_text: t('admin.experimental.enableOnboardingFlow.desc'),
+                        help_text_default: 'When true, new users are shown steps to complete as part of an onboarding process',
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -6072,34 +6036,18 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.EnableLegacySidebar',
-                        label: t('admin.experimental.enableLegacySidebar.title'),
-                        label_default: 'Enable Legacy Sidebar',
-                        help_text: t('admin.experimental.enableLegacySidebar.desc'),
-                        help_text_default: 'When enabled, users cannot access new sidebar features including custom, collapsible categories and unread channel filtering. We recommend only enabling the legacy sidebar if users are experiencing breaking changes or bugs.',
-                        help_text_markdown: true,
-                        isHidden: it.licensedForFeature('Cloud'),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'ServiceSettings.CollapsedThreads',
                         label: t('admin.experimental.collapsedThreads.title'),
                         label_default: 'Collapsed Reply Threads',
                         help_text: t('admin.experimental.collapsedThreads.desc'),
-                        help_text_default: 'When enabled (default on), this setting enables collapsed reply threads for all users on this server. Users can disable the feature in Account Settings > Display > Collapsed Reply Threads (Beta). When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access collapsed reply threads. [Learn more about collapsed reply threads](!https://about.mattermost.com/default-threads).',
+                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
                         help_text_markdown: true,
                         options: [
                             {
                                 value: 'disabled',
                                 display_name: t('admin.experimental.collapsedThreads.off'),
                                 display_name_default: 'Disabled',
-                            },
-                            {
-                                value: 'default_on',
-                                display_name: t('admin.experimental.collapsedThreads.default_on'),
-                                display_name_default: 'Enabled (Default On)',
                             },
                             {
                                 value: 'default_off',
@@ -6115,63 +6063,6 @@ const AdminDefinition = {
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.ExperimentalChannelOrganization',
-                        label: t('admin.experimental.experimentalChannelOrganization.title'),
-                        label_default: 'Channel Grouping and Sorting',
-                        help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
-                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.licensedForFeature('Cloud'),
-                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.EnableXToLeaveChannelsFromLHS',
-                        label: t('admin.experimental.enableXToLeaveChannelsFromLHS.title'),
-                        label_default: 'Enable X to Leave Channels from Left-Hand Sidebar:',
-                        help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
-                        help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.licensedForFeature('Cloud'),
-                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.CloseUnusedDirectMessages',
-                        label: t('admin.experimental.closeUnusedDirectMessages.title'),
-                        label_default: 'Autoclose Direct Messages in Sidebar:',
-                        help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
-                        help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.licensedForFeature('Cloud'),
-                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.ExperimentalHideTownSquareinLHS',
-                        label: t('admin.experimental.experimentalHideTownSquareinLHS.title'),
-                        label_default: 'Town Square is Hidden in Left-Hand Sidebar:',
-                        help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
-                        help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.not(it.licensed), // E10 and higher
-                            it.licensedForFeature('Cloud'),
-                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -6191,7 +6082,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
                         help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.licensedForSku('starter'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {

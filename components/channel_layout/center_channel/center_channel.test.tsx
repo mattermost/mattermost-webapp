@@ -19,6 +19,15 @@ describe('components/channel_layout/CenterChannel', () => {
         match: {
             url: '/url',
         },
+        currentUserId: 'testUserId',
+        showNextSteps: false,
+        showNextStepsTips: false,
+        isOnboardingHidden: true,
+        showNextStepsEphemeral: false,
+        actions: {
+            setShowNextStepsView: jest.fn,
+            getProfiles: jest.fn,
+        },
     };
     test('should call update returnTo on props change', () => {
         const wrapper = shallow(<CenterChannel {...props}/>);

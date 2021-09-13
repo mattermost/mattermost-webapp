@@ -22,11 +22,9 @@ describe('Selectors.Roles', () => {
     channel1.display_name = 'Channel Name';
 
     const channel2 = TestHelper.fakeChannelWithId(team1.id);
-    channel2.total_msg_count = 2;
     channel2.display_name = 'DEF';
 
     const channel3 = TestHelper.fakeChannelWithId(team2.id);
-    channel3.total_msg_count = 2;
 
     const channel4 = TestHelper.fakeChannelWithId('');
     channel4.display_name = 'Channel 4';
@@ -39,11 +37,9 @@ describe('Selectors.Roles', () => {
     const channel7 = TestHelper.fakeChannelWithId('');
     channel7.display_name = '';
     channel7.type = General.GM_CHANNEL;
-    channel7.total_msg_count = 1;
 
     const channel8 = TestHelper.fakeChannelWithId(team1.id);
     channel8.display_name = 'ABC';
-    channel8.total_msg_count = 1;
 
     const channel9 = TestHelper.fakeChannelWithId(team1.id);
     const channel10 = TestHelper.fakeChannelWithId(team1.id);
@@ -75,18 +71,17 @@ describe('Selectors.Roles', () => {
     profiles[user.id] = user;
     profiles[user.id].roles = 'test_user_role test_user_role2';
 
-    const myChannelMembers = {};
-    myChannelMembers[channel1.id] = {roles: 'test_channel_a_role1 test_channel_a_role2'};
-    myChannelMembers[channel2.id] = {roles: 'test_channel_a_role1 test_channel_a_role2'};
-    myChannelMembers[channel3.id] = {roles: 'test_channel_a_role1 test_channel_a_role2'};
-    myChannelMembers[channel4.id] = {roles: 'test_channel_a_role1 test_channel_a_role2'};
-    myChannelMembers[channel5.id] = {roles: 'test_channel_a_role1 test_channel_a_role2'};
-    myChannelMembers[channel7.id] = {roles: 'test_channel_b_role1 test_channel_b_role2'};
-    myChannelMembers[channel8.id] = {roles: 'test_channel_b_role1 test_channel_b_role2'};
-    myChannelMembers[channel9.id] = {roles: 'test_channel_b_role1 test_channel_b_role2'};
-    myChannelMembers[channel10.id] = {roles: 'test_channel_c_role1 test_channel_c_role2'};
-    myChannelMembers[channel11.id] = {roles: 'test_channel_c_role1 test_channel_c_role2'};
-    myChannelMembers[channel12.id] = {};
+    const channelsRoles = {};
+    channelsRoles[channel1.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
+    channelsRoles[channel2.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
+    channelsRoles[channel3.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
+    channelsRoles[channel4.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
+    channelsRoles[channel5.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
+    channelsRoles[channel7.id] = new Set(['test_channel_b_role1', 'test_channel_b_role2']);
+    channelsRoles[channel8.id] = new Set(['test_channel_b_role1', 'test_channel_b_role2']);
+    channelsRoles[channel9.id] = new Set(['test_channel_b_role1', 'test_channel_b_role2']);
+    channelsRoles[channel10.id] = new Set(['test_channel_c_role1', 'test_channel_c_role2']);
+    channelsRoles[channel11.id] = new Set(['test_channel_c_role1', 'test_channel_c_role2']);
     const roles = {
         test_team1_role1: {permissions: ['team1_role1']},
         test_team2_role1: {permissions: ['team2_role1']},
@@ -112,7 +107,7 @@ describe('Selectors.Roles', () => {
             channels: {
                 currentChannelId: channel1.id,
                 channels,
-                myMembers: myChannelMembers,
+                roles: channelsRoles,
             },
             roles: {
                 roles,
@@ -124,17 +119,7 @@ describe('Selectors.Roles', () => {
         const teamsRoles = {};
         teamsRoles[team1.id] = new Set(['test_team1_role1', 'test_team1_role2']);
         teamsRoles[team2.id] = new Set(['test_team2_role1', 'test_team2_role2']);
-        const channelsRoles = {};
-        channelsRoles[channel1.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
-        channelsRoles[channel2.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
-        channelsRoles[channel3.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
-        channelsRoles[channel4.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
-        channelsRoles[channel5.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
-        channelsRoles[channel7.id] = new Set(['test_channel_b_role1', 'test_channel_b_role2']);
-        channelsRoles[channel8.id] = new Set(['test_channel_b_role1', 'test_channel_b_role2']);
-        channelsRoles[channel9.id] = new Set(['test_channel_b_role1', 'test_channel_b_role2']);
-        channelsRoles[channel10.id] = new Set(['test_channel_c_role1', 'test_channel_c_role2']);
-        channelsRoles[channel11.id] = new Set(['test_channel_c_role1', 'test_channel_c_role2']);
+
         const myRoles = {
             system: new Set(['test_user_role', 'test_user_role2']),
             team: teamsRoles,
@@ -173,16 +158,16 @@ describe('Selectors.Roles', () => {
     });
 
     it('should return my team permission on getMyTeamPermissions', () => {
-        assert.deepEqual(Selectors.getMyTeamPermissions(testState, {team: team1.id}), new Set([
+        assert.deepEqual(Selectors.getMyTeamPermissions(testState, team1.id), new Set([
             'user_role2', 'team1_role1',
         ]));
     });
 
     it('should return if i have a team permission on haveITeamPermission', () => {
-        assert.equal(Selectors.haveITeamPermission(testState, {team: team1.id, permission: 'user_role2'}), true);
-        assert.equal(Selectors.haveITeamPermission(testState, {team: team1.id, permission: 'team1_role1'}), true);
-        assert.equal(Selectors.haveITeamPermission(testState, {team: team1.id, permission: 'team2_role2'}), false);
-        assert.equal(Selectors.haveITeamPermission(testState, {team: team1.id, permission: 'invalid_permission'}), false);
+        assert.equal(Selectors.haveITeamPermission(testState, team1.id, 'user_role2'), true);
+        assert.equal(Selectors.haveITeamPermission(testState, team1.id, 'team1_role1'), true);
+        assert.equal(Selectors.haveITeamPermission(testState, team1.id, 'team2_role2'), false);
+        assert.equal(Selectors.haveITeamPermission(testState, team1.id, 'invalid_permission'), false);
     });
 
     it('should return my team permission on getMyCurrentTeamPermissions', () => {
@@ -192,24 +177,24 @@ describe('Selectors.Roles', () => {
     });
 
     it('should return if i have a team permission on haveICurrentTeamPermission', () => {
-        assert.equal(Selectors.haveICurrentTeamPermission(testState, {permission: 'user_role2'}), true);
-        assert.equal(Selectors.haveICurrentTeamPermission(testState, {permission: 'team1_role1'}), true);
-        assert.equal(Selectors.haveICurrentTeamPermission(testState, {permission: 'team2_role2'}), false);
-        assert.equal(Selectors.haveICurrentTeamPermission(testState, {permission: 'invalid_permission'}), false);
+        assert.equal(Selectors.haveICurrentTeamPermission(testState, 'user_role2'), true);
+        assert.equal(Selectors.haveICurrentTeamPermission(testState, 'team1_role1'), true);
+        assert.equal(Selectors.haveICurrentTeamPermission(testState, 'team2_role2'), false);
+        assert.equal(Selectors.haveICurrentTeamPermission(testState, 'invalid_permission'), false);
     });
 
     it('should return my channel permission on getMyChannelPermissions', () => {
-        assert.deepEqual(Selectors.getMyChannelPermissions(testState, {team: team1.id, channel: channel1.id}), new Set([
+        assert.deepEqual(Selectors.getMyChannelPermissions(testState, team1.id, channel1.id), new Set([
             'user_role2', 'team1_role1', 'channel_a_role1', 'channel_a_role2',
         ]));
     });
 
     it('should return if i have a channel permission on haveIChannelPermission', () => {
-        assert.equal(Selectors.haveIChannelPermission(testState, {team: team1.id, channel: channel1.id, permission: 'user_role2'}), true);
-        assert.equal(Selectors.haveIChannelPermission(testState, {team: team1.id, channel: channel1.id, permission: 'team1_role1'}), true);
-        assert.equal(Selectors.haveIChannelPermission(testState, {team: team1.id, channel: channel1.id, permission: 'team2_role2'}), false);
-        assert.equal(Selectors.haveIChannelPermission(testState, {team: team1.id, channel: channel1.id, permission: 'channel_a_role1'}), true);
-        assert.equal(Selectors.haveIChannelPermission(testState, {team: team1.id, channel: channel1.id, permission: 'channel_b_role1'}), false);
+        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'user_role2'), true);
+        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'team1_role1'), true);
+        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'team2_role2'), false);
+        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'channel_a_role1'), true);
+        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'channel_b_role1'), false);
     });
 
     it('should return my current channel permission on getMyCurrentChannelPermissions', () => {
@@ -219,10 +204,10 @@ describe('Selectors.Roles', () => {
     });
 
     it('should return if i have a channel permission on haveICurrentChannelPermission', () => {
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, {permission: 'user_role2'}), true);
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, {permission: 'team1_role1'}), true);
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, {permission: 'team2_role2'}), false);
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, {permission: 'channel_a_role1'}), true);
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, {permission: 'channel_b_role1'}), false);
+        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'user_role2'), true);
+        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'team1_role1'), true);
+        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'team2_role2'), false);
+        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'channel_a_role1'), true);
+        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'channel_b_role1'), false);
     });
 });

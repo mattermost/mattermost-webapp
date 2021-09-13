@@ -11,7 +11,7 @@ exports[`components/post_view/post_header should match snapshot 1`] = `
       disablePopover={true}
       overwriteImage={null}
       overwriteName={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="System"
           id="post_info.system"
         />
@@ -50,7 +50,6 @@ exports[`components/post_view/post_header should match snapshot 1`] = `
             "reactions": Array [],
           },
           "original_id": "",
-          "parent_id": "",
           "pending_post_id": "",
           "props": Object {},
           "reply_count": 0,
@@ -77,7 +76,7 @@ exports[`components/post_view/post_header should match snapshot when custom stat
       disablePopover={true}
       overwriteImage={null}
       overwriteName={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="System"
           id="post_info.system"
         />
@@ -116,7 +115,6 @@ exports[`components/post_view/post_header should match snapshot when custom stat
             "reactions": Array [],
           },
           "original_id": "",
-          "parent_id": "",
           "pending_post_id": "",
           "props": Object {},
           "reply_count": 0,
@@ -143,7 +141,7 @@ exports[`components/post_view/post_header should match snapshot when custom stat
       disablePopover={true}
       overwriteImage={null}
       overwriteName={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="System"
           id="post_info.system"
         />
@@ -182,7 +180,6 @@ exports[`components/post_view/post_header should match snapshot when custom stat
             "reactions": Array [],
           },
           "original_id": "",
-          "parent_id": "",
           "pending_post_id": "",
           "props": Object {},
           "reply_count": 0,

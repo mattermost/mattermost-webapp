@@ -4,6 +4,7 @@
 const childProcess = require('child_process');
 
 const path = require('path');
+
 const url = require('url');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -236,6 +237,7 @@ var config = {
         alias: {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
+            reselect: 'packages/reselect/src',
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
         },
@@ -286,8 +288,9 @@ var config = {
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/browser-icons', to: 'images/browser-icons'},
                 {from: 'images/cloud', to: 'images'},
-                {from: 'images/welcome_illustration.png', to: 'images'},
+                {from: 'images/welcome_illustration_new.png', to: 'images'},
                 {from: 'images/logo_email_blue.png', to: 'images'},
+                {from: 'images/logo_email_dark.png', to: 'images'},
                 {from: 'images/logo_email_gray.png', to: 'images'},
                 {from: 'images/forgot_password_illustration.png', to: 'images'},
                 {from: 'images/invite_illustration.png', to: 'images'},

@@ -107,7 +107,7 @@ export const getDefaultConfig = () => {
 
     const fromCypressEnv = {
         ElasticsearchSettings: {
-            ConnectionUrl: cypressEnv.elasticsearchConnectionUrl,
+            ConnectionURL: cypressEnv.elasticsearchConnectionURL,
         },
         LdapSettings: {
             LdapServer: cypressEnv.ldapServer,
@@ -120,6 +120,14 @@ export const getDefaultConfig = () => {
     };
 
     const isCloud = cypressEnv.serverEdition === Constants.ServerEdition.CLOUD;
+
+    if (isCloud) {
+        fromCypressEnv.CloudSettings = {
+            CWSURL: cypressEnv.cwsURL,
+            CWSAPIURL: cypressEnv.cwsAPIURL,
+        };
+    }
+
     const defaultConfig = isCloud ? cloudDefaultConfig : onPremDefaultConfig;
 
     return merge(defaultConfig, fromCypressEnv);

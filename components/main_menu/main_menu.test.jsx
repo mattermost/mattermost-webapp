@@ -63,6 +63,43 @@ describe('components/Menu', () => {
         userIsAdmin: true,
     };
 
+    const defaultState = {
+        entities: {
+            channels: {
+                myMembers: [],
+            },
+            teams: {
+                currentTeamId: 'team-id',
+                myMembers: {
+                    'team-id': {
+                        team_id: 'team-id',
+                        user_id: 'test-user-id',
+                        roles: 'team_user',
+                        scheme_user: 'true',
+                    },
+                },
+            },
+            users: {
+                currentUserId: 'test-user-id',
+                profiles: {
+                    'test-user-id': {
+                        id: 'test-user-id',
+                        roles: 'system_user system_manager',
+                    },
+                },
+            },
+            roles: {
+                roles: {
+                    system_manager: {
+                        permissions: [
+                            Permissions.SYSCONSOLE_WRITE_PLUGINS,
+                        ],
+                    },
+                },
+            },
+        },
+    };
+
     test('should match snapshot with id', () => {
         const props = {...defaultProps, id: 'test-id'};
         const wrapper = shallowWithIntl(<MainMenu {...props}/>);
@@ -151,43 +188,7 @@ describe('components/Menu', () => {
     });
 
     test('should show Marketplace modal', () => {
-        const state = {
-            entities: {
-                channels: {
-                    myMembers: [],
-                },
-                teams: {
-                    currentTeamId: 'team-id',
-                    myMembers: {
-                        'team-id': {
-                            team_id: 'team-id',
-                            user_id: 'test-user-id',
-                            roles: 'team_user',
-                            scheme_user: 'true',
-                        },
-                    },
-                },
-                users: {
-                    currentUserId: 'test-user-id',
-                    profiles: {
-                        'test-user-id': {
-                            id: 'test-user-id',
-                            roles: 'system_user system_manager',
-                        },
-                    },
-                },
-                roles: {
-                    roles: {
-                        system_manager: {
-                            permissions: [
-                                Permissions.SYSCONSOLE_WRITE_PLUGINS,
-                            ],
-                        },
-                    },
-                },
-            },
-        };
-        const store = mockStore(state);
+        const store = mockStore(defaultState);
 
         const props = {
             ...defaultProps,
@@ -240,6 +241,32 @@ describe('components/Menu', () => {
         const wrapper = getMainMenuWrapper(props);
 
         expect(wrapper.find('UpgradeLink')).toHaveLength(0);
+    });
+
+    test('should hide the subscribe now button when does not have permissions', () => {
+        const noPermissionsState = {...defaultState};
+        noPermissionsState.entities.roles.roles.system_manager.permissions = [];
+        const store = mockStore(noPermissionsState);
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <MainMenu {...defaultProps}/>
+            </Provider>,
+        );
+
+        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
+    });
+
+    test('should hide start trial menu item because user state does not have permission to write license', () => {
+        const store = mockStore(defaultState);
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <MainMenu {...defaultProps}/>
+            </Provider>,
+        );
+
+        expect(wrapper.find('#startTrial')).toHaveLength(0);
     });
 
     describe('should show integrations', () => {

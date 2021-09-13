@@ -13,6 +13,7 @@ import {
 } from 'utils/constants';
 
 import NoInternetConnection from '../no_internet_connection/no_internet_connection';
+import './renew_link.scss';
 
 export interface RenewalLinkProps {
     telemetryInfo?: {success: string; error: string};

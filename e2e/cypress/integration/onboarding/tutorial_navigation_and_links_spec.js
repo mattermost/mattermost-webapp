@@ -23,6 +23,14 @@ describe('Cloud Onboarding', () => {
             ({config} = data);
         });
 
+        // # Set Support Email setting
+        const newSettings = {
+            SupportSettings: {
+                SupportEmail: 'feedback@mattermost.com',
+            },
+        };
+        cy.apiUpdateConfig(newSettings);
+
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;

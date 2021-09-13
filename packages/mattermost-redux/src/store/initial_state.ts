@@ -13,7 +13,6 @@ const state: GlobalState = {
             deviceToken: '',
             license: {},
             serverVersion: '',
-            timezones: [],
             warnMetricsStatus: {},
             firstAdminVisitMarketplaceStatus: false,
         },
@@ -49,11 +48,13 @@ const state: GlobalState = {
             myMembers: {},
             membersInChannel: {},
             stats: {},
+            roles: {},
             groupsAssociatedToChannel: {},
             totalCount: 0,
             manuallyUnread: {},
             channelModerations: {},
             channelMemberCountsByGroup: {},
+            messageCounts: {},
         },
         posts: {
             expandedURLs: {},
@@ -98,6 +99,7 @@ const state: GlobalState = {
             analytics: {},
             dataRetentionCustomPolicies: {},
             dataRetentionCustomPoliciesCount: 0,
+            prevTrialLicense: {},
         },
         jobs: {
             jobs: {},
@@ -168,7 +170,14 @@ const state: GlobalState = {
             orderByTeam: {},
         },
         apps: {
-            bindings: [],
+            main: {
+                bindings: [],
+                forms: {},
+            },
+            rhs: {
+                bindings: [],
+                forms: {},
+            },
         },
         cloud: {},
     },

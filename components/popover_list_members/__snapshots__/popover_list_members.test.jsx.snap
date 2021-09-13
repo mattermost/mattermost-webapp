@@ -14,7 +14,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
         id="channelMembersTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
           id="channel_header.channelMembers"
         />
@@ -68,7 +68,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
       <div
         className="more-modal__header"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
         />
@@ -124,7 +124,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
         id="channelMembersTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
           id="channel_header.channelMembers"
         />
@@ -178,7 +178,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
       <div
         className="more-modal__header"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
         />
@@ -234,7 +234,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
         id="channelMembersTooltip"
         placement="right"
       >
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
           id="channel_header.channelMembers"
         />
@@ -288,14 +288,14 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
       <div
         className="more-modal__header"
       >
-        <FormattedMessage
+        <MemoizedFormattedMessage
           defaultMessage="Channel Members"
           id="members_popover.title"
         />
         <div
           className="subhead"
         >
-          <FormattedMessage
+          <MemoizedFormattedMessage
             defaultMessage="Members managed by linked groups."
             id="channel_header.groupConstrained"
           />

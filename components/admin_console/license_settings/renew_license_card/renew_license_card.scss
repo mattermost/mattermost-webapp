@@ -1,37 +1,37 @@
 .RenewLicenseCard {
-    margin-bottom: 20px;
-    padding: 32px 54px 18px 32px;
     display: flex;
-    background-color: var(--sys-center-channel-bg);
+    padding: 32px 54px 18px 32px;
     border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
-    box-shadow: 0px 2px 3px #00000014;
+    margin-bottom: 20px;
+    background-color: var(--sys-center-channel-bg);
     border-radius: 4px;
+    box-shadow: 0 2px 3px #00000014;
 
-    button {
-        background: var(--sys-button-bg);
-        color: var(--sys-button-color);
+    .annnouncementBar__purchaseNow {
+        display: block;
         padding: 12px 20px;
         border: none;
-        border-radius: 4px;
-        display: block;
         margin-top: 15px;
+        background: var(--sys-button-bg);
+        border-radius: 4px;
+        color: var(--sys-button-color);
 
         span {
-            font-weight: 600;
             font-size: 14px;
+            font-weight: 600;
             line-height: 14px;
         }
     }
 }
 
 .RenewLicenseCard__text-title {
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 24px;
     margin-bottom: 5px;
     color: var(--sys-sidebar-text-active-border);
+    font-family: Open Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
 
     &.critical {
         color: var(--sys-error-text);
@@ -39,12 +39,13 @@
 }
 
 .RenewLicenseCard__text-description {
+    margin-bottom: 5px;
     color: var(--sys-center-channel-color);
     font-family: Open Sans;
-    font-style: normal;
     font-size: 14px;
+    font-style: normal;
     line-height: 30px;
-    margin-bottom: 5px;
+
     &.bolder {
         font-weight: 600;
     }

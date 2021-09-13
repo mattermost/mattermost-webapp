@@ -42,7 +42,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
       componentClass="h1"
       id="moreDmModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Direct Messages"
         id="more_direct_channels.title"
       />
@@ -66,7 +66,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
       loading={true}
       maxValues={7}
       numRemainingText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
           id="multiselect.numPeopleRemaining"
           values={
@@ -164,7 +164,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
       id="closeModalButton"
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="general_button.close"
       />
@@ -285,7 +285,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       componentClass="h1"
       id="moreDmModalLabel"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Direct Messages"
         id="more_direct_channels.title"
       />
@@ -309,7 +309,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       loading={true}
       maxValues={7}
       numRemainingText={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
           id="multiselect.numPeopleRemaining"
           values={
@@ -402,7 +402,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       id="closeModalButton"
       type="button"
     >
-      <FormattedMessage
+      <MemoizedFormattedMessage
         defaultMessage="Close"
         id="general_button.close"
       />

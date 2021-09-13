@@ -228,6 +228,15 @@ export default class TeamList extends React.PureComponent<Props, State> {
                             <div className='TeamList_nameText'>
                                 <b data-testid='team-display-name'>
                                     {team.display_name}
+                                    {team.delete_at !== 0 && (
+                                        <span className='archived-label'>
+                                            {'  '}
+                                            <FormattedMessage
+                                                id='admin.team_settings.team_row.archived'
+                                                defaultMessage='(Archived)'
+                                            />
+                                        </span>
+                                    )}
                                 </b>
                                 {team.description && (
                                     <div className='TeamList_descriptionText'>

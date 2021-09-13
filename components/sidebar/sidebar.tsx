@@ -10,6 +10,8 @@ import MoreDirectChannels from 'components/more_direct_channels';
 import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
+import InvitationModal from 'components/invitation_modal';
+
 import Pluggable from 'plugins/pluggable';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -17,6 +19,7 @@ import * as Utils from 'utils/utils';
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
+import LegacySidebarHeader from './legacy_sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
 
 type Props = {
@@ -36,11 +39,13 @@ type Props = {
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
+    globalHeaderEnabled: boolean;
 };
 
 type State = {
     showDirectChannelsModal: boolean;
     isDragging: boolean;
+    isMobile: boolean;
 };
 
 export default class Sidebar extends React.PureComponent<Props, State> {
@@ -49,7 +54,13 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.state = {
             showDirectChannelsModal: false,
             isDragging: false,
+            isMobile: Utils.isMobile(),
         };
+    }
+
+    handleResize = () => {
+        const isMobile = Utils.isMobile();
+        this.setState({isMobile});
     }
 
     componentDidMount() {
@@ -59,6 +70,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
         window.addEventListener('click', this.handleClickClearChannelSelection);
         window.addEventListener('keydown', this.handleKeyDownClearChannelSelection);
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -70,6 +82,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         window.removeEventListener('click', this.handleClickClearChannelSelection);
         window.removeEventListener('keydown', this.handleKeyDownClearChannelSelection);
+        window.removeEventListener('resize', this.handleResize);
     }
 
     handleClickClearChannelSelection = (event: MouseEvent) => {
@@ -114,6 +127,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             dialogProps: {morePublicChannelsModalType: 'public'},
         });
         trackEvent('ui', 'ui_channels_more_public_v2');
+    }
+
+    invitePeopleModal = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.INVITATION,
+            dialogType: InvitationModal,
+        });
+        trackEvent('ui', 'ui_channels_dropdown_invite_people');
     }
 
     showNewChannelModal = () => {
@@ -174,7 +195,20 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     dragging: this.state.isDragging,
                 })}
             >
-                <SidebarHeader/>
+                {
+                    this.props.globalHeaderEnabled && !this.state.isMobile ? (
+                        <SidebarHeader
+                            showNewChannelModal={this.showNewChannelModal}
+                            showMoreChannelsModal={this.showMoreChannelsModal}
+                            invitePeopleModal={this.invitePeopleModal}
+                            showCreateCategoryModal={this.showCreateCategoryModal}
+                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                            canJoinPublicChannel={this.props.canJoinPublicChannel}
+                            handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                            unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        />
+                    ) : <LegacySidebarHeader/>
+                }
                 <div
                     id='lhsNavigator'
                     role='application'
@@ -185,6 +219,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     <ChannelNavigator
                         showNewChannelModal={this.showNewChannelModal}
                         showMoreChannelsModal={this.showMoreChannelsModal}
+                        invitePeopleModal={this.invitePeopleModal}
                         showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                         canJoinPublicChannel={this.props.canJoinPublicChannel}
@@ -192,14 +227,16 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
                     />
                 </div>
-                <Pluggable pluggableName='LeftSidebarHeader'/>
+                <div className='sidebar--left__icons'>
+                    <Pluggable pluggableName='LeftSidebarHeader'/>
+                </div>
                 <SidebarChannelList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}
                 />
                 <DataPrefetch/>
-                {this.props.isCloud && <SidebarNextSteps/>}
+                <SidebarNextSteps/>
                 {this.renderModals()}
             </div>
         );

@@ -90,6 +90,19 @@ describe('components/MarketplaceItemApp', () => {
             expect(wrapper).toMatchSnapshot();
         });
 
+        test('should render with icon', () => {
+            const props: MarketplaceItemAppProps = {
+                ...baseProps,
+                iconURL: 'http://localhost:8065/plugins/com.mattermost.apps/apps/com.mattermost.servicenow/static/now-mobile-icon.png',
+            };
+
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...props}/>,
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
         test('should render with empty list of labels', () => {
             const props = {
                 ...baseProps,

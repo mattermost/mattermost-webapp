@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createSelector} from 'reselect';
 import {cloneDeep} from 'lodash';
+
+import {createSelector} from 'reselect';
 
 import {getMySystemPermissions} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {ResourceToSysConsolePermissionsTable, RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
@@ -10,6 +11,7 @@ import {ResourceToSysConsolePermissionsTable, RESOURCE_KEYS} from 'mattermost-re
 import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 
 export const getAdminDefinition = createSelector(
+    'getAdminDefinition',
     () => AdminDefinition,
     (state) => state.plugins.adminConsoleReducers,
     (adminDefinition, reducers) => {
@@ -25,6 +27,7 @@ export const getAdminConsoleCustomComponents = (state, pluginId) =>
     state.plugins.adminConsoleCustomComponents[pluginId] || {};
 
 export const getConsoleAccess = createSelector(
+    'getConsoleAccess',
     getAdminDefinition,
     getMySystemPermissions,
     (adminDefinition, mySystemPermissions) => {

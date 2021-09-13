@@ -20,9 +20,11 @@ import loadingIcon from 'images/spinner-48x48-blue.apng';
 import {StepType} from './steps';
 import './next_steps_view.scss';
 import NextStepsTips from './next_steps_tips';
+import DownloadSection from './download_section';
 import OnboardingBgSvg from './images/onboarding-bg-svg';
 import GettingStartedSvg from './images/getting-started-svg';
 import CloudLogoSvg from './images/cloud-logo-svg';
+import LogoSvg from './images/logo-svg';
 import OnboardingSuccessSvg from './images/onboarding-success-svg';
 
 const TRANSITION_SCREEN_TIMEOUT = 3000;
@@ -33,6 +35,8 @@ type Props = {
     isFirstAdmin: boolean;
     steps: StepType[];
     team: Team;
+    isCloud: boolean;
+    globalHeaderEnabled: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
@@ -250,13 +254,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                             defaultMessage='Nicely done! You’re all set.'
                         />
                     </h1>
-                    <h2 className='NextStepsView__transitionBottomText'>
+                    <p className='NextStepsView__transitionBottomText'>
                         <img src={loadingIcon}/>
                         <FormattedMessage
                             id='next_steps_view.oneMoment'
                             defaultMessage='One moment'
                         />
-                    </h2>
+                    </p>
                 </div>
             </div>
         );
@@ -264,6 +268,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     renderMainBody = () => {
         const renderedSteps = this.props.steps.map(this.renderStep);
+        const logo = this.props.isCloud ? <CloudLogoSvg/> : <LogoSvg/>;
 
         return (
             <div
@@ -288,7 +293,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         </h2>
                     </div>
                     <div className='NextStepsView__header-logo'>
-                        <CloudLogoSvg/>
+                        {logo}
                     </div>
                 </header>
                 <div className='NextStepsView__body'>
@@ -318,6 +323,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         <GettingStartedSvg/>
                     </div>
                 </div>
+                <DownloadSection isFirstAdmin={this.props.isFirstAdmin}/>
             </div>
         );
     }
@@ -342,6 +348,8 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUserId={this.props.currentUser.id}
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
                         team={this.props.team}
+                        isCloud={this.props.isCloud}
+                        globalHeaderEnabled={this.props.globalHeaderEnabled}
                     />
                 </>}
             </section>

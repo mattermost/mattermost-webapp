@@ -10,6 +10,7 @@ import {setRhsExpanded, showPinnedPosts, showChannelFiles, openRHSSearch, closeR
 import {
     getIsRhsExpanded,
     getIsRhsOpen,
+    getIsRhsSuppressed,
     getRhsState,
     getSelectedChannel,
     getSelectedPostId,
@@ -30,6 +31,7 @@ function mapStateToProps(state) {
     return {
         isExpanded: getIsRhsExpanded(state),
         isOpen: getIsRhsOpen(state),
+        isSuppressed: getIsRhsSuppressed(state),
         channel,
         postRightVisible: Boolean(selectedPostId),
         postCardVisible: Boolean(selectedPostCardId),

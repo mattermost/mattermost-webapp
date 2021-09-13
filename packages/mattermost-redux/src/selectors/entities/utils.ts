@@ -16,6 +16,7 @@ import {NameMappedObjects} from 'mattermost-redux/types/utilities';
 
 export function makeAddLastViewAtToProfiles(): (state: GlobalState, profiles: UserProfile[]) => UserProfileWithLastViewAt[] {
     return createSelector(
+        'makeAddLastViewAtToProfiles',
         getCurrentUserId,
         getMyChannelMemberships,
         getAllChannels,

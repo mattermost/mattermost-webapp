@@ -51,9 +51,8 @@ describe('Guest Account - Member Invitation Flow', () => {
     it('MM-T1323 Verify UI Elements of Members Invitation Flow - Accessing Invite People', () => {
         const email = `temp-${getRandomId()}@mattermost.com`;
 
-        // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').click();
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
 
         // * Verify UI Elements in initial step
         cy.findByTestId('invitationModal').within(() => {
@@ -72,7 +71,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify Share Link Header and helper text
         cy.findByTestId('shareLink').should('be.visible').within(() => {
-            cy.get('h2 > span').should('have.text', 'Share This Link');
+            cy.findByRole('heading', {name: /share this link/i}).should('be.visible');
             cy.get('.help-text > span').should('have.text', 'Share this link to invite people to this team.');
         });
 
@@ -85,7 +84,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify Invite People field
         cy.findByTestId('searchAdd').should('be.visible').within(() => {
-            cy.get('h2 > span').should('have.text', 'Add or Invite People');
+            cy.findByText(/add or invite people/i).should('be.visible');
             cy.get('.help-text > span').should('have.text', 'Add existing members or send email invites to new members.');
         });
         cy.get('#inviteMembersButton').scrollIntoView().should('be.visible').and('be.disabled');
@@ -140,7 +139,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.findByText('Create Account').click();
 
         // * Verify if user is added to the invited team
-        cy.get('#headerTeamName').should('have.text', testTeam.display_name);
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
         // * Verify if user has access to the default channels
         cy.uiGetLhsSection('CHANNELS').within(() => {
@@ -282,9 +281,8 @@ describe('Guest Account - Member Invitation Flow', () => {
 });
 
 function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
-    // # Open Invite People
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#invitePeople').should('be.visible').click();
+    // # Open team menu and click 'Invite People'
+    cy.uiOpenTeamMenu('Invite People');
 
     // # Search and add a member
     cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {

@@ -11,7 +11,7 @@ exports[`components/post_view/FloatingTimestamp should match snapshot 1`] = `
         ranges={
           Array [
             Object {
-              "display": <FormattedMessage
+              "display": <Memo(MemoizedFormattedMessage)
                 defaultMessage="Today"
                 id="date_separator.today"
               />,
@@ -21,7 +21,7 @@ exports[`components/post_view/FloatingTimestamp should match snapshot 1`] = `
               ],
             },
             Object {
-              "display": <FormattedMessage
+              "display": <Memo(MemoizedFormattedMessage)
                 defaultMessage="Yesterday"
                 id="date_separator.yesterday"
               />,

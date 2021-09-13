@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {createSelector} from 'reselect';
 import {connect} from 'react-redux';
+
+import {createSelector} from 'reselect';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {
@@ -26,12 +27,11 @@ export function makeGetMentionKeysForPost(): (
     channel?: Channel
 ) => MentionKey[] {
     return createSelector(
+        'makeGetMentionKeysForPost',
         getCurrentUserMentionKeys,
         (state: GlobalState, post?: Post) => post,
         (state: GlobalState, post?: Post, channel?: Channel) =>
-            (channel ?
-                getMyGroupMentionKeysForChannel(state, channel.team_id, channel.id) :
-                getMyGroupMentionKeys(state)),
+            (channel ? getMyGroupMentionKeysForChannel(state, channel.team_id, channel.id) : getMyGroupMentionKeys(state)),
         (mentionKeysWithoutGroups, post, groupMentionKeys) => {
             let mentionKeys = mentionKeysWithoutGroups;
             if (!post?.props?.disable_group_highlight) {

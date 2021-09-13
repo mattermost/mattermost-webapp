@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import debounce from 'lodash/debounce';
 import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
@@ -15,7 +16,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
@@ -24,7 +25,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
-import {ActionTypes, RHSStates} from 'utils/constants';
+import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
@@ -99,6 +100,13 @@ export function updateSearchTerms(terms: string) {
     return {
         type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
         terms,
+    };
+}
+
+export function updateSearchTermsForShortcut() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const currentChannelName = getCurrentChannelNameForSearchShortcut(getState());
+        return dispatch(updateSearchTerms(`in:${currentChannelName} `));
     };
 }
 
@@ -390,6 +398,34 @@ export function selectPost(post: Post) {
     };
 }
 
+export function highlightReply(post: Post) {
+    return {
+        type: ActionTypes.HIGHLIGHT_REPLY,
+        postId: post.id,
+    };
+}
+
+export const clearHighlightReply = {
+    type: ActionTypes.CLEAR_HIGHLIGHT_REPLY,
+};
+
+export const debouncedClearHighlightReply = debounce((dispatch) => {
+    return dispatch(clearHighlightReply);
+}, Constants.PERMALINK_FADEOUT);
+
+export function selectPostAndHighlight(post: Post) {
+    return (dispatch: DispatchFunc) => {
+        dispatch(batchActions([
+            selectPost(post),
+            highlightReply(post),
+        ]));
+
+        debouncedClearHighlightReply(dispatch);
+
+        return {data: true};
+    };
+}
+
 export function selectPostCard(post: Post) {
     return {type: ActionTypes.SELECT_POST_CARD, postId: post.id, channelId: post.channel_id};
 }
@@ -436,3 +472,11 @@ export function openAtPrevious(previous: any) { // TODO Could not find the prope
         return openRHSSearch()(dispatch);
     };
 }
+
+export const suppressRHS = {
+    type: ActionTypes.SUPPRESS_RHS,
+};
+
+export const unsuppressRHS = {
+    type: ActionTypes.UNSUPPRESS_RHS,
+};

@@ -12,10 +12,11 @@ import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 
 export const getCustomEmojis: (state: GlobalState) => IDMappedObjects<CustomEmoji> = createSelector(
-    getConfig,
+    'getCustomEmojis',
+    (state) => getConfig(state)?.EnableCustomEmoji === 'true',
     (state) => state.entities.emojis.customEmoji,
-    (config, customEmoji) => {
-        if (config.EnableCustomEmoji !== 'true') {
+    (customEmojiEnabled, customEmoji) => {
+        if (!customEmojiEnabled) {
             return {};
         }
 
@@ -24,6 +25,7 @@ export const getCustomEmojis: (state: GlobalState) => IDMappedObjects<CustomEmoj
 );
 
 export const getCustomEmojisAsMap: (state: GlobalState) => Map<string, CustomEmoji> = createSelector(
+    'getCustomEmojisAsMap',
     getCustomEmojis,
     (emojis) => {
         const map = new Map();
@@ -35,6 +37,7 @@ export const getCustomEmojisAsMap: (state: GlobalState) => Map<string, CustomEmo
 );
 
 export const getCustomEmojisByName: (state: GlobalState) => Map<string, CustomEmoji> = createSelector(
+    'getCustomEmojisByName',
     getCustomEmojis,
     (emojis: IDMappedObjects<CustomEmoji>): Map<string, CustomEmoji> => {
         const map: Map<string, CustomEmoji> = new Map();
@@ -48,6 +51,7 @@ export const getCustomEmojisByName: (state: GlobalState) => Map<string, CustomEm
 );
 
 export const getCustomEmojiIdsSortedByName: (state: GlobalState) => string[] = createIdsSelector(
+    'getCustomEmojiIdsSortedByName',
     getCustomEmojis,
     (emojis: IDMappedObjects<CustomEmoji>): string[] => {
         return Object.keys(emojis).sort(

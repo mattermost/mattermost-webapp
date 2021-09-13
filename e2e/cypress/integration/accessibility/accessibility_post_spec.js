@@ -20,13 +20,6 @@ describe('Verify Accessibility Support in Post', () => {
     let testChannel;
 
     before(() => {
-        // # Update Configs
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelOrganization: false,
-            },
-        });
-
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
             testTeam = team;
@@ -296,7 +289,7 @@ function performActionsToLastPost() {
         cy.clickPostReactionIcon(postId);
         cy.findByTestId('grinning').trigger('mouseover', {force: true});
         cy.get('.sprite-preview').should('be.visible');
-        cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':grinning:');
+        cy.get('.emoji-picker__preview').should('be.visible').and('have.text', ':grinning:');
         cy.findByTestId('grinning').click({force: true});
         cy.get(`#postReaction-${postId}-grinning`).should('be.visible');
 
@@ -304,7 +297,7 @@ function performActionsToLastPost() {
         cy.clickPostReactionIcon(postId);
         cy.findByTestId('smile').trigger('mouseover', {force: true});
         cy.get('.sprite-preview').should('be.visible');
-        cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':smile:');
+        cy.get('.emoji-picker__preview').should('be.visible').and('have.text', ':smile:');
         cy.findByTestId('smile').click({force: true});
         cy.get(`#postReaction-${postId}-smile`).should('be.visible');
 

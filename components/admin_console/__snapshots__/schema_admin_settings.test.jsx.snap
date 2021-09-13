@@ -85,7 +85,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -103,7 +103,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -191,7 +191,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
             regenerateHelpText="This is help text for the regenerate button."
             regenerateText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Regenerate"
                 id="admin.regenerate"
               />
@@ -259,7 +259,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               className="banner__content"
             >
               <span>
-                <FormattedMessage
+                <MemoizedFormattedMessage
                   defaultMessage="Setting Eight"
                   id="label-h"
                 />
@@ -291,91 +291,96 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 1,
-                  "text": "English",
+                  "text": "English (US)",
                   "value": "en",
                 },
                 Object {
                   "order": 2,
+                  "text": "English (Australia)",
+                  "value": "en-AU",
+                },
+                Object {
+                  "order": 3,
                   "text": "Español",
                   "value": "es",
                 },
                 Object {
-                  "order": 3,
+                  "order": 4,
                   "text": "Français",
                   "value": "fr",
                 },
                 Object {
-                  "order": 4,
-                  "text": "Italiano",
+                  "order": 5,
+                  "text": "Italiano (Alpha)",
                   "value": "it",
                 },
                 Object {
-                  "order": 5,
+                  "order": 6,
                   "text": "Magyar",
                   "value": "hu",
                 },
                 Object {
-                  "order": 6,
+                  "order": 7,
                   "text": "Nederlands",
                   "value": "nl",
                 },
                 Object {
-                  "order": 7,
-                  "text": "Polski",
+                  "order": 8,
+                  "text": "Polski (Alpha)",
                   "value": "pl",
                 },
                 Object {
-                  "order": 8,
+                  "order": 9,
                   "text": "Português (Brasil)",
                   "value": "pt-BR",
                 },
                 Object {
-                  "order": 9,
+                  "order": 10,
                   "text": "Română",
                   "value": "ro",
                 },
                 Object {
-                  "order": 10,
+                  "order": 11,
                   "text": "Svenska",
                   "value": "sv",
                 },
                 Object {
-                  "order": 11,
+                  "order": 12,
                   "text": "Türkçe",
                   "value": "tr",
                 },
                 Object {
-                  "order": 12,
+                  "order": 13,
                   "text": "Български",
                   "value": "bg",
                 },
                 Object {
-                  "order": 13,
+                  "order": 14,
                   "text": "Pусский",
                   "value": "ru",
                 },
                 Object {
-                  "order": 14,
+                  "order": 15,
                   "text": "Yкраїнська (Alpha)",
                   "value": "uk",
                 },
                 Object {
-                  "order": 15,
+                  "order": 16,
                   "text": "한국어 (Alpha)",
                   "value": "ko",
                 },
                 Object {
-                  "order": 16,
+                  "order": 17,
                   "text": "中文 (简体)",
                   "value": "zh-CN",
                 },
                 Object {
-                  "order": 17,
+                  "order": 18,
                   "text": "中文 (繁體)",
                   "value": "zh-TW",
                 },
                 Object {
-                  "order": 18,
+                  "order": 19,
                   "text": "日本語",
                   "value": "ja",
                 },
@@ -395,7 +400,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             key="Config_language_SecondSettings.settingj"
             label="Setting Nine"
             noResultText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="No result"
                 id="no-result-j"
               />
@@ -412,91 +417,96 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 1,
-                  "text": "English",
+                  "text": "English (US)",
                   "value": "en",
                 },
                 Object {
                   "order": 2,
+                  "text": "English (Australia)",
+                  "value": "en-AU",
+                },
+                Object {
+                  "order": 3,
                   "text": "Español",
                   "value": "es",
                 },
                 Object {
-                  "order": 3,
+                  "order": 4,
                   "text": "Français",
                   "value": "fr",
                 },
                 Object {
-                  "order": 4,
-                  "text": "Italiano",
+                  "order": 5,
+                  "text": "Italiano (Alpha)",
                   "value": "it",
                 },
                 Object {
-                  "order": 5,
+                  "order": 6,
                   "text": "Magyar",
                   "value": "hu",
                 },
                 Object {
-                  "order": 6,
+                  "order": 7,
                   "text": "Nederlands",
                   "value": "nl",
                 },
                 Object {
-                  "order": 7,
-                  "text": "Polski",
+                  "order": 8,
+                  "text": "Polski (Alpha)",
                   "value": "pl",
                 },
                 Object {
-                  "order": 8,
+                  "order": 9,
                   "text": "Português (Brasil)",
                   "value": "pt-BR",
                 },
                 Object {
-                  "order": 9,
+                  "order": 10,
                   "text": "Română",
                   "value": "ro",
                 },
                 Object {
-                  "order": 10,
+                  "order": 11,
                   "text": "Svenska",
                   "value": "sv",
                 },
                 Object {
-                  "order": 11,
+                  "order": 12,
                   "text": "Türkçe",
                   "value": "tr",
                 },
                 Object {
-                  "order": 12,
+                  "order": 13,
                   "text": "Български",
                   "value": "bg",
                 },
                 Object {
-                  "order": 13,
+                  "order": 14,
                   "text": "Pусский",
                   "value": "ru",
                 },
                 Object {
-                  "order": 14,
+                  "order": 15,
                   "text": "Yкраїнська (Alpha)",
                   "value": "uk",
                 },
                 Object {
-                  "order": 15,
+                  "order": 16,
                   "text": "한국어 (Alpha)",
                   "value": "ko",
                 },
                 Object {
-                  "order": 16,
+                  "order": 17,
                   "text": "中文 (简体)",
                   "value": "zh-CN",
                 },
                 Object {
-                  "order": 17,
+                  "order": 18,
                   "text": "中文 (繁體)",
                   "value": "zh-TW",
                 },
                 Object {
-                  "order": 18,
+                  "order": 19,
                   "text": "日本語",
                   "value": "ja",
                 },
@@ -539,7 +549,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -557,7 +567,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             onChange={[Function]}
             setByEnv={true}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -616,7 +626,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
           <Connect(injectIntl(JobTable))
             createJobButtonText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="Setting Twelve"
                 id="label-l"
               />
@@ -635,7 +645,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -653,7 +663,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -663,7 +673,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           <BooleanSetting
             disabled={false}
             falseText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
                 id="admin.false"
               />
@@ -681,7 +691,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             onChange={[Function]}
             setByEnv={false}
             trueText={
-              <FormattedMessage
+              <Memo(MemoizedFormattedMessage)
                 defaultMessage="true"
                 id="admin.true"
               />
@@ -698,7 +708,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
     <SaveButton
       btnClass="btn-primary"
       defaultMessage={
-        <FormattedMessage
+        <Memo(MemoizedFormattedMessage)
           defaultMessage="Save"
           id="save_button.save"
         />

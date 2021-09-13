@@ -40,20 +40,24 @@
 
     .users-emails-input__control {
         min-height: 48px;
-        background: var(--center-channel-bg);
-        color: var(--center-channel-color-64);
-        box-shadow: none;
-        border-color: var(--center-channel-color-20);
         padding: 3px;
+        border-color: rgba(var(--center-channel-color-rgb), 0.2);
+        background: var(--center-channel-bg);
+        box-shadow: none;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
         transition: none;
-        &--is-focused, &--menu-is-open {
+
+        &--is-focused,
+        &--menu-is-open {
             &:hover {
                 border-color: var(--button-bg);
             }
-            border-color: var(--button-bg);
-            border-width: 2px;
+
             padding: 2px;
+            border-width: 2px;
+            border-color: var(--button-bg);
             transition: none;
+
             .users-emails-input__value-container {
                 .users-emails-input__input {
                     border-bottom: 0;
@@ -64,115 +68,141 @@
                 }
             }
         }
+
         .users-emails-input__input {
             border-bottom: 1px dotted red;
+
             >div {
                 width: 1px;
             }
         }
     }
+
     .users-emails-input__value-container {
-        margin-left: 0;
         padding: 0;
+        margin-left: 0;
     }
+
     .users-emails-input__placeholder {
-        color: var(--center-channel-color-64);
         margin-left: 8px;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
     }
+
     .users-emails-input__input {
-        color: var(--center-channel-color);
         margin-left: 6px;
+        color: var(--center-channel-color);
 
         .a11y--focused {
             box-shadow: none;
         }
     }
+
     input {
         height: inherit;
     }
+
     .users-emails-input__menu {
-        margin-top: 0px;
+        margin-top: 0;
         background: var(--center-channel-bg);
+        box-shadow: 0 0 0 0 hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1);
         color: var(--center-channel-color);
-        box-shadow: 0 0 0 0 hsla(0,0%,0%,0.1), 0 4px 11px hsla(0,0%,0%,0.1);
-        .Badge{
-            margin-top:2px;
+
+        .Badge {
+            margin-top: 2px;
         }
     }
-    .users-emails-input__menu-list{
-        padding: 0px;
+
+    .users-emails-input__menu-list {
+        padding: 0;
     }
-    .users-emails-input__menu-notice{
-        height: 60px;
-        padding: 12px;
+
+    .users-emails-input__menu-notice {
         display: flex;
+        height: 60px;
         align-items: center;
         justify-content: center;
+        padding: 12px;
         border-radius: 4px 4px 0 0;
     }
+
     .users-emails-input__option {
-        height: 60px;
-        cursor: pointer;
-        padding: 12px;
         display: flex;
+        height: 60px;
         align-items: center;
+        padding: 12px;
+        cursor: pointer;
+
         &--no-matches {
-            color: var(--center-channel-color-56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
             text-align: center;
+
             span {
                 width: 100%;
             }
+
             strong {
                 font-weight: 600;
             }
         }
+
         &:first-child {
             border-radius: 4px 4px 0 0;
         }
+
         &:last-child {
             border-radius: 0 0 4px 4px;
         }
+
         &--is-focused {
-            background: var(--button-bg-08);
+            background: rgba(var(--button-bg-rgb), 0.08);
         }
-        &--no-matches:hover{
+
+        &--no-matches:hover {
             background: none;
             cursor: default;
         }
+
         .fullname {
-            opacity: .5;
+            opacity: 0.5;
+
             &::before {
                 padding: 5px;
                 content: "-";
             }
         }
+
         .nickname {
-            opacity: .5;
+            opacity: 0.5;
+
             &::before {
-                opacity: .5;
                 padding-left: 5px;
                 content: "(";
+                opacity: 0.5;
             }
+
             &::after {
-                opacity: .5;
                 content: ")";
+                opacity: 0.5;
             }
         }
+
         .mail-plus-icon {
+            display: inline-block;
             width: 36px;
             height: 36px;
-            border-radius: 18px;
-            background: var(--button-bg);
             padding: 3px;
             margin-right: 8px;
-            display: inline-block;
+            background: var(--button-bg);
+            border-radius: 18px;
+
             svg {
                 width: 24px;
                 height: 24px;
-                fill: var(--button-color);
                 margin: 3px;
+                fill: var(--button-color);
             }
         }
+
         .Avatar {
             display: inline-block;
             margin-right: 8px;
@@ -182,93 +212,106 @@
     .show {
         display: block;
     }
+
     .users-emails-input__multi-value {
         align-items: center;
-        background: var(--center-channel-color-08);
         padding: 4px;
+        margin: 4px;
+        background: rgba(var(--center-channel-color-rgb), 0.08);
         border-radius: 16px;
         color: var(--center-channel-color);
-        margin: 4px;
+
         &:nth-last-child(2) {
-            margin: 4px 0px 4px 4px;
+            margin: 4px 0 4px 4px;
         }
     }
+
     .users-emails-input__multi-value__label {
         display: flex;
         align-items: center;
         padding: 0;
         color: var(--center-channel-color);
         font-size: 1.6rem;
+
         .mail-icon {
             width: 24px;
             height: 24px;
-            border-radius: 16px;
-            background: var(--center-channel-color-56);
             padding: 3px;
             margin-right: 4px;
+            background: rgba(var(--center-channel-color-rgb), 0.56);
+            border-radius: 16px;
+
             svg {
                 width: 18px;
                 height: 18px;
-                fill: var(--button-color-88);
+                fill: rgba(var(--button-color-rgb), 0.88);
             }
         }
+
         .Avatar {
             margin-right: 4px;
         }
     }
+
     .users-emails-input__multi-value__remove {
-        padding: 0px 4px 0px 8px;
+        padding: 0 4px 0 8px;
         cursor: pointer;
+
         span {
-            height: 16px;
-            width: 16px;
             display: flex;
+            width: 16px;
+            height: 16px;
         }
+
         &:hover {
             background: none;
         }
+
         svg {
-            height: 16px;
             width: 16px;
-            fill: var(--center-channel-color-64);
+            height: 16px;
+            fill: rgba(var(--center-channel-color-rgb), 0.64);
+            opacity: 0.6;
+
             &:hover {
-                fill: var(--center-channel-color-80);
+                fill: rgba(var(--center-channel-color-rgb), 0.8);
             }
-            opacity: .6;
         }
     }
+
     .Badge {
         margin-left: 8px;
     }
 }
 
 .InputErrorBox {
-    margin-top: 2px;
+    display: flex;
     width: 100%;
     height: 60px;
-    background: rgba(var(--error-box-background), 0.1);
-    border-radius: 4px;
-    display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 2px;
+    background: rgba(var(--error-box-background), 0.1);
+    border-radius: 4px;
 
     span {
-        height: 20px;
         position: relative;
+        height: 20px;
+        color: var(--error-text);
         font-size: 16px;
         line-height: 20px;
         text-align: center;
-        color: var(--error-text)
     }
 
     button.upgradeLink {
-        background: none!important;
+        padding: 0 !important;
         border: none;
-        padding: 0!important;
         margin-left: 10px;
+        background: none !important;
         font-weight: 600;
+
         span {
-           color: var(--sys-button-bg);
+            color: var(--sys-button-bg);
         }
     }
 }

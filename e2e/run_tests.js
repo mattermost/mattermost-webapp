@@ -16,11 +16,23 @@
  *   --group=[group]
  *      Selects spec files with matching group. It can be of multiple values separated by comma.
  *      E.g. "--group='@channel,@messaging'" will select files with either @channel or @messaging.
+ *   --invert
+ *      Selected files are those not matching any of the specified stage or group.
+ *   --include-group=[group]
+ *      Include spec files with matching group. It can be of multiple values separated by comma.
+ *      E.g. "--include-group='@enterprise'" will select files including @enterprise.
  *   --exclude-group=[group]
  *      Exclude spec files with matching group. It can be of multiple values separated by comma.
  *      E.g. "--exclude-group='@enterprise'" will select files except @enterprise.
- *   --invert
- *      Selected files are those not matching any of the specified stage or group.
+ *   --include-file=[filename or directory]
+ *      Include spec files with matching directory or filename pattern. Uses `find` command under the hood. It can be of multiple values separated by comma.
+ *      E.g. "--include-file='channel'" will include files recursively under `channel` directory/s.
+ *      E.g. "--include-file='*channel*'" will include files and files under directory/s recursively that matches the name with `*channel*`.
+ *   --exclude-file=[filename or directory]
+ *      Exclude spec files with matching directory or filename pattern. Uses `find` command under the hood. It can be of multiple values separated by comma.
+ *      E.g. "--exclude-file='channel'" will exclude files recursively under `channel` directory/s.
+ *      E.g. "--exclude-file='*channel*'" will exclude files and files under directory/s recursively that matches the name with `*channel*`.
+
  *
  * Environment:
  *   BROWSER=[browser]          : Chrome by default. Set to run test on other browser such as chrome, edge, electron and firefox.
@@ -48,6 +60,7 @@
  */
 
 const os = require('os');
+
 const chalk = require('chalk');
 const cypress = require('cypress');
 const argv = require('yargs').argv;

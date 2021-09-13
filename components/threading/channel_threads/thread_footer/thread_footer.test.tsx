@@ -81,6 +81,14 @@ describe('components/threading/channel_threads/thread_footer', () => {
                         channel_id: 'cid',
                         user_id: '1',
                     },
+                    singlemessageid: {
+                        id: 'singlemessageid',
+                        reply_count: 0,
+                        last_reply_at: 0,
+                        is_following: true,
+                        channel_id: 'cid',
+                        user_id: '1',
+                    },
                 },
             },
 
@@ -156,7 +164,10 @@ describe('components/threading/channel_threads/thread_footer', () => {
         expect(wrapper.find(SimpleTooltip).find('.dot-unreads').exists()).toBe(true);
     });
 
-    test('should should have avatars', () => {
+    test('should not show unread indicator if not following', () => {
+        thread.unread_replies = 2;
+        thread.is_following = false;
+
         const {mountOptions} = mockStore(state);
         const wrapper = mount(
             <ThreadFooter
@@ -164,7 +175,19 @@ describe('components/threading/channel_threads/thread_footer', () => {
             />,
             mountOptions,
         );
-        expect(wrapper.find(Avatars).props()).toHaveProperty('userIds', ['1', '2', '3', '4', '5']);
+
+        expect(wrapper.find(SimpleTooltip).find('.dot-unreads').exists()).toBe(false);
+    });
+
+    test('should have avatars', () => {
+        const {mountOptions} = mockStore(state);
+        const wrapper = mount(
+            <ThreadFooter
+                {...props}
+            />,
+            mountOptions,
+        );
+        expect(wrapper.find(Avatars).props()).toHaveProperty('userIds', ['5', '4', '3', '2', '1']);
     });
 
     test('should have a timestamp', () => {
@@ -248,5 +271,20 @@ describe('components/threading/channel_threads/thread_footer', () => {
                 },
             },
         ]);
+    });
+
+    test('should match snapshot when a single message is followed', () => {
+        const {mountOptions} = mockStore(state);
+
+        const wrapper = mount(
+            <ThreadFooter
+                threadId='singlemessageid'
+            />,
+            mountOptions,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.exists(FollowButton)).toBe(true);
+        expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', true);
     });
 });
