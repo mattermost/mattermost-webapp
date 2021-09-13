@@ -112,6 +112,13 @@ export default class SearchResultsItem extends React.PureComponent {
          * Is the search results item from the pinned posts list.
          */
         isPinnedPosts: PropTypes.bool,
+
+        channelTeamName: PropTypes.string,
+
+        /**
+         * Is this a post that we can directly reply to?
+         */
+        canReply: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -214,7 +221,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived} = this.props;
+        const {post, channelIsArchived, channelTeamName, canReply} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -318,14 +325,16 @@ export default class SearchResultsItem extends React.PureComponent {
                         isReadOnly={channelIsArchived || null}
                     />
                     {flagContent}
-                    <CommentIcon
-                        location={Locations.SEARCH}
-                        handleCommentClick={this.handleFocusRHSClick}
-                        commentCount={this.props.replyCount}
-                        postId={post.id}
-                        searchStyle={'search-item__comment'}
-                        extraClass={this.props.replyCount ? 'icon--visible' : ''}
-                    />
+                    {canReply &&
+                        <CommentIcon
+                            location={Locations.SEARCH}
+                            handleCommentClick={this.handleFocusRHSClick}
+                            commentCount={this.props.replyCount}
+                            postId={post.id}
+                            searchStyle={'search-item__comment'}
+                            extraClass={this.props.replyCount ? 'icon--visible' : ''}
+                        />
+                    }
                     <a
                         href='#'
                         onClick={this.handleJumpClick}
@@ -386,6 +395,11 @@ export default class SearchResultsItem extends React.PureComponent {
                                     id='search_item.channelArchived'
                                     defaultMessage='Archived'
                                 />
+                            </span>
+                        }
+                        {Boolean(channelTeamName) &&
+                            <span className='search-team__name'>
+                                {' | ' + channelTeamName}
                             </span>
                         }
                     </div>
