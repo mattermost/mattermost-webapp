@@ -615,8 +615,8 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 
-        if (this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER) {
-            this.proceedFromPostTip();
+        if (this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER && this.props.prewrittenMessages && this.props.prewrittenMessages !== PrewrittenMessagesTreatments.NONE) {
+            this.completePostTip();
         }
     }
 
@@ -1329,7 +1329,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    proceedFromPostTip = () => {
+    completePostTip = () => {
         this.props.actions.savePreferences(
             this.props.currentUserId,
             [{
@@ -1368,7 +1368,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                         type='button'
                         className='btn-icon'
                         aria-label='Got it'
-                        onClick={this.proceedFromPostTip}
+                        onClick={this.completePostTip}
                     >
                         <i className='icon icon-close'/>
                     </button>
