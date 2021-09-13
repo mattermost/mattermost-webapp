@@ -138,7 +138,7 @@ function createPost({
             canPost={true}
             useChannelMentions={true}
             useGroupMentions={useGroupMentions}
-            tutorialStep={tutorialStep} 
+            tutorialStep={tutorialStep}
         />
     );
 }
