@@ -5,10 +5,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 
 import PrewrittenChips from './prewritten_chips';
 

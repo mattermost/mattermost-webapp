@@ -615,7 +615,11 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
 
-        if (this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER && this.props.prewrittenMessages && this.props.prewrittenMessages !== PrewrittenMessagesTreatments.NONE) {
+        // Posting a message completes the tip when there are prewritten messages.
+        // We do not complete messages in the control group,
+        // so as to not alter behavior in the control group as a result of the A/B test code changes.
+        const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER && this.props.prewrittenMessages && this.props.prewrittenMessages !== PrewrittenMessagesTreatments.NONE;
+        if (shouldCompleteTip) {
             this.completePostTip();
         }
     }
@@ -1358,7 +1362,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             }
         }
         return (
-            <div>
+            <>
                 <div className='post-create-prewritten-title'>
                     <FormattedMarkdownMessage
                         id={id}
@@ -1380,7 +1384,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                     currentUserId={this.props.currentUserId}
                     currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
                 />
-            </div>
+            </>
         );
     }
 

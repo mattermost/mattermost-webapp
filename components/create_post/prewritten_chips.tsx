@@ -25,6 +25,11 @@ const UsernameMention = styled.span`
     color: var(--link-color);
 `;
 
+const ChipContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
 function getChips(channel: Channel, currentUserId: string): Array<{displayId: string; display: string; messageId: string; message: string; leadingIcon: string}> {
     const customChip = {
         messageId: '',
@@ -103,12 +108,7 @@ class PrewrittenChips extends React.PureComponent<Props> {
     render() {
         const chips = getChips(this.props.currentChannel, this.props.currentUserId);
         return (
-            <div
-                style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                }}
-            >
+            <ChipContainer>
                 {chips.map(({messageId, message, displayId, display, leadingIcon}) => {
                     const messageToPrefill = messageId ? this.props.intl.formatMessage(
                         {id: messageId, defaultMessage: message},
@@ -136,7 +136,7 @@ class PrewrittenChips extends React.PureComponent<Props> {
                         />
                     );
                 })}
-            </div>
+            </ChipContainer>
         );
     }
 }
