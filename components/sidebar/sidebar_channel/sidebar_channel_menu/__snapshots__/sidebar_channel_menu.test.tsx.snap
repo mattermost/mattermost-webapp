@@ -35,40 +35,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -135,40 +122,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -235,40 +209,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -335,40 +296,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -444,40 +392,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Conversation"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "D",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup />
   <MenuGroup>
     <MenuItemAction
@@ -530,40 +465,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "town-square",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -626,40 +548,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -735,40 +644,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Unmute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -844,40 +740,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "P",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -964,40 +847,27 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Mute Channel"
     />
   </MenuGroup>
-  <MenuGroup>
-    <SubMenuItem
-      direction="right"
-      icon={
-        <i
-          className="icon-folder-move-outline"
-        />
+  <injectIntl(CategoryMenuItems)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
       }
-      id="moveTo-channel_id"
-      openUp={false}
-      show={true}
-      subMenu={
-        Array [
-          Object {
-            "id": "SidebarChannelMenu-moveToDivider",
-            "text": <li
-              className="MenuGroup menu-divider"
-            />,
-          },
-          Object {
-            "action": [Function],
-            "direction": "right",
-            "icon": <i
-              className="icon-folder-move-outline"
-            />,
-            "id": "moveToNewCategory-channel_id",
-            "text": "New Category",
-          },
-        ]
-      }
-      subMenuClass="pl-4"
-      text="Move to"
-    />
-  </MenuGroup>
+    }
+    openUp={false}
+  />
   <MenuGroup>
     <MenuItemAction
       icon={
