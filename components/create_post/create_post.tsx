@@ -1346,14 +1346,14 @@ class CreatePost extends React.PureComponent<Props, State> {
             return null;
         }
 
-        let id = 'create_post.prewritten.around_input.team';
+        let id = t('create_post.prewritten.around_input.team');
         let defaultMessage = '**Send your first message** to your team';
         if (this.props.currentChannel.type === 'D') {
             if (this.props.currentChannel.teammate_id === this.props.currentUserId) {
-                id = 'create_post.prewritten.around_input.self';
+                id = t('create_post.prewritten.around_input.self');
                 defaultMessage = '**Send your first message** to yourself';
             } else {
-                id = 'create_post.prewritten.around_input.dm';
+                id = t('create_post.prewritten.around_input.dm');
                 defaultMessage = '**Send your first message** to your teammate';
             }
         }
