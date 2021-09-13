@@ -130,7 +130,7 @@ class PrewrittenChips extends React.PureComponent<Props> {
                             onClick={() => {
                                 this.props.prefillMessage(messageToPrefill, true);
                             }}
-                            otherOption={Boolean(messageId)}
+                            otherOption={!messageId}
                             leadingIcon={leadingIcon}
                         />
                     );

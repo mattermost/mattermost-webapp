@@ -39,7 +39,7 @@ const StyledChip = styled.button<{ otherOption?: boolean }>`
     border-radius: 16px;
 
     background-color: var(--center-channel-bg);
-    ${(p) => (p.otherOption ? 'color: rgba(var(--center-channel-color-rgb, 0.72));' : '')}
+    ${(p) => (p.otherOption ? 'color: rgba(var(--center-channel-color-rgb), 0.72);' : '')}
 
     &:hover {
         background-color: rgba(var(--center-channel-bg-rgb), 0.16);
