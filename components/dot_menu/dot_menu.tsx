@@ -8,13 +8,10 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -22,12 +19,9 @@ import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
-import {PluginComponent} from 'types/store/plugins';
-import {createCallContext, createCallRequest} from 'utils/apps';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -43,21 +37,11 @@ type Props = {
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
     isReadOnly: boolean | null;
-    pluginMenuItems?: PluginComponent[];
     isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
-    appBindings?: AppBinding[];
-    appsEnabled: boolean;
-
-    /**
-     * Components for overriding provided by plugins
-     */
-    components: {
-        [componentName: string]: PluginComponent[];
-    };
 
     actions: {
 
@@ -97,16 +81,6 @@ type Props = {
         markPostAsUnread: (post: Post, location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | string) => void;
 
         /**
-         * Function to perform an app call
-         */
-        doAppCall: DoAppCall;
-
-        /**
-         * Function to post the ephemeral message for a call response
-         */
-        postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
-
-        /**
          * Function to set the thread as followed/unfollowed
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
@@ -134,8 +108,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         isFlagged: false,
         isReadOnly: false,
         location: Locations.CENTER,
-        pluginMenuItems: [],
-        appBindings: [],
     }
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
@@ -266,7 +238,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         >
             <FormattedMessage
                 id='post_info.dot_menu.tooltip.more_actions'
-                defaultMessage='More actions'
+                defaultMessage='Actions'
             />
         </Tooltip>
     )
@@ -306,62 +278,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    onClickAppBinding = async (binding: AppBinding) => {
-        const {post, intl} = this.props;
-
-        if (!binding.call) {
-            return;
-        }
-        const context = createCallContext(
-            binding.app_id,
-            binding.location,
-            this.props.post.channel_id,
-            this.props.teamId,
-            this.props.post.id,
-            this.props.post.root_id,
-        );
-        const call = createCallRequest(
-            binding.call,
-            context,
-            {
-                post: AppExpandLevels.ALL,
-            },
-        );
-
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
-
-        if (res.error) {
-            const errorResponse = res.error;
-            const errorMessage = errorResponse.error || intl.formatMessage({
-                id: 'apps.error.unknown',
-                defaultMessage: 'Unknown error occurred.',
-            });
-            this.props.actions.postEphemeralCallResponseForPost(errorResponse, errorMessage, post);
-            return;
-        }
-
-        const callResp = res.data!;
-        switch (callResp.type) {
-        case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
-            }
-            break;
-        case AppCallResponseTypes.NAVIGATE:
-        case AppCallResponseTypes.FORM:
-            break;
-        default: {
-            const errorMessage = intl.formatMessage({
-                id: 'apps.error.responses.unknown_type',
-                defaultMessage: 'App response type not supported. Response type: {type}.',
-            }, {
-                type: callResp.type,
-            });
-            this.props.actions.postEphemeralCallResponseForPost(callResp, errorMessage, post);
-        }
-        }
-    }
-
     onShortcutKeyDown = (e: KeyboardEvent) => {
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
@@ -399,60 +315,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        const pluginItems = this.props.pluginMenuItems?.
-            filter((item) => {
-                return item.filter ? item.filter(this.props.post.id) : item;
-            }).
-            map((item) => {
-                if (item.subMenu) {
-                    return (
-                        <Menu.ItemSubMenu
-                            key={item.id + '_pluginmenuitem'}
-                            id={item.id}
-                            postId={this.props.post.id}
-                            text={item.text}
-                            subMenu={item.subMenu}
-                            action={item.action}
-                            root={true}
-                        />
-                    );
-                }
-                return (
-                    <Menu.ItemAction
-                        key={item.id + '_pluginmenuitem'}
-                        text={item.text}
-                        onClick={() => {
-                            if (item.action) {
-                                item.action(this.props.post.id);
-                            }
-                        }}
-                    />
-                );
-            }) || [];
-
-        let appBindings = [] as JSX.Element[];
-        if (this.props.appsEnabled && this.props.appBindings) {
-            appBindings = this.props.appBindings.map((item) => {
-                let icon: JSX.Element | undefined;
-                if (item.icon) {
-                    icon = (<img src={item.icon}/>);
-                }
-
-                return (
-                    <Menu.ItemAction
-                        text={item.label}
-                        key={item.app_id + item.location}
-                        onClick={() => this.onClickAppBinding(item)}
-                        icon={icon}
-                    />
-                );
-            });
-        }
-
-        if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
-            return null;
-        }
-
         if (this.state.openUp) {
             window.addEventListener('keydown', this.onShortcutKeyDown);
         }
@@ -469,7 +331,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <button
                         ref={this.buttonRef}
                         id={`${this.props.location}_button_${this.props.post.id}`}
-                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More actions').toLowerCase()}
+                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'Actions').toLowerCase()}
                         className={classNames('post-menu__item', {
                             'post-menu__item--active': this.props.isMenuOpen,
                         })}
@@ -585,13 +447,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         rightDecorator={this.getKeyShortCut('delete')}
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
-                    />
-                    {((typeof pluginItems !== 'undefined' && pluginItems.length > 0) || appBindings.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
-                    {pluginItems}
-                    {appBindings}
-                    <Pluggable
-                        postId={this.props.post.id}
-                        pluggableName={PLUGGABLE_COMPONENT}
                     />
                 </Menu>
             </MenuWrapper>

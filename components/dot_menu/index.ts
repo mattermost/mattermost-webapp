@@ -9,26 +9,21 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
-import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall, postEphemeralCallResponseForPost} from 'actions/apps';
 
 import {
     flagPost,
@@ -59,8 +54,6 @@ type Props = {
     enableEmojiPicker?: boolean;
     location?: ComponentProps<typeof DotMenu>['location'];
 };
-
-const getPostMenuBindings = makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
@@ -101,17 +94,12 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         }
     }
 
-    const apps = appsEnabled(state);
-    const showBindings = apps && !systemMessage && !isCombinedUserActivityPost(post.id);
-    const appBindings = showBindings ? getPostMenuBindings(state) : undefined;
-
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
         postEditTimeLimit: config.PostEditTimeLimit,
         isLicensed: license.IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
-        pluginMenuItems: state.plugins.components.PostDropdownMenu,
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
@@ -121,8 +109,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         isFollowingThread,
         isCollapsedThreadsEnabled: collapsedThreads,
         threadReplyCount,
-        appBindings,
-        appsEnabled: apps,
         ...ownProps,
     };
 }
@@ -135,8 +121,6 @@ type Actions = {
     unpinPost: (postId: string) => void;
     openModal: (postId: any) => void;
     markPostAsUnread: (post: Post) => void;
-    doAppCall: DoAppCall;
-    postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 }
 
@@ -150,8 +134,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             unpinPost,
             openModal,
             markPostAsUnread,
-            doAppCall,
-            postEphemeralCallResponseForPost,
             setThreadFollow,
         }, dispatch),
     };
