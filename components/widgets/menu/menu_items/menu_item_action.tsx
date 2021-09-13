@@ -14,6 +14,7 @@ type Props = {
     id?: string;
     buttonClass?: string;
     rightDecorator?: React.ReactNode;
+    leftDecorator?: React.ReactNode;
     isDangerous?: boolean;
 }
 export const MenuItemActionImpl = ({
@@ -23,6 +24,7 @@ export const MenuItemActionImpl = ({
     extraText,
     id,
     buttonClass,
+    leftDecorator,
     rightDecorator,
     isDangerous,
 }: Props) => (
@@ -45,6 +47,7 @@ export const MenuItemActionImpl = ({
         {text && (
             <React.Fragment>
                 <span>
+                    <span className='MenuItem__left-decorator'>{leftDecorator}</span>
                     <span className='MenuItem__primary-text'>{text}</span>
                     <span className='MenuItem__right-decorator'>{rightDecorator}</span>
                 </span>
