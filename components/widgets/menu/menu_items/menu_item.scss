@@ -35,6 +35,16 @@
         span.MenuItem__primary-text {
             display: inline-flex;
             padding: 5px 0;
+            float: left;
+            line-height: 22px;
+            white-space: normal;
+        }
+
+        span.MenuItem__right-decorator {
+            display: inline-flex;
+            padding: 5px 0;
+            color: rgba(var(--center-channel-color-rgb), 0.5);
+            float: right;
             line-height: 22px;
             white-space: normal;
         }

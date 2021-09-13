@@ -42,7 +42,14 @@ export const MenuItemActionImpl = ({
         }
         onClick={onClick}
     >
-        {text && <span className='MenuItem__primary-text'>{text}{rightDecorator}</span>}
+        {text && (
+            <React.Fragment>
+                <span>
+                    <span className='MenuItem__primary-text'>{text}</span>
+                    <span className='MenuItem__right-decorator'>{rightDecorator}</span>
+                </span>
+            </React.Fragment>
+        )}
         {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
     </button>
 );
