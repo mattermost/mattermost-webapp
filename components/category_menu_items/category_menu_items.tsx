@@ -63,10 +63,6 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
     const allChannelsAreNotDMs = selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL);
 
     const categoryMenuItems = categories?.filter((category) => {
-        if (category.id === currentCategory?.id) {
-            return false;
-        }
-
         if (allChannelsAreDMs) {
             return category.type !== CategoryTypes.CHANNELS;
         } else if (allChannelsAreNotDMs) {
@@ -79,13 +75,13 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
             icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
             direction: 'right' as any,
             text: category.display_name,
-            action: moveToCategory(category.id),
+            action: () => moveToCategory(category.id),
         } as any;
     });
 
     categoryMenuItems?.push(
         {
-            id: 'SidebarChannelMenu-moveToDivider',
+            id: 'ChannelMenu-moveToDivider',
             text: (<li className='MenuGroup menu-divider'/>),
         },
         {
@@ -103,10 +99,13 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
                 <Menu.ItemSubMenu
                     id={`moveTo-${channel.id}`}
                     subMenu={categoryMenuItems}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to'})}
+                    text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
                     icon={<i className='icon-folder-move-outline'/>}
                     direction={'right' as any}
                     openUp={openUp}
+                    styleSelectableItem={true}
+                    selectedValueText={currentCategory?.display_name}
+                    renderSelected={false}
                 />
             </Menu.Group>
         </React.Fragment>

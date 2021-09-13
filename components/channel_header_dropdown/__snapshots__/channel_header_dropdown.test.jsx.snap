@@ -25,6 +25,14 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       show={true}
       text="View Info"
     />
+    <injectIntl(CategoryMenuItems)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      openUp={false}
+    />
     <Connect(ToggleFavoriteChannel)
       channel={
         Object {
@@ -509,6 +517,14 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       modalId="channel_info"
       show={true}
       text="View Info"
+    />
+    <injectIntl(CategoryMenuItems)
+      channel={
+        Object {
+          "id": "test-channel-id",
+        }
+      }
+      openUp={false}
     />
     <Connect(ToggleFavoriteChannel)
       channel={
