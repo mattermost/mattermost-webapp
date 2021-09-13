@@ -159,7 +159,7 @@ describe('System Console - Subscriptions section', () => {
 
         // # Enter invalid csv
         cy.uiGetPaymentCardInput().within(() => {
-            cy.get('[name="cvc"]').clear().type('12');
+            cy.get('[name="cvc"]').clear().type(billing.invalidvisa.cvc);
         });
         cy.get('#input_name').clear().type('test user');
         cy.get('.RHS').find('button').should('be.disabled');
@@ -178,7 +178,7 @@ describe('System Console - Subscriptions section', () => {
 
         // # Enter invalid card details
         cy.uiGetPaymentCardInput().within(() => {
-            cy.get('[name="cardnumber"]').should('be.enabled').clear().type('4242424242424141');
+            cy.get('[name="cardnumber"]').should('be.enabled').clear().type(billing.invalidvisa.cardNumber);
             cy.get('[name="exp-date"]').should('be.enabled').clear().type(billing.visa.expDate);
             cy.get('[name="cvc"]').should('be.enabled').clear().type(billing.visa.cvc);
         });

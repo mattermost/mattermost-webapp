@@ -756,7 +756,10 @@ describe('Actions.Channels', () => {
                 entities: {
                     channels: {
                         channels: {
-                            [channelId]: {team_id: teamId, total_msg_count: 10},
+                            [channelId]: {team_id: teamId},
+                        },
+                        messageCounts: {
+                            [channelId]: {total: 10},
                         },
                         myMembers: {
                             [channelId]: {msg_count: 10, mention_count: 0},
@@ -776,7 +779,7 @@ describe('Actions.Channels', () => {
             store.dispatch(Actions.markChannelAsUnread(teamId, channelId, [TestHelper.generateId()], false));
 
             const state = store.getState();
-            assert.equal(state.entities.channels.channels[channelId].total_msg_count, 11);
+            assert.equal(state.entities.channels.messageCounts[channelId].total, 11);
             assert.equal(state.entities.channels.myMembers[channelId].msg_count, 10);
             assert.equal(state.entities.channels.myMembers[channelId].mention_count, 0);
             assert.equal(state.entities.teams.myMembers[teamId].msg_count, 1);
@@ -792,7 +795,10 @@ describe('Actions.Channels', () => {
                 entities: {
                     channels: {
                         channels: {
-                            [channelId]: {team_id: teamId, total_msg_count: 10},
+                            [channelId]: {team_id: teamId},
+                        },
+                        messageCounts: {
+                            [channelId]: {total: 10},
                         },
                         myMembers: {
                             [channelId]: {msg_count: 10, mention_count: 0},
@@ -812,7 +818,7 @@ describe('Actions.Channels', () => {
             store.dispatch(Actions.markChannelAsUnread(teamId, channelId, [userId], false));
 
             const state = store.getState();
-            assert.equal(state.entities.channels.channels[channelId].total_msg_count, 11);
+            assert.equal(state.entities.channels.messageCounts[channelId].total, 11);
             assert.equal(state.entities.channels.myMembers[channelId].msg_count, 10);
             assert.equal(state.entities.channels.myMembers[channelId].mention_count, 1);
             assert.equal(state.entities.teams.myMembers[teamId].msg_count, 1);
@@ -828,7 +834,10 @@ describe('Actions.Channels', () => {
                 entities: {
                     channels: {
                         channels: {
-                            [channelId]: {team_id: teamId, total_msg_count: 10},
+                            [channelId]: {team_id: teamId},
+                        },
+                        messageCounts: {
+                            [channelId]: {total: 10},
                         },
                         myMembers: {
                             [channelId]: {msg_count: 10, mention_count: 0, notify_props: {mark_unread: MarkUnread.MENTION}},
@@ -848,7 +857,7 @@ describe('Actions.Channels', () => {
             store.dispatch(Actions.markChannelAsUnread(teamId, channelId, [TestHelper.generateId()], false));
 
             const state = store.getState();
-            assert.equal(state.entities.channels.channels[channelId].total_msg_count, 11);
+            assert.equal(state.entities.channels.messageCounts[channelId].total, 11);
             assert.equal(state.entities.channels.myMembers[channelId].msg_count, 11);
             assert.equal(state.entities.channels.myMembers[channelId].mention_count, 0);
             assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
@@ -864,7 +873,10 @@ describe('Actions.Channels', () => {
                 entities: {
                     channels: {
                         channels: {
-                            [channelId]: {team_id: teamId, total_msg_count: 10},
+                            [channelId]: {team_id: teamId},
+                        },
+                        messageCounts: {
+                            [channelId]: {total: 10},
                         },
                         myMembers: {
                             [channelId]: {msg_count: 10, mention_count: 0, notify_props: {mark_unread: MarkUnread.MENTION}},
@@ -884,7 +896,7 @@ describe('Actions.Channels', () => {
             store.dispatch(Actions.markChannelAsUnread(teamId, channelId, [userId], false));
 
             const state = store.getState();
-            assert.equal(state.entities.channels.channels[channelId].total_msg_count, 11);
+            assert.equal(state.entities.channels.messageCounts[channelId].total, 11);
             assert.equal(state.entities.channels.myMembers[channelId].msg_count, 11);
             assert.equal(state.entities.channels.myMembers[channelId].mention_count, 1);
             assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
@@ -900,7 +912,10 @@ describe('Actions.Channels', () => {
                 entities: {
                     channels: {
                         channels: {
-                            [channelId]: {team_id: teamId, total_msg_count: 8},
+                            [channelId]: {team_id: teamId},
+                        },
+                        messageCounts: {
+                            [channelId]: {total: 8},
                         },
                         myMembers: {
                             [channelId]: {msg_count: 5, mention_count: 2},
@@ -920,7 +935,7 @@ describe('Actions.Channels', () => {
             store.dispatch(Actions.markChannelAsUnread(teamId, channelId, [userId], true));
 
             const state = store.getState();
-            assert.equal(state.entities.channels.channels[channelId].total_msg_count, 8);
+            assert.equal(state.entities.channels.messageCounts[channelId].total, 8);
             assert.equal(state.entities.channels.myMembers[channelId].msg_count, 5);
             assert.equal(state.entities.channels.myMembers[channelId].mention_count, 2);
             assert.equal(state.entities.teams.myMembers[teamId].msg_count, 3);
@@ -940,8 +955,10 @@ describe('Actions.Channels', () => {
                             [channelId]: {
                                 id: channelId,
                                 team_id: teamId,
-                                total_msg_count: 10,
                             },
+                        },
+                        messageCounts: {
+                            [channelId]: {total: 10},
                         },
                         myMembers: {
                             [channelId]: {
@@ -968,7 +985,7 @@ describe('Actions.Channels', () => {
             const state = store.getState();
 
             assert.equal(state.entities.channels.myMembers[channelId].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId].msg_count, state.entities.channels.channels[channelId].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId].msg_count, state.entities.channels.messageCounts[channelId].total);
 
             assert.equal(state.entities.teams.myMembers[teamId].mention_count, 0);
             assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
@@ -985,8 +1002,10 @@ describe('Actions.Channels', () => {
                             [channelId]: {
                                 id: channelId,
                                 team_id: teamId,
-                                total_msg_count: 10,
                             },
+                        },
+                        messageCounts: {
+                            [channelId]: {total: 10},
                         },
                         myMembers: {
                             [channelId]: {
@@ -1013,7 +1032,7 @@ describe('Actions.Channels', () => {
             const state = store.getState();
 
             assert.equal(state.entities.channels.myMembers[channelId].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId].msg_count, state.entities.channels.channels[channelId].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId].msg_count, state.entities.channels.messageCounts[channelId].total);
 
             assert.equal(state.entities.teams.myMembers[teamId].mention_count, 0);
             assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
@@ -1029,8 +1048,10 @@ describe('Actions.Channels', () => {
                             [channelId]: {
                                 id: channelId,
                                 team_id: '',
-                                total_msg_count: 10,
                             },
+                        },
+                        messageCounts: {
+                            [channelId]: {total: 10},
                         },
                         myMembers: {
                             [channelId]: {
@@ -1052,7 +1073,7 @@ describe('Actions.Channels', () => {
             const state = store.getState();
 
             assert.equal(state.entities.channels.myMembers[channelId].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId].msg_count, state.entities.channels.channels[channelId].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId].msg_count, state.entities.channels.messageCounts[channelId].total);
         });
 
         it('two unread channels, same team, reading one', async () => {
@@ -1067,13 +1088,15 @@ describe('Actions.Channels', () => {
                             [channelId1]: {
                                 id: channelId1,
                                 team_id: teamId,
-                                total_msg_count: 10,
                             },
                             [channelId2]: {
                                 id: channelId2,
                                 team_id: teamId,
-                                total_msg_count: 12,
                             },
+                        },
+                        messageCounts: {
+                            [channelId1]: {total: 10},
+                            [channelId2]: {total: 12},
                         },
                         myMembers: {
                             [channelId1]: {
@@ -1105,7 +1128,7 @@ describe('Actions.Channels', () => {
             const state = store.getState();
 
             assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.channels[channelId1].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
 
             assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 4);
             assert.equal(state.entities.channels.myMembers[channelId2].msg_count, 9);
@@ -1126,13 +1149,15 @@ describe('Actions.Channels', () => {
                             [channelId1]: {
                                 id: channelId1,
                                 team_id: teamId,
-                                total_msg_count: 10,
                             },
                             [channelId2]: {
                                 id: channelId2,
                                 team_id: teamId,
-                                total_msg_count: 12,
                             },
+                        },
+                        messageCounts: {
+                            [channelId1]: {total: 10},
+                            [channelId2]: {total: 12},
                         },
                         myMembers: {
                             [channelId1]: {
@@ -1164,10 +1189,10 @@ describe('Actions.Channels', () => {
             const state = store.getState();
 
             assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.channels[channelId1].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
 
             assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.channels[channelId2].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.messageCounts[channelId2].total);
 
             assert.equal(state.entities.teams.myMembers[teamId].mention_count, 0);
             assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
@@ -1185,13 +1210,15 @@ describe('Actions.Channels', () => {
                             [channelId1]: {
                                 id: channelId1,
                                 team_id: teamId,
-                                total_msg_count: 10,
                             },
                             [channelId2]: {
                                 id: channelId2,
                                 team_id: teamId,
-                                total_msg_count: 12,
                             },
+                        },
+                        messageCounts: {
+                            [channelId1]: {total: 10},
+                            [channelId2]: {total: 12},
                         },
                         myMembers: {
                             [channelId1]: {
@@ -1223,10 +1250,10 @@ describe('Actions.Channels', () => {
             const state = store.getState();
 
             assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.channels[channelId1].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
 
             assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.channels[channelId2].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.messageCounts[channelId2].total);
 
             assert.equal(state.entities.teams.myMembers[teamId].mention_count, 0);
             assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
@@ -1245,13 +1272,15 @@ describe('Actions.Channels', () => {
                             [channelId1]: {
                                 id: channelId1,
                                 team_id: teamId1,
-                                total_msg_count: 10,
                             },
                             [channelId2]: {
                                 id: channelId2,
                                 team_id: teamId2,
-                                total_msg_count: 12,
                             },
+                        },
+                        messageCounts: {
+                            [channelId1]: {total: 10},
+                            [channelId2]: {total: 12},
                         },
                         myMembers: {
                             [channelId1]: {
@@ -1288,7 +1317,7 @@ describe('Actions.Channels', () => {
             const state = store.getState();
 
             assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.channels[channelId1].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
 
             assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 4);
             assert.equal(state.entities.channels.myMembers[channelId2].msg_count, 9);
@@ -1313,13 +1342,15 @@ describe('Actions.Channels', () => {
                             [channelId1]: {
                                 id: channelId1,
                                 team_id: teamId1,
-                                total_msg_count: 10,
                             },
                             [channelId2]: {
                                 id: channelId2,
                                 team_id: teamId2,
-                                total_msg_count: 12,
                             },
+                        },
+                        messageCounts: {
+                            [channelId1]: {total: 10},
+                            [channelId2]: {total: 12},
                         },
                         myMembers: {
                             [channelId1]: {
@@ -1356,10 +1387,10 @@ describe('Actions.Channels', () => {
             const state = store.getState();
 
             assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.channels[channelId1].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
 
             assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.channels[channelId2].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.messageCounts[channelId2].total);
 
             assert.equal(state.entities.teams.myMembers[teamId1].mention_count, 0);
             assert.equal(state.entities.teams.myMembers[teamId1].msg_count, 0);
@@ -1381,13 +1412,15 @@ describe('Actions.Channels', () => {
                             [channelId1]: {
                                 id: channelId1,
                                 team_id: teamId1,
-                                total_msg_count: 10,
                             },
                             [channelId2]: {
                                 id: channelId2,
                                 team_id: teamId2,
-                                total_msg_count: 12,
                             },
+                        },
+                        messageCounts: {
+                            [channelId1]: {total: 10},
+                            [channelId2]: {total: 12},
                         },
                         myMembers: {
                             [channelId1]: {
@@ -1424,10 +1457,10 @@ describe('Actions.Channels', () => {
             const state = store.getState();
 
             assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.channels[channelId1].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
 
             assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.channels[channelId2].total_msg_count);
+            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.messageCounts[channelId2].total);
 
             assert.equal(state.entities.teams.myMembers[teamId1].mention_count, 0);
             assert.equal(state.entities.teams.myMembers[teamId1].msg_count, 0);

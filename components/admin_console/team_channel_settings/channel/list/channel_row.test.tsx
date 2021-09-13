@@ -21,8 +21,6 @@ describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
         header: '123',
         purpose: '123',
         last_post_at: 0,
-        total_msg_count: 0,
-        total_msg_count_root: 0,
         creator_id: '123',
         scheme_id: '123',
         group_constrained: false,
