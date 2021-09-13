@@ -336,7 +336,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 disableInteractiveElementBlocking={true}
             >
                 {(provided, snapshot) => {
-                    const inviteMembersButton = category.type === 'direct_messages' ? <InviteMembersButton/> : null;
+                    const inviteMembersButton = category.type === 'direct_messages' ? <InviteMembersButton className='followingSibling'/> : null;
                     return (
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {
@@ -377,7 +377,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 {directMessagesModalButton}
                                                 {categoryMenu}
                                             </SidebarCategoryHeader>
-                                            <div className='SidebarChannelGroup_content'>
+                                            <div
+                                                className={classNames('SidebarChannelGroup_content', {
+                                                    hasFollowingSibling: category.type === CategoryTypes.DIRECT_MESSAGES,
+                                                })}
+                                            >
                                                 <ul
                                                     role='list'
                                                     className='NavGroupContent'
