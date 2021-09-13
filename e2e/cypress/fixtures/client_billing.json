@@ -1,0 +1,17 @@
+{
+    "mastercard":{
+        "cardNumber":"5555555555554444",
+        "expDate":"4242",
+        "cvc":"412"
+    },
+    "visa":{
+        "cardNumber":"4242424242424242",
+        "expDate":"4242",
+        "cvc":"412"
+    },
+    "unionpay":{
+        "cardNumber":"6200000000000005",
+        "expDate":"1244",
+        "cvc":"123"
+    }
+}
