@@ -10,7 +10,6 @@
 // Stage: @prod
 // Group: @account_setting
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
 describe('Account Settings', () => {
@@ -23,19 +22,20 @@ describe('Account Settings', () => {
 
     beforeEach(() => {
         cy.reload();
-        cy.findByTestId('post_textbox').should('be.visible');
+        cy.postMessage('hello');
 
-        // # Navigating to account settings
-        cy.toAccountSettingsModal();
-        cy.get('#displayButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
-        cy.get('#themeTitle', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
-        cy.get('#customThemes', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
-    });
-
-    afterEach(() => {
-        // # Click "x" button to close Account Settings modal and then discard changes made
-        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
-        cy.findAllByText('Yes, Discard', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible').click();
+        // # Go to Settings modal - Display section, then custom theme
+        cy.uiOpenSettingsModal('Display');
+        cy.get('#displayButton').
+            should('be.visible').
+            click();
+        cy.get('#themeTitle').
+            scrollIntoView().
+            should('be.visible').
+            click();
+        cy.get('#customThemes').
+            should('be.visible').
+            click();
     });
 
     it('MM-T280_1 Theme Colors - Color Picker (Sidebar styles)', () => {
@@ -83,15 +83,28 @@ function verifyColorPickerChange(stylesText, iconButtonId, inputId, iconValueId)
     cy.get(iconButtonId).click();
 
     // # Toggle theme colors the custom theme
-    cy.get('#standardThemes').scrollIntoView().should('be.visible').check().should('be.checked');
-    cy.get('#customThemes').scrollIntoView().should('be.visible').check().should('be.checked');
+    cy.get('#standardThemes').
+        scrollIntoView().
+        should('be.visible').
+        check();
+    cy.get('#customThemes').
+        scrollIntoView().
+        should('be.visible').
+        check();
 
     // # Re-open styles section
-    cy.findByText(stylesText).scrollIntoView().should('be.visible').click({force: true});
+    cy.findByText(stylesText).
+        scrollIntoView().
+        should('be.visible').
+        click({force: true});
 
     // * Verify color change is applied correctly
-    cy.get(inputId).scrollIntoView().should('be.visible').invoke('attr', 'value').then((hexColor) => {
-        const rbgArr = hexToRgbArray(hexColor);
-        cy.get(iconValueId).should('be.visible').and('have.css', 'background-color', rgbArrayToString(rbgArr));
-    });
+    cy.get(inputId).
+        scrollIntoView().
+        should('be.visible').
+        invoke('attr', 'value').
+        then((hexColor) => {
+            const rbgArr = hexToRgbArray(hexColor);
+            cy.get(iconValueId).should('be.visible').and('have.css', 'background-color', rgbArrayToString(rbgArr));
+        });
 }

@@ -30,6 +30,10 @@ Cypress.Commands.add('uiGetSetStatusButton', () => {
     return cy.findByRole('button', {name: 'set status'}).should('be.visible');
 });
 
+Cypress.Commands.add('uiGetProfileHeader', () => {
+    return cy.uiGetSetStatusButton().parent();
+});
+
 Cypress.Commands.add('uiGetStatusMenuContainer', (options = {exist: true}) => {
     if (options.exist) {
         return cy.get('#statusDropdownMenu').should('exist');
@@ -50,6 +54,37 @@ Cypress.Commands.add('uiGetStatusMenu', (options = {visible: true}) => {
         should('not.be.visible');
 });
 
+Cypress.Commands.add('uiOpenHelpMenu', (item = '') => {
+    // # Click on help status button
+    cy.uiGetHelpButton().click();
+
+    if (!item) {
+        // # Return the menu if no item is passed
+        return cy.uiGetHelpMenu();
+    }
+
+    // # Click on a particular item
+    return cy.uiGetHelpMenu().
+        findByText(item).
+        scrollIntoView().
+        should('be.visible').
+        click();
+});
+
+Cypress.Commands.add('uiGetHelpButton', () => {
+    return cy.findByRole('button', {name: 'Select to toggle the help menu.'}).should('be.visible');
+});
+
+Cypress.Commands.add('uiGetHelpMenu', (options = {visible: true}) => {
+    const dropdown = () => cy.get('#helpMenuPortal').find('.dropdown-menu');
+
+    if (options.visible) {
+        return dropdown().should('be.visible');
+    }
+
+    return dropdown().should('not.be.visible');
+});
+
 Cypress.Commands.add('uiOpenUserMenu', (item = '') => {
     // # Click on user status button
     cy.uiGetSetStatusButton().click();
@@ -65,6 +100,10 @@ Cypress.Commands.add('uiOpenUserMenu', (item = '') => {
         scrollIntoView().
         should('be.visible').
         click();
+});
+
+Cypress.Commands.add('uiGetAtMentionButton', () => {
+    return cy.findByRole('button', {name: 'Select to toggle a list of recent mentions.'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetSettingsButton', () => {
