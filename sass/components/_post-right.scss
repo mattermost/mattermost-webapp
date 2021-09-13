@@ -31,6 +31,14 @@
                 }
             }
         }
+
+        .Separator {
+            padding-top: 15px;
+
+            & + .post {
+                padding-top: 20px;
+            }
+        }
     }
 
     .help__format-text {
