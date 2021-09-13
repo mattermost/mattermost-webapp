@@ -39,7 +39,7 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
     const isCurrentLicensed = currentLicense?.IsLicensed;
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const show = (isCurrentLicensed !== undefined && isCurrentLicensed !== 'true') && (isPrevLicensed !== undefined && isPrevLicensed !== 'true');
+    const show = (isCurrentLicensed === 'false') && (isPrevLicensed === 'false');
 
     if (!show) {
         return null;
