@@ -89,8 +89,6 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
             "purpose": "purpose",
             "scheme_id": "id",
             "team_id": "team_id",
-            "total_msg_count": 0,
-            "total_msg_count_root": 0,
             "type": "O",
             "update_at": 0,
           },

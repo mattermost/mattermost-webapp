@@ -6,7 +6,7 @@ import {MarkUnread} from 'mattermost-redux/constants/channels';
 
 import {hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
 import {haveITeamPermission, haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {Channel, ChannelMembership, ChannelType, ChannelNotifyProps} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership, ChannelType, ChannelNotifyProps, ChannelMessageCount} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UsersState, UserProfile, UserNotifyProps} from 'mattermost-redux/types/users';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -367,20 +367,6 @@ function newCompleteDirectGroupInfo(currentUserId: string, profiles: IDMappedObj
     return channel;
 }
 
-export function isUnreadChannel(members: RelationOneToOne<Channel, ChannelMembership>, channel: Channel, collapsedThreads: boolean): boolean {
-    const member = members[channel.id];
-    if (member) {
-        const unreadMessageCount = getMsgCountInChannel(collapsedThreads, channel, member);
-        const onlyMentions = member.notify_props && member.notify_props.mark_unread === MarkUnread.MENTION;
-        return (
-            (collapsedThreads ? member.mention_count_root : member.mention_count) > 0 ||
-            (Boolean(unreadMessageCount) && !onlyMentions)
-        );
-    }
-
-    return false;
-}
-
 export function isOpenChannel(channel: Channel): boolean {
     return channel.type === General.OPEN_CHANNEL;
 }
@@ -529,6 +515,34 @@ export function channelListToMap(channelList: Channel[]): IDMappedObjects<Channe
     return channels;
 }
 
-export function getMsgCountInChannel(collapsed: boolean, channel: Channel, member: ChannelMembership): number {
-    return collapsed ? Math.max(channel.total_msg_count_root - member.msg_count_root, 0) : Math.max(channel.total_msg_count - member.msg_count, 0);
+// calculateUnreadCount returns an object containing the number of unread mentions/mesasges in a channel and whether
+// or not that channel would be shown as unread in the sidebar.
+export function calculateUnreadCount(
+    messageCount: ChannelMessageCount | undefined,
+    member: ChannelMembership | undefined,
+    crtEnabled: boolean,
+): {showUnread: boolean; mentions: number; messages: number} {
+    if (!member || !messageCount) {
+        return {
+            showUnread: false,
+            mentions: 0,
+            messages: 0,
+        };
+    }
+
+    let messages;
+    let mentions;
+    if (crtEnabled) {
+        messages = messageCount.root - member.msg_count_root;
+        mentions = member.mention_count_root;
+    } else {
+        mentions = member.mention_count;
+        messages = messageCount.total - member.msg_count;
+    }
+
+    return {
+        showUnread: mentions > 0 || (!isChannelMuted(member) && messages > 0),
+        messages,
+        mentions,
+    };
 }
