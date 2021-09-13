@@ -22,6 +22,6 @@ declare namespace Cypress {
          * @example
          *   cy.getIframeBody();
          */
-        getIframeBody(): Chainable;
+        uiGetPaymentCardInput(): Chainable;
     }
 }
