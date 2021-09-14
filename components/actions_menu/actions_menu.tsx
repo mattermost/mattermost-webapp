@@ -4,7 +4,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+
 import {Tooltip} from 'react-bootstrap';
+
+import TutorialTip from 'components/tutorial/tutorial_tip';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
@@ -195,6 +200,34 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
+    createTutorialTip(): React.ReactElement {
+        const screens = [];
+        screens.push(
+            <div>
+                <h4>
+                    <FormattedMessage
+                        id='post_info.tutorialTip.title'
+                        defaultMessage='Actions for messages'
+                    />
+                </h4>
+                <p>
+                    <FormattedMarkdownMessage
+                        id='post_info.tutorialTip1'
+                        defaultMessage='Message actions that are provided through apps, integrations or plugins have moved to this menu item.'
+                    />
+                </p>
+            </div>,
+        );
+
+        return (
+            <TutorialTip
+                placement='top'
+                screens={screens}
+                overlayClass='tip-overlay--header'
+            />
+        );
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
@@ -254,12 +287,13 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         console.log('pluginItems', pluginItems);
 
         const {formatMessage} = this.props.intl;
+        const tutorialTip = this.createTutorialTip();
         const marketPlace = (
             <Menu.ItemAction
                 id={`marketplace_icon_${this.props.post.id}`}
                 show={true}
                 text={formatMessage({id: 'post_info.marketplace', defaultMessage: 'App Marketplace'})}
-                leftDecorator={<i className='icon icon-pin-outline'/>}
+                leftDecorator={<i className='icon icon-view-grid-plus-outline'/>}
                 onClick={this.handleOpenMarketplace}
             />
         );
@@ -288,6 +322,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         aria-expanded='false'
                     >
                         <i className={'icon icon-apps'}/>
+                        {tutorialTip}
                     </button>
                 </OverlayTrigger>
                 <Menu
