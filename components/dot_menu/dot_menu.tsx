@@ -238,7 +238,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         >
             <FormattedMessage
                 id='post_info.dot_menu.tooltip.more_actions'
-                defaultMessage='Actions'
+                defaultMessage='More'
             />
         </Tooltip>
     )

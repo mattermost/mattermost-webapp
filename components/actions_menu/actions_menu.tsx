@@ -99,11 +99,11 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
     // listen to clicks/taps on add reaction menu item and pass to parent handler
     tooltip = (
         <Tooltip
-            id='dotmenu-icon-tooltip'
+            id='actions-menu-icon-tooltip'
             className='hidden-xs'
         >
             <FormattedMessage
-                id='post_info.dot_menu.tooltip.more_actions'
+                id='post_info.tooltip.actions'
                 defaultMessage='Actions'
             />
         </Tooltip>
