@@ -224,7 +224,13 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             if (products[key].billing_scheme === BillingSchemes.FLAT_FEE) {
                 flatFeeProducts.push(tempEl);
             } else {
+
+                // only show enterprise to customers upgrading from professional
+                if (currentProduct.sku === 'cloud-professional') {
+                    return;
+                }
                 userBasedProducts.push(tempEl);
+
             }
         });
 
@@ -527,7 +533,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
-                        {(this.props.products && Object.keys(this.props.products).length > 1) &&
+                        {(this.props.products && Object.keys(this.props.products).length > 1 && this.state.currentProduct.sku !== 'cloud-professional') &&
                             <div className='select-plan'>
                                 <div className='title'>
                                     <FormattedMessage
