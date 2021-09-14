@@ -28,6 +28,7 @@ import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 import {Post} from 'mattermost-redux/types/posts';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 const KeyCodes = Constants.KeyCodes;
 const TOP_OFFSET = 0;
@@ -70,6 +71,7 @@ export type Props = {
         hideEditPostModal: () => void;
         openModal: (input: OpenModal) => void;
         setShowPreview: (newPreview: boolean) => void;
+        runMessageWillBeUpdatedHooks: (newPost: Post, oldPost: Post) => Promise<ActionResult>;
     };
 };
 
@@ -226,11 +228,19 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             return;
         }
 
-        const updatedPost = {
+        let updatedPost = {
+            ...editingPost.post,
             message: this.state.editText,
-            id: editingPost.postId,
-            channel_id: editingPost.post.channel_id,
         };
+
+        const hookResult = await actions.runMessageWillBeUpdatedHooks(updatedPost, editingPost.post);
+        if (hookResult.error) {
+            this.setState({
+                postError: hookResult.error,
+            });
+        }
+
+        updatedPost = hookResult.data;
 
         if (this.state.postError) {
             this.setState({errorClass: 'animation--highlight'});
