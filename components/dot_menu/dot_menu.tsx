@@ -32,6 +32,7 @@ type Props = {
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
+    handleShortCut?: React.EventHandler<React.KeyboardEvent>;
     handleDropdownOpened?: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
@@ -278,6 +279,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     onShortcutKeyDown = (e: KeyboardEvent) => {
+        e.preventDefault();
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
             this.props.handleCommentClick(e);
@@ -308,6 +310,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.actions.markPostAsUnread(this.props.post, this.props.location);
             break;
         }
+        this.setState({openUp: false});
+        this.props.handleShortCut();
     }
 
     render() {
@@ -316,6 +320,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
         if (this.state.openUp) {
             window.addEventListener('keydown', this.onShortcutKeyDown);
+        } else {
+            window.removeEventListener('keydown', this.onShortcutKeyDown);
         }
 
         return (

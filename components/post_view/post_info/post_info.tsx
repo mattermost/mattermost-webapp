@@ -183,6 +183,10 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         );
     };
 
+    handleShortCutPressed = () => {
+        this.setState({showDotMenu: false});
+    };
+
     handleDotMenuOpened = (open: boolean) => {
         this.setState({showDotMenu: open});
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
@@ -203,7 +207,6 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         const {isMobile, isReadOnly, collapsedThreadsEnabled} = this.props;
-        console.log('this.state', this.state);
         const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
@@ -244,6 +247,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                     isFlagged={this.props.isFlagged}
                     handleCommentClick={this.props.handleCommentClick}
                     handleDropdownOpened={this.handleDotMenuOpened}
+                    handleShortCut={this.handleShortCutPressed}
                     handleAddReactionClick={this.toggleEmojiPicker}
                     isMenuOpen={this.state.showDotMenu}
                     isReadOnly={isReadOnly}
@@ -259,7 +263,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 <ActionsMenu
                     post={post}
                     handleDropdownOpened={this.handleActionsMenuOpened}
-                    isMenuOpen={this.state.showDotMenu}
+                    isMenuOpen={this.state.showActionsMenu}
                 />
             );
         }
