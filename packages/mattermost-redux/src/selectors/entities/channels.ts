@@ -16,7 +16,6 @@ import {
     getMyChannelMemberships,
     getMyCurrentChannelMembership,
 } from 'mattermost-redux/selectors/entities/common';
-import {getConfig, getLicense, hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
 import {
     getTeammateNameDisplaySetting,
     isCollapsedThreadsEnabled,
@@ -24,7 +23,6 @@ import {
 import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {
     getCurrentTeamId,
-    getCurrentTeamMembership,
     getMyTeams,
     getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
@@ -36,10 +34,16 @@ import {
     isCurrentUserSystemAdmin,
 } from 'mattermost-redux/selectors/entities/users';
 
-import {Channel, ChannelStats, ChannelMembership, ChannelModeration, ChannelMemberCountsByGroup, ChannelSearchOpts} from 'mattermost-redux/types/channels';
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {
+    Channel,
+    ChannelMemberCountsByGroup,
+    ChannelMembership,
+    ChannelModeration,
+    ChannelSearchOpts,
+    ChannelStats,
+} from 'mattermost-redux/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {TeamMembership, Team} from 'mattermost-redux/types/teams';
+import {Team} from 'mattermost-redux/types/teams';
 import {UsersState, UserProfile} from 'mattermost-redux/types/users';
 import {
     IDMappedObjects,
@@ -50,7 +54,6 @@ import {
 } from 'mattermost-redux/types/utilities';
 
 import {
-    canManageMembersOldPermissions,
     completeDirectChannelInfo,
     completeDirectGroupInfo,
     newCompleteDirectChannelInfo,
@@ -277,7 +280,7 @@ export function isChannelReadOnlyById(state: GlobalState, channelId: string): bo
 }
 
 export function isChannelReadOnly(state: GlobalState, channel: Channel): boolean {
-    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true';
+    return channel && channel.name === General.DEFAULT_CHANNEL && !isCurrentUserSystemAdmin(state);
 }
 
 export const countCurrentChannelUnreadMessages: (state: GlobalState) => number = createSelector(
@@ -639,12 +642,6 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
 export const canManageChannelMembers: (state: GlobalState) => boolean = createSelector(
     'canManageChannelMembers',
     getCurrentChannel,
-    getCurrentUser,
-    getCurrentTeamMembership,
-    getMyCurrentChannelMembership,
-    getConfig,
-    getLicense,
-    hasNewPermissions,
     (state: GlobalState): boolean => haveICurrentChannelPermission(state,
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
     ),
@@ -653,12 +650,6 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
     ),
     (
         channel: Channel,
-        user: UserProfile,
-        teamMembership: TeamMembership,
-        channelMembership: ChannelMembership | undefined,
-        config: Partial<ClientConfig>,
-        license: any,
-        newPermissions: boolean,
         managePrivateMembers: boolean,
         managePublicMembers: boolean,
     ): boolean => {
@@ -674,21 +665,13 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
             return false;
         }
 
-        if (newPermissions) {
-            if (channel.type === General.OPEN_CHANNEL) {
-                return managePublicMembers;
-            } else if (channel.type === General.PRIVATE_CHANNEL) {
-                return managePrivateMembers;
-            }
-
-            return true;
+        if (channel.type === General.OPEN_CHANNEL) {
+            return managePublicMembers;
+        } else if (channel.type === General.PRIVATE_CHANNEL) {
+            return managePrivateMembers;
         }
 
-        if (!channelMembership) {
-            return false;
-        }
-
-        return canManageMembersOldPermissions(channel, user, teamMembership, channelMembership, config, license);
+        return true;
     },
 );
 
@@ -919,7 +902,7 @@ export const getMyFirstChannelForTeams: (state: GlobalState) => RelationOneToOne
 export const getRedirectChannelNameForTeam = (state: GlobalState, teamId: string): string => {
     const defaultChannelForTeam = getDefaultChannelForTeams(state)[teamId];
     const myFirstChannelForTeam = getMyFirstChannelForTeams(state)[teamId];
-    const canIJoinPublicChannelsInTeam = !hasNewPermissions(state) || haveITeamPermission(state,
+    const canIJoinPublicChannelsInTeam = haveITeamPermission(state,
         teamId,
         Permissions.JOIN_PUBLIC_CHANNELS,
     );
