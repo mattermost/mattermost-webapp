@@ -23,6 +23,8 @@ import SettingsTip from './settings_tip';
 
 import {useCurrentProductId, useIsLoggedIn, useProducts, useShowTutorialStep} from './hooks';
 
+import {getTestFlag} from 'mattermost-redux/selectors/entities/preferences';
+
 import './global_header.scss';
 
 const GlobalHeaderContainer = styled.header`
@@ -83,6 +85,8 @@ const GlobalHeader = (): JSX.Element | null => {
     const currentProductID = useCurrentProductId(products);
     const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
 
+    const testFlag = useSelector(getTestFlag);
+
     useEffect(() => {
         const root = document.querySelector('#root');
         if (enabled) {
@@ -102,6 +106,9 @@ const GlobalHeader = (): JSX.Element | null => {
     return (
         <GlobalHeaderContainer>
             <LeftControls>
+            {
+                Boolean(testFlag) ? 'yipeee!': 'waaah'
+            }
                 <ProductSwitcher/>
                 {isDesktopApp() && <HistoryButtons/>}
             </LeftControls>
