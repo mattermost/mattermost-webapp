@@ -96,7 +96,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 }
 
 type Actions = {
-    openModal: (postId: any) => void;
+    openModal: () => void;
     doAppCall: DoAppCall;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 }

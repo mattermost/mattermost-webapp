@@ -14,7 +14,8 @@ import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
-import {Locations, Constants} from 'utils/constants';
+import {Locations, Constants, ModalIdentifiers} from 'utils/constants';
+import MarketplaceModal from 'components/plugin_marketplace';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
@@ -109,7 +110,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef: Menu) => {
+    refCallback = (menuRef: Menu): void => {
         if (menuRef) {
             const buttonRect = this.buttonRef.current?.getBoundingClientRect();
             let y;
@@ -130,7 +131,15 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    onClickAppBinding = async (binding: AppBinding) => {
+    handleOpenMarketplace = (): void => {
+        const openMarketplaceData = {
+            modalId: ModalIdentifiers.PLUGIN_MARKETPLACE,
+            dialogType: MarketplaceModal,
+        };
+        this.props.actions.openModal(openMarketplaceData);
+    };
+
+    onClickAppBinding = async (binding: AppBinding): Promise<void> => {
         const {post, intl} = this.props;
 
         if (!binding.call) {
@@ -244,6 +253,17 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         console.log('appsBindings', appBindings);
         console.log('pluginItems', pluginItems);
 
+        const {formatMessage} = this.props.intl;
+        const marketPlace = (
+            <Menu.ItemAction
+                id={`marketplace_icon_${this.props.post.id}`}
+                show={true}
+                text={formatMessage({id: 'post_info.marketplace', defaultMessage: 'App Marketplace'})}
+                leftDecorator={<i className='icon icon-pin-outline'/>}
+                onClick={this.handleOpenMarketplace}
+            />
+        );
+
         if (typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
@@ -277,8 +297,9 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                     ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
-                    {/* {pluginItems} */}
+                    {pluginItems}
                     {appBindings}
+                    {marketPlace}
                     <Pluggable
                         postId={this.props.post.id}
                         pluggableName={PLUGGABLE_COMPONENT}
