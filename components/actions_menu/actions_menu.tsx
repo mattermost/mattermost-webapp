@@ -232,13 +232,11 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        console.log('pluginMenuItems', this.props.pluginMenuItems);
         const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {
                 return item.filter ? item.filter(this.props.post.id) : item;
             }).
             map((item) => {
-                console.log('item', item);
                 if (item.subMenu) {
                     return (
                         <Menu.ItemSubMenu
@@ -283,8 +281,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                 );
             });
         }
-        console.log('appsBindings', appBindings);
-        console.log('pluginItems', pluginItems);
 
         const {formatMessage} = this.props.intl;
         const tutorialTip = this.createTutorialTip();
