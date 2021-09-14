@@ -20,58 +20,41 @@ type Props = {
     currentChannelTeammateUsername?: string;
 }
 
-const controlContent = [
-    <div key='screen'>
-        <h4>
-            <FormattedMessage
-                id='create_post.tutorialTip.title'
-                defaultMessage='Send a message'
-            />
-        </h4>
-        <p>
-            <FormattedMarkdownMessage
-                id='create_post.tutorialTip1'
-                defaultMessage='Type your first message and select **Enter** to send it.'
-            />
-        </p>
-        <p>
-            <FormattedMarkdownMessage
-                id='create_post.tutorialTip2'
-                defaultMessage='Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages.'
-            />
-        </p>
-    </div>,
-];
-
 class CreatePostTip extends React.PureComponent<Props> {
     render() {
-        let screens = controlContent;
-
+        let chips;
         if (this.props.prewrittenMessages === PrewrittenMessagesTreatments.TOUR_POINT) {
-            screens = [
-                <div key='screen'>
-                    <h4>
-                        <FormattedMessage
-                            id='create_post.prewritten.tip.title'
-                            defaultMessage='Send your first message'
-                        />
-                    </h4>
-                    <p>
-                        <FormattedMarkdownMessage
-                            id='create_post.prewritten.tip.body'
-                            defaultMessage='Start collaborating with others by selecting one of the messages below. Start collaborating - select a message below, or write a custom message.'
-                        />
-                    </p>
-                    <PrewrittenChips
-                        prewrittenMessages={this.props.prewrittenMessages}
-                        prefillMessage={this.props.prefillMessage}
-                        currentChannel={this.props.currentChannel}
-                        currentUserId={this.props.currentUserId}
-                        currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
-                    />
-                </div>,
-            ];
+            chips = <PrewrittenChips
+                prewrittenMessages={this.props.prewrittenMessages}
+                prefillMessage={this.props.prefillMessage}
+                currentChannel={this.props.currentChannel}
+                currentUserId={this.props.currentUserId}
+                currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
+            />;
         }
+        const screens = [
+            <div key='screen'>
+                <h4>
+                    <FormattedMessage
+                        id='create_post.tutorialTip.title'
+                        defaultMessage='Send a message'
+                    />
+                </h4>
+                <p>
+                    <FormattedMarkdownMessage
+                        id='create_post.tutorialTip1'
+                        defaultMessage='Select or type your first message and select **Enter** to send it.'
+                    />
+                </p>
+                <p>
+                    <FormattedMarkdownMessage
+                        id='create_post.tutorialTip2'
+                        defaultMessage='Use the **Attachments** and **Emoji** buttons to add to your messages.'
+                    />
+                </p>
+                {chips}
+            </div>,
+        ];
 
         return (
             <TutorialTip
