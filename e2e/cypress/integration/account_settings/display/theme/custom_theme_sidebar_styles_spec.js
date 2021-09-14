@@ -90,19 +90,19 @@ describe('Custom Theme - Sidebar Styles', () => {
         cy.get('#unreadIndicatorBottom').should('have.css', 'color', rgbArrayToString(themeRgbColor.mentionColor));
 
         // # Set user status to online
-        cy.uiOpenSetStatusMenu('Online');
+        cy.uiOpenUserMenu('Online');
 
         // * Check Online Indicator color
         cy.get('.icon-check-circle').should('have.css', 'color', rgbArrayToString(themeRgbColor.onlineIndicator));
 
         // # Set user status to away
-        cy.uiOpenSetStatusMenu('Away');
+        cy.uiOpenUserMenu('Away');
 
         // * Check Away Indicator color
         cy.get('.icon-clock').should('have.css', 'color', rgbArrayToString(themeRgbColor.awayIndicator));
 
         // # Set user status to do not disturb
-        cy.uiOpenSetStatusMenu('Do Not Disturb');
+        cy.uiOpenUserMenu('Do Not Disturb');
 
         // * Check Do Not Disturb Indicator color
         cy.get('.icon-minus-circle').should('have.css', 'color', rgbArrayToString(themeRgbColor.dndIndicator));

@@ -24,11 +24,12 @@ describe('Onboarding', () => {
     const {username, email, password} = generateRandomUser();
 
     before(() => {
-        // * Check if server has license for Cloud
-        cy.apiRequireLicenseForFeature('Cloud');
-
         // # Disable LDAP, require email invitation, and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}, EmailSettings: {RequireEmailVerification: true}}).then(({config}) => {
+        cy.apiUpdateConfig({
+            LdapSettings: {Enable: false},
+            EmailSettings: {RequireEmailVerification: true},
+            ServiceSettings: {EnableOnboardingFlow: true},
+        }).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
             siteUrl = config.ServiceSettings.SiteURL;
         });
@@ -41,8 +42,8 @@ describe('Onboarding', () => {
     });
 
     it('MM-T400 Create account from login page link using email-password', () => {
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open team menu and click on "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // * Check that the 'Team Settings' modal was opened
         cy.get('#teamSettingsModal').should('exist').within(() => {
@@ -55,12 +56,6 @@ describe('Onboarding', () => {
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
         });
-
-        // * In system console, verify that 'Enable Open Server' is set to true
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.get('#systemConsole').should('be.visible').click();
-        cy.findByText('Signup').scrollIntoView().should('be.visible').click();
-        cy.get(`#${CSS.escape('TeamSettings.EnableOpenServertrue')}`).should('be.checked');
 
         // # Logout from sysadmin account
         cy.apiLogout();
@@ -100,7 +95,7 @@ describe('Onboarding', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
+        cy.findByText(`Welcome to ${siteName}`).should('be.visible');
     });
 
     // eslint-disable-next-line no-shadow

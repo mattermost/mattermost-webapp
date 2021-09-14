@@ -107,7 +107,7 @@ describe('Archived channels', () => {
         });
 
         // # View saved posts
-        cy.get('#channelHeaderFlagButton').click();
+        cy.uiGetSavedPostButton().click();
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // * RHS should be visible

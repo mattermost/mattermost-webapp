@@ -4,7 +4,6 @@
 const MAIN_MENU = 'main menu';
 const SYSTEM_CONSOLE_MAIN_MENU = 'Menu Icon';
 const CHANNEL_MENU = 'channel menu';
-const SET_STATUS_MENU = 'set status';
 
 function openMenu(name, item) {
     const menu = () => cy.findByRole('button', {name}).should('be.visible');
@@ -58,20 +57,4 @@ Cypress.Commands.add('uiCloseChannelMenu', () => {
 
 Cypress.Commands.add('uiGetChannelMenu', () => {
     return getMenu(CHANNEL_MENU);
-});
-
-Cypress.Commands.add('uiOpenSetStatusMenu', (item = '') => {
-    return openMenu(SET_STATUS_MENU, item);
-});
-
-Cypress.Commands.add('uiOpenDndStatusSubMenu', () => {
-    cy.uiOpenSetStatusMenu();
-
-    // # Wait for status menu to transition in
-    cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
-
-    // # Hover over Do Not Disturb option
-    cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#status-menu-dnd').trigger('mouseover');
-
-    return cy.get('#status-menu-dnd');
 });
