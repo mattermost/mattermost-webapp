@@ -206,13 +206,13 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             <div>
                 <h4>
                     <FormattedMessage
-                        id='post_info.tutorialTip.title'
+                        id='post_info.actions.tutorialTip.title'
                         defaultMessage='Actions for messages'
                     />
                 </h4>
                 <p>
                     <FormattedMarkdownMessage
-                        id='post_info.tutorialTip1'
+                        id='post_info.actions.tutorialTip'
                         defaultMessage='Message actions that are provided through apps, integrations or plugins have moved to this menu item.'
                     />
                 </p>

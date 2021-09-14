@@ -3867,6 +3867,8 @@
   "post_delete.okay": "Okay",
   "post_delete.someone": "Someone deleted the message on which you tried to post a comment.",
   "post_header.update_status": "Update your status",
+  "post_info.actions.tutorialTip.title": "Actions for messages",
+  "post_info.actions.tutorialTip": "Message actions that are provided through apps, integrations or plugins have moved to this menu item.",
   "post_info.auto_responder": "AUTOMATIC REPLY",
   "post_info.bot": "BOT",
   "post_info.comment_icon.tooltip.reply": "Reply",
