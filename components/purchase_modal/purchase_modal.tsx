@@ -224,13 +224,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             if (products[key].billing_scheme === BillingSchemes.FLAT_FEE) {
                 flatFeeProducts.push(tempEl);
             } else {
-
                 // only show enterprise to customers upgrading from professional
                 if (currentProduct.sku === 'cloud-professional') {
                     return;
                 }
                 userBasedProducts.push(tempEl);
-
             }
         });
 
