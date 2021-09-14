@@ -1196,6 +1196,7 @@
             display: block;
         }
 
+        .channel-pencil-icon,
         .badge {
             // Hide the badge by hiding it instead of using `display: none` since the desktop app only counts
             // badges with a non-zero offsetHeight when counting notifications
@@ -1204,6 +1205,7 @@
         }
     }
 
+    .SidebarChannel > .active.SidebarLink,
     .SidebarChannel.active .SidebarLink {
         background: rgba(var(--sidebar-text-rgb), 0.08);
 

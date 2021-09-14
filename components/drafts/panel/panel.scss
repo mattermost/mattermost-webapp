@@ -1,0 +1,17 @@
+.Panel {
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    background-color: var(--center-channel-bg);
+    border-radius: 4px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease-in-out;
+
+    & + .Panel {
+        margin-top: 16px;
+    }
+
+    &:hover {
+        border-color: rgba(var(--center-channel-color-rgb), 0.16);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+        transition-duration: 0.15s;
+    }
+}

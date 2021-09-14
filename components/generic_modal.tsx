@@ -30,7 +30,7 @@ type State = {
     show: boolean;
 }
 
-export default class GenericModal extends React.PureComponent<Props, State> {
+export default class GenericModal extends React.Component<Props, State> {
     static defaultProps: Partial<Props> = {
         show: true,
         id: 'genericModal',
@@ -45,6 +45,15 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         this.state = {
             show: props.show!,
         };
+    }
+
+    static getDerivedStateFromProps(props: Props, state: State) {
+        if (props.show !== state.show) {
+            return {
+                show: props.show,
+            };
+        }
+        return null;
     }
 
     onHide = () => {

@@ -26,6 +26,7 @@ import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
+import DraftsLink from 'components/drafts/drafts_link';
 
 export function renderView(props: any) {
     return (
@@ -529,6 +530,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <>
                 <GlobalThreadsLink/>
+                <DraftsLink/>
                 <div
                     id='sidebar-left'
                     role='application'

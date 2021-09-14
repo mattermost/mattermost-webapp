@@ -1,0 +1,20 @@
+.PanelBody {
+    display: flex;
+    padding: 16px;
+
+    &__right {
+        flex: 1;
+        padding-left: 24px;
+    }
+
+    .file-preview__container {
+        height: auto;
+        flex-wrap: wrap;
+        padding-top: 10px;
+        margin: 0 -5px;
+
+        .file-preview.post-image__column {
+            margin: 1px 5px 5px;
+        }
+    }
+}

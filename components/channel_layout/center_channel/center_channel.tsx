@@ -21,6 +21,15 @@ const LazyGlobalThreads = makeAsyncComponent(
     ),
 );
 
+const LazyDrafts = makeAsyncComponent(
+    React.lazy(() => import('components/drafts')),
+    (
+        <div className='app__content'>
+            <LoadingScreen/>
+        </div>
+    ),
+);
+
 type Props = {
     match: {
         url: string;
@@ -121,6 +130,10 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                                 component={LazyGlobalThreads}
                             />
                         ) : null}
+                        <Route
+                            path='/:team/drafts'
+                            component={LazyDrafts}
+                        />
                         <Redirect to={lastChannelPath}/>
                     </Switch>
                 </div>

@@ -24,6 +24,7 @@ export type PostDraft = {
     uploadsInProgress: string[];
     props?: any;
     caretPosition?: number;
+    createAt: Date;
 };
 
 export type RhsViewState = {

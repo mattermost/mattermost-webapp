@@ -19,6 +19,7 @@ import {isDesktopApp} from 'utils/user_agent';
 import {cmdOrCtrlPressed, localizeMessage} from 'utils/utils';
 
 import ChannelMentionBadge from '../channel_mention_badge';
+import ChannelPencilIcon from '../channel_pencil_icon';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -243,6 +244,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     {labelElement}
                     {customStatus}
                 </div>
+                <ChannelPencilIcon channel={channel}/>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}
                 />

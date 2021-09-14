@@ -159,12 +159,16 @@ type Actions = {
 // Temporarily store draft manually in localStorage since the current version of redux-persist
 // we're on will not save the draft quickly enough on page unload.
 function setDraft(key: string, value: PostDraft) {
+    let updatedValue;
     if (value) {
-        localStorage.setItem(key, JSON.stringify(value));
+        const item = localStorage.getItem(key);
+        const data = item ? JSON.parse(item) : {};
+        updatedValue = {...value, createAt: data.createAt || new Date()};
+        localStorage.setItem(key, JSON.stringify(updatedValue));
     } else {
         localStorage.removeItem(key);
     }
-    return setGlobalItem(key, value);
+    return setGlobalItem(key, updatedValue);
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

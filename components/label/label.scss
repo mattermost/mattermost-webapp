@@ -1,0 +1,30 @@
+.label {
+    padding: 0.2em 0.3em;
+    border-radius: 4px;
+
+    &-danger {
+        background-color: var(--dnd-indicator);
+    }
+
+    &-success {
+        background-color: var(--online-indicator);
+    }
+
+    &-warning {
+        background-color: var(--mention-highlight-bg);
+    }
+
+    &-info {
+        background-color: var(--link-color);
+    }
+
+    &-default {
+        background-color: var(--center-channel-color);
+        color: var(--center-channel-bg);
+    }
+
+    &-primary {
+        background-color: var(--sidedar-header-bg);
+        color: var(--center-channel-color);
+    }
+}

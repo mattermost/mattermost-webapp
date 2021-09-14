@@ -46,12 +46,16 @@ export function clearCommentDraftUploads() {
 // we're on will not save the draft quickly enough on page unload.
 export function updateCommentDraft(rootId: string, draft?: PostDraft | null) {
     const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
+    let updatedDraft = draft;
     if (draft) {
-        localStorage.setItem(key, JSON.stringify(draft));
+        const item = localStorage.getItem(key);
+        const data = item ? JSON.parse(item) : {};
+        updatedDraft = {...draft, createAt: data.createAt || new Date()};
+        localStorage.setItem(key, JSON.stringify(updatedDraft));
     } else {
         localStorage.removeItem(key);
     }
-    return setGlobalItem(key, draft);
+    return setGlobalItem(key, updatedDraft);
 }
 
 export function makeOnMoveHistoryIndex(rootId: string, direction: number) {

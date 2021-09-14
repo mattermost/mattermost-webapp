@@ -1,0 +1,32 @@
+.PanelHeader {
+    display: flex;
+    height: 50px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+    font-size: 12px;
+    line-height: 16px;
+
+    &__right {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+
+        div + div {
+            padding-left: 6px;
+        }
+    }
+
+    &__left {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    &__timestamp {
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+    }
+}
