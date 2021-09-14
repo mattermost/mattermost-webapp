@@ -26,6 +26,24 @@ declare namespace Cypress {
         uiGetProductSwitchButton(): Chainable;
 
         /**
+         * Get product switch menu
+         *
+         * @example
+         *   cy.uiGetProductSwitchMenu().click();
+         */
+        uiGetProductSwitchMenu(): Chainable;
+
+        /**
+         * Open product switch menu
+         *
+         * @param {string} item - menu item ex. System Console, Integrations, etc.
+         *
+         * @example
+         *   cy.uiOpenProductSwitchMenu().click();
+         */
+        uiOpenProductSwitchMenu(item: string): Chainable;
+
+        /**
          * Get set status button
          *
          * @example
@@ -34,21 +52,98 @@ declare namespace Cypress {
         uiGetSetStatusButton(): Chainable;
 
         /**
+         * Get profile header
+         *
+         * @example
+         *   cy.uiGetProfileHeader();
+         */
+        uiGetProfileHeader(): Chainable;
+
+        /**
          * Get status menu container
          *
          * @param {bool} option.exist - Set to false to not verify if the element exists. Otherwise, true (default) to check existence.
          * @example
          *   cy.uiGetStatusMenuContainer({exist: false});
          */
-        uiGetStatusMenuContainer(): Chainable;
+        uiGetStatusMenuContainer(option: Record<string, boolean>): Chainable;
 
         /**
-         * Get status menu
+         * Get user menu
          *
-         * @param {bool} option.visible - Set to false to not verify if the element is visible. Otherwise, true (default) to check visibility.
          * @example
          *   cy.uiGetStatusMenu();
          */
         uiGetStatusMenu(): Chainable;
+
+        /**
+         * Open help menu
+         *
+         * @param {string} item - menu item ex. Ask the community, Help resources, etc.
+         *
+         * @example
+         *   cy.uiOpenHelpMenu();
+         */
+        uiOpenHelpMenu(item: string): Chainable;
+
+        /**
+         * Get help button
+         *
+         * @example
+         *   cy.uiGetHelpButton();
+         */
+        uiGetHelpButton(): Chainable;
+
+        /**
+         * Get help menu
+         *
+         * @example
+         *   cy.uiGetHelpMenu();
+         */
+        uiGetHelpMenu(): Chainable;
+
+        /**
+         * Open user menu
+         *
+         * @param {string} item - menu item ex. Account Settings, Logout, etc.
+         *
+         * @example
+         *   cy.uiOpenUserMenu();
+         */
+        uiOpenUserMenu(option: Record<string, boolean>): Chainable;
+
+        /**
+         * Get at-mention button
+         *
+         * @example
+         *   cy.uiGetAtMentionButton();
+         */
+        uiGetAtMentionButton(): Chainable;
+
+        /**
+         * Get settings button
+         *
+         * @example
+         *   cy.uiGetSettingsButton();
+         */
+        uiGetSettingsButton(): Chainable;
+
+        /**
+         * Open settings modal
+         *
+         * @param {string} section - ex. Display, Sidebar, etc.
+         *
+         * @example
+         *   cy.uiOpenSettingsModal();
+         */
+        uiOpenSettingsModal(section: string): Chainable;
+
+        /**
+         * User log out via user menu
+         *
+         * @example
+         *   cy.uiLogout();
+         */
+        uiLogout(): Chainable;
     }
 }

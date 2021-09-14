@@ -40,7 +40,6 @@ export type Props = {
     teamId: string;
     teamName: string;
     channelsRequestStarted?: boolean;
-    bodyOnly?: boolean; // TODO remove me
     canShowArchivedChannels?: boolean;
     morePublicChannelsModalType?: string;
     actions: Actions;
@@ -84,10 +83,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
 
     handleHide = () => {
         this.setState({show: false});
-
-        if (this.props.bodyOnly) {
-            this.handleExit();
-        }
     }
 
     handleNewChannel = () => {
@@ -183,7 +178,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             archivedChannels,
             teamId,
             channelsRequestStarted,
-            bodyOnly,
         } = this.props;
 
         const {
@@ -253,7 +247,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     handleJoin={this.handleJoin}
                     noResultsText={createChannelHelpText}
                     loading={search ? searching : channelsRequestStarted}
-                    createChannelButton={bodyOnly && createNewChannelButton}
                     toggleArchivedChannels={this.toggleArchivedChannels}
                     shouldShowArchivedChannels={this.state.shouldShowArchivedChannels}
                     canShowArchivedChannels={this.props.canShowArchivedChannels}
@@ -261,10 +254,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 {serverError}
             </React.Fragment>
         );
-
-        if (bodyOnly) {
-            return body;
-        }
 
         return (
             <Modal

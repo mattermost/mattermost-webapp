@@ -53,11 +53,8 @@ describe('Custom emojis', () => {
     });
 
     it('MM-T3668 User cant add custom emoji with the same name as a system one', () => {
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -65,7 +62,7 @@ describe('Custom emojis', () => {
         // # Type emoji name and click on save
         cy.get('#name').type('croissant');
         cy.get('.backstage-form__footer').within(($form) => {
-            cy.findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+            cy.uiSave().wait(TIMEOUTS.FIVE_SEC);
 
             // * Check for error saying that the emoji icon is a system one
             cy.wrap($form).find('.has-error').should('be.visible').and('have.text', 'This name is already in use by a system emoji. Please choose another name.');
@@ -75,11 +72,8 @@ describe('Custom emojis', () => {
     it('MM-T2180 Custom emoji - cancel out of add', () => {
         const {customEmoji} = getCustomEmoji();
 
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -97,7 +91,7 @@ describe('Custom emojis', () => {
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
 
         // # Open emoji picker
-        cy.get('#emojiPickerButton').should('exist').and('be.visible').click();
+        cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
         cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmoji);
@@ -109,11 +103,8 @@ describe('Custom emojis', () => {
     it('MM-T2181 Custom emoji - add large', () => {
         const {customEmojiWithColons} = getCustomEmoji();
 
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -132,7 +123,7 @@ describe('Custom emojis', () => {
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
 
         // # Open emoji picker
-        cy.get('#emojiPickerButton').should('exist').and('be.visible').click();
+        cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
         cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);
@@ -166,11 +157,8 @@ describe('Custom emojis', () => {
     it('MM-T2182 Custom emoji - animated gif', () => {
         const {customEmojiWithColons} = getCustomEmoji();
 
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -201,7 +189,7 @@ describe('Custom emojis', () => {
         cy.postMessage(customEmojiWithColons);
 
         // # Open emoji picker
-        cy.get('#emojiPickerButton').should('exist').and('be.visible').click();
+        cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
         cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);
@@ -214,11 +202,8 @@ describe('Custom emojis', () => {
     it('MM-T2183 Custom emoji - try to add too large', () => {
         const {customEmojiWithColons} = getCustomEmoji();
 
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji
         cy.findByText('Add Custom Emoji').should('be.visible').click();
@@ -233,7 +218,7 @@ describe('Custom emojis', () => {
         cy.get('.add-emoji__filename').should('have.text', tooLargeEmojiFile);
         cy.get('.backstage-form__footer').within(($form) => {
             // # Click on Save
-            cy.findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+            cy.uiSave().wait(TIMEOUTS.FIVE_SEC);
 
             // * Check for error
             cy.wrap($form).find('.has-error').should('be.visible').and('have.text', 'Unable to create emoji. Image must be smaller than 1028 by 1028.');

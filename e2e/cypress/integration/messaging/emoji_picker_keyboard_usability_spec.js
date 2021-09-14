@@ -25,7 +25,7 @@ describe('MM-13064 - Emoji picker keyboard usability', () => {
         cy.visit(townsquareLink);
 
         // # Open emoji picker
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
 
         // # Wait for emoji picker to load
         cy.get('#emojiPicker').should('be.visible');

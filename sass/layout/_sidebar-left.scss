@@ -709,6 +709,7 @@
 
     .SidebarChannelNavigator_inviteMembersLhsButton {
         display: flex;
+        padding: 6px 0;
         margin-left: 15px;
         color: rgba(var(--sidebar-text-rgb), 0.72);
         line-height: 20px;
@@ -895,9 +896,20 @@
     //     }
     // }
 
-    .SidebarChannelGroup.capture .SidebarChannelGroup_content {
-        padding-bottom: 14px;
-        margin-bottom: 0;
+    .SidebarChannelGroup.capture {
+        .SidebarChannelGroup_content {
+            padding-bottom: 14px;
+            margin-bottom: 0;
+
+            &.hasFollowingSibling {
+                padding-bottom: 0;
+            }
+        }
+
+        .followingSibling {
+            padding-bottom: 14px;
+            margin-bottom: 0;
+        }
     }
 
     .SidebarChannelGroupHeader_addButton {
@@ -955,9 +967,27 @@
     .SidebarChannelGroup_content {
         min-height: 2px;
         margin-bottom: 14px;
+
+        &.hasFollowingSibling {
+            margin-bottom: 0;
+        }
+    }
+
+    .followingSibling {
+        min-height: 2px;
+        margin-bottom: 14px;
     }
 
     .SidebarChannelGroup.a11y--active .SidebarChannelGroup_content {
+        padding-bottom: 14px;
+        margin-bottom: 0;
+
+        &.hasFollowingSibling {
+            padding-bottom: 0;
+        }
+    }
+
+    .SidebarChannelGroup.a11y--active .followingSibling {
         padding-bottom: 14px;
         margin-bottom: 0;
     }

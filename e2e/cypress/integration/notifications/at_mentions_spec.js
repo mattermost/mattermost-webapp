@@ -243,10 +243,7 @@ describe('Notifications', () => {
 
 function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}, channel) {
     // Navigate to settings modal
-    cy.toAccountSettingsModal();
-
-    // Select "Notifications"
-    cy.get('#notificationsButton').click();
+    cy.uiOpenSettingsModal();
 
     // Notifications header should be visible
     cy.get('#notificationSettingsTitle').
@@ -280,12 +277,7 @@ function setNotificationSettings(desiredSettings = {first: true, username: true,
     }
 
     // Click “Save” and close modal
-    cy.get('#saveSetting').
-        scrollIntoView().
-        click();
-    cy.get('#accountSettingsHeader > .close').
-        click().
-        should('not.exist');
+    cy.uiSaveAndClose();
 
     // Setup notification spy
     spyNotificationAs('notifySpy', 'granted');

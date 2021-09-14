@@ -205,10 +205,6 @@ export function isTimedDNDEnabled(state: GlobalState): boolean {
     );
 }
 
-export function getInviteMembersButtonLocation(state: GlobalState): string | undefined {
-    return getFeatureFlagValue(state, 'InviteMembersButton');
-}
-
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
 }
