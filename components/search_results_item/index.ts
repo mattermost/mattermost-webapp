@@ -4,11 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {getRhsState} from 'selectors/rhs';
+
 import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getTeam, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -29,6 +31,8 @@ import {getDisplayNameByUser} from 'utils/utils.jsx';
 
 import {General} from 'mattermost-redux/constants';
 
+import {RHSStates} from 'utils/constants.jsx';
+
 import SearchResultsItem from './search_results_item.jsx';
 
 interface OwnProps {
@@ -46,10 +50,17 @@ function mapStateToProps() {
         const user = getUser(state, post.user_id);
         const channel = getChannel(state, post.channel_id) || {delete_at: 0};
         let channelTeamName = '';
+        const memberships = getTeamMemberships(state);
         const isDMorGM = channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL;
-        if (!isDMorGM) {
+        const rhsState = getRhsState(state);
+        if (
+            rhsState !== RHSStates.PIN && // Not show in pinned posts since they are all for the same channel
+            !isDMorGM && // Not show for DM or GMs since they don't belong to a team
+            memberships && Object.values(memberships).length > 1 // Not show if the user only belongs to one team
+        ) {
             channelTeamName = getTeam(state, channel.team_id)?.display_name;
         }
+
         const currentTeam = getCurrentTeam(state);
         const canReply = isDMorGM || (channel.team_id === currentTeam.id);
         const directTeammate = getDirectTeammate(state, channel.id);

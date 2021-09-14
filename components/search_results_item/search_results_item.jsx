@@ -148,7 +148,8 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         this.props.actions.setRhsExpanded(false);
-        browserHistory.push(`/${this.props.channelTeamName}/pl/${this.props.post.id}`);
+        const teamToJumpTo = this.props.channelTeamName || this.props.currentTeamName;
+        browserHistory.push(`/${teamToJumpTo}/pl/${this.props.post.id}`);
     };
 
     handleCardClick = (post) => {
@@ -401,7 +402,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         }
                         {Boolean(channelTeamName) &&
                             <span className='search-team__name'>
-                                {' | ' + channelTeamName}
+                                {channelTeamName}
                             </span>
                         }
                     </div>
