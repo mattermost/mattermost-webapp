@@ -635,6 +635,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         let channelTimezoneCount = 0;
         let mentions: string[] = [];
         const notContainsAtChannel = !containsAtChannel(this.state.message);
+        const containsAtHereMention = notContainsAtChannel && containsAtChannel(this.state.message, {checkAllMentions: true});
         if (this.props.enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
             // Groups mentioned in users text
             const mentionGroups = groupsMentionedInText(this.state.message, groupsWithAllowReference);
@@ -654,9 +655,9 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         if (notificationsToChannel &&
             currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            !notContainsAtChannel) {
+            (!notContainsAtChannel || containsAtHereMention)) {
             memberNotifyCount = currentChannelMembersCount - 1;
-            mentions = ['@all', '@channel'];
+            mentions = notContainsAtChannel ? ['@here'] : ['@all', '@channel'];
             if (this.props.isTimezoneEnabled) {
                 const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
                 channelTimezoneCount = data ? data.length : 0;
@@ -1330,7 +1331,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
         let notifyAllMessage: React.ReactNode = '';
         let notifyAllTitle: React.ReactNode = '';
-        if (mentions.includes('@all') || mentions.includes('@channel')) {
+        if (mentions.includes('@all') || mentions.includes('@channel') || mentions.includes('@here')) {
             notifyAllTitle = (
                 <FormattedMessage
                     id='notify_all.title.confirm'
@@ -1338,10 +1339,14 @@ class CreatePost extends React.PureComponent<Props, State> {
                 />
             );
             if (channelTimezoneCount > 0) {
+                const atHereMsg = 'By using **@here** you are about to send notifications to up to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?';
+                const atAllChannelMsg = 'By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?';
+                const msg = mentions.length === 1 && mentions[0] === '@here' ? atHereMsg : atAllChannelMsg;
+                const msgID = mentions.length === 1 && mentions[0] === '@here' ? t('notify_here.question_timezone') : t('notify_all.question_timezone');
                 notifyAllMessage = (
                     <FormattedMarkdownMessage
-                        id='notify_all.question_timezone'
-                        defaultMessage='By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
+                        id={msgID}
+                        defaultMessage={msg}
                         values={{
                             totalMembers: memberNotifyCount,
                             timezones: channelTimezoneCount,
@@ -1349,10 +1354,14 @@ class CreatePost extends React.PureComponent<Props, State> {
                     />
                 );
             } else {
+                const atHereMsg = 'By using **@here** you are about to send notifications to up to **{totalMembers} people**. Are you sure you want to do this?';
+                const atAllChannelMsg = 'By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people**. Are you sure you want to do this?';
+                const msg = mentions.length === 1 && mentions[0] === '@here' ? atHereMsg : atAllChannelMsg;
+                const msgID = mentions.length === 1 && mentions[0] === '@here' ? t('notify_here.question') : t('notify_all.question');
                 notifyAllMessage = (
                     <FormattedMarkdownMessage
-                        id='notify_all.question'
-                        defaultMessage='By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people**. Are you sure you want to do this?'
+                        id={msgID}
+                        defaultMessage={msg}
                         values={{
                             totalMembers: memberNotifyCount,
                         }}

@@ -575,7 +575,7 @@ describe('components/CreateComment', () => {
             preventDefault = jest.fn();
         });
 
-        ['channel', 'all'].forEach((mention) => {
+        ['channel', 'all', 'here'].forEach((mention) => {
             describe(`should not show Confirm Modal for @${mention} mentions`, () => {
                 it('when channel member count too low', () => {
                     const props = {

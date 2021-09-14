@@ -307,6 +307,27 @@ describe('components/create_post', () => {
         expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
     });
 
+    it('onSubmit test for @here', () => {
+        const wrapper = shallowWithIntl(createPost());
+
+        wrapper.setState({
+            message: 'test @here',
+        });
+
+        const form = wrapper.find('#create_post');
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(true);
+        wrapper.instance().hideNotifyAllModal();
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+
+        wrapper.setProps({
+            currentChannelMembersCount: 2,
+        });
+
+        form.simulate('Submit', {preventDefault: jest.fn()});
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+    });
+
     it('onSubmit test for @all', () => {
         const wrapper = shallowWithIntl(createPost());
 
