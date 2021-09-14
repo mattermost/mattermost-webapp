@@ -10,8 +10,7 @@ import {
 
 export const allowOnlyUserFromSpecificDomain = (domain) => {
     // # Open 'Team Settings' modal
-    cy.get('.sidebar-header-dropdown__icon').click();
-    cy.findByText('Team Settings').should('be.visible').click();
+    cy.uiOpenTeamMenu('Team Settings');
 
     // * Check that the 'Team Settings' modal was opened
     cy.get('#teamSettingsModal').should('exist').within(() => {
@@ -74,7 +73,7 @@ export const signupAndVerifyTutorial = (username, password, teamDisplayName) => 
     cy.get('#createAccountButton').click();
 
     // * Check that the display name of the team the user was invited to is being correctly displayed
-    cy.get('#headerTeamName', {timeout: TIMEOUTS.HALF_MIN}).should('contain.text', teamDisplayName);
+    cy.uiGetLHSHeader().findByText(teamDisplayName);
 
     // * Check that the 'Welcome to: Mattermost' message is visible
     cy.get('#tutorialIntroOne').findByText('Welcome to:').should('be.visible');

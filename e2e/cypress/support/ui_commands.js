@@ -406,10 +406,6 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
     cy.visit(`/${teamURL}`);
 });
 
-Cypress.Commands.add('getCurrentTeamId', () => {
-    return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
-});
-
 Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
     let path;
 
