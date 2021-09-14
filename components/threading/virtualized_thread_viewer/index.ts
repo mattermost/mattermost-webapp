@@ -14,6 +14,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {FakePost} from 'types/store/rhs';
 
+import {getIsMobileView} from 'selectors/views/browser';
 import {makePrepareReplyIdsForThreadViewer, makeGetThreadLastViewedAt} from 'selectors/views/threads';
 
 import {GlobalState} from 'types/store';
@@ -54,6 +55,7 @@ function makeMapStateToProps() {
             lastPost,
             replyListIds,
             teamId: channel.team_id,
+            isMobileView: getIsMobileView(state),
         };
     };
 }
