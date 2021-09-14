@@ -42,16 +42,13 @@ const StyledChip = styled.button<{ otherOption?: boolean }>`
     ${(p) => (p.otherOption ? 'color: rgba(var(--center-channel-color-rgb), 0.72);' : '')}
 
     &:hover {
-        background-color: rgba(var(--center-channel-bg-rgb), 0.16);
-    }
-
-    &:focus {
-        background-color: var(--center-channel-bg);
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
 
     &:active {
-        background-color: rgba(var(--center-channel-bg-rgb), 0.08);
+        background-color: rgba(var(--mention-highlight-link-rgb), 0.08);
     }
+
 `;
 
 export default class Chip extends React.PureComponent<Props> {
