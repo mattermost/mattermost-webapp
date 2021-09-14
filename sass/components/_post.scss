@@ -1059,15 +1059,13 @@
     }
 
     .post-edited__indicator {
+        margin-left: 8px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 11px;
         -webkit-user-select: none; /* Chrome all / Safari all */
         -moz-user-select: none;    /* Firefox all */
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
-
-        color: rgba(var(--center-channel-color-rgb), 0.56);
-
-        margin-left: 8px;
 
         // remove when the icon is replaced
         // @see https://mattermost.atlassian.net/browse/MM-38500
