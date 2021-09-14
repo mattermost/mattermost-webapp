@@ -105,7 +105,7 @@ function makeMapStateToProps() {
             latestReplyablePostId,
             locale: getCurrentLocale(state),
             currentUsersLatestPost: getCurrentUsersLatestPost(state, ''),
-            readOnlyChannel: ownProps.readOnlyChannel || (!isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL),
+            readOnlyChannel: ownProps.readOnlyChannel || (!isCurrentUserSystemAdmin(state) && currentChannel.name === Constants.DEFAULT_CHANNEL),
             canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
             enableGifPicker,

@@ -119,7 +119,6 @@ export type ClientConfig = {
     ExperimentalGroupUnreadChannels: string;
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
-    ExperimentalTownSquareIsReadOnly: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
     GfycatAPIKey: string;
@@ -269,7 +268,6 @@ export type ServiceSettings = {
     EnableIncomingWebhooks: boolean;
     EnableOutgoingWebhooks: boolean;
     EnableCommands: boolean;
-    EnableOnlyAdminIntegrations: boolean;
     EnablePostUsernameOverride: boolean;
     EnablePostIconOverride: boolean;
     EnableLinkPreviews: boolean;
@@ -299,11 +297,8 @@ export type ServiceSettings = {
     EnableCustomEmoji: boolean;
     EnableEmojiPicker: boolean;
     EnableGifPicker: boolean;
-    GfycatAPIKey: string;
-    GfycatAPISecret: string;
-    RestrictCustomEmojiCreation: string;
-    RestrictPostDelete: string;
-    AllowEditPost: string;
+    GfycatApiKey: string;
+    GfycatApiSecret: string;
     PostEditTimeLimit: number;
     TimeBetweenUserTypingUpdatesMilliseconds: number;
     EnablePostSearch: boolean;
@@ -319,12 +314,8 @@ export type ServiceSettings = {
     ExperimentalEnableDefaultChannelLeaveJoinMessages: boolean;
     ExperimentalGroupUnreadChannels: string;
     ExperimentalDataPrefetch: boolean;
-    ImageProxyType: string;
-    ImageProxyURL: string;
-    ImageProxyOptions: string;
     EnableAPITeamDeletion: boolean;
     ExperimentalEnableHardenedMode: boolean;
-    DisableLegacyMFA: boolean;
     ExperimentalStrictCSRFEnforcement: boolean;
     EnableEmailInvitations: boolean;
     DisableBotsWhenOwnerIsDeactivated: boolean;
@@ -339,7 +330,6 @@ export type ServiceSettings = {
 export type TeamSettings = {
     SiteName: string;
     MaxUsersPerTeam: number;
-    EnableTeamCreation: boolean;
     EnableCustomUserStatuses: boolean;
     EnableUserCreation: boolean;
     EnableOpenServer: boolean;
@@ -349,14 +339,6 @@ export type TeamSettings = {
     CustomBrandText: string;
     CustomDescriptionText: string;
     RestrictDirectMessage: string;
-    RestrictTeamInvite: string;
-    RestrictPublicChannelManagement: string;
-    RestrictPrivateChannelManagement: string;
-    RestrictPublicChannelCreation: string;
-    RestrictPrivateChannelCreation: string;
-    RestrictPublicChannelDeletion: string;
-    RestrictPrivateChannelDeletion: string;
-    RestrictPrivateChannelManageMembers: string;
     UserStatusAwayTimeout: number;
     MaxChannelsPerTeam: number;
     MaxNotificationsPerChannel: number;
@@ -364,7 +346,6 @@ export type TeamSettings = {
     TeammateNameDisplay: string;
     ExperimentalViewArchivedChannels: boolean;
     ExperimentalEnableAutomaticReplies: boolean;
-    ExperimentalTownSquareIsReadOnly: boolean;
     LockTeammateNameDisplay: boolean;
     ExperimentalPrimaryTeam: string;
     ExperimentalDefaultChannels: string[];
