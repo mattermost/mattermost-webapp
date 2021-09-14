@@ -487,6 +487,10 @@
         p {
             margin: 0;
         }
+
+        &.last-active__text span {
+            color: rgba(61, 60, 64, 0.72);
+        }
     }
 
     .status {

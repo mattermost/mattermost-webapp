@@ -26,6 +26,7 @@ import {
     getCurrentUser,
     getUser,
     makeGetProfilesInChannel,
+    getLastActivityForUserId,
 } from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
@@ -60,10 +61,12 @@ function makeMapStateToProps() {
         let dmUser;
         let gmMembers;
         let customStatus;
+        let lastActivityTimestamp;
         if (channel && channel.type === General.DM_CHANNEL) {
             const dmUserId = getUserIdFromChannelName(user.id, channel.name);
             dmUser = getUser(state, dmUserId);
             customStatus = dmUser && getCustomStatus(state, dmUser.id);
+            lastActivityTimestamp = dmUser && getLastActivityForUserId(state, dmUser.id);
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
@@ -92,6 +95,7 @@ function makeMapStateToProps() {
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
             globalHeaderEnabled: getGlobalHeaderEnabled(state),
+            lastActivityTimestamp,
         };
     };
 }

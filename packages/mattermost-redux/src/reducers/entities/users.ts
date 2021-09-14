@@ -589,6 +589,38 @@ function filteredStats(state = {}, action: GenericAction) {
     }
 }
 
+function lastActivity(state: RelationOneToOne<UserProfile, string> = {}, action: GenericAction) {
+    switch (action.type) {
+    case UserTypes.RECEIVED_STATUS: {
+        const nextState = Object.assign({}, state);
+        nextState[action.data.user_id] = action.data.last_activity_at;
+
+        return nextState;
+    }
+    case UserTypes.RECEIVED_STATUSES: {
+        const nextState = Object.assign({}, state);
+
+        for (const s of action.data) {
+            nextState[s.user_id] = s.last_activity_at;
+        }
+
+        return nextState;
+    }
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    case UserTypes.PROFILE_NO_LONGER_VISIBLE: {
+        if (state[action.data.user_id]) {
+            const newState = {...state};
+            delete newState[action.data.user_id];
+            return newState;
+        }
+        return state;
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // the current selected user
@@ -635,4 +667,7 @@ export default combineReducers({
 
     // Total user stats after filters have been applied
     filteredStats,
+
+    // object where every key is the user id and has a value with the last activity timestamp 
+    lastActivity,
 });

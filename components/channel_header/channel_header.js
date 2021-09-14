@@ -27,6 +27,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
 import RHSSearchNav from 'components/rhs_search_nav';
+import Timestamp from 'components/timestamp';
 
 import {
     Constants,
@@ -88,6 +89,7 @@ class ChannelHeader extends React.PureComponent {
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         isCustomStatusExpired: PropTypes.bool.isRequired,
+        lastActivityTimestamp: PropTypes.number,
     };
 
     constructor(props) {
@@ -408,6 +410,34 @@ class ChannelHeader extends React.PureComponent {
                     {this.renderCustomStatus()}
                 </span>
             );
+            if (channel.status.toLowerCase() !== "online" && this.props.lastActivityTimestamp) {
+                dmHeaderTextStatus = (
+                    <span className='header-status__text'>
+                        <span className='last-active__text'>
+                            <FormattedMessage
+                                id='channel_header.lastActive'
+                                defaultMessage='Active {timestamp}'
+                                values={{
+                                    timestamp: (
+                                        <Timestamp
+                                            value={this.props.lastActivityTimestamp}
+                                            units={[
+                                                'now',
+                                                'minute',
+                                                'hour',
+                                                'day',
+                                            ]}
+                                            useTime={false}
+                                            day={'numeric'}
+                                        />
+                                    ),
+                                }}
+                            />
+                        </span>
+                        {this.renderCustomStatus()}
+                    </span>
+                );
+            }
         }
 
         let channelFilesIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
