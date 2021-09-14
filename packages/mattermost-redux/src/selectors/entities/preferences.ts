@@ -212,3 +212,7 @@ export function isGroupChannelManuallyVisible(state: GlobalState, channelId: str
 export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButtonTreatments | undefined {
     return getFeatureFlagValue(state, 'AddChannelButton') as AddChannelButtonTreatments | undefined;
 }
+
+export function getTestFlag(state: GlobalState): string | undefined {
+    return getFeatureFlagValue(state, 'TestFlag');
+}

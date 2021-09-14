@@ -12,6 +12,8 @@ import {TutorialSteps} from 'utils/constants';
 import Pluggable from 'plugins/pluggable';
 import {isDesktopApp} from 'utils/user_agent';
 
+import {getTestFlag} from 'mattermost-redux/selectors/entities/preferences';
+
 import GlobalSearchNav from './global_search_nav/global_search_nav';
 import ProductSwitcher from './product_switcher';
 import HistoryButtons from './history_buttons';
@@ -22,8 +24,6 @@ import SettingsButton from './settings_button';
 import SettingsTip from './settings_tip';
 
 import {useCurrentProductId, useIsLoggedIn, useProducts, useShowTutorialStep} from './hooks';
-
-import {getTestFlag} from 'mattermost-redux/selectors/entities/preferences';
 
 import './global_header.scss';
 
@@ -106,9 +106,9 @@ const GlobalHeader = (): JSX.Element | null => {
     return (
         <GlobalHeaderContainer>
             <LeftControls>
-            {
-                Boolean(testFlag) ? 'yipeee!': 'waaah'
-            }
+                {
+                    testFlag ? 'yipeee!' : 'waaah'
+                }
                 <ProductSwitcher/>
                 {isDesktopApp() && <HistoryButtons/>}
             </LeftControls>
