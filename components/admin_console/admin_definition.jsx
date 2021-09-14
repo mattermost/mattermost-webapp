@@ -5183,20 +5183,6 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_PERMISSION,
-                        key: 'ServiceSettings.EnableOnlyAdminIntegrations',
-                        label: t('admin.service.integrationAdmin'),
-                        label_default: 'Restrict managing integrations to Admins:',
-                        help_text: t('admin.service.integrationAdminDesc'),
-                        help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
-                        permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                        isHidden: it.any(
-                            it.not(it.licensed),
-                            it.licensedForSku('starter'),
-                        ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnablePostUsernameOverride',
                         label: t('admin.service.overrideTitle'),
@@ -6072,20 +6058,6 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
                         help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.ExperimentalTownSquareIsReadOnly',
-                        label: t('admin.experimental.experimentalTownSquareIsReadOnly.title'),
-                        label_default: 'Town Square is Read-Only:',
-                        help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
-                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.not(it.licensed),
-                            it.licensedForSku('starter'),
-                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
