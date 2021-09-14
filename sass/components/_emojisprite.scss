@@ -25,6 +25,17 @@
     zoom: 0.35;
 }
 
+.emojisprite-post-menu {
+    width: 66px;
+    max-width: none;
+    height: 66px;
+    background-repeat: no-repeat;
+    border-radius: 4px;
+    cursor: pointer;
+    -moz-transform: scale(0.28);
+    zoom: 0.28;
+}
+
 .emojisprite-loading {
     width: 66px;
     max-width: none;

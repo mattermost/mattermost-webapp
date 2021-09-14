@@ -19,6 +19,7 @@ import DotMenu from 'components/dot_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
+import PostReactionRecent from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
@@ -210,6 +211,19 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        const showRecentlyUsedReactions = !isSystemMessage && hover && !isReadOnly;
+        let showRecentReacions;
+        if (showRecentlyUsedReactions) {
+            showRecentReacions = (
+                <PostReactionRecent
+                    channelId={post.channel_id}
+                    postId={post.id}
+                    teamId={this.props.teamId}
+                    getDotMenuRef={this.getDotMenu}
+                />
+            );
+        }
+
         const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker;
         let postReaction;
         if (showReactionIcon) {
@@ -260,6 +274,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 className={'col post-menu'}
             >
                 {!collapsedThreadsEnabled && dotMenu}
+                {showRecentReacions}
                 {postReaction}
                 {postFlagIcon}
                 {commentIcon}

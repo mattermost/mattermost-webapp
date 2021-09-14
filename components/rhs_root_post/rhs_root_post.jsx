@@ -20,6 +20,7 @@ import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
+import PostReactionRecent from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -235,6 +236,19 @@ export default class RhsRootPost extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
 
+        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived);
+        let showRecentReacions;
+        if (showRecentlyUsedReactions) {
+            showRecentReacions = (
+                <PostReactionRecent
+                    channelId={post.channel_id}
+                    postId={post.id}
+                    teamId={this.props.teamId}
+                    getDotMenuRef={this.getDotMenu}
+                />
+            );
+        }
+
         let postReaction;
         if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
             postReaction = (
@@ -350,6 +364,7 @@ export default class RhsRootPost extends React.PureComponent {
                     className='col post-menu'
                 >
                     {!collapsedThreadsEnabled && dotMenu}
+                    {showRecentReacions}
                     {postReaction}
                     {postFlagIcon}
                     {collapsedThreadsEnabled && dotMenu}
