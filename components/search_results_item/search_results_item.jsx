@@ -148,7 +148,7 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         this.props.actions.setRhsExpanded(false);
-        browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
+        browserHistory.push(`/${this.props.channelTeamName}/pl/${this.props.post.id}`);
     };
 
     handleCardClick = (post) => {
@@ -384,10 +384,12 @@ export default class SearchResultsItem extends React.PureComponent {
                     data-a11y-sort-order={this.props.a11yIndex}
                 >
                     <div
-                        className='search-channel__name'
+                        className='search-channel__name__container'
                         aria-hidden='true'
                     >
-                        {channelName}
+                        <span className='search-channel__name'>
+                            {channelName}
+                        </span>
                         {channelIsArchived &&
                             <span className='search-channel__archived'>
                                 <ArchiveIcon className='icon icon__archive channel-header-archived-icon svg-text-color'/>

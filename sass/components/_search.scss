@@ -238,20 +238,35 @@
             padding-right: 70px;
         }
 
-        .search-channel__name {
+        .search-channel__name__container {
             padding: 16px 0 12px;
+            flex-direction: row;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .search-channel__name {
             font-weight: 600;
+            flex-shrink: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .search-channel__archived {
             float: right;
             opacity: 0.5;
+            flex-shrink: 0;
         }
 
         .search-team__name {
             font-size: 12px;
             font-weight: 400;
             opacity: 0.5;
+            flex-shrink: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .post-pre-header__icons-container {
