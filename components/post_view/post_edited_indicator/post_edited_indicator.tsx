@@ -11,7 +11,7 @@ interface Props {
 }
 
 const PostEditedIndicator = ({postId = null, editedAt = 0}: Props): JSX.Element | null => {
-    return postId && editedAt > 0 ? (
+    return !postId || editedAt === 0 ? null : (
         <span
             id={`postEdited_${postId}`}
             className='post-edited__indicator'
@@ -27,7 +27,7 @@ const PostEditedIndicator = ({postId = null, editedAt = 0}: Props): JSX.Element 
                 defaultMessage='Edited'
             />
         </span>
-    ) : null;
+    );
 };
 
 export default PostEditedIndicator;

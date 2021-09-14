@@ -150,9 +150,10 @@ export default class Markdown extends React.PureComponent<Props> {
             minimumHashtagLength: this.props.minimumHashtagLength,
             managedResourcePaths: this.props.managedResourcePaths,
             editedAt,
+            postId,
         }, this.props.options);
 
-        const htmlFormattedText = formatText(message, options, this.props.emojiMap, postId);
+        const htmlFormattedText = formatText(message, options, this.props.emojiMap);
 
         return messageHtmlToComponent(htmlFormattedText, this.props.isRHS, {
             imageProps: this.props.imageProps,

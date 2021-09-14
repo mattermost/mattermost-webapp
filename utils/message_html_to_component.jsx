@@ -52,7 +52,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         },
         {
             replaceChildren: false,
-            shouldProcessNode: (node) => node.type === 'tag' && node.name === 'span' && node.attribs.id && node.attribs.id === `postEdited_${options.postId}`,
+            shouldProcessNode: (node) => node.type === 'tag' && node.name === 'span' && node.attribs['data-edited-post-id'] && node.attribs['data-edited-post-id'] === options.postId,
             processNode: () => (
                 <PostEditedIndicator
                     key={options.postId}
