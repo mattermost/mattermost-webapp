@@ -144,6 +144,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
+        window.addEventListener('keydown', this.onShortcutKeyDown);
         this.disableCanEditPostByTime();
     }
 
@@ -155,6 +156,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
+        window.removeEventListener('keydown', this.onShortcutKeyDown);
         this.editDisableAction.cancel();
     }
 
@@ -317,12 +319,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
-
-        if (this.state.openUp) {
-            window.addEventListener('keydown', this.onShortcutKeyDown);
-        } else {
-            window.removeEventListener('keydown', this.onShortcutKeyDown);
-        }
 
         return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
