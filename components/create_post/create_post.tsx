@@ -12,6 +12,7 @@ import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
@@ -620,7 +621,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         // so as to not alter behavior in the control group as a result of the A/B test code changes.
         const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER && this.props.prewrittenMessages && this.props.prewrittenMessages !== PrewrittenMessagesTreatments.NONE;
         if (shouldCompleteTip) {
-            this.completePostTip();
+            this.completePostTip('send_message');
         }
     }
 
@@ -1333,7 +1334,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    completePostTip = () => {
+    completePostTip = (source: string) => {
         this.props.actions.savePreferences(
             this.props.currentUserId,
             [{
@@ -1343,6 +1344,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                 value: (Constants.TutorialSteps.POST_POPOVER + 1).toString(),
             }],
         );
+        trackEvent('ui', 'tutorial_tip_1_complete_' + source);
     }
 
     renderPrewrittenMessages() {
@@ -1372,7 +1374,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                         type='button'
                         className='btn-icon'
                         aria-label='Got it'
-                        onClick={this.completePostTip}
+                        onClick={() => this.completePostTip('close_prewritten_wrapper')}
                     >
                         <i className='icon icon-close'/>
                     </button>

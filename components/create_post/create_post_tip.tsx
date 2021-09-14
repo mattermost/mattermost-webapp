@@ -24,13 +24,15 @@ class CreatePostTip extends React.PureComponent<Props> {
     render() {
         let chips;
         if (this.props.prewrittenMessages === PrewrittenMessagesTreatments.TOUR_POINT) {
-            chips = <PrewrittenChips
-                prewrittenMessages={this.props.prewrittenMessages}
-                prefillMessage={this.props.prefillMessage}
-                currentChannel={this.props.currentChannel}
-                currentUserId={this.props.currentUserId}
-                currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
-            />;
+            chips = (
+                <PrewrittenChips
+                    prewrittenMessages={this.props.prewrittenMessages}
+                    prefillMessage={this.props.prefillMessage}
+                    currentChannel={this.props.currentChannel}
+                    currentUserId={this.props.currentUserId}
+                    currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
+                />
+            );
         }
         const screens = [
             <div key='screen'>
