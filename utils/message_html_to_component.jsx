@@ -9,6 +9,7 @@ import LatexBlock from 'components/latex_block';
 import LinkTooltip from 'components/link_tooltip/link_tooltip';
 import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
+import PostEditedIndicator from 'components/post_view/post_edited_indicator/post_edited_indicator';
 
 /*
  * Converts HTML to React components using html-to-react.
@@ -49,6 +50,17 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 return React.createElement('input', {...node.attribs});
             },
         },
+        {
+            replaceChildren: false,
+            shouldProcessNode: (node) => node.type === 'tag' && node.name === 'span' && node.attribs.id && node.attribs.id === `postEdited_${options.postId}`,
+            processNode: () => (
+                <PostEditedIndicator
+                    key={options.postId}
+                    postId={options.postId}
+                    editedAt={options.editedAt}
+                />
+            ),
+        },
     ];
 
     if (options.hasPluginTooltips) {
@@ -68,6 +80,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             },
         });
     }
+
     if (!('mentions' in options) || options.mentions) {
         const mentionHighlight = 'mentionHighlight' in options ? options.mentionHighlight : true;
         const disableGroupHighlight = 'disableGroupHighlight' in options ? options.disableGroupHighlight === true : false;

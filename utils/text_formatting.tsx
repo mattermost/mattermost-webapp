@@ -198,6 +198,7 @@ export function formatText(
     text: string,
     inputOptions: TextFormattingOptions = DEFAULT_OPTIONS,
     emojiMap: EmojiMap,
+    postId = '',
 ): string {
     if (!text) {
         return '';
@@ -260,6 +261,16 @@ export function formatText(
 
     if (htmlEmojiPattern.test(output.trim())) {
         output = `<span class="all-emoji">${output.trim()}</span>`;
+    }
+
+    if (postId) {
+        // unwrap the output from an enclosing p tag and add a span that will serve as a
+        // palceholder for `messageToHtmlComponent` function later on
+        if (output.startsWith('<p>') && output.endsWith('</p>')) {
+            output = `${output.slice(0, -4)}<span id='postEdited_${postId}'>(edited)</span></p>`;
+        } else {
+            output += `<span id='postEdited_${postId}'>(edited)</span>`;
+        }
     }
 
     return output;
