@@ -2888,6 +2888,8 @@
   "date_separator.today": "Today",
   "date_separator.tomorrow": "Tomorrow",
   "date_separator.yesterday": "Yesterday",
+  "datetime.today": "today",
+  "datetime.yesterday": "yesterday",
   "deactivate_member_modal.deactivate": "Deactivate",
   "deactivate_member_modal.desc": "This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\n",
   "deactivate_member_modal.desc.confirm": " Are you sure you want to deactivate {username}?",
