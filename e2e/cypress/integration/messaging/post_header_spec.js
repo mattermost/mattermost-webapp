@@ -20,12 +20,12 @@ describe('Post Header', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     beforeEach(() => {
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('should render permalink view on click of post timestamp at center view', () => {
@@ -42,10 +42,10 @@ describe('Post Header', () => {
             cy.clickPostTime(postId);
 
             // * Check if url include the permalink
-            cy.url().should('include', `/${testTeam.name}/channels/off-topic/${postId}`);
+            cy.url().should('include', `/${testTeam.name}/channels/town-square/${postId}`);
 
             // * Check if url redirects back to parent path eventually
-            cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/channels/off-topic`).and('not.include', `/${postId}`);
+            cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', `/${postId}`);
 
             // * Check that the post is highlighted on permalink view
             cy.get(divPostId).should('be.visible').and('have.class', 'post--highlight');
