@@ -68,7 +68,6 @@ describe('components/MoreChannels', () => {
     };
 
     const baseProps: Props = {
-        category: {} as ChannelCategory,
         channels: [TestHelper.getChannelMock({})],
         archivedChannels: [TestHelper.getChannelMock({
             id: 'channel_id_2',
@@ -188,7 +187,7 @@ describe('components/MoreChannels', () => {
         const callback = jest.fn();
         wrapper.instance().handleJoin(baseProps.channels[0], callback);
         expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledWith(wrapper.instance().props.currentUserId, wrapper.instance().props.teamId, baseProps.channels[0].id);
+        expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledWith(wrapper.instance().props.currentUserId, wrapper.instance().props.teamId, baseProps.channels[0].id, '', undefined);
         process.nextTick(() => {
             expect(wrapper.state('serverError')).toEqual('error message');
             expect(callback).toHaveBeenCalledTimes(1);
@@ -218,13 +217,39 @@ describe('components/MoreChannels', () => {
         const callback = jest.fn();
         wrapper.instance().handleJoin(baseProps.channels[0], callback);
         expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledWith(wrapper.instance().props.currentUserId, wrapper.instance().props.teamId, baseProps.channels[0].id);
+        expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledWith(wrapper.instance().props.currentUserId, wrapper.instance().props.teamId, baseProps.channels[0].id, '', undefined);
         process.nextTick(() => {
             expect(browserHistory.push).toHaveBeenCalledTimes(1);
             expect(callback).toHaveBeenCalledTimes(1);
             expect(wrapper.state('show')).toEqual(false);
             done();
         });
+    });
+
+    test('should join the channel with categoryId when passed', () => {
+        const props = {
+            ...baseProps,
+            category: {
+                id: 'c123',
+            } as ChannelCategory,
+            actions: {
+                ...baseProps.actions,
+                joinChannel: jest.fn().mockImplementation(() => {
+                    const data = true;
+
+                    return Promise.resolve({data});
+                }),
+            },
+        };
+
+        const wrapper = shallow<MoreChannels>(
+            <MoreChannels {...props}/>,
+        );
+
+        const callback = jest.fn();
+        wrapper.instance().handleJoin(baseProps.channels[0], callback);
+        expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledWith(wrapper.instance().props.currentUserId, wrapper.instance().props.teamId, baseProps.channels[0].id, '', 'c123');
     });
 
     test('should not perform a search if term is empty', () => {

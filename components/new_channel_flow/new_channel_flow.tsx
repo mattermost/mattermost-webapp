@@ -32,7 +32,7 @@ export function getChannelTypeFromProps(props: Props): ChannelType {
 
 export type Props = {
 
-    category: ChannelCategory;
+    category?: ChannelCategory;
 
     /**
      * Set to Constants.OPEN_CHANNEL or Constants.PRIVATE_CHANNEL depending on which modal we should show first

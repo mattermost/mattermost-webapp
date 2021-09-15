@@ -35,7 +35,7 @@ type Actions = {
 }
 
 export type Props = {
-    category: ChannelCategory;
+    category?: ChannelCategory;
     channels: Channel[];
     archivedChannels: Channel[];
     currentUserId: string;

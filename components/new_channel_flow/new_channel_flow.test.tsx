@@ -19,7 +19,6 @@ import NewChannelFlow, {
 
 describe('components/NewChannelFlow', () => {
     const baseProps = {
-        category: {} as ChannelCategory,
         actions: {
             createChannel: jest.fn(() => {
                 const data = {
@@ -142,6 +141,24 @@ describe('components/NewChannelFlow', () => {
         });
         wrapper.instance().onSubmit();
         expect(wrapper.instance().props.actions.createChannel).toHaveBeenCalledTimes(1);
+    });
+
+    test('should call createChannel with categoryId when passed', () => {
+        const wrapper = shallow<NewChannelFlow>(
+            <NewChannelFlow
+                category={{
+                    id: 'c123',
+                } as ChannelCategory}
+                {...baseProps}
+            />,
+        );
+
+        wrapper.setState({
+            channelDisplayName: 'example',
+            channelName: 'example',
+        });
+        wrapper.instance().onSubmit();
+        expect(wrapper.instance().props.actions.createChannel).toHaveBeenCalledWith(expect.anything(), undefined, 'c123');
     });
 
     test('call closeModal after successfully creating channel', (done) => {
