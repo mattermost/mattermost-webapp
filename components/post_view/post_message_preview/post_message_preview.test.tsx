@@ -30,7 +30,7 @@ describe('PostMessagePreview', () => {
         previewPost,
         user,
         hasImageProxy: false,
-        enablePostIconOverride: false
+        enablePostIconOverride: false,
     };
 
     test('should render correctly', () => {
@@ -71,7 +71,6 @@ describe('PostMessagePreview', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-
     test('should render bot icon', () => {
         const postProps = {
             override_icon_url: 'https://fakeicon.com/image.jpg',
@@ -84,7 +83,7 @@ describe('PostMessagePreview', () => {
                 ...baseProps.previewPost,
                 props: postProps,
             },
-            enablePostIconOverride: true
+            enablePostIconOverride: true,
         };
         const wrapper = shallow(
             <PostMessagePreview
