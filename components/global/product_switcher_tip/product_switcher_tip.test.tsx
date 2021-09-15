@@ -20,9 +20,9 @@ function makeProduct(name: string): ProductComponent {
         switcherText: name,
         baseURL: '',
         switcherLinkURL: '',
-        mainComponent: null,
-        headerCentreComponent: null,
-        headerRightComponent: null,
+        mainComponent: jest.fn(),
+        headerCentreComponent: jest.fn(),
+        headerRightComponent: jest.fn(),
     };
 }
 
