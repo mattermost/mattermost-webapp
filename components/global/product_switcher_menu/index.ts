@@ -6,16 +6,12 @@ import {connect} from 'react-redux';
 import {
     getConfig,
     getFirstAdminVisitMarketplaceStatus,
-    getLicense,
 } from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {GlobalState} from 'types/store/index';
-
-import {TrialPeriodDays} from 'utils/constants';
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
 
 import ProductSwitcherMenu from './product_switcher_menu';
 
@@ -34,13 +30,6 @@ function mapStateToProps(state: GlobalState) {
     const canManageTeamIntegrations = (haveICurrentTeamPermission(state, Permissions.MANAGE_SLASH_COMMANDS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OAUTH) || haveICurrentTeamPermission(state, Permissions.MANAGE_INCOMING_WEBHOOKS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OUTGOING_WEBHOOKS));
     const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
     const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
-    const subscription = state.entities.cloud.subscription;
-    const isFreeTrial = subscription?.is_free_trial === 'true';
-    let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-        daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
-    }
-    const isCloud = getLicense(state).Cloud === 'true';
 
     return {
         isMobile: state.views.channel.mobileView,
@@ -58,9 +47,6 @@ function mapStateToProps(state: GlobalState) {
         teamName: currentTeam.name,
         currentUser,
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
-        isCloud,
-        isFreeTrial,
-        daysLeftOnTrial,
     };
 }
 
