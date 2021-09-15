@@ -44,8 +44,8 @@ describe('Auto Response In DMs', () => {
         // # Visit off topic channel
         cy.visit(offTopicChannelUrl);
 
-        // # Open 'Account Settings' modal and view 'Notifications'
-        cy.uiOpenAccountSettingsModal('Notifications').within(() => {
+        // # Open 'Settings' modal and view 'Notifications'
+        cy.uiOpenSettingsModal('Notifications').within(() => {
             // # Click on 'Edit' for 'Automatic Direct Message Replies
             cy.get('#auto-responderEdit').should('be.visible').click();
 

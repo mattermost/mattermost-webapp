@@ -124,9 +124,9 @@ describe('System Console > Site Statistics', () => {
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
 
-            // # Login as admin and set the langauge to french
+            // # Login as admin and set the language to french
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
             cy.uiOpenSettingsModal('Display').then(() => {
                 cy.findByText('Language').click();
                 cy.get('#displayLanguage').click();

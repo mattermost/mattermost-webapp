@@ -76,8 +76,8 @@ describe('Archived channels', () => {
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             cy.uiArchiveChannel();
 
-            // # Visit Town Square
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            // # Visit off-topic
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Make a post linking to the archived channel
             const linkText = `link ${getRandomId()}`;
@@ -92,8 +92,8 @@ describe('Archived channels', () => {
             // # Log out and back in as the test user
             cy.apiLogin(testUser);
 
-            // # Visit Town Square
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            // # Visit off-topic
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // * Verify that we've logged in as the test user
             verifyUsername(testUser.username);
