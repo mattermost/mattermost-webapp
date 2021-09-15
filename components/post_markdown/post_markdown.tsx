@@ -59,7 +59,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
     };
 
     getOptions = memoize(
-        (disableGroupHighlight: boolean, options?: TextFormattingOptions, mentionHighlight?: boolean, editedAt?: number) => {
+        (options?: TextFormattingOptions, disableGroupHighlight?: boolean, mentionHighlight?: boolean, editedAt?: number) => {
             return {
                 ...options,
                 disableGroupHighlight,
@@ -95,8 +95,8 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         }
 
         const options = this.getOptions(
-            post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
             this.props.options,
+            post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
             mentionHighlight,
             post?.edit_at,
         );
@@ -111,9 +111,9 @@ export default class PostMarkdown extends React.PureComponent<Props> {
                 options={options}
                 channelNamesMap={channelNamesMap}
                 hasPluginTooltips={this.props.hasPluginTooltips}
-                imagesMetadata={this.props.post && this.props.post.metadata && this.props.post.metadata.images}
-                postId={this.props.post && this.props.post.id}
-                editedAt={this.props.post && this.props.post.edit_at}
+                imagesMetadata={this.props.post?.metadata?.images}
+                postId={this.props.post?.id}
+                editedAt={this.props.post?.edit_at}
             />
         );
     }
