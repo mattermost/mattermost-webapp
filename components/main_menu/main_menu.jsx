@@ -315,6 +315,15 @@ class MainMenu extends React.PureComponent {
                     </Menu.Group>
                 }
                 <Menu.Group>
+                    <SystemPermissionGate
+                        permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
+                    >
+                        <Menu.StartTrial
+                            id='startTrial'
+                        />
+                    </SystemPermissionGate>
+                </Menu.Group>
+                <Menu.Group>
                     <Menu.ItemAction
                         id='recentMentions'
                         show={this.props.mobile}
@@ -329,15 +338,6 @@ class MainMenu extends React.PureComponent {
                         icon={this.props.mobile && <i className='fa fa-bookmark'/>}
                         text={formatMessage({id: 'sidebar_right_menu.flagged', defaultMessage: 'Saved Posts'})}
                     />
-                </Menu.Group>
-                <Menu.Group>
-                    <SystemPermissionGate
-                        permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
-                    >
-                        <Menu.StartTrial
-                            id='startTrial'
-                        />
-                    </SystemPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemToggleModalRedux
