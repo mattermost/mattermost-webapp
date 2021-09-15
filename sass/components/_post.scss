@@ -1067,12 +1067,6 @@
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
 
-        // remove when the icon is replaced
-        // @see https://mattermost.atlassian.net/browse/MM-38500
-        > i::before {
-            direction: rtl;
-        }
-
         > span {
             font-style: italic;
         }
