@@ -71,7 +71,6 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -163,7 +162,6 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={true}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -256,7 +254,6 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={3}
@@ -353,7 +350,6 @@ exports[`components/FilePreviewModal should match snapshot on onModalShown and o
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={3}
@@ -450,7 +446,6 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -548,7 +543,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -645,7 +639,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -742,7 +735,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -840,7 +832,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -937,7 +928,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -1034,7 +1024,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={3}
@@ -1131,7 +1120,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -1228,7 +1216,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -1325,7 +1312,6 @@ exports[`components/FilePreviewModal should match snapshot, loading 1`] = `
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
@@ -1418,7 +1404,6 @@ exports[`components/FilePreviewModal should match snapshot, modal not shown 1`] 
             handleNext={[Function]}
             handlePrev={[Function]}
             isExternalFile={false}
-            isMobile={false}
             post={Object {}}
             showPublicLink={true}
             totalFiles={1}
