@@ -350,5 +350,18 @@ declare namespace Cypress {
          *   cy.apiUpdateUserAuth('user-id', 'auth-data', 'password', 'auth-service');
          */
         apiUpdateUserAuth(userId: string, authData: string, password: string, authService: string): Chainable<Response>;
+
+        /**
+         * Get total count of users in the system
+         * See https://api.mattermost.com/#operation/GetTotalUsersStats
+         *
+         * @returns {number} - total count of all users
+         *
+         * @example
+         *   cy.apiGetTotalUsers().then(() => {
+         *      // do something with total users
+         *   });
+         */
+        apiGetTotalUsers(): Chainable<number>;
     }
 }

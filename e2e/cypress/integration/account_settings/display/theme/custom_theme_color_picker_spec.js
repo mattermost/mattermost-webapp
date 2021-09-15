@@ -14,9 +14,9 @@ import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
 describe('Account Settings', () => {
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 

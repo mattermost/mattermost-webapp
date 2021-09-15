@@ -14,6 +14,7 @@ import {getRandomId} from '../../utils';
 
 describe('Leave an archived channel', () => {
     let testTeam;
+    let offTopicUrl;
 
     before(() => {
         cy.apiUpdateConfig({
@@ -22,11 +23,11 @@ describe('Leave an archived channel', () => {
             },
         });
 
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({team, offTopicUrl: url}) => {
             testTeam = team;
-
-            cy.visit(`/${team.name}/channels/town-square`);
+            offTopicUrl = url;
+            cy.visit(offTopicUrl);
 
             // # Post a message to the channel
             cy.postMessage('hello');
@@ -49,7 +50,7 @@ describe('Leave an archived channel', () => {
         cy.uiArchiveChannel();
 
         // # Switch away from the archived channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         // # Make a post outside of the archived channel
         const otherPostText = `post${getRandomId()}`;

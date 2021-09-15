@@ -33,7 +33,7 @@ describe('Integrations', () => {
     });
 
     beforeEach(() => {
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_off-topic').click();
         cy.get('#post_textbox').should('be.visible');
     });
 

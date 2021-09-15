@@ -12,9 +12,9 @@
 
 describe('Account Settings -> Security -> Password', () => {
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
 
             // # Go to Account Settings
             cy.uiOpenAccountSettingsModal('Security');

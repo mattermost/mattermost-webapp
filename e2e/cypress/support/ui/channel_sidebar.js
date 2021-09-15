@@ -2,18 +2,20 @@
 // See LICENSE.txt for license information.
 
 import {getRandomId} from '../../utils';
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 Cypress.Commands.add('uiCreateSidebarCategory', (categoryName = `category-${getRandomId()}`) => {
     // # Click the New Category/Channel Dropdown button
-    cy.get('.AddChannelDropdown_dropdownButton').click();
+    cy.uiGetLHSAddChannelButton().click();
 
     // # Click the Create New Category dropdown item
-    cy.get('.AddChannelDropdown').contains('.MenuItem', 'Create New Category').click();
+    cy.get('.AddChannelDropdown').should('be.visible').contains('.MenuItem', 'Create New Category').click();
 
-    // # Fill in the category name and click Create
-    cy.get('input[placeholder="Name your category"]').type(categoryName);
-    cy.contains('button', 'Create').click().wait(TIMEOUTS.TWO_SEC);
+    cy.findByRole('dialog', {name: 'Create New Category'}).should('be.visible').within(() => {
+        // # Fill in the category name and click 'Create'
+        cy.findByRole('textbox').should('be.visible').type(categoryName, {force: true}).
+            invoke('val').should('equal', categoryName);
+        cy.findByRole('button', {name: 'Create'}).should('be.enabled').click();
+    });
 
     // * Wait for the category to appear in the sidebar
     cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false});
@@ -29,9 +31,12 @@ Cypress.Commands.add('uiMoveChannelToCategory', (channelName, categoryName = `ca
         click({force: true});
 
     if (newCategory) {
-        // # Fill in the category name and click Create
-        cy.get('input[placeholder="Name your category"]').type(categoryName);
-        cy.contains('button', 'Create').click();
+        cy.findByRole('dialog', {name: 'Create New Category'}).should('be.visible').within(() => {
+            // # Fill in the category name and click 'Create'
+            cy.findByRole('textbox').should('be.visible').type(categoryName, {force: true}).
+                invoke('val').should('equal', categoryName);
+            cy.findByRole('button', {name: 'Create'}).should('be.enabled').click();
+        });
     }
 
     // * Wait for the channel to appear in the category

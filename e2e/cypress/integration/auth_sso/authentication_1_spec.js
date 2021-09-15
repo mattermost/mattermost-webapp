@@ -80,17 +80,10 @@ describe('Authentication', () => {
             },
         }).then(() => {
             cy.apiLogin(testUserAlreadyInTeam);
-
             cy.visit('/');
 
-            // * Verify the side bar is visible
-            cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-            // # Click on the side bar
-            cy.get('#sidebarHeaderDropdownButton').click();
-
-            // * Verify Account Settings button is visible and exist and then click on it
-            cy.findByText('Account Settings', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+            // # Open Account Settings
+            cy.uiOpenAccountSettingsModal();
 
             // # Click "Edit" to the right of "Email"
             cy.get('#emailEdit').should('be.visible').click();
@@ -188,10 +181,7 @@ describe('Authentication', () => {
                 EnableOpenServer: true,
             },
             GitLabSettings: {
-                DiscoveryEndpoint: '',
                 Enable: true,
-                TokenEndpoint: '',
-                UserApiEndpoint: '',
             },
         }).then(() => {
             cy.apiLogout();

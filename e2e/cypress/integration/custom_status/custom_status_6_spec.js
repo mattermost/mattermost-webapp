@@ -15,8 +15,8 @@ describe('Custom Status - Slash Commands', () => {
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
 
         // # Login as test user and visit channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            cy.visit(channelUrl);
         });
     });
 
@@ -30,7 +30,9 @@ describe('Custom Status - Slash Commands', () => {
         cy.postMessage(`/status :${customStatus.emoji}: ${customStatus.text}`);
 
         // * Check if custom status is successfully set by checking the emoji in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', customStatus.emoji);
 
         // * Check if the last system message tells that the custom status is set and contains the custom status emoji and text
         cy.get('.post.post--system').last().
@@ -44,7 +46,9 @@ describe('Custom Status - Slash Commands', () => {
         cy.postMessage('/status clear');
 
         // * Check if custom status is successfully cleared by checking the emoji in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').should('not.exist');
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('not.exist');
 
         // * Check if the last system message tells that the status is cleared
         cy.get('.post.post--system').last().should('contain.text', 'Your status was cleared.');
