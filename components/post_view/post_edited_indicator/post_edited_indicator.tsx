@@ -10,11 +10,11 @@ import {isSameDay, isWithinLastWeek, isYesterday} from '../../../utils/datetime'
 import OverlayTrigger from '../../overlay_trigger';
 
 interface Props {
-    postId?: string | null;
+    postId?: string;
     editedAt?: number;
 }
 
-const PostEditedIndicator = ({postId = null, editedAt = 0}: Props): JSX.Element | null => {
+const PostEditedIndicator = ({postId, editedAt = 0}: Props): JSX.Element | null => {
     if (!postId || editedAt === 0) {
         return null;
     }
