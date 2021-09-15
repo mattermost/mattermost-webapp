@@ -1856,7 +1856,7 @@
             display: -webkit-box;
             overflow: hidden;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 5;
+            -webkit-line-clamp: 4;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
@@ -1864,7 +1864,6 @@
         .post-preview-collapse__show-more-button {
             padding: 0;
             border: none;
-            margin-top: 10px;
             background: none;
             font-size: 12px;
         }
