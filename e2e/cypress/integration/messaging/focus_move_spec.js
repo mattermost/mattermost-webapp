@@ -71,9 +71,7 @@ describe('Messaging', () => {
         cy.postMessage('Hello');
 
         // # Click the save icon to move focus out of the main input box
-        cy.get('#channelHeaderFlagButton').
-            click().
-            should('have.class', 'channel-header__icon channel-header__icon--active');
+        cy.uiGetSavedPostButton().click();
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Push a character key such as "A"
@@ -82,9 +80,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').should('be.focused');
 
         // # Click the @-mention icon to move focus out of the main input box
-        cy.get('#channelHeaderMentionButton').
-            click().
-            should('have.class', 'channel-header__icon channel-header__icon--active');
+        cy.uiGetRecentMentionButton().click();
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Push a character key such as "B"
@@ -161,9 +157,7 @@ describe('Messaging', () => {
         cy.postMessage('Hello');
 
         // # Click the save icon to move focus out of the main input box
-        cy.get('#channelHeaderFlagButton').
-            click().
-            should('have.class', 'channel-header__icon channel-header__icon--active');
+        cy.uiGetSavedPostButton().click();
         cy.get('#post_textbox').should('not.be.focused');
 
         // Keycodes for keys that don't have a special character sequence for cypress.type()

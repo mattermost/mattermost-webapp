@@ -124,7 +124,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
             cy.postMessage(text);
 
             // # Click on the @ button
-            cy.uiGetAtMentionButton().should('be.visible').click();
+            cy.uiGetRecentMentionButton().should('be.visible').click();
 
             // * Ensure that the user's name is in the search box after clicking on the @ button
             cy.get('#searchBox').should('be.visible').and('have.value', `@${newTempUserName} `);
