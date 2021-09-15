@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import fileOverlayImage from 'images/filesOverlay.png';
 import overlayLogoImage from 'images/logoWhite.png';
@@ -19,6 +19,8 @@ const FileUploadOverlay: React.FC<Props> = (props: Props) => {
         overlayClass += ' center-file-overlay';
     }
 
+    const {formatMessage} = useIntl();
+
     return (
         <div className={overlayClass}>
             <div className='overlay__indent'>
@@ -29,17 +31,10 @@ const FileUploadOverlay: React.FC<Props> = (props: Props) => {
                         alt='Files'
                     />
                     <span>
-                        <FormattedMessage
-                            id='generic_icons.upload'
-                            defaultMessage='Upload Icon'
-                        >
-                            {(title) => (
-                                <i
-                                    className='fa fa-upload'
-                                    title={title as string}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <i
+                            className='fa fa-upload'
+                            title={formatMessage({id: 'generic_icons.upload', defaultMessage: 'Upload Icon'})}
+                        />
                         <FormattedMessage
                             id='upload_overlay.info'
                             defaultMessage='Drop a file to upload it.'
