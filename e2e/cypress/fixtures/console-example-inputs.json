@@ -365,13 +365,8 @@
         ]
     },
     {
-        "section": "compliance.data_retention_old",
-        "disabledInputs": [
-            {
-                "path": "/admin_console/compliance/data_retention",
-                "selector": "deletionJobStartTimeinput"
-            }
-        ]
+        "section": "compliance.data_retention",
+        "disabledInputs": []
     },
     {
         "section": "compliance.message_export",

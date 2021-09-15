@@ -40,8 +40,9 @@ describe('Account Settings - Clock Display Mode', () => {
 
             // # Open RHS and post two consecutive replies
             cy.clickPostCommentIcon();
-            cy.postMessageReplyInRHS(replyMessage1);
-            cy.postMessageReplyInRHS(replyMessage2);
+            [replyMessage1, replyMessage2].forEach((message) => {
+                cy.postMessageReplyInRHS(message);
+            });
         });
     });
 
@@ -99,23 +100,31 @@ describe('Account Settings - Clock Display Mode', () => {
             cy.postMessageAs({sender: user, message: 'Hello from Jan 5, 2:37pm', channelId: testChannel.id, createAt: futureDate});
 
             // * Message posted shows timestamp in 24-hour format, e.g. 14:37
-            cy.getLastPost().find('time').should('contain', '14:37').and('have.attr', 'datetime', `${nextYear}-01-05T14:37:00.000Z`);
+            cy.getLastPost().
+                find('time').
+                should('contain', '14:37').
+                and('have.attr', 'datetime', `${nextYear}-01-05T14:37:00.000Z`);
         });
     });
 });
 
 function navigateToClockDisplaySettings() {
-    // # Go to Account Settings
-    cy.toAccountSettingsModal();
+    // # Go to Settings modal - Display section
+    cy.uiOpenSettingsModal('Display');
 
     // # Click the display tab
     cy.get('#displayButton').should('be.visible').click();
 
     // # Click "Edit" to the right of "Clock Display"
-    cy.get('#clockEdit').should('be.visible').click();
+    cy.get('#clockEdit').
+        scrollIntoView().
+        should('be.visible').
+        click();
 
     // # Scroll a bit to show the "Save" button
-    cy.get('.section-max').should('be.visible').scrollIntoView();
+    cy.get('.section-max').
+        should('be.visible').
+        scrollIntoView();
 }
 
 function setClockDisplayTo(clockFormat) {
@@ -123,10 +132,13 @@ function setClockDisplayTo(clockFormat) {
     navigateToClockDisplaySettings();
 
     // # Click the radio button and verify checked
-    cy.get(`#${clockFormat}`).should('be.visible').click({force: true}).should('be.checked');
+    cy.get(`#${clockFormat}`).
+        should('be.visible').
+        click({force: true}).
+        should('be.checked');
 
     // # Click Save button
-    cy.get('#saveSetting').should('be.visible').click();
+    cy.uiSave();
 
     // * Verify clock description
     if (clockFormat === 'clockFormatA') {
@@ -136,7 +148,7 @@ function setClockDisplayTo(clockFormat) {
     }
 
     // # Close Account Settings modal
-    cy.get('#accountSettingsHeader > .close').should('be.visible').click();
+    cy.uiClose();
 }
 
 function setClockDisplayTo12Hour() {
@@ -166,28 +178,28 @@ function verifyClockFormatIs24Hour(isVisible) {
 
 function verifyClockFormatIs12HourForPostWithMessage(postId, message, isVisible) {
     // * Verify clock format is 12-hour in center channel within the post
-    cy.get(`#post_${postId}`).within(($postEl) => {
-        cy.wrap($postEl).find('.post-message__text').should('have.text', message);
+    cy.get(`#post_${postId}`).within(() => {
+        cy.get('.post-message__text').should('have.text', message);
         verifyClockFormatIs12Hour(isVisible);
     });
 
     // * Verify clock format is 12-hour in RHS within the RHS post
-    cy.get(`#rhsPost_${postId}`).within(($rhsPostEl) => {
-        cy.wrap($rhsPostEl).find('.post-message__text').should('have.text', message);
+    cy.get(`#rhsPost_${postId}`).within(() => {
+        cy.get('.post-message__text').should('have.text', message);
         verifyClockFormatIs12Hour(isVisible);
     });
 }
 
 function verifyClockFormatIs24HourForPostWithMessage(postId, message, isVisible) {
     // * Verify clock format is 24-hour in center channel within the post
-    cy.get(`#post_${postId}`).within(($postEl) => {
-        cy.wrap($postEl).find('.post-message__text').should('have.text', message);
+    cy.get(`#post_${postId}`).within(() => {
+        cy.get('.post-message__text').should('have.text', message);
         verifyClockFormatIs24Hour(isVisible);
     });
 
     // * Verify clock format is 24-hour in RHS within the RHS post
-    cy.get(`#rhsPost_${postId}`).within(($rhsPostEl) => {
-        cy.wrap($rhsPostEl).find('.post-message__text').should('have.text', message);
+    cy.get(`#rhsPost_${postId}`).within(() => {
+        cy.get('.post-message__text').should('have.text', message);
         verifyClockFormatIs24Hour(isVisible);
     });
 }

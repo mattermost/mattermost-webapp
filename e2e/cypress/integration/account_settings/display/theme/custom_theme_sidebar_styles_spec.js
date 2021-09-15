@@ -21,12 +21,10 @@ describe('Custom Theme - Sidebar Styles', () => {
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # Go to Theme > Custom > Sidebar Styles
-            cy.uiOpenAccountSettingsModal('Display').within(() => {
-                cy.uiGetHeading('Display Settings').scrollIntoView().should('be.visible');
-                cy.uiGetHeading('Theme').scrollIntoView().should('be.visible').click();
-                cy.uiGetRadioButton('Custom Theme').click();
-                cy.findByText('Sidebar Styles').scrollIntoView().should('be.visible').click({force: true});
-            });
+            cy.uiOpenSettingsModal('Display');
+            cy.get('#themeTitle').scrollIntoView().click();
+            cy.uiGetRadioButton('Custom Theme').click();
+            cy.findByText('Sidebar Styles').scrollIntoView().click({force: true});
         });
     });
 
@@ -73,7 +71,7 @@ describe('Custom Theme - Sidebar Styles', () => {
 
         // * Check Sidebar Text color change
         const rgbArr = themeRgbColor.sidebarText;
-        cy.get('#generalButton').should('have.css', 'color', `rgba(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]}, 0.6)`);
+        cy.get('#displayButton').should('have.css', 'color', `rgba(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]}, 0.6)`);
 
         // * Check Sidebar Header BG color change
         cy.get('#accountSettingsHeader').should('have.css', 'background', `${rgbArrayToString(themeRgbColor.sidebarHeaderBg)} none repeat scroll 0% 0% / auto padding-box border-box`);
@@ -81,8 +79,7 @@ describe('Custom Theme - Sidebar Styles', () => {
         // * Check Sidebar Header Text color change
         cy.get('#accountSettingsModalLabel').should('have.css', 'color', rgbArrayToString(themeRgbColor.sidebarHeaderTextColor));
 
-        cy.get('#saveSetting').click({force: true});
-        cy.get('#accountSettingsHeader > .close').click();
+        cy.uiSaveAndClose();
     });
 
     it('MM-T3853_3 Should take effect each custom color in Channel View', () => {
@@ -96,18 +93,18 @@ describe('Custom Theme - Sidebar Styles', () => {
         cy.uiOpenSetStatusMenu('Online');
 
         // * Check Online Indicator color
-        cy.get('.online--icon').should('have.css', 'fill', rgbArrayToString(themeRgbColor.onlineIndicator));
+        cy.get('.icon-check-circle').should('have.css', 'color', rgbArrayToString(themeRgbColor.onlineIndicator));
 
         // # Set user status to away
-        cy.uiCloseMainMenu().uiOpenSetStatusMenu('Away');
+        cy.uiOpenSetStatusMenu('Away');
 
         // * Check Away Indicator color
-        cy.get('.away--icon').should('have.css', 'fill', rgbArrayToString(themeRgbColor.awayIndicator));
+        cy.get('.icon-clock').should('have.css', 'color', rgbArrayToString(themeRgbColor.awayIndicator));
 
         // # Set user status to do not disturb
         cy.uiOpenDndStatusSubMenu().find('#dndTime-30mins_menuitem').click();
 
         // * Check Do Not Disturb Indicator color
-        cy.get('.dnd--icon').should('have.css', 'fill', rgbArrayToString(themeRgbColor.dndIndicator));
+        cy.get('.icon-minus-circle').should('have.css', 'color', rgbArrayToString(themeRgbColor.dndIndicator));
     });
 });

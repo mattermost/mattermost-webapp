@@ -21,8 +21,8 @@ describe('Account Settings - Save Theme', () => {
     });
 
     it('MM-T2090 Theme Colors: New theme color is saved', () => {
-        // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        // # Go to Settings modal - Display section
+        cy.uiOpenSettingsModal('Display');
 
         // # Go to Theme settings tab
         cy.get('#displayButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
@@ -31,13 +31,12 @@ describe('Account Settings - Save Theme', () => {
         // # Change to dark theme
         cy.get('#premadeThemeIndigo').should('not.have.class', 'active').click();
         cy.get('#premadeThemeIndigo').should('have.class', 'active');
-        cy.get('#saveSetting').click({force: true});
 
-        // # Close Account Settings modal
-        cy.get('#accountSettingsHeader > .close').click();
+        // # Save and close the Settings modal
+        cy.uiSaveAndClose();
 
-        // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        // # Go to Settings modal - Display section
+        cy.uiOpenSettingsModal('Display');
 
         // # Go to Theme settings tab
         cy.get('#displayButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();

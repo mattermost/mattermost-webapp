@@ -17,17 +17,19 @@ import {getRandomId} from '../../utils';
 describe('Channel sidebar', () => {
     const sysadmin = getAdminAccount();
 
+    let teamName;
+
     before(() => {
         cy.apiInitSetup({loginAfter: true});
     });
 
     beforeEach(() => {
         // # Start with a new team
-        const teamName = `team-${getRandomId()}`;
+        teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
-        cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
         cy.url().should('include', `/${teamName}/channels/town-square`);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
@@ -64,8 +66,8 @@ describe('Channel sidebar', () => {
 
     it('should collapse channels that are not unread channels', () => {
         // Create a new channel and post a message into it
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then(({channel}) => {
+        cy.apiGetTeamByName(teamName).then(({team}) => {
+            cy.apiCreateChannel(team.id, 'channel-test', 'Channel Test').then(({channel}) => {
                 cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: channel.id});
 
                 // Force a reload to ensure the unread message displays
@@ -133,8 +135,8 @@ describe('Channel sidebar', () => {
     });
 
     it('should retain the collapsed state of categories when unread filter is enabled/disabled', () => {
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then(({channel}) => {
+        cy.apiGetTeamByName(teamName).then(({team}) => {
+            cy.apiCreateChannel(team.id, 'channel-test', 'Channel Test').then(({channel}) => {
                 cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: channel.id});
 
                 // * Verify that CHANNELS starts expanded

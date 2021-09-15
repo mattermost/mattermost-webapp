@@ -51,6 +51,7 @@ describe('Integrations', () => {
         cy.postMessage(`/me ${message}`);
 
         // * Verify a message is posted
+        cy.uiWaitUntilMessagePostedIncludes(message);
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', testUser.username);
             cy.get(`#postMessageText_${postId}`).should('have.text', message);
@@ -83,14 +84,12 @@ describe('Integrations', () => {
         cy.clickPostCommentIcon();
 
         cy.getLastPostId().then((postId) => {
-            // * Verify the message, both in RHS and center, is from current user and formatted with full opacity
+            // * Verify the message, both in RHS and center, is from current user
+            // and formatted with full opacity
             [`#rhsPost_${postId}`, `#post_${postId}`].forEach((selector) => {
-                cy.get(selector).should('have.class', 'current--user').within((el) => {
-                    cy.get('.profile-icon').should('be.visible');
-                    cy.get('.post__header').should('be.visible').
-                        findByLabelText(testUser.username).should('be.visible');
-                    cy.get('.post__header').should('be.visible').and('contain', testUser.username);
-                    cy.wrap(el).findByText(rootMessage).should('be.visible').and('have.css', 'color', 'rgb(63, 67, 80)');
+                cy.get(selector).should('have.class', 'current--user').within(() => {
+                    cy.get('.post__header').findByText(testUser.username);
+                    cy.get('.post-message__text').findByText(rootMessage).should('have.css', 'color', 'rgb(63, 67, 80)');
                 });
             });
         });
@@ -103,9 +102,9 @@ describe('Integrations', () => {
         cy.getLastPostId().then((postId) => {
             // * Verify the message reply, both in RHS and center, is from current user and formatted with lower opacity
             [`#rhsPost_${postId}`, `#post_${postId}`].forEach((selector, index) => {
-                cy.get(selector).should('have.class', 'current--user').within((el) => {
+                cy.get(selector).should('have.class', 'current--user').within(() => {
                     cy.get('.profile-icon').should(index === 0 ? 'not.exist' : 'not.be.visible');
-                    cy.wrap(el).findByText(message).should('be.visible').and('have.css', 'color', 'rgba(63, 67, 80, 0.6)');
+                    cy.get('.post-message__text').findByText(message).should('have.css', 'color', 'rgba(63, 67, 80, 0.6)');
                 });
             });
         });
@@ -151,7 +150,7 @@ describe('Integrations', () => {
 
     it('MM-T686 /logout', () => {
         // # Type "/logout"
-        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('/logout{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('/logout {enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Ensure that the user was redirected to the login page
         cy.url().should('include', '/login');
