@@ -292,6 +292,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.handleEditMenuItemActivated();
             break;
 
+        case Utils.isKeyPressed(e, Constants.KeyCodes.F):
+            this.handleSetThreadFollow();
+            break;
+
         // copy link
         case Utils.isKeyPressed(e, Constants.KeyCodes.K):
             this.copyLink();
@@ -381,9 +385,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                                 )
                         )}
                         {...this.props.isFollowingThread ? {
+                            leftDecorator: <i className='icon icon-message-minus-outline'/>,
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                             extraText: Utils.localizeMessage('threading.threadMenu.unfollowExtra', 'You won’t be notified about replies'),
                         } : {
+                            leftDecorator: <i className='icon icon-message-check-outline'/>,
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.follow', 'Follow thread') : Utils.localizeMessage('threading.threadMenu.followMessage', 'Follow message'),
                             extraText: Utils.localizeMessage('threading.threadMenu.followExtra', 'You will be notified about replies'),
                         }}
