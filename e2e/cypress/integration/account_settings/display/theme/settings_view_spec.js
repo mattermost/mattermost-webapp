@@ -12,18 +12,15 @@
 
 describe('Account Settings Theme - Settings View', () => {
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T3855 Theme Display should render in min setting view', () => {
-        // # Go to Account Settings > Display
-        cy.uiOpenAccountSettingsModal('Display').within(() => {
-            // * Check that it changed into the Display section
-            cy.uiGetHeading('Display Settings').should('be.visible');
-
+        // # Go to Settings > Display
+        cy.uiOpenSettingsModal('Display').within(() => {
             // * Check the min setting view for each element that is present and contains the expected values
             verifyMinDisplayView();
 

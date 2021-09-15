@@ -42,8 +42,8 @@ describe('channel name tooltips', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
 
-        // # Login as new user and visit town-square
-        cy.apiInitSetup().then(({team, user}) => {
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
             testTeam = team;
             loggedUser = user;
 
@@ -53,7 +53,7 @@ describe('channel name tooltips', () => {
             });
 
             cy.apiLogin(loggedUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
