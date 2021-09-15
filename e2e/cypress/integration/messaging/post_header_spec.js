@@ -151,7 +151,7 @@ describe('Post Header', () => {
         });
 
         // # Click on the "Pinned Posts" icon to the left of the "Search" box
-        cy.get('#channelHeaderPinButton').click();
+        cy.uiGetChannelPinButton().click();
 
         // * Verify that the RHS for pinned posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
@@ -164,7 +164,7 @@ describe('Post Header', () => {
         });
 
         // # Click on the "Saved Posts" icon to the right of the "Search" box
-        cy.get('#channelHeaderFlagButton').click();
+        cy.uiGetSavedPostButton().click();
 
         // * Verify that the RHS for saved posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
