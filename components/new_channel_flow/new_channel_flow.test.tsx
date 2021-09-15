@@ -5,8 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import assert from 'assert';
 
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {ChannelType, Channel} from 'mattermost-redux/types/channels';
-
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
 import NewChannelFlow, {
@@ -19,6 +19,7 @@ import NewChannelFlow, {
 
 describe('components/NewChannelFlow', () => {
     const baseProps = {
+        category: {} as ChannelCategory,
         actions: {
             createChannel: jest.fn(() => {
                 const data = {
@@ -239,6 +240,7 @@ describe('components/NewChannelFlow', () => {
                 switchToChannel: jest.fn(),
                 closeModal: jest.fn(),
             },
+            category: {} as ChannelCategory,
             currentTeamId: '',
             channelType: Constants.OPEN_CHANNEL as ChannelType,
             canCreatePublicChannel: true,

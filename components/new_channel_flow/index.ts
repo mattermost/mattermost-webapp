@@ -7,7 +7,6 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {addChannelToCategory} from 'mattermost-redux/actions/channel_categories';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -40,7 +39,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             createChannel,
             switchToChannel,
-            addChannelToCategory,
             closeModal,
         }, dispatch),
     };

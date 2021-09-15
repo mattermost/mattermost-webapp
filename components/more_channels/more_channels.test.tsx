@@ -8,6 +8,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import MoreChannels, {Props} from 'components/more_channels/more_channels';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/browser_history', () => {
@@ -67,6 +68,7 @@ describe('components/MoreChannels', () => {
     };
 
     const baseProps: Props = {
+        category: {} as ChannelCategory,
         channels: [TestHelper.getChannelMock({})],
         archivedChannels: [TestHelper.getChannelMock({
             id: 'channel_id_2',

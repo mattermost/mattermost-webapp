@@ -57,7 +57,6 @@ export type Props = {
     actions: {
         createChannel: (channel: Channel, userId?: string, categoryId?: string) => Promise<{data?: Channel; error?: ServerError}>;
         switchToChannel: (channel: Channel) => Promise<{data?: true; error?: true}>;
-        addChannelToCategory: (categoryId: string, channelId: string) => Promise<void>;
         closeModal: (modalId: string) => void;
     };
 };
