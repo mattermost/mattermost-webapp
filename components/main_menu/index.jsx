@@ -20,8 +20,7 @@ import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} 
 import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
 
-import {RHSStates, TrialPeriodDays} from 'utils/constants';
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {RHSStates} from 'utils/constants';
 
 import {unhideNextSteps} from 'actions/views/next_steps';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
