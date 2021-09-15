@@ -73,6 +73,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         shouldHighlight: highlightedPostId === ownProps.post.id,
+        oneClickReactionsEnabled: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true',
     };
 }
 

@@ -69,6 +69,7 @@ export default class RhsRootPost extends React.PureComponent {
         timestampProps: PropTypes.object,
         isBot: PropTypes.bool,
         collapsedThreadsEnabled: PropTypes.bool,
+        oneClickReactionsEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -236,7 +237,7 @@ export default class RhsRootPost extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
 
-        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived);
+        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled);
         let showRecentReacions;
         if (showRecentlyUsedReactions) {
             showRecentReacions = (

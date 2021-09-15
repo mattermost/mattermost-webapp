@@ -126,6 +126,8 @@ type Props = {
     shouldShowDotMenu: boolean;
 
     collapsedThreadsEnabled: boolean;
+
+    oneClickReactionsEnabled: boolean;
 };
 
 type State = {
@@ -211,7 +213,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
-        const showRecentlyUsedReactions = !isSystemMessage && hover && !isReadOnly;
+        const showRecentlyUsedReactions = !isSystemMessage && hover && !isReadOnly && this.props.oneClickReactionsEnabled;
         let showRecentReacions;
         if (showRecentlyUsedReactions) {
             showRecentReacions = (

@@ -4449,6 +4449,8 @@
   "user.settings.display.linkPreviewDisplay": "Website Link Previews",
   "user.settings.display.linkPreviewOff": "Off",
   "user.settings.display.linkPreviewOn": "On",
+  "user.settings.display.oneClickReactionsOnPostsDescription": "When enabled, you can react in one-click with recently used reactions when hovering over a message.",
+  "user.settings.display.oneClickReactionsOnPostsTitle": "One-click reactions on messages",
   "user.settings.display.messageDisplayClean": "Standard",
   "user.settings.display.messageDisplayCleanDes": "Easy to scan and read.",
   "user.settings.display.messageDisplayCompact": "Compact",

@@ -45,7 +45,7 @@ export default class PostReactionRecent extends React.PureComponent<Props, State
         emojis: defaultEmojis,
     };
 
-    getRecentEmojis(): void {
+    mapRecentEmojis(): void {
         const recentEmojis = getRecentEmojis(state).slice(0, 3);
 
         for (let i = 0; i < recentEmojis.length; i++) {
@@ -68,7 +68,7 @@ export default class PostReactionRecent extends React.PureComponent<Props, State
     };
 
     render() {
-        this.getRecentEmojis();
+        this.mapRecentEmojis();
 
         const {
             channelId,

@@ -109,6 +109,8 @@ export const Preferences = {
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
     CATEGORY_EMOJI: 'emoji',
     EMOJI_SKINTONE: 'emoji_skintone',
+    ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
+    ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
 };
 
 export const TrialPeriodDays = {

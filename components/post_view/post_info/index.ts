@@ -50,6 +50,7 @@ function makeMapStateToProps() {
             shortcutReactToLastPostEmittedFrom,
             collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
             hasReplies: getReplyCount(state, ownProps.post) > 0,
+            oneClickReactionsEnabled: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true',
         };
     };
 }

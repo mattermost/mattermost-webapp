@@ -41,6 +41,7 @@ function getDisplayStateFromProps(props: Props) {
         collapseDisplay: props.collapseDisplay,
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
+        oneClickReactionsOnPosts: props.oneClickReactionsOnPosts,
     };
 }
 
@@ -101,6 +102,7 @@ type Props = {
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
+    oneClickReactionsOnPosts: string;
     timezoneLabel: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -119,6 +121,7 @@ type State = {
     collapseDisplay: string;
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
+    oneClickReactionsOnPosts: string;
     handleSubmit?: () => void;
     serverError?: string;
 }
@@ -228,6 +231,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.LINK_PREVIEW_DISPLAY,
             value: this.state.linkPreviewDisplay,
         };
+        const oneClickReactionsOnPostsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.ONE_CLICK_REACTIONS_ENABLED,
+            value: this.state.oneClickReactionsOnPosts,
+        };
 
         this.setState({isSaving: true});
 
@@ -240,6 +249,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             linkPreviewDisplayPreference,
             teammateNameDisplayPreference,
             availabilityStatusOnPostsPreference,
+            oneClickReactionsOnPostsPreference,
         ];
 
         this.trackChangeIfNecessary(collapsedReplyThreadsPreference, this.props.collapsedReplyThreads);
@@ -279,6 +289,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
     handleLinkPreviewRadio(linkPreviewDisplay: string) {
         this.setState({linkPreviewDisplay});
+    }
+
+    handleOneClickReactionsRadio = (oneClickReactionsOnPosts: string) => {
+        this.setState({oneClickReactionsOnPosts});
     }
 
     handleOnChange(display: {[key: string]: any}) {
@@ -869,6 +883,35 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             );
         }
 
+        const oneClickReactionsOnPostsSection = this.createSection({
+            section: Preferences.ONE_CLICK_REACTIONS_ENABLED,
+            display: 'oneClickReactionsOnPosts',
+            value: this.state.oneClickReactionsOnPosts,
+            defaultDisplay: 'true',
+            title: {
+                id: t('user.settings.display.oneClickReactionsOnPostsTitle'),
+                message: 'One-click reactions on messages',
+            },
+            firstOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.on'),
+                    message: 'On',
+                },
+            },
+            secondOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.off'),
+                    message: 'Off',
+                },
+            },
+            description: {
+                id: t('user.settings.display.oneClickReactionsOnPostsDescription'),
+                message: 'When enabled, you can react in one-click with recently used reactions when hovering over a message.',
+            },
+        });
+
         return (
             <div id='displaySettings'>
                 <div className='modal-header'>
@@ -914,6 +957,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {availabilityStatusOnPostsSection}
                     {timezoneSelection}
                     {linkPreviewSection}
+                    {oneClickReactionsOnPostsSection}
                     {collapseSection}
                     {messageDisplaySection}
                     {collapsedReplyThreads}

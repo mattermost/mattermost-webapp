@@ -86,6 +86,8 @@ export default class RhsComment extends React.PureComponent {
          * To Check if the current post is to be highlighted and scrolled into center view of RHS
          */
         shouldHighlight: PropTypes.bool,
+
+        oneClickReactionsEnabled: PropTypes.bool,
     };
 
     constructor(props) {
@@ -450,7 +452,7 @@ export default class RhsComment extends React.PureComponent {
             );
         }
 
-        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived);
+        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled);
         let showRecentReacions;
         if (showRecentlyUsedReactions) {
             showRecentReacions = (
