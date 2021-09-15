@@ -87,8 +87,6 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
-        console.log('ENYA', 'NEWCHANNELFLOW', props);
-
         this.state = {
             serverError: '',
             channelType: getChannelTypeFromProps(props),

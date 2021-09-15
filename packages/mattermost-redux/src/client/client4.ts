@@ -1488,10 +1488,11 @@ export default class Client4 {
 
         return this.doFetch<ServerChannel>(
             `${this.getChannelsRoute()}`,
-            {method: 'post', body: JSON.stringify({
-                ...channel,
-                category_id: categoryId,
-            })},
+            {method: 'post',
+                body: JSON.stringify({
+                    ...channel,
+                    category_id: categoryId,
+                })},
         );
     };
 
