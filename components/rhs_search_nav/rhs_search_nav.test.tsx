@@ -26,6 +26,8 @@ describe('components/RHSSearchNav', () => {
             ...baseProps,
             rhsState: RHSStates.FLAG,
             rhsOpen: true,
+            windowWidth: 1600,
+            isMobileView: false,
         };
 
         const wrapper = shallow(
@@ -39,6 +41,8 @@ describe('components/RHSSearchNav', () => {
             ...baseProps,
             rhsState: RHSStates.MENTION,
             rhsOpen: true,
+            windowWidth: 1600,
+            isMobileView: false,
         };
 
         const wrapper = shallow(
