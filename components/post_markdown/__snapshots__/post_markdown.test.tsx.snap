@@ -30,7 +30,7 @@ exports[`components/PostMarkdown plugin hooks can build upon other hook message 
   options={
     Object {
       "disableGroupHighlight": false,
-      "editedAt": null,
+      "editedAt": 0,
       "mentionHighlight": true,
     }
   }
@@ -69,7 +69,7 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
   options={
     Object {
       "disableGroupHighlight": false,
-      "editedAt": null,
+      "editedAt": 0,
       "mentionHighlight": true,
     }
   }
@@ -101,7 +101,7 @@ exports[`components/PostMarkdown should correctly pass postId down 1`] = `
   options={
     Object {
       "disableGroupHighlight": false,
-      "editedAt": null,
+      "editedAt": 0,
       "mentionHighlight": true,
     }
   }
@@ -195,7 +195,7 @@ exports[`components/PostMarkdown should render properly with a post 1`] = `
   options={
     Object {
       "disableGroupHighlight": false,
-      "editedAt": null,
+      "editedAt": 0,
       "mentionHighlight": true,
     }
   }
@@ -227,7 +227,7 @@ exports[`components/PostMarkdown should render properly with an empty post 1`] =
   options={
     Object {
       "disableGroupHighlight": false,
-      "editedAt": null,
+      "editedAt": 0,
       "mentionHighlight": true,
     }
   }
@@ -259,7 +259,7 @@ exports[`components/PostMarkdown should render properly without group highlight 
   options={
     Object {
       "disableGroupHighlight": true,
-      "editedAt": null,
+      "editedAt": 0,
       "mentionHighlight": true,
     }
   }
@@ -291,7 +291,7 @@ exports[`components/PostMarkdown should render properly without highlight a post
   options={
     Object {
       "disableGroupHighlight": false,
-      "editedAt": null,
+      "editedAt": 0,
       "mentionHighlight": true,
     }
   }
