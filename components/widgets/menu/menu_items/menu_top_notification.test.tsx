@@ -9,7 +9,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import MenuTopNotification from './menu_top_notification';
 
-describe('components/widgets/menu/menu_items/menu_start_trial', () => {
+describe('components/widgets/menu/menu_items/menu_top_notification', () => {
     const mockStore = configureStore();
 
     test('should render when on cloud license and during free trial period', () => {
