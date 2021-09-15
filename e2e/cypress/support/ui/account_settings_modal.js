@@ -3,7 +3,8 @@
 
 Cypress.Commands.add('uiOpenAccountSettingsModal', (section = '') => {
     // # Open account settings modal
-    cy.uiOpenMainMenu('Account Settings');
+    cy.uiGetSetStatusButton().click();
+    cy.findByRole('button', {name: 'Account Settings dialog'}).click();
 
     const accountSettingsModal = () => cy.findByRole('dialog', {name: 'Account Settings'}).should('be.visible');
 

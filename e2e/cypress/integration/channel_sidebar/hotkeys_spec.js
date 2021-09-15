@@ -31,7 +31,7 @@ describe('Channel switching', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Post any message
         cy.postMessage('hello');
@@ -57,8 +57,8 @@ describe('Channel switching', () => {
         cy.createNewTeam(teamName, teamName);
 
         // # Create a new channel
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'test-channel', 'Test Channel').then(({channel}) => {
+        cy.apiGetTeamByName(teamName).then(({team}) => {
+            cy.apiCreateChannel(team.id, 'test-channel', 'Test Channel').then(({channel}) => {
                 // # Have another user post a message in the new channel
                 cy.reload();
                 cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: channel.id});
@@ -66,7 +66,7 @@ describe('Channel switching', () => {
         });
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Post any message
         cy.postMessage('hello');

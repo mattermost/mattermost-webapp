@@ -100,19 +100,16 @@ describe('Verify Quick Navigation support across different regions in the app', 
 
     it('MM-T1460_5 Verify Navigation Support in LHS Sidebar', () => {
         // # Change the focus to Main Menu button
-        cy.get('#headerInfo button').focus().tab({shift: true}).tab();
-
-        // * Verify nav support in LHS sidebar header
-        verifyNavSupport('#lhsHeader', 'team menu region', '5');
+        cy.uiGetLHSAddChannelButton().focus().tab({shift: true}).tab();
 
         // # Change the focus to the LHS sidebar
-        cy.get('#headerInfo button').focus().tab();
+        cy.focused().tab();
 
         // * Verify nav support in LHS channel navigator
         verifyNavSupport('#lhsNavigator', 'channel navigator region', '6');
 
         // # Change the focus to the LHS sidebar
-        cy.get('#headerInfo button').focus().tab().tab().tab().tab();
+        cy.focused().tab().tab().tab().tab();
 
         // * Verify nav support in LHS sidebar
         verifyNavSupport('#sidebar-left', 'channel sidebar region', '7');
