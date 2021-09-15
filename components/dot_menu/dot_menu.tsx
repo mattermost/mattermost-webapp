@@ -32,8 +32,7 @@ type Props = {
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
-    handleShortCut?: React.EventHandler<React.KeyboardEvent>;
-    handleDropdownOpened?: (open: boolean) => void;
+    handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
     isReadOnly: boolean | null;
@@ -109,6 +108,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         isReadOnly: false,
         location: Locations.CENTER,
     }
+    private keysHeldDown: string[] = [];
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
 
@@ -144,8 +144,19 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        window.addEventListener('keydown', this.onShortcutKeyDown);
         this.disableCanEditPostByTime();
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (!prevProps.isMenuOpen && this.props.isMenuOpen) {
+            window.addEventListener('keydown', this.onShortcutKeyDown);
+            window.addEventListener('keyup', this.onShortcutKeyUp);
+        }
+
+        if (prevProps.isMenuOpen && !this.props.isMenuOpen) {
+            window.removeEventListener('keydown', this.onShortcutKeyDown);
+            window.removeEventListener('keyup', this.onShortcutKeyUp);
+        }
     }
 
     static getDerivedStateFromProps(props: Props) {
@@ -156,7 +167,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('keydown', this.onShortcutKeyDown);
         this.editDisableAction.cancel();
     }
 
@@ -282,6 +292,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     onShortcutKeyDown = (e: KeyboardEvent) => {
         e.preventDefault();
+
+        if (this.keysHeldDown.includes(e.key)) {
+            return;
+        }
+        this.keysHeldDown.push(e.key);
+
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
             this.props.handleCommentClick(e);
@@ -316,8 +332,13 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.actions.markPostAsUnread(this.props.post, this.props.location);
             break;
         }
-        this.setState({openUp: false});
-        this.props.handleShortCut();
+
+        this.props.handleDropdownOpened(false);
+    }
+
+    onShortcutKeyUp = (e: KeyboardEvent) => {
+        e.preventDefault();
+        this.keysHeldDown = this.keysHeldDown.filter((key) => key !== e.key);
     }
 
     render() {
@@ -325,7 +346,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const isMobile = Utils.isMobile();
 
         return (
-            <MenuWrapper onToggle={this.props.handleDropdownOpened}>
+            <MenuWrapper
+                onToggle={this.props.handleDropdownOpened}
+                open={this.props.isMenuOpen}
+            >
                 <OverlayTrigger
                     className='hidden-xs'
                     delayShow={500}
