@@ -12,7 +12,7 @@ export function createNewTeamAndMoveToOffTopic(teamName, sidebarItemClass) {
     cy.createNewTeam(teamName, teamName);
 
     // * Verify that we've switched to the new team
-    cy.get('#headerTeamName').should('be.visible').should('be.visible').should('contain', teamName);
+    cy.uiGetLHSHeader().findByText(teamName);
 
     // # Click on Off Topic
     cy.get(`${sidebarItemClass}:contains(Off-Topic)`).should('be.visible').click();
