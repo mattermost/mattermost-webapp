@@ -59,7 +59,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
     };
 
     getOptions = memoize(
-        (options: TextFormattingOptions | undefined, disableGroupHighlight: boolean, mentionHighlight: boolean | undefined, editedAt: number | null) => {
+        (disableGroupHighlight: boolean, options?: TextFormattingOptions, mentionHighlight?: boolean, editedAt?: number) => {
             return {
                 ...options,
                 disableGroupHighlight,
@@ -95,10 +95,10 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         }
 
         const options = this.getOptions(
-            this.props.options,
             post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
+            this.props.options,
             mentionHighlight,
-            post?.edit_at || null,
+            post?.edit_at,
         );
 
         return (
