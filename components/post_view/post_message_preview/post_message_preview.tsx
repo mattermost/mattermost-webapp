@@ -20,7 +20,7 @@ import {Constants} from 'utils/constants';
 
 export type Props = {
     user: UserProfile | null;
-    previewPost?: Post;
+    previewPost: Post;
     metadata: PostPreviewMetadata;
     hasImageProxy: boolean;
     enablePostIconOverride: boolean;
