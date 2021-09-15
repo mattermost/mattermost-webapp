@@ -71,7 +71,7 @@ describe('Send a DM', () => {
         cy.uiGetLhsSection('CHANNELS').get('.active').should('contain', 'Town Square');
 
         // * Verify team display name changes correctly.
-        cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('contain', teamB.display_name);
+        cy.uiGetLHSHeader().findByText(teamB.display_name);
 
         // * DM Channel list should be the same on both teams with no missing names.
         cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userB.username).should('be.visible');

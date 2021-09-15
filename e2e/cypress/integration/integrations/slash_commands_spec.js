@@ -253,7 +253,7 @@ describe('Integrations', () => {
         cy.visit(testChannelUrl1);
 
         // # Navigate to slash commands and create the slash command
-        cy.get('#headerInfo').click();
+        cy.uiGetLHSHeader().click();
         cy.get('#integrations').click();
         cy.get('#slashCommands').click();
         cy.get('#addSlashCommand').click();

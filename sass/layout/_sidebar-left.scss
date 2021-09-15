@@ -573,6 +573,7 @@
             border: 1px dashed rgba(var(--sidebar-text-rgb), 0.3);
             margin: 0 16px;
             border-radius: 4px;
+            opacity: 1;
 
             > i {
                 color: rgba(var(--sidebar-text-rgb), 0.6);
@@ -589,7 +590,7 @@
 
             &.animating {
                 transition-duration: 0.15s; /* collapse animation speed */
-                transition-property: height, padding, color;
+                transition-property: height, padding, color, opacity;
                 transition-timing-function: ease-out;
             }
 
@@ -600,6 +601,10 @@
                 border-top: none;
                 border-bottom: none;
                 overflow-y: hidden;
+            }
+
+            &.isDraggingOver {
+                opacity: 0.25;
             }
         }
     }
@@ -704,6 +709,7 @@
 
     .SidebarChannelNavigator_inviteMembersLhsButton {
         display: flex;
+        padding: 6px 0;
         margin-left: 15px;
         color: rgba(var(--sidebar-text-rgb), 0.72);
         line-height: 20px;
@@ -890,9 +896,20 @@
     //     }
     // }
 
-    .SidebarChannelGroup.capture .SidebarChannelGroup_content {
-        padding-bottom: 14px;
-        margin-bottom: 0;
+    .SidebarChannelGroup.capture {
+        .SidebarChannelGroup_content {
+            padding-bottom: 14px;
+            margin-bottom: 0;
+
+            &.hasFollowingSibling {
+                padding-bottom: 0;
+            }
+        }
+
+        .followingSibling {
+            padding-bottom: 14px;
+            margin-bottom: 0;
+        }
     }
 
     .SidebarChannelGroupHeader_addButton {
@@ -950,9 +967,27 @@
     .SidebarChannelGroup_content {
         min-height: 2px;
         margin-bottom: 14px;
+
+        &.hasFollowingSibling {
+            margin-bottom: 0;
+        }
+    }
+
+    .followingSibling {
+        min-height: 2px;
+        margin-bottom: 14px;
     }
 
     .SidebarChannelGroup.a11y--active .SidebarChannelGroup_content {
+        padding-bottom: 14px;
+        margin-bottom: 0;
+
+        &.hasFollowingSibling {
+            padding-bottom: 0;
+        }
+    }
+
+    .SidebarChannelGroup.a11y--active .followingSibling {
         padding-bottom: 14px;
         margin-bottom: 0;
     }
