@@ -12,6 +12,7 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
+import ActionsMenu from 'components/actions_menu';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -79,6 +80,7 @@ export default class RhsRootPost extends React.PureComponent {
 
         this.state = {
             alt: false,
+            showActionsMenu: false,
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
@@ -207,6 +209,10 @@ export default class RhsRootPost extends React.PureComponent {
         });
     };
 
+    handleActionsMenuOpened = (open) => {
+        this.setState({showActionsMenu: open});
+    };
+
     handleFileDropdownOpened = (isOpened) => {
         this.setState({
             fileDropdownOpened: isOpened,
@@ -316,6 +322,14 @@ export default class RhsRootPost extends React.PureComponent {
             postClass += ' post--edited';
         }
 
+        const actionsMenu = (
+            <ActionsMenu
+                post={this.props.post}
+                handleDropdownOpened={this.handleActionsMenuOpened}
+                isMenuOpen={this.state.showActionsMenu}
+            />
+        );
+
         const dotMenu = (
             <DotMenu
                 post={this.props.post}
@@ -349,10 +363,12 @@ export default class RhsRootPost extends React.PureComponent {
                     ref={this.dotMenuRef}
                     className='col post-menu'
                 >
-                    {!collapsedThreadsEnabled && dotMenu}
+                    {!collapsedThreadsEnabled && dotMenu }
+                    {!collapsedThreadsEnabled && actionsMenu}
                     {postReaction}
                     {postFlagIcon}
-                    {collapsedThreadsEnabled && dotMenu}
+                    {collapsedThreadsEnabled && actionsMenu}
+                    {collapsedThreadsEnabled && dotMenu }
                 </div>
             );
         }

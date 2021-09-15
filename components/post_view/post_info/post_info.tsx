@@ -207,7 +207,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         const {isMobile, isReadOnly, collapsedThreadsEnabled} = this.props;
-        const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
+        const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showActionsMenu || this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
         (!isSystemMessage && (isMobile || hover || (!post.root_id && Boolean(this.props.hasReplies)) || this.props.isFirstReply));
