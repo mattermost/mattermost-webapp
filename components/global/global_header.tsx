@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import StatusDropdown from 'components/status_dropdown';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
-import {getIsMobileView} from 'selectors/views/browser';
 import {TutorialSteps} from 'utils/constants';
 import Pluggable from 'plugins/pluggable';
 import {isDesktopApp} from 'utils/user_agent';
@@ -22,7 +21,7 @@ import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
 import SettingsTip from './settings_tip';
 
-import {useCurrentProductId, useIsLoggedIn, useProducts, useShowTutorialStep} from './hooks';
+import {useCurrentProductId, useIsLoggedIn, useProducts, useShowTutorialStep, useIsMobileView} from './hooks';
 
 import './global_header.scss';
 
@@ -79,7 +78,7 @@ const RightControls = styled.div`
 
 const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
-    const isMobileView = useSelector(getIsMobileView);
+    const isMobileView = useIsMobileView();
     const isLoggedIn = useIsLoggedIn();
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
