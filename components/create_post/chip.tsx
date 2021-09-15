@@ -15,7 +15,7 @@ type Props = {
     defaultMessage: string;
     values: Record<string, any>;
 
-    // for the "other" option unlike the others, e.g. free form response
+    // for the "other" option unlike the others, e.g. free-form response
     otherOption?: boolean;
     leadingIcon?: string;
     additionalMarkup?: JSX.Element;
