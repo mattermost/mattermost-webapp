@@ -18,6 +18,7 @@ import './modal';
 import './post_dropdown_menu';
 import './search';
 import './sidebar_left';
+import './cloud_billing';
 import './suggestion_list';
 import './system';
 import './team';
