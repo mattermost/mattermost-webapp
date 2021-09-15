@@ -17,6 +17,7 @@ import {
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import {isMobile} from 'utils/utils.jsx';
+import ActionsMenu from 'components/actions_menu';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -485,6 +486,13 @@ export default class RhsComment extends React.PureComponent {
         } else if (isPostDeleted) {
             options = null;
         } else if (!isSystemMessage && (isMobile() || this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
+            const actionsMenu = (
+                <ActionsMenu
+                    post={post}
+                    handleDropdownOpened={this.handleActionsMenuOpened}
+                    isMenuOpen={this.state.showActionsMenu}
+                />
+            );
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}
@@ -504,9 +512,11 @@ export default class RhsComment extends React.PureComponent {
                     data-testid={`post-menu-${this.props.post.id}`}
                     className='col post-menu'
                 >
+                    {!collapsedThreadsEnabled && actionsMenu}
                     {!collapsedThreadsEnabled && dotMenu}
                     {postReaction}
                     {flagIcon}
+                    {collapsedThreadsEnabled && actionsMenu}
                     {collapsedThreadsEnabled && dotMenu}
                 </div>
             );
