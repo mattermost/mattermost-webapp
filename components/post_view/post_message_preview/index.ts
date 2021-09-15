@@ -14,7 +14,7 @@ import PostMessagePreview from './post_message_preview';
 
 type Props = {
     metadata: PostPreviewMetadata;
-    previewPost: Post;
+    previewPost?: Post;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
