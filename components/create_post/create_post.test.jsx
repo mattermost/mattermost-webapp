@@ -575,7 +575,7 @@ describe('components/create_post', () => {
         await form.simulate('Submit', {preventDefault: jest.fn()});
 
         expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@all', '@channel'], 4, 8);
+        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@all'], 4, 8);
 
         wrapper.setProps({
             currentChannelMembersCount: 2,

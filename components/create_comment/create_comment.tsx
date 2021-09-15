@@ -17,7 +17,7 @@ import Constants, {Locations, ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {
-    containsAtChannel,
+    specialMentionsInText,
     postMessageOnKeyPress,
     shouldFocusMainTextbox,
     isErrorInvalidSlashCommand,
@@ -581,9 +581,11 @@ class CreateComment extends React.PureComponent<Props, State> {
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
         let mentions: string[] = [];
-        const notContainsAtChannel = !containsAtChannel(draft.message);
-        const containsAtHereMention = notContainsAtChannel && containsAtChannel(draft.message, {checkAllMentions: true});
-        if (enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
+
+        const specialMentions = specialMentionsInText(draft.message);
+        const hasSpecialMentions = Object.values(specialMentions).includes(true);
+
+        if (enableConfirmNotificationsToChannel && !hasSpecialMentions && useGroupMentions) {
             // Groups mentioned in users text
             const mentionGroups = groupsMentionedInText(draft.message, groupsWithAllowReference);
             if (mentionGroups.length > 0) {
@@ -615,16 +617,21 @@ class CreateComment extends React.PureComponent<Props, State> {
 
         if (notificationsToChannel &&
             channelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            (!notContainsAtChannel || containsAtHereMention)) {
+            hasSpecialMentions) {
             memberNotifyCount = channelMembersCount - 1;
-            mentions = notContainsAtChannel ? ['@here'] : ['@all', '@channel'];
+            for (const k in specialMentions) {
+                if (specialMentions[k] === true) {
+                    mentions.push('@' + k);
+                }
+            }
+
             if (isTimezoneEnabled) {
                 const {data} = await this.props.getChannelTimezones(this.props.channelId);
                 channelTimezoneCount = data ? data.length : 0;
             }
         }
 
-        if (!useChannelMentions && containsAtChannel(draft.message, {checkAllMentions: true})) {
+        if (!useChannelMentions && hasSpecialMentions) {
             const updatedDraft = {
                 ...draft,
                 props: {

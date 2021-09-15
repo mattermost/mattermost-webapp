@@ -15,6 +15,7 @@ import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames}
 import {t} from 'utils/i18n';
 import {
     containsAtChannel,
+    specialMentionsInText,
     postMessageOnKeyPress,
     shouldFocusMainTextbox,
     isErrorInvalidSlashCommand,
@@ -637,9 +638,11 @@ class CreatePost extends React.PureComponent<Props, State> {
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
         let mentions: string[] = [];
-        const notContainsAtChannel = !containsAtChannel(this.state.message);
-        const containsAtHereMention = notContainsAtChannel && containsAtChannel(this.state.message, {checkAllMentions: true});
-        if (this.props.enableConfirmNotificationsToChannel && notContainsAtChannel && useGroupMentions) {
+
+        const specialMentions = specialMentionsInText(this.state.message);
+        const hasSpecialMentions = Object.values(specialMentions).includes(true);
+
+        if (this.props.enableConfirmNotificationsToChannel && !hasSpecialMentions && useGroupMentions) {
             // Groups mentioned in users text
             const mentionGroups = groupsMentionedInText(this.state.message, groupsWithAllowReference);
             if (mentionGroups.length > 0) {
@@ -658,9 +661,15 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         if (notificationsToChannel &&
             currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
-            (!notContainsAtChannel || containsAtHereMention)) {
+            hasSpecialMentions) {
             memberNotifyCount = currentChannelMembersCount - 1;
-            mentions = notContainsAtChannel ? ['@here'] : ['@all', '@channel'];
+
+            for (const k in specialMentions) {
+                if (specialMentions[k] === true) {
+                    mentions.push('@' + k);
+                }
+            }
+
             if (this.props.isTimezoneEnabled) {
                 const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
                 channelTimezoneCount = data ? data.length : 0;

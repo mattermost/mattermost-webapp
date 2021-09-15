@@ -22,7 +22,7 @@ export default class NotifyConfirmModal extends React.Component<Props> {
 
         let notifyAllMessage: React.ReactNode = '';
         let notifyAllTitle: React.ReactNode = '';
-        if (mentions.includes('@all') || mentions.includes('@channel')) {
+        if (mentions.includes('@all') || mentions.includes('@channel') || mentions.includes('@here')) {
             notifyAllTitle = (
                 <FormattedMessage
                     id='notify_all.title.confirm'
