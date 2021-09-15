@@ -263,6 +263,7 @@ type State = {
     postError?: React.ReactNode;
     errorClass: string | null;
     serverError: (ServerError & {submittedMessage?: string}) | null;
+    deferringPostSubmit: boolean;
 }
 
 class CreateComment extends React.PureComponent<Props, State> {
@@ -291,11 +292,11 @@ class CreateComment extends React.PureComponent<Props, State> {
         const rootChanged = props.rootId !== state.rootId;
         const messageInHistoryChanged = props.messageInHistory !== state.messageInHistory;
         if (rootChanged || messageInHistoryChanged) {
-            updatedState = {...updatedState, draft: {...props.draft, uploadsInProgress: rootChanged ? [] : props.draft.uploadsInProgress}};
+            updatedState = {...updatedState, draft: {...props.draft, uploadsInProgress: rootChanged ? [] : props.draft.uploadsInProgress}, deferringPostSubmit: false};
         }
 
         if (props.createPostErrorId === 'api.post.create_post.root_id.app_error' && props.createPostErrorId !== state.createPostErrorId) {
-            updatedState = {...updatedState, showPostDeletedModal: true};
+            updatedState = {...updatedState, showPostDeletedModal: true, deferringPostSubmit: false};
         }
 
         return updatedState;
@@ -316,6 +317,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             memberNotifyCount: 0,
             errorClass: null,
             serverError: null,
+            deferringPostSubmit: false,
         };
 
         this.textboxRef = React.createRef();
@@ -459,7 +461,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         const updatedDraft = {...draft, message};
 
         this.props.onUpdateCommentDraft(updatedDraft);
-        this.setState({draft: updatedDraft});
+        this.setState({draft: updatedDraft, deferringPostSubmit: false});
     }
 
     handleNotifyAllConfirmation = () => {
@@ -551,11 +553,20 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handlePostError = (postError: React.ReactNode) => {
-        this.setState({postError});
+        const state = {postError} as State;
+
+        if (postError) {
+            state.deferringPostSubmit = false;
+        }
+
+        this.setState(state);
     }
 
-    handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
-        e.preventDefault();
+    handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
+        if (e) {
+            e.preventDefault();
+        }
+
         this.setShowPreview(false);
 
         const {
@@ -649,11 +660,12 @@ class CreateComment extends React.PureComponent<Props, State> {
         const draft = this.state.draft!;
         const enableAddButton = this.shouldEnableAddButton();
 
-        if (!enableAddButton) {
+        if (!enableAddButton && !this.state.deferringPostSubmit) {
             return;
         }
 
         if (draft.uploadsInProgress.length > 0) {
+            this.setState({deferringPostSubmit: true});
             return;
         }
 
@@ -789,7 +801,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             this.props.onUpdateCommentDraft(updatedDraft);
         }, CreateCommentDraftTimeoutMilliseconds);
 
-        this.setState({draft: updatedDraft, serverError}, () => {
+        this.setState({draft: updatedDraft, serverError, deferringPostSubmit: false}, () => {
             if (this.props.scrollToBottom) {
                 this.props.scrollToBottom();
             }
@@ -941,7 +953,12 @@ class CreateComment extends React.PureComponent<Props, State> {
         this.props.updateCommentDraftWithRootId(rootId, modifiedDraft);
         this.draftsForPost[rootId] = modifiedDraft;
         if (this.props.rootId === rootId) {
-            this.setState({draft: modifiedDraft});
+            this.setState({draft: modifiedDraft}, () => {
+                if (modifiedDraft.uploadsInProgress.length === 0 && this.state.deferringPostSubmit) {
+                    this.handleSubmit();
+                    this.setState({deferringPostSubmit: false});
+                }
+            });
         }
     }
 
@@ -971,7 +988,13 @@ class CreateComment extends React.PureComponent<Props, State> {
             serverError = new Error(serverError);
         }
 
-        this.setState({serverError}, () => {
+        const state = {serverError} as State;
+
+        if (serverError) {
+            state.deferringPostSubmit = false;
+        }
+
+        this.setState(state, () => {
             if (serverError && this.props.scrollToBottom) {
                 this.props.scrollToBottom();
             }
@@ -1009,7 +1032,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         };
 
         this.props.onUpdateCommentDraft(modifiedDraft);
-        this.setState({draft: modifiedDraft});
+        this.setState({draft: modifiedDraft, deferringPostSubmit: false});
         this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         this.handleFileUploadChange();
@@ -1039,10 +1062,15 @@ class CreateComment extends React.PureComponent<Props, State> {
 
     shouldEnableAddButton = () => {
         const {draft} = this.state;
+
+        if (this.state.deferringPostSubmit) {
+            return false;
+        }
+
         if (draft) {
             const message = draft.message ? draft.message.trim() : '';
             const fileInfos = draft.fileInfos ? draft.fileInfos : [];
-            if (message.trim().length !== 0 || fileInfos.length !== 0) {
+            if (message.trim().length !== 0 || fileInfos.length !== 0 || draft.uploadsInProgress.length !== 0) {
                 return true;
             }
         }
