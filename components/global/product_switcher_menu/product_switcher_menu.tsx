@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import Icon from '@mattermost/compass-components/foundations/icon';
 
@@ -15,7 +15,6 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
-import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
@@ -41,9 +40,6 @@ type Props = {
     intl: IntlShape;
     firstAdminVisitMarketplaceStatus: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
-    isCloud: boolean;
-    isFreeTrial: boolean;
-    daysLeftOnTrial: number;
 };
 
 // TODO: rewrite this to a functional component
@@ -59,7 +55,7 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
     }
 
     render() {
-        const {currentUser, isMessaging, isMobile, isFreeTrial, isCloud, daysLeftOnTrial, onClick} = this.props;
+        const {currentUser, isMessaging, isMobile, onClick} = this.props;
 
         if (!currentUser) {
             return null;
@@ -73,24 +69,11 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
         return (
             <Menu.Group>
                 <div onClick={onClick}>
-                    {isCloud && isFreeTrial &&
-                        <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
-                            <Menu.TopNotification
-                                show={true}
-                                id='topNotification'
-                            >
-                                <FormattedMessage
-                                    id='admin.billing.subscription.cloudTrial.trialTopMenuNotification'
-                                    defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
-                                    values={{daysLeftOnTrial}}
-                                />
-                                <UpgradeLink
-                                    buttonText='Subscribe Now'
-                                    styleLink={true}
-                                />
-                            </Menu.TopNotification>
-                        </SystemPermissionGate>
-                    }
+                    <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
+                        <Menu.TopNotification
+                            id='topNotification'
+                        />
+                    </SystemPermissionGate>
                     <SystemPermissionGate
                         permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
                     >

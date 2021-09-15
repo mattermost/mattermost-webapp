@@ -73,12 +73,6 @@ function mapStateToProps(state) {
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
     const rhsState = getRhsState(state);
     const isCloud = getLicense(state).Cloud === 'true';
-    const subscription = state.entities.cloud.subscription;
-    const isFreeTrial = subscription?.is_free_trial === 'true';
-    let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-        daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
-    }
 
     return {
         appDownloadLink,
@@ -106,8 +100,6 @@ function mapStateToProps(state) {
             state.entities.general.license.LDAPGroups === 'true',
         showGettingStarted: showOnboarding(state),
         showNextStepsTips: showNextStepsTips(state),
-        isFreeTrial,
-        daysLeftOnTrial,
         showNextSteps: showNextSteps(state),
         isCloud,
         subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
