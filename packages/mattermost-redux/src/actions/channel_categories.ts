@@ -229,14 +229,14 @@ export function addChannelToInitialCategory(channel: Channel, setOnServer = fals
 // addChannelToCategory returns an action that can be dispatched to add a channel to a given category without specifying
 // its order. The channel will be removed from its previous category (if any) on the given category's team and it will be
 // placed first in its new category.
-export function addChannelToCategory(categoryId: string, channelId: string): ActionFunc {
-    return moveChannelToCategory(categoryId, channelId, 0, false);
+export function addChannelToCategory(categoryId: string, channelId: string, saveToServer = true): ActionFunc {
+    return moveChannelToCategory(categoryId, channelId, 0, false, saveToServer);
 }
 
 // moveChannelToCategory returns an action that moves a channel into a category and puts it at the given index at the
 // category. The channel will also be removed from its previous category (if any) on that category's team. The category's
 // order will also be set to manual by default.
-export function moveChannelToCategory(categoryId: string, channelId: string, newIndex: number, setManualSorting = true) {
+export function moveChannelToCategory(categoryId: string, channelId: string, newIndex: number, setManualSorting = true, saveToServer = true) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const targetCategory = getCategory(state, categoryId);
@@ -272,22 +272,24 @@ export function moveChannelToCategory(categoryId: string, channelId: string, new
             data: categories,
         });
 
-        try {
-            await Client4.updateChannelCategories(currentUserId, targetCategory.team_id, categories);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
+        if (saveToServer) {
+            try {
+                await Client4.updateChannelCategories(currentUserId, targetCategory.team_id, categories);
+            } catch (error) {
+                forceLogoutIfNecessary(error, dispatch, getState);
+                dispatch(logError(error));
 
-            const originalCategories = [targetCategory];
-            if (sourceCategory && sourceCategory.id !== targetCategory.id) {
-                originalCategories.push(sourceCategory);
+                const originalCategories = [targetCategory];
+                if (sourceCategory && sourceCategory.id !== targetCategory.id) {
+                    originalCategories.push(sourceCategory);
+                }
+
+                dispatch({
+                    type: ChannelCategoryTypes.RECEIVED_CATEGORIES,
+                    data: originalCategories,
+                });
+                return {error};
             }
-
-            dispatch({
-                type: ChannelCategoryTypes.RECEIVED_CATEGORIES,
-                data: originalCategories,
-            });
-            return {error};
         }
 
         return result;

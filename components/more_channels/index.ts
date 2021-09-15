@@ -51,7 +51,7 @@ function mapStateToProps(state: GlobalState) {
 type Actions = {
     getChannels: (teamId: string, page: number, perPage: number) => ActionFunc | void;
     getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => ActionFunc | void;
-    joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
+    joinChannel: (currentUserId: string, teamId: string, channelId: string, channelName: string, categoryId?: string) => Promise<ActionResult>;
     searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
     openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
         data: boolean;

@@ -45,11 +45,11 @@ export function selectChannel(channelId: string) {
     };
 }
 
-export function createChannel(channel: Channel, userId: string): ActionFunc {
+export function createChannel(channel: Channel, userId: string, categoryId?: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let created;
         try {
-            created = await Client4.createChannel(channel);
+            created = await Client4.createChannel(channel, categoryId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(batchActions([
@@ -92,7 +92,11 @@ export function createChannel(channel: Channel, userId: string): ActionFunc {
             },
         ]));
 
-        dispatch(addChannelToInitialCategory(created, true));
+        if (categoryId) {
+            dispatch(addChannelToCategory(categoryId, created.id, false));
+        } else {
+            dispatch(addChannelToInitialCategory(created, true));
+        }
 
         return {data: created};
     };
@@ -650,7 +654,7 @@ export function leaveChannel(channelId: string): ActionFunc {
     };
 }
 
-export function joinChannel(userId: string, teamId: string, channelId: string, channelName: string): ActionFunc {
+export function joinChannel(userId: string, teamId: string, channelId: string, channelName: string, categoryId?: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (!channelId && !channelName) {
             return {data: null};
@@ -660,7 +664,7 @@ export function joinChannel(userId: string, teamId: string, channelId: string, c
         let channel: Channel;
         try {
             if (channelId) {
-                member = await Client4.addToChannel(userId, channelId);
+                member = await Client4.addToChannel(userId, channelId, '', categoryId);
                 channel = await Client4.getChannel(channelId);
             } else {
                 channel = await Client4.getChannelByName(teamId, channelName, true);
@@ -689,7 +693,11 @@ export function joinChannel(userId: string, teamId: string, channelId: string, c
             },
         ]));
 
-        dispatch(addChannelToInitialCategory(channel));
+        if (categoryId) {
+            dispatch(addChannelToCategory(categoryId, channel.id, false));
+        } else {
+            dispatch(addChannelToInitialCategory(channel));
+        }
 
         if (member) {
             dispatch(loadRolesIfNeeded(member.roles.split(' ')));

@@ -32,6 +32,8 @@ export function getChannelTypeFromProps(props: Props): ChannelType {
 
 export type Props = {
 
+    category: ChannelCategory;
+
     /**
      * Set to Constants.OPEN_CHANNEL or Constants.PRIVATE_CHANNEL depending on which modal we should show first
      */
@@ -52,10 +54,8 @@ export type Props = {
      */
     canCreatePrivateChannel: boolean;
 
-    category?: ChannelCategory;
-
     actions: {
-        createChannel: (channel: Channel) => Promise<{data?: Channel; error?: ServerError}>;
+        createChannel: (channel: Channel, userId?: string, categoryId?: string) => Promise<{data?: Channel; error?: ServerError}>;
         switchToChannel: (channel: Channel) => Promise<{data?: true; error?: true}>;
         addChannelToCategory: (categoryId: string, channelId: string) => Promise<void>;
         closeModal: (modalId: string) => void;
@@ -87,6 +87,8 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
+        console.log('ENYA', 'NEWCHANNELFLOW', props);
+
         this.state = {
             serverError: '',
             channelType: getChannelTypeFromProps(props),
@@ -110,7 +112,7 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
             return;
         }
 
-        const {actions, currentTeamId} = this.props;
+        const {actions, category, currentTeamId} = this.props;
         const channel: Channel = {
             team_id: currentTeamId,
             name: this.state.channelName,
@@ -128,15 +130,10 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
             update_at: 0,
         };
 
-        actions.createChannel(channel).then(({data, error}) => {
+        actions.createChannel(channel, undefined, category?.id).then(({data, error}) => {
             if (error) {
                 this.onCreateChannelError(error);
             } else if (data) {
-                const categoryId = this.props.category?.id;
-                if (categoryId) {
-                    actions.addChannelToCategory(categoryId, data.id).then(() => {
-                    });
-                }
                 this.onModalDismissed();
                 actions.switchToChannel(data);
             }

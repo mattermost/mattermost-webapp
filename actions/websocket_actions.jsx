@@ -18,7 +18,7 @@ import {
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
-import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
+import {addChannelToCategory, addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
     getMyChannelMember,
@@ -870,7 +870,7 @@ function handleUserAddedEvent(msg) {
         const currentTeamId = getCurrentTeamId(doGetState());
         const currentUserId = getCurrentUserId(doGetState());
         if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
-            doDispatch(fetchChannelAndAddToSidebar(msg.broadcast.channel_id));
+            doDispatch(fetchChannelAndAddToSidebar(msg.broadcast.channel_id, msg.data.categoryId));
         }
 
         // This event is fired when a user first joins the server, so refresh analytics to see if we're now over the user limit
@@ -880,12 +880,16 @@ function handleUserAddedEvent(msg) {
     };
 }
 
-function fetchChannelAndAddToSidebar(channelId) {
+function fetchChannelAndAddToSidebar(channelId, categoryId) {
     return async (doDispatch) => {
         const {data, error} = await doDispatch(getChannelAndMyMember(channelId));
 
         if (!error) {
-            doDispatch(addChannelToInitialCategory(data.channel));
+            if (categoryId) {
+                doDispatch(addChannelToCategory(categoryId, data.channel.id, false));
+            } else {
+                doDispatch(addChannelToInitialCategory(data.channel));
+            }
         }
     };
 }
@@ -1071,6 +1075,7 @@ function handleRoleUpdatedEvent(msg) {
 
 function handleChannelCreatedEvent(msg) {
     return async (myDispatch, myGetState) => {
+        const categoryId = msg.data.category_id;
         const channelId = msg.data.channel_id;
         const teamId = msg.data.team_id;
         const state = myGetState();
@@ -1083,8 +1088,11 @@ function handleChannelCreatedEvent(msg) {
 
                 channel = getChannel(myGetState(), channelId);
             }
-
-            myDispatch(addChannelToInitialCategory(channel, false));
+            if (categoryId) {
+                myDispatch(addChannelToCategory(categoryId, channel.id, false));
+            } else {
+                myDispatch(addChannelToInitialCategory(channel, false));
+            }
         }
     };
 }

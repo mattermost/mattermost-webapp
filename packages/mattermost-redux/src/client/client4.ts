@@ -1483,12 +1483,15 @@ export default class Client4 {
         );
     };
 
-    createChannel = (channel: Channel) => {
+    createChannel = (channel: Channel, categoryId?: string) => {
         this.trackEvent('api', 'api_channels_create', {team_id: channel.team_id});
 
         return this.doFetch<ServerChannel>(
             `${this.getChannelsRoute()}`,
-            {method: 'post', body: JSON.stringify(channel)},
+            {method: 'post', body: JSON.stringify({
+                ...channel,
+                category_id: categoryId,
+            })},
         );
     };
 
@@ -1663,10 +1666,10 @@ export default class Client4 {
         );
     };
 
-    addToChannel = (userId: string, channelId: string, postRootId = '') => {
+    addToChannel = (userId: string, channelId: string, postRootId = '', categoryId = '') => {
         this.trackEvent('api', 'api_channels_add_member', {channel_id: channelId});
 
-        const member = {user_id: userId, channel_id: channelId, post_root_id: postRootId};
+        const member = {user_id: userId, channel_id: channelId, post_root_id: postRootId, category_id: categoryId};
         return this.doFetch<ChannelMembership>(
             `${this.getChannelMembersRoute(channelId)}`,
             {method: 'post', body: JSON.stringify(member)},

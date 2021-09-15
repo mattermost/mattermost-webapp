@@ -68,7 +68,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.MORE_CHANNELS,
             dialogType: MoreChannels,
-            dialogProps: {morePublicChannelsModalType: 'public'},
+            dialogProps: {category: this.props.category, morePublicChannelsModalType: 'public'},
         });
     }
     showNewChannelModal = () => {
