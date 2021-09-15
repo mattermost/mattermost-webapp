@@ -53,7 +53,7 @@ import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import {openModal} from 'actions/views/modals';
+import {openModal, closeModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
 
@@ -149,6 +149,7 @@ type Actions = {
     setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
     openModal: (modalData: ModalData) => void;
+    closeModal: (modalId: string) => void;
     executeCommand: (message: string, args: CommandArgs) => ActionResult;
     getChannelTimezones: (channelId: string) => ActionResult;
     scrollPostListToBottom: () => void;
@@ -182,6 +183,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             setEditingPost,
             emitShortcutReactToLastPostFrom,
             openModal,
+            closeModal,
             executeCommand,
             getChannelTimezones,
             runMessageWillBePostedHooks,

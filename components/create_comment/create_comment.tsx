@@ -7,14 +7,15 @@ import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
+import {ModalData} from 'types/actions.js';
+
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
 
-import Constants, {Locations} from 'utils/constants';
+import Constants, {Locations, ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n';
 import {
     containsAtChannel,
     postMessageOnKeyPress,
@@ -25,7 +26,7 @@ import {
 } from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
-import ConfirmModal from 'components/confirm_modal';
+import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
@@ -36,7 +37,6 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 import {PostDraft} from 'types/store/rhs';
 import {Group} from 'mattermost-redux/types/groups';
@@ -244,18 +244,24 @@ type Props = {
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     onHeightChange?: (height: number, maxHeight: number) => void;
     focusOnMount?: boolean;
+
+    /**
+      * Function to open a modal
+      */
+    openModal: (modalData: ModalData) => void;
+
+    /**
+      * Function to close a modal
+      */
+    closeModal: (modalId: string) => void;
 }
 
 type State = {
     showPostDeletedModal: boolean;
-    showConfirmModal: boolean;
     showEmojiPicker: boolean;
-    channelTimezoneCount: number;
     uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
     renderScrollbar: boolean;
     scrollbarWidth: number;
-    mentions: string[];
-    memberNotifyCount: number;
     draft?: PostDraft;
     rootId?: string;
     messageInHistory?: string;
@@ -307,14 +313,10 @@ class CreateComment extends React.PureComponent<Props, State> {
 
         this.state = {
             showPostDeletedModal: false,
-            showConfirmModal: false,
             showEmojiPicker: false,
-            channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
             scrollbarWidth: 0,
-            mentions: [],
-            memberNotifyCount: 0,
             errorClass: null,
             serverError: null,
         };
@@ -464,16 +466,22 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handleNotifyAllConfirmation = () => {
-        this.hideNotifyAllModal();
+        this.props.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL);
         this.doSubmit();
     }
 
-    hideNotifyAllModal = () => {
-        this.setState({showConfirmModal: false});
-    }
-
-    showNotifyAllModal = () => {
-        this.setState({showConfirmModal: true});
+    showNotifyAllModal = (mentions: string[], channelTimezoneCount: number, memberNotifyCount: number) => {
+        this.props.openModal({
+            modalId: ModalIdentifiers.NOTIFY_CONFIRM_MODAL,
+            dialogType: NotifyConfirmModal as any,
+            dialogProps: {
+                mentions,
+                channelTimezoneCount,
+                memberNotifyCount,
+                onConfirm: () => this.handleNotifyAllConfirmation(),
+                onCancel: () => this.props.closeModal(ModalIdentifiers.NOTIFY_CONFIRM_MODAL),
+            },
+        });
     }
 
     toggleEmojiPicker = () => {
@@ -630,12 +638,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         }
 
         if (memberNotifyCount > 0) {
-            this.setState({
-                channelTimezoneCount,
-                memberNotifyCount,
-                mentions,
-            });
-            this.showNotifyAllModal();
+            this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
             return;
         }
 
@@ -1087,114 +1090,8 @@ class CreateComment extends React.PureComponent<Props, State> {
         const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
-        const {renderScrollbar, channelTimezoneCount, mentions, memberNotifyCount} = this.state;
+        const {renderScrollbar} = this.state;
         const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
-        let notifyAllMessage: React.ReactNode = '';
-        let notifyAllTitle: React.ReactNode = '';
-        if (mentions.includes('@all') || mentions.includes('@channel')) {
-            notifyAllTitle = (
-                <FormattedMessage
-                    id='notify_all.title.confirm'
-                    defaultMessage='Confirm sending notifications to entire channel'
-                />
-            );
-            if (channelTimezoneCount > 0) {
-                const atHereMsg = 'By using **@here** you are about to send notifications to up to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?';
-                const atAllChannelMsg = 'By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?';
-                const msg = mentions.length === 1 && mentions[0] === '@here' ? atHereMsg : atAllChannelMsg;
-                const msgID = mentions.length === 1 && mentions[0] === '@here' ? t('notify_here.question_timezone') : t('notify_all.question_timezone');
-                notifyAllMessage = (
-                    <FormattedMarkdownMessage
-                        id={msgID}
-                        defaultMessage={msg}
-                        values={{
-                            totalMembers: memberNotifyCount,
-                            timezones: channelTimezoneCount,
-                        }}
-                    />
-                );
-            } else {
-                const atHereMsg = 'By using **@here** you are about to send notifications to up to **{totalMembers} people**. Are you sure you want to do this?';
-                const atAllChannelMsg = 'By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people**. Are you sure you want to do this?';
-                const msg = mentions.length === 1 && mentions[0] === '@here' ? atHereMsg : atAllChannelMsg;
-                const msgID = mentions.length === 1 && mentions[0] === '@here' ? t('notify_here.question') : t('notify_all.question');
-                notifyAllMessage = (
-                    <FormattedMarkdownMessage
-                        id={msgID}
-                        defaultMessage={msg}
-                        values={{
-                            totalMembers: memberNotifyCount,
-                        }}
-                    />
-                );
-            }
-        } else if (mentions.length > 0) {
-            notifyAllTitle = (
-                <FormattedMessage
-                    id='notify_all.title.confirm_groups'
-                    defaultMessage='Confirm sending notifications to groups'
-                />
-            );
-
-            if (mentions.length === 1) {
-                if (channelTimezoneCount > 0) {
-                    notifyAllMessage = (
-                        <FormattedMarkdownMessage
-                            id='notify_all.question_timezone_one_group'
-                            defaultMessage='By using **{mention}** you are about to send notifications of up to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
-                            values={{
-                                mention: mentions[0],
-                                totalMembers: memberNotifyCount,
-                                timezones: channelTimezoneCount,
-                            }}
-                        />
-                    );
-                } else {
-                    notifyAllMessage = (
-                        <FormattedMarkdownMessage
-                            id='notify_all.question_one_group'
-                            defaultMessage='By using **{mention}** you are about to send notifications of up to **{totalMembers} people**. Are you sure you want to do this?'
-                            values={{
-                                mention: mentions[0],
-                                totalMembers: memberNotifyCount,
-                            }}
-                        />
-                    );
-                }
-            } else if (channelTimezoneCount > 0) {
-                notifyAllMessage = (
-                    <FormattedMarkdownMessage
-                        id='notify_all.question_timezone_groups'
-                        defaultMessage='By using **{mentions}** and **{finalMention}** you are about to send notifications of up to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?'
-                        values={{
-                            mentions: mentions.slice(0, -1).join(', '),
-                            finalMention: mentions[mentions.length - 1],
-                            totalMembers: memberNotifyCount,
-                            timezones: channelTimezoneCount,
-                        }}
-                    />
-                );
-            } else {
-                notifyAllMessage = (
-                    <FormattedMarkdownMessage
-                        id='notify_all.question_groups'
-                        defaultMessage='By using **{mentions}** and **{finalMention}** you are about to send notifications of up to **{totalMembers} people**. Are you sure you want to do this?'
-                        values={{
-                            mentions: mentions.slice(0, -1).join(', '),
-                            finalMention: mentions[mentions.length - 1],
-                            totalMembers: memberNotifyCount,
-                        }}
-                    />
-                );
-            }
-        }
-
-        const notifyAllConfirm = (
-            <FormattedMessage
-                id='notify_all.confirm'
-                defaultMessage='Confirm'
-            />
-        );
 
         let serverError = null;
         if (this.state.serverError) {
@@ -1398,14 +1295,6 @@ class CreateComment extends React.PureComponent<Props, State> {
                 <PostDeletedModal
                     show={this.state.showPostDeletedModal}
                     onHide={this.hidePostDeletedModal}
-                />
-                <ConfirmModal
-                    title={notifyAllTitle}
-                    message={notifyAllMessage}
-                    confirmButtonText={notifyAllConfirm}
-                    show={this.state.showConfirmModal}
-                    onConfirm={this.handleNotifyAllConfirmation}
-                    onCancel={this.hideNotifyAllModal}
                 />
             </form>
         );
