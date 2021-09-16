@@ -16,14 +16,17 @@ import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, Constants, ModalIdentifiers} from 'utils/constants';
+import Permissions from 'mattermost-redux/constants/permissions';
 import MarketplaceModal from 'components/plugin_marketplace';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
+import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -36,6 +39,7 @@ export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
     intl: IntlShape;
     post: Post;
+    currentUser: UserProfile;
     teamId?: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     handleDropdownOpened?: (open: boolean) => void;
@@ -230,22 +234,26 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
     visitMarketplaceTip(): React.ReactElement {
         return (
-            <div>
-                <p>
-                    <FormattedMarkdownMessage
-                        id='post_info.actions.visitMarketplace'
-                        defaultMessage='No Actions currently configured for this server'
-                    />
-                </p>
-                <button
-                    id='tipNextButton'
-                    className='btn btn-primary'
-                    onClick={this.handleOpenMarketplace}
-                >
-                    {<i className='icon icon-apps'/>}
-                    {'Visit the Marketplace'}
-                </button>
-            </div>
+            <SystemPermissionGate
+                permissions={[Permissions.MANAGE_SYSTEM]}
+            >
+                <div>
+                    <p>
+                        <FormattedMarkdownMessage
+                            id='post_info.actions.visitMarketplace'
+                            defaultMessage='No Actions currently configured for this server'
+                        />
+                    </p>
+                    <button
+                        id='marketPlaceButton'
+                        className='btn btn-primary'
+                        onClick={this.handleOpenMarketplace}
+                    >
+                        {<i className='icon icon-apps'/>}
+                        {'Visit the Marketplace'}
+                    </button>
+                </div>
+            </SystemPermissionGate>
         );
     }
 
@@ -327,6 +335,10 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                 pluggableName={PLUGGABLE_COMPONENT}
             />;
         } else {
+            const isSysAdmin = Utils.isSystemAdmin(this.props.currentUser.roles);
+            if (!isSysAdmin) {
+                return null;
+            }
             menuItems = this.visitMarketplaceTip();
         }
 
