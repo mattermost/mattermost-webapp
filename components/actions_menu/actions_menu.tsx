@@ -208,13 +208,29 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             <SystemPermissionGate
                 permissions={[Permissions.MANAGE_SYSTEM]}
             >
-                <div>
-                    <p>
-                        <FormattedMarkdownMessage
-                            id='post_info.actions.noActions'
-                            defaultMessage='No Actions currently configured for this server'
-                        />
-                    </p>
+                <div
+                    style={{
+                        textAlign: 'center',
+                        margin: 12,
+                        fontSize: 14,
+                    }}
+                >
+                    <FormattedMarkdownMessage
+                        id='post_info.actions.noActions'
+                        defaultMessage='No Actions currently\nconfigured for this server'
+                    />
+                </div>
+                <div
+                    style={{
+                        textAlign: 'center',
+                        top: 1,
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        paddingLeft: 16,
+                        paddingRight: 16,
+                        fontSize: 12,
+                    }}
+                >
                     <button
                         id='marketPlaceButton'
                         className='btn btn-primary'

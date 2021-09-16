@@ -3870,7 +3870,7 @@
   "post_info.actions.tutorialTip.title": "Actions for messages",
   "post_info.actions.tutorialTip": "Message actions that are provided through apps, integrations or plugins have moved to this menu item.",
   "post_info.actions.visitMarketplace": "Visit the Marketplace",
-  "post_info.actions.noActions": "No Actions currently configured for this server",
+  "post_info.actions.noActions": "No Actions currently\nconfigured for this server",
   "post_info.auto_responder": "AUTOMATIC REPLY",
   "post_info.bot": "BOT",
   "post_info.comment_icon.tooltip.reply": "Reply",
