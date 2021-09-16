@@ -133,7 +133,6 @@ function filterDownloadAppsStep(step: StepType, downloadAppsAsNextStep: boolean)
     return downloadAppsAsNextStep;
 }
 
-// this.props.downloadAppsAsNextStep
 export const getSteps = createSelector(
     'getSteps',
     (state: GlobalState) => getCurrentUser(state),
