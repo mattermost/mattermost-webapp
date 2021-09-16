@@ -9,7 +9,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
 export default class ActionsTutorialTip extends React.PureComponent {
-    render = () => {
+    render = (): JSX.Element => {
         const screens = [];
         screens.push(
             <div>
