@@ -327,19 +327,18 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             return null;
         }
 
-        let menuItems;
+        const isSysAdmin = Utils.isSystemAdmin(this.props.currentUser.roles);
+        if (!appBindings.length && !pluginItems.length && !isSysAdmin) {
+            return null;
+        }
+
+        let menuItems = this.visitMarketplaceTip();
         if (appBindings.length || pluginItems.length) {
             menuItems = pluginItems && appBindings && marketPlace &&
             <Pluggable
                 postId={this.props.post.id}
                 pluggableName={PLUGGABLE_COMPONENT}
             />;
-        } else {
-            const isSysAdmin = Utils.isSystemAdmin(this.props.currentUser.roles);
-            if (!isSysAdmin) {
-                return null;
-            }
-            menuItems = this.visitMarketplaceTip();
         }
 
         return (
