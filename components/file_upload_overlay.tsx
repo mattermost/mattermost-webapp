@@ -2,10 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import fileOverlayImage from 'images/filesOverlay.png';
 import overlayLogoImage from 'images/logoWhite.png';
+
+import {t} from 'utils/i18n';
+
+import LocalizedIcon from './localized_icon';
 
 type Props = {
     overlayType: string;
@@ -19,8 +23,6 @@ const FileUploadOverlay: React.FC<Props> = (props: Props) => {
         overlayClass += ' center-file-overlay';
     }
 
-    const {formatMessage} = useIntl();
-
     return (
         <div className={overlayClass}>
             <div className='overlay__indent'>
@@ -31,9 +33,9 @@ const FileUploadOverlay: React.FC<Props> = (props: Props) => {
                         alt='Files'
                     />
                     <span>
-                        <i
+                        <LocalizedIcon
                             className='fa fa-upload'
-                            title={formatMessage({id: 'generic_icons.upload', defaultMessage: 'Upload Icon'})}
+                            title={{id: t('generic_icons.upload'), defaultMessage: 'Upload Icon'}}
                         />
                         <FormattedMessage
                             id='upload_overlay.info'
