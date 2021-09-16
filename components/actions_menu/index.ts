@@ -5,7 +5,7 @@ import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -29,7 +29,7 @@ import {openModal} from 'actions/views/modals';
 import {doAppCall, postEphemeralCallResponseForPost} from 'actions/apps';
 
 import {isArchivedChannel} from 'utils/channel_utils';
-
+import {isSystemAdmin} from 'utils/utils';
 import {Locations} from 'utils/constants';
 
 import DotMenu from './actions_menu';
@@ -80,6 +80,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const showBindings = apps && !systemMessage && !isCombinedUserActivityPost(post.id);
     const appBindings = showBindings ? getPostMenuBindings(state) : undefined;
     const currentUser = getCurrentUser(state);
+    const isSysAdmin = isSystemAdmin(currentUser.roles);
 
     return {
         channelIsArchived: isArchivedChannel(channel),
@@ -89,7 +90,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         pluginMenuItems: state.plugins.components.PostDropdownMenuItem,
         currentTeamId: currentTeam.id,
         userId,
-        currentUser,
+        isSysAdmin,
         threadId,
         appBindings,
         appsEnabled: apps,

@@ -14,7 +14,6 @@ import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
@@ -38,7 +37,7 @@ export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
     intl: IntlShape;
     post: Post;
-    currentUser: UserProfile;
+    isSysAdmin: boolean;
     teamId?: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     handleDropdownOpened?: (open: boolean) => void;
@@ -318,8 +317,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             return null;
         }
 
-        const isSysAdmin = Utils.isSystemAdmin(this.props.currentUser.roles);
-        if (!appBindings.length && !pluginItems.length && !isSysAdmin) {
+        if (!appBindings.length && !pluginItems.length && !this.props.isSysAdmin) {
             return null;
         }
 
