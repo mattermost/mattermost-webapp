@@ -219,6 +219,11 @@
         }
     }
 
+    &.tip-overlay--actions {
+        margin-top: -7px;
+        margin-right: 8px;
+    }
+
     &.tip-overlay--sidebar {
         @include opacity(0.8);
 
