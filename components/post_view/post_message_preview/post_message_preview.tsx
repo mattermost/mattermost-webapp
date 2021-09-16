@@ -20,7 +20,7 @@ import {Constants} from 'utils/constants';
 
 export type Props = {
     user: UserProfile | null;
-    previewPost: Post;
+    previewPost?: Post;
     metadata: PostPreviewMetadata;
     hasImageProxy: boolean;
     enablePostIconOverride: boolean;
@@ -99,7 +99,7 @@ const PostMessagePreview = (props: Props) => {
                             userId={user?.id}
                             hasMention={true}
                             disablePopover={true}
-                            overwriteName={previewPost.props.override_username || ''}
+                            overwriteName={previewPost.props?.override_username || ''}
                         />
                     </div>
                     <div className='col'>

@@ -43,6 +43,7 @@ describe('PostMessagePreview', () => {
         const wrapper = shallow(
             <PostMessagePreview
                 {...baseProps}
+                previewPost={undefined}
             />,
         );
 
@@ -55,12 +56,15 @@ describe('PostMessagePreview', () => {
             use_user_icon: 'false',
             from_webhook: 'false',
         };
+
+        const postPreview = {
+            ...previewPost,
+            props: postProps,
+        } as unknown as Post;
+
         const props = {
             ...baseProps,
-            previewPost: {
-                ...baseProps.previewPost,
-                props: postProps,
-            },
+            previewPost: postPreview,
         };
         const wrapper = shallow(
             <PostMessagePreview
@@ -77,12 +81,15 @@ describe('PostMessagePreview', () => {
             use_user_icon: false,
             from_webhook: 'true',
         };
+
+        const postPreview = {
+            ...previewPost,
+            props: postProps,
+        } as unknown as Post;
+
         const props = {
             ...baseProps,
-            previewPost: {
-                ...baseProps.previewPost,
-                props: postProps,
-            },
+            previewPost: postPreview,
             enablePostIconOverride: true,
         };
         const wrapper = shallow(
