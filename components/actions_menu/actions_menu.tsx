@@ -7,8 +7,6 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Tooltip} from 'react-bootstrap';
 
-import TutorialTip from 'components/tutorial/tutorial_tip';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {Post} from 'mattermost-redux/types/posts';
@@ -22,6 +20,7 @@ import {$ID} from 'mattermost-redux/types/utilities';
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, Constants, ModalIdentifiers} from 'utils/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
+import ActionsTutorialTip from 'components/actions_menu/actions_menu_tutorial_tip';
 import MarketplaceModal from 'components/plugin_marketplace';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as PostUtils from 'utils/post_utils';
@@ -204,34 +203,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    createTutorialTip(): React.ReactElement {
-        const screens = [];
-        screens.push(
-            <div>
-                <h4>
-                    <FormattedMessage
-                        id='post_info.actions.tutorialTip.title'
-                        defaultMessage='Actions for messages'
-                    />
-                </h4>
-                <p>
-                    <FormattedMarkdownMessage
-                        id='post_info.actions.tutorialTip'
-                        defaultMessage='Message actions that are provided through apps, integrations or plugins have moved to this menu item.'
-                    />
-                </p>
-            </div>,
-        );
-
-        return (
-            <TutorialTip
-                placement='top'
-                screens={screens}
-                overlayClass='tip-overlay--header'
-            />
-        );
-    }
-
     visitMarketplaceTip(): React.ReactElement {
         return (
             <SystemPermissionGate
@@ -315,7 +286,8 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
 
         const {formatMessage} = this.props.intl;
-        const tutorialTip = this.createTutorialTip();
+        const showTip = true;
+        const tutorialTip = showTip && ActionsTutorialTip;
         const marketPlace = (
             <Menu.ItemAction
                 id={`marketplace_icon_${this.props.post.id}`}
