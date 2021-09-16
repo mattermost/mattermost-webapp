@@ -228,6 +228,27 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
+    visitMarketplaceTip(): React.ReactElement {
+        return (
+            <div>
+                <p>
+                    <FormattedMarkdownMessage
+                        id='post_info.actions.visitMarketplace'
+                        defaultMessage='No Actions currently configured for this server'
+                    />
+                </p>
+                <button
+                    id='tipNextButton'
+                    className='btn btn-primary'
+                    onClick={this.handleOpenMarketplace}
+                >
+                    {<i className='icon icon-apps'/>}
+                    {'Visit the Marketplace'}
+                </button>
+            </div>
+        );
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
@@ -298,6 +319,17 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             return null;
         }
 
+        let menuItems;
+        if (appBindings.length || pluginItems.length) {
+            menuItems = pluginItems && appBindings && marketPlace &&
+            <Pluggable
+                postId={this.props.post.id}
+                pluggableName={PLUGGABLE_COMPONENT}
+            />;
+        } else {
+            menuItems = this.visitMarketplaceTip();
+        }
+
         return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
                 <OverlayTrigger
@@ -328,13 +360,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                     ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
-                    {pluginItems}
-                    {appBindings}
-                    {marketPlace}
-                    <Pluggable
-                        postId={this.props.post.id}
-                        pluggableName={PLUGGABLE_COMPONENT}
-                    />
+                    {menuItems}
                 </Menu>
             </MenuWrapper>
         );
