@@ -286,8 +286,8 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
 
         const {formatMessage} = this.props.intl;
+
         const showTip = true;
-        const tutorialTip = showTip && ActionsTutorialTip;
         const marketPlace = (
             <Menu.ItemAction
                 id={`marketplace_icon_${this.props.post.id}`}
@@ -336,7 +336,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         aria-expanded='false'
                     >
                         <i className={'icon icon-apps'}/>
-                        {tutorialTip}
+                        {showTip && <ActionsTutorialTip/>}
                     </button>
                 </OverlayTrigger>
                 <Menu
