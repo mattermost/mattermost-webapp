@@ -39,9 +39,8 @@ describe('Team Settings', () => {
         const inviteSuccessMessage = 'This member has been added to the team.';
         const inviteFailedMessage = `The following email addresses do not belong to an accepted domain: ${invalidEmail}. Please contact your System Administrator for details.`;
 
-        // Open 'Team Settings' modal
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open team menu and click 'Team Settings'
+        cy.uiOpenTeamMenu('Team Settings');
 
         // * Check that the 'Team Settings' modal was opened
         cy.get('#teamSettingsModal').should('exist').within(() => {
@@ -57,9 +56,8 @@ describe('Team Settings', () => {
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
         });
 
-        // # Open the 'Invite People' full screen modal
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.get('#invitePeople').find('button').eq(0).click();
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
 
         // # Invite user with valid email domain that is not in the team
         inviteNewMemberToTeam(newUser.email);

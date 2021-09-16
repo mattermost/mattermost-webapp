@@ -76,7 +76,10 @@ describe('Notifications', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // * Check that the display name of the team the user was invited to is being correctly displayed
-            cy.get('#headerUsername', {timeout: TIMEOUTS.HALF_MIN}).should('contain.text', firstUser.username);
+            cy.uiOpenUserMenu().findByText(`@${firstUser.username}`);
+
+            // # Close the user menu
+            cy.uiGetSetStatusButton().click();
 
             // * Check that 'Town Square' is currently being selected
             cy.get('.active').within(() => {

@@ -57,7 +57,7 @@ exports[`PostMessagePreview should render correctly 1`] = `
       </div>
     </div>
     <Connect(PostMessageView)
-      maxHeight={100}
+      maxHeight={105}
       overflowType="ellipsis"
       post={
         Object {

@@ -14,21 +14,19 @@ import {isMac} from '../../utils';
 
 describe('Keyboard Shortcuts', () => {
     let testTeam;
-    let testChannel;
     let testUser;
     let otherUser;
 
     before(() => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
-            testChannel = channel;
             testUser = user;
 
             cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
                 otherUser = user1;
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
+                    cy.apiAddUserToChannel(channel.id, otherUser.id);
                 });
             });
         });
@@ -199,102 +197,10 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1279 - Keyboard shortcuts menu item', () => {
-        // # Click "Keyboard Shortcuts" at main menu
-        cy.uiOpenMainMenu('Keyboard Shortcuts');
+        // # Click "Keyboard shortcuts" at help menu
+        cy.uiOpenHelpMenu('Keyboard shortcuts');
 
-        const name = isMac() ? 'Keyboard Shortcuts⌘/' : 'Keyboard ShortcutsCtrl/';
+        const name = isMac() ? /Keyboard Shortcuts ⌘ \// : /Keyboard Shortcuts Ctrl \//;
         cy.findByRole('dialog', {name}).should('be.visible');
-    });
-
-    it('MM-T1575 - Ability to Switch Teams', () => {
-        const count = 5;
-        const teamNames = [];
-        const teamDisplayNames = [];
-        const channelNames = [];
-        const channelDisplayNames = [];
-
-        // Step #1
-        cy.apiLogout();
-        cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-
-        for (let index = 0; index < count; index++) {
-            teamNames.push('team' + index);
-            teamDisplayNames.push('Team' + index);
-            channelNames.push('channel' + index);
-            channelDisplayNames.push('Channel' + index);
-
-            cy.apiCreateTeam(teamNames[index], teamDisplayNames[index]).then(({team}) => {
-                teamNames[index] = team.name;
-                teamDisplayNames[index] = team.display_name;
-                cy.apiCreateChannel(team.id, channelNames[index], channelDisplayNames[index]).then(({channel}) => {
-                    channelNames[index] = channel.name;
-                    channelDisplayNames[index] = channel.display_name;
-                    cy.visit(`/${team.name}/channels/${channel.name}`);
-                });
-            });
-        }
-
-        for (let index = 0; index < count; index++) {
-            // # Verify that we've switched to the correct team
-            cy.get('#headerTeamName').should('contain', teamDisplayNames[count - index - 1]);
-
-            // # Verify that we've switched to the correct channel
-            cy.get('#channelHeaderTitle').should('be.visible').should('contain', channelDisplayNames[count - index - 1]);
-
-            // # Press CTRL/CMD+SHIFT+UP
-            if (isMac()) {
-                cy.get('body').type('{cmd}{option}', {release: false}).type('{uparrow}').type('{cmd}{option}', {release: true});
-            } else {
-                cy.get('body').type('{ctrl}{shift}', {release: false}).type('{uparrow}').type('{ctrl}{shift}', {release: true});
-            }
-        }
-
-        for (let index = 0; index < count; index++) {
-            // # Press CTRL/CMD+SHIFT+DOWN
-            if (isMac()) {
-                cy.get('body').type('{cmd}{option}', {release: false}).type('{downarrow}').type('{cmd}{option}', {release: true});
-            } else {
-                cy.get('body').type('{ctrl}{shift}', {release: false}).type('{downarrow}').type('{ctrl}{shift}', {release: true});
-            }
-
-            // # Verify that we've switched to the correct team
-            cy.get('#headerTeamName').should('contain', teamDisplayNames[index]);
-
-            // # Verify that we've switched to the correct channel
-            cy.get('#channelHeaderTitle').should('be.visible').should('contain', channelDisplayNames[index]);
-        }
-
-        for (let index = 2; index <= count + 1; index++) {
-            // # Press CTRL/CMD+SHIFT+index
-            if (isMac()) {
-                cy.get('body').type('{cmd}{option}', {release: false}).type(String(index)).type('{cmd}{option}', {release: true});
-            } else {
-                cy.get('body').type('{ctrl}{shift}', {release: false}).type(String(index)).type('{ctrl}{shift}', {release: true});
-            }
-
-            // # Verify that we've switched to the correct team
-            cy.get('#headerTeamName').should('contain', teamDisplayNames[index - 2]);
-
-            // # Verify that we've switched to the correct channel
-            cy.get('#channelHeaderTitle').should('be.visible').should('contain', channelDisplayNames[index - 2]);
-        }
-
-        // Step #2
-        cy.get('#channel-header').should('be.visible').then(() => {
-            cy.get('#channelHeaderUserGuideButton').click();
-            cy.get('.dropdown-menu').should('be.visible').then(() => {
-                cy.get('#keyboardShortcuts').should('be.visible');
-                cy.get('#keyboardShortcuts button').click();
-                cy.get('#shortcutsModalLabel').should('be.visible');
-            });
-        });
-
-        cy.get('.section').eq(0).within(() => {
-            cy.findByText('Navigation').should('be.visible');
-            cy.findByText('Previous team:').should('be.visible');
-            cy.findAllByText('Next team:').should('be.visible');
-            cy.findAllByText('Switch to a specific team:').should('be.visible');
-        });
     });
 });

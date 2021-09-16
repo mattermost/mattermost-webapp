@@ -70,7 +70,7 @@ const PostMessagePreview = (props: Props) => {
                 <PostMessageView
                     post={previewPost}
                     overflowType='ellipsis'
-                    maxHeight={100}
+                    maxHeight={105}
                 />
 
                 <div className='post__preview-footer'>

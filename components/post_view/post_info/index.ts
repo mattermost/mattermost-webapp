@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
 import {removePost} from 'mattermost-redux/actions/posts';
-import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -45,7 +44,7 @@ function makeMapStateToProps() {
             isMobile: state.views.channel.mobileView,
             isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
             enableEmojiPicker,
-            isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
+            isReadOnly: channelIsArchived,
             shouldShowDotMenu: shouldShowDotMenu(state, ownProps.post, channel),
             shortcutReactToLastPostEmittedFrom,
             collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),

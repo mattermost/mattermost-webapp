@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -47,7 +47,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         enableEmojiPicker,
         enablePostUsernameOverride,
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
-        isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
+        isReadOnly: false,
         teamId,
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: isArchivedChannel(channel),

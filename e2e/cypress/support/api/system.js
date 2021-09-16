@@ -284,6 +284,16 @@ Cypress.Commands.add('shouldRunWithSubpath', () => {
     });
 });
 
+Cypress.Commands.add('shouldHaveFeatureFlag', (key, expectedValue) => {
+    return cy.apiGetConfig().then(({config}) => {
+        const actualValue = config.FeatureFlags[key];
+        const message = actualValue === expectedValue ?
+            `Matches feature flag - "${key}: ${expectedValue}"` :
+            `Expected feature flag "${key}" to be "${expectedValue}", but was "${actualValue}"`;
+        expect(actualValue, message).to.equal(expectedValue);
+    });
+});
+
 /**
  * Upload a license if it does not exist.
  */
