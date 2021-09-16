@@ -58,7 +58,7 @@ exports[`PostMessagePreview should not render bot icon 1`] = `
       </div>
     </div>
     <Connect(PostMessageView)
-      maxHeight={100}
+      maxHeight={105}
       overflowType="ellipsis"
       post={
         Object {
@@ -149,7 +149,7 @@ exports[`PostMessagePreview should render bot icon 1`] = `
       </div>
     </div>
     <Connect(PostMessageView)
-      maxHeight={100}
+      maxHeight={105}
       overflowType="ellipsis"
       post={
         Object {
