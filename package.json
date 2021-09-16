@@ -46,7 +46,7 @@
     "localforage-observable": "2.1.1",
     "lodash": "4.17.21",
     "mark.js": "8.11.1",
-    "marked": "github:KobeBergmans/marked#b0c269e08f3053a7f38f66fa4aac166689816af9",
+    "marked": "github:KobeBergmans/marked#791dcb9bd9f3a548bbcff2f6d6d5b6c2984cb7a1",
     "memoize-one": "5.2.1",
     "moment-timezone": "0.5.33",
     "p-queue": "6.6.1",
