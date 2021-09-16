@@ -21,9 +21,9 @@ import RenameChannelModal from 'components/rename_channel_modal';
 import ConvertChannelModal from 'components/convert_channel_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import UnarchiveChannelModal from 'components/unarchive_channel_modal';
-import MoreDirectChannels from 'components/more_direct_channels';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelGroupsManageModal from 'components/channel_groups_manage_modal';
+import AddUserToGroupMessageModal from 'components/add_user_to_group_message_modal/add_user_to_group_message_modal';
 
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
@@ -156,8 +156,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             id='channelAddMembers'
                             show={channel.type === Constants.GM_CHANNEL && !isArchived && !isGroupConstrained}
                             modalId={ModalIdentifiers.CREATE_DM_CHANNEL}
-                            dialogType={MoreDirectChannels}
-                            dialogProps={{isExistingChannel: true}}
+                            dialogType={AddUserToGroupMessageModal}
                             text={localizeMessage('navbar.addMembers', 'Add Members')}
                         />
                     </ChannelPermissionGate>

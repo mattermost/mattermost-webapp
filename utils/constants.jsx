@@ -274,6 +274,7 @@ export const ModalIdentifiers = {
     CHANNEL_MEMBERS: 'channel_members',
     TEAM_MEMBERS: 'team_members',
     ADD_USER_TO_CHANNEL: 'add_user_to_channel',
+    ADD_USER_TO_GROUP_MESSAGE: 'add_user_to_group_message',
     ADD_USER_TO_TEAM: 'add_user_to_team',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',

@@ -14,11 +14,13 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import AlertBanner from 'components/alert_banner';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import Constants from 'utils/constants';
 
@@ -279,6 +281,25 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             </h1>
         );
 
+        const groupMessageWarning = (
+            <AlertBanner
+                variant='app'
+                mode='info'
+                title={(
+                    <FormattedMarkdownMessage
+                        id='collapsed_reply_threads_modal.banner.title'
+                        defaultMessage='Please  [review the list of known issues](!https://docs.mattermost.com/messaging/organizing-conversations.html#known-issues) as we work on stabilizing the feature.'
+                    />
+                )}
+                message={(
+                    <FormattedMessage
+                        id='collapsed_reply_threads_modal.banner.message'
+                        defaultMessage='In particular, you may notice a number of channels and threads appear as unread when you enable Collapsed Reply Threads for the first time.'
+                    />
+                )}
+            />
+        )
+
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
@@ -338,6 +359,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 >
                     <div className='channel-invite__header'>
                         {header}
+                        {this.props.channel.type === 'G' && groupMessageWarning}
                     </div>
                     {inviteError}
                     <div className='channel-invite__content'>
