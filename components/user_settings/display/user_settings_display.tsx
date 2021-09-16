@@ -957,11 +957,11 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {availabilityStatusOnPostsSection}
                     {timezoneSelection}
                     {linkPreviewSection}
-                    {oneClickReactionsOnPostsSection}
                     {collapseSection}
                     {messageDisplaySection}
                     {collapsedReplyThreads}
                     {channelDisplayModeSection}
+                    {oneClickReactionsOnPostsSection}
                     {languagesSection}
                 </div>
             </div>
