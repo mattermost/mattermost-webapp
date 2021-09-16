@@ -240,7 +240,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                 <div>
                     <p>
                         <FormattedMarkdownMessage
-                            id='post_info.actions.visitMarketplace'
+                            id='post_info.actions.noActions'
                             defaultMessage='No Actions currently configured for this server'
                         />
                     </p>
@@ -250,7 +250,10 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         onClick={this.handleOpenMarketplace}
                     >
                         {<i className='icon icon-view-grid-plus-outline'/>}
-                        {'Visit the Marketplace'}
+                        <FormattedMarkdownMessage
+                            id='post_info.actions.visitMarketplace'
+                            defaultMessage='Visit the Marketplace'
+                        />
                     </button>
                 </div>
             </SystemPermissionGate>
