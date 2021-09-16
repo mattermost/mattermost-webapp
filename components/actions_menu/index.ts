@@ -5,7 +5,6 @@ import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
@@ -56,7 +55,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     return {
         components: state.plugins.components,
         teamId: getCurrentTeamId(state),
-        pluginMenuItems: state.plugins.components.PostDropdownMenuItem,
+        pluginMenuItems: state.plugins.components.PostDropdownMenu,
         currentTeamId: currentTeam.id,
         userId,
         isSysAdmin,
