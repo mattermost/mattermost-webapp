@@ -36,7 +36,7 @@ describe('Messaging', () => {
             cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // # Click pin icon next to search box
-            cy.get('#channelHeaderPinButton').should('exist').click();
+            cy.uiGetChannelPinButton().click();
 
             // * RHS title displays as "Pinned Posts" and "[channel name]"
             cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned Posts').and('contain', `${testChannel.display_name}`);
@@ -62,7 +62,7 @@ describe('Messaging', () => {
             cy.get(`#post_${postId}`).findByText('Pinned').should('exist');
 
             // # Click pin icon next to search box
-            cy.get('#channelHeaderPinButton').should('exist').click();
+            cy.uiGetChannelPinButton().click();
 
             // # View pinned posts RHS
             cy.get(`#rhsPostMessageText_${postId}`).should('exist');
@@ -87,7 +87,7 @@ describe('Messaging', () => {
             cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // # Search for "Hello"
-            cy.get('#searchBox').should('be.visible').type('Hello').type('{enter}');
+            cy.uiGetSearchBox().type('Hello').type('{enter}');
 
             // * Post appears in RHS search results, displays Pinned badge
             cy.get(`#searchResult_${postId}`).findByText('Pinned').should('exist');
@@ -112,14 +112,12 @@ describe('Messaging', () => {
             cy.clickPostSaveIcon(postId);
 
             // # In RHS, click Jump to view permalink view
-            cy.get('#channelHeaderFlagButton').should('exist').click();
+            cy.uiGetSavedPostButton().should('exist').click();
             cy.get(`#searchResult_${postId}`).should('exist');
             cy.get('a.search-item__jump').first().click();
 
             // * Message is displayed in center channel and highlighted (permalink view)
             cy.get(`#post_${postId}`).
-                should('have.css', 'animation-duration', '1s').
-                and('have.css', 'animation-delay', '5s').
                 and('have.class', 'post--highlight');
 
             // # In permalink view, click [...] > Un-pin from channel
@@ -131,7 +129,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T2171 Un-pinning and pinning a post in center also removes and adds badge in *saved posts* RHS (Se portion)', () => {
+    it('MM-T2171 Un-pinning and pinning a post in center also removes and adds badge in *saved posts* RHS', () => {
         // # Post a message
         cy.postMessage('This is a post that is going to be pinned then removed, then pinned again.');
 
@@ -143,7 +141,7 @@ describe('Messaging', () => {
             cy.clickPostSaveIcon(postId);
 
             // # Open Saved posts
-            cy.get('#channelHeaderFlagButton').should('exist').click();
+            cy.uiGetSavedPostButton().click();
 
             // * Post appears in saved posts list, and displays Pinned badge
             cy.get(`#searchResult_${postId}`).findByText('Pinned').should('exist');
@@ -181,7 +179,7 @@ describe('Messaging', () => {
             // # Click to reply to message
             cy.getLastPostId().then((replyPostId) => {
                 // # Click pin icon next to search box
-                cy.get('#channelHeaderPinButton').should('exist').click();
+                cy.uiGetChannelPinButton().click();
 
                 // * Pinned post appear in RHS
                 cy.get(`#rhsPostMessageText_${postId}`).should('exist');

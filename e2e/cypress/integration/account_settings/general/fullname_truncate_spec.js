@@ -13,27 +13,26 @@
 import {getRandomId} from '../../../utils';
 
 describe('Account Settings > Full Name', () => {
-    let testTeam;
     let firstUser;
     let secondUser;
     const firstName = 'This Is a Long Name';
     const lastName = 'That Should Truncate';
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
-            testTeam = team;
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
             firstUser = user;
             cy.apiCreateUser().then(({user: user1}) => {
                 secondUser = user1;
-                cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+                cy.apiAddUserToTeam(team.id, secondUser.id);
+
+                cy.apiLogin(firstUser);
+                cy.visit(offTopicUrl);
             });
         });
     });
 
     it('MM-T2046 Full Name - Truncated in popover', () => {
         // # Go to Account Settings -> General -> Full Name -> Edit
-        cy.apiLogin(firstUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.uiOpenAccountSettingsModal();
 
         // # Open Full Name section

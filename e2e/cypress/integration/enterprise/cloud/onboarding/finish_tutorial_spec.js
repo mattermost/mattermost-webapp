@@ -8,19 +8,16 @@
 // ***************************************************************
 
 // Group: @enterprise @onboarding
-// Skip:  @electron @chrome @firefox
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {generateRandomUser} from '../../../../support/api/user';
 
 describe('Onboarding', () => {
     let testTeam;
+
     const {username, email, password} = generateRandomUser();
 
     before(() => {
-        // * Check if server has license for Cloud
-        cy.apiRequireLicenseForFeature('Cloud');
-
         // # Disable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
 
@@ -31,8 +28,8 @@ describe('Onboarding', () => {
     });
 
     it('MM-T402 Finish Tutorial', () => {
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open team menu and click on "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // * Check that the 'Team Settings' modal was opened
         cy.get('#teamSettingsModal').should('exist').within(() => {
@@ -40,10 +37,7 @@ describe('Onboarding', () => {
 
             // # Enable any user with an account on the server to join the team
             cy.get('#teamOpenInvite').should('be.visible').click();
-            cy.findByText('Save').should('be.visible').click();
-
-            // # Close the modal
-            cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
+            cy.uiSaveAndClose();
         });
 
         // # Logout from sysadmin account
@@ -67,38 +61,35 @@ describe('Onboarding', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
-        // # Go through the initial tutorial
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
-        cy.get('#tutorialNextButton').should('be.visible').click();
-        cy.get('#tutorialIntroTwo').findByText('How Mattermost Works:').should('be.visible');
-        cy.get('#tutorialNextButton').should('be.visible').click();
-        cy.get('#tutorialIntroThree').findByText('You\'re all set').should('be.visible');
-        cy.get('#tutorialNextButton').should('be.visible').click();
-
-        // # Click and complete the Message box tutorial (pulsating tooltip)
+        // # Click next tip
         cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--chat').within(($chatOverlay) => {
-            cy.wrap($chatOverlay).contains('Sending Messages').should('be.visible');
-            cy.get('#tipNextButton').should('be.visible').click();
-        });
+        cy.get('.tip-overlay--chat').should('be.visible');
+        cy.findByText('Send a message');
+        cy.findByText('Got it').click();
 
-        // # Click and complete the Town Square tutorial (pulsating tooltip)
+        // # Click next tip
         cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--sidebar').within(($sidebarOverlay) => {
-            cy.wrap($sidebarOverlay).contains(" organize conversations across different topics. They're open to everyone on your team. To send private communications use ").should('be.visible');
-            cy.get('#tipNextButton').should('be.visible').click();
-            cy.wrap($sidebarOverlay).contains('Here are two public channels to start:').should('be.visible');
-            cy.get('#tipNextButton').should('be.visible').click();
-            cy.wrap($sidebarOverlay).contains('Creating and Joining Channels').should('be.visible');
-            cy.get('#tipNextButton').should('be.visible').click();
-        });
+        cy.get('.tip-overlay--sidebar').should('be.visible');
+        cy.findByText('Organize conversations in channels');
+        cy.findByText('Got it').click();
 
-        // # Click and complete the Main Menu tutorial (pulsating tooltip)
+        // # Click next tip
         cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--header--left').within(($headerLeftOverlay) => {
-            cy.wrap($headerLeftOverlay).contains('Team administrators can also access their ').should('be.visible');
-            cy.get('#tipNextButton').should('be.visible').click();
-        });
+        cy.get('.tip-overlay--add-channels').should('be.visible');
+        cy.findByText('Create and join channels');
+        cy.findByText('Got it').click();
+
+        // # Click next tip
+        cy.get('#tipButton').should('be.visible').click();
+        cy.get('.tip-overlay--header--left').should('be.visible');
+        cy.findByText('Invite people');
+        cy.findByText('Got it').click();
+
+        // # Click next tip
+        cy.get('#tipButton').should('be.visible').click();
+        cy.get('.tip-overlay--settings').should('be.visible');
+        cy.findByText('Customize your experience');
+        cy.findByText('Got it').click();
 
         // # Reload the page without cache
         cy.reload(true);
@@ -109,6 +100,6 @@ describe('Onboarding', () => {
         });
 
         // # Assert that the tutorials do not appear
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('not.exist');
+        cy.get('#tipButton').should('not.exist');
     });
 });

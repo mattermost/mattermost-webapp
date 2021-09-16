@@ -5,10 +5,10 @@ import {getRandomId} from '../../utils';
 
 Cypress.Commands.add('uiCreateSidebarCategory', (categoryName = `category-${getRandomId()}`) => {
     // # Click the New Category/Channel Dropdown button
-    cy.get('.AddChannelDropdown_dropdownButton').click();
+    cy.uiGetLHSAddChannelButton().click();
 
     // # Click the Create New Category dropdown item
-    cy.get('.AddChannelDropdown').contains('.MenuItem', 'Create New Category').click({force: true});
+    cy.get('.AddChannelDropdown').should('be.visible').contains('.MenuItem', 'Create New Category').click();
 
     cy.findByRole('dialog', {name: 'Create New Category'}).should('be.visible').within(() => {
         // # Fill in the category name and click 'Create'
