@@ -249,7 +249,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         className='btn btn-primary'
                         onClick={this.handleOpenMarketplace}
                     >
-                        {<i className='icon icon-apps'/>}
+                        {<i className='icon icon-view-grid-plus-outline'/>}
                         {'Visit the Marketplace'}
                     </button>
                 </div>
