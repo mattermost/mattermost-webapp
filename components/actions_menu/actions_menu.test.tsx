@@ -35,31 +35,48 @@ describe('components/actions_menu/ActionsMenu', () => {
         isSysAdmin: true,
     };
 
-    test('should have divider when plugin menu item exists', () => {
+    // test('should have divider when plugin menu item exists', () => {
+    //     const wrapper = shallowWithIntl(
+    //         <ActionsMenu {...baseProps}/>,
+    //     );
+    //     expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
+    //
+    //     wrapper.setProps({
+    //         pluginMenuItems: [
+    //             {id: 'test_plugin_menu_item_1', text: 'woof'},
+    //         ],
+    //     });
+    //     expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
+    // });
+
+    test('actions menu should be visible to sysadmin', () => {
         const wrapper = shallowWithIntl(
             <ActionsMenu {...baseProps}/>,
         );
-        expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
-
-        wrapper.setProps({
-            pluginMenuItems: [
-                {id: 'test_plugin_menu_item_1', text: 'woof'},
-            ],
-        });
-        expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
+        expect(wrapper.find('#CENTER_button_post_id_1').exists()).toBe(true);
     });
 
-    test('should have divider when pluggable menu item exists', () => {
+    test('actions menu should not be visible to end user', () => {
         const wrapper = shallowWithIntl(
             <ActionsMenu {...baseProps}/>,
         );
-        expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
-
         wrapper.setProps({
-            components: {
-                [PLUGGABLE_COMPONENT]: [{}],
-            },
+            isSysAdmin: false,
         });
-        expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
+        expect(wrapper.find('#CENTER_button_post_id_1').exists()).toBe(false);
     });
+
+    // test('should have divider when pluggable menu item exists', () => {
+    //     const wrapper = shallowWithIntl(
+    //         <ActionsMenu {...baseProps}/>,
+    //     );
+    //     expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
+    //
+    //     wrapper.setProps({
+    //         components: {
+    //             [PLUGGABLE_COMPONENT]: [{}],
+    //         },
+    //     });
+    //     expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
+    // });
 });

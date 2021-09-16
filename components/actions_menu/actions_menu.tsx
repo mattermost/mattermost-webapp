@@ -290,7 +290,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
         const {formatMessage} = this.props.intl;
 
-        const showTip = true;
+        const showTip = true; // FIXME
         const marketPlace = (
             <Menu.ItemAction
                 id={`marketplace_icon_${this.props.post.id}`}
