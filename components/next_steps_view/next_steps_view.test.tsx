@@ -146,7 +146,10 @@ describe('components/next_steps_view', () => {
 
     test('should not show DownloadSection when in DownloadAppsCTA test', () => {
         const wrapper = shallow(
-            <NextStepsView {...baseProps} downloadAppsAsNextStep={true}/>,
+            <NextStepsView
+                {...baseProps}
+                downloadAppsAsNextStep={true}
+            />,
         );
         wrapper.setState({show: true});
 

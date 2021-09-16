@@ -100,7 +100,7 @@ export const Steps: StepType[] = [
             'Download the Desktop and Mobile apps',
         ),
         roles: [],
-        component: DownloadAppsStep as any,
+        component: DownloadAppsStep,
         visible: true,
     },
 ];

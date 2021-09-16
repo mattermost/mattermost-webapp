@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from './steps';
 import {RecommendedNextSteps} from 'utils/constants';
+
+import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from './steps';
 
 //
 describe('components/next_steps_view/steps', () => {
@@ -183,7 +184,7 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any).some(step => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(true);
+        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(true);
     });
 
     test('should not show the download_apps_step if exposed to control', () => {
@@ -202,7 +203,7 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any).some(step => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(false);
+        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(false);
     });
 
     test('should not show the download_apps_step if feature flag missing', () => {
@@ -220,6 +221,6 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any).some(step => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(false);
+        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.DOWNLOAD_APPS)).toBe(false);
     });
 });
