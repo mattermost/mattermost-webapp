@@ -18,7 +18,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         placement="right"
       >
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="More actions"
+          defaultMessage="More"
           id="post_info.dot_menu.tooltip.more_actions"
         />
       </Tooltip>
@@ -34,7 +34,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   >
     <button
       aria-expanded="false"
-      aria-label="more actions"
+      aria-label="actions"
       className="post-menu__item"
       id="CENTER_button_post_id_1"
       type="button"
@@ -51,7 +51,19 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     openUp={false}
   >
     <MenuItemAction
+      leftDecorator={
+        <i
+          className="icon icon-reply-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[MockFunction]}
+      rightDecorator="R"
       show={true}
       text="Reply"
     />
@@ -72,21 +84,39 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       extraText="You will be notified about replies"
       id="follow_post_thread_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-message-check-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="F"
       show={false}
       text="Follow message"
     />
     <MenuItemAction
       id="unread_post_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-mark-as-unread"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="U"
       show={true}
       text="Mark as Unread"
-    />
-    <MenuItemAction
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
     />
     <MenuItemAction
       onClick={[Function]}
@@ -100,13 +130,37 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     />
     <MenuItemAction
       id="unpin_post_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-pin-outline post-menu__item--active"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="P"
       show={false}
       text="Unpin"
     />
     <MenuItemAction
       id="pin_post_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-pin-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="P"
       show={true}
       text="Pin"
     />
@@ -116,21 +170,64 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       role="menuitem"
     />
     <MenuItemAction
-      id="edit_post_post_id_1"
+      id="permalink_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-link-variant"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="K"
+      show={true}
+      text="Copy Link"
+    />
+    <li
+      className="MenuItem__divider"
+      id="divider_post_post_id_1_edit"
+      role="menuitem"
+    />
+    <MenuItemAction
+      id="edit_post_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-pencil-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
+      onClick={[Function]}
+      rightDecorator="E"
       show={true}
       text="Edit"
     />
     <MenuItemAction
       id="delete_post_post_id_1"
       isDangerous={true}
+      leftDecorator={
+        <i
+          className="icon icon-trash-can-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="delete"
       show={true}
       text="Delete"
-    />
-    <Connect(Pluggable)
-      pluggableName="PostDropdownMenuItem"
-      postId="post_id_1"
     />
   </Menu>
 </MenuWrapper>
@@ -154,7 +251,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         placement="right"
       >
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="More actions"
+          defaultMessage="More"
           id="post_info.dot_menu.tooltip.more_actions"
         />
       </Tooltip>
@@ -170,7 +267,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   >
     <button
       aria-expanded="false"
-      aria-label="more actions"
+      aria-label="actions"
       className="post-menu__item"
       id="CENTER_button_post_id_1"
       type="button"
@@ -187,7 +284,19 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     openUp={false}
   >
     <MenuItemAction
+      leftDecorator={
+        <i
+          className="icon icon-reply-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[MockFunction]}
+      rightDecorator="R"
       show={true}
       text="Reply"
     />
@@ -208,21 +317,39 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       extraText="You will be notified about replies"
       id="follow_post_thread_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-message-check-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="F"
       show={false}
       text="Follow message"
     />
     <MenuItemAction
       id="unread_post_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-mark-as-unread"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="U"
       show={true}
       text="Mark as Unread"
-    />
-    <MenuItemAction
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
     />
     <MenuItemAction
       onClick={[Function]}
@@ -236,13 +363,37 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     />
     <MenuItemAction
       id="unpin_post_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-pin-outline post-menu__item--active"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="P"
       show={false}
       text="Unpin"
     />
     <MenuItemAction
       id="pin_post_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-pin-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="P"
       show={true}
       text="Pin"
     />
@@ -252,21 +403,64 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       role="menuitem"
     />
     <MenuItemAction
-      id="edit_post_post_id_1"
+      id="permalink_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-link-variant"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="K"
+      show={true}
+      text="Copy Link"
+    />
+    <li
+      className="MenuItem__divider"
+      id="divider_post_post_id_1_edit"
+      role="menuitem"
+    />
+    <MenuItemAction
+      id="edit_post_post_id_1"
+      leftDecorator={
+        <i
+          className="icon icon-pencil-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
+      onClick={[Function]}
+      rightDecorator="E"
       show={true}
       text="Edit"
     />
     <MenuItemAction
       id="delete_post_post_id_1"
       isDangerous={true}
+      leftDecorator={
+        <i
+          className="icon icon-trash-can-outline"
+          style={
+            Object {
+              "fontSize": 18,
+              "marginTop": 1,
+            }
+          }
+        />
+      }
       onClick={[Function]}
+      rightDecorator="delete"
       show={false}
       text="Delete"
-    />
-    <Connect(Pluggable)
-      pluggableName="PostDropdownMenuItem"
-      postId="post_id_1"
     />
   </Menu>
 </MenuWrapper>
