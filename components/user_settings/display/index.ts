@@ -59,6 +59,7 @@ function mapStateToProps(state: GlobalState) {
         collapsedReplyThreadsAllowUserPreference: isCollapsedThreadsAllowed(state) && getConfig(state).CollapsedThreads as string !== 'always_on',
         collapsedReplyThreads: getCollapsedThreadsPreference(state),
         linkPreviewDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+        lastActiveDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LAST_ACTIVE_DISPLAY, Preferences.LAST_ACTIVE_DISPLAY_DEFAULT),
     };
 }
 

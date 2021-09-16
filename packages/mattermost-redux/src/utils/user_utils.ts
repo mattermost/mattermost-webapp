@@ -240,7 +240,10 @@ export function displayLastActiveLabel(status: string, timestamp: number) {
     const currentTime = new Date();
     const oneMin = 5*60*1000;
 
-    if (status === General.ONLINE || (currentTime.valueOf() - new Date(timestamp).valueOf()) <= oneMin) {
+    if (
+        status === General.ONLINE || 
+        (currentTime.valueOf() - new Date(timestamp).valueOf()) <= oneMin
+    ) {
         return false;
     }
     return true
