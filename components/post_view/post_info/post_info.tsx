@@ -7,7 +7,9 @@ import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import store from 'stores/redux_store.jsx';
 
+import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 import {Post} from 'mattermost-redux/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
@@ -216,10 +218,18 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         const showRecentlyUsedReactions = !isSystemMessage && hover && !isReadOnly && this.props.oneClickReactionsEnabled;
         let showRecentReacions;
         if (showRecentlyUsedReactions) {
+            const state = store.getState();
+            const recentEmojis = getRecentEmojis(state).slice(-3);
+            const emojiMap = getEmojiMap(state);
+            const emojis = [];
+            for (let i = 0; i < recentEmojis.length; i++) {
+                emojis.push(emojiMap.get(recentEmojis[i]));
+            }
             showRecentReacions = (
                 <PostReactionRecent
                     channelId={post.channel_id}
                     postId={post.id}
+                    emojis={emojis.reverse()}
                     teamId={this.props.teamId}
                     getDotMenuRef={this.getDotMenu}
                 />

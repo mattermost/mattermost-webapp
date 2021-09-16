@@ -7,7 +7,7 @@ import {Dispatch} from 'redux';
 
 import store from 'stores/redux_store.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
-import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
+import {getEmojiMap} from 'selectors/emojis';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {Locations} from 'utils/constants';
@@ -45,18 +45,20 @@ export default class PostReactionRecent extends React.PureComponent<Props, State
         emojis: defaultEmojis,
     };
 
-    mapRecentEmojis(): void {
-        const recentEmojis = getRecentEmojis(state).slice(0, 3);
-
-        for (let i = 0; i < recentEmojis.length; i++) {
-            this.props.emojis.splice(i, 1, recentEmojis[i]);
-        }
-    }
-
     handleAddEmoji = (emoji: Emoji): void => {
         const emojiName = 'short_name' in emoji ? emoji.short_name : emoji.name;
         this.props.actions.addReaction(this.props.postId, emojiName);
     };
+
+    complementEmojis(): void {
+        const l = this.props.emojis.length;
+        for (let i = l; this.props.emojis.length < 3; i--) {
+            this.props.emojis.push(defaultEmojis[l - i]);
+            if (this.props.emojis.length > 3) {
+                this.props.emojis.pop();
+            }
+        }
+    }
 
     emojiName = (emoji: Emoji): string => {
         const locale = getCurrentLocale(state);
@@ -68,7 +70,7 @@ export default class PostReactionRecent extends React.PureComponent<Props, State
     };
 
     render() {
-        this.mapRecentEmojis();
+        this.complementEmojis();
 
         const {
             channelId,
