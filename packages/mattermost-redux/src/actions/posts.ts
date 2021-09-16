@@ -15,13 +15,13 @@ import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 import {Action, ActionResult, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {ChannelUnread} from 'mattermost-redux/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {Post, PostList} from 'mattermost-redux/types/posts';
+import {Post, PostList, PostPreviewMetadata} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
+import {getMissingProfilesByIds, getProfilesByUsernames} from './users';
 import {
     deletePreferences,
     savePreferences,
@@ -933,61 +933,46 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         return Promise.resolve();
     }
 
-    const postsDictionary: Dictionary<Post> = {};
-    for (let i = 0; i < postsArray.length; i++) {
-        postsDictionary[postsArray[i].id] = postsArray[i];
-    }
-
-    const state = getState();
-    const {currentUserId, profiles, statuses} = state.entities.users;
-
-    // Statuses and profiles of the users who made the posts
+    // Load the users who made or are attached to the posts
     const userIdsToLoad = new Set<string>();
-    const statusesToLoad = new Set<string>();
 
     postsArray.forEach((post) => {
-        const userId = post.user_id;
+        // The author of the post
+        userIdsToLoad.add(post.user_id);
 
+        // The author of a permalinked post
         if (post.metadata && post.metadata.embeds) {
-            post.metadata.embeds.forEach((embed: any) => {
+            for (const embed of post.metadata.embeds) {
                 if (embed.type === 'permalink' && embed.data) {
-                    if (embed.data.post?.user_id && !profiles[embed.data.post.user_id] && embed.data.post.user_id !== currentUserId) {
-                        userIdsToLoad.add(embed.data.post.user_id);
-                    }
-                    if (embed.data.post?.user_id && !statuses[embed.data.post.user_id]) {
-                        statusesToLoad.add(embed.data.post.user_id);
+                    const embeddedPost = (embed.data as PostPreviewMetadata).post;
+                    if (embeddedPost?.user_id) {
+                        userIdsToLoad.add(embeddedPost.user_id);
                     }
                 }
-            });
+            }
         }
 
-        if (!statuses[userId]) {
-            statusesToLoad.add(userId);
-        }
-
-        if (userId === currentUserId) {
-            return;
-        }
-
-        if (!profiles[userId]) {
-            userIdsToLoad.add(userId);
+        // Users referenced in system messages
+        if (
+            post.type === Posts.POST_TYPES.ADD_TO_TEAM ||
+            post.type === Posts.POST_TYPES.ADD_TO_CHANNEL
+        ) {
+            userIdsToLoad.add(post.props.addedUserId);
+        } else if (post.type === Posts.POST_TYPES.REMOVE_FROM_CHANNEL) {
+            userIdsToLoad.add(post.props.removedUserId);
         }
     });
 
-    const promises: any[] = [];
+    const promises: Array<Promise<ActionResult>> = [];
     if (userIdsToLoad.size > 0) {
-        promises.push(getProfilesByIds(Array.from(userIdsToLoad))(dispatch, getState));
+        promises.push(dispatch(getMissingProfilesByIds(Array.from(userIdsToLoad))));
     }
 
-    if (statusesToLoad.size > 0) {
-        promises.push(getStatusesByIds(Array.from(statusesToLoad))(dispatch, getState));
-    }
-
-    // Profiles of users mentioned in the posts
-    const usernamesToLoad = getNeededAtMentionedUsernames(state, postsArray);
+    // Load users mentioned in the posts
+    const usernamesToLoad = getNeededAtMentionedUsernames(getState(), postsArray);
 
     if (usernamesToLoad.size > 0) {
-        promises.push(getProfilesByUsernames(Array.from(usernamesToLoad))(dispatch, getState));
+        promises.push(dispatch(getProfilesByUsernames(Array.from(usernamesToLoad))));
     }
 
     return Promise.all(promises);

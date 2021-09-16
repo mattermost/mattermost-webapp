@@ -8,7 +8,7 @@ import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/posts';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
-import {login} from 'mattermost-redux/actions/users';
+import * as UserActions from 'mattermost-redux/actions/users';
 import {createCustomEmoji} from 'mattermost-redux/actions/emojis';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences, Posts, RequestStatus} from '../constants';
@@ -259,7 +259,7 @@ describe('Actions.Posts', () => {
 
     it('deletePostWithReaction', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        await UserActions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -350,7 +350,7 @@ describe('Actions.Posts', () => {
 
     it('removePostWithReaction', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        await UserActions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -878,7 +878,7 @@ describe('Actions.Posts', () => {
         await TestHelper.basicClient4.logout();
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        await UserActions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -908,7 +908,7 @@ describe('Actions.Posts', () => {
         await TestHelper.basicClient4.logout();
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        await UserActions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1076,7 +1076,7 @@ describe('Actions.Posts', () => {
         const {dispatch, getState} = store;
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
+        await UserActions.login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1102,7 +1102,7 @@ describe('Actions.Posts', () => {
         const {dispatch, getState} = store;
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
+        await UserActions.login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1133,7 +1133,7 @@ describe('Actions.Posts', () => {
         const {dispatch, getState} = store;
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
+        await UserActions.login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1406,49 +1406,6 @@ describe('Actions.Posts', () => {
         assert.ok(index === 2);
     });
 
-    describe('getProfilesAndStatusesForPosts', () => {
-        describe('different values for posts argument', () => {
-            // Mock the state to prevent any followup requests since we aren't testing those
-            const currentUserId = 'user';
-            const post = {id: 'post', user_id: currentUserId, message: 'This is a post'};
-
-            const dispatch = null;
-            const getState = () => ({
-                entities: {
-                    general: {
-                        config: {
-                            EnableCustomEmoji: 'false',
-                        },
-                    },
-                    users: {
-                        currentUserId,
-                        statuses: {
-                            [currentUserId]: 'status',
-                        },
-                    },
-                },
-            });
-
-            it('null', async () => {
-                await Actions.getProfilesAndStatusesForPosts(null, dispatch, getState);
-            });
-
-            it('array of posts', async () => {
-                const posts = [post];
-
-                await Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
-            });
-
-            it('object map of posts', async () => {
-                const posts = {
-                    [post.id]: post,
-                };
-
-                await Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
-            });
-        });
-    });
-
     describe('getThreadsForPosts', () => {
         beforeAll(() => {
             TestHelper.initBasic(Client4);
@@ -1592,5 +1549,226 @@ describe('Actions.Posts', () => {
                 oldest: true,
             });
         });
+    });
+});
+
+describe('getProfilesAndStatusesForPosts', () => {
+    const dispatch = jest.fn();
+    const getState = jest.fn();
+
+    const getMissingProfilesByIds = jest.
+        spyOn(UserActions, 'getMissingProfilesByIds').
+        mockImplementation(() => Promise.resolve());
+    const getProfilesByUsernames = jest.
+        spyOn(UserActions, 'getProfilesByUsernames').
+        mockImplementation(() => Promise.resolve());
+
+    describe('should handle different types of values for posts argument', () => {
+        const userId = 'userId';
+        const post = {id: 'post', user_id: userId, message: 'This is a post'};
+
+        it('null', () => {
+            Actions.getProfilesAndStatusesForPosts(null, dispatch, getState);
+
+            expect(dispatch).not.toHaveBeenCalled();
+            expect(getMissingProfilesByIds).not.toHaveBeenCalled();
+        });
+
+        it('array of posts', () => {
+            const posts = [post];
+
+            Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
+
+            expect(dispatch).toHaveBeenCalledTimes(1);
+            expect(getMissingProfilesByIds).toHaveBeenCalledWith([userId]);
+        });
+
+        it('object map of posts', () => {
+            const posts = {
+                [post.id]: post,
+            };
+
+            Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
+
+            expect(dispatch).toHaveBeenCalledTimes(1);
+            expect(getMissingProfilesByIds).toHaveBeenCalledWith([userId]);
+        });
+    });
+
+    it('should check for post authors', () => {
+        const posts = [
+            {
+                user_id: 'user1',
+                message: '',
+            },
+            {
+                user_id: 'user2',
+                message: '',
+            },
+        ];
+
+        Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
+
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(getMissingProfilesByIds).toHaveBeenCalledWith(['user1', 'user2']);
+    });
+
+    it('should check for authors of permalinked posts', () => {
+        const posts = [
+            {
+                user_id: 'user1',
+                message: '',
+                metadata: {
+                    embeds: [
+                        {
+                            type: 'permalink',
+                            data: {
+                                post: {
+                                    user_id: 'linkedUser1',
+                                },
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                user_id: 'user1',
+                message: '',
+                metadata: {
+                    embeds: [
+                        {
+                            type: 'permalink',
+                            data: {
+                                post: {
+                                    user_id: 'linkedUser2',
+                                },
+                            },
+                        },
+                    ],
+                },
+            },
+        ];
+
+        Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
+
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(getMissingProfilesByIds).toHaveBeenCalledWith(['user1', 'linkedUser1', 'linkedUser2']);
+    });
+
+    it('should check for added users in system posts', () => {
+        const posts = [
+            {
+                user_id: 'user1',
+                type: Posts.POST_TYPES.ADD_TO_TEAM,
+                message: '',
+                props: {
+                    addedUserId: 'addedUser1',
+                    addedUsername: 'addedUser1',
+                },
+            },
+            {
+                user_id: 'user1',
+                type: Posts.POST_TYPES.ADD_TO_CHANNEL,
+                message: '',
+                props: {
+                    addedUserId: 'addedUser2',
+                    addedUsername: 'addedUser2',
+                },
+            },
+        ];
+
+        Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
+
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(getMissingProfilesByIds).toHaveBeenCalledWith(['user1', 'addedUser1', 'addedUser2']);
+    });
+
+    it('should check for removed users in system posts', () => {
+        const posts = [
+            {
+                user_id: 'user1',
+                type: Posts.POST_TYPES.REMOVE_FROM_CHANNEL,
+                message: '',
+                props: {
+                    removedUserId: 'removedUser1',
+                    removedUsername: 'removedUser1',
+                },
+            },
+        ];
+
+        Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
+
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(getMissingProfilesByIds).toHaveBeenCalledWith(['user1', 'removedUser1']);
+    });
+
+    it('should never check for duplicate IDs', () => {
+        const posts = [
+            {
+                user_id: 'user1',
+                message: '',
+                metadata: {
+                    embeds: [
+                        {
+                            type: 'permalink',
+                            data: {
+                                post: {
+                                    user_id: 'user1',
+                                },
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                user_id: 'user1',
+                message: '',
+                type: Posts.POST_TYPES.ADD_TO_CHANNEL,
+                props: {
+                    addedUserId: 'user1',
+                    addedUsername: 'user1',
+                },
+            },
+            {
+                user_id: 'user1',
+                message: '',
+                type: Posts.POST_TYPES.REMOVE_FROM_CHANNEL,
+                props: {
+                    removedUserId: 'user1',
+                    removedUsername: 'user1',
+                },
+            },
+        ];
+
+        Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
+
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(getMissingProfilesByIds).toHaveBeenCalledWith(['user1']);
+    });
+
+    it('should check for mentioned usernames that are not already loaded', () => {
+        const posts = [
+            {
+                user_id: 'user1',
+                message: '@user.two @user.three @user.four',
+            },
+        ];
+
+        getState.mockImplementation(() => ({
+            entities: {
+                users: {
+                    profiles: {
+                        user1: {id: 'user1', username: 'user.one'},
+                        user4: {id: 'user4', username: 'user.four'},
+                    },
+                },
+            },
+        }));
+
+        Actions.getProfilesAndStatusesForPosts(posts, dispatch, getState);
+
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(getMissingProfilesByIds).toHaveBeenCalledWith(['user1']);
+        expect(getProfilesByUsernames).toHaveBeenCalledWith(['user.two', 'user.three']);
     });
 });
