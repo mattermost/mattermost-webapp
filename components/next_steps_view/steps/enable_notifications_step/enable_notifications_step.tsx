@@ -59,7 +59,7 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
         return (
             <div>
                 <TextCardWithAction
-                    cardBodyMessageId={'next_steps_view.notificationSetupNotificationsDisabled'}
+                    cardBodyMessageId={t('next_steps_view.notificationSetupNotificationsDisabled')}
                     cardBodyDefaultMessage={
                         'Notifications were previously disabled or you may be browsing in private mode. You\'ll need to open your browser settings or turn off private mode to enable notifications.'
                     }
@@ -74,11 +74,11 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
     }
     return (
         <TextCardWithAction
-            cardBodyMessageId={'next_steps_view.notificationSetup'}
+            cardBodyMessageId={t('next_steps_view.notificationSetup')}
             cardBodyDefaultMessage={
                 'We recommend enabling desktop notifications so you don’t miss any important communications.'
             }
-            buttonMessageId={'next_steps_view.notificationSetup.setNotifications'}
+            buttonMessageId={t('next_steps_view.notificationSetup.setNotifications')}
             buttonDefaultMessage={'Set up notifications'}
             onClick={onFinish}
         />
