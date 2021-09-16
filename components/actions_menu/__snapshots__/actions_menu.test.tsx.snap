@@ -1,0 +1,313 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/actions_menu/ActionsMenu should match snapshot, canDelete 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
+  onToggle={[MockFunction]}
+>
+  <OverlayTrigger
+    className="hidden-xs"
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="actions-menu-icon-tooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Actions"
+          id="post_info.tooltip.actions"
+        />
+      </Tooltip>
+    }
+    placement="top"
+    rootClose={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <button
+      aria-expanded="false"
+      aria-label="actions"
+      className="post-menu__item"
+      id="CENTER_button_post_id_1"
+      type="button"
+    >
+      <i
+        className="icon icon-apps"
+      />
+      <ActionsTutorialTip />
+    </button>
+  </OverlayTrigger>
+  <Menu
+    ariaLabel="Post extra options"
+    id="CENTER_dropdown_post_id_1"
+    openLeft={true}
+    openUp={false}
+  >
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <div
+        style={
+          Object {
+            "fontSize": 14,
+            "margin": 12,
+            "textAlign": "center",
+          }
+        }
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="No Actions currently\\\\nconfigured for this server"
+          id="post_info.actions.noActions"
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "fontSize": 12,
+            "paddingBottom": 10,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 10,
+            "textAlign": "center",
+            "top": 1,
+          }
+        }
+      >
+        <button
+          className="btn btn-primary"
+          id="marketPlaceButton"
+          onClick={[Function]}
+        >
+          <i
+            className="icon icon-view-grid-plus-outline"
+          />
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Visit the Marketplace"
+            id="post_info.actions.visitMarketplace"
+          />
+        </button>
+      </div>
+    </Connect(SystemPermissionGate)>
+  </Menu>
+</MenuWrapper>
+`;
+
+exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
+  onToggle={[MockFunction]}
+>
+  <OverlayTrigger
+    className="hidden-xs"
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="actions-menu-icon-tooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Actions"
+          id="post_info.tooltip.actions"
+        />
+      </Tooltip>
+    }
+    placement="top"
+    rootClose={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <button
+      aria-expanded="false"
+      aria-label="actions"
+      className="post-menu__item"
+      id="CENTER_button_post_id_1"
+      type="button"
+    >
+      <i
+        className="icon icon-apps"
+      />
+      <ActionsTutorialTip />
+    </button>
+  </OverlayTrigger>
+  <Menu
+    ariaLabel="Post extra options"
+    id="CENTER_dropdown_post_id_1"
+    openLeft={true}
+    openUp={false}
+  >
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <div
+        style={
+          Object {
+            "fontSize": 14,
+            "margin": 12,
+            "textAlign": "center",
+          }
+        }
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="No Actions currently\\\\nconfigured for this server"
+          id="post_info.actions.noActions"
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "fontSize": 12,
+            "paddingBottom": 10,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 10,
+            "textAlign": "center",
+            "top": 1,
+          }
+        }
+      >
+        <button
+          className="btn btn-primary"
+          id="marketPlaceButton"
+          onClick={[Function]}
+        >
+          <i
+            className="icon icon-view-grid-plus-outline"
+          />
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Visit the Marketplace"
+            id="post_info.actions.visitMarketplace"
+          />
+        </button>
+      </div>
+    </Connect(SystemPermissionGate)>
+  </Menu>
+</MenuWrapper>
+`;
+
+exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
+  onToggle={[MockFunction]}
+>
+  <OverlayTrigger
+    className="hidden-xs"
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="actions-menu-icon-tooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Actions"
+          id="post_info.tooltip.actions"
+        />
+      </Tooltip>
+    }
+    placement="top"
+    rootClose={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <button
+      aria-expanded="false"
+      aria-label="actions"
+      className="post-menu__item"
+      id="CENTER_button_post_id_1"
+      type="button"
+    >
+      <i
+        className="icon icon-apps"
+      />
+      <ActionsTutorialTip />
+    </button>
+  </OverlayTrigger>
+  <Menu
+    ariaLabel="Post extra options"
+    id="CENTER_dropdown_post_id_1"
+    openLeft={true}
+    openUp={false}
+  >
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <div
+        style={
+          Object {
+            "fontSize": 14,
+            "margin": 12,
+            "textAlign": "center",
+          }
+        }
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="No Actions currently\\\\nconfigured for this server"
+          id="post_info.actions.noActions"
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "fontSize": 12,
+            "paddingBottom": 10,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 10,
+            "textAlign": "center",
+            "top": 1,
+          }
+        }
+      >
+        <button
+          className="btn btn-primary"
+          id="marketPlaceButton"
+          onClick={[Function]}
+        >
+          <i
+            className="icon icon-view-grid-plus-outline"
+          />
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Visit the Marketplace"
+            id="post_info.actions.visitMarketplace"
+          />
+        </button>
+      </div>
+    </Connect(SystemPermissionGate)>
+  </Menu>
+</MenuWrapper>
+`;
