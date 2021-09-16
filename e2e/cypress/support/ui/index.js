@@ -4,6 +4,7 @@
 import './account_settings_modal';
 import './announcement_bar';
 import './channel';
+import './channel_header';
 import './channel_sidebar';
 import './common';
 import './compliance_export';
@@ -17,6 +18,7 @@ import './modal';
 import './post_dropdown_menu';
 import './search';
 import './sidebar_left';
+import './cloud_billing';
 import './suggestion_list';
 import './system';
 import './team';

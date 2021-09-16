@@ -464,4 +464,15 @@ Cypress.Commands.add('apiUpdateUserAuth', (userId, authData, password, authServi
     });
 });
 
+Cypress.Commands.add('apiGetTotalUsers', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'GET',
+        url: '/api/v4/users/stats',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body.total_users_count);
+    });
+});
+
 export {generateRandomUser};

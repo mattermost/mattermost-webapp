@@ -177,5 +177,17 @@ declare namespace Cypress {
          *   cy.shouldRunWithSubpath();
          */
         shouldRunWithSubpath(): Chainable;
+
+        /**
+         * Allow test if matches feature flag setting
+         * Otherwise, fail fast.
+         *
+         * @param {string} feature - feature name
+         * @param {string} expectedValue - expected value
+         *
+         * @example
+         *   cy.shouldHaveFeatureFlag('feature', 'expected-value');
+         */
+        shouldHaveFeatureFlag(feature: string, expectedValue: any): Chainable;
     }
 }
