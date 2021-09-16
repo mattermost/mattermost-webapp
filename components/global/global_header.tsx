@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 import StatusDropdown from 'components/status_dropdown';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
+import {getIsMobileView} from 'selectors/views/browser';
 import {TutorialSteps} from 'utils/constants';
 import Pluggable from 'plugins/pluggable';
 import {isDesktopApp} from 'utils/user_agent';
@@ -78,6 +79,7 @@ const RightControls = styled.div`
 
 const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
+    const isMobileView = useSelector(getIsMobileView);
     const isLoggedIn = useIsLoggedIn();
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
@@ -95,7 +97,17 @@ const GlobalHeader = (): JSX.Element | null => {
         };
     }, [enabled]);
 
-    if (!enabled || !isLoggedIn) {
+    console.log('[GLOBAL HEADER] isMobileView', isMobileView);
+
+    useEffect(() => {
+        console.log('[GLOBAL HEADER] general useEffect: isMobileView', isMobileView);
+    });
+
+    useEffect(() => {
+        console.log('[GLOBAL HEADER] limited isMobileView', isMobileView);
+    }, [isMobileView]);
+
+    if (!enabled || !isLoggedIn || isMobileView) {
         return null;
     }
 
