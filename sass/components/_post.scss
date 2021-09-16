@@ -400,6 +400,10 @@
 
         &.prewritten {
             background: rgba(var(--button-bg-rgb), 0.08);
+
+            .custom-textarea {
+                background: var(--center-channel-bg);
+            }
         }
     }
 
