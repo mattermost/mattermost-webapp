@@ -12,9 +12,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
-import {UserThread} from 'mattermost-redux/types/threads';
-import {Team} from 'mattermost-redux/types/teams';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, Constants, ModalIdentifiers} from 'utils/constants';
@@ -43,9 +40,6 @@ type Props = {
     handleDropdownOpened?: (open: boolean) => void;
     isMenuOpen?: boolean;
     pluginMenuItems?: PluginComponent[];
-    isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
-    enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
-    channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     appBindings?: AppBinding[];
     appsEnabled: boolean;
 
@@ -74,12 +68,6 @@ type Props = {
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 
     }; // TechDebt: Made non-mandatory while converting to typescript
-
-    userId: string;
-    currentTeamId: $ID<Team>;
-    threadId: $ID<UserThread>;
-    isFollowingThread?: boolean;
-    threadReplyCount?: number;
 }
 
 type State = {
