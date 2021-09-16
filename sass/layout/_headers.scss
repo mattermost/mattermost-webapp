@@ -488,8 +488,8 @@
             margin: 0;
         }
 
-        &.last-active__text span {
-            color: rgba(61, 60, 64, 0.72);
+        span.last-active__text {
+            color: rgba(var(--center-channel-color-rgb), 0.72);
         }
     }
 

@@ -682,10 +682,10 @@ export function searchProfilesInGroup(state: GlobalState, groupId: $ID<Group>, t
     return profiles;
 }
 
-export function getUserLastActivities(state: GlobalState): RelationOneToOne<UserProfile, string> {
+export function getUserLastActivities(state: GlobalState): RelationOneToOne<UserProfile, number> {
     return state.entities.users.lastActivity;
 }
 
-export function getLastActivityForUserId(state: GlobalState, userId: $ID<UserProfile>): string {
+export function getLastActivityForUserId(state: GlobalState, userId: $ID<UserProfile>): number {
     return getUserLastActivities(state)[userId];
 }

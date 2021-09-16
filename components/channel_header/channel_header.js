@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import {displayUsername, displayLastActiveLabel} from 'mattermost-redux/utils/user_utils';
 
 import 'bootstrap';
 
@@ -410,7 +410,7 @@ class ChannelHeader extends React.PureComponent {
                     {this.renderCustomStatus()}
                 </span>
             );
-            if (channel.status.toLowerCase() !== "online" && this.props.lastActivityTimestamp) {
+            if (displayLastActiveLabel(channel.status, this.props.lastActivityTimestamp)) {
                 dmHeaderTextStatus = (
                     <span className='header-status__text'>
                         <span className='last-active__text'>

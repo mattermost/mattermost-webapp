@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getLastActivityForUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentTeam,
     getCurrentRelativeTeamUrl,
@@ -57,6 +57,8 @@ function makeMapStateToProps() {
         }
 
         const customStatus = getCustomStatus(state, userId);
+
+        const lastActivityTimestamp = getLastActivityForUserId(state, userId);
         return {
             currentTeamId: team.id,
             currentUserId: getCurrentUserId(state),
@@ -74,6 +76,7 @@ function makeMapStateToProps() {
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
             channelId,
             currentUserTimezone: getCurrentUserTimezone(state),
+            lastActivityTimestamp,
         };
     };
 }

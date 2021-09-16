@@ -4,6 +4,7 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
+import {displayLastActiveLabel} from 'mattermost-redux/utils/user_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import StatusIcon from 'components/status_icon';
 import Timestamp from 'components/timestamp';
@@ -139,6 +140,8 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
+
+    lastActivityTimestamp: number;
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
@@ -358,6 +361,35 @@ ProfilePopoverState
                 />
             </div>,
         );
+        if (this.props.status && displayLastActiveLabel(this.props.status, this.props.lastActivityTimestamp)) {
+            dataContent.push(
+                <div
+                    className='user-popover-last-active'
+                    key='user-popover-last-active'
+                >
+                    <FormattedMessage
+                        id='channel_header.lastActive'
+                        defaultMessage='Active {timestamp}'
+                        values={{
+                            timestamp: (
+                                <Timestamp
+                                    value={this.props.lastActivityTimestamp}
+                                    units={[
+                                        'now',
+                                        'minute',
+                                        'hour',
+                                        'day',
+                                    ]}
+                                    useTime={false}
+                                    day={'numeric'}
+                                />
+                            ),
+                        }}
+                    />
+                </div>
+            );
+        }
+        
         const fullname = Utils.getFullName(this.props.user);
         const haveOverrideProp =
       this.props.overwriteIcon || this.props.overwriteName;
