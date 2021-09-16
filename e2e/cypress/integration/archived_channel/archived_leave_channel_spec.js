@@ -98,10 +98,9 @@ describe('Leave an archived channel', () => {
             // # Create another archived channel and post a message
             const messageD = 'archived channel D message';
             cy.apiCreateArchivedChannel('archived-d', 'Archived D', 'O', testTeam.id, [messageD], testUser).then((archivedChannelD) => {
-                // # Visit off-topic and post a message
-                const previousChannel = `/${testTeam.name}/channels/off-topic`;
+                // # Visit town-square and post a message
+                const previousChannel = `/${testTeam.name}/channels/town-square`;
                 cy.visit(previousChannel);
-                cy.postMessage('hello');
 
                 // # Search for content from an archived channel
                 cy.get('#searchBox').click().clear().type(`${messageD}{enter}`);
