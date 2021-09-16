@@ -11,8 +11,9 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
+import {updateMe} from 'mattermost-redux/actions/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getTimezoneLabel, getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
@@ -25,6 +26,7 @@ import UserSettingsDisplay from './user_settings_display';
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const currentUserId = getCurrentUserId(state);
+    const currentUser = getCurrentUser(state);
     const userTimezone = getUserTimezone(state, currentUserId);
     const automaticTimezoneNotSet = userTimezone && userTimezone.useAutomaticTimezone && !userTimezone.automaticTimezone;
     const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
@@ -36,6 +38,8 @@ function mapStateToProps(state: GlobalState) {
     const enableTimezone = config.ExperimentalTimezone === 'true';
     const lockTeammateNameDisplay = getLicense(state).LockTeammateNameDisplay === 'true' && config.LockTeammateNameDisplay === 'true';
     const configTeammateNameDisplay = config.TeammateNameDisplay as string;
+    const enableReadReceipts = config.EnableReadReceipts === 'true';
+    const localEnableReadReceipts = currentUser.props?.local_enable_read_receipts || (enableReadReceipts ? 'On' : 'Off');
 
     return {
         lockTeammateNameDisplay,
@@ -49,6 +53,8 @@ function mapStateToProps(state: GlobalState) {
         timezoneLabel,
         userTimezone,
         shouldAutoUpdateTimezone,
+        enableReadReceipts,
+        localEnableReadReceipts,
         currentUserTimezone: getUserCurrentTimezone(userTimezone) as string,
         availabilityStatusOnPosts: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AVAILABILITY_STATUS_ON_POSTS, Preferences.AVAILABILITY_STATUS_ON_POSTS_DEFAULT),
         militaryTime: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, Preferences.USE_MILITARY_TIME_DEFAULT),
@@ -67,6 +73,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             autoUpdateTimezone,
             savePreferences,
+            updateMe,
         }, dispatch),
     };
 }

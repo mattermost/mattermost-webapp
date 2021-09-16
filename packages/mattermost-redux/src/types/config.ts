@@ -87,6 +87,7 @@ export type ClientConfig = {
     EnablePreviewFeatures: string;
     EnablePreviewModeBanner: string;
     EnablePublicLink: string;
+    EnableReadReceipts: string;
     EnableReliableWebSockets: string;
     EnableSaml: string;
     EnableSignInWithEmail: string;
@@ -343,6 +344,7 @@ export type TeamSettings = {
     EnableCustomUserStatuses: boolean;
     EnableUserCreation: boolean;
     EnableOpenServer: boolean;
+    EnableReadReceipts: boolean;
     EnableUserDeactivation: boolean;
     RestrictCreationToDomains: string;
     EnableCustomBrand: boolean;

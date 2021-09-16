@@ -32,6 +32,33 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
       }
     />
   </div>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="seenTooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Seen"
+          id="channel_header.recentMentions"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+      ]
+    }
+  >
+    <StyledIcon
+      glyph="check-all"
+      size={12}
+    />
+  </OverlayTrigger>
   <Connect(Pluggable)
     onHeightChange={[Function]}
     pluggableName="PostMessageAttachment"
@@ -72,6 +99,33 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
       }
     />
   </div>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="seenTooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Seen"
+          id="channel_header.recentMentions"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+      ]
+    }
+  >
+    <StyledIcon
+      glyph="check-all"
+      size={12}
+    />
+  </OverlayTrigger>
   <Connect(Pluggable)
     onHeightChange={[Function]}
     pluggableName="PostMessageAttachment"
@@ -112,6 +166,33 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
       }
     />
   </div>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="seenTooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Seen"
+          id="channel_header.recentMentions"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+      ]
+    }
+  >
+    <StyledIcon
+      glyph="check-all"
+      size={12}
+    />
+  </OverlayTrigger>
   <Connect(Pluggable)
     onHeightChange={[Function]}
     pluggableName="PostMessageAttachment"
@@ -171,6 +252,33 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
       }
     />
   </div>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="seenTooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Seen"
+          id="channel_header.recentMentions"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+      ]
+    }
+  >
+    <StyledIcon
+      glyph="check-all"
+      size={12}
+    />
+  </OverlayTrigger>
   <span
     className="post-edited__indicator"
     id="postEdited_post_id"
@@ -233,6 +341,33 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
       }
     />
   </div>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="seenTooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Seen"
+          id="channel_header.recentMentions"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+      ]
+    }
+  >
+    <StyledIcon
+      glyph="check-all"
+      size={12}
+    />
+  </OverlayTrigger>
   <Connect(Pluggable)
     onHeightChange={[Function]}
     pluggableName="PostMessageAttachment"

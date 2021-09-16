@@ -98,6 +98,33 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
       }
     />
   </div>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="seenTooltip"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Seen"
+          id="channel_header.recentMentions"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+      ]
+    }
+  >
+    <StyledIcon
+      glyph="check-all"
+      size={12}
+    />
+  </OverlayTrigger>
   <Connect(Pluggable)
     onHeightChange={[Function]}
     pluggableName="PostMessageAttachment"

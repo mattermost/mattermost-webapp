@@ -65,6 +65,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         actions: {
             autoUpdateTimezone: jest.fn(),
             savePreferences: jest.fn(),
+            updateMe: jest.fn(),
         },
 
         configTeammateNameDisplay: '',
@@ -84,6 +85,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         linkPreviewDisplay: '',
         globalHeaderDisplay: '',
         globalHeaderAllowed: true,
+        enableReadReceipts: true,
+        localEnableReadReceipts: 'on',
     };
 
     test('should match snapshot, no active section', () => {
@@ -318,5 +321,17 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         (wrapper.instance() as UserSettingsDisplay).handleCollapseReplyThreadsRadio('on');
         expect(wrapper.state('collapsedReplyThreads')).toBe('on');
+    });
+
+    test('should update local read receipts state', () => {
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+        );
+
+        (wrapper.instance() as UserSettingsDisplay).handleLocalEnableReadReceiptsRadio('off');
+        expect(wrapper.state('localEnableReadReceipts')).toBe('off');
+
+        (wrapper.instance() as UserSettingsDisplay).handleLocalEnableReadReceiptsRadio('on');
+        expect(wrapper.state('localEnableReadReceipts')).toBe('on');
     });
 });

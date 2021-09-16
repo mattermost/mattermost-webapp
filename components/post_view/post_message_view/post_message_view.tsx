@@ -2,21 +2,27 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import styled from 'styled-components';
+
+import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {Posts} from 'mattermost-redux/constants';
 import {Post} from 'mattermost-redux/types/posts';
-
 import {Theme} from 'mattermost-redux/types/themes';
-
-import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils';
+import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
 
 import PostMarkdown from 'components/post_markdown';
-import Pluggable from 'plugins/pluggable';
+import OverlayTrigger from 'components/overlay_trigger';
 import ShowMore from 'components/post_view/show_more';
-import {TextFormattingOptions} from 'utils/text_formatting';
 import {AttachmentTextOverflowType} from 'components/post_view/show_more/show_more';
+import Pluggable from 'plugins/pluggable';
+
+import Constants from 'utils/constants';
+import * as PostUtils from 'utils/post_utils';
+import {TextFormattingOptions} from 'utils/text_formatting';
+import * as Utils from 'utils/utils';
 
 type Props = {
     post: Post; /* The post to render the message for */
@@ -31,6 +37,9 @@ type Props = {
     currentRelativeTeamUrl: string;
     overflowType?: AttachmentTextOverflowType;
     maxHeight?: number; /* The max height used by the show more component */
+    teammate?: UserProfile;
+    currentUser: UserProfile;
+    profilesWithLastViewAtInChannel?: UserProfileWithLastViewAt[];
 }
 
 type State = {
@@ -38,6 +47,10 @@ type State = {
     hasOverflow: boolean;
     checkOverflow: number;
 }
+
+const StyledIcon = styled(Icon)`
+    color: var(--button-bg);
+`;
 
 export default class PostMessageView extends React.PureComponent<Props, State> {
     private imageProps: any;
@@ -105,6 +118,38 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
                     defaultMessage='(edited)'
                 />
             </span>
+        );
+    }
+
+    renderSeenIndicator() {
+        const {teammate, currentUser, profilesWithLastViewAtInChannel} = this.props;
+        const teammateLastViewedAt = profilesWithLastViewAtInChannel?.find((profile) => profile.id === currentUser.id)?.last_viewed_at;
+
+        if (teammate?.props?.local_enable_read_receipts === 'Off' || teammateLastViewedAt === 0) {
+            return null;
+        }
+
+        const tooltip = (
+            <Tooltip id='seenTooltip'>
+                <FormattedMessage
+                    id='channel_header.recentMentions'
+                    defaultMessage='Seen'
+                />
+            </Tooltip>
+        );
+
+        return (
+            <OverlayTrigger
+                trigger={['hover']}
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='bottom'
+                overlay={tooltip}
+            >
+                <StyledIcon
+                    size={12}
+                    glyph={'check-all'}
+                />
+            </OverlayTrigger>
         );
     }
 
@@ -180,6 +225,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
                         mentionKeys={[]}
                     />
                 </div>
+                {this.renderSeenIndicator()}
                 {this.renderEditedIndicator()}
                 <Pluggable
                     pluggableName='PostMessageAttachment'

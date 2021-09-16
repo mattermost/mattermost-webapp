@@ -41,6 +41,8 @@ function getDisplayStateFromProps(props: Props) {
         collapseDisplay: props.collapseDisplay,
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
+        localEnableReadReceipts: props.localEnableReadReceipts,
+        enableReadReceipts: props.enableReadReceipts,
     };
 }
 
@@ -101,10 +103,13 @@ type Props = {
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
+    localEnableReadReceipts: string;
+    enableReadReceipts: boolean;
     timezoneLabel: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
+        updateMe: (user: UserProfile) => void;
     };
 }
 
@@ -119,6 +124,7 @@ type State = {
     collapseDisplay: string;
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
+    localEnableReadReceipts: string;
     handleSubmit?: () => void;
     serverError?: string;
 }
@@ -175,6 +181,20 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         if (preference.value !== oldValue) {
             trackEvent('settings', 'user_settings_update', props);
         }
+    }
+
+    submitLocalReadReceiptsPreference = () => {
+        const {user, actions} = this.props;
+        const {localEnableReadReceipts} = this.state;
+
+        const updatedUser = {
+            ...user,
+            props: {
+                local_enable_read_receipts: localEnableReadReceipts,
+            },
+        };
+
+        actions.updateMe(updatedUser);
     }
 
     handleSubmit = async () => {
@@ -243,7 +263,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         ];
 
         this.trackChangeIfNecessary(collapsedReplyThreadsPreference, this.props.collapsedReplyThreads);
-
+        this.submitLocalReadReceiptsPreference();
         await this.props.actions.savePreferences(userId, preferences);
 
         this.updateSection('');
@@ -279,6 +299,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
     handleLinkPreviewRadio(linkPreviewDisplay: string) {
         this.setState({linkPreviewDisplay});
+    }
+
+    handleLocalEnableReadReceiptsRadio(localEnableReadReceipts: string) {
+        this.setState({localEnableReadReceipts});
     }
 
     handleOnChange(display: {[key: string]: any}) {
@@ -869,6 +893,35 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             );
         }
 
+        const localEnableReadReceipts = this.props.enableReadReceipts ? this.createSection({
+            section: 'local_enable_read_receipts',
+            display: 'localEnableReadReceipts',
+            value: this.state.localEnableReadReceipts,
+            defaultDisplay: 'On',
+            title: {
+                id: t('user.settings.display.localEnableReadReceiptsTitle'),
+                message: 'Read Receipts',
+            },
+            firstOption: {
+                value: 'On',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.on'),
+                    message: 'On',
+                },
+            },
+            secondOption: {
+                value: 'Off',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.off'),
+                    message: 'Off',
+                },
+            },
+            description: {
+                id: t('user.settings.display.localEnableReadReceiptsDesc'),
+                message: 'When enabled, users will see read receipts for messages sent in Direct and Group Messages.',
+            },
+        }) : null;
+
         return (
             <div id='displaySettings'>
                 <div className='modal-header'>
@@ -919,6 +972,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {collapsedReplyThreads}
                     {channelDisplayModeSection}
                     {languagesSection}
+                    {localEnableReadReceipts}
                 </div>
             </div>
         );
