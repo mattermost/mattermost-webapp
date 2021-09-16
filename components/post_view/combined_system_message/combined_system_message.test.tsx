@@ -7,14 +7,11 @@ import {General, Posts} from 'mattermost-redux/constants';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import CombinedSystemMessage, {CombinedSystemMessage as CombinedSystemMessageType} from './combined_system_message';
+import CombinedSystemMessage from './combined_system_message';
 
 describe('components/post_view/CombinedSystemMessage', () => {
-    function emptyFunc() {} // eslint-disable-line no-empty-function
     const userProfiles = [
         {id: 'added_user_id_1', username: 'AddedUser1'},
         {id: 'added_user_id_2', username: 'AddedUser2'},
@@ -47,10 +44,6 @@ describe('components/post_view/CombinedSystemMessage', () => {
         showJoinLeave: true,
         teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
         userProfiles,
-        actions: {
-            getMissingProfilesByIds: emptyFunc as unknown as (userIds: string[]) => ActionFunc,
-            getMissingProfilesByUsernames: emptyFunc as unknown as (usernames: string[]) => ActionFunc,
-        },
     };
 
     test('should match snapshot', () => {
@@ -131,37 +124,5 @@ describe('components/post_view/CombinedSystemMessage', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should call getMissingProfilesByIds and/or getMissingProfilesByUsernames on loadUserProfiles', () => {
-        const props = {
-            ...baseProps,
-            allUserIds: [],
-            actions: {
-                getMissingProfilesByIds: jest.fn(),
-                getMissingProfilesByUsernames: jest.fn(),
-            },
-        };
-
-        const wrapper = shallowWithIntl(
-            <CombinedSystemMessage {...props}/>,
-        );
-
-        const instance = wrapper.instance() as CombinedSystemMessageType;
-
-        instance.loadUserProfiles([], []);
-        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(0);
-        expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledTimes(0);
-
-        instance.loadUserProfiles(['user_id_1'], []);
-        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(1);
-        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledWith(['user_id_1']);
-        expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledTimes(0);
-
-        instance.loadUserProfiles(['user_id_1', 'user_id_2'], ['user1']);
-        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(2);
-        expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledWith(['user_id_1', 'user_id_2']);
-        expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledTimes(1);
-        expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledWith(['user1']);
     });
 });

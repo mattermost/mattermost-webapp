@@ -516,32 +516,6 @@ describe('Selectors.Users', () => {
         assert.deepEqual(getProfilesNotInChannel(testState, 'nonexistentid'), []);
     });
 
-    it('makeGetProfilesByIdsAndUsernames', () => {
-        const getProfilesByIdsAndUsernames = Selectors.makeGetProfilesByIdsAndUsernames();
-
-        const testCases = [
-            {input: {allUserIds: [], allUsernames: []}, output: []},
-            {input: {allUserIds: ['nonexistentid'], allUsernames: ['nonexistentid']}, output: []},
-            {input: {allUserIds: [user1.id], allUsernames: []}, output: [user1]},
-            {input: {allUserIds: [user1.id]}, output: [user1]},
-            {input: {allUserIds: [user1.id, 'nonexistentid']}, output: [user1]},
-            {input: {allUserIds: [user1.id, user2.id]}, output: [user1, user2]},
-            {input: {allUserIds: ['nonexistentid', user1.id, user2.id]}, output: [user1, user2]},
-            {input: {allUserIds: [], allUsernames: [user1.username]}, output: [user1]},
-            {input: {allUsernames: [user1.username]}, output: [user1]},
-            {input: {allUsernames: [user1.username, 'nonexistentid']}, output: [user1]},
-            {input: {allUsernames: [user1.username, user2.username]}, output: [user1, user2]},
-            {input: {allUsernames: [user1.username, 'nonexistentid', user2.username]}, output: [user1, user2]},
-            {input: {allUserIds: [user1.id], allUsernames: [user2.username]}, output: [user1, user2]},
-            {input: {allUserIds: [user1.id, user2.id], allUsernames: [user3.username, user4.username]}, output: [user1, user2, user3, user4]},
-            {input: {allUserIds: [user1.username, user2.username], allUsernames: [user3.id, user4.id]}, output: []},
-        ];
-
-        testCases.forEach((testCase) => {
-            assert.deepEqual(getProfilesByIdsAndUsernames(testState, testCase.input), testCase.output);
-        });
-    });
-
     describe('makeGetDisplayName and makeDisplayNameGetter', () => {
         const testUser1 = {
             ...user1,

@@ -8,8 +8,6 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-
 import {t} from 'utils/i18n';
 import Markdown from 'components/markdown';
 
@@ -180,10 +178,6 @@ export type Props = {
     }>;
     showJoinLeave: boolean;
     userProfiles: UserProfile[];
-    actions: {
-        getMissingProfilesByIds: (userIds: string[]) => ActionFunc ;
-        getMissingProfilesByUsernames: (usernames: string[]) => ActionFunc;
-    };
 }
 
 export class CombinedSystemMessage extends React.PureComponent<Props> {
@@ -191,27 +185,6 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         allUserIds: [],
         allUsernames: [],
     };
-
-    componentDidMount(): void {
-        this.loadUserProfiles(this.props.allUserIds, this.props.allUsernames);
-    }
-
-    componentDidUpdate(prevProps: Props): void {
-        const {allUserIds, allUsernames} = this.props;
-        if (allUserIds !== prevProps.allUserIds || allUsernames !== prevProps.allUsernames) {
-            this.loadUserProfiles(allUserIds, allUsernames);
-        }
-    }
-
-    loadUserProfiles = (allUserIds: string[], allUsernames: string[]): void => {
-        if (allUserIds.length > 0) {
-            this.props.actions.getMissingProfilesByIds(allUserIds);
-        }
-
-        if (allUsernames.length > 0) {
-            this.props.actions.getMissingProfilesByUsernames(allUsernames);
-        }
-    }
 
     getAllUsernames = (): {[p: string]: string} => {
         const {

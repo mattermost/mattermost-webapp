@@ -16,8 +16,6 @@ import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/g
 
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
 import {getAllCustomEmojis} from './emojis';
@@ -338,29 +336,6 @@ export function getMissingProfilesByIds(userIds: string[]): ActionFunc {
         if (missingIds.length > 0) {
             getStatusesByIds(missingIds)(dispatch, getState);
             return getProfilesByIds(missingIds)(dispatch, getState);
-        }
-
-        return {data: []};
-    };
-}
-
-export function getMissingProfilesByUsernames(usernames: string[]): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const {profiles} = getState().entities.users;
-
-        const usernameProfiles = Object.values(profiles).reduce((acc, profile: any) => {
-            acc[profile.username] = profile;
-            return acc;
-        }, {} as Dictionary<UserProfile>);
-        const missingUsernames: string[] = [];
-        usernames.forEach((username) => {
-            if (!usernameProfiles[username]) {
-                missingUsernames.push(username);
-            }
-        });
-
-        if (missingUsernames.length > 0) {
-            return getProfilesByUsernames(missingUsernames)(dispatch, getState);
         }
 
         return {data: []};
