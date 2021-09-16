@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import DotMenu from 'components/dot_menu/dot_menu';
+import ActionsMenu from 'components/actions_menu/actions_menu';
 import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/utils', () => {
@@ -22,42 +22,24 @@ jest.mock('utils/post_utils', () => {
     };
 });
 
-describe('components/dot_menu/DotMenu on mobile view', () => {
+describe('components/actions_menu/ActionsMenu on mobile view', () => {
     test('should match snapshot', () => {
         const baseProps = {
             post: TestHelper.getPostMock({id: 'post_id_1'}),
-            isLicensed: false,
-            postEditTimeLimit: '-1',
-            enableEmojiPicker: true,
             components: {},
-            channelIsArchived: false,
-            currentTeamUrl: '',
             actions: {
-                flagPost: jest.fn(),
-                unflagPost: jest.fn(),
-                setEditingPost: jest.fn(),
-                pinPost: jest.fn(),
-                unpinPost: jest.fn(),
                 openModal: jest.fn(),
-                markPostAsUnread: jest.fn(),
                 doAppCall: jest.fn(),
                 postEphemeralCallResponseForPost: jest.fn(),
-                setThreadFollow: jest.fn(),
             },
-            canEdit: false,
-            canDelete: false,
             appBindings: [],
             pluginMenuItems: [],
             appsEnabled: false,
-            isReadOnly: false,
-            isCollapsedThreadsEnabled: false,
-            currentTeamId: '',
-            threadId: 'post_id_1',
-            userId: 'user_id_1',
+            isSysAdmin: true,
         };
 
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>,
+            <ActionsMenu {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
