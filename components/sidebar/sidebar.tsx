@@ -40,12 +40,12 @@ type Props = {
     isCloud: boolean;
     unreadFilterEnabled: boolean;
     globalHeaderEnabled: boolean;
+    isMobileView: boolean;
 };
 
 type State = {
     showDirectChannelsModal: boolean;
     isDragging: boolean;
-    isMobile: boolean;
 };
 
 export default class Sidebar extends React.PureComponent<Props, State> {
@@ -54,13 +54,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.state = {
             showDirectChannelsModal: false,
             isDragging: false,
-            isMobile: Utils.isMobile(),
         };
-    }
-
-    handleResize = () => {
-        const isMobile = Utils.isMobile();
-        this.setState({isMobile});
     }
 
     componentDidMount() {
@@ -70,10 +64,10 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
         window.addEventListener('click', this.handleClickClearChannelSelection);
         window.addEventListener('keydown', this.handleKeyDownClearChannelSelection);
-        window.addEventListener('resize', this.handleResize);
     }
 
     componentDidUpdate(prevProps: Props) {
+        console.log('[SIDEBAR] componentDidUpdate: isMobileView', {previous: prevProps.isMobileView, current: this.props.isMobileView});
         if (this.props.teamId && prevProps.teamId !== this.props.teamId) {
             this.props.actions.fetchMyCategories(this.props.teamId);
         }
@@ -82,7 +76,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         window.removeEventListener('click', this.handleClickClearChannelSelection);
         window.removeEventListener('keydown', this.handleKeyDownClearChannelSelection);
-        window.removeEventListener('resize', this.handleResize);
     }
 
     handleClickClearChannelSelection = (event: MouseEvent) => {
@@ -191,12 +184,12 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             <div
                 id='SidebarContainer'
                 className={classNames({
-                    'move--right': this.props.isOpen && Utils.isMobile(),
+                    'move--right': this.props.isOpen && this.props.isMobileView,
                     dragging: this.state.isDragging,
                 })}
             >
                 {
-                    this.props.globalHeaderEnabled && !this.state.isMobile ? (
+                    this.props.globalHeaderEnabled && !this.props.isMobileView ? (
                         <SidebarHeader
                             showNewChannelModal={this.showNewChannelModal}
                             showMoreChannelsModal={this.showMoreChannelsModal}
