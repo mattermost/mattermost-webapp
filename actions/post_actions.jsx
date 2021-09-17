@@ -230,12 +230,19 @@ export function setEditingPost(postId = '', refocusId = '', title = '', isRHS = 
 
         if (canEditNow) {
             dispatch({
-                type: ActionTypes.SHOW_EDIT_POST_MODAL,
+                type: ActionTypes.TOGGLE_EDITING_POST,
                 data: {postId, refocusId, title, isRHS},
             });
         }
 
         return {data: canEditNow};
+    };
+}
+
+export function unsetEditingPost() {
+    return {
+        type: ActionTypes.TOGGLE_EDITING_POST,
+        data: {},
     };
 }
 
@@ -257,12 +264,6 @@ export function markPostAsUnread(post, location) {
         }
 
         return {data: true};
-    };
-}
-
-export function hideEditPostModal() {
-    return {
-        type: ActionTypes.HIDE_EDIT_POST_MODAL,
     };
 }
 

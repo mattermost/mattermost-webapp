@@ -509,6 +509,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     };
 
     render() {
+        return null;
+
         const {formatMessage} = this.props.intl;
         const errorBoxClass = 'edit-post-footer' + (this.state.postError ? ' has-error' : '');
         let postError = null;

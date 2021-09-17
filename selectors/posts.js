@@ -11,6 +11,10 @@ import {getGlobalItem} from 'selectors/storage';
 import {arePreviewsCollapsed} from 'selectors/preferences';
 import {Preferences, StoragePrefixes} from 'utils/constants';
 
+export function getIsPostBeingEdited(state, postId) {
+    return state.views.posts.editingPost.postId === postId;
+}
+
 export const getEditingPost = createSelector(
     'getEditingPost',
     (state) => {
