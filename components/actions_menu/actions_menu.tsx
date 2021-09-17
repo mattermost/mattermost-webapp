@@ -56,7 +56,7 @@ type Props = {
         /**
          * Function to open a modal
          */
-        openModal: (postId: any) => void;
+        openModal: (postId: string) => void;
 
         /**
          * Function to perform an app call
@@ -235,7 +235,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    render() {
+    render(): JSX.Element {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
