@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "Deneme süreniz başladı! Bitmesine {daysLeftOnTrial} gün var",
   "admin.billing.subscription.cloudTrial.subscribe": "Abone ol",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Abone Olun",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Cloud deneme sürenizin bitmesine {daysLeftOnTrial} gün kaldı.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Cloud deneme sürenizin bitmesine {daysLeftOnTrial} gün kaldı.",
   "admin.billing.subscription.creditCardExpired": "Kredi kartınızın kullanma süresi bitmiş. Sorun çıkmaması için ödeme bilgilerinizi güncelleyin.",
   "admin.billing.subscription.creditCardHasExpired": "Kredi kartınızın kullanma süresi bitmiş",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " sorun çıkmasını önleyin.",

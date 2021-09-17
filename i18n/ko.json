@@ -266,7 +266,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "무료 체험이 시작되었습니다! 무료 체험 기간이 {daysLeftOnTrial}일 남았습니다.",
   "admin.billing.subscription.cloudTrial.subscribe": "구독하기",
   "admin.billing.subscription.cloudTrial.subscribeButton": "지금 구독하기",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "클라우드 무료 체험이 {daysLeftOnTrial}일 남았습니다.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "클라우드 무료 체험이 {daysLeftOnTrial}일 남았습니다.",
   "admin.billing.subscription.creditCardExpired": "신용 카드가 만료되었습니다. 원할한 서비스 제공을 위해 결제 정보를 업데이트하세요.",
   "admin.billing.subscription.creditCardHasExpired": "신용 카드가 만료되었습니다",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " 중단을 방지합니다.",

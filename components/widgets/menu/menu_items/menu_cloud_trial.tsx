@@ -15,10 +15,10 @@ import {TrialPeriodDays} from 'utils/constants';
 
 import './menu_item.scss';
 
-type MenuTopNotificationProps = {
+type Props = {
     id: string;
 }
-const MenuCloudTrial: React.FC<MenuTopNotificationProps> = ({id}: MenuTopNotificationProps) => {
+const MenuCloudTrial: React.FC<Props> = ({id}: Props) => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const license = useSelector(getLicense);
 
@@ -41,7 +41,7 @@ const MenuCloudTrial: React.FC<MenuTopNotificationProps> = ({id}: MenuTopNotific
             id={id}
         >
             <FormattedMessage
-                id='admin.billing.subscription.cloudTrial.trialTopMenuNotification'
+                id='admin.billing.subscription.cloudTrial.menuCloudTrial'
                 defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
                 values={{daysLeftOnTrial}}
             />

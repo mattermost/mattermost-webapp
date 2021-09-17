@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "A próbaidő elkezdődött! {daysLeftOnTrial} nap van hátra",
   "admin.billing.subscription.cloudTrial.subscribe": "Előfizetés",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Előfizetés most",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Még {daysLeftOnTrial} nap van hátra a Cloud próbaidőszakból.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Még {daysLeftOnTrial} nap van hátra a Cloud próbaidőszakból.",
   "admin.billing.subscription.creditCardExpired": "Hitelkártyája lejárt. Frissítse fizetési adatait a problémák elkerülése érdekében.",
   "admin.billing.subscription.creditCardHasExpired": "Hitelkártyája lejárt",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " az esetleges problémák elkerülése érdekében.",

@@ -271,7 +271,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "Ваш пробный период начался! Осталось {daysLeftOnTrial} дней",
   "admin.billing.subscription.cloudTrial.subscribe": "Подписаться",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Подписаться сейчас",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Осталось {daysLeftOnTrial} дней вашего пробного периода Cloud.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Осталось {daysLeftOnTrial} дней вашего пробного периода Cloud.",
   "admin.billing.subscription.creditCardExpired": "Срок действия вашей карты истек. Обновите платежную информацию.",
   "admin.billing.subscription.creditCardHasExpired": "Срок действия карты истек",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " во избежание проблем.",

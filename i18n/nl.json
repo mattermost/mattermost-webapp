@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "Je proefperiode is begonnen! Er zijn nog {daysLeftOnTrial} dagen over",
   "admin.billing.subscription.cloudTrial.subscribe": "Abonneren",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Abonneer nu",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Er zijn {daysLeftOnTrial} dagen over van jouw Cloud proefperiode.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Er zijn {daysLeftOnTrial} dagen over van jouw Cloud proefperiode.",
   "admin.billing.subscription.creditCardExpired": "Je kredietkaart is verlopen. Werk je betalingsinformatie bij om een onderbreking te voorkomen.",
   "admin.billing.subscription.creditCardHasExpired": "Je kredietkaart is vervallen",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " om een onderbreking te vermijden.",
