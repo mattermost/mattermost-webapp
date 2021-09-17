@@ -16,6 +16,11 @@
             }
         }
 
+        .badge {
+            background: transparent;
+            color: var(--sidebar-text);
+        }
+
         &:hover {
             padding-right: 16px;
 
