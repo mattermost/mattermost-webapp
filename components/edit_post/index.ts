@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
 import {Preferences, Permissions} from 'mattermost-redux/constants';
@@ -12,6 +12,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {showPreviewOnEditPostModal} from 'selectors/views/textbox';
 import {setShowPreviewOnEditPostModal} from 'actions/views/textbox';
@@ -22,7 +23,7 @@ import {getEditingPost} from 'selectors/posts';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 
-import EditPost from './edit_post';
+import EditPost, {Actions} from './edit_post';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -59,7 +60,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             addMessageIntoHistory,
             editPost,
             unsetEditingPost,

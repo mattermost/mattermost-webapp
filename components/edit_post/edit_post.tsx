@@ -30,6 +30,14 @@ type OpenModal = {
     };
 };
 
+export type Actions = {
+    addMessageIntoHistory: (message: string) => void;
+    editPost: (input: Partial<Post>) => Promise<Post>;
+    unsetEditingPost: () => void;
+    openModal: (input: OpenModal) => void;
+    setShowPreview: (newPreview: boolean) => void;
+}
+
 export type Props = {
     canEditPost?: boolean;
     canDeletePost?: boolean;
@@ -51,13 +59,7 @@ export type Props = {
         title?: string;
         isRHS?: boolean;
     };
-    actions: {
-        addMessageIntoHistory: (message: string) => void;
-        editPost: (dispatch: any, getState: any) => void;
-        unsetEditingPost: () => void;
-        openModal: (input: OpenModal) => void;
-        setShowPreview: (newPreview: boolean) => void;
-    };
+    actions: Actions;
 };
 
 export type State = {
@@ -245,7 +247,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
 
         actions.addMessageIntoHistory(updatedPost.message);
 
-        const data = await actions.editPost(updatedPost);
+        const data = await actions.editPost(updatedPost as Post);
 
         if (data) {
             window.scrollTo(0, 0);
