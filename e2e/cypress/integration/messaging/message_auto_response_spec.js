@@ -16,24 +16,23 @@ describe('Auto Response In DMs', () => {
     let userA;
     let userB;
     let testTeam;
-    let offTopicChannelUrl;
+    let offTopicUrl;
 
     before(() => {
         // # Enable ExperimentalEnableAutomaticReplies setting
         cy.apiUpdateConfig({TeamSettings: {ExperimentalEnableAutomaticReplies: true}});
 
         // # Create a new team
-        cy.apiInitSetup().then(({team, user}) => {
-            userA = user;
-            testTeam = team;
+        cy.apiInitSetup().then((out) => {
+            userA = out.user;
+            testTeam = out.team;
+            offTopicUrl = out.offTopicUrl;
 
             // # Create a second user
-            cy.apiCreateUser().then(({user: createdUser}) => {
-                userB = createdUser;
-                cy.apiAddUserToTeam(team.id, userB.id);
+            cy.apiCreateUser().then(({user}) => {
+                userB = user;
+                cy.apiAddUserToTeam(testTeam.id, userB.id);
             });
-
-            offTopicChannelUrl = `/${testTeam.name}/channels/town-square`;
         });
     });
 
@@ -42,10 +41,10 @@ describe('Auto Response In DMs', () => {
         cy.apiLogin(userB);
 
         // # Visit off topic channel
-        cy.visit(offTopicChannelUrl);
+        cy.visit(offTopicUrl);
 
         // # Open 'Settings' modal and view 'Notifications'
-        cy.uiOpenSettingsModal('Notifications').within(() => {
+        cy.uiOpenSettingsModal().within(() => {
             // # Click on 'Edit' for 'Automatic Direct Message Replies
             cy.get('#auto-responderEdit').should('be.visible').click();
 
@@ -56,7 +55,7 @@ describe('Auto Response In DMs', () => {
             cy.get('#autoResponderMessageInput').should('be.visible').clear();
 
             // # Enter new Auto Response Message
-            cy.get('#autoResponderMessageInput').should('be.visible').type(AUTO_RESPONSE_MESSAGE);
+            cy.get('#autoResponderMessageInput').should('be.visible').clear().type(AUTO_RESPONSE_MESSAGE);
 
             // # Save and close the modal
             cy.uiSaveAndClose();
@@ -69,7 +68,7 @@ describe('Auto Response In DMs', () => {
         cy.apiLogin(userA);
 
         // # Visit off topic channel
-        cy.visit(offTopicChannelUrl);
+        cy.visit(offTopicUrl);
 
         // # Send direct message to userB
         cy.uiAddDirectMessage().click();
