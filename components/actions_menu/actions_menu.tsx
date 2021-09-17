@@ -315,13 +315,29 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             return null;
         }
 
-        let menuItems = this.visitMarketplaceTip();
+        const divider = (
+            <li
+                className='MenuItem__divider'
+                role='menuitem'
+            />);
+
+        let menuItems;
         if (appBindings.length || pluginItems.length) {
-            menuItems = pluginItems && appBindings && marketPlace &&
-            <Pluggable
-                postId={this.props.post.id}
-                pluggableName={PLUGGABLE_COMPONENT}
-            />;
+            const pluggable = (
+                <Pluggable
+                    postId={this.props.post.id}
+                    pluggableName={PLUGGABLE_COMPONENT}
+                />);
+
+            menuItems = [
+                appBindings,
+                pluginItems,
+                pluggable,
+                divider,
+                marketPlace,
+            ];
+        } else {
+            menuItems = [this.visitMarketplaceTip()];
         }
 
         return (
