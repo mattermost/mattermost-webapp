@@ -188,13 +188,19 @@ describe('rhs view actions', () => {
         const draft = {message: 'test msg', fileInfos: [{id: 1}], uploadsInProgress: [2, 3]};
 
         test('it calls setGlobalItem action correctly', () => {
+            jest.useFakeTimers('modern');
+            jest.setSystemTime(42);
             store.dispatch(updateCommentDraft(rootId, draft));
 
             const testStore = mockStore(initialState);
 
-            testStore.dispatch(setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, draft));
+            testStore.dispatch(setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, {
+                ...draft,
+                createAt: new Date(42),
+            }));
 
             expect(store.getActions()).toEqual(testStore.getActions());
+            jest.useRealTimers();
         });
     });
 

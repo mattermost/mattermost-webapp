@@ -3,6 +3,7 @@
 exports[`SidebarChannelList should match snapshot 1`] = `
 <Fragment>
   <GlobalThreadsLink />
+  <Memo(DraftsLink) />
   <div
     aria-label="channel sidebar region"
     className="SidebarNavContainer a11y__region"

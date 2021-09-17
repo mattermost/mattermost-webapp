@@ -9,7 +9,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   tabIndex={0}
   to="http://a.fake.link"
 >
-  <Connect(SidebarChannelIcon)
+  <SidebarChannelIcon
     channel={
       Object {
         "create_at": 0,
@@ -39,6 +39,26 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       channel_label
     </span>
   </div>
+  <Connect(Component)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "",
+        "delete_at": 0,
+        "display_name": "channel_display_name",
+        "group_constrained": false,
+        "header": "",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "",
+        "purpose": "",
+        "scheme_id": "",
+        "team_id": "",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+  />
   <ChannelMentionBadge
     unreadMentions={0}
   />
@@ -79,7 +99,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   tabIndex={0}
   to="http://a.fake.link"
 >
-  <Connect(SidebarChannelIcon)
+  <SidebarChannelIcon
     channel={
       Object {
         "create_at": 0,
@@ -109,6 +129,26 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       channel_label
     </span>
   </div>
+  <Connect(Component)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "",
+        "delete_at": 0,
+        "display_name": "channel_display_name",
+        "group_constrained": false,
+        "header": "",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "",
+        "purpose": "",
+        "scheme_id": "",
+        "team_id": "",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+  />
   <ChannelMentionBadge
     unreadMentions={0}
   />
@@ -149,7 +189,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   tabIndex={0}
   to="http://a.fake.link"
 >
-  <Connect(SidebarChannelIcon)
+  <SidebarChannelIcon
     channel={
       Object {
         "create_at": 0,
@@ -203,6 +243,26 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       </div>
     </OverlayTrigger>
   </div>
+  <Connect(Component)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "",
+        "delete_at": 0,
+        "display_name": "channel_display_name",
+        "group_constrained": false,
+        "header": "",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "",
+        "purpose": "",
+        "scheme_id": "",
+        "team_id": "",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+  />
   <ChannelMentionBadge
     unreadMentions={0}
   />
@@ -243,7 +303,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   tabIndex={0}
   to="http://a.fake.link"
 >
-  <Connect(SidebarChannelIcon)
+  <SidebarChannelIcon
     channel={
       Object {
         "create_at": 0,
@@ -273,6 +333,26 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       channel_label
     </span>
   </div>
+  <Connect(Component)
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "",
+        "delete_at": 0,
+        "display_name": "channel_display_name",
+        "group_constrained": false,
+        "header": "",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "name": "",
+        "purpose": "",
+        "scheme_id": "",
+        "team_id": "",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+  />
   <ChannelMentionBadge
     unreadMentions={2}
   />
