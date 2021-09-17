@@ -53,7 +53,7 @@ export type Props = {
     };
     actions: {
         addMessageIntoHistory: (message: string) => void;
-        editPost: (input: Partial<Post>) => Promise<Post>;
+        editPost: (dispatch: any, getState: any) => void;
         unsetEditingPost: () => void;
         openModal: (input: OpenModal) => void;
         setShowPreview: (newPreview: boolean) => void;
