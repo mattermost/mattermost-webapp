@@ -410,7 +410,7 @@ class ChannelHeader extends React.PureComponent {
                     {this.renderCustomStatus()}
                 </span>
             );
-            if (displayLastActiveLabel(channel.status, this.props.lastActivityTimestamp)) {
+            if (displayLastActiveLabel(channel.status, this.props.lastActivityTimestamp, this.props.dmUser.show_last_active)) {
                 dmHeaderTextStatus = (
                     <span className='header-status__text'>
                         <span className='last-active__text'>

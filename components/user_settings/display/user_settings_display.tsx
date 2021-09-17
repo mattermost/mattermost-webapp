@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Timezone} from 'timezones.json';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
@@ -72,6 +73,7 @@ type SectionProps ={
         message: string;
     };
     disabled?: boolean;
+    onSubmit?: () => void;
 }
 
 type Props = {
@@ -107,6 +109,7 @@ type Props = {
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
+        updateMe: (user: UserProfile) => Promise<ActionResult>;
     };
 }
 
@@ -179,6 +182,32 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             trackEvent('settings', 'user_settings_update', props);
         }
     }
+
+    submitLastActive = () => {
+        const {user, actions} = this.props;
+        const {lastActiveDisplay} = this.state;
+
+        const updatedUser = {
+            ...user,
+            show_last_active: lastActiveDisplay  === 'true',
+        };
+
+        actions.updateMe(updatedUser).
+            then((res) => {
+                if ('data' in res) {
+                    this.props.updateSection('');
+                } else if ('error' in res) {
+                    const {error} = res;
+                    let serverError;
+                    if (error instanceof Error) {
+                        serverError = error.message;
+                    } else {
+                        serverError = error as string;
+                    }
+                    this.setState({serverError, isSaving: false});
+                }
+            });
+    };
 
     handleSubmit = async () => {
         const userId = this.props.user.id;
@@ -324,9 +353,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             thirdOption,
             description,
             disabled,
+            onSubmit,
         } = props;
         let extraInfo = null;
-        let submit: (() => Promise<void>) | null = this.handleSubmit;
+        let submit: (() => Promise<void>) | (() => void) | null = onSubmit || this.handleSubmit;
 
         const firstMessage = (
             <FormattedMessage
@@ -622,6 +652,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 id: t('user.settings.display.lastActiveDesc'),
                 message: 'When enabled, other users will see when you were last active.',
             },
+            onSubmit: this.submitLastActive,
         });
 
         const clockSection = this.createSection({

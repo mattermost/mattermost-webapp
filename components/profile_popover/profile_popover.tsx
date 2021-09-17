@@ -361,7 +361,7 @@ ProfilePopoverState
                 />
             </div>,
         );
-        if (this.props.status && !this.props.user.is_bot && displayLastActiveLabel(this.props.status, this.props.lastActivityTimestamp)) {
+        if (this.props.status && !this.props.user.is_bot && displayLastActiveLabel(this.props.status, this.props.lastActivityTimestamp, this.props.user.show_last_active)) {
             dataContent.push(
                 <div
                     className='user-popover-last-active'

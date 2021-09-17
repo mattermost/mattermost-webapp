@@ -236,13 +236,14 @@ export function applyRolesFilters(user: UserProfile, filterRoles: string[], excl
 }
 
 
-export function displayLastActiveLabel(status: string, timestamp: number) {
+export function displayLastActiveLabel(status: string, timestamp: number, showLastActive: boolean | undefined) {
     const currentTime = new Date();
     const oneMin = 5*60*1000;
 
     if (
         status === General.ONLINE || 
-        (currentTime.valueOf() - new Date(timestamp).valueOf()) <= oneMin
+        (currentTime.valueOf() - new Date(timestamp).valueOf()) <= oneMin ||
+        !showLastActive
     ) {
         return false;
     }

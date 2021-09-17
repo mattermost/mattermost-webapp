@@ -9,6 +9,7 @@ import timezones from 'timezones.json';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
+import {updateMe} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -68,6 +69,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             autoUpdateTimezone,
             savePreferences,
+            updateMe,
         }, dispatch),
     };
 }
