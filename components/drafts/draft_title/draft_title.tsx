@@ -43,9 +43,8 @@ function DraftTitle({
         return (
             <FormattedMessage
                 id='drafts.draft_title.thread'
-                defaultMessage={'Thread in: {icon} <b>{channelName}</b>'}
+                defaultMessage={'Thread in: {icon} {channelName}'}
                 values={{
-                    b: (chunks: string) => <b>{chunks}</b>,
                     icon: <i className='icon icon-globe'/>,
                     channelName,
                 }}

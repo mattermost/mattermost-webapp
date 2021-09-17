@@ -2947,7 +2947,7 @@
   "drafts.draft_title.channel": "To: {icon} {channelName}",
   "drafts.draft_title.dm_channel": "In: {icon} {channelName}",
   "drafts.draft_title.gm_channel": "In: {icon} {channelName}",
-  "drafts.draft_title.thread": "Thread in: {icon} <b>{channelName}</b>",
+  "drafts.draft_title.thread": "Thread in: {icon} {channelName}",
   "drafts.empty.subtitle": "Any messages you’ve started will show here.",
   "drafts.empty.title": "No drafts at the moment",
   "drafts.heading": "Drafts",
