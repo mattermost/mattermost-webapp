@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {openModal} from 'actions/views/modals';
 import GenericModal from 'components/generic_modal';
-import {ModalIdentifiers} from 'utils/constants';
 import MoreDirectChannels from 'components/more_direct_channels';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import {openModal} from 'actions/views/modals';
-import { GlobalState } from 'types/store';
-import { getCurrentChannel } from 'mattermost-redux/selectors/entities/channels';
-import { getCurrentTeamId } from 'mattermost-redux/selectors/entities/teams';
+import {GlobalState} from 'types/store';
+import {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
     onHide: () => void;
@@ -25,11 +26,11 @@ const AddUserToGroupMessageModal: React.FC<Props> = (props: Props) => {
     const dispatch = useDispatch();
     const channel = useSelector((state: GlobalState) => getCurrentChannel(state));
     const currentTeamId = useSelector((state: GlobalState) => getCurrentTeamId(state));
-    
+
     const channelWithTeamId = {
         ...channel,
         team_id: currentTeamId,
-    }
+    };
     const [hasSeenModal, setHasSeenModal] = useState(false);
 
     const handleAddToNewGroup = () => {
@@ -39,11 +40,9 @@ const AddUserToGroupMessageModal: React.FC<Props> = (props: Props) => {
         }));
 
         setHasSeenModal(true);
-    }
+    };
 
     const handleAddToExistingGroup = () => {
-        console.log('modal', channelWithTeamId)
-
         dispatch(openModal({
             modalId: ModalIdentifiers.CHANNEL_INVITE,
             dialogType: ChannelInviteModal,
@@ -51,7 +50,7 @@ const AddUserToGroupMessageModal: React.FC<Props> = (props: Props) => {
         }));
 
         setHasSeenModal(true);
-    }
+    };
 
     return (
         <GenericModal
@@ -86,6 +85,6 @@ const AddUserToGroupMessageModal: React.FC<Props> = (props: Props) => {
             </span>
         </GenericModal>
     );
-}
+};
 
-export default AddUserToGroupMessageModal
+export default AddUserToGroupMessageModal;

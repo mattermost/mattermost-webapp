@@ -6,26 +6,26 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {Dictionary, RelationOneToMany, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
-import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import AlertBanner from 'components/alert_banner';
+import MoreDirectChannels from 'components/more_direct_channels/more_direct_channels';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
+const GROUP_MESSAGE_LIMIT = 8;
 
 type UserProfileValue = Value & UserProfile;
 
@@ -35,6 +35,7 @@ export type Props = {
     userStatuses: RelationOneToOne<UserProfile, string>;
     onHide: () => void;
     channel: Channel;
+    userIdsInChannels: RelationOneToMany<Channel, UserProfile>;
 
     // skipCommit = true used with onAddCallback will result in users not being committed immediately
     skipCommit?: boolean;
@@ -52,6 +53,7 @@ export type Props = {
         getTeamStats: (teamId: string) => ActionFunc;
         loadStatusesForProfilesList: (users: UserProfile[]) => Promise<{data: boolean}>;
         searchProfiles: (term: string, options: any) => ActionFunc;
+        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
 }
 
@@ -286,19 +288,48 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 variant='app'
                 mode='info'
                 title={(
-                    <FormattedMarkdownMessage
-                        id='collapsed_reply_threads_modal.banner.title'
-                        defaultMessage='Please  [review the list of known issues](!https://docs.mattermost.com/messaging/organizing-conversations.html#known-issues) as we work on stabilizing the feature.'
+                    <FormattedMessage
+                        id='channel_invite.alertTitle'
+                        defaultMessage='Conversation history will be visible to new members'
                     />
                 )}
                 message={(
-                    <FormattedMessage
-                        id='collapsed_reply_threads_modal.banner.message'
-                        defaultMessage='In particular, you may notice a number of channels and threads appear as unread when you enable Collapsed Reply Threads for the first time.'
+                    <FormattedMarkdownMessage
+                        id='channel_invite.alertDescription'
+                        defaultMessage='You can also start a [new group message] without the history.'
+                        onClick={() => this.props.actions.openModal({
+                            modalId: ModalIdentifiers.CREATE_DM_CHANNEL,
+                            dialogType: MoreDirectChannels,
+                        })}
                     />
                 )}
             />
-        )
+        );
+
+        let groupMessageRemainingText;
+        const usersInChannelLength = this.props.userIdsInChannels[this.props.channel.id].length;
+
+        if (usersInChannelLength < GROUP_MESSAGE_LIMIT) {
+            groupMessageRemainingText = (
+                <FormattedMessage
+                    id='channel_invite.remainingText'
+                    defaultMessage='You can add {count} more people.'
+                    values={{
+                        count: GROUP_MESSAGE_LIMIT - usersInChannelLength,
+                    }}
+                />
+            );
+        } else {
+            groupMessageRemainingText = (
+                <FormattedMessage
+                    id='channel_invite.remainingText'
+                    defaultMessage='You’ve reached the member limit for a group message. Need more? Create a private channel.'
+                    values={{
+                        count: GROUP_MESSAGE_LIMIT - usersInChannelLength,
+                    }}
+                />
+            );
+        }
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
@@ -336,6 +367,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 loading={this.state.loadingUsers}
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
                 valueWithImage={true}
+                numRemainingText={groupMessageRemainingText}
             />
         );
 

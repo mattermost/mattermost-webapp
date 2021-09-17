@@ -6,13 +6,14 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getTeamStats} from 'mattermost-redux/actions/teams';
 import {getProfilesNotInChannel, searchProfiles} from 'mattermost-redux/actions/users';
-import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, getUserStatuses, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, getUserIdsInChannels, getUserStatuses, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
 
 import {addUsersToChannel} from 'actions/channel_actions';
+import {openModal} from 'actions/views/modals';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {GlobalState} from 'types/store';
 
@@ -49,6 +50,7 @@ function makeMapStateToProps(initialState: GlobalState, initialProps: InitialPro
             profilesNotInCurrentChannel,
             profilesNotInCurrentTeam,
             userStatuses,
+            userIdsInChannels: getUserIdsInChannels(state),
         };
     };
 }
@@ -61,6 +63,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             getTeamStats,
             loadStatusesForProfilesList,
             searchProfiles,
+            openModal,
         }, dispatch),
     };
 }

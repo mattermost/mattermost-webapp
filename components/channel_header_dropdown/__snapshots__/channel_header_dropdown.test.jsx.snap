@@ -117,20 +117,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         text="Add Members"
       />
       <MenuItemToggleModalRedux
-        dialogProps={
-          Object {
-            "isExistingChannel": true,
-          }
-        }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(MoreDirectChannels)",
-            "type": [Function],
-          }
-        }
+        dialogType={[Function]}
         id="channelAddMembers"
         modalId="create_dm_channel"
         show={false}
@@ -602,20 +589,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         text="Add Members"
       />
       <MenuItemToggleModalRedux
-        dialogProps={
-          Object {
-            "isExistingChannel": true,
-          }
-        }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(MoreDirectChannels)",
-            "type": [Function],
-          }
-        }
+        dialogType={[Function]}
         id="channelAddMembers"
         modalId="create_dm_channel"
         show={false}

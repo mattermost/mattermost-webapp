@@ -64,7 +64,7 @@ export default class LeaveChannel extends React.PureComponent<Props, State> {
             },
         } = this.props;
 
-        if (channel.type === Constants.PRIVATE_CHANNEL) {
+        if (channel.type === Constants.PRIVATE_CHANNEL || channel.type === Constants.GM_CHANNEL) {
             showLeavePrivateChannelModal(channel);
         } else {
             leaveChannel(channel.id);
