@@ -8,6 +8,8 @@ import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/sele
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {getIsPostBeingEdited} from '../../../selectors/views/posts';
+
 import PostBody from './post_body.jsx';
 
 function mapStateToProps(state, ownProps) {
@@ -30,6 +32,7 @@ function mapStateToProps(state, ownProps) {
         pluginPostTypes: state.plugins.postTypes,
         enablePostUsernameOverride,
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
+        isPostBeingEdited: getIsPostBeingEdited(state, ownProps.postId),
     };
 }
 

@@ -136,6 +136,8 @@ export default class PostBody extends React.PureComponent {
         const parentPost = this.props.parentPost;
         const parentPostUser = this.props.parentPostUser;
 
+        console.log('##### props:', this.props);
+
         let comment;
         let postClass = '';
         const isEphemeral = Utils.isPostEphemeral(post);
