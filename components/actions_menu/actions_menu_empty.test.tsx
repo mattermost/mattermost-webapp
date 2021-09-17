@@ -34,6 +34,7 @@ describe('components/actions_menu/ActionsMenu returning empty ("")', () => {
             },
             appBindings: [],
             pluginMenuItems: [],
+            showTutorialTip: false,
             appsEnabled: false,
             isSysAdmin: true,
         };

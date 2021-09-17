@@ -25,13 +25,15 @@ import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 
 const MENU_BOTTOM_MARGIN = 80;
 
+type ChangeEvent = React.KeyboardEvent | React.MouseEvent;
+
 type Props = {
     intl: IntlShape;
     post: Post;
     teamId?: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
-    handleCommentClick?: React.EventHandler<React.MouseEvent>;
+    handleCommentClick: React.EventHandler<ChangeEvent>;
     handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
@@ -72,7 +74,7 @@ type Props = {
         /**
          * Function to open a modal
          */
-        openModal: (postId: any) => void;
+        openModal: (postId: string) => void;
 
         /**
          * Function to set the unread mark at given post
@@ -126,7 +128,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.buttonRef = React.createRef<HTMLButtonElement>();
     }
 
-    disableCanEditPostByTime() {
+    disableCanEditPostByTime(): void {
         const {post, isLicensed} = this.props;
         const {canEdit} = this.state;
 
@@ -143,11 +145,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.disableCanEditPostByTime();
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props): void {
         if (!prevProps.isMenuOpen && this.props.isMenuOpen) {
             window.addEventListener('keydown', this.onShortcutKeyDown);
             window.addEventListener('keyup', this.onShortcutKeyUp);
@@ -166,15 +168,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         };
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         this.editDisableAction.cancel();
     }
 
-    handleEditDisable = () => {
+    handleEditDisable = (): void => {
         this.setState({canEdit: false});
     }
 
-    handleFlagMenuItemActivated = () => {
+    handleFlagMenuItemActivated = (): void => {
         if (this.props.isFlagged) {
             this.props.actions.unflagPost(this.props.post.id);
         } else {
@@ -183,7 +185,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e: React.MouseEvent) => {
+    handleAddReactionMenuItemActivated = (e: React.MouseEvent): void => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -192,11 +194,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    copyLink = () => {
+    copyLink = (): void => {
         Utils.copyToClipboard(`${this.props.currentTeamUrl}/pl/${this.props.post.id}`);
     }
 
-    handlePinMenuItemActivated = () => {
+    handlePinMenuItemActivated = (): void => {
         if (this.props.post.is_pinned) {
             this.props.actions.unpinPost(this.props.post.id);
         } else {
@@ -204,12 +206,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    handleUnreadMenuItemActivated = (e: React.MouseEvent) => {
+    handleUnreadMenuItemActivated = (e: React.MouseEvent): void => {
         e.preventDefault();
         this.props.actions.markPostAsUnread(this.props.post, this.props.location);
     }
 
-    handleDeleteMenuItemActivated = (e: React.MouseEvent) => {
+    handleDeleteMenuItemActivated = (e: ChangeEvent): void => {
         e.preventDefault();
 
         const deletePostModalData = {
@@ -224,7 +226,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.actions.openModal(deletePostModalData);
     }
 
-    handleEditMenuItemActivated = () => {
+    handleEditMenuItemActivated = (): void => {
         this.props.actions.setEditingPost(
             this.props.post.id,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
@@ -233,7 +235,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    handleSetThreadFollow = () => {
+    handleSetThreadFollow = (): void => {
         const {actions, currentTeamId, threadId, userId, isFollowingThread} = this.props;
         actions.setThreadFollow(
             userId,
@@ -255,7 +257,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef: Menu) => {
+    refCallback = (menuRef: Menu): void => {
         if (menuRef) {
             const buttonRect = this.buttonRef.current?.getBoundingClientRect();
             let y;
@@ -276,7 +278,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    renderDivider = (suffix: string) => {
+    renderDivider = (suffix: string): JSX.Element => {
         return (
             <li
                 id={`divider_post_${this.props.post.id}_${suffix}`}
@@ -286,8 +288,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    onShortcutKeyDown = (e: KeyboardEvent) => {
+    isKeyboardEvent = (e: ChangeEvent): e is React.KeyboardEvent => {
+        return (e as React.KeyboardEvent).getModifierState !== undefined;
+    }
+
+    onShortcutKeyDown = (e: ChangeEvent): void => {
         e.preventDefault();
+        if (!this.isKeyboardEvent(e)) {
+            return;
+        }
 
         if (this.keysHeldDown.includes(e.key)) {
             return;
@@ -332,7 +341,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.handleDropdownOpened(false);
     }
 
-    getIcon = (name: string) => {
+    getIcon = (name: string): JSX.Element => {
         const names = `icon ${name}`;
         return (
             <i
@@ -345,12 +354,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    onShortcutKeyUp = (e: KeyboardEvent) => {
+    onShortcutKeyUp = (e: KeyboardEvent): void => {
         e.preventDefault();
         this.keysHeldDown = this.keysHeldDown.filter((key) => key !== e.key);
     }
 
-    render() {
+    render(): JSX.Element {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 

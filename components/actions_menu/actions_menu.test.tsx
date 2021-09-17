@@ -31,6 +31,7 @@ describe('components/actions_menu/ActionsMenu', () => {
         },
         appBindings: [],
         pluginMenuItems: [],
+        showTutorialTip: false,
         appsEnabled: false,
         isSysAdmin: true,
     };

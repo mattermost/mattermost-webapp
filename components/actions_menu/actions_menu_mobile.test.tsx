@@ -34,6 +34,7 @@ describe('components/actions_menu/ActionsMenu on mobile view', () => {
             },
             appBindings: [],
             pluginMenuItems: [],
+            showTutorialTip: false,
             appsEnabled: false,
             isSysAdmin: true,
         };

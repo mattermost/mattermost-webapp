@@ -28,6 +28,8 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             post: TestHelper.getPostMock({id: 'post_id_1'}),
             isLicensed: false,
             postEditTimeLimit: '-1',
+            handleCommentClick: jest.fn(),
+            handleDropdownOpened: jest.fn(),
             enableEmojiPicker: true,
             components: {},
             channelIsArchived: false,
