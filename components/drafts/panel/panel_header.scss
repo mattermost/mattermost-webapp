@@ -1,6 +1,6 @@
 .PanelHeader {
     display: flex;
-    height: 50px;
+    min-height: 50px;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
@@ -21,10 +21,12 @@
     }
 
     &__left {
-        display: flex;
         flex: 1;
-        flex-wrap: nowrap;
-        align-items: center;
+
+        > span {
+            display: inline-flex;
+            align-items: center;
+        }
     }
 
     &__timestamp {
