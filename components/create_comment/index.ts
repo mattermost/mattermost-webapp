@@ -80,7 +80,7 @@ function makeMapStateToProps() {
             codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             createPostErrorId: err.server_error_id,
-            readOnlyChannel: !isCurrentUserSystemAdmin(state) && channel.name === Constants.DEFAULT_CHANNEL,
+            readOnlyChannel: false,
             enableConfirmNotificationsToChannel,
             enableEmojiPicker,
             enableGifPicker,
