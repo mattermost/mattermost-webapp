@@ -12,7 +12,7 @@ import {getAnalyticsCategory} from '../../step_helpers';
 import {StepComponentProps} from '../../steps';
 import DownloadSection from '../../download_section';
 
-export default function EnableNotificationsStep(props: StepComponentProps) {
+export default function DownloadAppsStep(props: StepComponentProps) {
     useEffect(() => {
         if (props.expanded) {
             pageVisited(getAnalyticsCategory(props.isAdmin), 'pageview_download_apps');
