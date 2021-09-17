@@ -33,7 +33,7 @@ class EmojiItem extends React.Component {
             >
                 <span
                     data-testid={itemClassName + '_emoji'}
-                    className='Reaction__emoji emoticon'
+                    className='Reaction__emoji--post-menu emoticon'
                     style={{backgroundImage: 'url(' + getEmojiImageUrl(emoji) + ')'}}
                     role='button'
                     onClick={this.handleClick}

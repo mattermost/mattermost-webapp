@@ -22,7 +22,7 @@ import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
-import PostReactionRecent from 'components/post_view/post_recent_reactions';
+import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -250,12 +250,12 @@ export default class RhsRootPost extends React.PureComponent {
                 emojis.push(emojiMap.get(recentEmojis[i]));
             }
             showRecentReacions = (
-                <PostReactionRecent
+                <PostRecentReactions
                     channelId={post.channel_id}
                     postId={post.id}
                     teamId={this.props.teamId}
                     emojis={emojis.reverse()}
-                    getDotMenuRef={this.getDotMenu}
+                    getDotMenuRef={this.getDotMenuRef}
                 />
             );
         }

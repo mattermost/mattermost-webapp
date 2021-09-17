@@ -37,12 +37,11 @@ type State = {
 
 const state = store.getState();
 const emojiMap = getEmojiMap(state);
-const defaultEmojis = [emojiMap.get('thumbsup'), emojiMap.get('grinning'), emojiMap.get('white_check_mark')];
+const defaultEmojis = [emojiMap.get('thumbsup'), emojiMap.get('grinning'), emojiMap.get('white_check_mark')] as Emoji[];
 
-export default class PostReactionRecent extends React.PureComponent<Props, State> {
+export default class PostRecentReactions extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
         location: Locations.CENTER as 'CENTER',
-        emojis: defaultEmojis,
     };
 
     handleAddEmoji = (emoji: Emoji): void => {
@@ -51,12 +50,19 @@ export default class PostReactionRecent extends React.PureComponent<Props, State
     };
 
     complementEmojis(): void {
-        const l = this.props.emojis.length;
-        for (let i = l; this.props.emojis.length < 3; i--) {
-            this.props.emojis.push(defaultEmojis[l - i]);
-            if (this.props.emojis.length > 3) {
-                this.props.emojis.pop();
+        const additional = defaultEmojis.filter((e) => {
+            let ignore = false;
+            for (const emoji of this.props.emojis) {
+                if (e.name === emoji.name) {
+                    ignore = true;
+                    break;
+                }
             }
+            return !ignore;
+        });
+        const l = this.props.emojis.length;
+        for (let i = 0; i < 3 - l; i++) {
+            this.props.emojis.push(additional[i]);
         }
     }
 
@@ -70,7 +76,9 @@ export default class PostReactionRecent extends React.PureComponent<Props, State
     };
 
     render() {
-        this.complementEmojis();
+        if (this.props.emojis.length < 3) {
+            this.complementEmojis();
+        }
 
         const {
             channelId,
@@ -78,41 +86,40 @@ export default class PostReactionRecent extends React.PureComponent<Props, State
             emojis,
         } = this.props;
 
-        return emojis.map((emoji) => {
-            return (
-                // eslint-disable-next-line react/jsx-key
-                <ChannelPermissionGate
-                    channelId={channelId}
-                    teamId={teamId}
-                    permissions={[Permissions.ADD_REACTION]}
+        return emojis.map((emoji) => (
+            <ChannelPermissionGate
+                key={this.emojiName(emoji)} // emojis will be unique therefore no duplication expected.
+                channelId={channelId}
+                teamId={teamId}
+                permissions={[Permissions.ADD_REACTION]}
+            >
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={500}
+                    placement='top'
+                    overlay={
+                        <Tooltip
+                            id='post_info.emoji.tooltip'
+                            className='hidden-xs'
+                        >
+                            {this.emojiName(emoji)}
+                        </Tooltip>
+                    }
                 >
-                    <OverlayTrigger
-                        className='hidden-xs'
-                        delayShow={500}
-                        placement='top'
-                        overlay={
-                            <Tooltip
-                                id='post_info.emoji.tooltip'
-                                className='hidden-xs'
-                            >
-                                {this.emojiName(emoji)}
-                            </Tooltip>
-                        }
-                    >
-                        <div key={this.emojiName(emoji)}>
-                            <React.Fragment>
-                                <EmojiItem
-                                    // eslint-disable-next-line react/no-array-index-key
-                                    emoji={emoji}
-                                    onItemClick={this.handleAddEmoji}
-                                    category={emoji.category}
-                                />
-                            </React.Fragment>
-                        </div>
-                    </OverlayTrigger>
-                </ChannelPermissionGate>
-            );
-        });
+                    <div>
+                        <React.Fragment>
+                            <EmojiItem
+                                // eslint-disable-next-line react/no-array-index-key
+                                emoji={emoji}
+                                onItemClick={this.handleAddEmoji}
+                                category={emoji.category}
+                            />
+                        </React.Fragment>
+                    </div>
+                </OverlayTrigger>
+            </ChannelPermissionGate>
+        ),
+        );
     }
 }
 

@@ -66,6 +66,15 @@
         vertical-align: middle;
     }
 
+    &__emoji--post-menu {
+        min-width: 18px;
+        max-width: 18px;
+        min-height: 18px;
+        max-height: 18px;
+        margin: 0 2px 0 0;
+        vertical-align: middle;
+    }
+
     &__count {
         display: flex;
         overflow: hidden;
