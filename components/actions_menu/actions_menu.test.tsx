@@ -9,7 +9,8 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {TestHelper} from 'utils/test_helper';
 
-import ActionsMenu, {PLUGGABLE_COMPONENT} from './actions_menu';
+// import ActionsMenu, {PLUGGABLE_COMPONENT} from './actions_menu';
+import ActionsMenu from './actions_menu';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');

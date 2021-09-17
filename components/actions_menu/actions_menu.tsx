@@ -235,9 +235,10 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    render(): JSX.Element {
+    render(): JSX.Element | null {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        const isMobile = Utils.isMobile();
+
+        // const isMobile = Utils.isMobile(); TODO
 
         const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {
