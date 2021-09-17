@@ -13,8 +13,8 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         ]
       }
     >
-      <MenuTopNotification
-        id="topNotification"
+      <MenuCloudTrial
+        id="menuCloudTrial"
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>

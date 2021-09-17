@@ -70,8 +70,8 @@ class ProductSwitcherMenu extends React.PureComponent<Props> {
             <Menu.Group>
                 <div onClick={onClick}>
                     <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
-                        <Menu.TopNotification
-                            id='topNotification'
+                        <Menu.CloudTrial
+                            id='menuCloudTrial'
                         />
                     </SystemPermissionGate>
                     <SystemPermissionGate

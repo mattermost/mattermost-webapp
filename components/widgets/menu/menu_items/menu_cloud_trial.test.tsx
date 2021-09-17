@@ -7,9 +7,9 @@ import {Provider} from 'react-redux';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import MenuTopNotification from './menu_top_notification';
+import MenuCloudTrial from './menu_cloud_trial';
 
-describe('components/widgets/menu/menu_items/menu_top_notification', () => {
+describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     const mockStore = configureStore();
 
     test('should render when on cloud license and during free trial period', () => {
@@ -33,7 +33,7 @@ describe('components/widgets/menu/menu_items/menu_top_notification', () => {
             },
         };
         const store = mockStore(state);
-        const wrapper = mountWithIntl(<Provider store={store}><MenuTopNotification id='topNotification'/></Provider>);
+        const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
         expect(wrapper.find('UpgradeLink').exists()).toEqual(true);
     });
 
@@ -55,7 +55,25 @@ describe('components/widgets/menu/menu_items/menu_top_notification', () => {
             },
         };
         const store = mockStore(state);
-        const wrapper = mountWithIntl(<Provider store={store}><MenuTopNotification id='topNotification'/></Provider>);
+        const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
+        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+    });
+
+    test('should NOT render when NO license is available', () => {
+        const state = {
+            entities: {
+                general: {},
+                cloud: {
+                    customer: null,
+                    subscription: null,
+                    products: null,
+                    invoices: null,
+                    subscriptionStats: null,
+                },
+            },
+        };
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
         expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
     });
 });

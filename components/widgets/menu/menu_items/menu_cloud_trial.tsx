@@ -18,11 +18,11 @@ import './menu_item.scss';
 type MenuTopNotificationProps = {
     id: string;
 }
-const MenuTopNotification: React.FC<MenuTopNotificationProps> = ({id}: MenuTopNotificationProps) => {
+const MenuCloudTrial: React.FC<MenuTopNotificationProps> = ({id}: MenuTopNotificationProps) => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const license = useSelector(getLicense);
 
-    const isCloud = license.Cloud === 'true';
+    const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
     let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
     if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
@@ -36,7 +36,7 @@ const MenuTopNotification: React.FC<MenuTopNotificationProps> = ({id}: MenuTopNo
 
     return (
         <li
-            className={'MenuTopNotification'}
+            className={'MenuCloudTrial'}
             role='menuitem'
             id={id}
         >
@@ -52,4 +52,4 @@ const MenuTopNotification: React.FC<MenuTopNotificationProps> = ({id}: MenuTopNo
         </li>
     );
 };
-export default MenuTopNotification;
+export default MenuCloudTrial;

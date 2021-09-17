@@ -295,8 +295,8 @@ class MainMenu extends React.PureComponent {
                     <SystemPermissionGate
                         permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}
                     >
-                        <Menu.TopNotification
-                            id='topNotification'
+                        <Menu.CloudTrial
+                            id='menuCloudTrial'
                         />
                     </SystemPermissionGate>
                 </Menu.Group>
