@@ -59,7 +59,7 @@ describe('components/admin_console/user_grid/UserGrid', () => {
         term: '',
 
         filterProps: {
-            options: {},
+            options: new Map(),
             keys: [],
             onFilter: jest.fn(),
         },

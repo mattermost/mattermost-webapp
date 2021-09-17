@@ -18,7 +18,7 @@ class FilterList extends React.PureComponent<Props> {
         const values = {
             ...this.props.option.values,
             [key]: {
-                ...this.props.option.values[key],
+                ...this.props.option.values.get(key),
                 value,
             },
         };
@@ -28,7 +28,7 @@ class FilterList extends React.PureComponent<Props> {
     render() {
         const {option} = this.props;
         const valuesToRender = option.keys.map((optionKey: string, index: number) => {
-            const currentValue = option.values[optionKey];
+            const currentValue = option.values.get(optionKey)!;
             const {value, name} = currentValue;
             const FilterItem = option.type || FilterCheckbox;
 

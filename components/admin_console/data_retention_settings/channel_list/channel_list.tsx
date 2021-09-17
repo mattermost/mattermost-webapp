@@ -200,9 +200,9 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                 );
             }
             return {
-                cells: {
-                    id: channel.id,
-                    name: (
+                cells: new Map<string, React.ReactNode>([
+                    ['id', channel.id],
+                    ['name', (
                         <div
                             className='ChannelList__nameColumn'
                             id={`channel-name-${channel.id}`}
@@ -214,9 +214,9 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                                 </b>
                             </div>
                         </div>
-                    ),
-                    team: channel.team_display_name,
-                    remove: (
+                    )],
+                    ['team', channel.team_display_name],
+                    ['remove', (
                         <a
                             id={`remove-channel-${channel.id}`}
                             className='group-actions TeamList_editText'
@@ -231,8 +231,8 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                                 defaultMessage='Remove'
                             />
                         </a>
-                    ),
-                },
+                    )],
+                ]),
             };
         });
     }
@@ -275,25 +275,31 @@ export default class ChannelList extends React.PureComponent<Props, State> {
 
     onFilter = async (filterOptions: FilterOptions) => {
         const filters: ChannelSearchOpts = {};
-        const {public: publicChannels, private: privateChannels, deleted} = filterOptions.channels.values;
-        const {team_ids: teamIds} = filterOptions.teams.values;
-        if (publicChannels.value || privateChannels.value || deleted.value || (teamIds.value as string[]).length) {
-            filters.public = publicChannels.value as boolean;
-            filters.private = privateChannels.value as boolean;
-            filters.deleted = deleted.value as boolean;
-            filters.team_ids = teamIds.value as string[];
+        const channelsFilter = filterOptions.get('channels');
+        const publicChannels = channelsFilter?.values.get('public');
+        const privateChannels = channelsFilter?.values.get('private');
+        const deleted = channelsFilter?.values.get('deleted');
+
+        const teamIds = filterOptions.get('teams')?.values.get('team_ids');
+
+        if (publicChannels?.value || privateChannels?.value || deleted?.value || (teamIds?.value as string[]).length) {
+            filters.public = Boolean(publicChannels?.value);
+            filters.private = Boolean(privateChannels?.value);
+            filters.deleted = Boolean(deleted?.value);
+            filters.team_ids = teamIds ? teamIds.value as string[] : [];
         }
         this.props.actions.setChannelListFilters(filters);
     }
+
     render() {
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
-        const filterOptions: FilterOptions = {
-            teams: {
+        const filterOptions: FilterOptions = new Map([
+            ['teams', {
                 name: 'Teams',
-                values: {
-                    team_ids: {
+                values: new Map([
+                    ['team_ids', {
                         name: (
                             <FormattedMessage
                                 id='admin.team_settings.title'
@@ -301,15 +307,15 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: [],
-                    },
-                },
+                    }],
+                ]),
                 keys: ['team_ids'],
                 type: TeamFilterDropdown,
-            },
-            channels: {
+            }],
+            ['channels', {
                 name: 'Channels',
-                values: {
-                    public: {
+                values: new Map([
+                    ['public', {
                         name: (
                             <FormattedMessage
                                 id='admin.channel_list.public'
@@ -317,8 +323,8 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    private: {
+                    }],
+                    ['private', {
                         name: (
                             <FormattedMessage
                                 id='admin.channel_list.private'
@@ -326,8 +332,8 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    deleted: {
+                    }],
+                    ['deleted', {
                         name: (
                             <FormattedMessage
                                 id='admin.channel_list.archived'
@@ -335,11 +341,11 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                },
+                    }],
+                ]),
                 keys: ['public', 'private', 'deleted'],
-            },
-        };
+            }],
+        ]);
 
         const filterProps = {
             options: filterOptions,

@@ -40,39 +40,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
           "channels",
         ],
         "onFilter": [Function],
-        "options": Object {
-          "channels": Object {
-            "keys": Array [
-              "public",
-              "private",
-              "deleted",
-            ],
-            "name": "Channels",
-            "values": Object {
-              "deleted": Object {
-                "name": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Archived"
-                  id="admin.channel_list.archived"
-                />,
-                "value": false,
-              },
-              "private": Object {
-                "name": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Private"
-                  id="admin.channel_list.private"
-                />,
-                "value": false,
-              },
-              "public": Object {
-                "name": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Public"
-                  id="admin.channel_list.public"
-                />,
-                "value": false,
-              },
-            },
-          },
-          "teams": Object {
+        "options": Map {
+          "teams" => Object {
             "keys": Array [
               "team_ids",
             ],
@@ -84,13 +53,44 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               "displayName": "Connect(TeamFilterDropdown)",
               "type": [Function],
             },
-            "values": Object {
-              "team_ids": Object {
+            "values": Map {
+              "team_ids" => Object {
                 "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Teams"
                   id="admin.team_settings.title"
                 />,
                 "value": Array [],
+              },
+            },
+          },
+          "channels" => Object {
+            "keys": Array [
+              "public",
+              "private",
+              "deleted",
+            ],
+            "name": "Channels",
+            "values": Map {
+              "public" => Object {
+                "name": <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Public"
+                  id="admin.channel_list.public"
+                />,
+                "value": false,
+              },
+              "private" => Object {
+                "name": <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Private"
+                  id="admin.channel_list.private"
+                />,
+                "value": false,
+              },
+              "deleted" => Object {
+                "name": <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Archived"
+                  id="admin.channel_list.archived"
+                />,
+                "value": false,
               },
             },
           },
@@ -105,9 +105,9 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
     rows={
       Array [
         Object {
-          "cells": Object {
-            "id": "123",
-            "name": <div
+          "cells": Map {
+            "id" => "123",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-123"
             >
@@ -124,7 +124,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-123"
@@ -135,7 +136,6 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
       ]
@@ -188,39 +188,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
           "channels",
         ],
         "onFilter": [Function],
-        "options": Object {
-          "channels": Object {
-            "keys": Array [
-              "public",
-              "private",
-              "deleted",
-            ],
-            "name": "Channels",
-            "values": Object {
-              "deleted": Object {
-                "name": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Archived"
-                  id="admin.channel_list.archived"
-                />,
-                "value": false,
-              },
-              "private": Object {
-                "name": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Private"
-                  id="admin.channel_list.private"
-                />,
-                "value": false,
-              },
-              "public": Object {
-                "name": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Public"
-                  id="admin.channel_list.public"
-                />,
-                "value": false,
-              },
-            },
-          },
-          "teams": Object {
+        "options": Map {
+          "teams" => Object {
             "keys": Array [
               "team_ids",
             ],
@@ -232,13 +201,44 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               "displayName": "Connect(TeamFilterDropdown)",
               "type": [Function],
             },
-            "values": Object {
-              "team_ids": Object {
+            "values": Map {
+              "team_ids" => Object {
                 "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Teams"
                   id="admin.team_settings.title"
                 />,
                 "value": Array [],
+              },
+            },
+          },
+          "channels" => Object {
+            "keys": Array [
+              "public",
+              "private",
+              "deleted",
+            ],
+            "name": "Channels",
+            "values": Map {
+              "public" => Object {
+                "name": <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Public"
+                  id="admin.channel_list.public"
+                />,
+                "value": false,
+              },
+              "private" => Object {
+                "name": <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Private"
+                  id="admin.channel_list.private"
+                />,
+                "value": false,
+              },
+              "deleted" => Object {
+                "name": <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Archived"
+                  id="admin.channel_list.archived"
+                />,
+                "value": false,
               },
             },
           },
@@ -253,9 +253,9 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
     rows={
       Array [
         Object {
-          "cells": Object {
-            "id": "id0",
-            "name": <div
+          "cells": Map {
+            "id" => "id0",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id0"
             >
@@ -272,7 +272,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id0"
@@ -283,13 +284,12 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
         Object {
-          "cells": Object {
-            "id": "id1",
-            "name": <div
+          "cells": Map {
+            "id" => "id1",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id1"
             >
@@ -306,7 +306,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id1"
@@ -317,13 +318,12 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
         Object {
-          "cells": Object {
-            "id": "id2",
-            "name": <div
+          "cells": Map {
+            "id" => "id2",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id2"
             >
@@ -340,7 +340,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id2"
@@ -351,13 +352,12 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
         Object {
-          "cells": Object {
-            "id": "id3",
-            "name": <div
+          "cells": Map {
+            "id" => "id3",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id3"
             >
@@ -374,7 +374,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id3"
@@ -385,13 +386,12 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
         Object {
-          "cells": Object {
-            "id": "id4",
-            "name": <div
+          "cells": Map {
+            "id" => "id4",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id4"
             >
@@ -408,7 +408,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id4"
@@ -419,13 +420,12 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
         Object {
-          "cells": Object {
-            "id": "id5",
-            "name": <div
+          "cells": Map {
+            "id" => "id5",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id5"
             >
@@ -442,7 +442,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id5"
@@ -453,13 +454,12 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
         Object {
-          "cells": Object {
-            "id": "id6",
-            "name": <div
+          "cells": Map {
+            "id" => "id6",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id6"
             >
@@ -476,7 +476,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id6"
@@ -487,13 +488,12 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
         Object {
-          "cells": Object {
-            "id": "id7",
-            "name": <div
+          "cells": Map {
+            "id" => "id7",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id7"
             >
@@ -510,7 +510,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id7"
@@ -521,13 +522,12 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
         Object {
-          "cells": Object {
-            "id": "id8",
-            "name": <div
+          "cells": Map {
+            "id" => "id8",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id8"
             >
@@ -544,7 +544,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id8"
@@ -555,13 +556,12 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
         Object {
-          "cells": Object {
-            "id": "id9",
-            "name": <div
+          "cells": Map {
+            "id" => "id9",
+            "name" => <div
               className="ChannelList__nameColumn"
               id="channel-name-id9"
             >
@@ -578,7 +578,8 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "team" => "teamDisplayName",
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-channel-id9"
@@ -589,7 +590,6 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
                 id="admin.data_retention.custom_policy.teams.remove"
               />
             </a>,
-            "team": "teamDisplayName",
           },
         },
       ]

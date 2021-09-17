@@ -34,7 +34,7 @@ class DataGridRow extends React.Component<Props> {
                 className={classNames('DataGrid_cell', column.className)}
                 style={style}
             >
-                {row.cells[column.field]}
+                {row.cells.get('column.field')}
             </div>
         );
     }

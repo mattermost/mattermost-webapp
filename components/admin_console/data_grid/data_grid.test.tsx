@@ -47,9 +47,9 @@ describe('components/admin_console/data_grid/DataGrid', () => {
             <DataGrid
                 {...baseProps}
                 rows={[
-                    {cells: {name: 'Joe Schmoe', team: 'Admin Team'}},
-                    {cells: {name: 'Foo Bar', team: 'Admin Team'}},
-                    {cells: {name: 'Some Guy', team: 'Admin Team'}},
+                    {cells: new Map([['name', 'Joe Schmoe'], ['team', 'Admin Team']])},
+                    {cells: new Map([['name', 'Foo Bar'], ['team', 'Admin Team']])},
+                    {cells: new Map([['name', 'Some Guy'], ['team', 'Admin Team']])},
                 ]}
                 columns={[
                     {name: 'Name', field: 'name', width: 3, overflow: 'hidden'},
@@ -65,9 +65,9 @@ describe('components/admin_console/data_grid/DataGrid', () => {
             <DataGrid
                 {...baseProps}
                 rows={[
-                    {cells: {name: 'Joe Schmoe', team: 'Admin Team'}},
-                    {cells: {name: 'Foo Bar', team: 'Admin Team'}},
-                    {cells: {name: 'Some Guy', team: 'Admin Team'}},
+                    {cells: new Map([['name', 'Joe Schmoe'], ['team', 'Admin Team']])},
+                    {cells: new Map([['name', 'Foo Bar'], ['team', 'Admin Team']])},
+                    {cells: new Map([['name', 'Some Guy'], ['team', 'Admin Team']])},
                 ]}
                 columns={[
                     {name: 'Name', field: 'name'},

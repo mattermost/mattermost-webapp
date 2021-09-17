@@ -39,7 +39,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
     Object {
       "keys": Array [],
       "onFilter": [Function],
-      "options": Object {},
+      "options": Map {},
     }
   }
   loading={false}
@@ -56,9 +56,9 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   rows={
     Array [
       Object {
-        "cells": Object {
-          "id": "userid1",
-          "name": <UserGridName
+        "cells": Map {
+          "id" => "userid1",
+          "name" => <UserGridName
             user={
               Object {
                 "allow_marketing": false,
@@ -105,7 +105,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Memo(Badge)
+          "new" => <Memo(Badge)
             className="NewUserBadge"
             show={false}
           >
@@ -114,55 +114,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               id="admin.user_grid.new"
             />
           </Memo(Badge)>,
-          "remove": <UserGridRemove
-            removeUser={[Function]}
-            user={
-              Object {
-                "allow_marketing": false,
-                "auth_data": "",
-                "auth_service": "",
-                "bot_description": "",
-                "bot_last_icon_update": 0,
-                "create_at": 0,
-                "delete_at": 0,
-                "email": "",
-                "email_verified": true,
-                "failed_attempts": 0,
-                "first_name": "",
-                "id": "userid1",
-                "is_bot": false,
-                "last_activity_at": 0,
-                "last_name": "",
-                "last_password_update": 0,
-                "last_picture_update": 0,
-                "locale": "",
-                "mfa_active": false,
-                "mfa_secret": "",
-                "nickname": "",
-                "notify_props": Object {
-                  "channel": "false",
-                  "comments": "never",
-                  "desktop": "default",
-                  "desktop_sound": "false",
-                  "email": "false",
-                  "first_name": "false",
-                  "mark_unread": "mention",
-                  "mention_keys": "",
-                  "push": "none",
-                  "push_status": "offline",
-                },
-                "password": "",
-                "position": "",
-                "props": Object {},
-                "roles": "",
-                "terms_of_service_create_at": 0,
-                "terms_of_service_id": "",
-                "update_at": 0,
-                "username": "user-1",
-              }
-            }
-          />,
-          "role": <UserGridRoleDropdown
+          "role" => <UserGridRoleDropdown
             handleUpdateMembership={[Function]}
             membership={
               Object {
@@ -225,68 +177,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-        },
-      },
-      Object {
-        "cells": Object {
-          "id": "userid2",
-          "name": <UserGridName
-            user={
-              Object {
-                "allow_marketing": false,
-                "auth_data": "",
-                "auth_service": "",
-                "bot_description": "",
-                "bot_last_icon_update": 0,
-                "create_at": 0,
-                "delete_at": 0,
-                "email": "",
-                "email_verified": true,
-                "failed_attempts": 0,
-                "first_name": "",
-                "id": "userid2",
-                "is_bot": false,
-                "last_activity_at": 0,
-                "last_name": "",
-                "last_password_update": 0,
-                "last_picture_update": 0,
-                "locale": "",
-                "mfa_active": false,
-                "mfa_secret": "",
-                "nickname": "",
-                "notify_props": Object {
-                  "channel": "false",
-                  "comments": "never",
-                  "desktop": "default",
-                  "desktop_sound": "false",
-                  "email": "false",
-                  "first_name": "false",
-                  "mark_unread": "mention",
-                  "mention_keys": "",
-                  "push": "none",
-                  "push_status": "offline",
-                },
-                "password": "",
-                "position": "",
-                "props": Object {},
-                "roles": "",
-                "terms_of_service_create_at": 0,
-                "terms_of_service_id": "",
-                "update_at": 0,
-                "username": "user-2",
-              }
-            }
-          />,
-          "new": <Memo(Badge)
-            className="NewUserBadge"
-            show={false}
-          >
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="New"
-              id="admin.user_grid.new"
-            />
-          </Memo(Badge)>,
-          "remove": <UserGridRemove
+          "remove" => <UserGridRemove
             removeUser={[Function]}
             user={
               Object {
@@ -301,6 +192,58 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
                 "email_verified": true,
                 "failed_attempts": 0,
                 "first_name": "",
+                "id": "userid1",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "mfa_secret": "",
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "user-1",
+              }
+            }
+          />,
+        },
+      },
+      Object {
+        "cells": Map {
+          "id" => "userid2",
+          "name" => <UserGridName
+            user={
+              Object {
+                "allow_marketing": false,
+                "auth_data": "",
+                "auth_service": "",
+                "bot_description": "",
+                "bot_last_icon_update": 0,
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "",
+                "email_verified": true,
+                "failed_attempts": 0,
+                "first_name": "",
                 "id": "userid2",
                 "is_bot": false,
                 "last_activity_at": 0,
@@ -334,7 +277,16 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "role": <UserGridRoleDropdown
+          "new" => <Memo(Badge)
+            className="NewUserBadge"
+            show={false}
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="New"
+              id="admin.user_grid.new"
+            />
+          </Memo(Badge)>,
+          "role" => <UserGridRoleDropdown
             handleUpdateMembership={[Function]}
             membership={
               Object {
@@ -351,6 +303,54 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
             scope="team"
+            user={
+              Object {
+                "allow_marketing": false,
+                "auth_data": "",
+                "auth_service": "",
+                "bot_description": "",
+                "bot_last_icon_update": 0,
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "",
+                "email_verified": true,
+                "failed_attempts": 0,
+                "first_name": "",
+                "id": "userid2",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "mfa_secret": "",
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "user-2",
+              }
+            }
+          />,
+          "remove" => <UserGridRemove
+            removeUser={[Function]}
             user={
               Object {
                 "allow_marketing": false,
@@ -452,7 +452,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
     Object {
       "keys": Array [],
       "onFilter": [Function],
-      "options": Object {},
+      "options": Map {},
     }
   }
   loading={false}
@@ -469,9 +469,9 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   rows={
     Array [
       Object {
-        "cells": Object {
-          "id": "userid-not-saved",
-          "name": <UserGridName
+        "cells": Map {
+          "id" => "userid-not-saved",
+          "name" => <UserGridName
             user={
               Object {
                 "allow_marketing": false,
@@ -518,7 +518,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Memo(Badge)
+          "new" => <Memo(Badge)
             className="NewUserBadge"
             show={true}
           >
@@ -527,55 +527,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               id="admin.user_grid.new"
             />
           </Memo(Badge)>,
-          "remove": <UserGridRemove
-            removeUser={[Function]}
-            user={
-              Object {
-                "allow_marketing": false,
-                "auth_data": "",
-                "auth_service": "",
-                "bot_description": "",
-                "bot_last_icon_update": 0,
-                "create_at": 0,
-                "delete_at": 0,
-                "email": "",
-                "email_verified": true,
-                "failed_attempts": 0,
-                "first_name": "",
-                "id": "userid-not-saved",
-                "is_bot": false,
-                "last_activity_at": 0,
-                "last_name": "",
-                "last_password_update": 0,
-                "last_picture_update": 0,
-                "locale": "",
-                "mfa_active": false,
-                "mfa_secret": "",
-                "nickname": "",
-                "notify_props": Object {
-                  "channel": "false",
-                  "comments": "never",
-                  "desktop": "default",
-                  "desktop_sound": "false",
-                  "email": "false",
-                  "first_name": "false",
-                  "mark_unread": "mention",
-                  "mention_keys": "",
-                  "push": "none",
-                  "push_status": "offline",
-                },
-                "password": "",
-                "position": "",
-                "props": Object {},
-                "roles": "",
-                "terms_of_service_create_at": 0,
-                "terms_of_service_id": "",
-                "update_at": 0,
-                "username": "user-not-saved",
-              }
-            }
-          />,
-          "role": <UserGridRoleDropdown
+          "role" => <UserGridRoleDropdown
             handleUpdateMembership={[Function]}
             membership={
               Object {
@@ -631,68 +583,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-        },
-      },
-      Object {
-        "cells": Object {
-          "id": "userid1",
-          "name": <UserGridName
-            user={
-              Object {
-                "allow_marketing": false,
-                "auth_data": "",
-                "auth_service": "",
-                "bot_description": "",
-                "bot_last_icon_update": 0,
-                "create_at": 0,
-                "delete_at": 0,
-                "email": "",
-                "email_verified": true,
-                "failed_attempts": 0,
-                "first_name": "",
-                "id": "userid1",
-                "is_bot": false,
-                "last_activity_at": 0,
-                "last_name": "",
-                "last_password_update": 0,
-                "last_picture_update": 0,
-                "locale": "",
-                "mfa_active": false,
-                "mfa_secret": "",
-                "nickname": "",
-                "notify_props": Object {
-                  "channel": "false",
-                  "comments": "never",
-                  "desktop": "default",
-                  "desktop_sound": "false",
-                  "email": "false",
-                  "first_name": "false",
-                  "mark_unread": "mention",
-                  "mention_keys": "",
-                  "push": "none",
-                  "push_status": "offline",
-                },
-                "password": "",
-                "position": "",
-                "props": Object {},
-                "roles": "",
-                "terms_of_service_create_at": 0,
-                "terms_of_service_id": "",
-                "update_at": 0,
-                "username": "user-1",
-              }
-            }
-          />,
-          "new": <Memo(Badge)
-            className="NewUserBadge"
-            show={false}
-          >
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="New"
-              id="admin.user_grid.new"
-            />
-          </Memo(Badge)>,
-          "remove": <UserGridRemove
+          "remove" => <UserGridRemove
             removeUser={[Function]}
             user={
               Object {
@@ -707,6 +598,58 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
                 "email_verified": true,
                 "failed_attempts": 0,
                 "first_name": "",
+                "id": "userid-not-saved",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "mfa_secret": "",
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "user-not-saved",
+              }
+            }
+          />,
+        },
+      },
+      Object {
+        "cells": Map {
+          "id" => "userid1",
+          "name" => <UserGridName
+            user={
+              Object {
+                "allow_marketing": false,
+                "auth_data": "",
+                "auth_service": "",
+                "bot_description": "",
+                "bot_last_icon_update": 0,
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "",
+                "email_verified": true,
+                "failed_attempts": 0,
+                "first_name": "",
                 "id": "userid1",
                 "is_bot": false,
                 "last_activity_at": 0,
@@ -740,7 +683,16 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "role": <UserGridRoleDropdown
+          "new" => <Memo(Badge)
+            className="NewUserBadge"
+            show={false}
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="New"
+              id="admin.user_grid.new"
+            />
+          </Memo(Badge)>,
+          "role" => <UserGridRoleDropdown
             handleUpdateMembership={[Function]}
             membership={
               Object {
@@ -803,68 +755,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-        },
-      },
-      Object {
-        "cells": Object {
-          "id": "userid2",
-          "name": <UserGridName
-            user={
-              Object {
-                "allow_marketing": false,
-                "auth_data": "",
-                "auth_service": "",
-                "bot_description": "",
-                "bot_last_icon_update": 0,
-                "create_at": 0,
-                "delete_at": 0,
-                "email": "",
-                "email_verified": true,
-                "failed_attempts": 0,
-                "first_name": "",
-                "id": "userid2",
-                "is_bot": false,
-                "last_activity_at": 0,
-                "last_name": "",
-                "last_password_update": 0,
-                "last_picture_update": 0,
-                "locale": "",
-                "mfa_active": false,
-                "mfa_secret": "",
-                "nickname": "",
-                "notify_props": Object {
-                  "channel": "false",
-                  "comments": "never",
-                  "desktop": "default",
-                  "desktop_sound": "false",
-                  "email": "false",
-                  "first_name": "false",
-                  "mark_unread": "mention",
-                  "mention_keys": "",
-                  "push": "none",
-                  "push_status": "offline",
-                },
-                "password": "",
-                "position": "",
-                "props": Object {},
-                "roles": "",
-                "terms_of_service_create_at": 0,
-                "terms_of_service_id": "",
-                "update_at": 0,
-                "username": "user-2",
-              }
-            }
-          />,
-          "new": <Memo(Badge)
-            className="NewUserBadge"
-            show={false}
-          >
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="New"
-              id="admin.user_grid.new"
-            />
-          </Memo(Badge)>,
-          "remove": <UserGridRemove
+          "remove" => <UserGridRemove
             removeUser={[Function]}
             user={
               Object {
@@ -879,6 +770,58 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
                 "email_verified": true,
                 "failed_attempts": 0,
                 "first_name": "",
+                "id": "userid1",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "mfa_secret": "",
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "user-1",
+              }
+            }
+          />,
+        },
+      },
+      Object {
+        "cells": Map {
+          "id" => "userid2",
+          "name" => <UserGridName
+            user={
+              Object {
+                "allow_marketing": false,
+                "auth_data": "",
+                "auth_service": "",
+                "bot_description": "",
+                "bot_last_icon_update": 0,
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "",
+                "email_verified": true,
+                "failed_attempts": 0,
+                "first_name": "",
                 "id": "userid2",
                 "is_bot": false,
                 "last_activity_at": 0,
@@ -912,7 +855,16 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "role": <UserGridRoleDropdown
+          "new" => <Memo(Badge)
+            className="NewUserBadge"
+            show={false}
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="New"
+              id="admin.user_grid.new"
+            />
+          </Memo(Badge)>,
+          "role" => <UserGridRoleDropdown
             handleUpdateMembership={[Function]}
             membership={
               Object {
@@ -929,6 +881,54 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
             scope="team"
+            user={
+              Object {
+                "allow_marketing": false,
+                "auth_data": "",
+                "auth_service": "",
+                "bot_description": "",
+                "bot_last_icon_update": 0,
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "",
+                "email_verified": true,
+                "failed_attempts": 0,
+                "first_name": "",
+                "id": "userid2",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "mfa_secret": "",
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "user-2",
+              }
+            }
+          />,
+          "remove" => <UserGridRemove
+            removeUser={[Function]}
             user={
               Object {
                 "allow_marketing": false,
@@ -1030,7 +1030,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
     Object {
       "keys": Array [],
       "onFilter": [Function],
-      "options": Object {},
+      "options": Map {},
     }
   }
   loading={false}
@@ -1047,9 +1047,9 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   rows={
     Array [
       Object {
-        "cells": Object {
-          "id": "userid2",
-          "name": <UserGridName
+        "cells": Map {
+          "id" => "userid2",
+          "name" => <UserGridName
             user={
               Object {
                 "allow_marketing": false,
@@ -1096,7 +1096,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Memo(Badge)
+          "new" => <Memo(Badge)
             className="NewUserBadge"
             show={false}
           >
@@ -1105,55 +1105,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               id="admin.user_grid.new"
             />
           </Memo(Badge)>,
-          "remove": <UserGridRemove
-            removeUser={[Function]}
-            user={
-              Object {
-                "allow_marketing": false,
-                "auth_data": "",
-                "auth_service": "",
-                "bot_description": "",
-                "bot_last_icon_update": 0,
-                "create_at": 0,
-                "delete_at": 0,
-                "email": "",
-                "email_verified": true,
-                "failed_attempts": 0,
-                "first_name": "",
-                "id": "userid2",
-                "is_bot": false,
-                "last_activity_at": 0,
-                "last_name": "",
-                "last_password_update": 0,
-                "last_picture_update": 0,
-                "locale": "",
-                "mfa_active": false,
-                "mfa_secret": "",
-                "nickname": "",
-                "notify_props": Object {
-                  "channel": "false",
-                  "comments": "never",
-                  "desktop": "default",
-                  "desktop_sound": "false",
-                  "email": "false",
-                  "first_name": "false",
-                  "mark_unread": "mention",
-                  "mention_keys": "",
-                  "push": "none",
-                  "push_status": "offline",
-                },
-                "password": "",
-                "position": "",
-                "props": Object {},
-                "roles": "",
-                "terms_of_service_create_at": 0,
-                "terms_of_service_id": "",
-                "update_at": 0,
-                "username": "user-2",
-              }
-            }
-          />,
-          "role": <UserGridRoleDropdown
+          "role" => <UserGridRoleDropdown
             handleUpdateMembership={[Function]}
             membership={
               Object {
@@ -1170,6 +1122,54 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
             scope="team"
+            user={
+              Object {
+                "allow_marketing": false,
+                "auth_data": "",
+                "auth_service": "",
+                "bot_description": "",
+                "bot_last_icon_update": 0,
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "",
+                "email_verified": true,
+                "failed_attempts": 0,
+                "first_name": "",
+                "id": "userid2",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "mfa_secret": "",
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "user-2",
+              }
+            }
+          />,
+          "remove" => <UserGridRemove
+            removeUser={[Function]}
             user={
               Object {
                 "allow_marketing": false,

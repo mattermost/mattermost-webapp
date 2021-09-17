@@ -84,8 +84,25 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
               rows={
                 Array [
                   Object {
-                    "cells": Object {
-                      "actions": <MenuWrapper
+                    "cells": Map {
+                      "description" => "Applies to all teams and channels, but does not apply to custom retention policies.",
+                      "channel_messages" => <div
+                        data-testid="global_message_retention_cell"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="Keep forever"
+                          id="admin.data_retention.form.keepForever"
+                        />
+                      </div>,
+                      "files" => <div
+                        data-testid="global_file_retention_cell"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="Keep forever"
+                          id="admin.data_retention.form.keepForever"
+                        />
+                      </div>,
+                      "actions" => <MenuWrapper
                         animationComponent={[Function]}
                         className=""
                         isDisabled={false}
@@ -114,23 +131,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                           />
                         </Menu>
                       </MenuWrapper>,
-                      "channel_messages": <div
-                        data-testid="global_message_retention_cell"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="Keep forever"
-                          id="admin.data_retention.form.keepForever"
-                        />
-                      </div>,
-                      "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
-                      "files": <div
-                        data-testid="global_file_retention_cell"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="Keep forever"
-                          id="admin.data_retention.form.keepForever"
-                        />
-                      </div>,
                     },
                     "onClick": [Function],
                   },
@@ -217,8 +217,35 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
               rows={
                 Array [
                   Object {
-                    "cells": Object {
-                      "actions": <MenuWrapper
+                    "cells": Map {
+                      "description" => <div
+                        id="customDescription-1234567"
+                      >
+                        Custom policy 1
+                      </div>,
+                      "channel_messages" => <div
+                        id="customDuration-1234567"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="Keep forever"
+                          id="admin.data_retention.form.keepForever"
+                        />
+                      </div>,
+                      "applied_to" => <div
+                        id="customAppliedTo-1234567"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
+                          id="admin.data_retention.channel_team_counts"
+                          values={
+                            Object {
+                              "channel_count": 2,
+                              "team_count": 1,
+                            }
+                          }
+                        />
+                      </div>,
+                      "actions" => <MenuWrapper
                         animationComponent={[Function]}
                         className=""
                         id="customWrapper-1234567"
@@ -253,33 +280,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                           />
                         </Menu>
                       </MenuWrapper>,
-                      "applied_to": <div
-                        id="customAppliedTo-1234567"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
-                          id="admin.data_retention.channel_team_counts"
-                          values={
-                            Object {
-                              "channel_count": 2,
-                              "team_count": 1,
-                            }
-                          }
-                        />
-                      </div>,
-                      "channel_messages": <div
-                        id="customDuration-1234567"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="Keep forever"
-                          id="admin.data_retention.form.keepForever"
-                        />
-                      </div>,
-                      "description": <div
-                        id="customDescription-1234567"
-                      >
-                        Custom policy 1
-                      </div>,
                     },
                     "onClick": [Function],
                   },
@@ -455,8 +455,35 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
               rows={
                 Array [
                   Object {
-                    "cells": Object {
-                      "actions": <MenuWrapper
+                    "cells": Map {
+                      "description" => "Applies to all teams and channels, but does not apply to custom retention policies.",
+                      "channel_messages" => <div
+                        data-testid="global_message_retention_cell"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                      "files" => <div
+                        data-testid="global_file_retention_cell"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                      "actions" => <MenuWrapper
                         animationComponent={[Function]}
                         className=""
                         isDisabled={false}
@@ -485,33 +512,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                           />
                         </Menu>
                       </MenuWrapper>,
-                      "channel_messages": <div
-                        data-testid="global_message_retention_cell"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{count} {count, plural, one {day} other {days}}"
-                          id="admin.data_retention.retention_days"
-                          values={
-                            Object {
-                              "count": "100",
-                            }
-                          }
-                        />
-                      </div>,
-                      "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
-                      "files": <div
-                        data-testid="global_file_retention_cell"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{count} {count, plural, one {day} other {days}}"
-                          id="admin.data_retention.retention_days"
-                          values={
-                            Object {
-                              "count": "100",
-                            }
-                          }
-                        />
-                      </div>,
                     },
                     "onClick": [Function],
                   },
@@ -598,8 +598,40 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
               rows={
                 Array [
                   Object {
-                    "cells": Object {
-                      "actions": <MenuWrapper
+                    "cells": Map {
+                      "description" => <div
+                        id="customDescription-1234567"
+                      >
+                        Custom policy 1
+                      </div>,
+                      "channel_messages" => <div
+                        id="customDuration-1234567"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "60",
+                            }
+                          }
+                        />
+                      </div>,
+                      "applied_to" => <div
+                        id="customAppliedTo-1234567"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
+                          id="admin.data_retention.channel_team_counts"
+                          values={
+                            Object {
+                              "channel_count": 2,
+                              "team_count": 1,
+                            }
+                          }
+                        />
+                      </div>,
+                      "actions" => <MenuWrapper
                         animationComponent={[Function]}
                         className=""
                         id="customWrapper-1234567"
@@ -634,38 +666,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                           />
                         </Menu>
                       </MenuWrapper>,
-                      "applied_to": <div
-                        id="customAppliedTo-1234567"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
-                          id="admin.data_retention.channel_team_counts"
-                          values={
-                            Object {
-                              "channel_count": 2,
-                              "team_count": 1,
-                            }
-                          }
-                        />
-                      </div>,
-                      "channel_messages": <div
-                        id="customDuration-1234567"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{count} {count, plural, one {day} other {days}}"
-                          id="admin.data_retention.retention_days"
-                          values={
-                            Object {
-                              "count": "60",
-                            }
-                          }
-                        />
-                      </div>,
-                      "description": <div
-                        id="customDescription-1234567"
-                      >
-                        Custom policy 1
-                      </div>,
                     },
                     "onClick": [Function],
                   },
@@ -841,8 +841,35 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
               rows={
                 Array [
                   Object {
-                    "cells": Object {
-                      "actions": <MenuWrapper
+                    "cells": Map {
+                      "description" => "Applies to all teams and channels, but does not apply to custom retention policies.",
+                      "channel_messages" => <div
+                        data-testid="global_message_retention_cell"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                      "files" => <div
+                        data-testid="global_file_retention_cell"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                      "actions" => <MenuWrapper
                         animationComponent={[Function]}
                         className=""
                         isDisabled={false}
@@ -871,33 +898,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                           />
                         </Menu>
                       </MenuWrapper>,
-                      "channel_messages": <div
-                        data-testid="global_message_retention_cell"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{count} {count, plural, one {day} other {days}}"
-                          id="admin.data_retention.retention_days"
-                          values={
-                            Object {
-                              "count": "100",
-                            }
-                          }
-                        />
-                      </div>,
-                      "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
-                      "files": <div
-                        data-testid="global_file_retention_cell"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{count} {count, plural, one {day} other {days}}"
-                          id="admin.data_retention.retention_days"
-                          values={
-                            Object {
-                              "count": "100",
-                            }
-                          }
-                        />
-                      </div>,
                     },
                     "onClick": [Function],
                   },
@@ -984,8 +984,35 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
               rows={
                 Array [
                   Object {
-                    "cells": Object {
-                      "actions": <MenuWrapper
+                    "cells": Map {
+                      "description" => <div
+                        id="customDescription-1234567"
+                      >
+                        Custom policy 1
+                      </div>,
+                      "channel_messages" => <div
+                        id="customDuration-1234567"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="Keep forever"
+                          id="admin.data_retention.form.keepForever"
+                        />
+                      </div>,
+                      "applied_to" => <div
+                        id="customAppliedTo-1234567"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
+                          id="admin.data_retention.channel_team_counts"
+                          values={
+                            Object {
+                              "channel_count": 2,
+                              "team_count": 1,
+                            }
+                          }
+                        />
+                      </div>,
+                      "actions" => <MenuWrapper
                         animationComponent={[Function]}
                         className=""
                         id="customWrapper-1234567"
@@ -1020,33 +1047,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                           />
                         </Menu>
                       </MenuWrapper>,
-                      "applied_to": <div
-                        id="customAppliedTo-1234567"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
-                          id="admin.data_retention.channel_team_counts"
-                          values={
-                            Object {
-                              "channel_count": 2,
-                              "team_count": 1,
-                            }
-                          }
-                        />
-                      </div>,
-                      "channel_messages": <div
-                        id="customDuration-1234567"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="Keep forever"
-                          id="admin.data_retention.form.keepForever"
-                        />
-                      </div>,
-                      "description": <div
-                        id="customDescription-1234567"
-                      >
-                        Custom policy 1
-                      </div>,
                     },
                     "onClick": [Function],
                   },
@@ -1222,8 +1222,35 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
               rows={
                 Array [
                   Object {
-                    "cells": Object {
-                      "actions": <MenuWrapper
+                    "cells": Map {
+                      "description" => "Applies to all teams and channels, but does not apply to custom retention policies.",
+                      "channel_messages" => <div
+                        data-testid="global_message_retention_cell"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                      "files" => <div
+                        data-testid="global_file_retention_cell"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                      "actions" => <MenuWrapper
                         animationComponent={[Function]}
                         className=""
                         isDisabled={false}
@@ -1252,33 +1279,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                           />
                         </Menu>
                       </MenuWrapper>,
-                      "channel_messages": <div
-                        data-testid="global_message_retention_cell"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{count} {count, plural, one {day} other {days}}"
-                          id="admin.data_retention.retention_days"
-                          values={
-                            Object {
-                              "count": "100",
-                            }
-                          }
-                        />
-                      </div>,
-                      "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
-                      "files": <div
-                        data-testid="global_file_retention_cell"
-                      >
-                        <Memo(MemoizedFormattedMessage)
-                          defaultMessage="{count} {count, plural, one {day} other {days}}"
-                          id="admin.data_retention.retention_days"
-                          values={
-                            Object {
-                              "count": "100",
-                            }
-                          }
-                        />
-                      </div>,
                     },
                     "onClick": [Function],
                   },

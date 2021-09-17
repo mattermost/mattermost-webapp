@@ -29,9 +29,7 @@ export type Column = {
 }
 
 export type Row = {
-    cells: {
-        [key: string]: JSX.Element | string;
-    };
+    cells: Map<string, React.ReactNode>;
     onClick?: () => void;
 }
 

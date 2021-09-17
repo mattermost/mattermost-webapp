@@ -39,8 +39,8 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           "management",
         ],
         "onFilter": [Function],
-        "options": Object {
-          "management": Object {
+        "options": Map {
+          "management" => Object {
             "keys": Array [
               "allow_open_invite",
               "invite_only",
@@ -49,15 +49,15 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               defaultMessage="Management"
               id="admin.team_settings.team_list.mappingHeader"
             />,
-            "values": Object {
-              "allow_open_invite": Object {
+            "values": Map {
+              "allow_open_invite" => Object {
                 "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Anyone Can Join"
                   id="admin.team_settings.team_row.managementMethod.anyoneCanJoin"
                 />,
                 "value": false,
               },
-              "invite_only": Object {
+              "invite_only" => Object {
                 "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Invite Only"
                   id="admin.team_settings.team_row.managementMethod.inviteOnly"
@@ -83,31 +83,9 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
     rows={
       Array [
         Object {
-          "cells": Object {
-            "edit": <span
-              className="group-actions TeamList_editText"
-              data-testid="DNedit"
-            >
-              <Link
-                to="/admin_console/user_management/teams/123"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Edit"
-                  id="admin.team_settings.team_row.configure"
-                />
-              </Link>
-            </span>,
-            "id": "123",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DNManagement"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          "cells": Map {
+            "id" => "123",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -130,6 +108,28 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DNManagement"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
+              className="group-actions TeamList_editText"
+              data-testid="DNedit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/123"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
           },
           "onClick": [Function],
         },
@@ -187,8 +187,8 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           "management",
         ],
         "onFilter": [Function],
-        "options": Object {
-          "management": Object {
+        "options": Map {
+          "management" => Object {
             "keys": Array [
               "allow_open_invite",
               "invite_only",
@@ -197,15 +197,15 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               defaultMessage="Management"
               id="admin.team_settings.team_list.mappingHeader"
             />,
-            "values": Object {
-              "allow_open_invite": Object {
+            "values": Map {
+              "allow_open_invite" => Object {
                 "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Anyone Can Join"
                   id="admin.team_settings.team_row.managementMethod.anyoneCanJoin"
                 />,
                 "value": false,
               },
-              "invite_only": Object {
+              "invite_only" => Object {
                 "name": <Memo(MemoizedFormattedMessage)
                   defaultMessage="Invite Only"
                   id="admin.team_settings.team_row.managementMethod.inviteOnly"
@@ -231,31 +231,9 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
     rows={
       Array [
         Object {
-          "cells": Object {
-            "edit": <span
-              className="group-actions TeamList_editText"
-              data-testid="DN0edit"
-            >
-              <Link
-                to="/admin_console/user_management/teams/id0"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Edit"
-                  id="admin.team_settings.team_row.configure"
-                />
-              </Link>
-            </span>,
-            "id": "id0",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN0Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          "cells": Map {
+            "id" => "id0",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -278,17 +256,21 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
-          },
-          "onClick": [Function],
-        },
-        Object {
-          "cells": Object {
-            "edit": <span
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN0Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
               className="group-actions TeamList_editText"
-              data-testid="DN1edit"
+              data-testid="DN0edit"
             >
               <Link
-                to="/admin_console/user_management/teams/id1"
+                to="/admin_console/user_management/teams/id0"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edit"
@@ -296,17 +278,13 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 />
               </Link>
             </span>,
-            "id": "id1",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN1Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Map {
+            "id" => "id1",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -329,17 +307,21 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
-          },
-          "onClick": [Function],
-        },
-        Object {
-          "cells": Object {
-            "edit": <span
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN1Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
               className="group-actions TeamList_editText"
-              data-testid="DN2edit"
+              data-testid="DN1edit"
             >
               <Link
-                to="/admin_console/user_management/teams/id2"
+                to="/admin_console/user_management/teams/id1"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edit"
@@ -347,17 +329,13 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 />
               </Link>
             </span>,
-            "id": "id2",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN2Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Map {
+            "id" => "id2",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -380,17 +358,21 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
-          },
-          "onClick": [Function],
-        },
-        Object {
-          "cells": Object {
-            "edit": <span
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN2Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
               className="group-actions TeamList_editText"
-              data-testid="DN3edit"
+              data-testid="DN2edit"
             >
               <Link
-                to="/admin_console/user_management/teams/id3"
+                to="/admin_console/user_management/teams/id2"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edit"
@@ -398,17 +380,13 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 />
               </Link>
             </span>,
-            "id": "id3",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN3Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Map {
+            "id" => "id3",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -431,17 +409,21 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
-          },
-          "onClick": [Function],
-        },
-        Object {
-          "cells": Object {
-            "edit": <span
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN3Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
               className="group-actions TeamList_editText"
-              data-testid="DN4edit"
+              data-testid="DN3edit"
             >
               <Link
-                to="/admin_console/user_management/teams/id4"
+                to="/admin_console/user_management/teams/id3"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edit"
@@ -449,17 +431,13 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 />
               </Link>
             </span>,
-            "id": "id4",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN4Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Map {
+            "id" => "id4",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -482,17 +460,21 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
-          },
-          "onClick": [Function],
-        },
-        Object {
-          "cells": Object {
-            "edit": <span
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN4Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
               className="group-actions TeamList_editText"
-              data-testid="DN5edit"
+              data-testid="DN4edit"
             >
               <Link
-                to="/admin_console/user_management/teams/id5"
+                to="/admin_console/user_management/teams/id4"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edit"
@@ -500,17 +482,13 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 />
               </Link>
             </span>,
-            "id": "id5",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN5Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Map {
+            "id" => "id5",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -533,17 +511,21 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
-          },
-          "onClick": [Function],
-        },
-        Object {
-          "cells": Object {
-            "edit": <span
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN5Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
               className="group-actions TeamList_editText"
-              data-testid="DN6edit"
+              data-testid="DN5edit"
             >
               <Link
-                to="/admin_console/user_management/teams/id6"
+                to="/admin_console/user_management/teams/id5"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edit"
@@ -551,17 +533,13 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 />
               </Link>
             </span>,
-            "id": "id6",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN6Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Map {
+            "id" => "id6",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -584,17 +562,21 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
-          },
-          "onClick": [Function],
-        },
-        Object {
-          "cells": Object {
-            "edit": <span
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN6Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
               className="group-actions TeamList_editText"
-              data-testid="DN7edit"
+              data-testid="DN6edit"
             >
               <Link
-                to="/admin_console/user_management/teams/id7"
+                to="/admin_console/user_management/teams/id6"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edit"
@@ -602,17 +584,13 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 />
               </Link>
             </span>,
-            "id": "id7",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN7Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Map {
+            "id" => "id7",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -635,17 +613,21 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
-          },
-          "onClick": [Function],
-        },
-        Object {
-          "cells": Object {
-            "edit": <span
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN7Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
               className="group-actions TeamList_editText"
-              data-testid="DN8edit"
+              data-testid="DN7edit"
             >
               <Link
-                to="/admin_console/user_management/teams/id8"
+                to="/admin_console/user_management/teams/id7"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edit"
@@ -653,17 +635,13 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 />
               </Link>
             </span>,
-            "id": "id8",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN8Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Map {
+            "id" => "id8",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -686,17 +664,21 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
-          },
-          "onClick": [Function],
-        },
-        Object {
-          "cells": Object {
-            "edit": <span
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN8Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
               className="group-actions TeamList_editText"
-              data-testid="DN9edit"
+              data-testid="DN8edit"
             >
               <Link
-                to="/admin_console/user_management/teams/id9"
+                to="/admin_console/user_management/teams/id8"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Edit"
@@ -704,17 +686,13 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 />
               </Link>
             </span>,
-            "id": "id9",
-            "management": <span
-              className="TeamList_managementText"
-              data-testid="DN9Management"
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Invite Only"
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-              />
-            </span>,
-            "name": <div
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Map {
+            "id" => "id9",
+            "name" => <div
               className="TeamList_nameColumn"
             >
               <div
@@ -737,6 +715,28 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
                 
               </div>
             </div>,
+            "management" => <span
+              className="TeamList_managementText"
+              data-testid="DN9Management"
+            >
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "edit" => <span
+              className="group-actions TeamList_editText"
+              data-testid="DN9edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id9"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
           },
           "onClick": [Function],
         },

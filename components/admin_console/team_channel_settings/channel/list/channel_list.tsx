@@ -202,9 +202,9 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             }
 
             return {
-                cells: {
-                    id: channel.id,
-                    name: (
+                cells: new Map<string, React.ReactNode>([
+                    ['id', channel.id],
+                    ['name', (
                         <span
                             className='group-name overflow--ellipsis row-content'
                             data-testid='channel-display-name'
@@ -214,21 +214,21 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                                 {channel.display_name}
                             </span>
                         </span>
-                    ),
-                    team: (
+                    )],
+                    ['team', (
                         <span className='group-description row-content'>
                             {channel.team_display_name}
                         </span>
-                    ),
-                    management: (
+                    )],
+                    ['management', (
                         <span className='group-description adjusted row-content'>
                             <FormattedMessage
                                 id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
                                 defaultMessage={channel.group_constrained ? 'Group Sync' : 'Manual Invites'}
                             />
                         </span>
-                    ),
-                    edit: (
+                    )],
+                    ['edit', (
                         <span
                             className='group-actions TeamList_editRow'
                             data-testid={`${channel.name}edit`}
@@ -240,8 +240,8 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                                 />
                             </Link>
                         </span>
-                    ),
-                },
+                    )],
+                ]),
                 onClick: () => browserHistory.push(`/admin_console/user_management/channels/${channel.id}`),
             };
         });
@@ -249,37 +249,44 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     onFilter = (filterOptions: FilterOptions) => {
         const filters: ChannelSearchOpts = {};
-        const {group_constrained: groupConstrained, exclude_group_constrained: excludeGroupConstrained} = filterOptions.management.values;
-        const {public: publicChannels, private: privateChannels, deleted} = filterOptions.channels.values;
-        const {team_ids: teamIds} = filterOptions.teams.values;
-        if (publicChannels.value || privateChannels.value || deleted.value || groupConstrained.value || excludeGroupConstrained.value || (teamIds.value as string[]).length) {
-            filters.public = publicChannels.value as boolean;
+        const managementFilter = filterOptions.get('management');
+        const groupConstrained = managementFilter?.values.get('group_constrained');
+        const excludeGroupConstrained = managementFilter?.values.get('exclude_group_constrained');
+
+        const channelsFilter = filterOptions.get('channels');
+        const publicChannels = channelsFilter?.values.get('public');
+        const privateChannels = channelsFilter?.values.get('private');
+        const deleted = channelsFilter?.values.get('deleted');
+
+        const teamIds = filterOptions.get('teams')?.values.get('team_ids');
+        if (publicChannels?.value || privateChannels?.value || deleted?.value || groupConstrained?.value || excludeGroupConstrained?.value || (teamIds?.value && (teamIds?.value as string[]).length)) {
+            filters.public = Boolean(publicChannels?.value);
             if (filters.public) {
                 trackEvent('admin_channels_page', 'public_filter_applied_to_channel_list');
             }
 
-            filters.private = privateChannels.value as boolean;
+            filters.private = Boolean(privateChannels?.value);
             if (filters.private) {
                 trackEvent('admin_channels_page', 'private_filter_applied_to_channel_list');
             }
 
-            filters.deleted = deleted.value as boolean;
+            filters.deleted = Boolean(deleted?.value);
             if (filters.deleted) {
                 trackEvent('admin_channels_page', 'archived_filter_applied_to_channel_list');
             }
 
-            if (!(groupConstrained.value && excludeGroupConstrained.value)) {
-                filters.group_constrained = groupConstrained.value as boolean;
+            if (!(groupConstrained?.value && excludeGroupConstrained?.value)) {
+                filters.group_constrained = Boolean(groupConstrained?.value);
                 if (filters.group_constrained) {
                     trackEvent('admin_channels_page', 'group_sync_filter_applied_to_channel_list');
                 }
-                filters.exclude_group_constrained = excludeGroupConstrained.value as boolean;
+                filters.exclude_group_constrained = Boolean(excludeGroupConstrained?.value);
                 if (filters.exclude_group_constrained) {
                     trackEvent('admin_channels_page', 'manual_invites_filter_applied_to_channel_list');
                 }
             }
 
-            filters.team_ids = teamIds.value as string[];
+            filters.team_ids = teamIds ? teamIds.value as string[] : [];
             if (filters.team_ids.length > 0) {
                 trackEvent('admin_channels_page', 'team_id_filter_applied_to_channel_list');
             }
@@ -313,11 +320,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             minHeight: `${rows.length * ROW_HEIGHT}px`,
         };
 
-        const filterOptions: FilterOptions = {
-            teams: {
+        const filterOptions: FilterOptions = new Map([
+            ['teams', {
                 name: 'Teams',
-                values: {
-                    team_ids: {
+                values: new Map([
+                    ['team_ids', {
                         name: (
                             <FormattedMessage
                                 id='admin.team_settings.title'
@@ -325,15 +332,15 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                             />
                         ),
                         value: [],
-                    },
-                },
+                    }],
+                ]),
                 keys: ['team_ids'],
                 type: TeamFilterDropdown,
-            },
-            management: {
+            }],
+            ['management', {
                 name: 'Management',
-                values: {
-                    group_constrained: {
+                values: new Map([
+                    ['group_constrained', {
                         name: (
                             <FormattedMessage
                                 id='admin.channel_list.group_sync'
@@ -341,8 +348,8 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                             />
                         ),
                         value: false,
-                    },
-                    exclude_group_constrained: {
+                    }],
+                    ['exclude_group_constrained', {
                         name: (
                             <FormattedMessage
                                 id='admin.channel_list.manual_invites'
@@ -350,14 +357,14 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                             />
                         ),
                         value: false,
-                    },
-                },
+                    }],
+                ]),
                 keys: ['group_constrained', 'exclude_group_constrained'],
-            },
-            channels: {
+            }],
+            ['channels', {
                 name: 'Channels',
-                values: {
-                    public: {
+                values: new Map([
+                    ['public', {
                         name: (
                             <FormattedMessage
                                 id='admin.channel_list.public'
@@ -365,8 +372,8 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                             />
                         ),
                         value: false,
-                    },
-                    private: {
+                    }],
+                    ['private', {
                         name: (
                             <FormattedMessage
                                 id='admin.channel_list.private'
@@ -374,8 +381,8 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                             />
                         ),
                         value: false,
-                    },
-                    deleted: {
+                    }],
+                    ['deleted', {
                         name: (
                             <FormattedMessage
                                 id='admin.channel_list.archived'
@@ -383,11 +390,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                             />
                         ),
                         value: false,
-                    },
-                },
+                    }],
+                ]),
                 keys: ['public', 'private', 'deleted'],
-            },
-        };
+            }],
+        ]);
         const filterProps = {
             options: filterOptions,
             keys: ['teams', 'channels', 'management'],

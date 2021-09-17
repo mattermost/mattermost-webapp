@@ -45,8 +45,8 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
         team,
         users: [user1, user2],
 
-        excludeUsers: {},
-        includeUsers: {},
+        excludeUsers: new Map(),
+        includeUsers: new Map(),
 
         onAddCallback: jest.fn(),
         onHide: jest.fn(),
@@ -70,8 +70,8 @@ describe('components/admin_console/add_users_to_team_modal/AddUsersToTeamModal',
         const wrapper = shallow(
             <AddUsersToTeamModal
                 {...baseProps}
-                includeUsers={{[removedUser.id]: removedUser}}
-                excludeUsers={{[user1.id]: user1}}
+                includeUsers={new Map([[removedUser.id, removedUser]])}
+                excludeUsers={new Map([[user1.id, user1]])}
             />,
         );
         expect(wrapper).toMatchSnapshot();

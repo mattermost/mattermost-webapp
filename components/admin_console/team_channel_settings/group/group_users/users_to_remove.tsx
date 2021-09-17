@@ -117,13 +117,17 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
     }
 
     private onFilter = async (filterOptions: FilterOptions) => {
-        const roles = filterOptions.role.values;
+        const roles = filterOptions.get('role')?.values;
+        if (!roles) {
+            return;
+        }
         const systemRoles: string[] = [];
         const teamRoles: string[] = [];
         const channelRoles: string[] = [];
         let filters = {};
-        Object.keys(roles).forEach((filterKey: string) => {
-            if (roles[filterKey].value) {
+
+        Array.from(roles.entries()).forEach(([filterKey, filterValue]) => {
+            if (filterValue.value) {
                 if (filterKey.includes('team')) {
                     teamRoles.push(filterKey);
                 } else if (filterKey.includes('channel')) {
@@ -176,29 +180,29 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
 
         return usersToDisplay.map((user) => {
             return {
-                cells: {
-                    id: user.id,
-                    name: (
+                cells: new Map<string, React.ReactNode>([
+                    ['id', user.id],
+                    ['name', (
                         <UserGridName
                             key={user.id}
                             user={user}
                         />
-                    ),
-                    role: (
+                    )],
+                    ['role', (
                         <GroupUsersRole
                             key={user.id}
                             user={user}
                             membership={memberships[user.id]}
                             scope={scope}
                         />
-                    ),
-                    groups: (
+                    )],
+                    ['groups', (
                         <UsersToRemoveGroups
                             key={user.id}
                             user={user}
                         />
-                    ),
-                },
+                    )],
+                ]),
             };
         });
     }
@@ -239,16 +243,16 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
     }
 
     private getFilterOptions = (): FilterOptions => {
-        const filterOptions: FilterOptions = {
-            role: {
+        const filterOptions: FilterOptions = new Map([
+            ['role', {
                 name: (
                     <FormattedMessage
                         id='admin.user_grid.role'
                         defaultMessage='Role'
                     />
                 ),
-                values: {
-                    [GeneralConstants.SYSTEM_GUEST_ROLE]: {
+                values: new Map([
+                    [GeneralConstants.SYSTEM_GUEST_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_grid.guest'
@@ -256,8 +260,8 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    [GeneralConstants.SYSTEM_ADMIN_ROLE]: {
+                    }],
+                    [GeneralConstants.SYSTEM_ADMIN_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_grid.system_admin'
@@ -265,63 +269,59 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                },
+                    }],
+                ]),
                 keys: [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE],
-            },
-        };
+            }],
+        ]);
 
+        const roleFilter = filterOptions.get('role')!;
         if (this.props.scope === 'channel') {
-            filterOptions.role.values = {
-                ...filterOptions.role.values,
-                [GeneralConstants.CHANNEL_USER_ROLE]: {
-                    name: (
-                        <FormattedMessage
-                            id='admin.user_item.member'
-                            defaultMessage='Member'
-                        />
-                    ),
-                    value: false,
-                },
-                [GeneralConstants.CHANNEL_ADMIN_ROLE]: {
-                    name: (
-                        <FormattedMessage
-                            id='admin.user_grid.channel_admin'
-                            defaultMessage='Channel Admin'
-                        />
-                    ),
-                    value: false,
-                },
-            };
-            filterOptions.role.keys = [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.CHANNEL_USER_ROLE, GeneralConstants.CHANNEL_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
+            roleFilter.values.set(GeneralConstants.CHANNEL_USER_ROLE, {
+                name: (
+                    <FormattedMessage
+                        id='admin.user_item.member'
+                        defaultMessage='Member'
+                    />
+                ),
+                value: false,
+            });
+            roleFilter.values.set(GeneralConstants.CHANNEL_ADMIN_ROLE, {
+                name: (
+                    <FormattedMessage
+                        id='admin.user_grid.channel_admin'
+                        defaultMessage='Channel Admin'
+                    />
+                ),
+                value: false,
+            });
+
+            roleFilter.keys = [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.CHANNEL_USER_ROLE, GeneralConstants.CHANNEL_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
         } else if (this.props.scope === 'team') {
-            filterOptions.role.values = {
-                ...filterOptions.role.values,
-                [GeneralConstants.TEAM_USER_ROLE]: {
-                    name: (
-                        <FormattedMessage
-                            id='admin.user_item.member'
-                            defaultMessage='Member'
-                        />
-                    ),
-                    value: false,
-                },
-                [GeneralConstants.TEAM_ADMIN_ROLE]: {
-                    name: (
-                        <FormattedMessage
-                            id='admin.user_grid.team_admin'
-                            defaultMessage='Team Admin'
-                        />
-                    ),
-                    value: false,
-                },
-            };
-            filterOptions.role.keys = [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
+            roleFilter.values.set(GeneralConstants.TEAM_USER_ROLE, {
+                name: (
+                    <FormattedMessage
+                        id='admin.user_item.member'
+                        defaultMessage='Member'
+                    />
+                ),
+                value: false,
+            });
+            roleFilter.values.set(GeneralConstants.TEAM_ADMIN_ROLE, {
+                name: (
+                    <FormattedMessage
+                        id='admin.user_grid.team_admin'
+                        defaultMessage='Team Admin'
+                    />
+                ),
+                value: false,
+            });
+            roleFilter.keys = [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
         }
 
         if (!this.props.enableGuestAccounts) {
-            delete filterOptions.role.values[GeneralConstants.SYSTEM_GUEST_ROLE];
-            filterOptions.role.keys.splice(0, 1);
+            roleFilter.values.delete(GeneralConstants.SYSTEM_GUEST_ROLE);
+            roleFilter.keys.splice(0, 1);
         }
 
         return filterOptions;

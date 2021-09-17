@@ -170,19 +170,19 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
     getGlobalPolicyRows = (): Row[] => {
         const {DataRetentionSettings} = this.props.config;
         return [{
-            cells: {
-                description: Utils.localizeMessage('admin.data_retention.form.text', 'Applies to all teams and channels, but does not apply to custom retention policies.'),
-                channel_messages: (
+            cells: new Map([
+                ['description', Utils.localizeMessage('admin.data_retention.form.text', 'Applies to all teams and channels, but does not apply to custom retention policies.')],
+                ['channel_messages', (
                     <div data-testid='global_message_retention_cell'>
                         {this.getMessageRetentionSetting(DataRetentionSettings?.EnableMessageDeletion, DataRetentionSettings?.MessageRetentionDays)}
                     </div>
-                ),
-                files: (
+                )],
+                ['files', (
                     <div data-testid='global_file_retention_cell'>
                         {this.getMessageRetentionSetting(DataRetentionSettings?.EnableFileDeletion, DataRetentionSettings?.FileRetentionDays)}
                     </div>
-                ),
-                actions: (
+                )],
+                ['actions', (
                     <MenuWrapper
                         isDisabled={false}
                         stopPropagationOnToggle={true}
@@ -208,8 +208,8 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                             />
                         </Menu>
                     </MenuWrapper>
-                ),
-            },
+                )],
+            ]),
             onClick: () => {
                 browserHistory.push('/admin_console/compliance/data_retention_settings/global_policy');
             },
@@ -245,23 +245,23 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             const appliedToId = `customAppliedTo-${policy.id}`;
             const menuWrapperId = `customWrapper-${policy.id}`;
             return {
-                cells: {
-                    description: (
+                cells: new Map([
+                    ['description', (
                         <div id={desciptionId}>
                             {policy.display_name}
                         </div>
-                    ),
-                    channel_messages: (
+                    )],
+                    ['channel_messages', (
                         <div id={durationId}>
                             {this.getMessageRetentionSetting(policy.post_duration !== -1, policy.post_duration)}
                         </div>
-                    ),
-                    applied_to: (
+                    )],
+                    ['applied_to', (
                         <div id={appliedToId}>
                             {this.getChannelAndTeamCounts(policy)}
                         </div>
-                    ),
-                    actions: (
+                    )],
+                    ['actions', (
                         <MenuWrapper
                             isDisabled={false}
                             stopPropagationOnToggle={true}
@@ -295,8 +295,8 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 />
                             </Menu>
                         </MenuWrapper>
-                    ),
-                },
+                    )],
+                ]),
                 onClick: () => {
                     browserHistory.push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
                 },

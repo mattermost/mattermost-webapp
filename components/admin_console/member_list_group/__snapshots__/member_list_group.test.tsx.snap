@@ -31,9 +31,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
     rows={
       Array [
         Object {
-          "cells": Object {
-            "id": "id0",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id0",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -83,9 +83,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           },
         },
         Object {
-          "cells": Object {
-            "id": "id1",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id1",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -135,9 +135,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           },
         },
         Object {
-          "cells": Object {
-            "id": "id2",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id2",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -187,9 +187,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           },
         },
         Object {
-          "cells": Object {
-            "id": "id3",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id3",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -239,9 +239,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           },
         },
         Object {
-          "cells": Object {
-            "id": "id4",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id4",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -291,9 +291,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           },
         },
         Object {
-          "cells": Object {
-            "id": "id5",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id5",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -343,9 +343,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           },
         },
         Object {
-          "cells": Object {
-            "id": "id6",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id6",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -395,9 +395,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           },
         },
         Object {
-          "cells": Object {
-            "id": "id7",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id7",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -447,9 +447,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           },
         },
         Object {
-          "cells": Object {
-            "id": "id8",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id8",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -499,9 +499,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
           },
         },
         Object {
-          "cells": Object {
-            "id": "id9",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "id9",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,

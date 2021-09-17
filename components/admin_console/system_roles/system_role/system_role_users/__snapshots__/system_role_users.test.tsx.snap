@@ -173,9 +173,9 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
     rows={
       Array [
         Object {
-          "cells": Object {
-            "id": "user_id",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "user_id",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -222,7 +222,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                 }
               }
             />,
-            "new": <Memo(Badge)
+            "new" => <Memo(Badge)
               className="NewUserBadge"
               show={false}
             >
@@ -231,7 +231,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                 id="admin.user_grid.new"
               />
             </Memo(Badge)>,
-            "remove": <UserGridRemove
+            "remove" => <UserGridRemove
               isDisabled={false}
               removeUser={[Function]}
               user={
@@ -283,9 +283,9 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
           },
         },
         Object {
-          "cells": Object {
-            "id": "user_id",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "user_id",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -332,7 +332,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                 }
               }
             />,
-            "new": <Memo(Badge)
+            "new" => <Memo(Badge)
               className="NewUserBadge"
               show={false}
             >
@@ -341,7 +341,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                 id="admin.user_grid.new"
               />
             </Memo(Badge)>,
-            "remove": <UserGridRemove
+            "remove" => <UserGridRemove
               isDisabled={false}
               removeUser={[Function]}
               user={
@@ -575,9 +575,9 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
     rows={
       Array [
         Object {
-          "cells": Object {
-            "id": "user_id",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "user_id",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -624,7 +624,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                 }
               }
             />,
-            "new": <Memo(Badge)
+            "new" => <Memo(Badge)
               className="NewUserBadge"
               show={false}
             >
@@ -633,7 +633,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                 id="admin.user_grid.new"
               />
             </Memo(Badge)>,
-            "remove": <UserGridRemove
+            "remove" => <UserGridRemove
               isDisabled={true}
               removeUser={[Function]}
               user={
@@ -685,9 +685,9 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
           },
         },
         Object {
-          "cells": Object {
-            "id": "user_id",
-            "name": <UserGridName
+          "cells": Map {
+            "id" => "user_id",
+            "name" => <UserGridName
               user={
                 Object {
                   "allow_marketing": false,
@@ -734,7 +734,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                 }
               }
             />,
-            "new": <Memo(Badge)
+            "new" => <Memo(Badge)
               className="NewUserBadge"
               show={false}
             >
@@ -743,7 +743,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                 id="admin.user_grid.new"
               />
             </Memo(Badge)>,
-            "remove": <UserGridRemove
+            "remove" => <UserGridRemove
               isDisabled={true}
               removeUser={[Function]}
               user={

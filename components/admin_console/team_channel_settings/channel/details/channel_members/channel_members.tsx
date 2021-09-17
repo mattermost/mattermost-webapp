@@ -153,12 +153,15 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
     }
 
     private onFilter = async (filterOptions: FilterOptions) => {
-        const roles = filterOptions.role.values;
+        const roles = filterOptions.get('role')?.values;
+        if (!roles) {
+            return;
+        }
         const systemRoles: string[] = [];
         const channelRoles: string[] = [];
         let filters = {};
-        Object.keys(roles).forEach((filterKey: string) => {
-            if (roles[filterKey].value) {
+        Array.from(roles?.keys()).forEach((filterKey: string) => {
+            if (roles.get(filterKey)!.value) {
                 if (filterKey.includes('channel')) {
                     channelRoles.push(filterKey);
                 } else {
@@ -187,16 +190,16 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
 
     render = () => {
         const {users, channel, channelId, usersToAdd, usersToRemove, channelMembers, totalCount, searchTerm, isDisabled} = this.props;
-        const filterOptions: FilterOptions = {
-            role: {
+        const filterOptions: FilterOptions = new Map([
+            ['role', {
                 name: (
                     <FormattedMessage
                         id='admin.user_grid.role'
                         defaultMessage='Role'
                     />
                 ),
-                values: {
-                    [GeneralConstants.SYSTEM_GUEST_ROLE]: {
+                values: new Map([
+                    [GeneralConstants.SYSTEM_GUEST_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_grid.guest'
@@ -204,8 +207,8 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    [GeneralConstants.CHANNEL_USER_ROLE]: {
+                    }],
+                    [GeneralConstants.CHANNEL_USER_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_item.member'
@@ -213,8 +216,8 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    [GeneralConstants.CHANNEL_ADMIN_ROLE]: {
+                    }],
+                    [GeneralConstants.CHANNEL_ADMIN_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_grid.channel_admin'
@@ -222,8 +225,8 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    [GeneralConstants.SYSTEM_ADMIN_ROLE]: {
+                    }],
+                    [GeneralConstants.SYSTEM_ADMIN_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_grid.system_admin'
@@ -231,15 +234,15 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                },
+                    }],
+                ]),
                 keys: [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.CHANNEL_USER_ROLE, GeneralConstants.CHANNEL_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE],
-            },
-        };
+            }],
+        ]);
 
         if (!this.props.enableGuestAccounts) {
-            delete filterOptions.role.values[GeneralConstants.SYSTEM_GUEST_ROLE];
-            filterOptions.role.keys = [GeneralConstants.CHANNEL_USER_ROLE, GeneralConstants.CHANNEL_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
+            filterOptions.get('role')!.values.delete(GeneralConstants.SYSTEM_GUEST_ROLE);
+            filterOptions.get('role')!.keys = [GeneralConstants.CHANNEL_USER_ROLE, GeneralConstants.CHANNEL_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
         }
         const filterProps = {
             options: filterOptions,

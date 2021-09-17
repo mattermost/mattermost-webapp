@@ -167,9 +167,9 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
         return teamsToDisplay.map((team) => {
             return {
-                cells: {
-                    id: team.id,
-                    name: (
+                cells: new Map<string, React.ReactNode>([
+                    ['id', team.id],
+                    ['name', (
                         <div
                             className='TeamList__nameColumn'
                             id={`team-name-${team.id}`}
@@ -187,8 +187,8 @@ export default class TeamList extends React.PureComponent<Props, State> {
                                 </b>
                             </div>
                         </div>
-                    ),
-                    remove: (
+                    )],
+                    ['remove', (
                         <a
                             id={`remove-team-${team.id}`}
                             className='group-actions TeamList_editText'
@@ -200,8 +200,8 @@ export default class TeamList extends React.PureComponent<Props, State> {
                         >
                             {Utils.localizeMessage('admin.data_retention.custom_policy.teams.remove', 'Remove')}
                         </a>
-                    ),
-                },
+                    )],
+                ]),
             };
         });
     }

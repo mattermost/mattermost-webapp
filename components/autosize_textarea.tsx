@@ -141,7 +141,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
                 <div
                     {...otherProps as any}
                     data-testid={`${id}_placeholder`}
-                    style={style.placeholder}
+                    style={style.get('placeholder')}
                 >
                     {placeholder}
                 </div>
@@ -166,11 +166,11 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
                     value={value}
                     defaultValue={defaultValue}
                 />
-                <div style={style.container}>
+                <div style={style.get('container')}>
                     <textarea
                         ref={this.referenceRef}
                         id={id + '-reference'}
-                        style={style.reference}
+                        style={style.get('reference')}
                         dir='auto'
                         disabled={true}
                         rows={1}
@@ -184,8 +184,8 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
     }
 }
 
-const style: { [Key: string]: CSSProperties} = {
-    container: {height: 0, overflow: 'hidden'},
-    reference: {height: 'auto', width: '100%'},
-    placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none', borderColor: 'transparent'},
-};
+const style: Map<string, CSSProperties> = new Map([
+    ['container', {height: 0, overflow: 'hidden'}],
+    ['reference', {height: 'auto', width: '100%'}],
+    ['placeholder', {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none', borderColor: 'transparent'}],
+]);

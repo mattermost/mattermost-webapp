@@ -106,6 +106,15 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         this.setState({show: false});
     }
 
+    getSelectedTeamIds = () => {
+        const teamIdsFilterValue = this.props.option.values.get('team_ids');
+        let selectedTeamIds: string[] = [];
+        if (teamIdsFilterValue) {
+            selectedTeamIds = teamIdsFilterValue.value as string[];
+        }
+        return selectedTeamIds;
+    }
+
     togglePopover = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (this.state.show) {
             this.hidePopover();
@@ -116,8 +125,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
             return;
         }
 
-        const selectedTeamIds = this.props.option.values.team_ids.value as string[];
-        const selectedTeams = getSelectedTeams(selectedTeamIds, this.props.teams);
+        const selectedTeams = getSelectedTeams(this.getSelectedTeamIds(), this.props.teams);
         const savedSelectedTeams = selectedTeams.sort((a, b) => a.display_name.localeCompare(b.display_name));
         this.setState({show: true, savedSelectedTeams, searchTerm: ''}, () => {
             this.searchRef?.current?.focus();
@@ -194,8 +202,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         }
 
         if (searchTerm.length === 0) {
-            const selectedTeamIds = this.props.option.values.team_ids.value as string[];
-            const selectedTeams = getSelectedTeams(selectedTeamIds, this.props.teams);
+            const selectedTeams = getSelectedTeams(this.getSelectedTeamIds(), this.props.teams);
             const savedSelectedTeams = selectedTeams.sort((a, b) => a.display_name.localeCompare(b.display_name));
             this.setState({searchTerm, savedSelectedTeams, searchResults: [], searchTotal: 0, page: 0});
         } else {
@@ -207,11 +214,11 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
 
     resetTeams = () => {
         this.setState({savedSelectedTeams: [], show: false, searchResults: [], searchTotal: 0, page: 0, searchTerm: ''});
-        this.props.updateValues({team_ids: {name: 'Teams', value: []}}, 'teams');
+        this.props.updateValues(new Map([['team_ids', {name: 'Teams', value: []}]]), 'teams');
     }
 
     toggleTeam = (checked: boolean, teamId: string) => {
-        const prevSelectedTeamIds = this.props.option.values.team_ids.value as string[];
+        const prevSelectedTeamIds = this.getSelectedTeamIds();
         let selectedTeamIds;
         if (checked) {
             selectedTeamIds = [...prevSelectedTeamIds, teamId];
@@ -219,11 +226,11 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
             selectedTeamIds = prevSelectedTeamIds.filter((id) => id !== teamId);
         }
 
-        this.props.updateValues({team_ids: {name: 'Teams', value: selectedTeamIds}}, 'teams');
+        this.props.updateValues(new Map([['team_ids', {name: 'Teams', value: selectedTeamIds}]]), 'teams');
     }
 
     generateButtonText = () => {
-        const selectedTeamIds = this.props.option.values.team_ids.value as string[];
+        const selectedTeamIds = this.getSelectedTeamIds();
         if (selectedTeamIds.length === 0) {
             return {
                 buttonText: (
@@ -255,7 +262,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const selectedTeamIds = this.props.option.values.team_ids.value as string[];
+        const selectedTeamIds = this.getSelectedTeamIds();
         const {buttonText, buttonMore} = this.generateButtonText();
 
         const createFilterCheckbox = (team: Team) => {

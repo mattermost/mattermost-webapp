@@ -119,14 +119,14 @@ export default class MemberListGroup extends React.PureComponent<Props, State> {
 
         return usersToDisplay.map((user) => {
             return {
-                cells: {
-                    id: user.id,
-                    name: (
+                cells: new Map<string, React.ReactNode>([
+                    ['id', user.id],
+                    ['name', (
                         <UserGridName
                             user={user}
                         />
-                    ),
-                },
+                    )],
+                ]),
             };
         });
     }

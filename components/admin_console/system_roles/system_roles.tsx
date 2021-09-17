@@ -55,11 +55,11 @@ export default class SystemRoles extends React.PureComponent<Props> {
             const role = roles[name];
             if (role) {
                 rows.push({
-                    cells: {
-                        role: <FormattedMessage id={`admin.permissions.roles.${role.name}.name`}/>,
-                        description: <FormattedMessage id={`admin.permissions.roles.${role.name}.description`}/>,
-                        type: <FormattedMessage id={`admin.permissions.roles.${role.name}.type`}/>,
-                        edit: (
+                    cells: new Map([
+                        ['role', <FormattedMessage id={`admin.permissions.roles.${role.name}.name`}/>],
+                        ['description', <FormattedMessage id={`admin.permissions.roles.${role.name}.description`}/>],
+                        ['type', <FormattedMessage id={`admin.permissions.roles.${role.name}.type`}/>],
+                        ['edit', (
                             <span
                                 className='SystemRoles_editRow'
                                 data-testid={`${role.name}_edit`}
@@ -71,8 +71,8 @@ export default class SystemRoles extends React.PureComponent<Props> {
                                     />
                                 </Link>
                             </span>
-                        ),
-                    },
+                        )],
+                    ]),
                     onClick: () => browserHistory.push(`/admin_console/user_management/system_roles/${role.id}`),
                 });
             }

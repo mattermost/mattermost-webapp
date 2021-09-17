@@ -11,7 +11,7 @@ import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getProfilesNotInTeam, searchProfiles} from 'mattermost-redux/actions/users';
 
-import {getProfilesNotInTeam as selectProfilesNotInTeam} from 'mattermost-redux/selectors/entities/users';
+import {Filters, getProfilesNotInTeam as selectProfilesNotInTeam} from 'mattermost-redux/selectors/entities/users';
 
 import AddUsersToTeamModal from './add_users_to_team_modal';
 
@@ -21,16 +21,19 @@ type Props = {
 };
 
 type Actions = {
-    getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number, options?: {[key: string]: any}) => Promise<{ data: UserProfile[] }>;
+    getProfilesNotInTeam: (teamId: string, groupConstrained: boolean, page: number, perPage?: number) => Promise<{ data: UserProfile[] }>;
     searchProfiles: (term: string, options?: any) => Promise<{ data: UserProfile[] }>;
 };
+
+const dontExcludeGuestsFilter = {active: true};
+const excludeGuestsFilter = {role: 'system_user', ...dontExcludeGuestsFilter};
 
 function mapStateToProps(state: GlobalState, props: Props) {
     const {id: teamId} = props.team;
 
-    let filterOptions: {[key: string]: any} = {active: true};
+    let filterOptions: Filters = dontExcludeGuestsFilter;
     if (props.filterExcludeGuests) {
-        filterOptions = {role: 'system_user', ...filterOptions};
+        filterOptions = excludeGuestsFilter;
     }
 
     const users: UserProfile[] = selectProfilesNotInTeam(state, teamId, filterOptions);

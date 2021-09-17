@@ -188,14 +188,14 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         return usersToDisplay.map((user) => {
             const membership = membershipsToUpdate[user.id] || memberships[user.id] || this.newMembership(user);
             return {
-                cells: {
-                    id: user.id,
-                    name: (
+                cells: new Map<string, React.ReactNode>([
+                    ['id', user.id],
+                    ['name', (
                         <UserGridName
                             user={user}
                         />
-                    ),
-                    new: (
+                    )],
+                    ['new', (
                         <Badge
                             className='NewUserBadge'
                             show={Boolean(includeUsers[user.id])}
@@ -205,8 +205,8 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                                 defaultMessage='New'
                             />
                         </Badge>
-                    ),
-                    role: (
+                    )],
+                    ['role', (
                         <UserGridRoleDropdown
                             user={user}
                             membership={membership}
@@ -214,15 +214,15 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                             scope={scope}
                             isDisabled={readOnly}
                         />
-                    ),
-                    remove: (
+                    )],
+                    ['remove', (
                         <UserGridRemove
                             user={user}
                             removeUser={this.removeUser}
                             isDisabled={readOnly}
                         />
-                    ),
-                },
+                    )],
+                ]),
             };
         });
     }

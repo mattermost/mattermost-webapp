@@ -148,12 +148,15 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     }
 
     private onFilter = async (filterOptions: FilterOptions) => {
-        const roles = filterOptions.role.values;
+        const roles = filterOptions.get('role')?.values;
+        if (!roles) {
+            return;
+        }
         const systemRoles: string[] = [];
         const teamRoles: string[] = [];
         let filters = {};
-        Object.keys(roles).forEach((filterKey: string) => {
-            if (roles[filterKey].value) {
+        Array.from(roles.entries()).forEach(([filterKey, filterValue]) => {
+            if (filterValue.value) {
                 if (filterKey.includes('team')) {
                     teamRoles.push(filterKey);
                 } else {
@@ -187,16 +190,16 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
     public render = () => {
         const {users, team, usersToAdd, usersToRemove, teamMembers, totalCount, searchTerm, isDisabled} = this.props;
 
-        const filterOptions: FilterOptions = {
-            role: {
+        const filterOptions: FilterOptions = new Map([
+            ['role', {
                 name: (
                     <FormattedMessage
                         id='admin.user_grid.role'
                         defaultMessage='Role'
                     />
                 ),
-                values: {
-                    [GeneralConstants.SYSTEM_GUEST_ROLE]: {
+                values: new Map([
+                    [GeneralConstants.SYSTEM_GUEST_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_grid.guest'
@@ -204,8 +207,8 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    [GeneralConstants.TEAM_USER_ROLE]: {
+                    }],
+                    [GeneralConstants.TEAM_USER_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_item.member'
@@ -213,8 +216,8 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    [GeneralConstants.TEAM_ADMIN_ROLE]: {
+                    }],
+                    [GeneralConstants.TEAM_ADMIN_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_grid.team_admin'
@@ -222,8 +225,8 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    [GeneralConstants.SYSTEM_ADMIN_ROLE]: {
+                    }],
+                    [GeneralConstants.SYSTEM_ADMIN_ROLE, {
                         name: (
                             <FormattedMessage
                                 id='admin.user_grid.system_admin'
@@ -231,14 +234,15 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                },
+                    }],
+                ]),
                 keys: [GeneralConstants.SYSTEM_GUEST_ROLE, GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE],
-            },
-        };
+            }],
+        ]);
         if (!this.props.enableGuestAccounts) {
-            delete filterOptions.role.values[GeneralConstants.SYSTEM_GUEST_ROLE];
-            filterOptions.role.keys = [GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
+            const roleFilter = filterOptions.get('role')!;
+            roleFilter.values.delete(GeneralConstants.SYSTEM_GUEST_ROLE);
+            roleFilter.keys = [GeneralConstants.TEAM_USER_ROLE, GeneralConstants.TEAM_ADMIN_ROLE, GeneralConstants.SYSTEM_ADMIN_ROLE];
         }
         const filterKeys = ['role'];
         const filterProps = {

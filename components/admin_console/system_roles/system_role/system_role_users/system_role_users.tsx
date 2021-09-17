@@ -174,14 +174,14 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
 
         return usersToDisplay.map((user) => {
             return {
-                cells: {
-                    id: user.id,
-                    name: (
+                cells: new Map<string, React.ReactNode>([
+                    ['id', user.id],
+                    ['name', (
                         <UserGridName
                             user={user}
                         />
-                    ),
-                    new: (
+                    )],
+                    ['new', (
                         <Badge
                             className='NewUserBadge'
                             show={Boolean(usersToAdd[user.id])}
@@ -191,15 +191,15 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                                 defaultMessage='New'
                             />
                         </Badge>
-                    ),
-                    remove: (
+                    )],
+                    ['remove', (
                         <UserGridRemove
                             user={user}
                             removeUser={this.onRemoveCallback}
                             isDisabled={readOnly || user.id === currentUserId}
                         />
-                    ),
-                },
+                    )],
+                ]),
             };
         });
     }

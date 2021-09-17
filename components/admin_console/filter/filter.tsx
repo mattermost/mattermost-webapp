@@ -8,18 +8,14 @@ import classNames from 'classnames';
 import FilterList from './filter_list';
 import './filter.scss';
 
-export type Filters = {
-    [filterKey: string]: string[];
-};
+export type Filters = Map<string, string[]>
 
 export type FilterValue = {
     name: string | JSX.Element;
     value: boolean | string | string[];
 };
 
-export type FilterValues = {
-    [key: string]: FilterValue;
-};
+export type FilterValues = Map<string, FilterValue>
 
 export type FilterOption = {
 
@@ -36,9 +32,7 @@ export type FilterOption = {
     type?: React.ElementType;
 }
 
-export type FilterOptions = {
-    [key: string]: FilterOption;
-}
+export type FilterOptions = Map<string, FilterOption>
 
 type Props = {
     onFilter: (filters: FilterOptions) => void;
@@ -61,14 +55,14 @@ class Filter extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
-        let options = {...props.options};
+        let options = new Map(props.options);
         let keys = [...props.keys];
         let valid = true;
         keys.forEach((key) => {
-            const option = options[key];
+            const option = options.get(key);
             if (option && valid) {
                 option.keys.forEach((optionKey) => {
-                    if (!option.values[optionKey]) {
+                    if (!option.values.get(optionKey)) {
                         valid = false;
                     }
                 });
@@ -78,7 +72,7 @@ class Filter extends React.PureComponent<Props, State> {
         });
 
         if (!valid) {
-            options = {};
+            options = new Map();
             keys = [];
         }
 
@@ -124,10 +118,15 @@ class Filter extends React.PureComponent<Props, State> {
     }
 
     updateValues = async (values: FilterValues, optionKey: string) => {
-        const options = {
+        const currentValue = this.state.options.get(optionKey);
+        if (!currentValue) {
+            return;
+        }
+
+        const options: FilterOptions = {
             ...this.state.options,
             [optionKey]: {
-                ...this.state.options[optionKey],
+                ...currentValue,
                 values: {
                     ...values,
                 },
@@ -145,11 +144,11 @@ class Filter extends React.PureComponent<Props, State> {
         const options = this.state.options;
         let filterCount = 0;
         this.props.keys.forEach((key) => {
-            const {values, keys} = options[key];
+            const {values, keys} = options.get(key)!;
             keys.forEach((filterKey: string) => {
-                if (values[filterKey].value instanceof Array) {
-                    filterCount += (values[filterKey].value as string[]).length;
-                } else if (values[filterKey].value) {
+                if (values.get(filterKey)!.value instanceof Array) {
+                    filterCount += (values.get(filterKey)!.value as string[]).length;
+                } else if (values.get(filterKey)!.value) {
                     filterCount += 1;
                 }
             });
@@ -164,8 +163,8 @@ class Filter extends React.PureComponent<Props, State> {
     renderFilterOptions = () => {
         const {keys, options} = this.state;
         return keys.map((key: string) => {
-            const filter = options[key];
-            const FilterListComponent = filter.type || FilterList;
+            const filter = options.get(key);
+            const FilterListComponent = filter?.type || FilterList;
 
             return (
                 <FilterListComponent

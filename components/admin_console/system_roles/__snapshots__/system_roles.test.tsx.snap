@@ -60,11 +60,17 @@ exports[`admin_console/system_roles should match snapshot 1`] = `
             rows={
               Array [
                 Object {
-                  "cells": Object {
-                    "description": <Memo(MemoizedFormattedMessage)
+                  "cells": Map {
+                    "role" => <Memo(MemoizedFormattedMessage)
+                      id="admin.permissions.roles.system_admin.name"
+                    />,
+                    "description" => <Memo(MemoizedFormattedMessage)
                       id="admin.permissions.roles.system_admin.description"
                     />,
-                    "edit": <span
+                    "type" => <Memo(MemoizedFormattedMessage)
+                      id="admin.permissions.roles.system_admin.type"
+                    />,
+                    "edit" => <span
                       className="SystemRoles_editRow"
                       data-testid="system_admin_edit"
                     >
@@ -77,12 +83,6 @@ exports[`admin_console/system_roles should match snapshot 1`] = `
                         />
                       </Link>
                     </span>,
-                    "role": <Memo(MemoizedFormattedMessage)
-                      id="admin.permissions.roles.system_admin.name"
-                    />,
-                    "type": <Memo(MemoizedFormattedMessage)
-                      id="admin.permissions.roles.system_admin.type"
-                    />,
                   },
                   "onClick": [Function],
                 },

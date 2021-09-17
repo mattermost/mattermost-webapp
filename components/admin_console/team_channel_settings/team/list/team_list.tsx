@@ -115,20 +115,23 @@ export default class TeamList extends React.PureComponent<Props, State> {
         this.loadPage(0, term, this.state.filters);
     };
 
-    onFilter = ({management}: FilterOptions) => {
+    onFilter = (filterOptions: FilterOptions) => {
+        const management = filterOptions.get('management');
+        if (!management) {
+            return;
+        }
+
         const filters: TeamSearchOpts = {};
 
         let groupConstrained;
 
-        const {
-            allow_open_invite: {value: allowOpenInvite},
-            invite_only: {value: inviteOnly},
-        } = management.values;
+        const allowOpenInvite = management.values.get('allow_open_invite')?.value;
+        const inviteOnly = management.values.get('invite_only')?.value;
 
         const filtersList = [allowOpenInvite, inviteOnly];
 
         if (this.props.isLicensedForLDAPGroups) {
-            groupConstrained = management.values.group_constrained.value;
+            groupConstrained = management.values.get('group_constrained')?.value;
             filtersList.push(groupConstrained);
         }
 
@@ -221,9 +224,9 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
         return teamsToDisplay.map((team) => {
             return {
-                cells: {
-                    id: team.id,
-                    name: (
+                cells: new Map<string, React.ReactNode>([
+                    ['id', team.id],
+                    ['name', (
                         <div className='TeamList_nameColumn'>
                             <div className='TeamList__lowerOpacity'>
                                 <TeamIcon
@@ -252,16 +255,16 @@ export default class TeamList extends React.PureComponent<Props, State> {
                                 )}
                             </div>
                         </div>
-                    ),
-                    management: (
+                    )],
+                    ['management', (
                         <span
                             data-testid={`${team.name}Management`}
                             className='TeamList_managementText'
                         >
                             {this.renderManagementMethodText(team)}
                         </span>
-                    ),
-                    edit: (
+                    )],
+                    ['edit', (
                         <span
                             data-testid={`${team.display_name}edit`}
                             className='group-actions TeamList_editText'
@@ -273,8 +276,8 @@ export default class TeamList extends React.PureComponent<Props, State> {
                                 />
                             </Link>
                         </span>
-                    ),
-                },
+                    )],
+                ]),
                 onClick: () => browserHistory.push(`/admin_console/user_management/teams/${team.id}`),
             };
         });
@@ -303,37 +306,16 @@ export default class TeamList extends React.PureComponent<Props, State> {
             );
         }
 
-        type Value = {
-            name: JSX.Element;
-            value: boolean;
-        };
-
-        type Management = {
-            name: JSX.Element;
-            values: Values;
-            keys: string[];
-        };
-
-        type FilterOptions = {
-            management: Management;
-        };
-
-        type Values = {
-            allow_open_invite: Value;
-            invite_only: Value;
-            group_constrained?: Value;
-        };
-
-        const filterOptions: FilterOptions = {
-            management: {
+        const filterOptions: FilterOptions = new Map([
+            ['management', {
                 name: (
                     <FormattedMessage
                         id='admin.team_settings.team_list.mappingHeader'
                         defaultMessage='Management'
                     />
                 ),
-                values: {
-                    allow_open_invite: {
+                values: new Map([
+                    ['allow_open_invite', {
                         name: (
                             <FormattedMessage
                                 id='admin.team_settings.team_row.managementMethod.anyoneCanJoin'
@@ -341,8 +323,8 @@ export default class TeamList extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                    invite_only: {
+                    }],
+                    ['invite_only', {
                         name: (
                             <FormattedMessage
                                 id='admin.team_settings.team_row.managementMethod.inviteOnly'
@@ -350,14 +332,15 @@ export default class TeamList extends React.PureComponent<Props, State> {
                             />
                         ),
                         value: false,
-                    },
-                },
+                    }],
+                ]),
                 keys: ['allow_open_invite', 'invite_only'],
-            },
-        };
+            }],
+        ]);
 
         if (isLicensedForLDAPGroups) {
-            filterOptions.management.values.group_constrained = {
+            const managementFilter = filterOptions.get('management')!;
+            managementFilter.values.set('group_constrained', {
                 name: (
                     <FormattedMessage
                         id='admin.team_settings.team_row.managementMethod.groupSync'
@@ -365,8 +348,8 @@ export default class TeamList extends React.PureComponent<Props, State> {
                     />
                 ),
                 value: false,
-            };
-            filterOptions.management.keys.push('group_constrained');
+            });
+            managementFilter.keys.push('group_constrained');
         }
 
         const filterProps = {

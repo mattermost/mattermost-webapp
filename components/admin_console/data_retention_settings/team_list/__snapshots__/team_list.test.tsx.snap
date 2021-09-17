@@ -34,9 +34,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
     rows={
       Array [
         Object {
-          "cells": Object {
-            "id": "team-1",
-            "name": <div
+          "cells": Map {
+            "id" => "team-1",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-team-1"
             >
@@ -59,7 +59,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-team-1"
@@ -113,9 +113,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
     rows={
       Array [
         Object {
-          "cells": Object {
-            "id": "id0",
-            "name": <div
+          "cells": Map {
+            "id" => "id0",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id0"
             >
@@ -138,7 +138,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id0"
@@ -149,9 +149,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
           },
         },
         Object {
-          "cells": Object {
-            "id": "id1",
-            "name": <div
+          "cells": Map {
+            "id" => "id1",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id1"
             >
@@ -174,7 +174,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id1"
@@ -185,9 +185,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
           },
         },
         Object {
-          "cells": Object {
-            "id": "id2",
-            "name": <div
+          "cells": Map {
+            "id" => "id2",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id2"
             >
@@ -210,7 +210,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id2"
@@ -221,9 +221,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
           },
         },
         Object {
-          "cells": Object {
-            "id": "id3",
-            "name": <div
+          "cells": Map {
+            "id" => "id3",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id3"
             >
@@ -246,7 +246,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id3"
@@ -257,9 +257,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
           },
         },
         Object {
-          "cells": Object {
-            "id": "id4",
-            "name": <div
+          "cells": Map {
+            "id" => "id4",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id4"
             >
@@ -282,7 +282,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id4"
@@ -293,9 +293,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
           },
         },
         Object {
-          "cells": Object {
-            "id": "id5",
-            "name": <div
+          "cells": Map {
+            "id" => "id5",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id5"
             >
@@ -318,7 +318,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id5"
@@ -329,9 +329,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
           },
         },
         Object {
-          "cells": Object {
-            "id": "id6",
-            "name": <div
+          "cells": Map {
+            "id" => "id6",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id6"
             >
@@ -354,7 +354,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id6"
@@ -365,9 +365,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
           },
         },
         Object {
-          "cells": Object {
-            "id": "id7",
-            "name": <div
+          "cells": Map {
+            "id" => "id7",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id7"
             >
@@ -390,7 +390,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id7"
@@ -401,9 +401,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
           },
         },
         Object {
-          "cells": Object {
-            "id": "id8",
-            "name": <div
+          "cells": Map {
+            "id" => "id8",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id8"
             >
@@ -426,7 +426,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id8"
@@ -437,9 +437,9 @@ exports[`components/admin_console/data_retention_settings/team_list should match
           },
         },
         Object {
-          "cells": Object {
-            "id": "id9",
-            "name": <div
+          "cells": Map {
+            "id" => "id9",
+            "name" => <div
               className="TeamList__nameColumn"
               id="team-name-id9"
             >
@@ -462,7 +462,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
                 </b>
               </div>
             </div>,
-            "remove": <a
+            "remove" => <a
               className="group-actions TeamList_editText"
               href="#"
               id="remove-team-id9"
