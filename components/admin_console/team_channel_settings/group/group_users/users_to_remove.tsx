@@ -126,7 +126,7 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
         const channelRoles: string[] = [];
         let filters = {};
 
-        Array.from(roles.entries()).forEach(([filterKey, filterValue]) => {
+        for (const [filterKey, filterValue] of roles) {
             if (filterValue.value) {
                 if (filterKey.includes('team')) {
                     teamRoles.push(filterKey);
@@ -136,7 +136,7 @@ export default class UsersToRemove extends React.PureComponent<Props, State> {
                     systemRoles.push(filterKey);
                 }
             }
-        });
+        };
 
         if (systemRoles.length > 0 || teamRoles.length > 0 || channelRoles.length > 0) {
             if (systemRoles.length > 0) {

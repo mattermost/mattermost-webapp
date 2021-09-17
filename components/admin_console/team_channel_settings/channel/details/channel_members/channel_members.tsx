@@ -160,15 +160,15 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         const systemRoles: string[] = [];
         const channelRoles: string[] = [];
         let filters = {};
-        Array.from(roles?.keys()).forEach((filterKey: string) => {
-            if (roles.get(filterKey)!.value) {
+        for (const [filterKey, filterValue] of roles) {
+            if (filterValue.value) {
                 if (filterKey.includes('channel')) {
                     channelRoles.push(filterKey);
                 } else {
                     systemRoles.push(filterKey);
                 }
             }
-        });
+        }
 
         if (systemRoles.length > 0 || channelRoles.length > 0) {
             if (systemRoles.length > 0) {
