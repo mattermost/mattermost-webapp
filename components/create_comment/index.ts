@@ -100,8 +100,12 @@ function makeMapStateToProps() {
     };
 }
 
-function makeOnUpdateCommentDraft(rootId: string) {
-    return (draft?: PostDraft) => updateCommentDraft(rootId, draft);
+function makeOnUpdateCommentDraft(rootId: string, channelId: string) {
+    return (draft?: PostDraft) => updateCommentDraft(rootId, draft ? {...draft, channel_id: channelId} : draft);
+}
+
+function makeUpdateCommentDraftWithRootId(channelId: string) {
+    return (rootId: string, draft?: PostDraft) => updateCommentDraft(rootId, draft ? {...draft, channel_id: channelId} : draft);
 }
 
 type Actions = {
@@ -122,6 +126,7 @@ type Actions = {
 
 function makeMapDispatchToProps() {
     let onUpdateCommentDraft: (draft?: PostDraft) => void;
+    let updateCommentDraftWithRootId: (rootId: string, draft?: PostDraft) => void;
     let onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
@@ -137,13 +142,14 @@ function makeMapDispatchToProps() {
 
     return (dispatch: Dispatch, ownProps: OwnProps) => {
         if (rootId !== ownProps.rootId) {
-            onUpdateCommentDraft = makeOnUpdateCommentDraft(ownProps.rootId);
+            onUpdateCommentDraft = makeOnUpdateCommentDraft(ownProps.rootId, ownProps.channelId);
             onMoveHistoryIndexBack = makeOnMoveHistoryIndex(ownProps.rootId, -1);
             onMoveHistoryIndexForward = makeOnMoveHistoryIndex(ownProps.rootId, 1);
+            onEditLatestPost = makeOnEditLatestPost(ownProps.rootId);
         }
 
-        if (rootId !== ownProps.rootId) {
-            onEditLatestPost = makeOnEditLatestPost(ownProps.rootId);
+        if (channelId !== ownProps.channelId) {
+            updateCommentDraftWithRootId = makeUpdateCommentDraftWithRootId(ownProps.channelId);
         }
 
         if (rootId !== ownProps.rootId || channelId !== ownProps.channelId || latestPostId !== ownProps.latestPostId) {
@@ -157,7 +163,7 @@ function makeMapDispatchToProps() {
         return bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             clearCommentDraftUploads,
             onUpdateCommentDraft,
-            updateCommentDraftWithRootId: updateCommentDraft,
+            updateCommentDraftWithRootId,
             onSubmit,
             onResetHistoryIndex,
             onMoveHistoryIndexBack,

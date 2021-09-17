@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getThreadsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
+import {getAllPosts} from 'mattermost-redux/selectors/entities/posts';
 import {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/rhs';
 
@@ -40,13 +40,8 @@ export function makeGetDraftsByPrefix(prefix: string) {
     return createSelector(
         'makeGetDraftsByPrefix',
         (state: GlobalState) => state.storage?.storage,
-        (state: GlobalState) => {
-            if (prefix === StoragePrefixes.DRAFT) {
-                return getMyChannels(state).map((chan) => chan.id);
-            }
-            return getThreadsInCurrentTeam(state);
-        },
-        (storage, itemsInTeam) => {
+        (state: GlobalState) => getMyChannels(state).map((chan) => chan.id),
+        (storage, myChannels) => {
             if (!storage) {
                 return [];
             }
@@ -60,7 +55,9 @@ export function makeGetDraftsByPrefix(prefix: string) {
                 ) {
                     const {id, type} = getInfoFromKey(key, prefix);
 
-                    if (itemsInTeam.indexOf(id) === -1) {
+                    // if channel doesn't belong to my channels
+                    // it's probably a draft from another team
+                    if (myChannels.indexOf(item.value.channel_id) === -1) {
                         return [];
                     }
 

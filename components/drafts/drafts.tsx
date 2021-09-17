@@ -7,7 +7,6 @@ import {useIntl} from 'react-intl';
 
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 import {selectChannel} from 'mattermost-redux/actions/channels';
-import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {Draft} from 'selectors/drafts';
@@ -39,13 +38,7 @@ function Drafts({
     const globalHeaderEnabled = useSelector(getGlobalHeaderEnabled);
 
     useEffect(() => {
-        dispatch(suppressRHS);
         dispatch(selectChannel(''));
-
-        // unsuppresses RHS on navigating away (unmount)
-        return () => {
-            dispatch(unsuppressRHS);
-        };
     }, []);
 
     return (
@@ -76,7 +69,7 @@ function Drafts({
                         status={status}
                     />
                 ))}
-                {drafts.length === 0 &&(
+                {drafts.length === 0 && (
                     <NoResultsIndicator
                         expanded={true}
                         iconGraphic={DraftsIllustration}

@@ -10,7 +10,7 @@ import {Post} from 'mattermost-redux/types/posts.js';
 
 import {FileInfo} from 'mattermost-redux/types/files.js';
 
-import {ActionResult, GenericAction} from 'mattermost-redux/types/actions.js';
+import {ActionResult, GenericAction, GetStateFunc, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
 import {CommandArgs} from 'mattermost-redux/types/integrations.js';
 
@@ -21,7 +21,7 @@ import {ModalData} from 'types/actions.js';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getCurrentChannelId, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
@@ -159,16 +159,24 @@ type Actions = {
 // Temporarily store draft manually in localStorage since the current version of redux-persist
 // we're on will not save the draft quickly enough on page unload.
 function setDraft(key: string, value: PostDraft) {
-    let updatedValue;
-    if (value) {
-        const item = localStorage.getItem(key);
-        const data = item ? JSON.parse(item) : {};
-        updatedValue = {...value, createAt: data.createAt || new Date()};
-        localStorage.setItem(key, JSON.stringify(updatedValue));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, updatedValue);
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let updatedValue;
+        if (value) {
+            const item = localStorage.getItem(key);
+            const data = item ? JSON.parse(item) : {};
+            const channelId = getCurrentChannelId(getState());
+            updatedValue = {
+                ...value,
+                channel_id: channelId,
+                createAt: data.createAt || new Date(),
+            };
+            localStorage.setItem(key, JSON.stringify(updatedValue));
+        } else {
+            localStorage.removeItem(key);
+        }
+
+        return dispatch(setGlobalItem(key, updatedValue));
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
