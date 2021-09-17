@@ -43,7 +43,6 @@ function Action({name, icon, onClick, id, tooltip}: Props) {
                         {'DraftAction__button--delete': name === 'delete'},
                     )}
                     id={`draft_{icon}_${id}`}
-                    aria-label={tooltip.defaultMessage}
                     onClick={onClick}
                 >
                     <i className={`icon ${icon}`}/>

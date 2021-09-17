@@ -10,8 +10,6 @@ import {makeGetDraftsCount} from 'selectors/drafts';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 
-import {t} from 'utils/i18n';
-
 import './drafts_link.scss';
 
 const getDraftsCount = makeGetDraftsCount();
@@ -42,7 +40,7 @@ function DraftsLink() {
                     />
                     <div className='SidebarChannelLinkLabel_wrapper'>
                         <span className='SidebarChannelLinkLabel sidebar-item__name'>
-                            {formatMessage({id: t('drafts.sidebarLink'), defaultMessage: 'Drafts'})}
+                            {formatMessage({id: 'drafts.sidebarLink', defaultMessage: 'Drafts'})}
                         </span>
                     </div>
                     {count > 0 && (

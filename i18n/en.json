@@ -2951,7 +2951,7 @@
   "drafts.empty.subtitle": "Any messages you’ve started will show here.",
   "drafts.empty.title": "No drafts at the moment",
   "drafts.heading": "Drafts",
-  "drafts.sidebarLink": "",
+  "drafts.sidebarLink": "Drafts",
   "drafts.subtitle": "All messages you've started will show here",
   "drafts.title": "{prefix}Drafts - {displayName} {siteName}",
   "edit_category_modal.helpText": "Drag channels into this category to organize your sidebar.",
