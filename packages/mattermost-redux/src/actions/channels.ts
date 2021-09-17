@@ -539,6 +539,39 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
     };
 }
 
+export function fetchMyAllTeamsChannels(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        dispatch({
+            type: ChannelTypes.CHANNELS_REQUEST,
+            data: null,
+        });
+
+        let channels;
+        try {
+            const channelRequest = Client4.getAllTeamsChannels();
+            channels = await channelRequest;
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(batchActions([
+                {type: ChannelTypes.CHANNELS_FAILURE, error},
+                logError(error),
+            ]));
+            return {error};
+        }
+
+        dispatch(batchActions([
+            {
+                type: ChannelTypes.RECEIVED_ALL_CHANNELS,
+                data: channels,
+            },
+            {
+                type: ChannelTypes.GET_ALL_CHANNELS_SUCCESS,
+            },
+        ]));
+        return {data: {channels}};
+    };
+}
+
 export function getMyChannelMembers(teamId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let channelMembers;
@@ -1058,13 +1091,13 @@ export function searchChannels(teamId: string, term: string, archived?: boolean)
     };
 }
 
-export function searchAllChannels(term: string, opts: ChannelSearchOpts = {}): ActionFunc {
+export function searchAllChannels(term: string, opts: ChannelSearchOpts = {}, nonAdminSearch?: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: ChannelTypes.GET_ALL_CHANNELS_REQUEST, data: null});
 
         let response;
         try {
-            response = await Client4.searchAllChannels(term, opts) as ChannelsWithTotalCount;
+            response = await Client4.searchAllChannels(term, opts, nonAdminSearch) as ChannelsWithTotalCount;
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(batchActions([

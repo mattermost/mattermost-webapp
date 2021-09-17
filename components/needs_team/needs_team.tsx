@@ -49,6 +49,7 @@ type Props = {
     currentTeamId?: string;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
+        fetchMyAllTeamsChannels: () => Promise<{ data: { channels: Channel[]} }>;
         getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -139,6 +140,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     public componentDidMount() {
         startPeriodicStatusUpdates();
         startPeriodicSync();
+        this.fetchAllTeams();
 
         // Set up tracking for whether the window is active
         window.isActive = true;
@@ -260,6 +262,10 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
 
         return team;
+    }
+
+    fetchAllTeams = () => {
+        this.props.actions.fetchMyAllTeamsChannels();
     }
 
     updateCurrentTeam = (props: Props) => {

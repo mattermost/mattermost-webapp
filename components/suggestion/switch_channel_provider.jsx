@@ -16,13 +16,14 @@ import {
     getChannelByName,
     getCurrentChannel,
     getDirectTeammate,
+    getChannelsInAllTeams,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
 
 import {getMyPreferences, isGroupChannelManuallyVisible, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
     getUserIdsInChannels,
@@ -31,7 +32,7 @@ import {
     getStatusForUserId,
     getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
-import {getChannels, searchChannels} from 'mattermost-redux/actions/channels';
+import {fetchMyAllTeamsChannels, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
@@ -67,7 +68,7 @@ class SwitchChannelSuggestion extends Suggestion {
     }
 
     render() {
-        const {item, isSelection, userImageUrl, status, userItem, collapsedThreads} = this.props;
+        const {item, isSelection, userImageUrl, status, userItem, collapsedThreads, team} = this.props;
         const channel = item.channel;
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
@@ -183,6 +184,10 @@ class SwitchChannelSuggestion extends Suggestion {
                 />
             );
         }
+        let teamName = null;
+        if (channel.team_id && team) {
+            teamName = (<span className='ml-2 suggestion-list__team-name'>{team.display_name}</span>);
+        }
 
         return (
             <div
@@ -199,16 +204,16 @@ class SwitchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <div className='suggestion-list__ellipsis'>
+                <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
                         {name}
                     </span>
-                    <span className='ml-2'>{description}</span>
+                    {customStatus}
+                    {sharedIcon}
+                    {tag}
+                    {badge}
+                    {teamName}
                 </div>
-                {customStatus}
-                {sharedIcon}
-                {tag}
-                {badge}
             </div>
         );
     }
@@ -224,6 +229,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const userItem = getUserByUsername(state, channel.name);
     const status = getStatusForUserId(state, channel.userId);
     const collapsedThreads = isCollapsedThreadsEnabled(state);
+    const team = getTeam(state, channel.team_id);
 
     if (channel && !dmChannelTeammate) {
         dmChannelTeammate = getUser(state, channel.userId);
@@ -237,6 +243,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
         status,
         userItem,
         collapsedThreads,
+        team,
     };
 }
 
@@ -374,7 +381,7 @@ export default class SwitchChannelProvider extends Provider {
             }
 
             // Dispatch suggestions for local data
-            const channels = getChannelsInCurrentTeam(getState()).concat(getDirectAndGroupChannels(getState()));
+            const channels = getChannelsInAllTeams(getState()).concat(getDirectAndGroupChannels(getState()));
             const users = Object.assign([], searchProfilesMatchingWithTerm(getState(), channelPrefix, false));
             const formattedData = this.formatList(channelPrefix, channels, users);
             if (formattedData) {
@@ -405,7 +412,7 @@ export default class SwitchChannelProvider extends Provider {
             usersAsync = Client4.autocompleteUsers(channelPrefix, '', '');
         }
 
-        const channelsAsync = searchChannels(teamId, channelPrefix)(store.dispatch, store.getState);
+        const channelsAsync = searchAllChannels(teamId, channelPrefix, true)(store.dispatch, store.getState);
 
         let usersFromServer = [];
         let channelsFromServer = [];
@@ -581,7 +588,7 @@ export default class SwitchChannelProvider extends Provider {
 
     fetchAndFormatRecentlyViewedChannels(resultsCallback) {
         const state = getState();
-        const recentChannels = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state));
+        const recentChannels = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state));
         const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
         if (channels.length === 0) {
             prefix = '';
@@ -649,13 +656,13 @@ export default class SwitchChannelProvider extends Provider {
         return channelList;
     }
 
-    async fetchChannels(resultsCallback, size = 20) {
+    async fetchChannels(resultsCallback) {
         const state = getState();
         const teamId = getCurrentTeamId(state);
         if (!teamId) {
             return;
         }
-        const channelsAsync = getChannels(teamId, 0, size)(store.dispatch, store.getState);
+        const channelsAsync = fetchMyAllTeamsChannels()(store.dispatch, store.getState);
         let channels;
 
         try {

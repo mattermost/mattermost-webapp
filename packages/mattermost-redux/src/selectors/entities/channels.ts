@@ -24,7 +24,7 @@ import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermissi
 import {
     getCurrentTeamId,
     getMyTeams,
-    getTeamMemberships,
+    getTeamMemberships, getTeamsList,
 } from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
@@ -338,6 +338,22 @@ export const getChannelSetInCurrentTeam: (state: GlobalState) => string[] = crea
     },
 );
 
+export const getChannelSetAllTeam: (state: GlobalState) => string[] = createSelector(
+    'getChannelSetInCurrentTeam',
+    getTeamsList,
+    getAllChannels,
+    (teams: Team[], allchannels): string[] => {
+        const channelSet: string[] = [];
+        Object.entries(allchannels).forEach((channelEntry: [string, Channel]) => {
+            const [, channel] = channelEntry;
+            if (channel.type !== General.GM_CHANNEL && channel.type !== General.DM_CHANNEL) {
+                channelSet.push(channel.id);
+            }
+        });
+        return channelSet || [];
+    },
+);
+
 function sortAndInjectChannels(channels: IDMappedObjects<Channel>, channelSet: string[], locale: string): Channel[] {
     const currentChannels: Channel[] = [];
 
@@ -365,6 +381,21 @@ export const getChannelsInCurrentTeam: (state: GlobalState) => Channel[] = creat
         }
 
         return sortAndInjectChannels(channels, currentTeamChannelSet, locale);
+    },
+);
+
+export const getChannelsInAllTeams: (state: GlobalState) => Channel[] = createSelector(
+    'getChannelsInCurrentTeam',
+    getAllChannels,
+    getChannelSetAllTeam,
+    getCurrentUser,
+    (channels: IDMappedObjects<Channel>, getChannelSetAllTeam: string[], currentUser: UserProfile): Channel[] => {
+        let locale = General.DEFAULT_LOCALE;
+
+        if (currentUser && currentUser.locale) {
+            locale = currentUser.locale;
+        }
+        return sortAndInjectChannels(channels, getChannelSetAllTeam, locale);
     },
 );
 

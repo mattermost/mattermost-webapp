@@ -1606,6 +1606,12 @@ export default class Client4 {
             {method: 'get'},
         );
     };
+    getAllTeamsChannels = () => {
+        return this.doFetch<ServerChannel[]>(
+            `${this.getUsersRoute()}/me/channels`,
+            {method: 'get'},
+        );
+    };
 
     getArchivedChannels = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<ServerChannel[]>(
@@ -1753,14 +1759,18 @@ export default class Client4 {
         );
     };
 
-    searchAllChannels = (term: string, opts: ChannelSearchOpts = {}) => {
+    searchAllChannels = (term: string, opts: ChannelSearchOpts = {}, nonAdminSearch?: boolean) => {
         const body = {
             term,
             ...opts,
         };
         const includeDeleted = Boolean(opts.include_deleted);
+        let queryParams: {include_deleted?: boolean; system_console?: boolean} = {include_deleted: includeDeleted};
+        if (nonAdminSearch) {
+            queryParams = {system_console: false};
+        }
         return this.doFetch<Channel[] | ChannelsWithTotalCount>(
-            `${this.getChannelsRoute()}/search?include_deleted=${includeDeleted}`,
+            `${this.getChannelsRoute()}/search${buildQueryString(queryParams)}`,
             {method: 'post', body: JSON.stringify(body)},
         );
     };

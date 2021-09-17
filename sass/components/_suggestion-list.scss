@@ -205,6 +205,17 @@
         }
     }
 
+    .suggestion-list__flex{
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+        padding-right: 2rem;
+        .badge{
+            width: 18px;
+            position: unset;
+        }
+    }
+
     .suggestion-list__icon {
         display: inline-flex;
         flex: 0 0 1.6rem;
@@ -256,5 +267,9 @@
         display: block;
         margin-right: 12px;
         text-align: center;
+    }
+    .suggestion-list__team-name{
+        position: absolute;
+        right: 20px;
     }
 }
