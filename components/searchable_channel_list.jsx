@@ -37,6 +37,8 @@ export default class SearchableChannelList extends React.PureComponent {
 
         this.state = {
             joiningChannel: '',
+            previewingChannel: '',
+            selectedChannelRow: '',
             page: 0,
             nextDisabled: false,
         };
@@ -52,6 +54,16 @@ export default class SearchableChannelList extends React.PureComponent {
         }
     }
 
+    handlePreview(channel) {
+        this.setState({previewingChannel: channel.id});
+        this.props.handlePreview(
+            channel,
+            () => {
+                this.setState({previewingChannel: ''});
+            }
+        );
+    }
+
     handleJoin(channel) {
         this.setState({joiningChannel: channel.id});
         this.props.handleJoin(
@@ -62,11 +74,19 @@ export default class SearchableChannelList extends React.PureComponent {
         );
     }
 
+    setIsActionVisible(channelId) {
+        this.setState({selectedChannelRow: channelId})
+    }
+
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
         let archiveIcon;
         let sharedIcon;
+        let previewButton;
+        let joinButton;
         const {shouldShowArchivedChannels} = this.props;
+
+        const rowSelected = this.state.selectedChannelRow === channel.id ? 'more-modal__row--selected' : '';
 
         if (shouldShowArchivedChannels) {
             archiveIcon = (
@@ -74,7 +94,45 @@ export default class SearchableChannelList extends React.PureComponent {
                     <ArchiveIcon className='icon icon__archive'/>
                 </div>
             );
+        } else {// if (!member) { // if channel is not a member of this channel
+            previewButton = (
+                <button
+                    onClick={this.handlePreview.bind(this, channel)}
+                    className='btn btn-secondary'
+                    disabled={this.state.previewingChannel}
+                >
+                    <LoadingWrapper
+                        loading={this.state.previewingChannel === channel.id}
+                        text={localizeMessage('more_channels.previewing', 'Previewing...')}
+                    >
+                        <FormattedMessage
+                            id={t('more_channels.preview')}//shouldShowArchivedChannels ? t('more_channels.view') : t('more_channels.join')}
+                            defaultMessage='Preview'
+                        />
+                    </LoadingWrapper>
+                </button>
+            );
         }
+
+//        if (!member) {
+            joinButton = (
+                <button
+                    onClick={this.handleJoin.bind(this, channel)}
+                    className='btn btn-primary'
+                    disabled={this.state.joiningChannel}
+                >
+                    <LoadingWrapper
+                        loading={this.state.joiningChannel === channel.id}
+                        text={localizeMessage('more_channels.joining', 'Joining...')}
+                    >
+                        <FormattedMessage
+                            id={shouldShowArchivedChannels ? t('more_channels.view') : t('more_channels.join')}
+                            defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
+                        />
+                    </LoadingWrapper>
+                </button>
+            ); 
+ //       }
 
         if (channel.shared) {
             sharedIcon = (
@@ -88,13 +146,16 @@ export default class SearchableChannelList extends React.PureComponent {
 
         return (
             <div
-                className='more-modal__row'
+                className={'more-modal__row clickable ' + rowSelected}
                 key={channel.id}
-                id={`ChannelRow-${channel.name}`}
-            >
-                <div className='more-modal__details'>
+                id={`ChannelRow-${channel.name}`} // add wrapper so the entire row is clickable?
+                onClick={this.handlePreview.bind(this, channel)}
+                onMouseEnter={() => this.setIsActionVisible(channel.id)}
+                onMouseLeave={() => this.setIsActionVisible(null)}
+            > 
+                <div className='more-modal__details'> 
                     <button
-                        onClick={this.handleJoin.bind(this, channel)}
+                        onClick={shouldShowArchivedChannels ? this.handleJoin.bind(this, channel) : this.handlePreview.bind(this, channel)}
                         aria-label={ariaLabel}
                         className='style--none more-modal__name'
                     >
@@ -105,21 +166,10 @@ export default class SearchableChannelList extends React.PureComponent {
                     <p className='more-modal__description'>{channel.purpose}</p>
                 </div>
                 <div className='more-modal__actions'>
-                    <button
-                        onClick={this.handleJoin.bind(this, channel)}
-                        className='btn btn-primary'
-                        disabled={this.state.joiningChannel}
-                    >
-                        <LoadingWrapper
-                            loading={this.state.joiningChannel === channel.id}
-                            text={localizeMessage('more_channels.joining', 'Joining...')}
-                        >
-                            <FormattedMessage
-                                id={shouldShowArchivedChannels ? t('more_channels.view') : t('more_channels.join')}
-                                defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
-                            />
-                        </LoadingWrapper>
-                    </button>
+                    <div className='more-modal__actions--show-on-hover'>
+                        {previewButton}
+                        {joinButton}
+                    </div>
                 </div>
             </div>
         );
@@ -312,6 +362,7 @@ SearchableChannelList.propTypes = {
     isSearch: PropTypes.bool,
     search: PropTypes.func.isRequired,
     handleJoin: PropTypes.func.isRequired,
+    handlePreview: PropTypes.func.isRequired,
     noResultsText: PropTypes.object,
     loading: PropTypes.bool,
     createChannelButton: PropTypes.element,

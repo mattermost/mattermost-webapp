@@ -166,6 +166,15 @@
 
     .btn {
         font-size: 13px;
+
+        &.btn-secondary {
+            color: $primary-color;
+            font-weight: 600;
+            
+            &:hover {
+                background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            }
+        }
     }
 
     .info__label {
@@ -972,6 +981,10 @@
                 display: block;
             }
 
+            .more-modal__actions--show-on-hover {
+                display: block;
+            }
+
             .more-modal__lastPostAt {
                 display: none;
             }
@@ -1020,6 +1033,10 @@
         line-height: 32px;
         opacity: 0.5;
         text-align: center;
+    }
+
+    .more-modal__actions--show-on-hover {
+        display: none;
     }
 
     .more-modal__right {
