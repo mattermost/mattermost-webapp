@@ -121,6 +121,14 @@ declare namespace Cypress {
         uiGetRecentMentionButton(): Chainable;
 
         /**
+         * Get saved posts button
+         *
+         * @example
+         *   cy.uiGetSavedPostButton();
+         */
+        uiGetSavedPostButton(): Chainable;
+
+        /**
          * Get settings button
          *
          * @example
