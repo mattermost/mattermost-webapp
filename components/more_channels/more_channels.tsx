@@ -26,6 +26,7 @@ type Actions = {
     getChannels: (teamId: string, page: number, perPage: number) => ActionFunc | void;
     getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => ActionFunc | void;
     joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
+    //previewChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
     searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
     openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
         data: boolean;
@@ -115,6 +116,23 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
     handleJoin = async (channel: Channel, done: () => void) => {
         const {actions, currentUserId, teamId, teamName} = this.props;
         const result = await actions.joinChannel(currentUserId, teamId, channel.id) as { error: any };
+
+        if (result.error) {
+            this.setState({serverError: result.error.message});
+        } else {
+            browserHistory.push(getRelativeChannelURL(teamName, channel.name));
+            this.handleHide();
+        }
+
+        if (done) {
+            done();
+        }
+    }
+
+    handlePreview = async (channel: Channel, done: () => void) => { // TODO - use archived channels as a base?
+        const {actions, currentUserId, teamId, teamName} = this.props;
+        const result = await actions.joinChannel(currentUserId, teamId, channel.id) as { error: any };
+        //const result = await actions.previewChannel(currentUserId, teamId, channel.id) as { error: any}; // no need to make another preview, just show an intermediate screen before joining?
 
         if (result.error) {
             this.setState({serverError: result.error.message});
@@ -245,6 +263,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     isSearch={search}
                     search={this.search}
                     handleJoin={this.handleJoin}
+                    handlePreview={this.handlePreview}
                     noResultsText={createChannelHelpText}
                     loading={search ? searching : channelsRequestStarted}
                     toggleArchivedChannels={this.toggleArchivedChannels}
