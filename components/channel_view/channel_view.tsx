@@ -26,6 +26,7 @@ type Props = {
     };
     showNextStepsEphemeral: boolean;
     channelIsArchived: boolean;
+    channelIsPreviewed: boolean;
     viewArchivedChannels: boolean;
     isCloud: boolean;
     actions: {
@@ -126,6 +127,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
     render() {
         const {channelIsArchived} = this.props;
 
+        const channelIsPreviewed = this.props.channelId === '1ym8mhmif3rxbnpeajy91b3arr'; // TODO replace this with some permissions thing
         if (this.props.showNextStepsEphemeral) {
             return (
                 <NextStepsView/>
@@ -179,6 +181,41 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                             <FormattedMessage
                                 id='center_panel.archived.closeChannel'
                                 defaultMessage='Close Channel'
+                            />
+                        </button>
+                    </div>
+                </div>
+            );
+        } else if (channelIsPreviewed) {//this.props.channelIsPreviewed) {
+            createPost = (
+                <div
+                    className='post-create__container'
+                    id='post-create'
+                >
+                    <div
+                        id='channelPreviewMessage'
+                        className='channel-preview__message'
+                    >
+                        <FormattedMarkdownMessage
+                            id='previewChannelMessage'
+                            defaultMessage='You are viewing **Channel One**'
+                        />
+                        <button
+                            className='btn btn-primary channel-preview__join-btn'
+                            onClick={this.onClickCloseChannel}
+                        >
+                            <FormattedMessage
+                                id='center_panel.preview.joinChannel'
+                                defaultMessage='Join'
+                            />
+                        </button>
+                        <button
+                            className='btn btn-secondary channel-preview__cancel-btn'
+                            onClick={this.onClickCloseChannel}
+                        >
+                            <FormattedMessage
+                                id='center_panel.preview.closeChannel'
+                                defaultMessage='Cancel'
                             />
                         </button>
                     </div>

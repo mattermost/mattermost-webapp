@@ -555,6 +555,17 @@
     .channel-archived__close-btn {
         margin: 10px;
     }
+
+    .channel-preview__message {
+        padding: 25px;
+        border-top-width: 1px;
+        border-top-style: solid;
+        text-align: center;
+    }
+
+    .channel-preview__join-btn {
+        margin: 10px;
+    }
 }
 
 .post-body__actions {
