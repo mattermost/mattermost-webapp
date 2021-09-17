@@ -26,16 +26,6 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
         />
         <div className='NextStepsView__wizardButtons'>
             <button
-                data-testid='DownloadAppsStep__skipDownload'
-                className={classNames('NextStepsView__button NextStepsView__finishButton secondary')}
-                onClick={() => props.onFinish(props.id)}
-            >
-                <FormattedMessage
-                    id='next_steps_view.downloadDesktopAndMobile.secondary'
-                    defaultMessage='Skip'
-                />
-            </button>
-            <button
                 data-testid='DownloadAppsStep__finishDownload'
                 className={classNames('NextStepsView__button NextStepsView__finishButton primary')}
                 onClick={() => props.onFinish(props.id)}
