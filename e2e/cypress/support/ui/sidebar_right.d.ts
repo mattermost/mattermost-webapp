@@ -20,9 +20,11 @@ declare namespace Cypress {
         /**
          * Get RHS container
          *
+         *  @param {bool} option.exist - Set to false to not verify if the element exists. Otherwise, true (default) to check existence.
+         *
          * @example
          *   cy.uiGetRHS();
          */
-        uiGetRHS(): Chainable;
+        uiGetRHS(option: Record<string, boolean>): Chainable;
     }
 }

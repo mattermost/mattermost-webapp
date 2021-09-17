@@ -55,25 +55,25 @@ describe('Messaging', () => {
         // # Post a new message
         cy.postMessage('new post');
 
-        //# Open the reply thread on the most recent post
+        // # Open the reply thread on the most recent post
         cy.clickPostCommentIcon();
 
-        //# Place the focus inside the RHS input box
+        // # Place the focus inside the RHS input box
         cy.get('#reply_textbox').focus().should('be.focused');
 
-        //# Use CTRL+K or CMD+K to open the channel switcher depending on OS
+        // # Use CTRL+K or CMD+K to open the channel switcher depending on OS
         cy.typeCmdOrCtrl().type('K', {release: true});
 
-        //* Verify channel switcher is visible
+        // * Verify channel switcher is visible
         cy.get('#quickSwitchHint').should('be.visible');
 
-        //# Type channel name and select it
+        // # Type channel name and select it
         cy.findByRole('textbox', {name: 'quick switch input'}).type(testChannelName).wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
-        //* Verify that it redirected into selected channel
+        // * Verify that it redirected into selected channel
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', testChannelName);
 
-        //* Verify focus is moved to main input box when the channel is opened
+        // * Verify focus is moved to main input box when the channel is opened
         cy.get('#post_textbox').should('be.focused');
     });
 
@@ -81,29 +81,23 @@ describe('Messaging', () => {
         // # Post a new message
         cy.postMessage('new post');
 
-        //# Open the reply thread on the most recent post
+        // # Open the reply thread on the most recent post
         cy.clickPostCommentIcon();
 
-        //* Verify RHS textbox is focused the first time Reply arrow is clicked
+        // * Verify RHS textbox is focused the first time Reply arrow is clicked
         cy.get('#reply_textbox').should('be.focused');
 
-        //# Focus away from RHS textbox
+        // # Focus away from RHS textbox
         cy.get('#rhsContainer .post-right__content').click();
 
-        //# Click reply arrow on post in same thread
+        // # Click reply arrow on post in same thread
         cy.clickPostCommentIcon();
 
-        //* Verify RHS textbox is again focused the second time, when already open
+        // * Verify RHS textbox is again focused the second time, when already open
         cy.get('#reply_textbox').should('be.focused');
     });
 
     it('MM-T203 Focus does not move when it has already been set elsewhere', () => {
-        // // # Select the channel on the left hand side
-        // cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
-
-        // // * Channel's display name should be visible at the top of the center pane
-        // cy.get('#channelHeaderTitle').should('contain', testChannel.display_name);
-
         // # Verify Focus in add channel member modal
         verifyFocusInAddChannelMemberModal();
     });
@@ -122,19 +116,19 @@ describe('Messaging', () => {
         const windowsKeycode = 91;
 
         [numLockKeycode, f7Keycode, windowsKeycode].forEach((keycode) => {
-            //# Trigger keydown event using keycode
+            // # Trigger keydown event using keycode
             cy.get('body').trigger('keydown', {keyCode: keycode, which: keycode});
 
-            //# Make sure main input is not focused
+            // # Make sure main input is not focused
             cy.get('#post_textbox').should('not.be.focused');
         });
 
         // For other keys we can use cypress.type() with a special character sequence.
         ['{downarrow}', '{pagedown}', '{shift}', '{pageup}', '{enter}'].forEach((key) => {
-            //# Type special character key using Cypress special character sequence
+            // # Type special character key using Cypress special character sequence
             cy.get('body').type(key);
 
-            //# Make sure main input is not focused
+            // # Make sure main input is not focused
             cy.get('#post_textbox').should('not.be.focused');
         });
     });

@@ -18,11 +18,37 @@ declare namespace Cypress {
     interface Chainable {
 
         /**
+         * Get file thumbnail from a post
+         *
+         * @example
+         *   cy.uiGetFileThumbnail('image.png');
+         */
+        uiGetFileThumbnail(filename: string): Chainable;
+
+        /**
+         * Get file preview modal
+         *
+         * @example
+         *   cy.uiGetFilePreview();
+         */
+        uiGetFilePreview(): Chainable;
+
+        /**
          * Open file preview modal
+         *
+         * @param {string} filename
          *
          * @example
          *   cy.uiOpenFilePreview('image.png');
          */
         uiOpenFilePreview(filename: string): Chainable;
+
+        /**
+         * Close file preview modal
+         *
+         * @example
+         *   cy.uiCloseFilePreview();
+         */
+        uiCloseFilePreview(filename: string): Chainable;
     }
 }
