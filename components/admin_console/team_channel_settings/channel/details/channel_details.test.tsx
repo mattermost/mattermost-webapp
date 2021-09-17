@@ -44,8 +44,6 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             header: 'header',
             purpose: 'purpose',
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
             creator_id: 'id',
             scheme_id: 'id',
             group_constrained: false,

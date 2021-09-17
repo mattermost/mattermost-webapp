@@ -65,11 +65,8 @@ describe('User Management', () => {
         // visit test channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-        // # Click hamburger main menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-
-        // # Click View Members
-        cy.get('#sidebarDropdownMenu #viewMembers').should('be.visible').click();
+        // # Open team menu and click View Members
+        cy.uiOpenTeamMenu('View Members');
 
         // * Check View Members modal dialog
         cy.get('#teamMembersModal').should('be.visible').within(() => {

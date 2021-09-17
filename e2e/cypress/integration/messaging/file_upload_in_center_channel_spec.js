@@ -10,18 +10,11 @@
 // Stage: @prod
 // Group: @messaging
 
-function waitForImageUpload() {
-    // * Verify that the image exists in the post message footer
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image.normal').length > 0;
-    }));
-}
-
 describe('Messaging', () => {
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -57,3 +50,10 @@ describe('Messaging', () => {
         });
     });
 });
+
+function waitForImageUpload() {
+    // * Verify that the image exists in the post message footer
+    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+        return el.find('.post-image.normal').length > 0;
+    }));
+}

@@ -205,7 +205,7 @@ describe('Message permalink', () => {
             // # Login as the other user
             cy.apiLogout();
             cy.apiLogin(otherUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Clear then type channel url
             cy.get('#post_textbox').should('be.visible').clear().type(`${Cypress.config('baseUrl')}/${testTeam.name}/channels/${testChannel.name}`).type('{enter}');
@@ -213,7 +213,7 @@ describe('Message permalink', () => {
             // # Login as the temporary user
             cy.apiLogout();
             cy.apiLogin(tempUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Check that the channel permalink has been posted
             cy.getLastPostId().then(() => {

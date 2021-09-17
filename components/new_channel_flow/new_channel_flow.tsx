@@ -121,8 +121,6 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
             id: '',
             last_post_at: 0,
             scheme_id: '',
-            total_msg_count: 0,
-            total_msg_count_root: 0,
             update_at: 0,
         };
 

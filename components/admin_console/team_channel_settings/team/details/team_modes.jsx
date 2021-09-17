@@ -118,7 +118,7 @@ AllowedDomainsToggle.propTypes = {
     isDisabled: PropTypes.bool,
 };
 
-export const TeamModes = ({allAllowedChecked, syncChecked, allowedDomains, allowedDomainsChecked, onToggle, isDisabled}) => (
+export const TeamModes = ({allAllowedChecked, syncChecked, allowedDomains, allowedDomainsChecked, onToggle, isDisabled, isLicensedForLDAPGroups}) => (
     <AdminPanel
         id='team_manage'
         titleId={t('admin.team_settings.team_detail.manageTitle')}
@@ -128,14 +128,16 @@ export const TeamModes = ({allAllowedChecked, syncChecked, allowedDomains, allow
     >
         <div className='group-teams-and-channels'>
             <div className='group-teams-and-channels--body'>
-                <SyncGroupsToggle
-                    allAllowedChecked={allAllowedChecked}
-                    allowedDomainsChecked={allowedDomainsChecked}
-                    allowedDomains={allowedDomains}
-                    syncChecked={syncChecked}
-                    onToggle={onToggle}
-                    isDisabled={isDisabled}
-                />
+                {isLicensedForLDAPGroups &&
+                    <SyncGroupsToggle
+                        allAllowedChecked={allAllowedChecked}
+                        allowedDomainsChecked={allowedDomainsChecked}
+                        allowedDomains={allowedDomains}
+                        syncChecked={syncChecked}
+                        onToggle={onToggle}
+                        isDisabled={isDisabled}
+                    />
+                }
                 <AllowAllToggle
                     allAllowedChecked={allAllowedChecked}
                     allowedDomainsChecked={allowedDomainsChecked}
@@ -163,4 +165,5 @@ TeamModes.propTypes = {
     onToggle: PropTypes.func.isRequired,
     allowedDomains: PropTypes.string.isRequired,
     isDisabled: PropTypes.bool,
+    isLicensedForLDAPGroups: PropTypes.bool,
 };

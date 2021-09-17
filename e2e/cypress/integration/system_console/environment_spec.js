@@ -37,8 +37,8 @@ describe('Environment', () => {
         // # Navigate to a channel
         cy.visit(townsquareLink);
 
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // * Check that the 'Team Settings' modal was opened
         cy.get('#teamSettingsModal').should('exist').within(() => {
@@ -89,8 +89,8 @@ describe('Environment', () => {
         // # Navigate to a channel
         cy.visit(townsquareLink);
 
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // * Check that the 'Team Settings' modal was opened
         cy.get('#teamSettingsModal').should('exist').within(() => {
@@ -141,8 +141,8 @@ describe('Environment', () => {
         // # Navigate to a channel
         cy.visit(townsquareLink);
 
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.findByText('Team Settings').should('be.visible').click();
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // * Check that the 'Team Settings' modal was opened
         cy.get('#teamSettingsModal').should('exist').within(() => {

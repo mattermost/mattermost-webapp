@@ -36,7 +36,16 @@ describe('AppCommandParser', () => {
             ...reduxTestState,
             entities: {
                 ...reduxTestState.entities,
-                apps: {bindings},
+                apps: {
+                    main: {
+                        bindings,
+                        forms: {},
+                    },
+                    rhs: {
+                        bindings,
+                        forms: {},
+                    },
+                },
             },
         } as any;
         const testStore = await mockStore(initialState);

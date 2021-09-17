@@ -6,6 +6,7 @@
 import {getChannelSuggestions, getUserSuggestions, inTextMentionSuggestions} from '../mentions';
 
 import {
+    AppsTypes,
     AppCallRequest,
     AppBinding,
     AppField,
@@ -48,6 +49,9 @@ import {
     autocompleteUsersInChannel,
     autocompleteChannels,
     UserProfile,
+    getAppCommandForm,
+    getAppRHSCommandForm,
+    makeRHSAppBindingSelector,
 } from './app_command_parser_dependencies';
 
 export interface Store {
@@ -100,6 +104,7 @@ type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
 }
 
 const getCommandBindings = makeAppBindingsSelector(AppBindingLocations.COMMAND);
+const getRHSCommandBindings = makeRHSAppBindingSelector(AppBindingLocations.COMMAND);
 
 export class ParsedCommand {
     state = ParseState.Start;
@@ -842,8 +847,6 @@ export class AppCommandParser {
     private rootPostID?: string;
     private intl: Intl;
 
-    forms: {[location: string]: AppForm} = {};
-
     constructor(store: Store|null, intl: Intl, channelID: string, teamID = '', rootPostID = '') {
         this.store = store || getStore();
         this.channelID = channelID;
@@ -1335,8 +1338,11 @@ export class AppCommandParser {
     // getCommandBindings returns the commands in the redux store.
     // They are grouped by app id since each app has one base command
     private getCommandBindings = (): AppBinding[] => {
-        const bindings = getCommandBindings(this.store.getState());
-        return bindings;
+        const state = this.store.getState();
+        if (this.rootPostID) {
+            return getRHSCommandBindings(state);
+        }
+        return getCommandBindings(state);
     }
 
     // getChannel gets the channel in which the user is typing the command
@@ -1346,9 +1352,6 @@ export class AppCommandParser {
     }
 
     public setChannelContext = (channelID: string, teamID = '', rootPostID?: string) => {
-        if (this.channelID !== channelID || this.rootPostID !== rootPostID || this.teamID !== teamID) {
-            this.forms = {};
-        }
         this.channelID = channelID;
         this.rootPostID = rootPostID;
         this.teamID = teamID;
@@ -1445,15 +1448,21 @@ export class AppCommandParser {
     public getForm = async (location: string, binding: AppBinding): Promise<{form?: AppForm; error?: string} | undefined> => {
         const rootID = this.rootPostID || '';
         const key = `${this.channelID}-${rootID}-${location}`;
-        const form = this.forms[key];
+        const form = this.rootPostID ? getAppRHSCommandForm(this.store.getState(), key) : getAppCommandForm(this.store.getState(), key);
         if (form) {
             return {form};
         }
 
-        this.forms = {};
         const fetched = await this.fetchForm(binding);
         if (fetched?.form) {
-            this.forms[key] = fetched.form;
+            let actionType: string = AppsTypes.RECEIVED_APP_COMMAND_FORM;
+            if (this.rootPostID) {
+                actionType = AppsTypes.RECEIVED_APP_RHS_COMMAND_FORM;
+            }
+            this.store.dispatch({
+                data: {form: fetched.form, location: key},
+                type: actionType,
+            });
         }
         return fetched;
     }

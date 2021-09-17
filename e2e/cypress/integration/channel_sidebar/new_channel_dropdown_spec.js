@@ -27,7 +27,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Click the New Channel Dropdown button
         cy.get('.AddChannelDropdown_dropdownButton').should('be.visible').click();
@@ -55,7 +55,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Switch to Off Topic
         cy.visit(`/${teamName}/channels/off-topic`);

@@ -29,6 +29,7 @@ type Props = {
         searchTeams(term: string, opts: TeamSearchOpts): Promise<{data: TeamsWithCount}>;
         getData(page: number, size: number): void;
     };
+    isLicensedForLDAPGroups?: boolean;
 }
 
 type State = {
@@ -117,13 +118,19 @@ export default class TeamList extends React.PureComponent<Props, State> {
     onFilter = ({management}: FilterOptions) => {
         const filters: TeamSearchOpts = {};
 
+        let groupConstrained;
+
         const {
-            group_constrained: {value: groupConstrained},
             allow_open_invite: {value: allowOpenInvite},
             invite_only: {value: inviteOnly},
         } = management.values;
 
-        const filtersList = [allowOpenInvite, inviteOnly, groupConstrained];
+        const filtersList = [allowOpenInvite, inviteOnly];
+
+        if (this.props.isLicensedForLDAPGroups) {
+            groupConstrained = management.values.group_constrained.value;
+            filtersList.push(groupConstrained);
+        }
 
         // If all filters or no filters do nothing
         if (filtersList.includes(false) && filtersList.includes(true)) {
@@ -278,6 +285,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
         const rows = this.getRows();
         const columns = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
+        const {isLicensedForLDAPGroups} = this.props;
 
         let placeholderEmpty = (
             <FormattedMessage
@@ -295,7 +303,28 @@ export default class TeamList extends React.PureComponent<Props, State> {
             );
         }
 
-        const filterOptions = {
+        type Value = {
+            name: JSX.Element;
+            value: boolean;
+        };
+
+        type Management = {
+            name: JSX.Element;
+            values: Values;
+            keys: string[];
+        };
+
+        type FilterOptions = {
+            management: Management;
+        };
+
+        type Values = {
+            allow_open_invite: Value;
+            invite_only: Value;
+            group_constrained?: Value;
+        };
+
+        const filterOptions: FilterOptions = {
             management: {
                 name: (
                     <FormattedMessage
@@ -322,19 +351,23 @@ export default class TeamList extends React.PureComponent<Props, State> {
                         ),
                         value: false,
                     },
-                    group_constrained: {
-                        name: (
-                            <FormattedMessage
-                                id='admin.team_settings.team_row.managementMethod.groupSync'
-                                defaultMessage='Group Sync'
-                            />
-                        ),
-                        value: false,
-                    },
                 },
-                keys: ['allow_open_invite', 'invite_only', 'group_constrained'],
+                keys: ['allow_open_invite', 'invite_only'],
             },
         };
+
+        if (isLicensedForLDAPGroups) {
+            filterOptions.management.values.group_constrained = {
+                name: (
+                    <FormattedMessage
+                        id='admin.team_settings.team_row.managementMethod.groupSync'
+                        defaultMessage='Group Sync'
+                    />
+                ),
+                value: false,
+            };
+            filterOptions.management.keys.push('group_constrained');
+        }
 
         const filterProps = {
             options: filterOptions,

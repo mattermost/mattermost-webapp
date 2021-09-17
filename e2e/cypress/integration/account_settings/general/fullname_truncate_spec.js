@@ -13,31 +13,27 @@
 import {getRandomId} from '../../../utils';
 
 describe('Account Settings > Full Name', () => {
-    let testTeam;
     let firstUser;
     let secondUser;
     const firstName = 'This Is a Long Name';
     const lastName = 'That Should Truncate';
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
-            testTeam = team;
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
             firstUser = user;
             cy.apiCreateUser().then(({user: user1}) => {
                 secondUser = user1;
-                cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+                cy.apiAddUserToTeam(team.id, secondUser.id);
+
+                cy.apiLogin(firstUser);
+                cy.visit(offTopicUrl);
             });
         });
     });
 
     it('MM-T2046 Full Name - Truncated in popover', () => {
         // # Go to Account Settings -> General -> Full Name -> Edit
-        cy.apiLogin(firstUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.toAccountSettingsModal();
-
-        // # Click General button
-        cy.get('#generalButton').click();
+        cy.uiOpenAccountSettingsModal();
 
         // # Open Full Name section
         cy.get('#nameDesc').click();
@@ -53,12 +49,13 @@ describe('Account Settings > Full Name', () => {
 
         // * Full name field shows first and last name.
         cy.contains('#nameDesc', `${firstName} ${lastName}`);
+
+        // # Close account settings modal
+        cy.uiClose();
     });
 
     it('MM-T2047 Truncated in popover (visual verification)', () => {
-        cy.get('#accountSettingsHeader button.close').click();
-
-        // # open user profile popover
+        // # Open user profile popover
         cy.postMessage(`this is a test message ${getRandomId()}`);
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).should('be.visible');
@@ -72,10 +69,7 @@ describe('Account Settings > Full Name', () => {
 
     it('MM-T2048 Empty full name: @ still displays before username', () => {
         // # Open any user list ("View Members", "Add Members", "Manage Members", ..)
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click view members
-        cy.get('#viewMembers').should('be.visible').click();
+        cy.uiOpenTeamMenu('View Members');
 
         // # Find a user who hasn't set their full name
         cy.get('.modal-title').should('be.visible');
