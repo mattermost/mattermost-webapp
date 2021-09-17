@@ -206,7 +206,7 @@ export function getFlaggedPosts(): ActionFunc {
 
         let posts;
         try {
-            posts = await Client4.getFlaggedPosts(userId, '');
+            posts = await Client4.getFlaggedPosts(userId);
 
             await Promise.all([getProfilesAndStatusesForPosts(posts.posts, dispatch, getState) as any, dispatch(getMissingChannelsFromPosts(posts.posts)) as any]);
         } catch (error) {

@@ -1992,11 +1992,11 @@ export default class Client4 {
         );
     };
 
-    getFlaggedPosts = (userId: string, channelId = '', page = 0, perPage = PER_PAGE_DEFAULT) => {
-        this.trackEvent('api', 'api_posts_get_flagged');
+    getFlaggedPosts = (userId: string, channelId = '', teamId = '', page = 0, perPage = PER_PAGE_DEFAULT) => {
+        this.trackEvent('api', 'api_posts_get_flagged', {team_id: teamId});
 
         return this.doFetch<PostList>(
-            `${this.getUserRoute(userId)}/posts/flagged${buildQueryString({channel_id: channelId, page, per_page: perPage})}`,
+            `${this.getUserRoute(userId)}/posts/flagged${buildQueryString({channel_id: channelId, team_id: teamId, page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
