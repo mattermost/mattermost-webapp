@@ -3,6 +3,7 @@
 
 import React, {memo, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
+import {FormattedMessage} from 'react-intl';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -38,39 +39,66 @@ function DraftTitle({
         }
     }, [teammate?.id, teammateId]);
 
-    let prefix = 'To: ';
-    let icon = <i className='icon icon-globe'/>;
-
     if (type === 'thread') {
         return (
-            <>{'Thread in:' } {icon} {channelName}</>
+            <FormattedMessage
+                id='drafts.draft_title.thread'
+                defaultMessage={'Thread in: {icon} <b>{channelName}</b>'}
+                values={{
+                    b: (chunks: string) => <b>{chunks}</b>,
+                    icon: <i className='icon icon-globe'/>,
+                    channelName,
+                }}
+            />
         );
     }
 
     switch (channel.type) {
     case Constants.DM_CHANNEL: {
-        const profileImg = imageURLForUser(teammate?.id, teammate?.last_picture_update);
-        icon = (
-            <Avatar
-                size='xs'
-                username={teammate?.username}
-                url={profileImg}
-                className='DraftTitle__avatar'
+        return (
+            <FormattedMessage
+                id='drafts.draft_title.dm_channel'
+                defaultMessage={'In: {icon} {channelName}'}
+                values={{
+                    icon: (
+                        <Avatar
+                            size='xs'
+                            username={teammate?.username}
+                            url={imageURLForUser(teammate?.id, teammate?.last_picture_update)}
+                            className='DraftTitle__avatar'
+                        />
+                    ),
+                    channelName,
+                }}
             />
         );
-        break;
     }
     case Constants.GM_CHANNEL:
-        icon = (
-            <div className='DraftTitle__group-icon'>{channelName.split(',').length}</div>
+        return (
+            <FormattedMessage
+                id='drafts.draft_title.gm_channel'
+                defaultMessage={'In: {icon} {channelName}'}
+                values={{
+                    icon: (
+                        <div className='DraftTitle__group-icon'>
+                            {channelName.split(',').length}
+                        </div>
+                    ),
+                    channelName,
+                }}
+            />
         );
-        break;
-    default:
-        prefix = 'In: ';
     }
 
     return (
-        <>{prefix} {icon} {channelName}</>
+        <FormattedMessage
+            id='drafts.draft_title.channel'
+            defaultMessage={'To: {icon} {channelName}'}
+            values={{
+                icon: <i className='icon icon-globe'/>,
+                channelName,
+            }}
+        />
     );
 }
 

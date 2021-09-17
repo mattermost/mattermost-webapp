@@ -4,6 +4,7 @@
 import React, {memo, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
+import {getChannel} from 'mattermost-redux/actions/channels';
 import {getPost} from 'mattermost-redux/actions/posts';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread, UserThreadSynthetic} from 'mattermost-redux/types/threads';
@@ -48,6 +49,12 @@ function ThreadDraft({
             dispatch(getPost(id));
         }
     }, [thread?.id]);
+
+    useEffect(() => {
+        if (!channel?.id) {
+            dispatch(getChannel(id));
+        }
+    }, [channel?.id]);
 
     if (!thread || !channel) {
         return null;

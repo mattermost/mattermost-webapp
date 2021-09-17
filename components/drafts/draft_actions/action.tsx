@@ -3,7 +3,6 @@
 
 import React, {useRef} from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import OverlayTrigger from 'components/overlay_trigger';
@@ -16,10 +15,7 @@ type Props = {
     id: string;
     name: string;
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    tooltip: {
-        id: string;
-        defaultMessage: string;
-    };
+    tooltip: React.ReactNode;
 };
 
 function Action({name, icon, onClick, id, tooltip}: Props) {
@@ -36,10 +32,7 @@ function Action({name, icon, onClick, id, tooltip}: Props) {
                         id={`tooltip_${id}`}
                         className='hidden-xs'
                     >
-                        <FormattedMessage
-                            id={tooltip.id}
-                            defaultMessage={tooltip.defaultMessage}
-                        />
+                        {tooltip}
                     </Tooltip>
                 }
             >

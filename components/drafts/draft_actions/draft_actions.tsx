@@ -4,6 +4,7 @@
 import React, {memo, useMemo, useCallback, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
+import {FormattedMessage} from 'react-intl';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {UserThread, UserThreadSynthetic} from 'mattermost-redux/types/threads';
@@ -15,7 +16,8 @@ import {PostDraft} from 'types/store/rhs';
 import {selectPost} from 'actions/views/rhs';
 import {makeOnSubmit} from 'actions/views/create_comment';
 import {setGlobalItem} from 'actions/storage';
-import {getChannelURL} from 'utils/utils';
+import {getChannelURL, localizeMessage} from 'utils/utils';
+import {t} from 'utils/i18n';
 
 import GenericModal from 'components/generic_modal';
 
@@ -107,16 +109,47 @@ function DraftActions({
     let message;
 
     if (confirm.type === 'send') {
-        title = 'Send Message Now';
-        confirmButtonText = 'Yes, Send now';
-        message = `Are you sure you want to send this message to ${channelName}?`;
+        title = localizeMessage(
+            'drafts.confirm.send.title',
+            'Send Message now',
+        );
+        confirmButtonText = localizeMessage(
+            'drafts.confirm.send.button',
+            'Yes, Send now Message now',
+        );
+        message = (
+            <FormattedMessage
+                id={t('drafts.confirm.send.text')}
+                defaultMessage={'Are you sure you want to send this message to <b>{channelName}</b>?'}
+                values={{
+                    b: (chunk: string) => <b>{chunk}</b>,
+                    channelName,
+                }}
+            />
+        );
     }
 
     if (confirm.type === 'delete') {
-        title = 'Delete Draft';
-        confirmButtonText = 'Yes, Delete';
         confirmButtonClass = 'delete';
-        message = `Are you sure you want to delete this draft to ${channelName}?`;
+
+        title = localizeMessage(
+            'drafts.confirm.delete.title',
+            'Delete Draft',
+        );
+        confirmButtonText = localizeMessage(
+            'drafts.confirm.delete.button',
+            'Yes, Delete',
+        );
+        message = (
+            <FormattedMessage
+                id={t('drafts.confirm.delete.text')}
+                defaultMessage={'Are you sure you want to delete this draft to <b>{channelName}</b>?'}
+                values={{
+                    b: (chunk: string) => <b>{chunk}</b>,
+                    channelName,
+                }}
+            />
+        );
     }
 
     return (
@@ -125,30 +158,36 @@ function DraftActions({
                 icon='icon-trash-can-outline'
                 id='delete'
                 name='delete'
-                tooltip={{
-                    id: 'id',
-                    defaultMessage: 'Delete draft',
-                }}
+                tooltip={(
+                    <FormattedMessage
+                        id='drafts.actions.delete'
+                        defaultMessage='Delete draft'
+                    />
+                )}
                 onClick={handleDelete}
             />
             <Action
                 icon='icon-pencil-outline'
                 id='edit'
                 name='edit'
-                tooltip={{
-                    id: 'id',
-                    defaultMessage: 'Edit draft',
-                }}
+                tooltip={(
+                    <FormattedMessage
+                        id='drafts.actions.edit'
+                        defaultMessage='Edit draft'
+                    />
+                )}
                 onClick={handleEdit}
             />
             <Action
                 icon='icon-send-outline'
                 id='send'
                 name='send'
-                tooltip={{
-                    id: 'id',
-                    defaultMessage: 'Send message',
-                }}
+                tooltip={(
+                    <FormattedMessage
+                        id='drafts.actions.send'
+                        defaultMessage='Send draft'
+                    />
+                )}
                 onClick={handleSend}
             />
             <GenericModal
