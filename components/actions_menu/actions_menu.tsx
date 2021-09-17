@@ -42,6 +42,7 @@ type Props = {
     pluginMenuItems?: PluginComponent[];
     appBindings?: AppBinding[];
     appsEnabled: boolean;
+    showTutorialTip: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -290,7 +291,12 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
         const {formatMessage} = this.props.intl;
 
-        const showTip = true; // FIXME
+        let tutorialTip = null;
+        if (this.props.showTutorialTip) {
+            tutorialTip = (
+                <ActionsTutorialTip/>
+            );
+        }
         const marketPlace = (
             <Menu.ItemAction
                 id={`marketplace_icon_${this.props.post.id}`}
@@ -338,7 +344,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         aria-expanded='false'
                     >
                         <i className={'icon icon-apps'}/>
-                        {showTip && <ActionsTutorialTip/>}
+                        {tutorialTip}
                     </button>
                 </OverlayTrigger>
                 <Menu

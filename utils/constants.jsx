@@ -443,6 +443,7 @@ export const TutorialSteps = {
     MENU_POPOVER: 3,
     PRODUCT_SWITCHER: 4,
     SETTINGS: 5,
+    ACTIONS_MENU: 6,
     FINISHED: 999,
 };
 
