@@ -25,18 +25,17 @@ describe('Main menu', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.uiOpenMainMenu();
-        cy.findByRole('menu').should('exist').findByText('Account Settings').click();
-        cy.findByRole('menu').should('not.exist');
+        cy.uiOpenAccountSettingsModal();
+        cy.findByRole('set status').should('not.exist');
     });
 
     it('MM-T711_2 - Click on menu divider shouldn\'t toggle the menu', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.uiOpenMainMenu();
+        cy.uiOpenUserMenu();
 
-        cy.findByRole('menu').should('exist').find('.menu-divider:visible').first().click();
+        cy.findByRole('menu').should('exist').find('.menu-divider:visible').last().click();
         cy.findByRole('menu').should('exist');
     });
 
@@ -44,7 +43,8 @@ describe('Main menu', () => {
         cy.apiAdminLogin();
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.uiOpenMainMenu();
+        cy.uiOpenProductSwitchMenu();
+
         cy.findByRole('menu').findByText('Integrations').should('be.visible');
     });
 
@@ -52,7 +52,8 @@ describe('Main menu', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.uiOpenMainMenu();
+        cy.uiOpenProductSwitchMenu();
+
         cy.findByRole('menu').findByText('Integrations').should('not.exist');
     });
 });

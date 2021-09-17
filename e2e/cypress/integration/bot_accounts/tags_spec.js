@@ -70,7 +70,7 @@ describe('Bot tags', () => {
 
     it('MM-T1832 BOT tag is visible in Recent Mentions', () => {
         // # Open mentions
-        cy.get('#channelHeaderMentionButton').click();
+        cy.uiGetRecentMentionButton().click();
 
         // * Verify bot badge
         cy.get('.sidebar--right__title').should('contain.text', 'Recent Mentions');
@@ -79,7 +79,7 @@ describe('Bot tags', () => {
 
     it('MM-T1833 BOT tag is visible in Pinned Posts', () => {
         // # Open pinned posts
-        cy.get('#channelHeaderPinButton').click();
+        cy.uiGetChannelPinButton().click();
 
         // * Verify bot badge
         cy.get('.sidebar--right__title').should('contain.text', 'Pinned Posts');
@@ -88,7 +88,7 @@ describe('Bot tags', () => {
 
     it('MM-T3659 BOT tag is visible in Saved Posts', () => {
         // # Open saved posts
-        cy.get('#channelHeaderFlagButton').click();
+        cy.uiGetSavedPostButton().click();
 
         // * Verify bot badge
         cy.get('.sidebar--right__title').should('contain.text', 'Saved Posts');

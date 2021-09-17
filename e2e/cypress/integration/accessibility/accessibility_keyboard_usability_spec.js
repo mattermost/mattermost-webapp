@@ -38,7 +38,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
 
                 cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
-                        // # Login as test user, visit town-square and post few messages
+                        // # Login as test user, visit test channel and post few messages
                         cy.apiLogin(user);
                         cy.visit(`/${team.name}/channels/${testChannel.name}`);
                     });
