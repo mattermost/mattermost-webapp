@@ -1059,6 +1059,7 @@
     }
 
     .post-edited__indicator {
+        display: inline-block;
         color: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 11px;
         font-style: italic;
