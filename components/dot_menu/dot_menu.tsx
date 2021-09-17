@@ -12,7 +12,8 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
 
-import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
+import {trackEvent} from 'actions/telemetry_actions';
+import {Locations, ModalIdentifiers, Constants, TELEMETRY_CATEGORIES} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import DelayedAction from 'utils/delayed_action';
@@ -24,6 +25,18 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 
 const MENU_BOTTOM_MARGIN = 80;
+const TRACK_EVENT_MORE_CLICK_PREFIX = 'menu_click_';
+const TRACK_EVENT_MORE_SHORTCUT_PREFIX = 'shortcut_key_';
+
+const MORE_LABEL_COPY_LINK = 'copy_link';
+const MORE_LABEL_DELETE = 'delete';
+const MORE_LABEL_EDIT = 'edit';
+const MORE_LABEL_FOLLOW = 'follow';
+const MORE_LABEL_UNFOLLOW = 'unfollow';
+const MORE_LABEL_PIN = 'pin';
+const MORE_LABEL_UNPIN = 'unpin';
+const MORE_LABEL_REPLY = 'reply';
+const MORE_LABEL_UNREAD = 'unread';
 
 type ChangeEvent = React.KeyboardEvent | React.MouseEvent;
 
@@ -288,6 +301,24 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
+    trackShortcutEvent = (suffix: string): void => {
+        trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, TRACK_EVENT_MORE_SHORTCUT_PREFIX + suffix);
+    }
+
+    trackClickEvent = (suffix: string): void => {
+        trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, TRACK_EVENT_MORE_CLICK_PREFIX + suffix);
+    }
+
+    handleOnclick = (suffix: string, cb: () => void): void => {
+        this.trackClickEvent(suffix);
+        cb();
+    }
+
+    handleOnclickWithEvent = (suffix: string, cb: (e: ChangeEvent) => void, e: ChangeEvent): void => {
+        this.trackClickEvent(suffix);
+        cb(e);
+    }
+
     isKeyboardEvent = (e: ChangeEvent): e is React.KeyboardEvent => {
         return (e as React.KeyboardEvent).getModifierState !== undefined;
     }
@@ -305,35 +336,51 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
+            this.trackShortcutEvent(MORE_LABEL_REPLY);
             this.props.handleCommentClick(e);
             break;
 
         // edit post
         case Utils.isKeyPressed(e, Constants.KeyCodes.E):
+            this.trackShortcutEvent(MORE_LABEL_EDIT);
             this.handleEditMenuItemActivated();
             break;
 
+        // follow thread
         case Utils.isKeyPressed(e, Constants.KeyCodes.F):
+            if (this.props.isFollowingThread) {
+                this.trackShortcutEvent(MORE_LABEL_UNFOLLOW);
+            } else {
+                this.trackShortcutEvent(MORE_LABEL_FOLLOW);
+            }
             this.handleSetThreadFollow();
             break;
 
         // copy link
         case Utils.isKeyPressed(e, Constants.KeyCodes.K):
+            this.trackShortcutEvent(MORE_LABEL_COPY_LINK);
             this.copyLink();
             break;
 
         // delete post
         case Utils.isKeyPressed(e, Constants.KeyCodes.DELETE):
+            this.trackShortcutEvent(MORE_LABEL_DELETE);
             this.handleDeleteMenuItemActivated(e);
             break;
 
         // pin / unpin
         case Utils.isKeyPressed(e, Constants.KeyCodes.P):
+            if (this.props.post.is_pinned) {
+                this.trackShortcutEvent(MORE_LABEL_UNPIN);
+            } else {
+                this.trackShortcutEvent(MORE_LABEL_PIN);
+            }
             this.handlePinMenuItemActivated();
             break;
 
         // mark as unread
         case Utils.isKeyPressed(e, Constants.KeyCodes.U):
+            this.trackShortcutEvent(MORE_LABEL_UNREAD);
             this.props.actions.markPostAsUnread(this.props.post, this.props.location);
             break;
         }
@@ -400,7 +447,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.reply', 'Reply')}
                         leftDecorator={this.getIcon('icon-reply-outline')}
                         rightDecorator={'R'}
-                        onClick={this.props.handleCommentClick}
+                        onClick={(e: any) => {
+                            this.handleOnclickWithEvent(MORE_LABEL_REPLY, this.props.handleCommentClick, e);
+                        }}
                     />
                     <ChannelPermissionGate
                         channelId={this.props.post.channel_id}
@@ -415,7 +464,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     </ChannelPermissionGate>
                     <Menu.ItemAction
                         id={`follow_post_thread_${this.props.post.id}`}
-                        onClick={this.handleSetThreadFollow}
+                        onClick={() => {
+                            const label = this.props.isFollowingThread ? MORE_LABEL_UNFOLLOW : MORE_LABEL_FOLLOW;
+                            this.handleOnclick(label, this.handleSetThreadFollow);
+                        }}
                         rightDecorator={'F'}
                         show={(
                             !isSystemMessage &&
@@ -442,7 +494,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                         leftDecorator={this.getIcon('icon-mark-as-unread')}
                         rightDecorator={'U'}
-                        onClick={this.handleUnreadMenuItemActivated}
+                        onClick={() => {
+                            this.handleOnclick(MORE_LABEL_UNREAD, this.handleUnreadMenuItemActivated);
+                        }}
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && this.props.isFlagged}
@@ -460,7 +514,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.unpin', 'Unpin')}
                         leftDecorator={this.getIcon('icon-pin-outline post-menu__item--active')}
                         rightDecorator={'P'}
-                        onClick={this.handlePinMenuItemActivated}
+                        onClick={() => {
+                            this.handleOnclick(MORE_LABEL_UNPIN, this.handlePinMenuItemActivated);
+                        }}
                     />
                     <Menu.ItemAction
                         id={`pin_post_${this.props.post.id}`}
@@ -468,7 +524,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         leftDecorator={this.getIcon('icon-pin-outline')}
                         rightDecorator={'P'}
-                        onClick={this.handlePinMenuItemActivated}
+                        onClick={() => {
+                            this.handleOnclick(MORE_LABEL_PIN, this.handlePinMenuItemActivated);
+                        }}
                     />
                     {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
@@ -477,7 +535,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.permalink', 'Copy Link')}
                         leftDecorator={this.getIcon('icon-link-variant')}
                         rightDecorator={'K'}
-                        onClick={this.copyLink}
+                        onClick={() => {
+                            this.handleOnclick(MORE_LABEL_COPY_LINK, this.copyLink);
+                        }}
                     />
                     {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
@@ -486,7 +546,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.edit', 'Edit')}
                         leftDecorator={this.getIcon('icon-pencil-outline')}
                         rightDecorator={'E'}
-                        onClick={this.handleEditMenuItemActivated}
+                        onClick={() => {
+                            this.handleOnclick(MORE_LABEL_EDIT, this.handleEditMenuItemActivated);
+                        }}
                     />
                     <Menu.ItemAction
                         id={`delete_post_${this.props.post.id}`}
@@ -494,7 +556,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         leftDecorator={this.getIcon('icon-trash-can-outline')}
                         rightDecorator={'delete'}
-                        onClick={this.handleDeleteMenuItemActivated}
+                        onClick={(e: any) => {
+                            this.handleOnclickWithEvent(MORE_LABEL_DELETE, this.handleDeleteMenuItemActivated, e);
+                        }}
                         isDangerous={true}
                     />
                 </Menu>

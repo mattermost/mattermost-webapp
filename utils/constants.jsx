@@ -476,6 +476,7 @@ export const CloudBanners = {
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    POST_INFO_MORE: 'post_info_more',
 };
 
 export const PostTypes = {
