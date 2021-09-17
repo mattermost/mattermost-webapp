@@ -18,8 +18,8 @@ import './draft_title.scss';
 type Props = {
     channel: Channel;
     channelName: string;
-    teammate: UserProfile;
-    teammateId: string;
+    teammate?: UserProfile;
+    teammateId?: string;
     type: 'channel' | 'thread';
 }
 

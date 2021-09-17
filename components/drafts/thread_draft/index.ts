@@ -7,9 +7,15 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 
+import {GlobalState} from 'types/store';
+
 import ThreadDraft from './thread_draft';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    id: string;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const post = getPost(state, ownProps.id);
 
     let thread;

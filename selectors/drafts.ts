@@ -4,7 +4,6 @@
 import {createSelector} from 'reselect';
 
 import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getAllPosts} from 'mattermost-redux/selectors/entities/posts';
 import {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/rhs';
 

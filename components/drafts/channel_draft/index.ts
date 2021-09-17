@@ -5,9 +5,15 @@ import {connect} from 'react-redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {GlobalState} from 'types/store';
+
 import ChannelDraft from './channel_draft';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    id: string;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const channel = getChannel(state, ownProps.id);
 
     return {

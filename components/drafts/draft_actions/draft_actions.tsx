@@ -10,9 +10,11 @@ import {UserThread, UserThreadSynthetic} from 'mattermost-redux/types/threads';
 import {Post} from 'mattermost-redux/types/posts';
 import {Channel} from 'mattermost-redux/types/channels';
 
+import {PostDraft} from 'types/store/rhs';
+
 import {selectPost} from 'actions/views/rhs';
 import {makeOnSubmit} from 'actions/views/create_comment';
-import {setGlobalItem, removeGlobalItem} from 'actions/storage';
+import {setGlobalItem} from 'actions/storage';
 import {getChannelURL} from 'utils/utils';
 
 import GenericModal from 'components/generic_modal';
@@ -26,10 +28,10 @@ type Props = {
     channelName: string;
     draftId: string;
     id: string;
-    latestPostId: string;
+    latestPostId?: string;
     thread?: UserThread | UserThreadSynthetic;
     type: string;
-    value: any;
+    value: PostDraft;
 }
 
 function DraftActions({
@@ -49,8 +51,8 @@ function DraftActions({
     const channelUrl = useSelector((state) => getChannelURL(state, channel, teamId));
 
     const onSubmit = useMemo(() => makeOnSubmit(
-        channel.id, thread?.id || '', latestPostId,
-    ), [channel.id, thread?.id]);
+        channel.id, thread?.id || '', latestPostId || '',
+    ), [channel.id, thread?.id, latestPostId]);
 
     const handleSubmit = async () => {
         await dispatch(onSubmit(value));

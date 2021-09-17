@@ -24,7 +24,7 @@ type Props = {
     drafts: Draft[];
     user: UserProfile;
     displayName: string;
-    status: UserStatus;
+    status: UserStatus['status'];
 }
 
 function Drafts({

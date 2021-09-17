@@ -9,9 +9,17 @@ import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {Constants} from 'utils/constants';
 
+import {Channel} from 'mattermost-redux/types/channels';
+import {GlobalState} from 'types/store';
+
 import DraftTitle from './draft_title';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    channel: Channel;
+    userId: string;
+};
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const {channel, userId} = ownProps;
 
     let channelName = channel.display_name;

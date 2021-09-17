@@ -11,7 +11,7 @@ import ThreadDraft from './thread_draft';
 
 type Props = {
     user: UserProfile;
-    status: UserStatus;
+    status: UserStatus['status'];
     displayName: string;
     draft: Draft;
 }
@@ -33,7 +33,7 @@ function DraftRow({draft, user, status, displayName}: Props) {
     return (
         <Component
             {...draft}
-            draftId={draft.key}
+            draftId={String(draft.key)}
             user={user}
             status={status}
             displayName={displayName}

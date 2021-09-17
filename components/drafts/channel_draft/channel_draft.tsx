@@ -22,8 +22,7 @@ type Props = {
     displayName: string;
     draftId: string;
     id: $ID<Channel>;
-    status: UserStatus;
-    timestamp: Date;
+    status: UserStatus['status'];
     type: 'channel' | 'thread';
     user: UserProfile;
     value: PostDraft;
@@ -69,13 +68,12 @@ function ChannelDraft({
                         )}
                         title={(
                             <DraftTitle
-                                type={type}
                                 channel={channel}
+                                type={type}
                                 userId={user.id}
                             />
                         )}
                         timestamp={value.createAt}
-                        user={user}
                     />
                     <Body
                         channelId={channel.id}

@@ -19,13 +19,12 @@ import Header from '../panel/panel_header';
 import Body from '../panel/panel_body';
 
 type Props = {
-    channel: Channel;
+    channel?: Channel;
     displayName: string;
     draftId: string;
     id: $ID<UserThread | UserThreadSynthetic>;
-    status: UserStatus;
-    thread: UserThread | UserThreadSynthetic;
-    timestamp: Date;
+    status: UserStatus['status'];
+    thread?: UserThread | UserThreadSynthetic;
     type: 'channel' | 'thread';
     user: UserProfile;
     value: PostDraft;
@@ -50,7 +49,7 @@ function ThreadDraft({
         }
     }, [thread?.id]);
 
-    if (!thread) {
+    if (!thread || !channel) {
         return null;
     }
 
@@ -79,7 +78,6 @@ function ThreadDraft({
                             />
                         )}
                         timestamp={value.createAt}
-                        user={user}
                     />
                     <Body
                         channelId={channel.id}

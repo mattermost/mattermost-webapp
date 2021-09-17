@@ -23,7 +23,7 @@ type Props = {
     draftId: string;
     fileInfos: PostDraft['fileInfos'];
     message: string;
-    status: UserStatus;
+    status: UserStatus['status'];
     uploadsInProgress: PostDraft['uploadsInProgress'];
     user: UserProfile;
 }
@@ -48,7 +48,7 @@ function Body({
         <div className='PanelBody'>
             <div className='PanelBody__left'>
                 <ProfilePicture
-                    status={String(status)}
+                    status={status}
                     channelId={channelId}
                     username={user.username}
                     userId={user.id}

@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
 import Timestamp from 'components/timestamp';
 import Label, {LabelType} from 'components/label/label';
 
 import './panel_header.scss';
 
-const TIMESTAMP_PROPS = {
+const TIMESTAMP_PROPS: Partial<ComponentProps<typeof Timestamp>> = {
     day: 'numeric',
     useSemanticOutput: false,
     useTime: false,
@@ -49,7 +49,7 @@ function PanelHeader({
                     <div className='PanelHeader__timestamp'>
                         {Boolean(timestamp) && (
                             <Timestamp
-                                value={new Date(timestamp).getTime()}
+                                value={new Date(timestamp)}
                                 {...TIMESTAMP_PROPS}
                             />
                         )}
