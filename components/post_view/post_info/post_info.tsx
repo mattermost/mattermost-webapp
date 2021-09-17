@@ -280,11 +280,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 data-testid={`post-menu-${post.id}`}
                 className={'col post-menu'}
             >
+                {!collapsedThreadsEnabled && dotMenu}
                 {postReaction}
                 {postFlagIcon}
                 {actionsMenu}
                 {commentIcon}
-                {!collapsedThreadsEnabled && dotMenu}
                 {collapsedThreadsEnabled && dotMenu}
             </div>
         );
