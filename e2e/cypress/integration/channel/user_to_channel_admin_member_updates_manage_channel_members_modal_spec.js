@@ -70,7 +70,7 @@ describe('Change Roles', () => {
     it('MM-10858 - Going from a Channel Member to Channel Admin update view member modal without refresh', () => {
         // # Go to member modal
         cy.uiGetChannelMemberButton().click();
-        cy.findByText('View Members').click();
+        cy.findByText('Manage Members').click();
 
         // * Check to see if no drop down menu exists
         cy.findAllByTestId('userListItemActions').then((el) => {
