@@ -401,7 +401,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
                 <EmojiPickerOverlay
                     show={showEmojiPicker}
                     container={() => textboxRef.current}
-                    target={emojiButtonRef}
+                    target={() => emojiButtonRef.current}
                     onHide={hideEmojiPicker}
                     onEmojiClick={handleEmojiClick}
                     onGifClick={handleGifClick}
