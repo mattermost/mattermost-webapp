@@ -530,11 +530,11 @@ export default class RhsComment extends React.PureComponent {
                     data-testid={`post-menu-${this.props.post.id}`}
                     className='col post-menu'
                 >
-                    {!collapsedThreadsEnabled && dotMenu}
+                    {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
                     {showRecentReacions}
                     {postReaction}
                     {flagIcon}
-                    {collapsedThreadsEnabled && dotMenu}
+                    {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 </div>
             );
         }

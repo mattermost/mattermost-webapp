@@ -374,11 +374,11 @@ export default class RhsRootPost extends React.PureComponent {
                     ref={this.dotMenuRef}
                     className='col post-menu'
                 >
-                    {!collapsedThreadsEnabled && dotMenu}
+                    {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
                     {showRecentReacions}
                     {postReaction}
                     {postFlagIcon}
-                    {collapsedThreadsEnabled && dotMenu}
+                    {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 </div>
             );
         }
