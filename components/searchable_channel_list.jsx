@@ -60,7 +60,7 @@ export default class SearchableChannelList extends React.PureComponent {
             channel,
             () => {
                 this.setState({previewingChannel: ''});
-            }
+            },
         );
     }
 
@@ -75,7 +75,7 @@ export default class SearchableChannelList extends React.PureComponent {
     }
 
     setIsActionVisible(channelId) {
-        this.setState({selectedChannelRow: channelId})
+        this.setState({selectedChannelRow: channelId});
     }
 
     createChannelRow = (channel) => {
@@ -84,6 +84,9 @@ export default class SearchableChannelList extends React.PureComponent {
         let sharedIcon;
         let previewButton;
         let joinButton;
+
+        const member = false;
+
         const {shouldShowArchivedChannels} = this.props;
 
         const rowSelected = this.state.selectedChannelRow === channel.id ? 'more-modal__row--selected' : '';
@@ -94,7 +97,7 @@ export default class SearchableChannelList extends React.PureComponent {
                     <ArchiveIcon className='icon icon__archive'/>
                 </div>
             );
-        } else {// if (!member) { // if channel is not a member of this channel
+        } else if (!member) {
             previewButton = (
                 <button
                     onClick={this.handlePreview.bind(this, channel)}
@@ -114,7 +117,7 @@ export default class SearchableChannelList extends React.PureComponent {
             );
         }
 
-//        if (!member) {
+        if (!member) {
             joinButton = (
                 <button
                     onClick={this.handleJoin.bind(this, channel)}
@@ -131,8 +134,8 @@ export default class SearchableChannelList extends React.PureComponent {
                         />
                     </LoadingWrapper>
                 </button>
-            ); 
- //       }
+            );
+        }
 
         if (channel.shared) {
             sharedIcon = (
@@ -152,8 +155,8 @@ export default class SearchableChannelList extends React.PureComponent {
                 onClick={this.handlePreview.bind(this, channel)}
                 onMouseEnter={() => this.setIsActionVisible(channel.id)}
                 onMouseLeave={() => this.setIsActionVisible(null)}
-            > 
-                <div className='more-modal__details'> 
+            >
+                <div className='more-modal__details'>
                     <button
                         onClick={shouldShowArchivedChannels ? this.handleJoin.bind(this, channel) : this.handlePreview.bind(this, channel)}
                         aria-label={ariaLabel}
