@@ -22,7 +22,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool, getPrewrittenMessagesTreatment} from 'mattermost-redux/selectors/entities/preferences';
