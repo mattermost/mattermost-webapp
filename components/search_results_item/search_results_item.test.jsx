@@ -83,6 +83,7 @@ describe('components/SearchResultsItem', () => {
             },
             directTeammate: '',
             displayName: 'Other guy',
+            canReply: true,
         };
     });
 
@@ -247,5 +248,31 @@ describe('components/SearchResultsItem', () => {
         expect(postPreHeader.prop('skipPinned')).toEqual(props.isPinnedPosts);
         expect(postPreHeader.prop('skipFlagged')).toEqual(props.isFlaggedPosts);
         expect(postPreHeader.prop('channelId')).toEqual(defaultProps.post.channel_id);
+    });
+
+    test('should show team name when provided', () => {
+        const props = {
+            ...defaultProps,
+            channelTeamName: 'teamname',
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should hide reply button when said so', () => {
+        const props = {
+            ...defaultProps,
+            canReply: false,
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

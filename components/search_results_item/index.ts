@@ -39,7 +39,8 @@ interface OwnProps {
     post: Post;
 }
 
-function mapStateToProps() {
+// Exported for testing
+export function mapStateToProps() {
     const getReplyCount = makeGetCommentCountForPost();
 
     return (state: GlobalState, ownProps: OwnProps) => {
