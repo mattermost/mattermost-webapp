@@ -12,9 +12,9 @@
 
 describe('Account Settings > Display > Channel Display Mode', () => {
     before(() => {
-        // # Login as new user, visit town-square and post a message
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user, visit off-topic and post a message
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
             cy.postMessage('Test for channel display mode');
         });
     });
@@ -77,9 +77,6 @@ describe('Account Settings > Display > Channel Display Mode', () => {
 
         // # Click "x" button to close Account Settings modal
         cy.uiClose();
-
-        // # Go to channel which has any posts
-        cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the post content in center channel is full width
         // by checking the exact class name.

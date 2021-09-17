@@ -31,9 +31,9 @@ $emoji-per-row: 9; // needs to match variable `EMOJI_PER_ROW` in emoji_picker.js
 $transition-quick: 0.12s;
 
 // Elevations
-$elevation-1: 0 2px 3px 0 alpha-color($black, 0.08);
-$elevation-2: 0 4px 6px 0 alpha-color($black, 0.12);
-$elevation-3: 0 6px 14px 0 alpha-color($black, 0.12);
-$elevation-4: 0 8px 24px 0 alpha-color($black, 0.12);
-$elevation-5: 0 12px 32px 0 alpha-color($black, 0.12);
-$elevation-6: 0 20px 32px 0 alpha-color($black, 0.12);
+$elevation-1: var(--elevation-1);
+$elevation-2: var(--elevation-2);
+$elevation-3: var(--elevation-3);
+$elevation-4: var(--elevation-4);
+$elevation-5: var(--elevation-5);
+$elevation-6: var(--elevation-6);

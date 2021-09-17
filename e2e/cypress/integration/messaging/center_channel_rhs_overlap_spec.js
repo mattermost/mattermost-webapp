@@ -854,8 +854,8 @@ describe('Messaging', () => {
 });
 
 function setSendMessagesOnCtrlEnter(name) {
-    // # Open 'Advanced' section of 'Account Settings' modal
-    cy.uiOpenAccountSettingsModal('Advanced').within(() => {
+    // # Open 'Advanced' section of 'Settings' modal
+    cy.uiOpenSettingsModal('Advanced').within(() => {
         // # Open 'Send Messages on Cmd/Ctrl+Enter' setting
         cy.findByRole('heading', {name: `Send Messages on ${isMac() ? '⌘+ENTER' : 'CTRL+ENTER'}`}).should('be.visible').click();
 

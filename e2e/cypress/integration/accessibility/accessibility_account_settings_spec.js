@@ -76,8 +76,8 @@ describe('Verify Accessibility Support in different sections in Account Settings
         });
 
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
             cy.postMessage('hello');
         });
     });

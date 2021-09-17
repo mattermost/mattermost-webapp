@@ -30,12 +30,12 @@ describe('Account Settings - Clock Display Mode', () => {
             },
         });
 
-        // # Login as new user, visit town-square and post a message
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+        // # Login as new user, visit off-topic and post a message
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel, offTopicUrl}) => {
             testTeam = team;
             testChannel = channel;
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
             cy.postMessage(mainMessage);
 
             // # Open RHS and post two consecutive replies

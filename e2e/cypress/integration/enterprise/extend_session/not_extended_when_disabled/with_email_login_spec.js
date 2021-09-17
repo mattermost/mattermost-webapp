@@ -20,6 +20,7 @@ describe('Extended Session Length', () => {
         },
     };
     let emailUser;
+    let offTopicUrl;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -28,8 +29,9 @@ describe('Extended Session Length', () => {
         // * Server database should match with the DB client and config at "cypress.json"
         cy.apiRequireServerDBToMatch();
 
-        cy.apiInitSetup().then(({user}) => {
+        cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             emailUser = user;
+            offTopicUrl = url;
         });
     });
 
@@ -43,7 +45,8 @@ describe('Extended Session Length', () => {
         setting.ServiceSettings.ExtendSessionLengthWithActivity = true;
         cy.apiUpdateConfig(setting);
 
-        verifyExtendedSession(emailUser, sessionLengthInDays, () => cy.apiLogin(emailUser));
+        cy.apiLogin(emailUser);
+        verifyExtendedSession(emailUser, sessionLengthInDays, offTopicUrl);
     });
 
     it('MM-T4045_2 Email user session should not extend even with user activity when disabled', () => {
@@ -51,6 +54,7 @@ describe('Extended Session Length', () => {
         setting.ServiceSettings.ExtendSessionLengthWithActivity = false;
         cy.apiUpdateConfig(setting);
 
-        verifyNotExtendedSession(emailUser, () => cy.apiLogin(emailUser));
+        cy.apiLogin(emailUser);
+        verifyNotExtendedSession(emailUser, offTopicUrl);
     });
 });
