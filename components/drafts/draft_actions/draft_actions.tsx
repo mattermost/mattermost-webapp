@@ -115,7 +115,7 @@ function DraftActions({
         );
         confirmButtonText = localizeMessage(
             'drafts.confirm.send.button',
-            'Yes, Send now Message now',
+            'Yes, Send Now',
         );
         message = (
             <FormattedMessage

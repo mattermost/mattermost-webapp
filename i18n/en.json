@@ -2941,7 +2941,7 @@
   "drafts.confirm.delete.button": "Yes, Delete",
   "drafts.confirm.delete.text": "Are you sure you want to delete this draft to <b>{channelName}</b>?",
   "drafts.confirm.delete.title": "Delete Draft",
-  "drafts.confirm.send.button": "Yes, Send now Message now",
+  "drafts.confirm.send.button": "Yes, Send Now",
   "drafts.confirm.send.text": "Are you sure you want to send this message to <b>{channelName}</b>?",
   "drafts.confirm.send.title": "Send Message now",
   "drafts.draft_title.channel": "To: {icon} {channelName}",
