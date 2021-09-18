@@ -13,7 +13,7 @@ import {Team} from 'mattermost-redux/types/teams';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {Locations, ModalIdentifiers, Constants, TELEMETRY_CATEGORIES, TELEMETRY_EVENT_TYPES, TELEMETRY_LABELS} from 'utils/constants';
+import {Locations, ModalIdentifiers, Constants, EventTypes, TELEMETRY_CATEGORIES, TELEMETRY_LABELS} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import DelayedAction from 'utils/delayed_action';
@@ -290,11 +290,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     trackShortcutEvent = (suffix: string): void => {
-        trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, TELEMETRY_EVENT_TYPES.SHORTCUT_PREFIX + suffix);
+        trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, EventTypes.SHORTCUT + '_ ' + suffix);
     }
 
     trackClickEvent = (suffix: string): void => {
-        trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, TELEMETRY_EVENT_TYPES.CLICK_PREFIX + suffix);
+        trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, EventTypes.CLICK + '_' + suffix);
     }
 
     handleOnclick = (suffix: string, cb: () => void): void => {

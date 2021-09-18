@@ -332,6 +332,7 @@ export const EventTypes = Object.assign(
         CLICK: 'click',
         FOCUS: 'focus',
         BLUR: 'blur',
+        SHORTCUT: 'shortcut',
         MOUSE_DOWN: 'mousedown',
         MOUSE_UP: 'mouseup',
     },
@@ -478,11 +479,6 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_ADMIN: 'cloud_admin',
     POST_INFO_MORE: 'post_info_more_menu',
     POST_INFO: 'post_info',
-};
-
-export const TELEMETRY_EVENT_TYPES = {
-    CLICK_PREFIX: 'menu_click_',
-    SHORTCUT_PREFIX: 'shortcut_key_',
 };
 
 export const TELEMETRY_LABELS = {
