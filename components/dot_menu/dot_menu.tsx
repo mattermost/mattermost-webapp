@@ -297,12 +297,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, EventTypes.CLICK + '_' + suffix);
     }
 
-    handleOnclick = (suffix: string, cb: () => void): void => {
+    handleOnClick = (suffix: string, cb: () => void): void => {
         this.trackClickEvent(suffix);
         cb();
     }
 
-    handleOnclickWithEvent = (suffix: string, cb: (e: ChangeEvent) => void, e: ChangeEvent): void => {
+    handleOnClickWithEvent = (suffix: string, cb: (e: ChangeEvent) => void, e: ChangeEvent): void => {
         this.trackClickEvent(suffix);
         cb(e);
     }
@@ -436,7 +436,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={this.getIcon('icon-reply-outline')}
                         rightDecorator={'R'}
                         onClick={(e: any) => {
-                            this.handleOnclickWithEvent(TELEMETRY_LABELS.REPLY, this.props.handleCommentClick, e);
+                            this.handleOnClickWithEvent(TELEMETRY_LABELS.REPLY, this.props.handleCommentClick, e);
                         }}
                     />
                     <ChannelPermissionGate
@@ -454,7 +454,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`follow_post_thread_${this.props.post.id}`}
                         onClick={() => {
                             const label = this.props.isFollowingThread ? TELEMETRY_LABELS.UNFOLLOW : TELEMETRY_LABELS.FOLLOW;
-                            this.handleOnclick(label, this.handleSetThreadFollow);
+                            this.handleOnClick(label, this.handleSetThreadFollow);
                         }}
                         rightDecorator={'F'}
                         show={(
@@ -483,7 +483,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={this.getIcon('icon-mark-as-unread')}
                         rightDecorator={'U'}
                         onClick={() => {
-                            this.handleOnclick(TELEMETRY_LABELS.UNREAD, this.handleUnreadMenuItemActivated);
+                            this.handleOnClick(TELEMETRY_LABELS.UNREAD, this.handleUnreadMenuItemActivated);
                         }}
                     />
                     <Menu.ItemAction
@@ -503,7 +503,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={this.getIcon('icon-pin-outline post-menu__item--active')}
                         rightDecorator={'P'}
                         onClick={() => {
-                            this.handleOnclick(TELEMETRY_LABELS.UNPIN, this.handlePinMenuItemActivated);
+                            this.handleOnClick(TELEMETRY_LABELS.UNPIN, this.handlePinMenuItemActivated);
                         }}
                     />
                     <Menu.ItemAction
@@ -513,7 +513,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={this.getIcon('icon-pin-outline')}
                         rightDecorator={'P'}
                         onClick={() => {
-                            this.handleOnclick(TELEMETRY_LABELS.PIN, this.handlePinMenuItemActivated);
+                            this.handleOnClick(TELEMETRY_LABELS.PIN, this.handlePinMenuItemActivated);
                         }}
                     />
                     {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
@@ -524,7 +524,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={this.getIcon('icon-link-variant')}
                         rightDecorator={'K'}
                         onClick={() => {
-                            this.handleOnclick(TELEMETRY_LABELS.COPY_LINK, this.copyLink);
+                            this.handleOnClick(TELEMETRY_LABELS.COPY_LINK, this.copyLink);
                         }}
                     />
                     {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
@@ -535,7 +535,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={this.getIcon('icon-pencil-outline')}
                         rightDecorator={'E'}
                         onClick={() => {
-                            this.handleOnclick(TELEMETRY_LABELS.EDIT, this.handleEditMenuItemActivated);
+                            this.handleOnClick(TELEMETRY_LABELS.EDIT, this.handleEditMenuItemActivated);
                         }}
                     />
                     <Menu.ItemAction
@@ -545,7 +545,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={this.getIcon('icon-trash-can-outline')}
                         rightDecorator={'delete'}
                         onClick={(e: any) => {
-                            this.handleOnclickWithEvent(TELEMETRY_LABELS.DELETE, this.handleDeleteMenuItemActivated, e);
+                            this.handleOnClickWithEvent(TELEMETRY_LABELS.DELETE, this.handleDeleteMenuItemActivated, e);
                         }}
                         isDangerous={true}
                     />

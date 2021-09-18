@@ -93,7 +93,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         this.buttonRef = React.createRef<HTMLButtonElement>();
     }
 
-    // listen to clicks/taps on add reaction menu item and pass to parent handler
     tooltip = (
         <Tooltip
             id='actions-menu-icon-tooltip'
@@ -158,7 +157,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         );
 
         const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
-
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error || intl.formatMessage({
