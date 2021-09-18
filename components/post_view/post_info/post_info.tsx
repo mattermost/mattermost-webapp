@@ -13,9 +13,10 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import {Post} from 'mattermost-redux/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
-import Constants, {Locations} from 'utils/constants';
+import Constants, {TELEMETRY_CATEGORIES, TELEMETRY_EVENT_TYPES, TELEMETRY_LABELS, Locations} from 'utils/constants';
 import CommentIcon from 'components/post_view/comment_icon';
 import DotMenu from 'components/dot_menu';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -212,7 +213,10 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         if (showCommentIcon) {
             commentIcon = (
                 <CommentIcon
-                    handleCommentClick={this.props.handleCommentClick}
+                    handleCommentClick={(e) => {
+                        trackEvent(TELEMETRY_CATEGORIES.POST_INFO, TELEMETRY_EVENT_TYPES.CLICK_PREFIX + TELEMETRY_LABELS.REPLY);
+                        this.props.handleCommentClick(e);
+                    }}
                     postId={post.id}
                     extraClass={commentIconExtraClass}
                 />

@@ -476,7 +476,25 @@ export const CloudBanners = {
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
-    POST_INFO_MORE: 'post_info_more',
+    POST_INFO_MORE: 'post_info_more_menu',
+    POST_INFO: 'post_info',
+};
+
+export const TELEMETRY_EVENT_TYPES = {
+    CLICK_PREFIX: 'menu_click_',
+    SHORTCUT_PREFIX: 'shortcut_key_',
+};
+
+export const TELEMETRY_LABELS = {
+    COPY_LINK: 'copy_link',
+    DELETE: 'delete',
+    EDIT: 'edit',
+    FOLLOW: 'follow',
+    UNFOLLOW: 'unfollow',
+    PIN: 'pin',
+    UNPIN: 'unpin',
+    REPLY: 'reply',
+    UNREAD: 'unread',
 };
 
 export const PostTypes = {
