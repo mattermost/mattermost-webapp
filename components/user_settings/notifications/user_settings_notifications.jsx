@@ -1025,9 +1025,12 @@ export default class NotificationsTab extends React.PureComponent {
                     <div className='divider-light'/>
                     {keysSection}
                     <div className='divider-light'/>
-                    {commentsSection}
-                    <div className='divider-light'/>
-                    {autoResponderSection}
+                    {!this.props.isCollapsedThreadsEnabled && (
+                        <>
+                            {commentsSection}
+                            <div className='divider-light'/>
+                        </>
+                    )}
                     <div className='divider-light'/>
                     <NotificationScheduleSetting
                         saving={this.state.isSaving}
@@ -1036,6 +1039,8 @@ export default class NotificationsTab extends React.PureComponent {
                         activeSection={this.props.activeSection}
                         updateSection={this.handleUpdateSection}
                     />
+                    <div className='divider-dark'/>
+                    {autoResponderSection}
                     <div className='divider-dark'/>
                 </div>
             </div>
