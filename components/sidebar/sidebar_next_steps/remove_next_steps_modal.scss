@@ -3,6 +3,23 @@
     z-index: 1050;
     top: 16px;
     left: 201px;
+
+    &.global-header {
+        position: absolute;
+        top: -2px;
+        left: 0;
+    }
+
+    &.mobile-helpbox {
+        top: 10px;
+        right: 0;
+        left: inherit;
+
+        .RemoveNextStepsModal__arrow {
+            margin-left: 8.5rem;
+            transform: scaleX(-1);
+        }
+    }
 }
 
 .RemoveNextStepsModal__helpText {
@@ -10,7 +27,7 @@
     width: 188px;
     margin-top: 4px;
     margin-left: -12px;
-    color: var(--center-channel-bg);
+    color: #fff;
     font-size: 12px;
     font-weight: 600;
     line-height: 16px;
@@ -19,6 +36,7 @@
 
 .modal .GenericModal.modal-dialog.RemoveNextStepsModal {
     max-width: 514px;
+    max-height: 350px;
     margin-top: calc(50vh - 133px);
 
     .GenericModal__header {
@@ -37,6 +55,8 @@
     }
 
     .modal-footer {
+        position: inherit;
+        padding: 30px 0;
         text-align: center;
     }
 
@@ -58,10 +78,14 @@
     clip-path: polygon(0 0, 0 63px, 240px 63px, 240px 0, 100% 0, 100% 100%, 0 100%);
 }
 
-.multi-teams ~ .RemoveNextStepsModal__helpBox {
+.multi-teams ~ .RemoveNextStepsModal__helpBox:not(.mobile-helpbox) {
     left: 266px;
 
     & ~ div .modal-backdrop.in {
         clip-path: polygon(0 0, 65px 0, 65px 63px, 305px 63px, 305px 0, 100% 0, 100% 100%, 0 100%);
     }
+}
+
+.mobile-helpbox ~ div .modal-backdrop.in {
+    clip-path: polygon(0 0, 0 50px, 100% 50px, 100% 0, 100% 100%, 0 100%);
 }

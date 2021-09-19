@@ -5,9 +5,13 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, IntlShape, injectIntl} from 'react-intl';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
+
+import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
 import AddChannelTutorialTip from './add_channel_tutorial_tip';
 
@@ -24,6 +28,7 @@ type Props = {
     townSquareDisplayName: string;
     offTopicDisplayName: string;
     showTutorialTip: boolean;
+    addChannelButton?: AddChannelButtonTreatments;
 };
 
 type State = {
@@ -31,6 +36,28 @@ type State = {
 };
 
 class AddChannelDropdown extends React.PureComponent<Props, State> {
+    getClassModifierForAbTest(): string {
+        let modifier = '';
+        if (!this.props.addChannelButton) {
+            return '';
+        }
+        switch (this.props.addChannelButton) {
+        case AddChannelButtonTreatments.NONE:
+            modifier = '';
+            break;
+        case AddChannelButtonTreatments.BY_TEAM_NAME:
+            modifier = 'by-team-name';
+            break;
+        case AddChannelButtonTreatments.INVERTED_SIDEBAR_BG_COLOR:
+            modifier = 'inverted-sidebar-bg-color';
+            break;
+        default:
+            modifier = '';
+        }
+
+        return modifier ? ` AddChannelDropdown_dropdownButton--${modifier}` : modifier;
+    }
+
     renderDropdownItems = () => {
         const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
 
@@ -106,6 +133,12 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         );
     }
 
+    trackOpen(opened: boolean) {
+        if (opened) {
+            trackEvent('ui', 'ui_add_channel_dropdown_opened');
+        }
+    }
+
     render() {
         const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
 
@@ -136,7 +169,10 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         }
 
         return (
-            <MenuWrapper className='AddChannelDropdown'>
+            <MenuWrapper
+                className='AddChannelDropdown'
+                onToggle={this.trackOpen}
+            >
                 <OverlayTrigger
                     delayShow={500}
                     placement='top'
@@ -144,7 +180,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 >
                     <>
                         <button
-                            className='AddChannelDropdown_dropdownButton'
+                            className={'AddChannelDropdown_dropdownButton' + this.getClassModifierForAbTest()}
                             aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
                         >
                             <i className='icon-plus'/>

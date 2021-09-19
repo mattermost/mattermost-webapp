@@ -229,7 +229,6 @@ class TestHelper {
             display_name: `Unit Test ${name}`,
             type: 'O',
             delete_at: 0,
-            total_msg_count: 0,
             scheme_id: this.generateId(),
         };
     };

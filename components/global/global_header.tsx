@@ -14,7 +14,6 @@ import {isDesktopApp} from 'utils/user_agent';
 
 import GlobalSearchNav from './global_search_nav/global_search_nav';
 import ProductSwitcher from './product_switcher';
-import ProductBranding from './product_branding';
 import HistoryButtons from './history_buttons';
 import UserGuideDropdown from './user_guide_dropdown';
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
@@ -22,7 +21,7 @@ import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
 import SettingsTip from './settings_tip';
 
-import {useCurrentProductId, useProducts, useShowTutorialStep} from './hooks';
+import {useCurrentProductId, useIsLoggedIn, useProducts, useShowTutorialStep} from './hooks';
 
 import './global_header.scss';
 
@@ -79,6 +78,7 @@ const RightControls = styled.div`
 
 const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
+    const isLoggedIn = useIsLoggedIn();
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
     const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
@@ -95,7 +95,7 @@ const GlobalHeader = (): JSX.Element | null => {
         };
     }, [enabled]);
 
-    if (!enabled) {
+    if (!enabled || !isLoggedIn) {
         return null;
     }
 
@@ -103,7 +103,6 @@ const GlobalHeader = (): JSX.Element | null => {
         <GlobalHeaderContainer>
             <LeftControls>
                 <ProductSwitcher/>
-                <ProductBranding/>
                 {isDesktopApp() && <HistoryButtons/>}
             </LeftControls>
             <CenterControls>

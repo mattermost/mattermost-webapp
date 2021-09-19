@@ -20,10 +20,10 @@ type Props = {
 
 const SettingsButton = (props: Props): JSX.Element | null => {
     const tooltip = (
-        <Tooltip id='channelPreferences'>
+        <Tooltip id='productSettings'>
             <FormattedMessage
-                id='channel_header.channelPreferences'
-                defaultMessage='Channel Preferences'
+                id='global_header.productSettings'
+                defaultMessage='Settings'
             />
         </Tooltip>
     );
@@ -39,11 +39,11 @@ const SettingsButton = (props: Props): JSX.Element | null => {
                 size={'sm'}
                 icon={'settings-outline'}
                 onClick={(): void => {
-                    props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentChannelPreferences: true}});
+                    props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
                 }}
                 inverted={true}
                 compact={true}
-                aria-label='Select to opens the settings modal.' // proper wording and translation needed
+                aria-label='Select to open the settings modal.' // proper wording and translation needed
             />
         </OverlayTrigger>
     );

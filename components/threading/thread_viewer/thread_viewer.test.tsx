@@ -41,10 +41,8 @@ describe('components/threading/ThreadViewer', () => {
         purpose: '',
         creator_id: '',
         scheme_id: '',
-        isCurrent: false,
         teammate_id: '',
         status: '',
-        fake: false,
     });
 
     const actions = {
@@ -54,6 +52,7 @@ describe('components/threading/ThreadViewer', () => {
         getThread: jest.fn(),
         updateThreadRead: jest.fn(),
         updateThreadLastOpened: jest.fn(),
+        fetchRHSAppsBindings: jest.fn(),
     };
 
     const directTeammate: UserProfile = TestHelper.getUserMock();
@@ -104,108 +103,6 @@ describe('components/threading/ThreadViewer', () => {
         expect(() => {
             shallow(<ThreadViewer {...props}/>);
         }).not.toThrowError("Cannot read property 'reply_count' of undefined");
-    });
-
-    test('should call fetchThread when no thread on mount', (done) => {
-        const {actions} = baseProps;
-
-        shallow(
-            <ThreadViewer
-                {...baseProps}
-                isCollapsedThreadsEnabled={true}
-            />,
-        );
-
-        expect.assertions(3);
-
-        process.nextTick(() => {
-            expect(actions.updateThreadLastOpened).not.toHaveBeenCalled();
-            expect(actions.updateThreadRead).not.toHaveBeenCalled();
-            expect(actions.getThread).toHaveBeenCalledWith('user_id', 'team_id', 'id', true);
-            done();
-        });
-    });
-
-    test('should call updateThreadLastOpened on mount', () => {
-        jest.useFakeTimers('modern').setSystemTime(400);
-        const {actions} = baseProps;
-        const userThread = {
-            id: 'id',
-            last_viewed_at: 42,
-            last_reply_at: 32,
-        } as UserThread;
-
-        shallow(
-            <ThreadViewer
-                {...baseProps}
-                userThread={userThread}
-                isCollapsedThreadsEnabled={true}
-            />,
-        );
-
-        expect.assertions(3);
-        expect(actions.updateThreadLastOpened).toHaveBeenCalledWith('id', 42);
-        expect(actions.updateThreadRead).not.toHaveBeenCalled();
-        expect(actions.getThread).not.toHaveBeenCalled();
-    });
-
-    test('should call updateThreadLastOpened and updateThreadRead on mount when unread replies', () => {
-        jest.useFakeTimers('modern').setSystemTime(400);
-        const {actions} = baseProps;
-        const userThread = {
-            id: 'id',
-            last_viewed_at: 42,
-            last_reply_at: 142,
-        } as UserThread;
-
-        shallow(
-            <ThreadViewer
-                {...baseProps}
-                userThread={userThread}
-                isCollapsedThreadsEnabled={true}
-            />,
-        );
-
-        expect.assertions(3);
-        expect(actions.updateThreadLastOpened).toHaveBeenCalledWith('id', 42);
-        expect(actions.updateThreadRead).toHaveBeenCalledWith('user_id', 'team_id', 'id', 400);
-        expect(actions.getThread).not.toHaveBeenCalled();
-    });
-
-    test('should call updateThreadLastOpened and updateThreadRead upon thread id change', (done) => {
-        jest.useRealTimers();
-        const dateNowOrig = Date.now;
-        Date.now = () => new Date(400).getMilliseconds();
-        const {actions} = baseProps;
-
-        const userThread = {
-            id: 'id',
-            last_viewed_at: 42,
-            last_reply_at: 142,
-        } as UserThread;
-
-        const wrapper = shallow(
-            <ThreadViewer
-                {...baseProps}
-                isCollapsedThreadsEnabled={true}
-            />,
-        );
-
-        expect.assertions(6);
-        process.nextTick(() => {
-            expect(actions.updateThreadLastOpened).not.toHaveBeenCalled();
-            expect(actions.updateThreadRead).not.toHaveBeenCalled();
-            expect(actions.getThread).toHaveBeenCalled();
-
-            jest.resetAllMocks();
-            wrapper.setProps({userThread});
-
-            expect(actions.updateThreadLastOpened).toHaveBeenCalledWith('id', 42);
-            expect(actions.updateThreadRead).toHaveBeenCalledWith('user_id', 'team_id', 'id', 400);
-            expect(actions.getThread).not.toHaveBeenCalled();
-            Date.now = dateNowOrig;
-            done();
-        });
     });
 
     test('should call fetchThread when no thread on mount', (done) => {

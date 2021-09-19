@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {useSelector} from 'react-redux';
+
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
-
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
@@ -15,9 +17,10 @@ import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable.svg';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import './add_members_button.scss';
 
@@ -37,13 +40,21 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const inviteUsers = totalUsers < usersLimit;
+    const currentTeamId = useSelector(getCurrentTeamId);
 
     return (
-        inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader) : moreThanMaxFreeUsers(channel, setHeader)
+        <TeamPermissionGate
+            teamId={currentTeamId}
+            permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
+        >
+            {inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader) : moreThanMaxFreeUsers(channel, setHeader)}
+        </TeamPermissionGate>
     );
 };
 
 const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
+    const {formatMessage} = useIntl();
+
     return (
         <>
             {setHeader}
@@ -58,23 +69,16 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
                         defaultMessage='Let’s add some people to the workspace!'
                     />
                     <ToggleModalButtonRedux
-                        accessibilityLabel={Utils.localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
+                        accessibilityLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                         id='introTextInvite'
                         className='intro-links color--link cursor--pointer'
                         modalId={ModalIdentifiers.INVITATION}
                         dialogType={InvitationModal}
                     >
-                        <FormattedMessage
-                            id='generic_icons.add'
-                            defaultMessage='Add Icon'
-                        >
-                            {(title: string) => (
-                                <i
-                                    className='icon-email-plus-outline'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <i
+                            className='icon-email-plus-outline'
+                            title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
+                        />
                         <FormattedMessage
                             id='intro_messages.inviteOthersToWorkspace.button'
                             defaultMessage='Invite others to the workspace'
@@ -93,6 +97,9 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
         return null;
     }
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+
+    const {formatMessage} = useIntl();
+
     return (
         <div className='MoreThanMaxFreeUsersWrapper'>
             <div className='MoreThanMaxFreeUsers'>
@@ -106,17 +113,10 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
                         dialogType={modal}
                         dialogProps={{channel}}
                     >
-                        <FormattedMessage
-                            id='generic_icons.add'
-                            defaultMessage='Add Icon'
-                        >
-                            {(title: string) => (
-                                <i
-                                    className='icon-account-plus-outline'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <i
+                            className='icon-account-plus-outline'
+                            title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
+                        />
                         {isPrivate && channel.group_constrained &&
                             <FormattedMessage
                                 id='intro_messages.inviteGropusToChannel.button'

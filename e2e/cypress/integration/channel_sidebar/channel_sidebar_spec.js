@@ -40,7 +40,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('be.visible').should('be.visible').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Click on Off Topic
         cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible').click();
@@ -62,7 +62,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('be.visible').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // * Verify that both Off Topic and Town Square are read
         cy.get('.SidebarChannel:not(.unread):contains(Off-Topic)').should('be.visible');
@@ -84,7 +84,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('be.visible').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Switch to Off Topic
         cy.visit(`/${teamName}/channels/off-topic`);
@@ -109,7 +109,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('be.visible').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Switch to Off Topic
         cy.visit(`/${teamName}/channels/off-topic`);
@@ -134,7 +134,7 @@ describe('Channel sidebar', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('be.visible').should('contain', testTeam.display_name);
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
         // # Create a new channel
         cy.apiCreateChannel(testTeam.id, `channel-${getRandomId()}`, 'New Test Channel').then(({channel}) => {

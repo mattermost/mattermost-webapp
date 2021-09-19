@@ -10,7 +10,8 @@ import {ProductComponent} from 'types/store/plugins';
 import {getBasePath} from 'utils/url';
 import {Preferences} from 'utils/constants';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {isModalOpen} from 'selectors/views/modals';
@@ -64,6 +65,10 @@ export const useShowTutorialStep = (stepToShow: number): boolean => {
     const step = useSelector<GlobalState, number>(boundGetInt);
 
     return step === stepToShow;
+};
+
+export const useIsLoggedIn = (): boolean => {
+    return Boolean(useSelector<GlobalState, UserProfile>(getCurrentUser));
 };
 
 /**

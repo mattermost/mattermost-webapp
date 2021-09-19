@@ -7,6 +7,12 @@
     --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
     --global-header-text-rgb: var(--sidebar-header-text-color-rgb);
 
+    @media screen and (max-width: 768px) {
+        > header {
+            display: none;
+        }
+    }
+
     @media screen and (min-width: 769px) {
         // ensure the global header always sits on top of it's immediate sibling
         > header {
@@ -47,6 +53,43 @@
             }
         }
 
+        .channel__wrap {
+
+            // indicates the RHS is open
+            &.move--left {
+
+                // adjust channel header width
+                #channel-header {
+                    width: calc(100% - 400px);
+                }
+            }
+        }
+
+        // adjust RHS position and height
+        #sidebar-right {
+            z-index: 20;
+            top: 0;
+
+            .sidebar-right-container {
+                height: 100%;
+            }
+
+            .sidebar--right__header {
+                flex-basis: 63px;
+            }
+
+            .sidebar--right__title {
+                height: auto;
+                align-items: center;
+                line-height: 63px;
+            }
+
+            // search bar container is now only for mobile
+            .search-bar__container {
+                display: none !important;
+            }
+        }
+
         .product-switcher-icon {
             padding: 0 6px;
         }
@@ -55,6 +98,34 @@
             position: relative;
             z-index: 2;
             margin-top: -40px;
+        }
+    }
+
+    @media screen and (min-width: 1680px) {
+        .channel__wrap {
+
+            // indicates the RHS is open
+            &.move--left {
+
+                // adjust channel header width
+                #channel-header {
+                    width: calc(100% - 500px);
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1020px) {
+        .channel__wrap {
+
+            // indicates the RHS is open
+            &.move--left {
+
+                // adjust channel header width
+                #channel-header {
+                    width: 100%;
+                }
+            }
         }
     }
 
@@ -79,7 +150,7 @@
         padding: 4px 8px;
         border-radius: 4px;
 
-        i {
+        .icon > i:not(.status-icon) {
             color: rgba(var(--center-channel-color-rgb), 0.56);
             font-family: "compass-icons";
         }
@@ -89,25 +160,41 @@
             cursor: pointer;
 
             .status {
-                background-image: linear-gradient(0deg, var(--sidebar-text-08), var(--sidebar-text-08));
+                background-image:
+                    linear-gradient(
+                        0deg,
+                        rgba(var(--global-header-text-rgb), 0.08),
+                        rgba(var(--global-header-text-rgb), 0.08)
+                    );
             }
         }
 
         &.active {
-            background: var(--sidebar-text-16);
+            background: rgba(var(--global-header-text-rgb), 0.16);
 
             .status {
-                background-image: linear-gradient(0deg, var(--sidebar-text-16), var(--sidebar-text-16));
+                background-image:
+                    linear-gradient(
+                        0deg,
+                        rgba(var(--global-header-text-rgb), 0.16),
+                        rgba(var(--global-header-text-rgb), 0.16)
+                    );
             }
         }
 
         .Menu__content {
             right: -1px;
             left: inherit;
+            width: 264px;
         }
 
         .custom_status__row > #custom_status__clear {
             top: 4px;
+        }
+
+        .custom_status__container {
+            align-items: center;
+            line-height: 14px;
         }
 
         .username-wrapper {
@@ -126,12 +213,57 @@
             padding: 0 16px;
         }
 
+        .MenuItem > button,
+        #status-menu-dnd-timed {
+            padding: 1px 16px;
+
+            .MenuItem__primary-text {
+                display: grid;
+                align-items: center;
+                grid-template-columns: auto 1fr auto auto;
+
+                .SubMenu__icon-right {
+                    padding-top: 0;
+                    padding-left: 12px;
+                }
+            }
+
+            > .MenuItem__help-text {
+                padding-left: 28px;
+            }
+        }
+
+        #statusDropdownMenu-timedDND,
+        #statusDropdownMenu-timedDND #status-menu-dnd-timed, {
+            .icon {
+                top: unset;
+                width: auto;
+                height: auto;
+                padding: 0 12px 0 0;
+                margin: 0;
+            }
+
+            .SubMenu__icon-right {
+                padding-top: 0;
+            }
+        }
+
+        .dnd--icon {
+            vertical-align: middle;
+        }
+
         .status-wrapper {
             display: flex;
             height: auto;
             align-items: center;
 
             .status {
+                position: absolute;
+                top: auto;
+                right: -4px;
+                bottom: -4px;
+                width: 16px;
+                height: 16px;
                 background-color: var(--global-header-background);
                 color: var(--global-header-text);
 
@@ -162,6 +294,7 @@
 
         &::placeholder {
             color: rgba(var(--global-header-text-rgb), 0.64);
+            opacity: 1;
         }
     }
 
@@ -180,7 +313,7 @@
     }
 
     &:focus-within {
-        background: var(--sidebar-text);
+        background: var(--center-channel-bg);
 
         .search__font-icon,
         .input-clear-x {

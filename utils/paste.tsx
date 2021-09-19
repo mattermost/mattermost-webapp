@@ -3,9 +3,7 @@
 import {splitMessageBasedOnCaretPosition} from 'utils/post_utils';
 
 export function parseTable(html: string): HTMLTableElement | null {
-    const el = document.createElement('div');
-    el.innerHTML = html;
-    return el.querySelector('table');
+    return new DOMParser().parseFromString(html, 'text/html').querySelector('table');
 }
 
 export function getTable(clipboardData: DataTransfer): HTMLTableElement | null {

@@ -15,7 +15,6 @@
 // Group: @enterprise @not_cloud @extend_session @ldap @saml @keycloak
 
 import testusers from '../../../../fixtures/saml_ldap_users.json';
-import {getRandomId} from '../../../../utils';
 
 import {verifyExtendedSession, verifyNotExtendedSession} from './helpers';
 
@@ -30,8 +29,8 @@ describe('Extended Session Length', () => {
         SamlSettings: {
             Enable: true,
             Encrypt: false,
-            IdpUrl: idpUrl,
-            IdpDescriptorUrl: idpDescriptorUrl,
+            IdpURL: idpUrl,
+            IdpDescriptorURL: idpDescriptorUrl,
             ServiceProviderIdentifier: `${baseUrl}/login/sso/saml`,
             AssertionConsumerServiceURL: `${baseUrl}/login/sso/saml`,
             SignatureAlgorithm: 'RSAwithSHA256',
@@ -59,6 +58,7 @@ describe('Extended Session Length', () => {
 
     let samlUser;
     let testSettings;
+    let offTopicUrl;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -93,6 +93,10 @@ describe('Extended Session Length', () => {
                     teamName: '',
                     user: samlUser,
                 };
+
+                cy.apiCreateTeam().then(({team}) => {
+                    offTopicUrl = `/${team.name}/channels/off-topic`;
+                });
             });
         });
     });
@@ -107,7 +111,8 @@ describe('Extended Session Length', () => {
         sessionConfig.ServiceSettings.ExtendSessionLengthWithActivity = true;
         cy.apiUpdateConfig({...samlConfig, ...sessionConfig});
 
-        verifyExtendedSession(samlUser, sessionLengthInDays, () => doSamlAndKeycloakLogin(testSettings));
+        doSamlAndKeycloakLogin(testSettings);
+        verifyExtendedSession(samlUser, sessionLengthInDays, offTopicUrl);
     });
 
     it('MM-T4047_2 SAML/SSO user session should not extend even with user activity when disabled', () => {
@@ -115,7 +120,8 @@ describe('Extended Session Length', () => {
         sessionConfig.ServiceSettings.ExtendSessionLengthWithActivity = false;
         cy.apiUpdateConfig({...samlConfig, ...sessionConfig});
 
-        verifyNotExtendedSession(samlUser, () => doSamlAndKeycloakLogin(testSettings));
+        doSamlAndKeycloakLogin(testSettings);
+        verifyNotExtendedSession(samlUser, offTopicUrl);
     });
 });
 
@@ -126,6 +132,6 @@ function doSamlAndKeycloakLogin(testSettings) {
     // # User login to Keycloak
     cy.doKeycloakLogin(testSettings.user);
 
-    // # Create team if no membership
-    cy.skipOrCreateTeam(testSettings, getRandomId());
+    // // # Create team if no membership
+    // cy.skipOrCreateTeam(testSettings, getRandomId());
 }

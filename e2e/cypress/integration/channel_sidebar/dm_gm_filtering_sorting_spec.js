@@ -30,7 +30,7 @@ describe('DM/GM filtering and sorting', () => {
         const receivingUser = testUser;
 
         // * Verify that we can see the sidebar
-        cy.get('#headerTeamName').should('be.visible');
+        cy.uiGetLHSHeader();
 
         // # Collapse the DM category (so that we can check all unread DMs quickly without the sidebar scrolling being an issue)
         cy.get('button.SidebarChannelGroupHeader_groupButton:contains(DIRECT MESSAGES)').should('be.visible').click();
@@ -63,7 +63,7 @@ describe('DM/GM filtering and sorting', () => {
         cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('have.length', 20);
 
         // # Go to Sidebar Settings
-        navigateToSidebarSettings();
+        cy.uiOpenSettingsModal('Sidebar');
 
         // * Verify that the default setting for DMs shown is 20
         cy.get('#limitVisibleGMsDMsDesc').should('be.visible').should('contain', '20');
@@ -75,17 +75,14 @@ describe('DM/GM filtering and sorting', () => {
         cy.get('#limitVisibleGMsDMs').should('be.visible').click();
         cy.get('.react-select__option:contains(All Direct Messages)').should('be.visible').click();
 
-        // # Click Save
-        cy.get('#saveSetting').should('be.visible').click();
-
-        // # Close Account Settings
-        cy.get('#accountSettingsHeader > .close').click();
+        // # Save and close Account Settings
+        cy.uiSaveAndClose();
 
         // * Verify that there are 41 DMs shown in the sidebar
         cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('have.length', 41);
 
         // # Go to Sidebar Settings
-        navigateToSidebarSettings();
+        cy.uiOpenSettingsModal('Sidebar');
 
         // # Click Edit
         cy.get('#limitVisibleGMsDMsEdit').should('be.visible').click();
@@ -94,11 +91,8 @@ describe('DM/GM filtering and sorting', () => {
         cy.get('#limitVisibleGMsDMs').should('be.visible').click();
         cy.get('.react-select__option:contains(10)').should('be.visible').click();
 
-        // # Click Save
-        cy.get('#saveSetting').should('be.visible').click();
-
-        // # Close Account Settings
-        cy.get('#accountSettingsHeader > .close').click();
+        // # Save and close Account Settings
+        cy.uiSaveAndClose();
 
         // * Verify that there are 10 DMs shown in the sidebar
         cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('have.length', 10);
@@ -132,16 +126,3 @@ describe('DM/GM filtering and sorting', () => {
         });
     });
 });
-
-function navigateToSidebarSettings() {
-    cy.get('#channel_view').should('be.visible');
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#accountSettings').should('be.visible').click();
-    cy.get('#accountSettingsModal').should('be.visible');
-
-    cy.get('#sidebarButton').should('be.visible');
-    cy.get('#sidebarButton').click();
-
-    cy.get('#sidebarLi.active').should('be.visible');
-    cy.get('#sidebarTitle > .tab-header').should('have.text', 'Sidebar Settings');
-}
