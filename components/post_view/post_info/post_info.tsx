@@ -256,7 +256,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         let actionsMenu;
-        const showActionsMenuIcon = isMobile || hover;
+        const showActionsMenuIcon = !isSystemMessage && (isMobile || hover);
         if (showActionsMenuIcon) {
             actionsMenu = (
                 <ActionsMenu
