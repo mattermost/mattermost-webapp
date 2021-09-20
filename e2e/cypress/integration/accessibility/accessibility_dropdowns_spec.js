@@ -13,14 +13,14 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Verify Accessibility Support in Dropdown Menus', () => {
-    let testTeam;
+    let offTopicUrl;
 
     before(() => {
         cy.apiCreateCustomAdmin().then(({sysadmin}) => {
             cy.apiLogin(sysadmin);
 
-            cy.apiInitSetup().then(({team}) => {
-                testTeam = team;
+            cy.apiInitSetup().then(({offTopicUrl: url}) => {
+                offTopicUrl = url;
             });
 
             cy.apiCreateTeam('other-team', 'Other Team');
@@ -29,7 +29,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
     beforeEach(() => {
         // Visit the Off Topic channel
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(offTopicUrl);
         cy.postMessage('hello');
     });
 

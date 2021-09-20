@@ -18,27 +18,30 @@ import {verifyEphemeralMessage} from './helper';
 describe('Integrations', () => {
     let testUser;
     let otherUser;
-    let testTeam;
+    let offTopicUrl;
+    let channelUrl;
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
-            testTeam = team;
-            testUser = user;
+        cy.apiInitSetup().then((out) => {
+            testUser = out.user;
+            offTopicUrl = out.offTopicUrl;
+            channelUrl = out.channelUrl;
 
-            cy.apiCreateUser({prefix: 'other'}).then((out) => {
-                otherUser = out.user;
+            cy.apiCreateUser({prefix: 'other'}).then(({user}) => {
+                otherUser = user;
 
-                cy.apiAddUserToTeam(team.id, otherUser.id);
+                cy.apiAddUserToTeam(out.team.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(out.channel.id, otherUser.id);
+                });
             });
 
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     beforeEach(() => {
-        cy.get('#sidebarItem_town-square').click();
-        cy.get('#post_textbox').should('be.visible');
+        cy.visit(channelUrl);
+        cy.postMessage('hello');
     });
 
     it('MM-T573 / autocomplete list can scroll', () => {
@@ -82,24 +85,24 @@ describe('Integrations', () => {
         const message = getRandomId();
 
         // # Type "/echo message 3"
-        cy.postMessage(`/echo ${message} 3`);
+        cy.get('#post_textbox').clear().type(`/echo ${message} 3{enter}`);
 
         // * Verify that post is not shown after 1 second
         cy.wait(TIMEOUTS.ONE_SEC);
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('have.not.text', message);
+        cy.getLastPost().within(() => {
+            cy.findByText(message).should('not.exist');
         });
 
         // * Verify that message is posted after 3 seconds
         cy.wait(TIMEOUTS.TWO_SEC);
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#post_${postId}`).find('.user-popover').should('have.text', testUser.username);
-            cy.get(`#postMessageText_${postId}`).should('have.text', message);
+        cy.getLastPost().within(() => {
+            cy.findByText(testUser.username);
+            cy.findByText(message);
         });
     });
 
     it('MM-T680 /help', () => {
-        cy.visit('/', {
+        cy.visit(offTopicUrl, {
             onLoad: (win) => {
                 cy.stub(win, 'open');
             },
@@ -122,7 +125,7 @@ describe('Integrations', () => {
 
     it('MM-T682 /leave', () => {
         // # Go to Off-Topic
-        cy.visit(`${testTeam.name}/channels/off-topic`);
+        cy.visit(offTopicUrl);
 
         // # Type "/leave"
         cy.postMessage('/leave ');
@@ -154,7 +157,7 @@ describe('Integrations', () => {
 
         // * Login as otherUser and verify that it read the same message as expected from testUser
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(channelUrl);
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', testUser.username);
             cy.get(`#postMessageText_${postId}`).should('have.text', `${message} ¯\\_(ツ)_/¯`);

@@ -12,15 +12,15 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-const SpaceKeyCode = 32;
-const DownArrowKeyCode = 40;
-
 describe('Channel sidebar', () => {
+    const SpaceKeyCode = 32;
+    const DownArrowKeyCode = 40;
+
     let teamName;
     let channelName;
 
     before(() => {
-        cy.apiInitSetup({loginAfter: true});
+        cy.apiCreateCustomAdmin({loginAfter: true});
     });
 
     beforeEach(() => {
@@ -36,7 +36,7 @@ describe('Channel sidebar', () => {
 
     it('should move channel to correct place when dragging channel within category', () => {
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // * Verify the order is correct to begin with
         cy.get('.SidebarChannel > .SidebarLink').should('be.visible').as('fromChannelSidebarLink');
@@ -59,7 +59,7 @@ describe('Channel sidebar', () => {
 
     it('should move category to correct place', () => {
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Get channel group button and wait for Channels to be visible since for some reason it shows up later...
         cy.get('.SidebarChannelGroupHeader_groupButton > div[data-rbd-drag-handle-draggable-id]').should('be.visible').as('fromChannelGroup');
@@ -83,12 +83,15 @@ describe('Channel sidebar', () => {
 
     it('should retain focus within the channel sidebar after dragging and dropping with the keyboard', () => {
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Perform drag using keyboard
-        cy.get('.SidebarChannel:contains(Off-Topic) > .SidebarLink').focus().
+        cy.get('.SidebarChannel:contains(Off-Topic) > .SidebarLink').
+            click().
+            focus().
             trigger('keydown', {key: ' ', keyCode: SpaceKeyCode}).
-            trigger('keydown', {keyCode: DownArrowKeyCode, force: true}).wait(TIMEOUTS.THREE_SEC).
+            trigger('keydown', {keyCode: DownArrowKeyCode, force: true}).
+            wait(TIMEOUTS.THREE_SEC).
             trigger('keydown', {key: ' ', keyCode: SpaceKeyCode, force: true}).wait(TIMEOUTS.THREE_SEC);
 
         // * Verify that the current focused element is the channel

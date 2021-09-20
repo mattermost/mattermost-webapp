@@ -16,12 +16,15 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
         src={null}
       />
       <span>
-        <MemoizedFormattedMessage
-          defaultMessage="Upload Icon"
-          id="generic_icons.upload"
-        >
-          <Component />
-        </MemoizedFormattedMessage>
+        <LocalizedIcon
+          className="fa fa-upload"
+          title={
+            Object {
+              "defaultMessage": "Upload Icon",
+              "id": "generic_icons.upload",
+            }
+          }
+        />
         <MemoizedFormattedMessage
           defaultMessage="Drop a file to upload it."
           id="upload_overlay.info"
@@ -54,12 +57,15 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
         src={null}
       />
       <span>
-        <MemoizedFormattedMessage
-          defaultMessage="Upload Icon"
-          id="generic_icons.upload"
-        >
-          <Component />
-        </MemoizedFormattedMessage>
+        <LocalizedIcon
+          className="fa fa-upload"
+          title={
+            Object {
+              "defaultMessage": "Upload Icon",
+              "id": "generic_icons.upload",
+            }
+          }
+        />
         <MemoizedFormattedMessage
           defaultMessage="Drop a file to upload it."
           id="upload_overlay.info"
@@ -92,12 +98,15 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
         src={null}
       />
       <span>
-        <MemoizedFormattedMessage
-          defaultMessage="Upload Icon"
-          id="generic_icons.upload"
-        >
-          <Component />
-        </MemoizedFormattedMessage>
+        <LocalizedIcon
+          className="fa fa-upload"
+          title={
+            Object {
+              "defaultMessage": "Upload Icon",
+              "id": "generic_icons.upload",
+            }
+          }
+        />
         <MemoizedFormattedMessage
           defaultMessage="Drop a file to upload it."
           id="upload_overlay.info"

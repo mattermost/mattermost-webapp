@@ -20,13 +20,15 @@ describe('Profile popover', () => {
     let testChannel;
     let privateChannel;
     let otherUser;
+    let offTopicUrl;
 
     before(() => {
         cy.apiRequireLicense();
-        cy.apiInitSetup().then(({team, user, channel}) => {
+        cy.apiInitSetup().then(({team, user, channel, offTopicUrl: url}) => {
             testTeam = team;
             testUser = user;
             testChannel = channel;
+            offTopicUrl = url;
 
             cy.apiCreateUser().then(({user: secondUser}) => {
                 otherUser = secondUser;
@@ -53,9 +55,9 @@ describe('Profile popover', () => {
 
         cy.apiLogout();
 
-        // # Login as test user and go to town square
+        // # Login as test user and go to off-topic
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         // # Send message
         cy.postMessage('Hi there');
@@ -63,7 +65,7 @@ describe('Profile popover', () => {
 
         // # Login as the second user now
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         clickAddToChannel(testUser);
 
@@ -97,7 +99,7 @@ describe('Profile popover', () => {
             privateChannel = channel;
         });
 
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         clickAddToChannel(testUser);
 
@@ -125,7 +127,7 @@ describe('Profile popover', () => {
 
         // # Login as the second user now
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         clickAddToChannel(testUser);
 
@@ -179,7 +181,7 @@ describe('Profile popover', () => {
 
         // # Promote to channel admin
         promoteToChannelOrTeamAdmin(otherUser, testChannel.id);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         clickAddToChannel(testUser);
 
@@ -254,8 +256,8 @@ describe('Profile popover', () => {
         // # Login as otheruser
         cy.apiLogin(otherUser);
 
-        // # Visit town square
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        // # Visit off-topic
+        cy.visit(offTopicUrl);
 
         clickAddToChannel(testUser);
 
@@ -307,8 +309,8 @@ describe('Profile popover', () => {
         // # Login as otheruser
         cy.apiLogin(otherUser);
 
-        // # Visit town square
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        // # Visit off-topic
+        cy.visit(offTopicUrl);
 
         clickAddToChannel(testUser);
 
@@ -385,7 +387,7 @@ describe('Profile popover', () => {
 
         // # Login
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
         verifyAddToChannel(testUser, false);
 
         // # Promote to channel admin
@@ -394,7 +396,7 @@ describe('Profile popover', () => {
         cy.apiLogout();
 
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
         verifyAddToChannel(testUser, false);
 
         // # Promote to team admin
@@ -403,14 +405,14 @@ describe('Profile popover', () => {
         cy.apiLogout();
 
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
         verifyAddToChannel(testUser, false);
         cy.apiLogout();
 
         // login as system admin
         cy.apiAdminLogin();
 
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         verifyAddToChannel(testUser);
     });
