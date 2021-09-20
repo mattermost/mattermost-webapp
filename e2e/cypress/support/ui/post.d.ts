@@ -11,44 +11,40 @@
 // - Each parameter with `@params`
 // - Return value with `@returns`
 // - Example usage with `@example`
-// Custom command should follow naming convention of having `ui` prefix, e.g. `uiGetRHS`.
+// Custom command should follow naming convention of having `ui` prefix, e.g. `uiGetPostHeader`.
 // ***************************************************************
 
 declare namespace Cypress {
     interface Chainable {
 
         /**
-         * Get RHS container
+         * Get post header of a given post ID or the last post if post ID is not given
          *
-         *  @param {bool} option.exist - Set to false to not verify if the element exists. Otherwise, true (default) to check existence.
+         * @param {string} - postId (optional)
          *
          * @example
-         *   cy.uiGetRHS();
+         *   cy.uiGetPostHeader();
          */
-        uiGetRHS(option: Record<string, boolean>): Chainable;
+        uiGetPostHeader(postId: string): Chainable;
 
         /**
-         * Close RHS
+         * Get post body of a given post ID or the last post if post ID is not given
+         *
+         * @param {string} - postId (optional)
          *
          * @example
-         *   cy.uiCloseRHS();
+         *   cy.uiGetPostBody();
          */
-        uiCloseRHS(): Chainable;
+        uiGetPostBody(postId: string): Chainable;
 
         /**
-         * Expand RHS
+         * Get post embed container of a given post ID or the last post if post ID is not given
+         *
+         * @param {string} - postId (optional)
          *
          * @example
-         *   cy.uiExpandRHS();
+         *   cy.uiGetPostEmbedContainer();
          */
-        uiExpandRHS(): Chainable;
-
-        /**
-         * Verify if RHS is expanded
-         *
-         * @example
-         *   cy.uiGetRHS().isExpanded();
-         */
-        isExpanded(): Chainable;
+        uiGetPostEmbedContainer(postId: string): Chainable;
     }
 }
