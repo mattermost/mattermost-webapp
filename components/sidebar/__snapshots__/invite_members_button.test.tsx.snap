@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <InviteMembersButton>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team_id2sss"
+    >
+      <TeamPermissionGate
+        dispatch={[Function]}
+        hasPermission={true}
+        invert={false}
+        permissions={
+          Array [
+            "add_user_to_team",
+            "invite_guest",
+          ]
+        }
+        teamId="team_id2sss"
+      >
+        <Connect(injectIntl(ModalToggleButtonRedux))
+          accessibilityLabel="Invite Users"
+          className="intro-links color--link cursor--pointer"
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(InvitationModal)",
+              "type": [Function],
+            }
+          }
+          id="introTextInvite"
+          modalId="invitation"
+        >
+          <injectIntl(ModalToggleButtonRedux)
+            accessibilityLabel="Invite Users"
+            actions={
+              Object {
+                "openModal": [Function],
+              }
+            }
+            className="intro-links color--link cursor--pointer"
+            dialogType={
+              Object {
+                "$$typeof": Symbol(react.memo),
+                "WrappedComponent": [Function],
+                "compare": null,
+                "displayName": "Connect(InvitationModal)",
+                "type": [Function],
+              }
+            }
+            id="introTextInvite"
+            modalId="invitation"
+          >
+            <ModalToggleButtonRedux
+              accessibilityLabel="Invite Users"
+              actions={
+                Object {
+                  "openModal": [Function],
+                }
+              }
+              className="intro-links color--link cursor--pointer"
+              dialogProps={Object {}}
+              dialogType={
+                Object {
+                  "$$typeof": Symbol(react.memo),
+                  "WrappedComponent": [Function],
+                  "compare": null,
+                  "displayName": "Connect(InvitationModal)",
+                  "type": [Function],
+                }
+              }
+              id="introTextInvite"
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "defaultRichTextElements": undefined,
+                  "formatDate": [Function],
+                  "formatDateTimeRange": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatListToParts": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
+              modalId="invitation"
+            >
+              <button
+                aria-label="Invite Users dialog"
+                className="style--none intro-links color--link cursor--pointer"
+                data-toggle="modal toggle"
+                id="introTextInvite"
+                onClick={[Function]}
+              >
+                <li
+                  aria-label="Invite Members"
+                  className="SidebarChannelNavigator_inviteMembersLhsButton"
+                >
+                  <i
+                    className="icon-plus-box"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Invite Members"
+                    id="sidebar_left.inviteMembers"
+                  >
+                    <span>
+                      Invite Members
+                    </span>
+                  </FormattedMessage>
+                </li>
+              </button>
+            </ModalToggleButtonRedux>
+          </injectIntl(ModalToggleButtonRedux)>
+        </Connect(injectIntl(ModalToggleButtonRedux))>
+      </TeamPermissionGate>
+    </Connect(TeamPermissionGate)>
+  </InviteMembersButton>
+</Provider>
+`;

@@ -29,9 +29,9 @@ describe('M17448 Does not post draft message', () => {
         // # Upload and enable "Draw" plugin
         cy.apiUploadAndEnablePlugin(drawPlugin);
 
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 

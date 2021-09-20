@@ -17,16 +17,16 @@ describe('Account Settings -> General -> Email', () => {
     let siteName;
     let testUser;
     let otherUser;
-    let testTeam;
+    let offTopicUrl;
 
     before(() => {
         cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: true}}).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
 
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             testUser = user;
-            testTeam = team;
+            offTopicUrl = url;
 
             cy.apiVerifyUserEmailById(testUser.id);
 
@@ -34,13 +34,13 @@ describe('Account Settings -> General -> Email', () => {
         }).then(({user: user1}) => {
             otherUser = user1;
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
     beforeEach(() => {
         // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        cy.uiOpenAccountSettingsModal();
     });
 
     afterEach(() => {
@@ -161,7 +161,7 @@ describe('Account Settings -> General -> Email', () => {
                 expect(subject).to.equal(`[${siteName}] Your email address has changed`);
             });
 
-            cy.toAccountSettingsModal();
+            cy.uiOpenAccountSettingsModal();
 
             // * Verify new email address
             cy.get('#emailDesc').should('be.visible').should('have.text', email);
@@ -184,10 +184,9 @@ describe('Account Settings -> General -> Email', () => {
         // # Save the settings
         cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
 
-        // # Close modal
+        // # Close modal then logout
         cy.get('body').type('{esc}');
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#logout').should('be.visible').click();
+        cy.uiOpenUserMenu('Log Out');
 
         // # Wait for one second for the mail to be sent out.
         cy.wait(TIMEOUTS.ONE_SEC);

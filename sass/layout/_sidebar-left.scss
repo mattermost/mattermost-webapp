@@ -289,7 +289,7 @@
 
         .dropdown-menu {
             min-width: 0;
-            margin-top: 8px;
+            margin-top: 0;
             line-height: 19px;
 
             span {
@@ -332,6 +332,50 @@
 
     .AddChannelDropdown_dropdownButton:focus {
         outline-style: none;
+    }
+
+    .SidebarHeaderMenuWrapper {
+        padding-left: 5px;
+        background: transparent;
+        border-radius: 4px;
+
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: rgba(var(--sidebar-text-rgb), 0.08);
+        }
+
+        &.MenuWrapper--open {
+            background-color: rgba(var(--sidebar-text-rgb), 0.16);
+        }
+    }
+
+    .AddChannelDropdown_dropdownButton {
+        &--by-team-name {
+            background-color: rgba(var(--sidebar-text-rgb), 0.08);
+            color: rgba(var(--sidebar-text-rgb), 0.72);
+
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: rgba(var(--sidebar-text-rgb), 0.16);
+                color: var(--sidebar-text);
+            }
+        }
+
+        &--inverted-sidebar-bg-color {
+            background-color: var(--sidebar-text);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+            color: var(--sidebar-bg);
+
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: rgba(var(--sidebar-text-rgb), 0.88);
+                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+                color: rgb(var(--sidebar-bg-rgb));
+            }
+        }
     }
 
     .SidebarMenu {
@@ -529,6 +573,7 @@
             border: 1px dashed rgba(var(--sidebar-text-rgb), 0.3);
             margin: 0 16px;
             border-radius: 4px;
+            opacity: 1;
 
             > i {
                 color: rgba(var(--sidebar-text-rgb), 0.6);
@@ -545,7 +590,7 @@
 
             &.animating {
                 transition-duration: 0.15s; /* collapse animation speed */
-                transition-property: height, padding, color;
+                transition-property: height, padding, color, opacity;
                 transition-timing-function: ease-out;
             }
 
@@ -556,6 +601,10 @@
                 border-top: none;
                 border-bottom: none;
                 overflow-y: hidden;
+            }
+
+            &.isDraggingOver {
+                opacity: 0.25;
             }
         }
     }
@@ -660,6 +709,7 @@
 
     .SidebarChannelNavigator_inviteMembersLhsButton {
         display: flex;
+        padding: 6px 0;
         margin-left: 15px;
         color: rgba(var(--sidebar-text-rgb), 0.72);
         line-height: 20px;
@@ -851,9 +901,20 @@
     //     }
     // }
 
-    .SidebarChannelGroup.capture .SidebarChannelGroup_content {
-        padding-bottom: 14px;
-        margin-bottom: 0;
+    .SidebarChannelGroup.capture {
+        .SidebarChannelGroup_content {
+            padding-bottom: 14px;
+            margin-bottom: 0;
+
+            &.hasFollowingSibling {
+                padding-bottom: 0;
+            }
+        }
+
+        .followingSibling {
+            padding-bottom: 14px;
+            margin-bottom: 0;
+        }
     }
 
     .SidebarChannelGroupHeader_addButton {
@@ -911,9 +972,27 @@
     .SidebarChannelGroup_content {
         min-height: 2px;
         margin-bottom: 14px;
+
+        &.hasFollowingSibling {
+            margin-bottom: 0;
+        }
+    }
+
+    .followingSibling {
+        min-height: 2px;
+        margin-bottom: 14px;
     }
 
     .SidebarChannelGroup.a11y--active .SidebarChannelGroup_content {
+        padding-bottom: 14px;
+        margin-bottom: 0;
+
+        &.hasFollowingSibling {
+            padding-bottom: 0;
+        }
+    }
+
+    .SidebarChannelGroup.a11y--active .followingSibling {
         padding-bottom: 14px;
         margin-bottom: 0;
     }

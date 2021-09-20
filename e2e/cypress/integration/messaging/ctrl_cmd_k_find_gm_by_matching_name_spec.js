@@ -43,8 +43,8 @@ describe('Messaging', () => {
             // # Visit the newly created group message
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
-            // # Go to town square
-            cy.get('#sidebarItem_town-square').click();
+            // # Go to off-topic
+            cy.get('#sidebarItem_off-topic').click();
 
             // # Type either cmd+K / ctrl+K depending on OS and type in the first 7 of the second user's last name
             cy.get('#post_textbox').cmdOrCtrlShortcut('K');

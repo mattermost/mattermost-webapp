@@ -131,11 +131,10 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        cy.toAccountSettingsModal();
+        // # Go to Account Settings
+        cy.uiOpenAccountSettingsModal('Security');
 
-        cy.findByLabelText('security').click();
-
-        // * Assert that Multifactor Authentication text does not exist
+        // * Assert that Multi-factor Authentication text does not exist
         cy.findByText('Multi-factor Authentication').should('not.exist');
     });
 
@@ -148,11 +147,10 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        cy.toAccountSettingsModal();
+        // # Go to Account Settings
+        cy.uiOpenAccountSettingsModal('Security');
 
-        cy.findByLabelText('security').click();
-
-        // * Assert that Multifactor Authentication text does exist
+        // * Assert that Multi-factor Authentication text does exist
         cy.findByText('Multi-factor Authentication').should('be.visible');
     });
 
@@ -161,7 +159,6 @@ describe('Authentication', () => {
             ServiceSettings: {
                 EnableMultifactorAuthentication: true,
                 EnforceMultifactorAuthentication: false,
-
             },
         });
 

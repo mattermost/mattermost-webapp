@@ -20,12 +20,12 @@ describe('Post Header', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
     beforeEach(() => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
     });
 
     it('should render permalink view on click of post timestamp at center view', () => {
@@ -42,10 +42,10 @@ describe('Post Header', () => {
             cy.clickPostTime(postId);
 
             // * Check if url include the permalink
-            cy.url().should('include', `/${testTeam.name}/channels/town-square/${postId}`);
+            cy.url().should('include', `/${testTeam.name}/channels/off-topic/${postId}`);
 
             // * Check if url redirects back to parent path eventually
-            cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/channels/town-square`).and('not.include', `/${postId}`);
+            cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${testTeam.name}/channels/off-topic`).and('not.include', `/${postId}`);
 
             // * Check that the post is highlighted on permalink view
             cy.get(divPostId).should('be.visible').and('have.class', 'post--highlight');
@@ -151,7 +151,7 @@ describe('Post Header', () => {
         });
 
         // # Click on the "Pinned Posts" icon to the left of the "Search" box
-        cy.get('#channelHeaderPinButton').click();
+        cy.uiGetChannelPinButton().click();
 
         // * Verify that the RHS for pinned posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {
@@ -164,7 +164,7 @@ describe('Post Header', () => {
         });
 
         // # Click on the "Saved Posts" icon to the right of the "Search" box
-        cy.get('#channelHeaderFlagButton').click();
+        cy.uiGetSavedPostButton().click();
 
         // * Verify that the RHS for saved posts is opened.
         cy.get('#searchContainer').should('be.visible').within(() => {

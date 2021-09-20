@@ -2,10 +2,19 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
+import {unhideNextSteps} from 'actions/views/next_steps';
 import {GlobalState} from 'types/store';
+
+import {
+    showOnboarding,
+    showNextStepsTips,
+    showNextSteps,
+} from 'components/next_steps_view/steps';
 
 import UserGuideDropdown from './user_guide_dropdown';
 
@@ -15,7 +24,18 @@ function mapStateToProps(state: GlobalState) {
         helpLink: HelpLink || '',
         reportAProblemLink: ReportAProblemLink || '',
         enableAskCommunityLink: EnableAskCommunityLink || '',
+        showGettingStarted: showOnboarding(state),
+        showNextStepsTips: showNextStepsTips(state),
+        showNextSteps: showNextSteps(state),
     };
 }
 
-export default connect(mapStateToProps)(UserGuideDropdown);
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    return {
+        actions: bindActionCreators({
+            unhideNextSteps,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserGuideDropdown);

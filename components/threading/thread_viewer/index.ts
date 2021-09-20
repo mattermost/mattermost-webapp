@@ -24,6 +24,8 @@ import {getHighlightedPostId} from 'selectors/rhs';
 import {updateThreadLastOpened} from 'actions/views/threads';
 import {GlobalState} from 'types/store';
 
+import {fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
+
 import ThreadViewer from './thread_viewer';
 
 type OwnProps = {
@@ -74,6 +76,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             getThread: fetchThread,
             updateThreadRead,
             updateThreadLastOpened,
+            fetchRHSAppsBindings,
         }, dispatch),
     };
 }

@@ -15,11 +15,6 @@ import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
-import upgradeImage from 'images/cloud/upgrade.svg';
-import wavesBackground from 'images/cloud/waves.svg';
-import blueDots from 'images/cloud/blue.svg';
-import LowerBlueDots from 'images/cloud/blue-lower.svg';
-import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
 
@@ -31,6 +26,9 @@ import RadioButtonGroup from 'components/common/radio_group';
 import Badge from 'components/widgets/badges/badge';
 import OverlayTrigger from 'components/overlay_trigger';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
+import BackgroundSvg from 'components/common/svg_images_components/background.svg';
+import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud.svg';
 
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
@@ -40,8 +38,9 @@ import PaymentForm from '../payment_form/payment_form';
 
 import ProcessPaymentSetup from './process_payment_setup';
 
-import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
+
+import './purchase.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
@@ -115,8 +114,11 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     return currentProduct;
 }
 
-function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
+function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null, isFreeTrial?: boolean | null) {
     const currentProduct = findProductInDictionary(products, productId);
+    if (isFreeTrial) {
+        return currentProduct;
+    }
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
@@ -135,7 +137,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             processing: false,
             editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
             currentProduct: findProductInDictionary(props.products, props.productId),
-            selectedProduct: getSelectedProduct(props.products, props.productId),
+            selectedProduct: getSelectedProduct(props.products, props.productId, props.isFreeTrial),
         };
     }
 
@@ -146,7 +148,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId),
+                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isFreeTrial),
             });
         }
 
@@ -334,13 +336,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     paymentFooterText = () => {
         const normalPaymentText = (
-            <FormattedMessage
-                defaultMessage={'Payment begins: {beginDate}'}
-                id={'admin.billing.subscription.paymentBegins'}
-                values={{
-                    beginDate: getNextBillingDate(),
-                }}
-            />
+            <div className='normal-payment-text'>
+                <FormattedMessage
+                    defaultMessage={'Payment begins: {beginDate}'}
+                    id={'admin.billing.subscription.paymentBegins'}
+                    values={{
+                        beginDate: getNextBillingDate(),
+                    }}
+                />
+            </div>
         );
 
         let payment = normalPaymentText;
@@ -459,13 +463,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
-                    <div className='title'>
+                    <h2 className='title'>
                         {title}
-                    </div>
-                    <img
-                        className='image'
-                        alt='upgrade'
-                        src={upgradeImage}
+                    </h2>
+                    <UpgradeSvg
+                        width={267}
+                        height={227}
                     />
                     <div className='footer-text'>
                         <FormattedMessage
@@ -624,7 +627,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         />,
                     )}
                     <div className='logo'>
-                        <img src={cloudLogo}/>
+                        <MattermostCloudSvg
+                            width={250}
+                            height={28}
+                        />
                     </div>
                 </div>
             </div>
@@ -683,19 +689,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 </div>
                             ) : null}
                             {this.purchaseScreen()}
-                            <div>
-                                <img
-                                    className='waves'
-                                    src={wavesBackground}
-                                />
-                                <img
-                                    className='blue-dots'
-                                    src={blueDots}
-                                />
-                                <img
-                                    className='lower-blue-dots'
-                                    src={LowerBlueDots}
-                                />
+                            <div className='background-svg'>
+                                <BackgroundSvg/>
                             </div>
                         </div>
                     </FullScreenModal>

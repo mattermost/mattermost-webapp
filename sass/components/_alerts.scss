@@ -4,6 +4,10 @@
     @include border-radius($border-rad);
 
     padding: 8px 12px;
+
+    .alert-transparent {
+        background: var(--center-channel-bg);
+    }
 }
 
 .alert-grey {

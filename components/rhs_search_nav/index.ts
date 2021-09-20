@@ -8,11 +8,6 @@ import {connect} from 'react-redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {
-    openModal,
-    closeModal,
-} from 'actions/views/modals';
-
-import {
     showFlaggedPosts,
     showMentions,
     openRHSSearch,
@@ -20,8 +15,6 @@ import {
 } from 'actions/views/rhs';
 
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
-import {isModalOpen} from 'selectors/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
 import {GlobalState} from 'types/store/index';
 
 import RHSSearchNav from './rhs_search_nav';
@@ -32,7 +25,6 @@ function mapStateToProps(state: GlobalState): Omit<Props, 'actions'> {
     return {
         rhsState: getRhsState(state),
         rhsOpen: getIsRhsOpen(state),
-        isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
     };
 }
 
@@ -42,8 +34,6 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>): Pick<Props, 'act
         showMentions,
         openRHSSearch,
         closeRightHandSide,
-        openModal,
-        closeModal,
     }, dispatch),
 });
 

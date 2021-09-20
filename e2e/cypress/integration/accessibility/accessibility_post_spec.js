@@ -36,7 +36,7 @@ describe('Verify Accessibility Support in Post', () => {
     });
 
     beforeEach(() => {
-        // # Login as test user and visit the Town Square channel
+        // # Login as test user and visit the test channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');

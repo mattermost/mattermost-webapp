@@ -68,46 +68,53 @@ const initialState = {
             },
         },
         apps: {
-            bindings: [{
-                location: '/command',
-                bindings: [{
-                    location: '/command/appid',
-                    app_id: 'appid',
-                    label: 'appid',
-                    bindings: [
-                        {
-                            location: '/command/appid/custom',
-                            app_id: 'appid',
-                            label: 'custom',
-                            description: 'Run the command.',
-                            call: {
-                                path: 'https://someserver.com/command',
-                            },
-                            form: {
-                                fields: [
+            main: {
+                bindings: [
+                    {
+                        location: '/command',
+                        bindings: [
+                            {
+                                location: '/command/appid',
+                                app_id: 'appid',
+                                label: 'appid',
+                                bindings: [
                                     {
-                                        name: 'key1',
-                                        label: 'key1',
-                                        type: 'text',
-                                        position: 1,
-                                    },
-                                    {
-                                        name: 'key2',
-                                        label: 'key2',
-                                        type: 'static_select',
-                                        options: [
-                                            {
-                                                label: 'Value 2',
-                                                value: 'value2',
-                                            },
-                                        ],
+                                        location: '/command/appid/custom',
+                                        app_id: 'appid',
+                                        label: 'custom',
+                                        description: 'Run the command.',
+                                        call: {
+                                            path: 'https://someserver.com/command',
+                                        },
+                                        form: {
+                                            fields: [
+                                                {
+                                                    name: 'key1',
+                                                    label: 'key1',
+                                                    type: 'text',
+                                                    position: 1,
+                                                },
+                                                {
+                                                    name: 'key2',
+                                                    label: 'key2',
+                                                    type: 'static_select',
+                                                    options: [
+                                                        {
+                                                            label: 'Value 2',
+                                                            value: 'value2',
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
                                     },
                                 ],
                             },
-                        },
-                    ],
-                }],
-            }],
+                        ],
+                    },
+                ],
+                forms: {},
+            },
         },
     },
     views: {
@@ -172,7 +179,7 @@ describe('executeCommand', () => {
             expect(store.getActions()).toEqual([
                 {
                     type: ActionTypes.MODAL_OPEN,
-                    dialogProps: {isContentChannelPreferences: true},
+                    dialogProps: {isContentProductSettings: true},
                     dialogType: UserSettingsModal,
                     modalId: 'user_settings',
                 },
@@ -261,7 +268,7 @@ describe('executeCommand', () => {
             }));
             Client4.executeAppCall = mocked;
 
-            const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123', root_id: 'root_id'}));
+            const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123'}));
             Client4.executeAppCall = f;
 
             expect(mocked).toHaveBeenCalledWith({
@@ -269,7 +276,7 @@ describe('executeCommand', () => {
                     app_id: 'appid',
                     channel_id: '123',
                     location: '/command/appid/custom',
-                    root_id: 'root_id',
+                    root_id: '',
                     team_id: '456',
                 },
                 raw_command: '/appid custom value1 --key2 value2',

@@ -11,8 +11,9 @@ import CreditCardSvg from 'components/common/svg_images_components/credit_card.s
 
 import {GlobalState} from 'types/store';
 
-import './payment_info_display.scss';
 import PaymentDetails from './payment_details';
+
+import './payment_info_display.scss';
 
 const addInfoButton = (
     <div className='PaymentInfoDisplay__addInfo'>

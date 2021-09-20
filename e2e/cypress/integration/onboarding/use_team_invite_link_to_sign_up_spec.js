@@ -19,20 +19,20 @@ import {
 
 describe('Onboarding', () => {
     let testTeam;
-    let isCloudLicensed;
     let isLicensed;
     let siteName;
 
     before(() => {
         cy.apiGetClientLicense().then((data) => {
-            ({isLicensed, isCloudLicensed} = data);
+            ({isLicensed} = data);
         });
 
         // # Do email test if setup properly
         cy.apiEmailTest();
 
-        // # Update config to require email verification
+        // # Update config to require email verification and onboarding flow
         cy.apiUpdateConfig({
+            ServiceSettings: {EnableOnboardingFlow: true},
             EmailSettings: {
                 RequireEmailVerification: true,
             },
@@ -48,8 +48,7 @@ describe('Onboarding', () => {
 
     it('MM-T398 Use team invite link to sign up using email and password', () => {
         // # Open the 'Invite People' full screen modal and get the invite url
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.get('#invitePeople').find('button').eq(0).click();
+        cy.uiOpenTeamMenu('Invite People');
 
         if (isLicensed) {
             // # Click "Invite members"
@@ -85,9 +84,7 @@ describe('Onboarding', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Check that 'Mattermost: You are almost done' text should be visible when email hasn't been verified yet
-        cy.get('.signup-team__container').should('be.visible').within(() => {
-            cy.findByText('Mattermost: You are almost done').should('be.visible');
-        });
+        cy.findByText('Mattermost: You are almost done').should('be.visible');
 
         cy.getRecentEmail(user).then((data) => {
             const {body: expectedBody} = data;
@@ -113,7 +110,7 @@ describe('Onboarding', () => {
         });
 
         // * Check that the display name of the team the user successfully joined is correct
-        cy.get('#headerTeamName').should('contain.text', testTeam.display_name);
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active').within(() => {
@@ -121,14 +118,6 @@ describe('Onboarding', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        if (isCloudLicensed) {
-            cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
-        } else {
-            cy.get('#tutorialIntroOne').should('be.visible').
-                and('contain', 'Welcome to:').
-                and('contain', 'Mattermost').
-                and('contain', 'Your team communication all in one place, instantly searchable and available anywhere.').
-                and('contain', 'Keep your team connected to help them achieve what matters most.');
-        }
+        cy.findByText('Welcome to Mattermost').should('be.visible');
     });
 });

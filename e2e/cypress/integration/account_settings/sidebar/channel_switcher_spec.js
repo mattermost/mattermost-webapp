@@ -32,9 +32,9 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     });
 
     beforeEach(() => {
-        // # Visit town-square
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+        // # Visit off-topic
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
     });
 
     it('MM-T266 Using CTRL/CMD+K to show Channel Switcher', () => {

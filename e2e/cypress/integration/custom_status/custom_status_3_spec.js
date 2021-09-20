@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @custom_status
 
-import {openCustomStatusModal} from './helper';
-
 describe('Custom Status - Setting Your Own Custom Status', () => {
     before(() => {
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
@@ -29,13 +27,13 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
 
     it('MM-T3846_1 should change the emoji to speech balloon when typed in the input', () => {
         // # Open the custom status modal
-        openCustomStatusModal();
+        cy.uiOpenUserMenu('Set a Custom Status');
 
         // * Default emoji is currently visible in the custom status input
         cy.get('#custom_status_modal .StatusModal__emoji-button span').should('have.class', 'icon--emoji');
 
         // # Type the status text in the input
-        cy.get('#custom_status_modal .StatusModal__input input').type(customStatus.text);
+        cy.get('#custom_status_modal .StatusModal__input input').type(customStatus.text, {force: true});
 
         // * Speech balloon emoji should now be visible in the custom status input
         cy.get('#custom_status_modal .StatusModal__emoji-button span').invoke('attr', 'data-emoticon').should('contain', 'speech_balloon');
@@ -71,15 +69,14 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
         cy.get('#custom_status_modal').should('not.exist');
 
         // * Correct custom status emoji should be displayed in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
     it('MM-T3846_5 should show custom status with emoji and clear button in the status dropdown', () => {
-        // # Click on the sidebar header to open status dropdown
-        cy.get('.MenuWrapper .status-wrapper').click();
-
-        // * Status dropdown should be open
-        cy.get('#statusDropdownMenu').should('exist');
+        // # Open user menu
+        cy.uiOpenUserMenu();
 
         // * Correct custom status text and emoji should be displayed in the status dropdown
         cy.get('.status-dropdown-menu .custom_status__container').should('have.text', customStatus.text);
@@ -118,17 +115,21 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
         cy.get('#custom_status_modal').should('not.exist');
 
         // * Correct custom status emoji should be displayed in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
     it('MM-T3846_9 should clear the status when clicked on Clear status button', () => {
-        openCustomStatusModal();
+        // # Open user menu then custom status
+        cy.uiOpenUserMenu(customStatus.text);
 
         // # Click on the Clear status button
-        cy.get('#custom_status_modal').findByText('Clear Status').click();
+        cy.findByRole('dialog', {name: 'Set a status'});
+        cy.findByText('Clear Status').click();
 
-        // # Open status dropdown
-        cy.get('.MenuWrapper .status-wrapper').click();
+        // # Open user menu
+        cy.uiOpenUserMenu();
 
         // * Custom status text should not be displayed in the status dropdown
         cy.get('.status-dropdown-menu .custom_status__row').should('not.have.text', customStatus.text);
