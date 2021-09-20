@@ -97,10 +97,17 @@ export function makeGetOptions(): (state: GlobalState, users: UserProfile[], val
         getUsersWithDMs,
         (state: GlobalState, users: UserProfile[], values: OptionValue[]) => getFilteredGroupChannels(state, values),
         (state: GlobalState, users: UserProfile[]) => users,
-        (usersWithDMs, filteredGroupChannels, users) => {
+        (state: GlobalState) => Boolean(state.views.search.modalSearch),
+        (usersWithDMs, filteredGroupChannels, users, isSearch) => {
             // Recent DMs (as UserProfiles) and GMs sorted by recent activity
             const recents = [...usersWithDMs, ...filteredGroupChannels].
                 sort((a, b) => b.last_post_at - a.last_post_at);
+
+            // Only show the 20 most recent DMs and GMs when no search term has been entered. If a search term has been
+            // entered, `users` is expected to have already been filtered by it
+            if (!isSearch) {
+                return recents.slice(0, 20);
+            }
 
             // Other users sorted by whether or not they've been deactivated followed by alphabetically
             const usersWithoutDMs = users.

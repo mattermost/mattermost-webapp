@@ -106,39 +106,6 @@ describe('makeGetOptions', () => {
         ]);
     });
 
-    test('should return non-deleted users without DMs', () => {
-        const getOptions = makeGetOptions();
-
-        const user1 = {
-            ...TestHelper.fakeUserWithId(),
-            username: 'apple',
-        };
-        const user2 = {
-            ...TestHelper.fakeUserWithId(),
-            username: 'banana',
-        };
-        const deletedUser = {
-            ...TestHelper.fakeUserWithId(),
-            delete_at: 1000,
-            username: 'carrot',
-        };
-
-        const state = baseState;
-
-        const users = [
-            user1,
-            user2,
-            deletedUser,
-        ];
-        const values = [];
-
-        // Results are sorted alphabetically by username
-        expect(getOptions(state, users, values)).toEqual([
-            {...user1, last_post_at: 0},
-            {...user2, last_post_at: 0},
-        ]);
-    });
-
     test('should only return DMs with users matching the search term', () => {
         const getOptions = makeGetOptions();
 
@@ -537,27 +504,18 @@ describe('makeGetOptions', () => {
         expect(getOptions(state, users, values)).toEqual([
             gmChannel2WithProfiles,
             gmChannel1WithProfiles,
-            {...user1, last_post_at: 0},
-            {...user2, last_post_at: 0},
-            {...user3, last_post_at: 0},
         ]);
 
         values = [user1];
 
         expect(getOptions(state, users, values)).toEqual([
             gmChannel1WithProfiles,
-            {...user1, last_post_at: 0},
-            {...user2, last_post_at: 0},
-            {...user3, last_post_at: 0},
         ]);
 
         values = [user2];
 
         expect(getOptions(state, users, values)).toEqual([
             gmChannel2WithProfiles,
-            {...user1, last_post_at: 0},
-            {...user2, last_post_at: 0},
-            {...user3, last_post_at: 0},
         ]);
 
         values = [user3];
@@ -565,15 +523,52 @@ describe('makeGetOptions', () => {
         expect(getOptions(state, users, values)).toEqual([
             gmChannel2WithProfiles,
             gmChannel1WithProfiles,
-            {...user1, last_post_at: 0},
-            {...user2, last_post_at: 0},
-            {...user3, last_post_at: 0},
         ]);
 
         values = [user3, user2];
 
         expect(getOptions(state, users, values)).toEqual([
             gmChannel2WithProfiles,
+        ]);
+    });
+
+    test('should return users without DMs as long as a search term is being used', () => {
+        const getOptions = makeGetOptions();
+
+        const user1 = {
+            ...TestHelper.fakeUserWithId(),
+            username: 'apple',
+        };
+        const user2 = {
+            ...TestHelper.fakeUserWithId(),
+            username: 'banana',
+        };
+        const user3 = {
+            ...TestHelper.fakeUserWithId(),
+            username: 'carrot',
+        };
+
+        let state = baseState;
+
+        const users = [
+            user1,
+            user2,
+            user3,
+        ];
+        const values = [];
+
+        expect(getOptions(state, users, values)).toEqual([]);
+
+        state = mergeObjects(baseState, {
+            views: {
+                search: {
+                    modalSearch: 'asdfasdfasdf',
+                },
+            },
+        });
+
+        // users is expected to have been filtered by the search term already even if it doesn't match at this point
+        expect(getOptions(state, users, values)).toEqual([
             {...user1, last_post_at: 0},
             {...user2, last_post_at: 0},
             {...user3, last_post_at: 0},
