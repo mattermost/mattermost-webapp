@@ -14,7 +14,6 @@ class EmojiItem extends React.Component {
         onItemClick: PropTypes.func.isRequired,
     };
 
-
     handleClick = () => {
         this.props.onItemClick(this.props.emoji);
     };

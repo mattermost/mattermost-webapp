@@ -4,9 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {getEmojiMap} from 'selectors/emojis';
+import {getCurrentLocale} from 'selectors/i18n';
+import {GlobalState} from 'types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {addReaction} from 'actions/post_actions.jsx';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 import PostReaction from './post_recent_reactions';
 
@@ -18,4 +22,15 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(PostReaction);
+function mapStateToProps(state: GlobalState) {
+    const locale = getCurrentLocale(state);
+    const emojiMap = getEmojiMap(state);
+    const defaultEmojis = [emojiMap.get('thumbsup'), emojiMap.get('grinning'), emojiMap.get('white_check_mark')] as Emoji[];
+
+    return {
+        defaultEmojis,
+        locale,
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostReaction);

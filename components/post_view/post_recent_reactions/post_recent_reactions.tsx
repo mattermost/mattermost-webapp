@@ -5,9 +5,6 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {Dispatch} from 'redux';
 
-import store from 'stores/redux_store.jsx';
-import {getCurrentLocale} from 'selectors/i18n';
-import {getEmojiMap} from 'selectors/emojis';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {Locations} from 'utils/constants';
@@ -24,7 +21,9 @@ type Props = {
     teamId: string;
     getDotMenuRef: () => HTMLDivElement;
     location: LocationTypes;
+    locale: string;
     emojis: Emoji[];
+    defaultEmojis: Emoji[];
     actions: {
         addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
     };
@@ -32,12 +31,7 @@ type Props = {
 
 type State = {
     location: LocationTypes;
-    showEmojiPicker: boolean;
 }
-
-const state = store.getState();
-const emojiMap = getEmojiMap(state);
-const defaultEmojis = [emojiMap.get('thumbsup'), emojiMap.get('grinning'), emojiMap.get('white_check_mark')] as Emoji[];
 
 export default class PostRecentReactions extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
@@ -50,7 +44,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
     };
 
     complementEmojis(): void {
-        const additional = defaultEmojis.filter((e) => {
+        const additional = this.props.defaultEmojis.filter((e) => {
             let ignore = false;
             for (const emoji of this.props.emojis) {
                 if (e.name === emoji.name) {
@@ -66,8 +60,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         }
     }
 
-    emojiName = (emoji: Emoji): string => {
-        const locale = getCurrentLocale(state);
+    emojiName = (emoji: Emoji, locale: string): string => {
         function capitalizeFirstLetter(s: string) {
             return s[0].toLocaleUpperCase(locale) + s.slice(1);
         }
@@ -88,7 +81,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
 
         return emojis.map((emoji) => (
             <ChannelPermissionGate
-                key={this.emojiName(emoji)} // emojis will be unique therefore no duplication expected.
+                key={this.emojiName(emoji, this.props.locale)} // emojis will be unique therefore no duplication expected.
                 channelId={channelId}
                 teamId={teamId}
                 permissions={[Permissions.ADD_REACTION]}
@@ -102,7 +95,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
                             id='post_info.emoji.tooltip'
                             className='hidden-xs'
                         >
-                            {this.emojiName(emoji)}
+                            {this.emojiName(emoji, this.props.locale)}
                         </Tooltip>
                     }
                 >

@@ -6,8 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
-import store from 'stores/redux_store.jsx';
-import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -31,6 +29,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -72,6 +71,7 @@ export default class RhsRootPost extends React.PureComponent {
         isBot: PropTypes.bool,
         collapsedThreadsEnabled: PropTypes.bool,
         oneClickReactionsEnabled: PropTypes.bool,
+        recentEmojis: PropTypes.arrayOf(Emoji),
     };
 
     static defaultProps = {
@@ -242,19 +242,12 @@ export default class RhsRootPost extends React.PureComponent {
         const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled);
         let showRecentReacions;
         if (showRecentlyUsedReactions) {
-            const state = store.getState();
-            const recentEmojis = getRecentEmojis(state).slice(-3);
-            const emojiMap = getEmojiMap(state);
-            const emojis = [];
-            for (let i = 0; i < recentEmojis.length; i++) {
-                emojis.push(emojiMap.get(recentEmojis[i]));
-            }
             showRecentReacions = (
                 <PostRecentReactions
                     channelId={post.channel_id}
                     postId={post.id}
                     teamId={this.props.teamId}
-                    emojis={emojis.reverse()}
+                    emojis={this.props.recentEmojis}
                     getDotMenuRef={this.getDotMenuRef}
                 />
             );
