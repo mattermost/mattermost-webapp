@@ -491,7 +491,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`unpin_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.unpin', 'Unpin')}
-                        leftDecorator={this.getIcon('icon-pin-outline post-menu__item--active')}
+                        leftDecorator={this.getIcon('icon-pin')}
                         rightDecorator={'P'}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.UNPIN, this.handlePinMenuItemActivated);
