@@ -38,15 +38,18 @@
 
             // adjust height of team sidebar
             height: calc(100% - 40px);
+
             body.announcement-bar--fixed & {
                 height: calc(100% - 80px);
             }
+
             border-right: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
         }
 
         // adjust height of sidebar to account for GH
         #SidebarContainer {
             height: calc(100% - 40px);
+
             body.announcement-bar--fixed & {
                 height: calc(100% - 80px);
             }
@@ -75,6 +78,7 @@
         #sidebar-right {
             z-index: 20;
             top: 0;
+
             body.announcement-bar--fixed & {
                 height: 100%;
             }
