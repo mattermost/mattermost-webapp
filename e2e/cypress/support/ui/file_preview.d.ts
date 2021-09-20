@@ -30,8 +30,6 @@ declare namespace Cypress {
         /**
          * Get file upload preview located below post textbox
          *
-         * @param {string} filename
-         *
          * @example
          *   cy.uiGetFileUploadPreview();
          */
