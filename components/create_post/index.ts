@@ -62,14 +62,10 @@ import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
 
 import CreatePost from './create_post';
 
-type OwnProps = {
-    readOnlyChannel?: boolean;
-}
-
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST as any);
 
-    return (state: GlobalState, ownProps: OwnProps) => {
+    return (state: GlobalState) => {
         const config = getConfig(state);
         const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
@@ -112,7 +108,6 @@ function makeMapStateToProps() {
             latestReplyablePostId,
             locale: getCurrentLocale(state),
             currentUsersLatestPost: getCurrentUsersLatestPost(state, ''),
-            readOnlyChannel: ownProps.readOnlyChannel,
             canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
             enableGifPicker,
