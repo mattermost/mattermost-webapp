@@ -17,7 +17,12 @@ const getDraftsCount = makeGetDraftsCount();
 function DraftsLink() {
     const {formatMessage} = useIntl();
     const {url} = useRouteMatch();
+    const match = useRouteMatch('/:team/drafts');
     const count = useSelector(getDraftsCount);
+
+    if (!count && !match) {
+        return null;
+    }
 
     return (
         <ul className='SidebarDrafts NavGroupContent nav nav-pills__container'>

@@ -1235,6 +1235,7 @@
         }
     }
 
+    .SidebarLink.active::before,
     .SidebarChannel.active .SidebarLink::before {
         position: absolute;
         top: 0;
