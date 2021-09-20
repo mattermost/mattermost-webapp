@@ -512,6 +512,8 @@ export default class SwitchChannelProvider extends Provider {
                     continue;
                 } else if (channelIsArchived && members[channel.id]) {
                     wrappedChannel.type = Constants.ARCHIVED_CHANNEL;
+                } else if (newChannel.type === Constants.OPEN_CHANNEL) {
+                    wrappedChannel.type = Constants.MENTION_PUBLIC_CHANNELS;
                 } else if (channelIsArchived && !members[channel.id]) {
                     continue;
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
