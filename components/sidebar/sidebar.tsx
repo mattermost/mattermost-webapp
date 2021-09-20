@@ -67,7 +67,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        console.log('[SIDEBAR] componentDidUpdate: isMobileView', {previous: prevProps.isMobileView, current: this.props.isMobileView});
         if (this.props.teamId && prevProps.teamId !== this.props.teamId) {
             this.props.actions.fetchMyCategories(this.props.teamId);
         }

@@ -96,16 +96,6 @@ const GlobalHeader = (): JSX.Element | null => {
         };
     }, [enabled]);
 
-    console.log('[GLOBAL HEADER] isMobileView', isMobileView);
-
-    useEffect(() => {
-        console.log('[GLOBAL HEADER] general useEffect: isMobileView', isMobileView);
-    });
-
-    useEffect(() => {
-        console.log('[GLOBAL HEADER] limited isMobileView', isMobileView);
-    }, [isMobileView]);
-
     if (!enabled || !isLoggedIn || isMobileView) {
         return null;
     }
