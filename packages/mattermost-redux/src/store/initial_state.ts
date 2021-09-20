@@ -31,6 +31,7 @@ const state: GlobalState = {
             statuses: {},
             stats: {},
             myUserAccessTokens: {},
+            lastActivity: {},
         },
         teams: {
             currentTeamId: '',
