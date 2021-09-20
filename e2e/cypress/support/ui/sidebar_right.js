@@ -3,8 +3,20 @@
 
 Cypress.Commands.add('uiGetRHS', (options = {exist: true}) => {
     if (options.exist) {
-        return cy.get('#rhsContainer').should('be.visible');
+        return cy.get('#sidebar-right').should('be.visible');
     }
 
-    return cy.get('#rhsContainer').should('not.exist');
+    return cy.get('#sidebar-right').should('not.exist');
+});
+
+Cypress.Commands.add('uiCloseRHS', () => {
+    cy.get('#rhsCloseButton').should('be.visible').click();
+});
+
+Cypress.Commands.add('uiExpandRHS', () => {
+    cy.findByLabelText('Expand').click();
+});
+
+Cypress.Commands.add('isExpanded', {prevSubject: true}, (subject) => {
+    return cy.get(subject).should('have.class', 'sidebar--right--expanded');
 });
