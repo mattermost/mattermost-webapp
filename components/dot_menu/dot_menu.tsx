@@ -377,15 +377,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     getIcon = (name: string): JSX.Element => {
-        const names = `icon ${name}`;
         return (
-            <i
-                style={{
-                    fontSize: 18,
-                    marginTop: 1,
-                }}
-                className={names}
-            />
+            <i className={`icon ${name} MenuItem__icon`}/>
         );
     }
 
@@ -469,11 +462,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         {...this.props.isFollowingThread ? {
                             leftDecorator: this.getIcon('icon-message-minus-outline'),
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
-                            extraText: Utils.localizeMessage('threading.threadMenu.unfollowExtra', 'You won’t be notified about replies'),
                         } : {
                             leftDecorator: this.getIcon('icon-message-check-outline'),
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.follow', 'Follow thread') : Utils.localizeMessage('threading.threadMenu.followMessage', 'Follow message'),
-                            extraText: Utils.localizeMessage('threading.threadMenu.followExtra', 'You will be notified about replies'),
                         }}
                     />
                     <Menu.ItemAction
