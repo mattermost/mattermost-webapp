@@ -25,6 +25,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
             remaining_seats: 10,
             is_paid_tier: 'false',
         },
+        downloadAppsAsNextStep: false,
         actions: {
             sendEmailInvitesToTeamGracefully: jest.fn(),
             regenerateTeamInviteId: jest.fn(),

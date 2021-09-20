@@ -16,27 +16,24 @@ describe('Account Settings > Sidebar > General', () => {
     const randomId = getRandomId();
     const newFirstName = `정트리나${randomId}/trina.jung/집단사무국(CO)`;
 
-    let testTeam;
     let testUser;
     let otherUser;
+    let offTopicUrl;
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, user, offTopicUrl: url}) => {
             testUser = user;
-            testTeam = team;
+            offTopicUrl = url;
 
             cy.apiCreateUser().then(({user: user1}) => {
                 otherUser = user1;
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
+                cy.apiAddUserToTeam(team.id, otherUser.id);
             });
 
-            // # Login as test user, visit town-square and go to the Account Settings
+            // # Login as test user, visit off-topic and go to the Account Settings
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
-            cy.toAccountSettingsModal();
-
-            // # Click General button
-            cy.get('#generalButton').click();
+            cy.visit(offTopicUrl);
+            cy.uiOpenAccountSettingsModal();
 
             // # Open Full Name section
             cy.get('#nameDesc').click();
@@ -45,7 +42,7 @@ describe('Account Settings > Sidebar > General', () => {
             cy.get('#firstName').clear().type(newFirstName);
 
             // # Save form
-            cy.get('#saveSetting').click();
+            cy.uiSave();
         });
     });
 
@@ -53,7 +50,7 @@ describe('Account Settings > Sidebar > General', () => {
         const {username} = testUser;
 
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         // # Type in user's first name substring
         cy.get('#post_textbox').clear().type(`@${newFirstName.substring(0, 11)}`);
@@ -84,16 +81,16 @@ describe('Account Settings -> General -> Full Name', () => {
     before(() => {
         cy.apiAdminLogin();
 
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({user, offTopicUrl}) => {
             testUser = user;
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
     beforeEach(() => {
         // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        cy.uiOpenAccountSettingsModal();
     });
 
     it('MM-T2043 Enter first name', () => {
@@ -107,7 +104,7 @@ describe('Account Settings -> General -> Full Name', () => {
         cy.get('#firstName').should('be.visible').type(testUser.first_name + '_new');
 
         // # Save the settings
-        cy.get('#saveSetting').click();
+        cy.uiSave();
 
         // * Check that the first name was correctly updated
         cy.get('#nameDesc').should('be.visible').should('contain', testUser.first_name + '_new ' + testUser.last_name);

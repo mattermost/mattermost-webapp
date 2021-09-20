@@ -23,18 +23,6 @@ Cypress.Commands.add('getCurrentUserId', () => {
 });
 
 // ***********************************************************
-// Account Settings Modal
-// ***********************************************************
-
-// Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', () => {
-    cy.get('#channel_view', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#accountSettings').should('be.visible').click();
-    cy.get('#accountSettingsModal').should('be.visible');
-});
-
-// ***********************************************************
 // Key Press
 // ***********************************************************
 
@@ -155,7 +143,7 @@ function waitUntilPermanentPost() {
 Cypress.Commands.add('getLastPost', () => {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').last();
+    return cy.findAllByTestId('postView').last();
 });
 
 Cypress.Commands.add('getLastPostId', () => {
@@ -210,7 +198,7 @@ Cypress.Commands.add('getNthPostId', (index = 0) => {
 Cypress.Commands.add('uiGetNthPost', (index) => {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').eq(index);
+    return cy.findAllByTestId('postView').eq(index);
 });
 
 /**
@@ -418,10 +406,6 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
     cy.visit(`/${teamURL}`);
 });
 
-Cypress.Commands.add('getCurrentTeamId', () => {
-    return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
-});
-
 Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
     let path;
 
@@ -482,16 +466,6 @@ Cypress.Commands.add('minDisplaySettings', () => {
 
     cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');
     cy.get('#languagesEdit').should('be.visible', 'contain', 'Edit');
-});
-
-// Reverts theme color changes to the default Mattermost theme
-Cypress.Commands.add('defaultTheme', (username) => {
-    cy.toAccountSettingsModal(username);
-    cy.get('#displayButton').click();
-    cy.get('#themeEdit').click();
-    cy.get('#standardThemes').click();
-    cy.get('.col-xs-6.col-sm-3.premade-themes').first().click();
-    cy.get('#saveSetting').click();
 });
 
 // ***********************************************************

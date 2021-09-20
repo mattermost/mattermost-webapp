@@ -10,11 +10,11 @@
 // Stage: @prod
 // Group: @channel
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Leave an archived channel', () => {
     let testTeam;
+    let offTopicUrl;
 
     before(() => {
         cy.apiUpdateConfig({
@@ -23,14 +23,14 @@ describe('Leave an archived channel', () => {
             },
         });
 
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({team, offTopicUrl: url}) => {
             testTeam = team;
+            offTopicUrl = url;
+            cy.visit(offTopicUrl);
 
-            cy.visit(`/${team.name}/channels/town-square`);
-
-            // # Wait for the team to load
-            cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            // # Post a message to the channel
+            cy.postMessage('hello');
         });
     });
 
@@ -50,7 +50,7 @@ describe('Leave an archived channel', () => {
         cy.uiArchiveChannel();
 
         // # Switch away from the archived channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(offTopicUrl);
 
         // # Make a post outside of the archived channel
         const otherPostText = `post${getRandomId()}`;

@@ -4,6 +4,11 @@
 import {IDMappedObjects, UserIDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 import {Team} from './teams';
 
+// e.g.
+// **O**pen channel,
+// **P**rivate channel,
+// **D**irect message to one other,
+// **G**roup direct message to 2+ others
 export type ChannelType = 'O' | 'P' | 'D' | 'G';
 
 export type ChannelStats = {

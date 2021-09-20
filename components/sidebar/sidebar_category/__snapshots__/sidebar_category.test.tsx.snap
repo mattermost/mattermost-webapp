@@ -267,7 +267,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
   >
     <Component />
   </Connect(Droppable)>
-  <InviteMembersButton />
+  <InviteMembersButton
+    className="followingSibling"
+  />
 </div>
 `;
 
@@ -338,7 +340,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content"
+    className="SidebarChannelGroup_content hasFollowingSibling"
   >
     <ul
       className="NavGroupContent"
@@ -377,7 +379,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
   >
     <Component />
   </Connect(Droppable)>
-  <InviteMembersButton />
+  <InviteMembersButton
+    className="followingSibling"
+  />
 </div>
 `;
 
@@ -448,7 +452,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content"
+    className="SidebarChannelGroup_content hasFollowingSibling"
   >
     <ul
       className="NavGroupContent"
