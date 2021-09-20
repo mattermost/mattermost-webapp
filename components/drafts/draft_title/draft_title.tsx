@@ -51,6 +51,27 @@ function DraftTitle({
         );
     }
 
+    let icon = <i className='icon icon-globe'/>;
+
+    if (channel.type === Constants.DM_CHANNEL) {
+        icon = (
+            <Avatar
+                size='xs'
+                username={teammate?.username}
+                url={imageURLForUser(teammate?.id, teammate?.last_picture_update)}
+                className='DraftTitle__avatar'
+            />
+        );
+    }
+
+    if (channel.type === Constants.GM_CHANNEL) {
+        icon = (
+            <div className='DraftTitle__group-icon'>
+                {channelName.split(',').length}
+            </div>
+        );
+    }
+
     if (type === 'thread') {
         return (
             <>
@@ -58,7 +79,7 @@ function DraftTitle({
                     id='drafts.draft_title.thread'
                     defaultMessage={'Thread in: {icon} {channelName}'}
                     values={{
-                        icon: <i className='icon icon-globe'/>,
+                        icon,
                         channelName,
                     }}
                 />
@@ -75,14 +96,7 @@ function DraftTitle({
                     id='drafts.draft_title.dm_channel'
                     defaultMessage={'In: {icon} {channelName}'}
                     values={{
-                        icon: (
-                            <Avatar
-                                size='xs'
-                                username={teammate?.username}
-                                url={imageURLForUser(teammate?.id, teammate?.last_picture_update)}
-                                className='DraftTitle__avatar'
-                            />
-                        ),
+                        icon,
                         channelName,
                     }}
                 />
@@ -96,11 +110,7 @@ function DraftTitle({
                 id='drafts.draft_title.gm_channel'
                 defaultMessage={'In: {icon} {channelName}'}
                 values={{
-                    icon: (
-                        <div className='DraftTitle__group-icon'>
-                            {channelName.split(',').length}
-                        </div>
-                    ),
+                    icon,
                     channelName,
                 }}
             />
@@ -112,7 +122,7 @@ function DraftTitle({
             id='drafts.draft_title.channel'
             defaultMessage={'To: {icon} {channelName}'}
             values={{
-                icon: <i className='icon icon-globe'/>,
+                icon,
                 channelName,
             }}
         />

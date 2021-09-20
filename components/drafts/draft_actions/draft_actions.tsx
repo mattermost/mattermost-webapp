@@ -81,10 +81,6 @@ function DraftActions({
         setConfirm({show: false, type: confirm.type});
     }, []);
 
-    const handleExit = useCallback(() => {
-        setConfirm({show: false, type: ''});
-    }, []);
-
     const handleConfirm = useCallback(() => {
         if (confirm.type === 'delete') {
             localStorage.removeItem(draftId);
@@ -197,7 +193,7 @@ function DraftActions({
                 confirmButtonText={confirmButtonText}
                 handleConfirm={handleConfirm}
                 handleCancel={handleCancel}
-                onHide={handleExit}
+                onHide={handleCancel}
             >
                 <div>{message}</div>
             </GenericModal>
