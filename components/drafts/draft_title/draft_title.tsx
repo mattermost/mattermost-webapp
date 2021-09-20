@@ -73,11 +73,30 @@ function DraftTitle({
     }
 
     if (type === 'thread') {
+        if (
+            channel.type !== Constants.GM_CHANNEL &&
+            channel.type !== Constants.DM_CHANNEL
+        ) {
+            return (
+                <>
+                    <FormattedMessage
+                        id='drafts.draft_title.channel_thread'
+                        defaultMessage={'Thread in: {icon} {channelName}'}
+                        values={{
+                            icon,
+                            channelName,
+                        }}
+                    />
+                    &nbsp;{you}
+                </>
+            );
+        }
+
         return (
             <>
                 <FormattedMessage
-                    id='drafts.draft_title.thread'
-                    defaultMessage={'Thread in: {icon} {channelName}'}
+                    id='drafts.draft_title.direct_thread'
+                    defaultMessage={'Thread to: {icon} {channelName}'}
                     values={{
                         icon,
                         channelName,
@@ -88,26 +107,13 @@ function DraftTitle({
         );
     }
 
-    switch (channel.type) {
-    case Constants.DM_CHANNEL: {
-        return (
-            <>
-                <FormattedMessage
-                    id='drafts.draft_title.dm_channel'
-                    defaultMessage={'In: {icon} {channelName}'}
-                    values={{
-                        icon,
-                        channelName,
-                    }}
-                />
-                &nbsp;{you}
-            </>
-        );
-    }
-    case Constants.GM_CHANNEL:
+    if (
+        channel.type !== Constants.GM_CHANNEL &&
+        channel.type !== Constants.DM_CHANNEL
+    ) {
         return (
             <FormattedMessage
-                id='drafts.draft_title.gm_channel'
+                id='drafts.draft_title.channel'
                 defaultMessage={'In: {icon} {channelName}'}
                 values={{
                     icon,
@@ -118,14 +124,17 @@ function DraftTitle({
     }
 
     return (
-        <FormattedMessage
-            id='drafts.draft_title.channel'
-            defaultMessage={'To: {icon} {channelName}'}
-            values={{
-                icon,
-                channelName,
-            }}
-        />
+        <>
+            <FormattedMessage
+                id='drafts.draft_title.direct_channel'
+                defaultMessage={'To: {icon} {channelName}'}
+                values={{
+                    icon,
+                    channelName,
+                }}
+            />
+            &nbsp;{you}
+        </>
     );
 }
 

@@ -20,6 +20,9 @@ export type Draft = Info & {
     timestamp: Date;
 };
 
+export type DraftSelector = (state: GlobalState) => Draft[];
+export type DraftCountSelector = (state: GlobalState) => number;
+
 function getInfoFromKey(key: string, prefix: string): Info {
     const keyArr = key.split('_');
     if (prefix === StoragePrefixes.DRAFT) {
@@ -35,12 +38,11 @@ function getInfoFromKey(key: string, prefix: string): Info {
     };
 }
 
-export function makeGetDraftsByPrefix(prefix: string) {
+export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
     return createSelector(
         'makeGetDraftsByPrefix',
         (state: GlobalState) => state.storage?.storage,
-        (state: GlobalState) => getMyChannels(state).map((chan) => chan.id),
-        (storage, myChannels) => {
+        (storage) => {
             if (!storage) {
                 return [];
             }
@@ -50,16 +52,13 @@ export function makeGetDraftsByPrefix(prefix: string) {
                 if (
                     key.startsWith(prefix) &&
                     item !== null &&
-                    item.value != null
+                    item.value != null &&
+                    (item.value.message || item.value.fileInfos.length > 0)
                 ) {
                     const {id, type} = getInfoFromKey(key, prefix);
 
                     // if channel doesn't belong to my channels
                     // it's probably a draft from another team
-                    if (myChannels.indexOf(item.value.channel_id) === -1) {
-                        return [];
-                    }
-
                     return {
                         ...item,
                         key,
@@ -73,7 +72,7 @@ export function makeGetDraftsByPrefix(prefix: string) {
     );
 }
 
-export function makeGetDrafts(): (state: GlobalState) => Draft[] {
+export function makeGetDrafts(): DraftSelector {
     const getChannelDrafts = makeGetDraftsByPrefix(StoragePrefixes.DRAFT);
     const getRHSDrafts = makeGetDraftsByPrefix(StoragePrefixes.COMMENT_DRAFT);
 
@@ -81,7 +80,8 @@ export function makeGetDrafts(): (state: GlobalState) => Draft[] {
         'makeGetDrafts',
         getChannelDrafts,
         getRHSDrafts,
-        (channelDrafts, rhsDrafts) => {
+        (state: GlobalState) => getMyChannels(state).map((chan) => chan.id),
+        (channelDrafts, rhsDrafts, myChannels) => {
             const drafts = [
                 ...channelDrafts,
                 ...rhsDrafts,
@@ -97,19 +97,20 @@ export function makeGetDrafts(): (state: GlobalState) => Draft[] {
                 }
 
                 return 0;
-            }).filter((draft) => draft.value.message || draft.value.fileInfos.length > 0);
+            }).filter((draft) => myChannels.indexOf(draft.value.channel_id) !== -1);
         },
     );
 }
 
-export function makeGetDraftsCount() {
+export function makeGetDraftsCount(): DraftCountSelector {
     const getChannelDrafts = makeGetDraftsByPrefix(StoragePrefixes.DRAFT);
     const getRHSDrafts = makeGetDraftsByPrefix(StoragePrefixes.COMMENT_DRAFT);
     return createSelector(
         'makeGetDraftsCount',
         getChannelDrafts,
         getRHSDrafts,
-        (channelDrafts, rhsDrafts) => [...channelDrafts, ...rhsDrafts].
-            filter((draft) => draft.value.message || draft.value.fileInfos.length > 0).length,
+        (state: GlobalState) => getMyChannels(state).map((chan) => chan.id),
+        (channelDrafts, rhsDrafts, myChannels) => [...channelDrafts, ...rhsDrafts].
+            filter((draft) => myChannels.indexOf(draft.value.channel_id) !== -1).length,
     );
 }

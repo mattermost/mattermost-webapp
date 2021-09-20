@@ -1,10 +1,10 @@
 .PanelHeader {
     display: flex;
-    min-height: 50px;
+    min-height: 40px;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px;
+    padding: 0 16px;
     border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     color: rgba(var(--center-channel-color-rgb), 0.64);
     font-size: 12px;
@@ -16,12 +16,13 @@
         align-items: center;
 
         div + div {
-            padding-left: 6px;
+            padding-left: 8px;
         }
     }
 
     &__left {
         flex: 1;
+        font-weight: 600;
 
         > span {
             display: inline-flex;

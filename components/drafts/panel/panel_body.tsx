@@ -45,7 +45,7 @@ function Body({
     }, [draftId]);
 
     return (
-        <div className='PanelBody'>
+        <div className='PanelBody post'>
             <div className='PanelBody__left'>
                 <ProfilePicture
                     status={status}
@@ -57,7 +57,9 @@ function Body({
                 />
             </div>
             <div className='PanelBody__right'>
-                <p><strong>{displayName}</strong></p>
+                <div className='post__header'>
+                    <strong>{displayName}</strong>
+                </div>
                 <Markdown message={message}/>
                 {(fileInfos.length > 0 || uploadsInProgress?.length > 0) && (
                     <FilePreview

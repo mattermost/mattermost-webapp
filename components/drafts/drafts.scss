@@ -26,6 +26,7 @@
     --list: minmax(min-content, auto);
 
     display: grid;
+    background: var(--center-channel-color-04);
     grid-template-areas:
         'header'
         'list';
