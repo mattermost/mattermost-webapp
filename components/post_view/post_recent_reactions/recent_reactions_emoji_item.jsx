@@ -14,9 +14,6 @@ class EmojiItem extends React.Component {
         onItemClick: PropTypes.func.isRequired,
     };
 
-    emojiItemRef = (emojiItem) => {
-        this.emojiItem = emojiItem;
-    };
 
     handleClick = () => {
         this.props.onItemClick(this.props.emoji);
@@ -29,7 +26,6 @@ class EmojiItem extends React.Component {
         return (
             <div
                 className={itemClassName}
-                ref={this.emojiItemRef}
             >
                 <span
                     data-testid={itemClassName + '_emoji'}
