@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {openModal} from 'actions/views/modals';
 import GenericModal from 'components/generic_modal';
@@ -24,8 +25,8 @@ type Props = {
 
 const AddUserToGroupMessageModal: React.FC<Props> = (props: Props) => {
     const dispatch = useDispatch();
-    const channel = useSelector((state: GlobalState) => getCurrentChannel(state));
-    const currentTeamId = useSelector((state: GlobalState) => getCurrentTeamId(state));
+    const channel: Channel = useSelector((state: GlobalState) => getCurrentChannel(state));
+    const currentTeamId: string = useSelector((state: GlobalState) => getCurrentTeamId(state));
 
     const channelWithTeamId = {
         ...channel,

@@ -307,7 +307,8 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         );
 
         let groupMessageRemainingText;
-        const usersInChannelLength = this.props.userIdsInChannels[this.props.channel.id].length;
+        const usersInChannel = this.props.userIdsInChannels[this.props.channel.id] as unknown as Set<string>;
+        const usersInChannelLength = usersInChannel.size;
 
         if (usersInChannelLength < GROUP_MESSAGE_LIMIT) {
             groupMessageRemainingText = (
@@ -322,8 +323,8 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         } else {
             groupMessageRemainingText = (
                 <FormattedMessage
-                    id='channel_invite.remainingText'
-                    defaultMessage='You’ve reached the member limit for a group message. Need more? Create a private channel.'
+                    id='channel_invite.remainingTextError'
+                    defaultMessage='You’ve reached the member limit for a group message.'
                     values={{
                         count: GROUP_MESSAGE_LIMIT - usersInChannelLength,
                     }}
