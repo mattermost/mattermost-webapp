@@ -20,9 +20,9 @@ describe('Markdown', () => {
             },
         });
 
-        // # Login as new user, create new team and visit its URL
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user, create new team and off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 

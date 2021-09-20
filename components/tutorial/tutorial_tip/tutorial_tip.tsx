@@ -63,6 +63,32 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.setState({show: false});
     }
 
+    private dismiss = (e: React.MouseEvent | React.KeyboardEvent): void => {
+        this.hide();
+        const wasEscapeDismissal = e.type === 'keyup';
+        const tag = this.props.telemetryTag + '_dismiss';
+        if (wasEscapeDismissal) {
+            trackEvent('tutorial', tag);
+            return;
+        }
+        const target = e.target as HTMLElement;
+
+        // We defer checking this until here because `.closest` is mildly expensive.
+        const wasOutsideClick = (
+
+            // If a user click on an element inside triggers a click outside,
+            // then react-bootstrap's onHide fires onHide for both elements.
+            // Even if the inside click is for opt out, that is already covered in the _skip event
+            !target.closest('.tip-overlay') &&
+
+            // Clicking the post textbox means a prefilled message was chosen, so it is not a dismissal.
+            target.id !== 'post_textbox'
+        );
+        if (wasOutsideClick) {
+            trackEvent('tutorial', tag);
+        }
+    }
+
     public handleNext = (): void => {
         if (this.state.currentScreen < this.props.screens.length - 1) {
             this.setState({currentScreen: this.state.currentScreen + 1});
@@ -182,7 +208,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                     placement={this.props.placement}
                     show={this.state.show}
                     rootClose={true}
-                    onHide={this.hide}
+                    onHide={this.dismiss}
                     target={this.getTarget}
                 >
                     <div className={'tip-overlay ' + this.props.overlayClass}>

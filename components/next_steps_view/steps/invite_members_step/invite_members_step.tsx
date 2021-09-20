@@ -39,6 +39,7 @@ type Props = StepComponentProps & {
     subscriptionStats: SubscriptionStats;
     intl: IntlShape;
     isCloud: boolean;
+    downloadAppsAsNextStep: boolean;
 };
 
 type State = {
@@ -277,6 +278,20 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
 
     render(): JSX.Element {
         const linkBtn = this.props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/> : <NotifyLink/>;
+        let finishMessage = (
+            <FormattedMessage
+                id='next_steps_view.invite_members_step.finish'
+                defaultMessage='Finish'
+            />
+        );
+        if (this.props.downloadAppsAsNextStep) {
+            finishMessage = (
+                <FormattedMessage
+                    id='next_steps_view.invite_members_step.next_step'
+                    defaultMessage='Next step'
+                />
+            );
+        }
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='InviteMembersStep'>
@@ -403,10 +418,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                         className={'NextStepsView__button NextStepsView__finishButton primary'}
                         onClick={this.onFinish}
                     >
-                        <FormattedMessage
-                            id='next_steps_view.invite_members_step.finish'
-                            defaultMessage='Finish'
-                        />
+                        {finishMessage}
                     </button>
                 </div>
             </div>

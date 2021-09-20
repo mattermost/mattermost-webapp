@@ -16,8 +16,10 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = 
 
     switch (type) {
     case 'browser-history-push-return': {
-        const {pathName} = message;
-        b.push(pathName);
+        if (message.pathName) {
+            const {pathName} = message;
+            b.push(pathName);
+        }
         break;
     }
     }
