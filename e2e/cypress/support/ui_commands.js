@@ -143,7 +143,7 @@ function waitUntilPermanentPost() {
 Cypress.Commands.add('getLastPost', () => {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').last();
+    return cy.findAllByTestId('postView').last();
 });
 
 Cypress.Commands.add('getLastPostId', () => {
@@ -198,7 +198,7 @@ Cypress.Commands.add('getNthPostId', (index = 0) => {
 Cypress.Commands.add('uiGetNthPost', (index) => {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').eq(index);
+    return cy.findAllByTestId('postView').eq(index);
 });
 
 /**
