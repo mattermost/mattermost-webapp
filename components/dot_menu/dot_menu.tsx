@@ -326,12 +326,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
             this.trackShortcutEvent(TELEMETRY_LABELS.REPLY);
             this.props.handleCommentClick(e);
+            this.props.handleDropdownOpened(false);
             break;
 
         // edit post
         case Utils.isKeyPressed(e, Constants.KeyCodes.E):
             this.trackShortcutEvent(TELEMETRY_LABELS.EDIT);
             this.handleEditMenuItemActivated();
+            this.props.handleDropdownOpened(false);
             break;
 
         // follow thread
@@ -342,18 +344,21 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 this.trackShortcutEvent(TELEMETRY_LABELS.FOLLOW);
             }
             this.handleSetThreadFollow();
+            this.props.handleDropdownOpened(false);
             break;
 
         // copy link
         case Utils.isKeyPressed(e, Constants.KeyCodes.K):
             this.trackShortcutEvent(TELEMETRY_LABELS.COPY_LINK);
             this.copyLink();
+            this.props.handleDropdownOpened(false);
             break;
 
         // delete post
         case Utils.isKeyPressed(e, Constants.KeyCodes.DELETE):
             this.trackShortcutEvent(TELEMETRY_LABELS.DELETE);
             this.handleDeleteMenuItemActivated(e);
+            this.props.handleDropdownOpened(false);
             break;
 
         // pin / unpin
@@ -364,16 +369,16 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 this.trackShortcutEvent(TELEMETRY_LABELS.PIN);
             }
             this.handlePinMenuItemActivated();
+            this.props.handleDropdownOpened(false);
             break;
 
         // mark as unread
         case Utils.isKeyPressed(e, Constants.KeyCodes.U):
             this.trackShortcutEvent(TELEMETRY_LABELS.UNREAD);
             this.props.actions.markPostAsUnread(this.props.post, this.props.location);
+            this.props.handleDropdownOpened(false);
             break;
         }
-
-        this.props.handleDropdownOpened(false);
     }
 
     getIcon = (name: string): JSX.Element => {
