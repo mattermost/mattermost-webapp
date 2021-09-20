@@ -31,6 +31,8 @@ type Props = {
 
     /*
      * Name of the sub component to use. Defaults to 'component' if unspecified.
+     *
+     * Only supported when pluggableName is "Product".
      */
     subComponentName?: 'mainComponent' | 'headerCentreComponent' | 'headerRightComponent';
 
