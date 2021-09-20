@@ -83,7 +83,6 @@ export type Post = {
 
 export type UserActivityPost = Post & {
     system_post_ids: string[];
-    user_activity_posts: Post[];
 }
 
 export type PostList = {

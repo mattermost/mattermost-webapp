@@ -598,47 +598,6 @@ export function makeGetProfilesNotInChannel(): (state: GlobalState, channelId: $
     );
 }
 
-export function makeGetProfilesByIdsAndUsernames(): (
-    state: GlobalState,
-    props: {
-        allUserIds: Array<$ID<UserProfile>>;
-        allUsernames: Array<$Username<UserProfile>>;
-    }
-) => UserProfile[] {
-    return createSelector(
-        'makeGetProfilesByIdsAndUsernames',
-        getUsers,
-        getUsersByUsername,
-        (state: GlobalState, props: {allUserIds: Array<$ID<UserProfile>>; allUsernames: Array<$Username<UserProfile>>}) => props.allUserIds,
-        (state, props) => props.allUsernames,
-        (allProfilesById: Dictionary<UserProfile>, allProfilesByUsername: Dictionary<UserProfile>, allUserIds: string[], allUsernames: string[]) => {
-            const userProfiles: UserProfile[] = [];
-
-            if (allUserIds && allUserIds.length > 0) {
-                const profilesById = allUserIds.
-                    filter((userId) => allProfilesById[userId]).
-                    map((userId) => allProfilesById[userId]);
-
-                if (profilesById && profilesById.length > 0) {
-                    userProfiles.push(...profilesById);
-                }
-            }
-
-            if (allUsernames && allUsernames.length > 0) {
-                const profilesByUsername = allUsernames.
-                    filter((username) => allProfilesByUsername[username]).
-                    map((username) => allProfilesByUsername[username]);
-
-                if (profilesByUsername && profilesByUsername.length > 0) {
-                    userProfiles.push(...profilesByUsername);
-                }
-            }
-
-            return userProfiles;
-        },
-    );
-}
-
 export function makeGetDisplayName(): (state: GlobalState, userId: $ID<UserProfile>, useFallbackUsername?: boolean) => string {
     return createSelector(
         'makeGetDisplayName',

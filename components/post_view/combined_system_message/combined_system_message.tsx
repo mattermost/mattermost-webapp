@@ -6,10 +6,12 @@ import {injectIntl, IntlShape, MessageDescriptor} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
+import {Post, PostType} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
 import {t} from 'utils/i18n';
-import Markdown from 'components/markdown';
 
 import LastUsers from './last_users';
 
@@ -166,30 +168,24 @@ const postTypeMessage = {
 };
 
 export type Props = {
-    allUserIds: string[];
-    allUsernames: string[];
     currentUserId: string;
     currentUsername: string;
     intl: IntlShape;
-    messageData: Array<{
-        actorId?: string;
-        postType: string;
-        userIds: string[];
-    }>;
+
+    // messageData: Array<{
+    //     actorId?: string;
+    //     postType: string;
+    //     userIds: string[];
+    // }>;
+    posts: Post[];
     showJoinLeave: boolean;
-    userProfiles: UserProfile[];
+
+    // userProfiles: UserProfile[];
 }
 
 export class CombinedSystemMessage extends React.PureComponent<Props> {
-    static defaultProps = {
-        allUserIds: [],
-        allUsernames: [],
-    };
-
     getAllUsernames = (): {[p: string]: string} => {
         const {
-            allUserIds,
-            allUsernames,
             currentUserId,
             currentUsername,
             userProfiles,
@@ -202,11 +198,8 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         }, {});
 
         const currentUserDisplayName = formatMessage({id: t('combined_system_message.you'), defaultMessage: 'You'});
-        if (allUserIds.includes(currentUserId)) {
-            usernames[currentUserId] = currentUserDisplayName;
-        } else if (allUsernames.includes(currentUsername)) {
-            usernames[currentUsername] = currentUserDisplayName;
-        }
+        usernames[currentUserId] = currentUserDisplayName;
+        usernames[currentUsername] = currentUserDisplayName;
 
         return usernames;
     }
@@ -237,10 +230,11 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         return usernames;
     }
 
-    renderFormattedMessage(postType: string, userIds: string[], actorId?: string): JSX.Element {
+    renderFormattedMessage(postType: string, usernames: string[], actorId?: string): JSX.Element {
         const {formatMessage} = this.props.intl;
         const {currentUserId, currentUsername} = this.props;
-        const usernames = this.getUsernamesByIds(userIds);
+
+        // const usernames = this.getUsernamesByIds(userIds);
         let actor = actorId ? this.getUsernamesByIds([actorId])[0] : '';
         if (actor && (actorId === currentUserId || actorId === currentUsername)) {
             actor = actor.toLowerCase();
@@ -250,14 +244,15 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         const secondUser = usernames[1];
         const numOthers = usernames.length - 1;
 
-        const options = {
-            atMentions: true,
-            mentionKeys: [{key: firstUser}, {key: secondUser}, {key: actor}],
-            mentionHighlight: false,
-            singleline: true,
-        };
 
-        if (numOthers > 1) {
+        if (usernames.length > 2) {
+            const options = {
+                atMentions: true,
+                mentionKeys: [{key: firstUser}, {key: secondUser}, {key: actor}],
+                mentionHighlight: false,
+                singleline: true,
+            };
+
             return (
                 <LastUsers
                     actor={actor}
@@ -274,7 +269,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
             localeHolder = postTypeMessage[postType].one;
 
             if (
-                (userIds[0] === this.props.currentUserId || userIds[0] === this.props.currentUsername) &&
+                (usernames[0] === this.props.currentUsername) &&
                 postTypeMessage[postType].one_you
             ) {
                 localeHolder = postTypeMessage[postType].one_you;
@@ -283,20 +278,32 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
             localeHolder = postTypeMessage[postType].two;
         }
 
-        const formattedMessage = formatMessage(localeHolder, {firstUser, secondUser, actor});
-
         return (
-            <Markdown
-                message={formattedMessage}
-                options={options}
+            <FormattedMarkdownMessage
+                id={localeHolder.id}
+                defaultMessage={localeHolder.defaultMessage}
+                values={{
+                    firstUser,
+                    secondUser,
+                    actor,
+                }}
             />
         );
+
+        // const formattedMessage = formatMessage(localeHolder, {firstUser, secondUser, actor});
+
+        // return (
+        //     <Markdown
+        //         message={formattedMessage}
+        //         options={options}
+        //     />
+        // );
     }
 
-    renderMessage(postType: string, userIds: string[], actorId?: string): JSX.Element {
+    renderMessage(postType: string, usernames: string[], actorId?: string): JSX.Element {
         return (
             <React.Fragment key={postType + actorId}>
-                {this.renderFormattedMessage(postType, userIds, actorId)}
+                {this.renderFormattedMessage(postType, usernames, actorId)}
                 <br/>
             </React.Fragment>
         );
@@ -304,43 +311,107 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
 
     render(): JSX.Element {
         const {
-            currentUserId,
-            messageData,
+            currentUsername,
+            posts,
         } = this.props;
 
-        const content = [];
-        const removedUserIds = [];
-        for (const message of messageData) {
-            const {
-                postType,
-                actorId,
-            } = message;
-            let userIds = message.userIds;
+        type Row = {
+            type: PostType;
+            actorId: string;
+            usernames: string[];
+        }
 
-            if (!this.props.showJoinLeave && actorId !== currentUserId) {
-                const affectsCurrentUser = userIds.indexOf(currentUserId) !== -1;
+        const rows: Row[] = [];
+        for (const post of posts) {
+            const lastRow = rows[rows.length - 1];
 
-                if (affectsCurrentUser) {
-                    // Only show the message that the current user was added, etc
-                    userIds = [currentUserId];
-                } else {
-                    // Not something the current user did or was affected by
-                    continue;
-                }
-            }
-
-            if (postType === REMOVE_FROM_CHANNEL) {
-                removedUserIds.push(...userIds);
+            let actorId;
+            let username;
+            if ([JOIN_CHANNEL, LEAVE_CHANNEL, JOIN_TEAM, LEAVE_TEAM].includes(post.type)) {
+                // JOIN_CHANNEL, JOIN_TEAM, LEAVE_CHANNEL, and LEAVE_TEAM provide username (actor) in props
+                actorId = post.user_id;
+                username = post.props.username;
+            } else if ([ADD_TO_CHANNEL, ADD_TO_TEAM].includes(post.type)) {
+                // ADD_TO_CHANNEL and ADD_TO_TEAM provide username (actor), userId (actor), addedUserId, and
+                // addedUsername in props
+                actorId = post.user_id;
+                username = post.props.addedUsername;
+            } else if (post.type === REMOVE_FROM_CHANNEL) {
+                // REMOVE_FROM_CHANNEL provides removedUserId and removedUsername in props
+                actorId = '';
+                username = post.props.removedUsername;
+            } else if (post.type === REMOVE_FROM_TEAM) {
+                // REMOVE_FROM_TEAM provides username (removed user) in props and the post.user_id is the removed
+                // user instead of the actor
+                actorId = '';
+                username = post.props.username;
+            } else {
                 continue;
             }
 
-            content.push(this.renderMessage(postType, userIds, actorId));
+            if (lastRow && lastRow.type === post.type && lastRow.actorId === actorId) {
+                lastRow.usernames.push(username);
+            } else {
+                rows.push({
+                    type: post.type,
+                    actorId,
+                    usernames: [username],
+                });
+            }
         }
 
-        if (removedUserIds.length > 0) {
-            const uniqueRemovedUserIds = removedUserIds.filter((id, index, arr) => arr.indexOf(id) === index);
-            content.push(this.renderMessage(REMOVE_FROM_CHANNEL, uniqueRemovedUserIds, currentUserId));
+        // Ensure the current user always comes first in the list
+        for (const row of rows) {
+            if (!row.usernames.includes(currentUsername)) {
+                continue;
+            }
+
+            row.usernames.sort((a, b) => {
+                if (a === currentUsername) {
+                    return -1;
+                } else if (b === currentUsername) {
+                    return 1;
+                }
+
+                return 0;
+            });
         }
+
+        const content = rows.map((row) => this.renderMessage(row.type, row.usernames, row.actorId));
+
+        // const content = [];
+        // const removedUserIds = [];
+        // for (const message of messageData) {
+        //     const {
+        //         postType,
+        //         actorId,
+        //     } = message;
+        //     let userIds = message.userIds;
+
+        //     if (!this.props.showJoinLeave && actorId !== currentUserId) {
+        //         const affectsCurrentUser = userIds.indexOf(currentUserId) !== -1;
+
+        //         if (affectsCurrentUser) {
+        //             // Only show the message that the current user was added, etc
+        //             userIds = [currentUserId];
+        //         } else {
+        //             // Not something the current user did or was affected by
+        //             continue;
+        //         }
+        //     }
+
+        //     if (postType === REMOVE_FROM_CHANNEL) {
+        //         removedUserIds.push(...userIds);
+        //         continue;
+        //     }
+
+        //     content.push(this.renderMessage(postType, userIds, actorId));
+        // }
+
+        // if (removedUserIds.length > 0) {
+        //     const uniqueRemovedUserIds = removedUserIds.filter((id, index, arr) => arr.indexOf(id) === index);
+        //     content.push(this.renderMessage(REMOVE_FROM_CHANNEL, uniqueRemovedUserIds, currentUserId));
+        // }
 
         return (
             <React.Fragment>

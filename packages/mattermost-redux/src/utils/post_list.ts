@@ -3,7 +3,7 @@
 
 import moment from 'moment-timezone';
 
-import * as reselect from 'reselect';
+import {createSelector} from 'reselect';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
 
@@ -275,7 +275,7 @@ export function makeGenerateCombinedPost(): (state: GlobalState, combinedId: str
     const getPostsForIds = makeGetPostsForIds();
     const getPostIds = memoizeResult(getPostIdsForCombinedUserActivityPost);
 
-    return reselect.createSelector(
+    return createSelector(
         'makeGenerateCombinedPost',
         (state: GlobalState, combinedId: string) => combinedId,
         (state: GlobalState, combinedId: string) => getPostsForIds(state, getPostIds(combinedId)),
@@ -302,10 +302,7 @@ export function makeGenerateCombinedPost(): (state: GlobalState, combinedId: str
                 original_id: '',
                 message: messages.join('\n'),
                 type: Posts.POST_TYPES.COMBINED_USER_ACTIVITY,
-                props: {
-                    messages,
-                    user_activity: combineUserActivitySystemPost(posts),
-                },
+                props: {},
                 hashtags: '',
                 pending_post_id: '',
                 reply_count: 0,
@@ -316,149 +313,8 @@ export function makeGenerateCombinedPost(): (state: GlobalState, combinedId: str
                     images: {},
                     reactions: [],
                 },
-                system_post_ids: posts.map((post) => post.id),
-                user_activity_posts: posts,
+                system_post_ids: posts.map((post) => post.id), // TODO should this also be removed?
             };
         },
     );
-}
-
-export const postTypePriority = {
-    [Posts.POST_TYPES.JOIN_TEAM]: 0,
-    [Posts.POST_TYPES.ADD_TO_TEAM]: 1,
-    [Posts.POST_TYPES.LEAVE_TEAM]: 2,
-    [Posts.POST_TYPES.REMOVE_FROM_TEAM]: 3,
-    [Posts.POST_TYPES.JOIN_CHANNEL]: 4,
-    [Posts.POST_TYPES.ADD_TO_CHANNEL]: 5,
-    [Posts.POST_TYPES.LEAVE_CHANNEL]: 6,
-    [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: 7,
-    [Posts.POST_TYPES.PURPOSE_CHANGE]: 8,
-    [Posts.POST_TYPES.HEADER_CHANGE]: 9,
-    [Posts.POST_TYPES.JOIN_LEAVE]: 10,
-    [Posts.POST_TYPES.DISPLAYNAME_CHANGE]: 11,
-    [Posts.POST_TYPES.CONVERT_CHANNEL]: 12,
-    [Posts.POST_TYPES.CHANNEL_DELETED]: 13,
-    [Posts.POST_TYPES.CHANNEL_UNARCHIVED]: 14,
-    [Posts.POST_TYPES.ADD_REMOVE]: 15,
-    [Posts.POST_TYPES.EPHEMERAL]: 16,
-};
-
-export function comparePostTypes(a: typeof postTypePriority, b: typeof postTypePriority) {
-    return postTypePriority[a.postType] - postTypePriority[b.postType];
-}
-
-function extractUserActivityData(userActivities: any) {
-    const messageData: any[] = [];
-    const allUserIds: string[] = [];
-    const allUsernames: string[] = [];
-    Object.entries(userActivities).forEach(([postType, values]: [string, any]) => {
-        if (
-            postType === Posts.POST_TYPES.ADD_TO_TEAM ||
-            postType === Posts.POST_TYPES.ADD_TO_CHANNEL ||
-            postType === Posts.POST_TYPES.REMOVE_FROM_CHANNEL
-        ) {
-            Object.keys(values).map((key) => [key, values[key]]).forEach(([actorId, users]) => {
-                if (Array.isArray(users)) {
-                    throw new Error('Invalid Post activity data');
-                }
-                const {ids, usernames} = users;
-                messageData.push({postType, userIds: [...usernames, ...ids], actorId});
-                if (ids.length > 0) {
-                    allUserIds.push(...ids);
-                }
-
-                if (usernames.length > 0) {
-                    allUsernames.push(...usernames);
-                }
-                allUserIds.push(actorId);
-            });
-        } else {
-            if (!Array.isArray(values)) {
-                throw new Error('Invalid Post activity data');
-            }
-            messageData.push({postType, userIds: values});
-            allUserIds.push(...values);
-        }
-    });
-
-    messageData.sort(comparePostTypes);
-
-    function reduceUsers(acc: string[], curr: string) {
-        if (!acc.includes(curr)) {
-            acc.push(curr);
-        }
-        return acc;
-    }
-
-    return {
-        allUserIds: allUserIds.reduce(reduceUsers, []),
-        allUsernames: allUsernames.reduce(reduceUsers, []),
-        messageData,
-    };
-}
-
-export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
-    if (systemPosts.length === 0) {
-        return null;
-    }
-
-    const userActivities = systemPosts.reduce((acc: any, post: Post) => {
-        const postType = post.type;
-        let userActivityProps = acc;
-        const combinedPostType = userActivityProps[postType as string];
-
-        if (
-            postType === Posts.POST_TYPES.ADD_TO_TEAM ||
-            postType === Posts.POST_TYPES.ADD_TO_CHANNEL ||
-            postType === Posts.POST_TYPES.REMOVE_FROM_CHANNEL
-        ) {
-            const userId = post.props.addedUserId || post.props.removedUserId;
-            const username = post.props.addedUsername || post.props.removedUsername;
-            if (combinedPostType) {
-                if (Array.isArray(combinedPostType[post.user_id])) {
-                    throw new Error('Invalid Post activity data');
-                }
-                const users = combinedPostType[post.user_id] || {ids: [], usernames: []};
-                if (userId) {
-                    if (!users.ids.includes(userId)) {
-                        users.ids.push(userId);
-                    }
-                } else if (username && !users.usernames.includes(username)) {
-                    users.usernames.push(username);
-                }
-                combinedPostType[post.user_id] = users;
-            } else {
-                const users = {
-                    ids: [] as string[],
-                    usernames: [] as string[],
-                };
-
-                if (userId) {
-                    users.ids.push(userId);
-                } else if (username) {
-                    users.usernames.push(username);
-                }
-                userActivityProps[postType] = {
-                    [post.user_id]: users,
-                };
-            }
-        } else {
-            const propsUserId = post.user_id;
-
-            if (combinedPostType) {
-                if (!Array.isArray(combinedPostType)) {
-                    throw new Error('Invalid Post activity data');
-                }
-                if (!combinedPostType.includes(propsUserId)) {
-                    userActivityProps[postType] = [...combinedPostType, propsUserId];
-                }
-            } else {
-                userActivityProps = {...userActivityProps, [postType]: [propsUserId]};
-            }
-        }
-
-        return userActivityProps;
-    }, {});
-
-    return extractUserActivityData(userActivities);
 }
