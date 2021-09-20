@@ -84,26 +84,6 @@
     }
 }
 
-.shortcut-line {
-    margin: 16px 0;
-
-    span {
-        &:first-child {
-            margin-right: 5px;
-        }
-    }
-
-    // TODO: It probably makes sense to switch to <ShortcutKey> component
-    // in order to have universal shortcut key appearance
-    .shortcut-key {
-        padding: 4px 6px;
-        margin: 5px 0 5px 5px;
-        border-radius: 3px;
-        font-size: 0.9em;
-        font-weight: 500;
-    }
-}
-
 @media (max-height: 800px) {
     .modal {
         .shortcuts-modal {
@@ -115,9 +95,5 @@
                 margin-top: 0;
             }
         }
-    }
-
-    .shortcut-line {
-        margin-top: 14px;
     }
 }

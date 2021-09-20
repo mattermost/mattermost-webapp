@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
+import {Tooltip} from 'react-bootstrap';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -13,6 +14,9 @@ import {isDesktopApp} from 'utils/user_agent';
 import AddChannelDropdown from '../add_channel_dropdown';
 import ChannelFilter from '../channel_filter';
 import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
+import {KEYBOARD_SHORTCUTS, KeyboardShortcutsSeq} from '../../keyboard_shortcuts/keyboard_shortcuts';
+import KeyboardShortcutSequence from '../../keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
+import OverlayTrigger from 'components/overlay_trigger';
 
 export type Props = {
     addChannelButton?: AddChannelButtonTreatments;
@@ -146,27 +150,52 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 />
             );
         }
+        const getTooltip = (shortcut: KeyboardShortcutsSeq) => (
+            <Tooltip
+                id='upload-tooltip'
+            >
+                <KeyboardShortcutSequence
+                    shortcut={shortcut}
+                    hoistDescription={true}
+                    isInsideTooltip={true}
+                />
+            </Tooltip>
+        );
 
         let layout;
         if (isDesktopApp() && !this.props.globalHeaderEnabled) {
             const historyArrows = (
                 <>
-                    <button
-                        className={classNames('SidebarChannelNavigator_backButton', {disabled: !this.props.canGoBack})}
-                        disabled={!this.props.canGoBack}
-                        onClick={this.goBack}
-                        aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goBackLabel', 'Back')}
+                    <OverlayTrigger
+                        trigger={['hover']}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='bottom'
+                        overlay={getTooltip(KEYBOARD_SHORTCUTS.browserChannelPrev)}
                     >
-                        <i className='icon icon-arrow-left'/>
-                    </button>
-                    <button
-                        className={classNames('SidebarChannelNavigator_forwardButton', {disabled: !this.props.canGoForward})}
-                        disabled={!this.props.canGoForward}
-                        onClick={this.goForward}
-                        aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goForwardLabel', 'Forward')}
+                        <button
+                            className={classNames('SidebarChannelNavigator_backButton', {disabled: !this.props.canGoBack})}
+                            disabled={!this.props.canGoBack}
+                            onClick={this.goBack}
+                            aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goBackLabel', 'Back')}
+                        >
+                            <i className='icon icon-arrow-left'/>
+                        </button>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                        trigger={['hover']}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='bottom'
+                        overlay={getTooltip(KEYBOARD_SHORTCUTS.browserChannelPrev)}
                     >
-                        <i className='icon icon-arrow-right'/>
-                    </button>
+                        <button
+                            className={classNames('SidebarChannelNavigator_forwardButton', {disabled: !this.props.canGoForward})}
+                            disabled={!this.props.canGoForward}
+                            onClick={this.goForward}
+                            aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goForwardLabel', 'Forward')}
+                        >
+                            <i className='icon icon-arrow-right'/>
+                        </button>
+                    </OverlayTrigger>
                 </>
             );
 

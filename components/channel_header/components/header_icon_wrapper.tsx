@@ -10,6 +10,8 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
+import KeyboardShortcutSequence from '../../keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
+import {KEYBOARD_SHORTCUTS, KeyboardShortcutsSeq} from '../../keyboard_shortcuts/keyboard_shortcuts';
 
 type Props = {
     ariaLabel?: boolean;
@@ -27,6 +29,7 @@ type TooltipInfo = {
     id: string;
     messageID: string;
     message: string;
+    keyboardShortcut?: KeyboardShortcutsSeq;
 }
 
 const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
@@ -59,6 +62,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             id: 'recentMentionsTooltip',
             messageID: t('channel_header.recentMentions'),
             message: 'Recent mentions',
+            keyboardShortcut: KEYBOARD_SHORTCUTS.navMentions,
         },
         search: {
             class: '',
@@ -88,6 +92,13 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
                     id={toolTips[key].messageID}
                     defaultMessage={toolTips[key].message}
                 />
+                {toolTips[key].keyboardShortcut &&
+                    <KeyboardShortcutSequence
+                        shortcut={toolTips[key].keyboardShortcut!}
+                        hideDescription={true}
+                        isInsideTooltip={true}
+                    />
+                }
             </Tooltip>
         );
     }

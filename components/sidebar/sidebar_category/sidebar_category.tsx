@@ -25,6 +25,10 @@ import SidebarChannel from '../sidebar_channel';
 import {SidebarCategoryHeader} from '../sidebar_category_header';
 import InviteMembersButton from '../invite_members_button';
 
+import KeyboardShortcutSequence from '../../keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
+
+import {KEYBOARD_SHORTCUTS} from '../../keyboard_shortcuts/keyboard_shortcuts';
+
 import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
@@ -283,6 +287,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     className='hidden-xs'
                 >
                     {addHelpLabel}
+                    <KeyboardShortcutSequence
+                        shortcut={KEYBOARD_SHORTCUTS.navDMMenu}
+                        hideDescription={true}
+                        isInsideTooltip={true}
+                    />
                 </Tooltip>
             );
 

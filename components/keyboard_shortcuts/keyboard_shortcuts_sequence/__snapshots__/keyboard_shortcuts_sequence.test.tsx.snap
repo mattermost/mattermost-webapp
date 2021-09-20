@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/shortcuts/KeyboardShortcutsSequence should match snapshot modal for Mac 1`] = `
+<Memo(KeyboardShortcutSequence)
+  shortcut={
+    Object {
+      "defaultMessage": "Keyboard Shortcuts	⌘|/",
+      "id": "test",
+    }
+  }
+>
+  <div
+    className="shortcut-line"
+  >
+    <span>
+      Keyboard Shortcuts
+    </span>
+    <ShortcutKey
+      key="⌘"
+      variant="shortcut"
+    >
+      <mark
+        className="shortcut-key shortcut-key--shortcut-modal"
+      >
+        ⌘
+      </mark>
+    </ShortcutKey>
+    <ShortcutKey
+      key="/"
+      variant="shortcut"
+    >
+      <mark
+        className="shortcut-key shortcut-key--shortcut-modal"
+      >
+        /
+      </mark>
+    </ShortcutKey>
+  </div>
+</Memo(KeyboardShortcutSequence)>
+`;
