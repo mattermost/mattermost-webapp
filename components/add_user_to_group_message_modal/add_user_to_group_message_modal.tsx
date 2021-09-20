@@ -19,7 +19,7 @@ import {ModalIdentifiers} from 'utils/constants';
 type Props = {
     onHide: () => void;
     actions: {
-        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
+        openModal: (modalData: { modalId: string; dialogType: React.ReactNode; dialogProps?: {channel: string} }) => void;
     };
 }
 
