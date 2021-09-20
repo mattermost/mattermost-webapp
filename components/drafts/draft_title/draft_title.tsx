@@ -9,7 +9,7 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {imageURLForUser} from 'utils/utils.jsx';
+import {imageURLForUser, localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 
 import Avatar from 'components/widgets/users/avatar';
@@ -19,6 +19,7 @@ import './draft_title.scss';
 type Props = {
     channel: Channel;
     channelName: string;
+    selfDraft: boolean;
     teammate?: UserProfile;
     teammateId?: string;
     type: 'channel' | 'thread';
@@ -27,6 +28,7 @@ type Props = {
 function DraftTitle({
     channel,
     channelName,
+    selfDraft,
     teammate,
     teammateId,
     type,
@@ -39,37 +41,53 @@ function DraftTitle({
         }
     }, [teammate?.id, teammateId]);
 
+    let you = null;
+    if (selfDraft) {
+        you = (
+            <FormattedMessage
+                id='drafts.draft_title.you'
+                defaultMessage={'(you)'}
+            />
+        );
+    }
+
     if (type === 'thread') {
         return (
-            <FormattedMessage
-                id='drafts.draft_title.thread'
-                defaultMessage={'Thread in: {icon} {channelName}'}
-                values={{
-                    icon: <i className='icon icon-globe'/>,
-                    channelName,
-                }}
-            />
+            <>
+                <FormattedMessage
+                    id='drafts.draft_title.thread'
+                    defaultMessage={'Thread in: {icon} {channelName}'}
+                    values={{
+                        icon: <i className='icon icon-globe'/>,
+                        channelName,
+                    }}
+                />
+                &nbsp;{you}
+            </>
         );
     }
 
     switch (channel.type) {
     case Constants.DM_CHANNEL: {
         return (
-            <FormattedMessage
-                id='drafts.draft_title.dm_channel'
-                defaultMessage={'In: {icon} {channelName}'}
-                values={{
-                    icon: (
-                        <Avatar
-                            size='xs'
-                            username={teammate?.username}
-                            url={imageURLForUser(teammate?.id, teammate?.last_picture_update)}
-                            className='DraftTitle__avatar'
-                        />
-                    ),
-                    channelName,
-                }}
-            />
+            <>
+                <FormattedMessage
+                    id='drafts.draft_title.dm_channel'
+                    defaultMessage={'In: {icon} {channelName}'}
+                    values={{
+                        icon: (
+                            <Avatar
+                                size='xs'
+                                username={teammate?.username}
+                                url={imageURLForUser(teammate?.id, teammate?.last_picture_update)}
+                                className='DraftTitle__avatar'
+                            />
+                        ),
+                        channelName,
+                    }}
+                />
+                &nbsp;{you}
+            </>
         );
     }
     case Constants.GM_CHANNEL:

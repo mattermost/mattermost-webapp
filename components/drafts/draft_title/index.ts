@@ -36,6 +36,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         channelName,
         teammateId,
         teammate,
+        selfDraft: teammateId === userId,
     };
 }
 export default connect(mapStateToProps)(DraftTitle);
