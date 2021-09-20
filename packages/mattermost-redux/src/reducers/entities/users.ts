@@ -668,6 +668,6 @@ export default combineReducers({
     // Total user stats after filters have been applied
     filteredStats,
 
-    // object where every key is the user id and has a value with the last activity timestamp 
+    // object where every key is the user id and has a value with the last activity timestamp
     lastActivity,
 });

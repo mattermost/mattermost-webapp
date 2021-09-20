@@ -8,11 +8,12 @@
 .user-profile-popover__heading {
     font-weight: 600;
 }
+
 .user-popover-last-active {
-    text-align: center;
     display: block;
+    margin: 10px 0 4px;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
     font-size: 11px;
     line-height: 16px;
-    color: rgba(61, 60, 64, 0.64);
-    margin: 10px 0 4px;
+    text-align: center;
 }

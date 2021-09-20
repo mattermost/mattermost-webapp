@@ -386,10 +386,10 @@ ProfilePopoverState
                             ),
                         }}
                     />
-                </div>
+                </div>,
             );
         }
-        
+
         const fullname = Utils.getFullName(this.props.user);
         const haveOverrideProp =
       this.props.overwriteIcon || this.props.overwriteName;

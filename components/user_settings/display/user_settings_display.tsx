@@ -189,7 +189,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
         const updatedUser = {
             ...user,
-            show_last_active: lastActiveDisplay  === 'true',
+            show_last_active: lastActiveDisplay === 'true',
         };
 
         actions.updateMe(updatedUser).
