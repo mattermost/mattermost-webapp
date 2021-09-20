@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback} from 'react';
-import {injectIntl, IntlShape} from 'react-intl';
+import {useIntl, IntlShape} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -23,12 +23,13 @@ import Constants, {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
     channel: Channel;
-    intl: IntlShape;
     openUp: boolean;
+    location?: string | 'sidebar' | 'channel';
 };
 
 const CategoryMenuItems = (props: Props): JSX.Element | null => {
-    const {channel, intl, openUp} = props;
+    const {channel, openUp, location} = props;
+    const intl = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
     const displayedChannels = useSelector((state: GlobalState) => getDisplayedChannels(state));
     const multiSelectedChannelIds = useSelector((state: GlobalState) => state.views.channelSidebar.multiSelectedChannelIds);
@@ -42,12 +43,18 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         currentCategory = useSelector((state: GlobalState) => getCategoryInTeamWithChannel(state, currentTeam.id, channel.id));
     }
 
-    const moveToCategory = useCallback((categoryId: string) => {
-        dispatch(addChannelsInSidebar(categoryId, channel.id));
-        trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
-    }, []);
+    if (!categories) {
+        return null;
+    }
 
-    const moveToNewCategory = useCallback(() => {
+    const moveToCategory = (categoryId: string) => {
+        if (currentCategory?.id !== categoryId) {
+            dispatch(addChannelsInSidebar(categoryId, channel.id));
+            trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
+        }
+    };
+
+    const moveToNewCategory = () => {
         dispatch(openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
@@ -56,20 +63,26 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
             },
         }));
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
-    }, []);
+    };
 
-    const selectedChannels = multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel] : displayedChannels.filter((c) => multiSelectedChannelIds.indexOf(c.id) !== -1);
-    const allChannelsAreDMs = selectedChannels.every((selectedChannel) => selectedChannel.type === Constants.DM_CHANNEL || selectedChannel.type === Constants.GM_CHANNEL);
-    const allChannelsAreNotDMs = selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL);
+    let filteredCategories = categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);
 
-    const categoryMenuItems = categories?.filter((category) => {
-        if (allChannelsAreDMs) {
-            return category.type !== CategoryTypes.CHANNELS;
-        } else if (allChannelsAreNotDMs) {
-            return category.type !== CategoryTypes.DIRECT_MESSAGES;
-        }
-        return true;
-    }).map((category: ChannelCategory) => {
+    if (location === 'sidebar') {
+        const selectedChannels = multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel] : displayedChannels.filter((c) => multiSelectedChannelIds.indexOf(c.id) !== -1);
+        const allChannelsAreDMs = selectedChannels.every((selectedChannel) => selectedChannel.type === Constants.DM_CHANNEL || selectedChannel.type === Constants.GM_CHANNEL);
+        const allChannelsAreNotDMs = selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL);
+
+        filteredCategories = categories?.filter((category) => {
+            if (allChannelsAreDMs) {
+                return category.type !== CategoryTypes.CHANNELS;
+            } else if (allChannelsAreNotDMs) {
+                return category.type !== CategoryTypes.DIRECT_MESSAGES;
+            }
+            return true;
+        })
+    }
+
+    const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
         return {
             id: `moveToCategory-${channel.id}-${category.id}`,
             icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
@@ -79,7 +92,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         } as any;
     });
 
-    categoryMenuItems?.push(
+    categoryMenuItems.push(
         {
             id: 'ChannelMenu-moveToDivider',
             text: (<li className='MenuGroup menu-divider'/>),
@@ -93,15 +106,15 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         },
     );
 
-    return categories ? (
+    return (
         <React.Fragment>
             <Menu.Group>
                 <Menu.ItemSubMenu
                     id={`moveTo-${channel.id}`}
                     subMenu={categoryMenuItems}
                     text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
-                    icon={<i className='icon-folder-move-outline'/>}
                     direction={'right' as any}
+                    icon={location === 'sidebar' ? <i className='icon-folder-move-outline'/> : null}
                     openUp={openUp}
                     styleSelectableItem={true}
                     selectedValueText={currentCategory?.display_name}
@@ -109,7 +122,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
                 />
             </Menu.Group>
         </React.Fragment>
-    ) : null;
+    );
 };
 
-export default injectIntl(CategoryMenuItems);
+export default CategoryMenuItems;

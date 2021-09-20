@@ -111,6 +111,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                     <CategoryMenuItems
                         channel={channel}
                         openUp={false}
+                        location={'channel'}
                     />
                     <MenuItemToggleFavoriteChannel
                         id='channelToggleFavorite'

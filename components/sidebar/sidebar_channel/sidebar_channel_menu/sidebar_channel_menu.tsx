@@ -228,6 +228,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 <CategoryMenuItems
                     channel={channel}
                     openUp={this.state.openUp}
+                    location={'sidebar'}
                 />
                 <Menu.Group>
                     {copyLink}
