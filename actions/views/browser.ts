@@ -10,10 +10,6 @@ export function emitBrowserWindowResized(): GenericAction {
 
     let windowSize;
     switch (true) {
-    case width > Constants.DESKTOP_SCREEN_WIDTH: {
-        windowSize = WindowSizes.DESKTOP_VIEW;
-        break;
-    }
     case width > Constants.TABLET_SCREEN_WIDTH && width <= Constants.DESKTOP_SCREEN_WIDTH: {
         windowSize = WindowSizes.SMALL_DESKTOP_VIEW;
         break;
@@ -26,10 +22,13 @@ export function emitBrowserWindowResized(): GenericAction {
         windowSize = WindowSizes.MOBILE_VIEW;
         break;
     }
+    default: {
+        windowSize = WindowSizes.DESKTOP_VIEW; // width > Constants.DESKTOP_SCREEN_WIDTH
+    }
     }
 
     return {
         type: ActionTypes.BROWSER_WINDOW_RESIZED,
-        data: windowSize || WindowSizes.DESKTOP_VIEW,
+        data: windowSize,
     };
 }
