@@ -15,6 +15,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import {
     attachFile,
     downloadAttachmentAndVerifyItsProperties,
+    interceptFileUpload,
     waitUntilUploadComplete,
 } from './helpers';
 
@@ -25,6 +26,10 @@ describe('Upload Files - Audio', () => {
             cy.visit(channelUrl);
             cy.postMessage('hello');
         });
+    });
+
+    beforeEach(() => {
+        interceptFileUpload();
     });
 
     it('MM-T3825_1 - MP3', () => {

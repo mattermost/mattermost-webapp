@@ -16,13 +16,15 @@ export function downloadAttachmentAndVerifyItsProperties(fileURL, filename, http
     });
 }
 
-export function waitUntilUploadComplete() {
+export function interceptFileUpload() {
     cy.intercept({
         method: 'POST',
         url: '/api/v4/files',
-    }).as('postFileUpload');
+    }).as('fileUpload');
+}
 
-    cy.wait('@postFileUpload').then((interception) => {
+export function waitUntilUploadComplete() {
+    cy.wait('@fileUpload', {timeout: TIMEOUTS.TEN_SEC}).then((interception) => {
         const fileInfo = interception.response.body.file_infos[0];
         cy.log(`file id: ${fileInfo.id}`);
     });

@@ -14,6 +14,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {
     downloadAttachmentAndVerifyItsProperties,
+    interceptFileUpload,
     waitUntilUploadComplete,
 } from './helpers';
 
@@ -33,6 +34,7 @@ describe('Upload Files', () => {
             testUser = out.user;
 
             cy.visit(channelUrl);
+            interceptFileUpload();
         });
     });
 
