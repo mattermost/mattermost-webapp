@@ -42,7 +42,7 @@ function getDisplayStateFromProps(props: Props) {
         collapseDisplay: props.collapseDisplay,
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
-        lastActiveDisplay: props.lastActiveDisplay,
+        lastActiveDisplay: props.lastActiveDisplay.toString(),
     };
 }
 
@@ -105,7 +105,7 @@ type Props = {
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
     timezoneLabel: string;
-    lastActiveDisplay: string;
+    lastActiveDisplay: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
@@ -260,12 +260,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.LINK_PREVIEW_DISPLAY,
             value: this.state.linkPreviewDisplay,
         };
-        const lastActiveDisplayPreference = {
-            user_id: userId,
-            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
-            name: Preferences.LAST_ACTIVE_DISPLAY,
-            value: this.state.lastActiveDisplay,
-        };
 
         this.setState({isSaving: true});
 
@@ -278,7 +272,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             linkPreviewDisplayPreference,
             teammateNameDisplayPreference,
             availabilityStatusOnPostsPreference,
-            lastActiveDisplayPreference,
         ];
 
         this.trackChangeIfNecessary(collapsedReplyThreadsPreference, this.props.collapsedReplyThreads);
@@ -316,11 +309,11 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({collapsedReplyThreads});
     }
 
-    handleLinkPreviewRadio(lastActiveDisplay: string) {
+    handleLastActiveRadio(lastActiveDisplay: string) {
         this.setState({lastActiveDisplay});
     }
 
-    handleLastActiveRadio(linkPreviewDisplay: string) {
+    handleLinkPreviewRadio(linkPreviewDisplay: string) {
         this.setState({linkPreviewDisplay});
     }
 
@@ -624,11 +617,11 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         } else {
             this.prevSections.message_display = this.prevSections.linkpreview;
         }
-
+        console.log(this.state.lastActiveDisplay);
         const lastActiveSection = this.createSection({
             section: 'lastactive',
             display: 'lastActiveDisplay',
-            value: this.state.lastActiveDisplay,
+            value: this.state.lastActiveDisplay.toString(),
             defaultDisplay: 'true',
             title: {
                 id: t('user.settings.display.lastActiveDisplay'),

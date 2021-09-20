@@ -13,7 +13,7 @@ import {updateMe} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getTimezoneLabel, getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
@@ -45,6 +45,7 @@ function mapStateToProps(state: GlobalState) {
     const enableTimezone = config.ExperimentalTimezone === 'true';
     const lockTeammateNameDisplay = getLicense(state).LockTeammateNameDisplay === 'true' && config.LockTeammateNameDisplay === 'true';
     const configTeammateNameDisplay = config.TeammateNameDisplay as string;
+    const lastActiveDisplay = getUser(state, currentUserId).show_last_active;
 
     return {
         lockTeammateNameDisplay,
@@ -68,7 +69,7 @@ function mapStateToProps(state: GlobalState) {
         collapsedReplyThreadsAllowUserPreference: isCollapsedThreadsAllowed(state) && getConfig(state).CollapsedThreads as string !== 'always_on',
         collapsedReplyThreads: getCollapsedThreadsPreference(state),
         linkPreviewDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
-        lastActiveDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LAST_ACTIVE_DISPLAY, Preferences.LAST_ACTIVE_DISPLAY_DEFAULT),
+        lastActiveDisplay,
     };
 }
 
