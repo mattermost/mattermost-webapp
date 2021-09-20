@@ -65,6 +65,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         actions: {
             autoUpdateTimezone: jest.fn(),
             savePreferences: jest.fn(),
+            updateMe: jest.fn(),
         },
 
         configTeammateNameDisplay: '',
@@ -84,6 +85,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         linkPreviewDisplay: '',
         globalHeaderDisplay: '',
         globalHeaderAllowed: true,
+        lastActiveDisplay: '',
     };
 
     test('should match snapshot, no active section', () => {

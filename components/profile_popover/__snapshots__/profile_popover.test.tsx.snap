@@ -7,6 +7,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={false}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -96,6 +97,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -231,6 +233,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -419,6 +422,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -606,6 +610,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
   isCustomStatusEnabled={true}
   isCustomStatusExpired={true}
   isInCurrentTeam={true}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -741,6 +746,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"

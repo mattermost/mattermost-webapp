@@ -72,6 +72,7 @@ exports[`components/next_steps_view/steps/setup_preferences_step should match sn
         "position": "",
         "props": Object {},
         "roles": "",
+        "show_last_active": true,
         "terms_of_service_create_at": 0,
         "terms_of_service_id": "",
         "update_at": 0,
