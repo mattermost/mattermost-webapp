@@ -143,16 +143,38 @@
         border-radius: 4px;
 
         .upgradeLink {
-            color: --button-bg;
+            color: var(--button-bg);
             font-style: normal;
             font-weight: 600;
 
             &:hover {
-                color: --button-bg;
+                color: var(--button-bg);
                 font-style: normal;
                 font-weight: 600;
                 text-decoration: none;
             }
+        }
+    }
+
+    .MenuStartTrial {
+        padding: 8px;
+        padding-left: 16px;
+        margin: 8px;
+        margin-top: 0;
+        background-color: rgba(var(--button-bg-rgb), 0.04);
+        border-radius: 4px;
+
+        button {
+            padding: 3px 0;
+            border: none;
+            background-color: transparent;
+            color: var(--button-bg);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: transparent;
         }
     }
 }

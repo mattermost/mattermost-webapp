@@ -56,11 +56,7 @@ describe('Authentication', () => {
 
         // # Go to Account Settings > Security > Multi-factor Authentication > Edit
         cy.visit(`/${testTeam.name}/channels/town-square`).wait(timeouts.ONE_SEC);
-
-        cy.toAccountSettingsModal();
-
-        // * Check that the Security tab is loaded
-        cy.get('#securityButton').should('be.visible').click();
+        cy.uiOpenAccountSettingsModal('Security');
         cy.get('#mfaEdit').should('be.visible').click();
         cy.findByText('Add MFA to Account').should('be.visible').click();
 
@@ -107,11 +103,8 @@ describe('Authentication', () => {
             token = authenticator.generateToken(res.code.secret);
             fillMFACode(token);
 
-            // # Go to Account Settings
-            cy.toAccountSettingsModal();
-
-            // # Go to Security > Multi-factor Authentication > Edit and Remove MFA
-            cy.get('#securityButton').should('be.visible').click();
+            // # Go to Account Settings > Security > Multi-factor Authentication > Edit and Remove MFA
+            cy.uiOpenAccountSettingsModal('Security');
             cy.get('#mfaEdit').should('be.visible').click();
             cy.findByText('Remove MFA from Account').should('be.visible').click();
 
@@ -156,5 +149,5 @@ function getUserSecret(user) {
 function fillMFACode(code) {
     cy.wait(timeouts.TWO_SEC);
     cy.findByPlaceholderText('MFA Token').clear().type(code).wait(timeouts.ONE_SEC);
-    cy.get('#saveSetting').should('be.visible').click().wait(timeouts.ONE_SEC);
+    cy.uiSave();
 }

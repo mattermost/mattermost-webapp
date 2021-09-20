@@ -24,28 +24,26 @@ Cypress.Commands.add('doSamlLogin', (settings = {}) => {
 Cypress.Commands.add('doSamlLogout', (settings = {}) => {
     cy.checkLeftSideBar(settings);
 
-    // # Click hamburger main menu button
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.HALF_SEC).then(() => {
-        cy.findByText('Log Out').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.HALF_SEC).then(() => {
-            cy.checkLoginPage(settings);
-        });
-    });
+    // # Logout then check login page
+    cy.uiLogout();
+    cy.checkLoginPage(settings);
 });
 
 Cypress.Commands.add('getInvitePeopleLink', (settings = {}) => {
     cy.checkLeftSideBar(settings);
 
-    // # Click hamburger main menu button
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click().wait(TIMEOUTS.HALF_SEC).then(() => {
-        cy.findByText('Invite People').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.HALF_SEC).then(() => {
-            cy.checkInvitePeoplePage();
-            cy.findByTestId('shareLinkInput').should('be.visible').invoke('val').then((text) => {
-                //close the invitepeople modal
-                cy.get('.close-x').should('be.visible').click();
-                return cy.wrap(text);
-            });
+    // # Open team menu and click 'Invite People'
+    cy.uiOpenTeamMenu('Invite People');
+
+    cy.checkInvitePeoplePage();
+    cy.findByTestId('shareLinkInput').
+        should('be.visible').
+        invoke('val').
+        then((text) => {
+            // # Close Invite People modal
+            cy.uiClose();
+            return cy.wrap(text);
         });
-    });
 });
 
 Cypress.Commands.add('setTestSettings', (loginButtonText, config) => {

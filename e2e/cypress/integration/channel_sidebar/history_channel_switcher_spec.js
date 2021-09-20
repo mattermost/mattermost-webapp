@@ -26,7 +26,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // * Verify both buttons don't exist
         cy.get('.SidebarChannelNavigator_backButton').should('not.exist');
@@ -39,7 +39,7 @@ describe('Channel sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Click the Channel Switcher button
         cy.get('.SidebarChannelNavigator_jumpToButton').should('be.visible').click();

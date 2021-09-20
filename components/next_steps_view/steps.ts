@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory, getDownloadAppsCTATreatment} from 'mattermost-redux/selectors/entities/preferences';
+import {DownloadAppsCTATreatments} from 'mattermost-redux/constants/config';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
@@ -16,6 +17,7 @@ import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferenc
 import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
+import DownloadAppsStep from './steps/download_apps_step/download_apps_step';
 
 import {isStepForUser} from './step_helpers';
 
@@ -30,7 +32,7 @@ export type StepComponentProps = {
 export type StepType = {
     id: string;
     title: string;
-    component: React.ComponentType<StepComponentProps>;
+    component: React.ComponentType<StepComponentProps | StepComponentProps & {isFirstAdmin: boolean}>;
     visible: boolean;
 
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
@@ -91,6 +93,16 @@ export const Steps: StepType[] = [
         component: InviteMembersStep,
         visible: true,
     },
+    {
+        id: RecommendedNextSteps.DOWNLOAD_APPS,
+        title: localizeMessage(
+            'next_steps_view.downloadDesktopAndMobile',
+            'Download the Desktop and Mobile apps',
+        ),
+        roles: [],
+        component: DownloadAppsStep,
+        visible: true,
+    },
 ];
 
 export const isFirstAdmin = createSelector(
@@ -98,10 +110,9 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     (currentUser, users) => {
-        if (currentUser && !currentUser.roles.includes('system_admin')) {
+        if (!currentUser.roles.includes('system_admin')) {
             return false;
         }
-
         const userIds = Object.keys(users);
         for (const userId of userIds) {
             const user = users[userId];
@@ -114,18 +125,23 @@ export const isFirstAdmin = createSelector(
     },
 );
 
+function filterDownloadAppsStep(step: StepType, downloadAppsAsNextStep: boolean): boolean {
+    if (step.id !== RecommendedNextSteps.DOWNLOAD_APPS) {
+        return true;
+    }
+
+    return downloadAppsAsNextStep;
+}
+
 export const getSteps = createSelector(
     'getSteps',
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
-    (currentUser, firstAdmin) => {
-        if (!currentUser) {
-            return Steps.filter((step) => step.visible);
-        }
-
+    (state: GlobalState) => getDownloadAppsCTATreatment(state) === DownloadAppsCTATreatments.TIPS_AND_NEXT_STEPS,
+    (currentUser, firstAdmin, downloadAppsAsNextStep) => {
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
-            isStepForUser(step, roles) && step.visible,
+            isStepForUser(step, roles) && step.visible && filterDownloadAppsStep(step, downloadAppsAsNextStep),
         );
     },
 );
@@ -189,10 +205,6 @@ export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => isFirstAdmin(state),
     (state: GlobalState) => getSteps(state),
     (stepPreferences, currentUser, firstAdmin, mySteps) => {
-        if (!currentUser) {
-            return true;
-        }
-
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !mySteps.every(checkPref);

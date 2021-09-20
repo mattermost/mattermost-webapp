@@ -10,10 +10,9 @@
 // Stage: @prod
 // Group: @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 
-describe('Pinned posts part 2', () => {
+describe('Pinned posts', () => {
     let testTeam;
     let testChannel;
     let testUser;
@@ -61,7 +60,7 @@ describe('Pinned posts part 2', () => {
             cy.get(`#post_${postId}`).find('.post-pre-header').should('not.exist');
 
             // # Click pin icon
-            cy.get('#channelHeaderPinButton').should('be.visible').click();
+            cy.uiGetChannelPinButton().click();
 
             // * Should not have any pinned posts
             cy.get('#search-items-container .no-results__title').should('have.text', 'No pinned posts yet');
@@ -80,7 +79,7 @@ describe('Pinned posts part 2', () => {
             pinPost(postId);
 
             // # Click pin icon
-            cy.get('#channelHeaderPinButton').should('be.visible').click();
+            cy.uiGetChannelPinButton().click();
 
             // * Number of pinned posts in RHS should be 1
             cy.findByTestId('search-item-container').should('have.length', 1);
@@ -111,7 +110,7 @@ describe('Pinned posts part 2', () => {
             cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
 
             // # Click pin icon
-            cy.get('#channelHeaderPinButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+            cy.uiGetChannelPinButton().click();
 
             // # Post a message
             cy.postMessage('Hello');
@@ -140,7 +139,7 @@ describe('Pinned posts part 2', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Click pin icon
-        cy.get('#channelHeaderPinButton').should('be.visible').click();
+        cy.uiGetChannelPinButton().click();
 
         // * Should not have any pinned posts
         cy.get('#search-items-container .no-results__title').should('have.text', 'No pinned posts yet');
@@ -199,7 +198,7 @@ describe('Pinned posts part 2', () => {
             cy.reload();
 
             // # Click pin icon
-            cy.get('#channelHeaderPinButton').should('be.visible').click();
+            cy.uiGetChannelPinButton().click();
 
             // * Should not have any pinned posts
             cy.get('#search-items-container .no-results__title').should('have.text', 'No pinned posts yet');
@@ -267,7 +266,7 @@ describe('Pinned posts part 2', () => {
             cy.get('#channelPinnedPostCountText').should('have.text', '2');
 
             // # Click pin icon
-            cy.get('#channelHeaderPinButton').should('be.visible').click();
+            cy.uiGetChannelPinButton().should('be.visible').click();
 
             // # Go to town square
             cy.get('#sidebarItem_town-square').should('be.visible').click();
