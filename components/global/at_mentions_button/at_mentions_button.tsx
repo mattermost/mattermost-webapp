@@ -5,7 +5,6 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {closeRightHandSide, showMentions} from 'actions/views/rhs';
@@ -14,6 +13,7 @@ import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import Constants, {RHSStates} from 'utils/constants';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+
 const AtMentionsButton = (): JSX.Element => {
     const dispatch = useDispatch();
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));
