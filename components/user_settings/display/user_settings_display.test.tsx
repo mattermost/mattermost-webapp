@@ -85,7 +85,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         linkPreviewDisplay: '',
         globalHeaderDisplay: '',
         globalHeaderAllowed: true,
-        lastActiveDisplay: '',
+        lastActiveDisplay: true,
     };
 
     test('should match snapshot, no active section', () => {

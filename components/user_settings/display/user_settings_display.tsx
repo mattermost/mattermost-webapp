@@ -617,7 +617,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         } else {
             this.prevSections.message_display = this.prevSections.linkpreview;
         }
-        console.log(this.state.lastActiveDisplay);
+
         const lastActiveSection = this.createSection({
             section: 'lastactive',
             display: 'lastActiveDisplay',
