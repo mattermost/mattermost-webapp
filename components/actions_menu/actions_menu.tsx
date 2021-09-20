@@ -296,15 +296,28 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                 <ActionsTutorialTip/>
             );
         }
-        const marketPlace = (
-            <Menu.ItemAction
-                id={`marketplace_icon_${this.props.post.id}`}
-                show={true}
-                text={formatMessage({id: 'post_info.marketplace', defaultMessage: 'App Marketplace'})}
-                leftDecorator={<i className='icon icon-view-grid-plus-outline'/>}
-                onClick={this.handleOpenMarketplace}
-            />
-        );
+
+        const divider = (
+            <li
+                className='MenuItem__divider'
+                role='menuitem'
+            />);
+
+        let marketPlace = null;
+        if (this.props.isSysAdmin) {
+            marketPlace = (
+                <>
+                    {divider}
+                    <Menu.ItemAction
+                        id={`marketplace_icon_${this.props.post.id}`}
+                        show={true}
+                        text={formatMessage({id: 'post_info.marketplace', defaultMessage: 'App Marketplace'})}
+                        leftDecorator={<i className='icon icon-view-grid-plus-outline'/>}
+                        onClick={this.handleOpenMarketplace}
+                    />
+                </>
+            );
+        }
 
         if (typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
@@ -313,12 +326,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         if (!appBindings.length && !pluginItems.length && !this.props.isSysAdmin) {
             return null;
         }
-
-        const divider = (
-            <li
-                className='MenuItem__divider'
-                role='menuitem'
-            />);
 
         let menuItems;
         if (appBindings.length || pluginItems.length) {
@@ -330,7 +337,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
             menuItems = [
                 pluggable,
-                divider,
                 marketPlace,
             ];
         } else {
