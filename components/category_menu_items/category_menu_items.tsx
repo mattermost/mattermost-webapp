@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback} from 'react';
-import {useIntl, IntlShape} from 'react-intl';
+import React from 'react';
+import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -79,7 +79,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
                 return category.type !== CategoryTypes.DIRECT_MESSAGES;
             }
             return true;
-        })
+        });
     }
 
     const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
