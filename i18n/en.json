@@ -2105,7 +2105,7 @@
   "admin.sql.traceTitle": "SQL Statement Logging: ",
   "admin.support.aboutDesc": "The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.",
   "admin.support.aboutTitle": "About Link:",
-  "admin.support.emailHelp": "Email address displayed on email notifications and during tutorial for end users to ask support questions.",
+  "admin.support.emailHelp": "Email address displayed on email notifications.",
   "admin.support.emailTitle": "Support Email:",
   "admin.support.enableAskCommunityDesc": "When true, \"Ask the community\" link appears on the Mattermost user interface and Main Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.",
   "admin.support.enableAskCommunityTitle": "Enable Ask Community Link:",
