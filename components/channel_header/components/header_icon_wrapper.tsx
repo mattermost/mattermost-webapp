@@ -10,8 +10,10 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
-import KeyboardShortcutSequence from '../../keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
-import {KEYBOARD_SHORTCUTS, KeyboardShortcutsSeq} from '../../keyboard_shortcuts/keyboard_shortcuts';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+    NormalizeKeyboardShortcutDescriptor,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 type Props = {
     ariaLabel?: boolean;
@@ -29,7 +31,7 @@ type TooltipInfo = {
     id: string;
     messageID: string;
     message: string;
-    keyboardShortcut?: KeyboardShortcutsSeq;
+    keyboardShortcut?: NormalizeKeyboardShortcutDescriptor;
 }
 
 const HeaderIconWrapper: React.FC<Props> = (props: Props) => {

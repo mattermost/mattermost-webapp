@@ -4,21 +4,23 @@ import {FormatXMLElementFn, PrimitiveType} from 'intl-messageformat';
 import React, {memo} from 'react';
 import {useIntl} from 'react-intl';
 
-import {isMessageDescriptor, KeyboardShortcutsSeq} from '../keyboard_shortcuts';
-
-import {isMac} from '../../../utils/utils';
-import './keyboard_shortcuts_sequence.scss';
 import {ShortcutKetVariant, ShortcutKey} from '../../shortcut_key';
 
+import {isMac} from 'utils/utils';
+
+import {isMessageDescriptor, NormalizeKeyboardShortcutDescriptor} from './keyboard_shortcuts';
+
+import './keyboard_shortcuts_sequence.scss';
+
 type Props = {
-    shortcut: KeyboardShortcutsSeq;
+    shortcut: NormalizeKeyboardShortcutDescriptor;
     values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>;
     hideDescription?: boolean;
     hoistDescription?: boolean;
     isInsideTooltip?: boolean;
 };
 
-function normalize(shortcut: KeyboardShortcutsSeq) {
+function normalize(shortcut: NormalizeKeyboardShortcutDescriptor) {
     if (isMessageDescriptor(shortcut)) {
         return shortcut;
     }
@@ -46,15 +48,11 @@ function KeyboardShortcutSequence({shortcut, values, hideDescription, hoistDescr
         description = splitShortcut[0];
     }
 
-    if (hideDescription) {
-        description = undefined;
-    }
-
     return (
         <>
-            {hoistDescription && description?.replace(/:{1,2}$/, '')}
+            {hoistDescription && !hideDescription && description?.replace(/:{1,2}$/, '')}
             <div className='shortcut-line'>
-                {!hoistDescription && description && <span>{description}</span>}
+                {!hoistDescription && !hideDescription && description && <span>{description}</span>}
                 {keys?.split(KEY_SEPARATOR).map((key) => (
                     <ShortcutKey
                         key={key}

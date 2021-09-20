@@ -9,8 +9,9 @@ import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
-import {KEYBOARD_SHORTCUTS} from '../keyboard_shortcuts';
-import KeyboardShortcutSequence from '../keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import './keyboard_shortcuts_modal.scss';
 
 const modalMessages = defineMessages({
@@ -54,23 +55,20 @@ const modalMessages = defineMessages({
 });
 
 const KeyboardShortcutsModal: React.FC = () => {
-    const [show, updateShow] = useState<boolean>();
+    const [show, updateShow] = useState<boolean>(false);
 
     useEffect(() => {
+        //toggles the state of shortcut dialog
+        function handleToggle(): void {
+            updateShow(!show);
+        }
         ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, handleToggle);
         return () => {
             ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, handleToggle);
         };
     }, []);
 
-    const handleToggle = () => {
-        //toggles the state of shortcut dialog
-        updateShow(!show);
-    };
-
-    const handleHide = () => {
-        updateShow(false);
-    };
+    const handleHide = (): void => updateShow(false);
     const {formatMessage} = useIntl();
     const isLinux = Utils.isLinux();
 

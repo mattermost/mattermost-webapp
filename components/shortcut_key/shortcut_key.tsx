@@ -3,6 +3,7 @@
 import React from 'react';
 
 import './shortcut_key.scss';
+import classNames from 'classnames';
 
 export enum ShortcutKetVariant {
     Contrast = 'contrast',
@@ -16,17 +17,14 @@ export type ShortcutKeyProps = {
 }
 
 export const ShortcutKey = ({children, variant}: ShortcutKeyProps) => {
-    let className = 'shortcut-key';
-    if (variant === ShortcutKetVariant.Contrast) {
-        className += ' shortcut-key--contrast';
-    } else if (variant === ShortcutKetVariant.Tooltip) {
-        className += ' shortcut-key--tooltip';
-    } else if (variant === ShortcutKetVariant.ShortcutModal) {
-        className += ' shortcut-key--shortcut-modal';
-    }
-
     return (
-        <mark className={className}>
+        <mark
+            className={classNames('shortcut-key', {
+                'shortcut-key--contrast': variant === ShortcutKetVariant.Contrast,
+                'shortcut-key--tooltip': variant === ShortcutKetVariant.Tooltip,
+                'shortcut-key--shortcut-modal': variant === ShortcutKetVariant.ShortcutModal,
+            })}
+        >
             {children}
         </mark>
     );

@@ -9,9 +9,11 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 import {trackEvent} from 'actions/telemetry_actions';
 import * as Utils from 'utils/utils';
 import {browserHistory} from 'utils/browser_history';
-import {KEYBOARD_SHORTCUTS, KeyboardShortcutsSeq} from '../../keyboard_shortcuts/keyboard_shortcuts';
-import Constants from '../../../utils/constants';
-import KeyboardShortcutSequence from '../../keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
+import Constants from 'utils/constants';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+    NormalizeKeyboardShortcutDescriptor,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 
 const HistoryButtonsContainer = styled.nav`
@@ -24,7 +26,7 @@ const HistoryButtonsContainer = styled.nav`
 `;
 
 const HistoryButtons = (): JSX.Element => {
-    const getTooltip = (shortcut: KeyboardShortcutsSeq) => (
+    const getTooltip = (shortcut: NormalizeKeyboardShortcutDescriptor) => (
         <Tooltip
             id='upload-tooltip'
         >

@@ -15,8 +15,9 @@ import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
-import KeyboardShortcutSequence from '../../keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
-import {KEYBOARD_SHORTCUTS} from '../../keyboard_shortcuts/keyboard_shortcuts';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 interface Props {
     btnClass?: string;

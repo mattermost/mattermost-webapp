@@ -13,9 +13,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import Constants, {RHSStates} from 'utils/constants';
-import {KEYBOARD_SHORTCUTS} from '../../keyboard_shortcuts/keyboard_shortcuts';
-import KeyboardShortcutSequence from '../../keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
-
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 const AtMentionsButton = (): JSX.Element => {
     const dispatch = useDispatch();
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));

@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {MessageDescriptor} from 'react-intl';
 
-import {t} from '../../utils/i18n';
+import {t} from 'utils/i18n';
 
-export type KeyboardShortcutsSeq = MessageDescriptor | {default: MessageDescriptor; mac?: MessageDescriptor};
+export type NormalizeKeyboardShortcutDescriptor = MessageDescriptor | {default: MessageDescriptor; mac?: MessageDescriptor};
 
-export function isMessageDescriptor(descriptor: KeyboardShortcutsSeq): descriptor is MessageDescriptor {
+export function isMessageDescriptor(descriptor: NormalizeKeyboardShortcutDescriptor): descriptor is MessageDescriptor {
     return Boolean((descriptor as MessageDescriptor).id);
 }
 

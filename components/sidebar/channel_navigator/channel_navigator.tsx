@@ -14,8 +14,10 @@ import {isDesktopApp} from 'utils/user_agent';
 import AddChannelDropdown from '../add_channel_dropdown';
 import ChannelFilter from '../channel_filter';
 import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
-import {KEYBOARD_SHORTCUTS, KeyboardShortcutsSeq} from '../../keyboard_shortcuts/keyboard_shortcuts';
-import KeyboardShortcutSequence from '../../keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+    NormalizeKeyboardShortcutDescriptor,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 
 export type Props = {
@@ -150,7 +152,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 />
             );
         }
-        const getTooltip = (shortcut: KeyboardShortcutsSeq) => (
+        const getTooltip = (shortcut: NormalizeKeyboardShortcutDescriptor) => (
             <Tooltip
                 id='upload-tooltip'
             >

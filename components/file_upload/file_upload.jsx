@@ -31,8 +31,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
-import KeyboardShortcutSequence from '../keyboard_shortcuts/keyboard_shortcuts_sequence/keyboard_shortcuts_sequence';
-import {KEYBOARD_SHORTCUTS} from '../keyboard_shortcuts/keyboard_shortcuts';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 
 const holders = defineMessages({
