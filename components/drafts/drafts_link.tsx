@@ -10,11 +10,15 @@ import {makeGetDraftsCount} from 'selectors/drafts';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 
+import {useSyncLegacyDrafts} from './hooks/legacy_drafts';
+
 import './drafts_link.scss';
 
 const getDraftsCount = makeGetDraftsCount();
 
 function DraftsLink() {
+    useSyncLegacyDrafts();
+
     const {formatMessage} = useIntl();
     const {url} = useRouteMatch();
     const match = useRouteMatch('/:team/drafts');
