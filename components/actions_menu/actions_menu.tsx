@@ -290,13 +290,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
         const {formatMessage} = this.props.intl;
 
-        let tutorialTip = null;
-        if (this.props.showTutorialTip) {
-            tutorialTip = (
-                <ActionsTutorialTip/>
-            );
-        }
-
         const divider = (
             <li
                 className='MenuItem__divider'
@@ -328,7 +321,12 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
 
         let menuItems;
-        if (appBindings.length || pluginItems.length) {
+        let tutorialTip = null;
+        if (this.props.showTutorialTip) {
+            tutorialTip = (
+                <ActionsTutorialTip/>
+            );
+        } else if (appBindings.length || pluginItems.length) {
             const pluggable = (
                 <Pluggable
                     postId={this.props.post.id}

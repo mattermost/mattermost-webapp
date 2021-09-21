@@ -5,14 +5,11 @@ import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
-import {Preferences, TutorialSteps} from 'utils/constants';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
@@ -55,11 +52,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentUser = getCurrentUser(state);
     const isSysAdmin = isSystemAdmin(currentUser.roles);
 
-    const config = getConfig(state);
-    const enableTutorial = config.EnableTutorial === 'true';
-    const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
-    const showTutorialTip = enableTutorial && tutorialStep === TutorialSteps.ACTIONS_MENU;
-
     return {
         components: state.plugins.components,
         teamId: getCurrentTeamId(state),
@@ -69,7 +61,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         isSysAdmin,
         appBindings,
         appsEnabled: apps,
-        showTutorialTip,
         ...ownProps,
     };
 }

@@ -7,7 +7,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import ActionsMenu from 'components/actions_menu';
 
-import {Posts} from 'mattermost-redux/constants';
+import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import {Post} from 'mattermost-redux/types/posts';
@@ -112,6 +112,11 @@ type Props = {
      */
     isLastPost?: boolean;
 
+    /**
+     * true when Actions Menu is first time opened
+     */
+    firstTimeActionsMenuOpened: boolean;
+
     actions: {
 
         /**
@@ -123,6 +128,11 @@ type Props = {
          * Function to set or unset emoji picker for last message
          */
         emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
+
+        /**
+         * Function to set viewed Actions Menu for first time
+         */
+        setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
     };
 
     shouldShowDotMenu: boolean;
@@ -192,6 +202,12 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleActionsMenuOpened = (open: boolean) => {
+        const {actions} = this.props;
+        if (this.props.firstTimeActionsMenuOpened) {
+            actions.setActionsMenuInitialisationState(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+            return;
+        }
+
         this.setState({showActionsMenu: open});
         this.props.handleDropdownOpened(open);
     };
@@ -265,6 +281,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                     post={post}
                     handleDropdownOpened={this.handleActionsMenuOpened}
                     isMenuOpen={this.state.showActionsMenu}
+                    showTutorialTip={this.props.firstTimeActionsMenuOpened}
                 />
             );
         }

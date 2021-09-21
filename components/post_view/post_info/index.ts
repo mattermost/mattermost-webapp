@@ -4,6 +4,9 @@
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
+import {showActionsMenuPulsatingDotPulsatingDot} from 'selectors/actions_menu';
+import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
+
 import {removePost} from 'mattermost-redux/actions/posts';
 import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -38,6 +41,7 @@ function makeMapStateToProps() {
         const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
         const teamId = getCurrentTeamId(state);
         const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
+        const firstTimeActionsMenuOpened = showActionsMenuPulsatingDotPulsatingDot(state);
 
         return {
             teamId,
@@ -51,6 +55,7 @@ function makeMapStateToProps() {
             shortcutReactToLastPostEmittedFrom,
             collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
             hasReplies: getReplyCount(state, ownProps.post) > 0,
+            firstTimeActionsMenuOpened,
         };
     };
 }
@@ -60,6 +65,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
         actions: bindActionCreators({
             removePost,
             emitShortcutReactToLastPostFrom,
+            setActionsMenuInitialisationState,
         }, dispatch),
     };
 }
