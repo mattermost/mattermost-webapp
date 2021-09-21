@@ -607,6 +607,8 @@
   "admin.customization.enableGifPickerTitle": "GIF-kiezer inschakelen:",
   "admin.customization.enableLatexDesc": "Schakel de verwerking van Latex-code in. Indien niet ingeschakeld, wordt de Latex-code alleen geaccentueerd.",
   "admin.customization.enableLatexTitle": "Latex Weergeven Inschakelen:",
+  "admin.customization.enableInlineLatexDesc": "Schakel de verwerking van in lijn Latex-code in, deze code bevindt zich tussen dollartekens. Indien niet ingeschakeld, worden dollartekens en de tekst hiertussen normaal verwerkt. [Leer meer over tekstopmaak in onze documentatie](!https://docs.mattermost.com/messaging/formatting-text.html).",
+  "admin.customization.enableInlineLatexTitle": "In Lijn Latex Weergave Inschakelen:",
   "admin.customization.enableLinkPreviewsDesc": "Een voorbeeld van de website, afbeeldingslinks en YouTube-links onder het bericht weergeven wanneer deze beschikbaar zijn. De server moet verbonden zijn met het internet en toegang hebben via de firewall (indien van toepassing) tot de websites waarvan de previews worden verwacht. Gebruikers kunnen deze previews uitschakelen via Accountinstellingen > Weergave > Website Link Previews.",
   "admin.customization.enableLinkPreviewsTitle": "Previews van links naar websites inschakelen:",
   "admin.customization.enablePermalinkPreviewsDesc": "Indien ingeschakeld, zullen links naar Mattermost berichten een preview genereren voor alle gebruikers die toegang hebben tot het originele bericht. Bekijk onze [documentatie](https://docs.mattermost.com/messaging/sharing-messages.html) voor details.",

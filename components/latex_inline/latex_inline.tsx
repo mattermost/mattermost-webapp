@@ -9,14 +9,14 @@ type Katex = typeof import('katex');
 
 type Props = {
     content: string;
-    enableLatex: boolean;
+    enableInlineLatex: boolean;
 };
 
 type State = {
     katex?: Katex;
 }
 
-export default class LatexBlock extends React.PureComponent<Props, State> {
+export default class LatexInline extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -32,20 +32,20 @@ export default class LatexBlock extends React.PureComponent<Props, State> {
     }
 
     render(): React.ReactNode {
-        if (!this.props.enableLatex || this.state.katex === undefined) {
+        if (!this.props.enableInlineLatex || this.state.katex === undefined) {
             return (
-                <div
-                    className='post-body--code tex'
+                <span
+                    className='post-body--code inline-tex'
                 >
-                    {this.props.content}
-                </div>
+                    {'$' + this.props.content + '$'}
+                </span>
             );
         }
 
         try {
             const katexOptions: KatexOptions = {
                 throwOnError: false,
-                displayMode: true,
+                displayMode: false,
                 maxSize: 200,
                 maxExpand: 100,
                 fleqn: true,
@@ -54,21 +54,21 @@ export default class LatexBlock extends React.PureComponent<Props, State> {
             const html = this.state.katex.renderToString(this.props.content, katexOptions);
 
             return (
-                <div
-                    className='post-body--code tex'
+                <span
+                    className='post-body--code inline-tex'
                     dangerouslySetInnerHTML={{__html: html}}
                 />
             );
         } catch (e) {
             return (
-                <div
-                    className='post-body--code tex'
+                <span
+                    className='post-body--code inline-tex'
                 >
                     <FormattedMessage
                         id='katex.error'
                         defaultMessage="Couldn't compile your Latex code. Please review the syntax and try again."
                     />
-                </div>
+                </span>
             );
         }
     }
