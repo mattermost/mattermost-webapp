@@ -94,7 +94,7 @@ const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNa
     );
 };
 
-const ProductSwitcher: React.FC = (): JSX.Element => {
+const ProductSwitcher = (): JSX.Element => {
     const products = useProducts();
     const [switcherOpen, setSwitcherOpen] = useState<boolean>(false);
     const menuRef = useRef<HTMLDivElement>(null);

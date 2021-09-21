@@ -18,7 +18,7 @@ type Props = {
     };
 };
 
-const SettingsButton: React.FC<Props> = (props: Props): JSX.Element | null => {
+const SettingsButton = (props: Props): JSX.Element | null => {
     const tooltip = (
         <Tooltip id='productSettings'>
             <FormattedMessage

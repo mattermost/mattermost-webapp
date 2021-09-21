@@ -17,7 +17,7 @@ import {
 import * as Utils from 'utils/utils';
 import Search from 'components/search';
 
-const GlobalSearchNav: React.FC = (): JSX.Element => {
+const GlobalSearchNav = (): JSX.Element => {
     const dispatch = useDispatch();
     const rhsState = useSelector<GlobalState, RhsState>((state: GlobalState) => getRhsState(state));
     const isRhsOpen = useSelector<GlobalState, boolean>((state: GlobalState) => getIsRhsOpen(state));

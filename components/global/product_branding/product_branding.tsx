@@ -17,7 +17,7 @@ const ProductBrandingContainer = styled.div`
     }
 `;
 
-const ProductBranding: React.FC = (): JSX.Element | null => {
+const ProductBranding = (): JSX.Element | null => {
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
     const currentProduct = products?.find((product) => product.id === currentProductID);

@@ -15,7 +15,7 @@ import {closeRightHandSide, showMentions} from 'actions/views/rhs';
 import Constants, {RHSStates} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 
-const AtMentionsButton: React.FC = (): JSX.Element => {
+const AtMentionsButton = (): JSX.Element => {
     const dispatch = useDispatch();
     const rhsState = useSelector<GlobalState, RhsState>((state: GlobalState) => getRhsState(state));
     const isRhsOpen = useSelector<GlobalState, boolean>((state: GlobalState) => getIsRhsOpen(state));
