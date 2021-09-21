@@ -20,8 +20,8 @@ describe('Messaging', () => {
         cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
 
-        // # Login as test user and visit the newly created test channel
-        cy.apiInitSetup().then(({team, user}) => {
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
             testTeam = team;
 
             // # Set up Demo plugin
@@ -34,7 +34,7 @@ describe('Messaging', () => {
             cy.apiCreateChannel(testTeam.id, 'channel-test', 'Public channel with a long name').then(({channel}) => {
                 testChannel = channel;
             });
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -42,58 +42,52 @@ describe('Messaging', () => {
         cy.findByRole('banner', {name: 'channel header region'}).should('be.visible').as('channelHeader');
 
         // * Members tooltip is present
-        openAndVerifyTooltip('members', 'Members');
+        openAndVerifyTooltip(() => cy.uiGetChannelMemberButton(), 'Members');
 
         // * Pinned post tooltip is present
-        openAndVerifyTooltip('Pinned posts', 'Pinned posts');
+        openAndVerifyTooltip(() => cy.uiGetChannelPinButton(), 'Pinned posts');
 
         // * Saved posts tooltip is present
-        openAndVerifyTooltip('Saved posts', 'Saved posts');
+        openAndVerifyTooltip(() => cy.uiGetSavedPostButton(), 'Saved posts');
 
         // * Add to favorites posts tooltip is present - un checked
-        openAndVerifyTooltip('add to favorites', 'Add to Favorites');
+        openAndVerifyTooltip(() => cy.uiGetChannelFavoriteButton(), 'Add to Favorites');
 
         // * Add to favorites posts tooltip is present - checked
         cy.get('@channelHeader').findByRole('button', {name: 'add to favorites'}).should('be.visible').click();
-        openAndVerifyTooltip('remove from favorites', 'Remove from Favorites');
+        openAndVerifyTooltip(() => cy.uiGetChannelFavoriteButton(), 'Remove from Favorites');
 
         // * Unmute a channel tooltip is present
         cy.uiOpenChannelMenu('Mute Channel');
-        openAndVerifyTooltip('Muted Icon', 'Unmute');
+        openAndVerifyTooltip(() => cy.uiGetMuteButton(), 'Unmute');
 
         // * Download file tooltip is present
         cy.findByLabelText('Upload files').attachFile('long_text_post.txt');
         cy.postMessage('test file upload');
         const downloadLink = () => cy.findByTestId('fileAttachmentList').should('be.visible').findByRole('link', {name: 'download', hidden: true});
         downloadLink().trigger('mouseover');
-        verifyTooltip('Download');
+        cy.uiGetToolTip('Download');
         downloadLink().trigger('mouseout');
 
         // * Long channel name (shown truncated on the LHS)
         cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').as('longChannelAtSidebar');
         cy.get('@longChannelAtSidebar').trigger('mouseover');
-        verifyTooltip(testChannel.display_name);
+        cy.uiGetToolTip(testChannel.display_name);
         cy.get('@longChannelAtSidebar').trigger('mouseout');
 
         // * Check that the Demo plugin tooltip is present
         cy.get('@channelHeader').find('.fa-plug').should('be.visible').trigger('mouseover');
-        verifyTooltip('Demo Plugin');
+        cy.uiGetToolTip('Demo Plugin');
     });
 });
 
-function verifyTooltip(text) {
-    cy.get('div.tooltip-inner').should('be.visible').and('have.text', text);
-}
-
-function openAndVerifyTooltip(name, text) {
-    const reName = RegExp(name, 'i');
-
+function openAndVerifyTooltip(buttonFn, text) {
     // # Mouseover to the element
-    cy.get('@channelHeader').findByRole('button', {name: reName}).should('be.visible').trigger('mouseover');
+    buttonFn().trigger('mouseover');
 
     // * Verify the tooltip
-    verifyTooltip(text);
+    cy.uiGetToolTip(text);
 
     // # Hide the tooltip
-    cy.get('@channelHeader').findByRole('button', {name: reName}).should('be.visible').trigger('mouseout');
+    buttonFn().trigger('mouseout');
 }
