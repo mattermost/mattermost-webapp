@@ -31,6 +31,10 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
     const channel = useSelector((state: GlobalState) => selectChannel(state, props.post.channel_id));
     const name = useSelector((state: GlobalState) => displayNameGetter(state, props.post.user_id, true));
 
+    if (!channel) {
+        return <div/>;
+    }
+
     let info;
     const channelName = (
         <FormattedMessage
