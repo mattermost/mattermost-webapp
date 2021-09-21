@@ -4,8 +4,7 @@ import {FormatXMLElementFn, PrimitiveType} from 'intl-messageformat';
 import React, {memo} from 'react';
 import {useIntl} from 'react-intl';
 
-import {ShortcutKetVariant, ShortcutKey} from '../../shortcut_key';
-
+import {ShortcutKeyVariant, ShortcutKey} from 'components/shortcut_key';
 import {isMac} from 'utils/utils';
 
 import {isMessageDescriptor, KeyboardShortcutDescriptor} from './keyboard_shortcuts';
@@ -20,12 +19,15 @@ type Props = {
     isInsideTooltip?: boolean;
 };
 
+const descriptorProperty = isMac() ? 'mac' : 'default';
+
 function normalizeShortcutDescriptor(shortcut: KeyboardShortcutDescriptor) {
     if (isMessageDescriptor(shortcut)) {
         return shortcut;
     }
-    const {default: standard, mac} = shortcut;
-    return isMac() && mac ? mac : standard;
+
+    // return the default descriptor when there is no mac specific descriptor
+    return shortcut[descriptorProperty] || shortcut.default;
 }
 
 const KEY_SEPARATOR = '|';
@@ -55,7 +57,7 @@ function KeyboardShortcutSequence({shortcut, values, hideDescription, hoistDescr
                 {keys?.split(KEY_SEPARATOR).map((key) => (
                     <ShortcutKey
                         key={key}
-                        variant={isInsideTooltip ? ShortcutKetVariant.Tooltip : ShortcutKetVariant.ShortcutModal}
+                        variant={isInsideTooltip ? ShortcutKeyVariant.Tooltip : ShortcutKeyVariant.ShortcutModal}
                     >
                         {key}
                     </ShortcutKey>
@@ -64,4 +66,5 @@ function KeyboardShortcutSequence({shortcut, values, hideDescription, hoistDescr
         </>
     );
 }
+
 export default memo(KeyboardShortcutSequence);

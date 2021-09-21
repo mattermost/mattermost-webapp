@@ -1,28 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-
-import './shortcut_key.scss';
 import classNames from 'classnames';
 
-export enum ShortcutKetVariant {
+import './shortcut_key.scss';
+
+export enum ShortcutKeyVariant {
     Contrast = 'contrast',
     Tooltip = 'tooltip',
     ShortcutModal = 'shortcut',
 }
 
 export type ShortcutKeyProps = {
-    variant?: ShortcutKetVariant;
+    variant?: ShortcutKeyVariant;
     children: React.ReactNode;
 }
 
-export const ShortcutKey = ({children, variant}: ShortcutKeyProps) => {
+export const ShortcutKey = ({children, variant}: ShortcutKeyProps): JSX.Element => {
     return (
         <mark
             className={classNames('shortcut-key', {
-                'shortcut-key--contrast': variant === ShortcutKetVariant.Contrast,
-                'shortcut-key--tooltip': variant === ShortcutKetVariant.Tooltip,
-                'shortcut-key--shortcut-modal': variant === ShortcutKetVariant.ShortcutModal,
+                'shortcut-key--contrast': variant === ShortcutKeyVariant.Contrast,
+                'shortcut-key--tooltip': variant === ShortcutKeyVariant.Tooltip,
+                'shortcut-key--shortcut-modal': variant === ShortcutKeyVariant.ShortcutModal,
             })}
         >
             {children}
