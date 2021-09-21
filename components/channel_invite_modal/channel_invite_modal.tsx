@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React from "react";
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 
 import {Client4} from 'mattermost-redux/client';
 import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
@@ -13,7 +14,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
-import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import {getFullName, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
@@ -29,6 +30,7 @@ type UserProfileValue = Value & UserProfile;
 
 export type Props = {
     profilesNotInCurrentChannel: UserProfileValue[];
+    profilesInCurrentChannel: UserProfileValue[];
     profilesNotInCurrentTeam: UserProfileValue[];
     userStatuses: RelationOneToOne<UserProfile, string>;
     onHide: () => void;
@@ -47,6 +49,7 @@ export type Props = {
     actions: {
         addUsersToChannel: any;
         getProfilesNotInChannel: any;
+        getProfilesInChannel: any;
         getTeamStats: (teamId: string) => ActionFunc;
         loadStatusesForProfilesList: (users: UserProfile[]) => Promise<{data: boolean}>;
         searchProfiles: (term: string, options: any) => ActionFunc;
@@ -97,13 +100,18 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
             this.setUsersLoadingState(false);
         });
+        this.props.actions.getProfilesInChannel(this.props.channel.id, 0, USERS_PER_PAGE, '', true);
         this.props.actions.getTeamStats(this.props.channel.team_id);
         this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
+        this.props.actions.loadStatusesForProfilesList(this.props.profilesInCurrentChannel);
+
     }
 
     public onHide = (): void => {
         this.setState({show: false});
         this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
+        this.props.actions.loadStatusesForProfilesList(this.props.profilesInCurrentChannel);
+
     };
 
     public handleInviteError = (err: any): void => {
@@ -133,6 +141,9 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 this.props.channel.id,
                 this.props.channel.group_constrained,
                 page + 1, USERS_PER_PAGE).then(() => this.setUsersLoadingState(false));
+
+            this.props.actions.getProfilesInChannel(this.props.channel.id, page +1, USERS_PER_PAGE, '', true);
+
         }
     };
 
@@ -225,6 +236,14 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             rowSelected = 'more-modal__row--selected';
         }
 
+        let ProfilesInGroup = this.props.profilesInCurrentChannel.map(user=> user.id);
+
+        const userMapping: Record<string, string> = {};
+
+        for (var i = 0; i < ProfilesInGroup.length; i++) {
+            userMapping[ProfilesInGroup[i]] = 'Already in channel' ;          
+        }
+
         return (
             <div
                 key={option.id}
@@ -237,11 +256,15 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
                     status={this.props.userStatuses[option.id]}
                     size='md'
-                    username={option.username}
+                    username={option.username} 
                 />
+                
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
-                        {displayEntireNameForUser(option)}
+                        <span>
+                            {getFullName(option)} 
+                            <span style={{position: 'absolute', right: 20}} className='light'>{userMapping[option.id]}</span>
+                        </span>
                         <BotBadge
                             show={Boolean(option.is_bot)}
                             className='badge-popoverlist'
@@ -282,7 +305,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
+        let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel.concat(this.props.profilesInCurrentChannel) ,  this.state.term).filter((user) => {
             return user.delete_at === 0 &&
                 !this.props.profilesNotInCurrentTeam.includes(user as UserProfileValue) &&
                 (this.props.excludeUsers !== undefined && !this.props.excludeUsers[user.id]);

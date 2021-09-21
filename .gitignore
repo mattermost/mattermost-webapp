@@ -11,6 +11,7 @@ mattermost-webapp.iml
 .vscode/
 junit.xml
 coverage
+package-lock.json
 
 # Environment variables
 .env*
