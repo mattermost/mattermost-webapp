@@ -141,7 +141,7 @@ export default function NextStepsTips(props: Props) {
                         </h4>
                         <FormattedMessage
                             id='next_steps_view.tips.resolveIncidents.text'
-                            defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
+                            defaultMessage='Resolve incidents faster with Mattermost Playbooks.'
                         />
                         <button
                             className='NextStepsView__button NextStepsView__finishButton primary'

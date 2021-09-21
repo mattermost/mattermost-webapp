@@ -3800,7 +3800,7 @@
   "next_steps_view.tips.manageWorkspace.text": "Visit the system console to manage users, teams, and plugins",
   "next_steps_view.tips.resolveIncidents": "Resolve incidents faster",
   "next_steps_view.tips.resolveIncidents.button": "Open playbooks",
-  "next_steps_view.tips.resolveIncidents.text": "Resolve incidents faster with Mattermost Incident Collaboration.",
+  "next_steps_view.tips.resolveIncidents.text": "Resolve incidents faster with Mattermost Playbooks.",
   "next_steps_view.tips.viewMembers": "View team members",
   "next_steps_view.tipsAndNextSteps": "Tips & Next Steps",
   "next_steps_view.titles.completeProfile": "Complete your profile",
