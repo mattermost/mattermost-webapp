@@ -19,15 +19,12 @@ type Props = {
     isInsideTooltip?: boolean;
 };
 
-const descriptorProperty = isMac() ? 'mac' : 'default';
-
 function normalizeShortcutDescriptor(shortcut: KeyboardShortcutDescriptor) {
     if (isMessageDescriptor(shortcut)) {
         return shortcut;
     }
-
-    // return the default descriptor when there is no mac specific descriptor
-    return shortcut[descriptorProperty] || shortcut.default;
+    const {default: standard, mac} = shortcut;
+    return isMac() && mac ? mac : standard;
 }
 
 const KEY_SEPARATOR = '|';
