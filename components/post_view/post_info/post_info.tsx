@@ -127,6 +127,8 @@ type Props = {
 
     shouldShowDotMenu: boolean;
 
+    shouldShowActionsMenu: boolean;
+
     collapsedThreadsEnabled: boolean;
 };
 
@@ -256,7 +258,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         let actionsMenu;
-        const showActionsMenuIcon = !isSystemMessage && (isMobile || hover);
+        const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || hover);
         if (showActionsMenuIcon) {
             actionsMenu = (
                 <ActionsMenu

@@ -17,7 +17,7 @@ import {GlobalState} from 'types/store';
 
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
-import {shouldShowDotMenu} from 'utils/post_utils';
+import {shouldShowDotMenu, shouldShowActionsMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 
@@ -47,6 +47,7 @@ function makeMapStateToProps() {
             enableEmojiPicker,
             isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
             shouldShowDotMenu: shouldShowDotMenu(state, ownProps.post, channel),
+            shouldShowActionsMenu: shouldShowActionsMenu(state, ownProps.post),
             shortcutReactToLastPostEmittedFrom,
             collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
             hasReplies: getReplyCount(state, ownProps.post) > 0,

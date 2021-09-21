@@ -46,6 +46,9 @@ describe('components/post_view/PostInfo', () => {
         collapsedThreadsEnabled: false,
     };
 
+    // test('should not show actions menu, plugins disabled', () => {
+    // });
+
     test('should match snapshot', () => {
         const wrapper = shallow<PostInfo>(<PostInfo {...requiredProps}/>);
         expect(wrapper).toMatchSnapshot();
