@@ -9,7 +9,6 @@ import {connect} from 'react-redux';
 import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {
-    getChannelsInCurrentTeam,
     getDirectAndGroupChannels,
     getGroupChannels,
     getMyChannelMemberships,
@@ -422,7 +421,7 @@ export default class SwitchChannelProvider extends Provider {
             usersAsync = Client4.autocompleteUsers(channelPrefix, '', '');
         }
 
-        const channelsAsync = searchAllChannels(teamId, channelPrefix, true)(store.dispatch, store.getState);
+        const channelsAsync = searchAllChannels(channelPrefix, {}, true)(store.dispatch, store.getState);
 
         let usersFromServer = [];
         let channelsFromServer = [];
@@ -440,8 +439,7 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const currentUserId = getCurrentUserId(state);
-
-        const localChannelData = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state)) || [];
+        const localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)) || [];
         const localUserData = Object.assign([], searchProfilesMatchingWithTerm(state, channelPrefix, false)) || [];
         const localFormattedData = this.formatList(channelPrefix, localChannelData, localUserData);
 
