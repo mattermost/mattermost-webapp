@@ -6,6 +6,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
+import classNames from 'classnames';
+
 import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {
@@ -22,7 +24,7 @@ import ProfilePicture from '../profile_picture';
 
 import {getMyPreferences, isGroupChannelManuallyVisible, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getTeam, getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
     getUserIdsInChannels,
@@ -47,8 +49,6 @@ import * as Utils from 'utils/utils.jsx';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
-
-import {getTeams} from 'mattermost-redux/actions/teams';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -205,7 +205,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <div className='suggestion-list__ellipsis suggestion-list__flex'>
+                <div className={classNames('suggestion-list__ellipsis', {'suggestion-list__flex': !isPartOfOnlyOneTeam})}>
                     <span className='suggestion-list__main'>
                         {name}
                     </span>
@@ -237,7 +237,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const status = getStatusForUserId(state, channel.userId);
     const collapsedThreads = isCollapsedThreadsEnabled(state);
     const team = getTeam(state, channel.team_id);
-    const isPartOfOnlyOneTeam = getTeams(state).length === 1;
+    const isPartOfOnlyOneTeam = getTeamsList(state).length === 1;
 
     if (channel && !dmChannelTeammate) {
         dmChannelTeammate = getUser(state, channel.userId);
