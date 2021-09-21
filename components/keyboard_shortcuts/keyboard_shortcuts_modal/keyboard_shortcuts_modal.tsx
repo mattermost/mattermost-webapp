@@ -54,19 +54,19 @@ const modalMessages = defineMessages({
     },
 });
 
-const KeyboardShortcutsModal: React.FC = () => {
-    const [show, updateShow] = useState<boolean>(false);
+const KeyboardShortcutsModal = (): JSX.Element => {
+    const [show, setShow] = useState<boolean>(false);
 
     useEffect(() => {
         //toggles the state of shortcut dialog
-        const handleToggle = (): void => updateShow(!show);
+        const handleToggle = (): void => setShow(!show);
         ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, handleToggle);
         return () => {
             ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, handleToggle);
         };
     }, []);
 
-    const handleHide = (): void => updateShow(false);
+    const handleHide = (): void => setShow(false);
     const {formatMessage} = useIntl();
     const isLinux = Utils.isLinux();
 

@@ -20,13 +20,13 @@ type Props = {
     isInsideTooltip?: boolean;
 };
 
+const isOsMac = isMac();
 function normalizeShortcutDescriptor(shortcut: KeyboardShortcutDescriptor) {
     if (isMessageDescriptor(shortcut)) {
         return shortcut;
     }
-
     const {default: standard, mac} = shortcut;
-    return isMac() && mac ? mac : standard;
+    return isOsMac && mac ? mac : standard;
 }
 
 const KEY_SEPARATOR = '|';
@@ -36,8 +36,8 @@ function KeyboardShortcutSequence({shortcut, values, hideDescription, hoistDescr
     const shortcutText = formatMessage(normalizeShortcutDescriptor(shortcut), values);
     const splitShortcut = shortcutText.split('\t');
 
-    let description: string | undefined;
-    let keys: string | undefined;
+    let description = '';
+    let keys = '';
 
     if (splitShortcut.length > 1) {
         description = splitShortcut[0];
