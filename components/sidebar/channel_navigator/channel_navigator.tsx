@@ -16,7 +16,7 @@ import ChannelFilter from '../channel_filter';
 import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
-    NormalizeKeyboardShortcutDescriptor,
+    KeyboardShortcutDescriptor,
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 
@@ -152,7 +152,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 />
             );
         }
-        const getTooltip = (shortcut: NormalizeKeyboardShortcutDescriptor) => (
+        const getTooltip = (shortcut: KeyboardShortcutDescriptor) => (
             <Tooltip
                 id='upload-tooltip'
             >

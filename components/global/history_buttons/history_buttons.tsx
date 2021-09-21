@@ -12,7 +12,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
-    NormalizeKeyboardShortcutDescriptor,
+    KeyboardShortcutDescriptor,
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 
@@ -26,7 +26,7 @@ const HistoryButtonsContainer = styled.nav`
 `;
 
 const HistoryButtons = (): JSX.Element => {
-    const getTooltip = (shortcut: NormalizeKeyboardShortcutDescriptor) => (
+    const getTooltip = (shortcut: KeyboardShortcutDescriptor) => (
         <Tooltip
             id='upload-tooltip'
         >

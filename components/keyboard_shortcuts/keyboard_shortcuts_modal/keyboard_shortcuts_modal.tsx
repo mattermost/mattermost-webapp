@@ -59,9 +59,7 @@ const KeyboardShortcutsModal: React.FC = () => {
 
     useEffect(() => {
         //toggles the state of shortcut dialog
-        function handleToggle(): void {
-            updateShow(!show);
-        }
+        const handleToggle = (): void => updateShow(!show);
         ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, handleToggle);
         return () => {
             ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, handleToggle);

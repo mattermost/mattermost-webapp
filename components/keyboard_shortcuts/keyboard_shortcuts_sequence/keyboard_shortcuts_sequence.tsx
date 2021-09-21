@@ -8,19 +8,19 @@ import {ShortcutKetVariant, ShortcutKey} from '../../shortcut_key';
 
 import {isMac} from 'utils/utils';
 
-import {isMessageDescriptor, NormalizeKeyboardShortcutDescriptor} from './keyboard_shortcuts';
+import {isMessageDescriptor, KeyboardShortcutDescriptor} from './keyboard_shortcuts';
 
 import './keyboard_shortcuts_sequence.scss';
 
 type Props = {
-    shortcut: NormalizeKeyboardShortcutDescriptor;
+    shortcut: KeyboardShortcutDescriptor;
     values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>;
     hideDescription?: boolean;
     hoistDescription?: boolean;
     isInsideTooltip?: boolean;
 };
 
-function normalize(shortcut: NormalizeKeyboardShortcutDescriptor) {
+function normalizeShortcutDescriptor(shortcut: KeyboardShortcutDescriptor) {
     if (isMessageDescriptor(shortcut)) {
         return shortcut;
     }
@@ -33,7 +33,7 @@ const KEY_SEPARATOR = '|';
 
 function KeyboardShortcutSequence({shortcut, values, hideDescription, hoistDescription, isInsideTooltip}: Props) {
     const {formatMessage} = useIntl();
-    const shortcutText = formatMessage(normalize(shortcut), values);
+    const shortcutText = formatMessage(normalizeShortcutDescriptor(shortcut), values);
     const splitShortcut = shortcutText.split('\t');
 
     let description: string | undefined;

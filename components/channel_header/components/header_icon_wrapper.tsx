@@ -12,7 +12,7 @@ import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
-    NormalizeKeyboardShortcutDescriptor,
+    KeyboardShortcutDescriptor,
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 type Props = {
@@ -31,7 +31,7 @@ type TooltipInfo = {
     id: string;
     messageID: string;
     message: string;
-    keyboardShortcut?: NormalizeKeyboardShortcutDescriptor;
+    keyboardShortcut?: KeyboardShortcutDescriptor;
 }
 
 const HeaderIconWrapper: React.FC<Props> = (props: Props) => {

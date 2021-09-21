@@ -5,9 +5,9 @@ import {MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-export type NormalizeKeyboardShortcutDescriptor = MessageDescriptor | {default: MessageDescriptor; mac?: MessageDescriptor};
+export type KeyboardShortcutDescriptor = MessageDescriptor | {default: MessageDescriptor; mac?: MessageDescriptor};
 
-export function isMessageDescriptor(descriptor: NormalizeKeyboardShortcutDescriptor): descriptor is MessageDescriptor {
+export function isMessageDescriptor(descriptor: KeyboardShortcutDescriptor): descriptor is MessageDescriptor {
     return Boolean((descriptor as MessageDescriptor).id);
 }
 
