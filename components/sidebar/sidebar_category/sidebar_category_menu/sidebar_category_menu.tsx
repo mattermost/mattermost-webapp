@@ -70,7 +70,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.MORE_CHANNELS,
             dialogType: MoreChannels,
             dialogProps: {
-                category: category.type === CategoryTypes.CUSTOM ? category : undefined,
+                category: category.type === CategoryTypes.CUSTOM || category.type === CategoryTypes.FAVORITES ? category : undefined,
                 morePublicChannelsModalType: 'public',
             },
         });
@@ -80,7 +80,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
             dialogType: NewChannelFlow,
-            dialogProps: {category: category.type === CategoryTypes.CUSTOM ? category : undefined},
+            dialogProps: {category: category.type === CategoryTypes.CUSTOM || category.type === CategoryTypes.FAVORITES ? category : undefined},
         });
     }
     handleOpenDirectMessagesModal = (e: Event) => {

@@ -870,7 +870,7 @@ function handleUserAddedEvent(msg) {
         const currentTeamId = getCurrentTeamId(doGetState());
         const currentUserId = getCurrentUserId(doGetState());
         if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
-            doDispatch(fetchChannelAndAddToSidebar(msg.broadcast.channel_id, msg.data.categoryId));
+            doDispatch(fetchChannelAndAddToSidebar(msg.broadcast.channel_id, msg.data.category_id));
         }
 
         // This event is fired when a user first joins the server, so refresh analytics to see if we're now over the user limit
