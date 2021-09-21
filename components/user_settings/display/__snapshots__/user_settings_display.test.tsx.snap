@@ -260,6 +260,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -537,6 +543,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -814,6 +826,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1034,6 +1052,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1234,6 +1258,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1511,6 +1541,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1806,6 +1842,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2021,6 +2063,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2236,6 +2284,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2451,6 +2505,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2678,6 +2738,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2893,6 +2959,12 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
         section="lastactive"
         title={
           <Memo(MemoizedFormattedMessage)
