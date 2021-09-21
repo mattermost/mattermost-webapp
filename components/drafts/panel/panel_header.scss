@@ -14,10 +14,6 @@
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
-
-        div + div {
-            padding-left: 8px;
-        }
     }
 
     &__left {

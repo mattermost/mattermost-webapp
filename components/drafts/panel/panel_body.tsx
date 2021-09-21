@@ -46,7 +46,7 @@ function Body({
 
     return (
         <div className='PanelBody post'>
-            <div className='PanelBody__left'>
+            <div className='PanelBody__left post__img'>
                 <ProfilePicture
                     status={status}
                     channelId={channelId}
@@ -56,20 +56,22 @@ function Body({
                     src={imageURLForUser(user.id)}
                 />
             </div>
-            <div className='PanelBody__right'>
-                <div className='post__header'>
-                    <strong>{displayName}</strong>
+            <div className='post__content'>
+                <div className='PanelBody__right'>
+                    <div className='post__header'>
+                        <strong>{displayName}</strong>
+                    </div>
+                    <div className='post__body'>
+                        <Markdown message={message}/>
+                    </div>
+                    {(fileInfos.length > 0 || uploadsInProgress?.length > 0) && (
+                        <FilePreview
+                            fileInfos={fileInfos}
+                            onRemove={handleRemovePreview}
+                            uploadsInProgress={uploadsInProgress}
+                        />
+                    )}
                 </div>
-                <div className='post__content'>
-                    <Markdown message={message}/>
-                </div>
-                {(fileInfos.length > 0 || uploadsInProgress?.length > 0) && (
-                    <FilePreview
-                        fileInfos={fileInfos}
-                        onRemove={handleRemovePreview}
-                        uploadsInProgress={uploadsInProgress}
-                    />
-                )}
             </div>
         </div>
     );
