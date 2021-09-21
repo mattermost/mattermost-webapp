@@ -49,6 +49,8 @@ import * as Utils from 'utils/utils.jsx';
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
+import {getTeams} from 'mattermost-redux/actions/teams';
+
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
@@ -68,7 +70,7 @@ class SwitchChannelSuggestion extends Suggestion {
     }
 
     render() {
-        const {item, isSelection, userImageUrl, status, userItem, collapsedThreads, team} = this.props;
+        const {item, isSelection, userImageUrl, status, userItem, collapsedThreads, team, isPartOfOnlyOneTeam} = this.props;
         const channel = item.channel;
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
@@ -208,12 +210,18 @@ class SwitchChannelSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {name}
                     </span>
-                    {customStatus}
-                    {sharedIcon}
-                    {tag}
-                    {badge}
-                    {teamName}
+                    {isPartOfOnlyOneTeam && <span className='ml-2'>{description}</span>}
+                    {!isPartOfOnlyOneTeam &&
+                    <>
+                        {customStatus}
+                        {sharedIcon}
+                        {tag}
+                        {badge}
+                        {teamName}
+                    </>
+                    }
                 </div>
+                {isPartOfOnlyOneTeam && <>{customStatus} {sharedIcon} {tag} {badge}</>}
             </div>
         );
     }
@@ -230,6 +238,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const status = getStatusForUserId(state, channel.userId);
     const collapsedThreads = isCollapsedThreadsEnabled(state);
     const team = getTeam(state, channel.team_id);
+    const isPartOfOnlyOneTeam = getTeams(state).length === 1;
 
     if (channel && !dmChannelTeammate) {
         dmChannelTeammate = getUser(state, channel.userId);
@@ -244,6 +253,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
         userItem,
         collapsedThreads,
         team,
+        isPartOfOnlyOneTeam,
     };
 }
 

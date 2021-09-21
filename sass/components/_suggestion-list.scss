@@ -205,14 +205,15 @@
         }
     }
 
-    .suggestion-list__flex{
+    .suggestion-list__flex {
         display: flex;
         width: 100%;
         max-width: 100%;
         padding-right: 2rem;
-        .badge{
-            width: 18px;
+
+        .badge {
             position: unset;
+            width: 18px;
         }
     }
 
@@ -268,7 +269,8 @@
         margin-right: 12px;
         text-align: center;
     }
-    .suggestion-list__team-name{
+
+    .suggestion-list__team-name {
         position: absolute;
         right: 20px;
     }
