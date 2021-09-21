@@ -321,4 +321,16 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         (wrapper.instance() as UserSettingsDisplay).handleCollapseReplyThreadsRadio('on');
         expect(wrapper.state('collapsedReplyThreads')).toBe('on');
     });
+
+    test('should update last active state', () => {
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+        );
+
+        (wrapper.instance() as UserSettingsDisplay).handleLastActiveRadio('false');
+        expect(wrapper.state('lastActiveDisplay')).toBe('false');
+
+        (wrapper.instance() as UserSettingsDisplay).handleLastActiveRadio('true');
+        expect(wrapper.state('lastActiveDisplay')).toBe('true');
+    });
 });
