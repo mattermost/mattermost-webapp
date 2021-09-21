@@ -60,7 +60,9 @@ function Body({
                 <div className='post__header'>
                     <strong>{displayName}</strong>
                 </div>
-                <Markdown message={message}/>
+                <div className='post__content'>
+                    <Markdown message={message}/>
+                </div>
                 {(fileInfos.length > 0 || uploadsInProgress?.length > 0) && (
                     <FilePreview
                         fileInfos={fileInfos}

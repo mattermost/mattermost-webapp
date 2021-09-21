@@ -3,13 +3,17 @@
 
 import React, {memo, useState} from 'react';
 
+import {makeIsEligibleForClick} from 'utils/utils';
 import './panel.scss';
 
 type Props = {
     children: ({hover}: {hover: boolean}) => React.ReactNode;
+    onClick: () => void;
 };
 
-function Panel({children}: Props) {
+const isEligibleForClick = makeIsEligibleForClick('.file-preview.post-image__column, .hljs, code');
+
+function Panel({children, onClick}: Props) {
     const [hover, setHover] = useState(false);
 
     const handleMouseEnter = () => {
@@ -20,10 +24,17 @@ function Panel({children}: Props) {
         setHover(false);
     };
 
+    const handleOnClick = (e: React.MouseEvent<HTMLElement>) => {
+        if (isEligibleForClick(e)) {
+            onClick();
+        }
+    };
+
     return (
         <article
             className='Panel'
             onMouseEnter={handleMouseEnter}
+            onClick={handleOnClick}
             onMouseLeave={handleMouseLeave}
         >
             {children({hover})}

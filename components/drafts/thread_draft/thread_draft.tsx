@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {memo, useCallback, useMemo, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {getChannel} from 'mattermost-redux/actions/channels';
@@ -9,7 +9,12 @@ import {getPost} from 'mattermost-redux/actions/posts';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread, UserThreadSynthetic} from 'mattermost-redux/types/threads';
 import {Channel} from 'mattermost-redux/types/channels';
+import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
+
+import {selectPost} from 'actions/views/rhs';
+import {makeOnSubmit} from 'actions/views/create_comment';
+import {setGlobalItem} from 'actions/storage';
 
 import {PostDraft} from 'types/store/rhs';
 
@@ -56,25 +61,58 @@ function ThreadDraft({
         }
     }, [channel?.id]);
 
+    const onSubmit = useMemo(() => {
+        if (channel && thread) {
+            return makeOnSubmit(channel.id, thread.id, '');
+        }
+
+        return () => Promise.resolve({data: true});
+    }, [channel?.id, thread?.id]);
+
+    const handleSubmit = async () => {
+        await dispatch(onSubmit(value));
+        return {data: true};
+    };
+
+    const handleOnDelete = useCallback((id: string) => {
+        localStorage.removeItem(id);
+        dispatch(setGlobalItem(id, {message: '', fileInfos: [], uploadsInProgress: []}));
+    }, [id]);
+
+    const handleOnEdit = useCallback(() => {
+        if (channel) {
+            dispatch(selectPost({id, channel_id: channel.id} as Post));
+        }
+    }, [channel]);
+
+    const handleOnSend = useCallback((id: string) => {
+        if (!thread || !channel) {
+            return;
+        }
+
+        handleSubmit().then(() => {
+            handleOnDelete(id);
+            handleOnEdit();
+        });
+    }, [thread, channel]);
+
     if (!thread || !channel) {
         return null;
     }
 
     return (
-        <Panel>
+        <Panel onClick={handleOnEdit}>
             {({hover}) => (
                 <>
                     <Header
                         hover={hover}
                         actions={(
                             <DraftActions
-                                channel={channel}
                                 channelName={channel.display_name || displayName}
                                 draftId={draftId}
-                                id={id}
-                                type={type}
-                                value={value}
-                                thread={thread}
+                                onDelete={handleOnDelete}
+                                onEdit={handleOnEdit}
+                                onSend={handleOnSend}
                             />
                         )}
                         title={(

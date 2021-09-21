@@ -1,22 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useMemo, useCallback, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import React, {memo, useCallback, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {UserThread, UserThreadSynthetic} from 'mattermost-redux/types/threads';
-import {Post} from 'mattermost-redux/types/posts';
-import {Channel} from 'mattermost-redux/types/channels';
-
-import {PostDraft} from 'types/store/rhs';
-
-import {selectPost} from 'actions/views/rhs';
-import {makeOnSubmit} from 'actions/views/create_comment';
-import {setGlobalItem} from 'actions/storage';
-import {getChannelURL, localizeMessage} from 'utils/utils';
+import {localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import GenericModal from 'components/generic_modal';
@@ -26,52 +14,25 @@ import Action from './action';
 import './draft_actions.scss';
 
 type Props = {
-    channel: Channel;
     channelName: string;
     draftId: string;
-    id: string;
-    latestPostId?: string;
-    thread?: UserThread | UserThreadSynthetic;
-    type: string;
-    value: PostDraft;
+    onDelete: (draftId: string) => void;
+    onEdit: () => void;
+    onSend: (draftId: string) => void;
 }
 
 function DraftActions({
-    channel,
     channelName,
     draftId,
-    id,
-    latestPostId,
-    thread,
-    type,
-    value,
+    onDelete,
+    onEdit,
+    onSend,
 }: Props) {
     const [confirm, setConfirm] = useState({show: false, type: ''});
-    const history = useHistory();
-    const dispatch = useDispatch();
-    const teamId = useSelector(getCurrentTeamId);
-    const channelUrl = useSelector((state) => getChannelURL(state, channel, teamId));
-
-    const onSubmit = useMemo(() => makeOnSubmit(
-        channel.id, thread?.id || '', latestPostId || '',
-    ), [channel.id, thread?.id, latestPostId]);
-
-    const handleSubmit = async () => {
-        await dispatch(onSubmit(value));
-        return {data: true};
-    };
 
     const handleDelete = useCallback(() => {
         setConfirm({show: true, type: 'delete'});
     }, []);
-
-    const handleEdit = useCallback(() => {
-        if (type === 'channel') {
-            history.push(channelUrl);
-        } else if (thread?.post) {
-            dispatch(selectPost({id, ...thread.post} as Post));
-        }
-    }, [id, thread, type]);
 
     const handleSend = useCallback(() => {
         setConfirm({show: true, type: 'send'});
@@ -83,21 +44,11 @@ function DraftActions({
 
     const handleConfirm = useCallback(() => {
         if (confirm.type === 'delete') {
-            localStorage.removeItem(draftId);
-            dispatch(setGlobalItem(draftId, {message: '', fileInfos: [], uploadsInProgress: []}));
+            onDelete(draftId);
         } else if (confirm.type === 'send') {
-            handleSubmit().then(() => {
-                localStorage.removeItem(draftId);
-                dispatch(setGlobalItem(draftId, {message: '', fileInfos: [], uploadsInProgress: []}));
-
-                if (thread?.post) {
-                    dispatch(selectPost({id, ...thread.post} as Post));
-                } else {
-                    history.push(channelUrl);
-                }
-            });
+            onSend(draftId);
         }
-    }, [confirm.type, draftId, channelUrl, id, thread?.post]);
+    }, [confirm.type, draftId]);
 
     let title;
     let confirmButtonText;
@@ -172,7 +123,7 @@ function DraftActions({
                         defaultMessage='Edit draft'
                     />
                 )}
-                onClick={handleEdit}
+                onClick={onEdit}
             />
             <Action
                 icon='icon-send-outline'

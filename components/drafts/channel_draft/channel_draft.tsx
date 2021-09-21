@@ -1,14 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {memo, useMemo, useEffect, useCallback} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 import {getChannel} from 'mattermost-redux/actions/channels';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {makeOnSubmit} from 'actions/views/create_comment';
+import {setGlobalItem} from 'actions/storage';
+import {getChannelURL} from 'utils/utils';
 import {PostDraft} from 'types/store/rhs';
 
 import DraftTitle from '../draft_title';
@@ -39,6 +45,10 @@ function ChannelDraft({
     value,
 }: Props) {
     const dispatch = useDispatch();
+    const history = useHistory();
+
+    const teamId = useSelector(getCurrentTeamId);
+    const channelUrl = useSelector((state) => getChannelURL(state, channel, teamId));
 
     useEffect(() => {
         if (!channel?.id) {
@@ -46,24 +56,48 @@ function ChannelDraft({
         }
     }, [channel?.id]);
 
+    const onSubmit = useMemo(() => {
+        return makeOnSubmit(channel.id, '', '');
+    }, [channel.id]);
+
+    const handleSubmit = async () => {
+        await dispatch(onSubmit(value));
+        return {data: true};
+    };
+
+    const handleOnEdit = useCallback(() => {
+        history.push(channelUrl);
+    }, [channelUrl]);
+
+    const handleOnSend = useCallback((id: string) => {
+        handleSubmit().then(() => {
+            handleOnDelete(id);
+            handleOnEdit();
+        });
+    }, []);
+
+    const handleOnDelete = useCallback((id: string) => {
+        localStorage.removeItem(id);
+        dispatch(setGlobalItem(id, {message: '', fileInfos: [], uploadsInProgress: []}));
+    }, []);
+
     if (!channel) {
         return null;
     }
 
     return (
-        <Panel>
+        <Panel onClick={handleOnEdit}>
             {({hover}) => (
                 <>
                     <Header
                         hover={hover}
                         actions={(
                             <DraftActions
-                                channel={channel}
                                 channelName={channel.display_name || displayName}
                                 draftId={draftId}
-                                id={id}
-                                type={type}
-                                value={value}
+                                onDelete={handleOnDelete}
+                                onEdit={handleOnEdit}
+                                onSend={handleOnSend}
                             />
                         )}
                         title={(
