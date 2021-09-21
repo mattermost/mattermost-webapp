@@ -20,7 +20,7 @@ declare namespace Cypress {
         /**
          * Get RHS container
          *
-         *  @param {bool} option.exist - Set to false to not verify if the element exists. Otherwise, true (default) to check existence.
+         *  @param {bool} option.visible - Set to false to check whether RHS is not visible. Otherwise, true (default) to check visibility.
          *
          * @example
          *   cy.uiGetRHS();
@@ -50,5 +50,23 @@ declare namespace Cypress {
          *   cy.uiGetRHS().isExpanded();
          */
         isExpanded(): Chainable;
+
+        /**
+         * Add comment by clicking "Add Comment" button
+         *
+         * @example
+         *   cy.uiAddComment();
+         */
+        uiAddComment(): Chainable;
+
+        /**
+         * Get RHS container
+         *
+         *  @param {bool} option.visible - Set to false to check whether Search container at RHS is not visible. Otherwise, true (default) to check visibility.
+         *
+         * @example
+         *   cy.uiGetRHSSearchContainer();
+         */
+        uiGetRHSSearchContainer(option: Record<string, boolean>): Chainable;
     }
 }
