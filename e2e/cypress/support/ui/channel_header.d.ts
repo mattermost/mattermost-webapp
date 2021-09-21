@@ -26,6 +26,14 @@ declare namespace Cypress {
         uiGetChannelFavoriteButton(): Chainable;
 
         /**
+         * Get mute button from channel header.
+         *
+         * @example
+         *   cy.uiGetMuteButton().click();
+         */
+        uiGetMuteButton(): Chainable;
+
+        /**
          * Get member button from channel header.
          *
          * @example

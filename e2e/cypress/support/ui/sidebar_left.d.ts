@@ -105,8 +105,8 @@ declare namespace Cypress {
          * @param {string} name - channel name for channels, and threads for Global Threads
          *
          * @example
-         *   cy.uiVisitSidebarItem('town-square');
+         *   cy.uiClickSidebarItem('town-square');
          */
-        uiVisitSidebarItem(name: string): Chainable;
+        uiClickSidebarItem(name: string): Chainable;
     }
 }
