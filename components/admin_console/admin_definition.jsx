@@ -1942,7 +1942,7 @@ const AdminDefinition = {
                         label: t('admin.support.emailTitle'),
                         label_default: 'Support Email:',
                         help_text: t('admin.support.emailHelp'),
-                        help_text_default: 'Email address displayed on email notifications and during tutorial for end users to ask support questions.',
+                        help_text_default: 'Email address displayed on email notifications.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
