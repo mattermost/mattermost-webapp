@@ -43,10 +43,10 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         this.props.actions.addReaction(this.props.postId, emojiName);
     };
 
-    complementEmojis(): void {
+    complementEmojis = (emojis: Emoji[]): (Emoji[]) => {
         const additional = this.props.defaultEmojis.filter((e) => {
             let ignore = false;
-            for (const emoji of this.props.emojis) {
+            for (const emoji of emojis) {
                 if (e.name === emoji.name) {
                     ignore = true;
                     break;
@@ -54,11 +54,13 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
             }
             return !ignore;
         });
-        const l = this.props.emojis.length;
+        const l = emojis.length;
         for (let i = 0; i < 3 - l; i++) {
-            this.props.emojis.push(additional[i]);
+            emojis.push(additional[i]);
         }
-    }
+
+        return emojis;
+    };
 
     emojiName = (emoji: Emoji, locale: string): string => {
         function capitalizeFirstLetter(s: string) {
@@ -69,15 +71,15 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
     };
 
     render() {
-        if (this.props.emojis.length < 3) {
-            this.complementEmojis();
-        }
-
         const {
             channelId,
             teamId,
-            emojis,
         } = this.props;
+
+        let emojis = [...this.props.emojis];
+        if (emojis.length < 3) {
+            emojis = this.complementEmojis(emojis);
+        }
 
         return emojis.map((emoji) => (
             <ChannelPermissionGate
