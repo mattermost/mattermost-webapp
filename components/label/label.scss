@@ -12,11 +12,11 @@
     }
 
     &-warning {
-        background-color: var(--mention-highlight-bg);
+        background-color: var(--away-indicator);
     }
 
     &-info {
-        background-color: var(--link-color);
+        background-color: var(--sidebar-text-active-border);
     }
 
     &-default {
@@ -25,7 +25,6 @@
     }
 
     &-primary {
-        background-color: var(--sidedar-header-bg);
-        color: var(--center-channel-color);
+        background-color: var(--button-bg);
     }
 }
