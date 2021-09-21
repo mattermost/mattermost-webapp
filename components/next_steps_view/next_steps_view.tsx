@@ -349,7 +349,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUserId={this.props.currentUser.id}
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
                         team={this.props.team}
-                        isCloud={this.props.isCloud}
                         globalHeaderEnabled={this.props.globalHeaderEnabled}
                     />
                 </>}
