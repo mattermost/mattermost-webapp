@@ -140,11 +140,6 @@ type Props = {
     currentUsersLatestPost?: Post | null;
 
     /**
-  *  Set if the channel is read only.
-  */
-    readOnlyChannel?: boolean;
-
-    /**
   * Whether or not file upload is allowed.
   */
     canUploadFiles: boolean;
@@ -792,7 +787,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     focusTextbox = (keepFocus = false) => {
-        const postTextboxDisabled = this.props.readOnlyChannel || !this.props.canPost;
+        const postTextboxDisabled = !this.props.canPost;
         if (this.textboxRef.current && postTextboxDisabled) {
             this.textboxRef.current.blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
             return;
@@ -1324,7 +1319,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             showTutorialTip,
             canPost,
         } = this.props;
-        const readOnlyChannel = this.props.readOnlyChannel || !canPost;
+        const readOnlyChannel = !canPost;
         const {formatMessage} = this.props.intl;
         const {renderScrollbar, channelTimezoneCount, mentions, memberNotifyCount} = this.state;
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
