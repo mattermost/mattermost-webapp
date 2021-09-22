@@ -553,13 +553,10 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handlePostError = (postError: React.ReactNode) => {
-        const state = {postError} as State;
-
-        if (postError) {
-            state.deferringPostSubmit = false;
-        }
-
-        this.setState(state);
+        this.setState((state) => ({
+            postError,
+            deferringPostSubmit: postError ? false : state.deferringPostSubmit,
+        }));
     }
 
     handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
@@ -994,7 +991,10 @@ class CreateComment extends React.PureComponent<Props, State> {
             state.deferringPostSubmit = false;
         }
 
-        this.setState(state, () => {
+        this.setState((state) => ({
+            serverError,
+            deferringPostSubmit: serverError ? false : state.deferringPostSubmit,
+        }), () => {
             if (serverError && this.props.scrollToBottom) {
                 this.props.scrollToBottom();
             }
