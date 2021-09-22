@@ -224,10 +224,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             if (products[key].billing_scheme === BillingSchemes.FLAT_FEE) {
                 flatFeeProducts.push(tempEl);
             } else {
-                // only show enterprise to customers upgrading from professional
-                if (currentProduct.sku === 'cloud-professional') {
-                    return;
-                }
                 userBasedProducts.push(tempEl);
             }
         });
@@ -237,11 +233,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             if (currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
                 flatFeeProducts = [];
                 userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
-                    return option.price >= currentProduct.price_per_seat;
+                    return option.price > currentProduct.price_per_seat;
                 });
             } else {
                 flatFeeProducts = flatFeeProducts.filter((option: RadioGroupOption) => {
-                    return option.price >= currentProduct.price_per_seat;
+                    return option.price > currentProduct.price_per_seat;
                 });
             }
         }
@@ -255,15 +251,28 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             />
         );
 
+        if (options.length <= 1) {
+            return null;
+        }
+
         return (
-            <div className='plans-list'>
-                <RadioButtonGroup
-                    id='list-plans-radio-buttons'
-                    values={options!}
-                    value={this.state.selectedProduct?.id as string}
-                    sideLegend={{matchVal: currentProduct.id as string, text: sideLegendTitle}}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
-                />
+            <div className='select-plan'>
+                <div className='title'>
+                    <FormattedMessage
+                        id='cloud_subscribe.select_plan'
+                        defaultMessage='Select a plan'
+                    />
+                    {this.comparePlan}
+                </div>
+                <div className='plans-list'>
+                    <RadioButtonGroup
+                        id='list-plans-radio-buttons'
+                        values={options!}
+                        value={this.state.selectedProduct?.id as string}
+                        sideLegend={{matchVal: currentProduct.id as string, text: sideLegendTitle}}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
+                    />
+                </div>
             </div>
         );
     }
@@ -531,18 +540,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
-                        {(this.props.products && Object.keys(this.props.products).length > 1 && this.state.currentProduct?.sku !== 'cloud-professional') &&
-                            <div className='select-plan'>
-                                <div className='title'>
-                                    <FormattedMessage
-                                        id='cloud_subscribe.select_plan'
-                                        defaultMessage='Select a plan'
-                                    />
-                                    {this.comparePlan}
-                                </div>
-                                {this.listPlans()}
-                            </div>
-                        }
+                        {this.listPlans()}
                         <div className='bold-text'>
                             {this.state.selectedProduct?.name || ''}
                         </div>
