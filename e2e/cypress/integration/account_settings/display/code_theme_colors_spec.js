@@ -14,9 +14,9 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings', () => {
     before(() => {
-        // # Login as new user, visit town-square and post a message
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as new user, visit off-topic and post a message
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
             cy.postMessage('```\ncode\n```');
         });
     });
@@ -72,7 +72,7 @@ function verifyLastPostStyle(codeTheme) {
 
 function navigateToThemeSettings() {
     // Change theme to desired theme (keeps settings modal open)
-    cy.uiOpenAccountSettingsModal('Display');
+    cy.uiOpenSettingsModal('Display');
 
     // Open edit theme
     cy.get('#themeTitle').should('be.visible');

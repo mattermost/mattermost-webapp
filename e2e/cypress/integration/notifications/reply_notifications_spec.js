@@ -12,35 +12,6 @@
 
 import {spyNotificationAs} from '../../support/notification';
 
-function setReplyNotificationsSetting(idToToggle) {
-    // Navigate to settings modal
-    cy.toAccountSettingsModal();
-
-    // Select "Notifications"
-    cy.get('#notificationsButton').click();
-
-    // Notifications header should be visible
-    cy.get('#notificationSettingsTitle').
-        scrollIntoView().
-        should('be.visible').
-        and('contain', 'Notifications');
-
-    // Open up 'Reply Notifications' sub-section
-    cy.get('#commentsTitle').
-        scrollIntoView().
-        click();
-
-    cy.get(idToToggle).check().should('be.checked');
-
-    // Click “Save” and close modal
-    cy.get('#saveSetting').
-        scrollIntoView().
-        click();
-    cy.get('#accountSettingsHeader > .close').
-        click().
-        should('not.exist');
-}
-
 describe('reply-notifications', () => {
     let testTeam;
     let otherChannel;
@@ -259,3 +230,24 @@ describe('reply-notifications', () => {
         });
     });
 });
+
+function setReplyNotificationsSetting(idToToggle) {
+    // Navigate to settings modal
+    cy.uiOpenSettingsModal();
+
+    // Notifications header should be visible
+    cy.get('#notificationSettingsTitle').
+        scrollIntoView().
+        should('be.visible').
+        and('contain', 'Notifications');
+
+    // Open up 'Reply Notifications' sub-section
+    cy.get('#commentsTitle').
+        scrollIntoView().
+        click();
+
+    cy.get(idToToggle).check().should('be.checked');
+
+    // Click “Save” and close modal
+    cy.uiSaveAndClose();
+}

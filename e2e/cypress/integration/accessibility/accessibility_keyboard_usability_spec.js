@@ -38,7 +38,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
 
                 cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
-                        // # Login as test user, visit town-square and post few messages
+                        // # Login as test user, visit test channel and post few messages
                         cy.apiLogin(user);
                         cy.visit(`/${team.name}/channels/${testChannel.name}`);
                     });
@@ -137,7 +137,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
             cy.clickPostCommentIcon(postId);
 
             // * Verify Screen reader should not switch to virtual cursor mode. This is handled by adding a role=application attribute
-            const regions = ['#lhsHeader', '#sidebar-left', '#rhsContainer .post-right__content', '.search__form', '#centerChannelFooter'];
+            const regions = ['#sidebar-left', '#rhsContainer .post-right__content', '.search__form', '#centerChannelFooter'];
             regions.forEach((region) => {
                 cy.get(region).should('have.attr', 'role', 'application');
             });

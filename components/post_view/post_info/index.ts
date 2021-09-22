@@ -8,7 +8,6 @@ import {showActionsMenuPulsatingDotPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 
 import {removePost} from 'mattermost-redux/actions/posts';
-import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -49,7 +48,7 @@ function makeMapStateToProps() {
             isMobile: state.views.channel.mobileView,
             isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
             enableEmojiPicker,
-            isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
+            isReadOnly: channelIsArchived,
             shouldShowDotMenu: shouldShowDotMenu(state, ownProps.post, channel),
             shouldShowActionsMenu: shouldShowActionsMenu(state, ownProps.post),
             shortcutReactToLastPostEmittedFrom,

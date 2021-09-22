@@ -6,10 +6,11 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getProfiles} from 'mattermost-redux/actions/users';
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory, getDownloadAppsCTATreatment} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {DownloadAppsCTATreatments} from 'mattermost-redux/constants/config';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -26,6 +27,7 @@ function makeMapStateToProps() {
     return (state: GlobalState) => {
         const teamId = getCurrentTeamId(state);
         const team = getTeam(state, teamId || '');
+        const downloadAppsAsNextStep = getDownloadAppsCTATreatment(state) === DownloadAppsCTATreatments.TIPS_AND_NEXT_STEPS;
         return {
             currentUser: getCurrentUser(state),
             isAdmin: isCurrentUserSystemAdmin(state),
@@ -35,6 +37,7 @@ function makeMapStateToProps() {
             team,
             isCloud: getLicense(state).Cloud === 'true',
             globalHeaderEnabled: getGlobalHeaderEnabled(state),
+            downloadAppsAsNextStep,
         };
     };
 }

@@ -127,10 +127,12 @@ export function makeFilterPostsAndAddSeparators() {
 }
 
 export function makeCombineUserActivityPosts() {
+    const getPostsForIds = makeGetPostsForIds();
+
     return createIdsSelector(
         'makeCombineUserActivityPosts',
         (state: GlobalState, postIds: string[]) => postIds,
-        (state) => state.entities.posts.posts,
+        (state: GlobalState, postIds: string[]) => getPostsForIds(state, postIds),
         (postIds, posts) => {
             let lastPostIsUserActivity = false;
             let combinedCount = 0;
@@ -150,7 +152,7 @@ export function makeCombineUserActivityPosts() {
                     continue;
                 }
 
-                const post = posts[postId];
+                const post = posts[i];
                 const postIsUserActivity = isUserActivityPost(post.type);
 
                 if (postIsUserActivity && lastPostIsUserActivity && combinedCount < MAX_COMBINED_SYSTEM_POSTS) {
