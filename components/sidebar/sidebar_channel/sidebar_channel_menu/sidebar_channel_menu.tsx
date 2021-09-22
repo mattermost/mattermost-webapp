@@ -4,13 +4,11 @@
 import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import CategoryMenuItems from 'components/category_menu_items';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import EditCategoryModal from 'components/edit_category_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import SidebarMenuType from 'components/sidebar/sidebar_menu/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
@@ -20,8 +18,6 @@ import {copyToClipboard} from 'utils/utils';
 type Props = {
     channel: Channel;
     channelLink: string;
-    categories?: ChannelCategory[];
-    currentCategory?: ChannelCategory;
     currentUserId: string;
     currentTeamId: string;
     isUnread: boolean;
@@ -34,8 +30,6 @@ type Props = {
     isCollapsed: boolean;
     isMenuOpen: boolean;
     onToggleMenu: (isMenuOpen: boolean) => void;
-    multiSelectedChannelIds: string[];
-    displayedChannels: Channel[];
     actions: {
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
@@ -43,7 +37,6 @@ type Props = {
         muteChannel: (userId: string, channelId: string) => void;
         unmuteChannel: (userId: string, channelId: string) => void;
         openModal: (modalData: any) => void;
-        addChannelsInSidebar: (categoryId: string, channelId: string) => void;
     };
 };
 
@@ -87,26 +80,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         this.props.actions.muteChannel(this.props.currentUserId, this.props.channel.id);
     }
 
-    moveToCategory = (categoryId: string) => {
-        return () => {
-            this.props.actions.addChannelsInSidebar(categoryId, this.props.channel.id);
-            trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
-        };
-    }
-
-    moveToNewCategory = () => {
-        const {actions, multiSelectedChannelIds, channel} = this.props;
-
-        actions.openModal({
-            modalId: ModalIdentifiers.EDIT_CATEGORY,
-            dialogType: EditCategoryModal,
-            dialogProps: {
-                channelIdsToAdd: multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel.id] : multiSelectedChannelIds,
-            },
-        });
-        trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
-    }
-
     copyLink = () => {
         copyToClipboard(this.props.channelLink);
     }
@@ -138,11 +111,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     renderDropdownItems = () => {
-        const {intl, isUnread, isFavorite, isMuted, channel, categories, displayedChannels, multiSelectedChannelIds} = this.props;
-
-        if (!categories) {
-            return null;
-        }
+        const {intl, isUnread, isFavorite, isMuted, channel} = this.props;
 
         let markAsRead;
         if (isUnread) {
@@ -206,46 +175,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
             );
         }
 
-        const selectedChannels = multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel] : displayedChannels.filter((c) => multiSelectedChannelIds.indexOf(c.id) !== -1);
-        const allChannelsAreDMs = selectedChannels.every((selectedChannel) => selectedChannel.type === Constants.DM_CHANNEL || selectedChannel.type === Constants.GM_CHANNEL);
-        const allChannelsAreNotDMs = selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL);
-
-        const categoryMenuItems = categories.filter((category) => {
-            if (category.id === this.props.currentCategory?.id) {
-                return false;
-            }
-
-            if (allChannelsAreDMs) {
-                return category.type !== CategoryTypes.CHANNELS;
-            } else if (allChannelsAreNotDMs) {
-                return category.type !== CategoryTypes.DIRECT_MESSAGES;
-            }
-
-            return true;
-        }).map((category) => {
-            return {
-                id: `moveToCategory-${channel.id}-${category.id}`,
-                icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
-                direction: 'right' as any,
-                text: category.display_name,
-                action: this.moveToCategory(category.id),
-            } as any;
-        });
-
-        categoryMenuItems.push(
-            {
-                id: 'SidebarChannelMenu-moveToDivider',
-                text: (<li className='MenuGroup menu-divider'/>),
-            },
-            {
-                id: `moveToNewCategory-${channel.id}`,
-                icon: (<i className='icon-folder-move-outline'/>),
-                direction: 'right' as any,
-                text: intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'}),
-                action: this.moveToNewCategory,
-            },
-        );
-
         let copyLink;
         if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
             copyLink = (
@@ -296,16 +225,11 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                     {favorite}
                     {muteChannel}
                 </Menu.Group>
-                <Menu.Group>
-                    <Menu.ItemSubMenu
-                        id={`moveTo-${channel.id}`}
-                        subMenu={categoryMenuItems}
-                        text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to'})}
-                        icon={<i className='icon-folder-move-outline'/>}
-                        direction={'right' as any}
-                        openUp={this.state.openUp}
-                    />
-                </Menu.Group>
+                <CategoryMenuItems
+                    channel={channel}
+                    openUp={this.state.openUp}
+                    location={'sidebar'}
+                />
                 <Menu.Group>
                     {copyLink}
                     {addMembers}

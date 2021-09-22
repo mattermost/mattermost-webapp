@@ -53,68 +53,22 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
     componentClass="div"
     role="application"
   >
-    <MultiSelect
-      ariaLabelRenderer={[Function]}
-      buttonSubmitLoadingText="Loading.."
-      buttonSubmitText="Go"
-      handleAdd={[Function]}
+    <Connect(Component)
+      addValue={[Function]}
+      currentUserId="current_user_id"
       handleDelete={[Function]}
-      handleInput={[Function]}
       handlePageChange={[Function]}
       handleSubmit={[Function]}
-      key="moreDirectChannelsList"
+      isExistingChannel={false}
       loading={true}
-      maxValues={7}
-      numRemainingText={
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
-          id="multiselect.numPeopleRemaining"
-          values={
-            Object {
-              "num": 7,
-            }
-          }
-        />
-      }
-      optionRenderer={[Function]}
-      options={
-        Array [
-          Object {
-            "delete_at": 0,
-            "id": "user_id_1",
-            "label": "user_id_1",
-            "value": "user_id_1",
-          },
-          Object {
-            "delete_at": 0,
-            "id": "user_id_2",
-            "label": "user_id_2",
-            "value": "user_id_2",
-          },
-          Object {
-            "delete_at": 1,
-            "id": "deleted_user_1",
-            "label": "deleted_user_id_1",
-            "value": "deleted_user_id_1",
-          },
-          Object {
-            "delete_at": 1,
-            "id": "deleted_user_2",
-            "label": "deleted_user_id_2",
-            "value": "deleted_user_id_2",
-          },
-        ]
-      }
-      perPage={50}
-      placeholderText="Search and add members"
-      saveButtonPosition="top"
       saving={false}
+      search={[Function]}
       selectedItemRef={
         Object {
           "current": null,
         }
       }
-      submitImmediatelyOn={[Function]}
+      totalCount={3}
       users={
         Array [
           Object {
@@ -149,8 +103,6 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
           },
         ]
       }
-      valueRenderer={[Function]}
-      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>
@@ -171,76 +123,6 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
     </button>
   </ModalFooter>
 </Modal>
-`;
-
-exports[`components/MoreDirectChannels should match renderOptionValue snapshot 1`] = `
-<div
-  className="more-modal__row clickable more-modal__row--selected"
-  onClick={[Function]}
-  onMouseEnter={[Function]}
->
-  <React.Fragment>
-    <ProfilePicture
-      hasMention={false}
-      isEmoji={false}
-      isRHS={false}
-      size="md"
-      src="/api/v4/users/user_id_1/image"
-      status="online"
-      wrapperClass=""
-    />
-    <div
-      className="more-modal__details"
-    >
-      <div
-        className="more-modal__name"
-      >
-        <span
-          id="displayedUserNameusername1"
-        >
-          @username1
-          <span
-            className="light"
-          >
-            
-          </span>
-        </span>
-        <BotBadge
-          className="badge-popoverlist"
-          show={false}
-        />
-        <GuestBadge
-          className="badge-popoverlist"
-          show={false}
-        />
-        <CustomStatusEmoji
-          emojiSize={15}
-          emojiStyle={
-            Object {
-              "marginLeft": 4,
-            }
-          }
-          showTooltip={true}
-          spanStyle={Object {}}
-          tooltipDirection="top"
-          userID="user_id_1"
-        />
-      </div>
-      <div
-        className="more-modal__description"
-      />
-    </div>
-  </React.Fragment>
-  <div
-    className="more-modal__actions"
-  >
-    <div
-      className="more-modal__actions--round"
-    >
-      <AddIcon />
-    </div>
-  </div>
-</div>
 `;
 
 exports[`components/MoreDirectChannels should match snapshot 1`] = `
@@ -296,62 +178,22 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
     componentClass="div"
     role="application"
   >
-    <MultiSelect
-      ariaLabelRenderer={[Function]}
-      buttonSubmitLoadingText="Loading.."
-      buttonSubmitText="Go"
-      handleAdd={[Function]}
+    <Connect(Component)
+      addValue={[Function]}
+      currentUserId="current_user_id"
       handleDelete={[Function]}
-      handleInput={[Function]}
       handlePageChange={[Function]}
       handleSubmit={[Function]}
-      key="moreDirectChannelsList"
+      isExistingChannel={false}
       loading={true}
-      maxValues={7}
-      numRemainingText={
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
-          id="multiselect.numPeopleRemaining"
-          values={
-            Object {
-              "num": 5,
-            }
-          }
-        />
-      }
-      optionRenderer={[Function]}
-      options={
-        Array [
-          Object {
-            "delete_at": 0,
-            "id": "user_id_1",
-            "label": "user_id_1",
-            "value": "user_id_1",
-          },
-          Object {
-            "delete_at": 0,
-            "id": "user_id_2",
-            "label": "user_id_2",
-            "value": "user_id_2",
-          },
-          Object {
-            "delete_at": 0,
-            "id": "user_id_3",
-            "label": "user_id_3",
-            "value": "user_id_3",
-          },
-        ]
-      }
-      perPage={50}
-      placeholderText="Search and add members"
-      saveButtonPosition="top"
       saving={false}
+      search={[Function]}
       selectedItemRef={
         Object {
           "current": null,
         }
       }
-      submitImmediatelyOn={[Function]}
+      totalCount={3}
       users={
         Array [
           Object {
@@ -374,8 +216,6 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           },
         ]
       }
-      valueRenderer={[Function]}
-      valueWithImage={false}
       values={
         Array [
           Object {
@@ -409,40 +249,4 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
     </button>
   </ModalFooter>
 </Modal>
-`;
-
-exports[`components/MoreDirectChannels should render the group channel option 1`] = `
-<div
-  className="more-modal__row clickable"
-  onClick={[Function]}
-  onMouseEnter={[Function]}
->
-  <React.Fragment>
-    <div
-      className="more-modal__gm-icon bg-text-200"
-    >
-      1
-    </div>
-    <div
-      className="more-modal__details"
-    >
-      <div
-        className="more-modal__name"
-      >
-        <span>
-          @username
-        </span>
-      </div>
-    </div>
-  </React.Fragment>
-  <div
-    className="more-modal__actions"
-  >
-    <div
-      className="more-modal__actions--round"
-    >
-      <AddIcon />
-    </div>
-  </div>
-</div>
 `;
