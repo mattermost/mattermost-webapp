@@ -75,7 +75,9 @@ type Props = {
         /**
          * Function to open a modal
          */
-        openModal: (postId: string) => void;
+        openModal: (modalData: {ModalId: string; dialogType: React.ComponentClass; dialogProps?: {post: Post; isRHS: boolean}}) => Promise<{
+            data: boolean;
+        }>;
 
         /**
          * Function to set the unread mark at given post
@@ -299,14 +301,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, EventTypes.CLICK + '_' + suffix);
     }
 
-    handleOnClick = (suffix: string, cb: () => void): void => {
+    handleOnClick = (suffix: string, cb: (e?: ChangeEvent) => void, e?: ChangeEvent): void => {
         this.trackClickEvent(suffix);
+        if (e) {
+            cb(e);
+        }
         cb();
-    }
-
-    handleOnClickWithEvent = (suffix: string, cb: (e: ChangeEvent) => void, e: ChangeEvent): void => {
-        this.trackClickEvent(suffix);
-        cb(e);
     }
 
     isKeyboardEvent = (e: ChangeEvent): e is React.KeyboardEvent => {
@@ -430,7 +430,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={Utils.getMenuItemIcon('icon-reply-outline')}
                         rightDecorator={'R'}
                         onClick={(e: any) => {
-                            this.handleOnClickWithEvent(TELEMETRY_LABELS.REPLY, this.props.handleCommentClick, e);
+                            this.handleOnClick(TELEMETRY_LABELS.REPLY, () => this.props.handleCommentClick, e);
                         }}
                     />
                     <ChannelPermissionGate
@@ -475,7 +475,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={Utils.getMenuItemIcon('icon-mark-as-unread')}
                         rightDecorator={'U'}
                         onClick={() => {
-                            this.handleOnClick(TELEMETRY_LABELS.UNREAD, this.handleUnreadMenuItemActivated);
+                            this.handleOnClick(TELEMETRY_LABELS.UNREAD, () => this.handleUnreadMenuItemActivated);
                         }}
                     />
                     <Menu.ItemAction
@@ -537,7 +537,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leftDecorator={Utils.getMenuItemIcon('icon-trash-can-outline')}
                         rightDecorator={'delete'}
                         onClick={(e: any) => {
-                            this.handleOnClickWithEvent(TELEMETRY_LABELS.DELETE, this.handleDeleteMenuItemActivated, e);
+                            this.handleOnClick(TELEMETRY_LABELS.DELETE, () => this.handleDeleteMenuItemActivated, e);
                         }}
                         isDangerous={true}
                     />

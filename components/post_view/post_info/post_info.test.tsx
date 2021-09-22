@@ -40,8 +40,11 @@ describe('components/post_view/PostInfo', () => {
         shortcutReactToLastPostEmittedFrom: '',
         actions: {
             removePost: jest.fn(),
+            setActionsMenuInitialisationState: jest.fn(),
         },
         shouldShowDotMenu: true,
+        firstTimeActionsMenuOpened: false,
+        shouldShowActionsMenu: true,
         isReadOnly: true,
         collapsedThreadsEnabled: false,
     };

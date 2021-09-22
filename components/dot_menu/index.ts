@@ -119,7 +119,9 @@ type Actions = {
     setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     pinPost: (postId: string) => void;
     unpinPost: (postId: string) => void;
-    openModal: (postId: any) => void;
+    openModal: (modalData: {ModalId: string; dialogType: React.ComponentClass; dialogProps?: {post: Post; isRHS: boolean}}) => Promise<{
+        data: boolean;
+    }>;
     markPostAsUnread: (post: Post) => void;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 }

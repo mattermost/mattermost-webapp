@@ -132,7 +132,7 @@ type Props = {
         /**
          * Function to set viewed Actions Menu for first time
          */
-        setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
+        setActionsMenuInitialisationState?: (viewed: Record<string, boolean>) => void;
     };
 
     shouldShowDotMenu: boolean;
@@ -204,7 +204,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     handleActionsMenuOpened = (open: boolean) => {
         const {actions} = this.props;
         if (this.props.firstTimeActionsMenuOpened) {
-            actions.setActionsMenuInitialisationState(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+            actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
             return;
         }
 
