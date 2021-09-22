@@ -73,7 +73,6 @@ type Props = {
         push(path: string): void;
     };
     teamsList: Team[];
-    theme: any;
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     plugins?: any;
     selectedThreadId: string | null;
