@@ -1,6 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+Cypress.Commands.add('uiGetPostProfileImage', (postId) => {
+    return getPost(postId).within(() => {
+        return cy.get('.post__img').should('be.visible');
+    });
+});
+
 Cypress.Commands.add('uiGetPostHeader', (postId) => {
     return getPost(postId).within(() => {
         return cy.get('.post__header').should('be.visible');
