@@ -102,6 +102,10 @@ Cypress.Commands.add('uiOpenUserMenu', (item = '') => {
         click();
 });
 
+Cypress.Commands.add('uiGetSearchContainer', () => {
+    return cy.get('#searchFormContainer').should('be.visible');
+});
+
 Cypress.Commands.add('uiGetSearchBox', () => {
     return cy.get('#searchBox').should('be.visible');
 });

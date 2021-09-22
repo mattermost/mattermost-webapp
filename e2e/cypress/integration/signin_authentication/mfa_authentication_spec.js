@@ -149,5 +149,5 @@ function getUserSecret(user) {
 function fillMFACode(code) {
     cy.wait(timeouts.TWO_SEC);
     cy.findByPlaceholderText('MFA Token').clear().type(code).wait(timeouts.ONE_SEC);
-    cy.uiSave();
+    cy.findByRole('button', {name: 'Submit'}).click();
 }

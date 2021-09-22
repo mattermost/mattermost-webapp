@@ -34,7 +34,7 @@ describe('Message reply scrollable', () => {
     it('MM-T4083_1 correctly scrolls to the bottom when a thread is opened', () => {
         // # Scroll RHS to top and close it
         cy.get('.post-right__content > div > div').first().scrollIntoView();
-        cy.closeRHS();
+        cy.uiCloseRHS();
 
         // # Open RHS
         cy.getLastPostId().then((postId) => {

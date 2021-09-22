@@ -146,7 +146,7 @@ describe('Verify Guest User Identification in different screens', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
