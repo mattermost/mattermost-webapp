@@ -47,7 +47,11 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             cmdLength = msg.length;
         }
         const cmd = msg.substring(0, cmdLength).toLowerCase();
-        msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trim();
+        if (cmd === '/code') {
+            msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trimEnd();
+        } else {
+            msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trim();
+        }
 
         switch (cmd) {
         case '/search':

@@ -15,8 +15,8 @@ describe('Custom Status - Setting a Custom Status', () => {
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
 
         // # Login as test user and visit channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            cy.visit(channelUrl);
         });
     });
 
@@ -99,12 +99,16 @@ describe('Custom Status - Setting a Custom Status', () => {
         cy.get('#custom_status_modal').should('not.exist');
 
         // * Status should be set and the emoji should be visible in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
     it('MM-T3836_7 should display the custom status tooltip when hover on the emoji in LHS header', () => {
         // # Hover on the custom status emoji in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').trigger('mouseover');
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            trigger('mouseover');
 
         // * Custom status tooltip should be visible
         cy.get('#custom-status-tooltip').should('exist');
@@ -121,7 +125,9 @@ describe('Custom Status - Setting a Custom Status', () => {
         cy.get('#custom_status_modal').should('not.exist');
 
         // # Click on the custom status emoji in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').click();
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            click();
 
         // * Check that the custom status modal should be open
         cy.get('#custom_status_modal').should('exist');

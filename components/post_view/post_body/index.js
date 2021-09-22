@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -29,7 +29,7 @@ function mapStateToProps(state, ownProps) {
         parentPostUser,
         pluginPostTypes: state.plugins.postTypes,
         enablePostUsernameOverride,
-        isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
+        isReadOnly: channelIsArchived,
     };
 }
 

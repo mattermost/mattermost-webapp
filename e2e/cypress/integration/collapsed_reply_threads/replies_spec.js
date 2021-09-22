@@ -126,7 +126,7 @@ describe('Collapsed Reply Threads', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 });

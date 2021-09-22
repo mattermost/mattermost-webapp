@@ -65,7 +65,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
             checkReactionFromPost(lastPostId);
         });
 
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T4058_2 Open emoji picker for last comment in RHS when focus is on comment textbox', () => {
@@ -90,7 +90,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
             checkReactionFromPost(lastPostId);
         });
 
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T4058_3 Open emoji picker for last comment in fully expanded RHS when focus is on comment textbox', () => {
@@ -101,7 +101,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.get('#rhsContainer').should('be.visible');
 
         // # Fully expand the RHS
-        cy.findByLabelText('Expand').click();
+        cy.uiExpandRHS();
 
         // # Do keyboard shortcut with focus on RHS
         doReactToLastMessageShortcut('RHS');

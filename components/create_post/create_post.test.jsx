@@ -90,6 +90,7 @@ function createPost({
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
     currentUserId = currentUserIdProp,
+    tutorialStep = Constants.TutorialSteps.POST_POPOVER + 1,
     showTutorialTip = showTutorialTipProp,
     currentChannelMembersCount = currentChannelMembersCountProp,
     fullWidthTextBox = fullWidthTextBoxProp,
@@ -100,7 +101,6 @@ function createPost({
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
-    readOnlyChannel = false,
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
@@ -121,7 +121,6 @@ function createPost({
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
             actions={actions}
-            readOnlyChannel={readOnlyChannel}
             canUploadFiles={canUploadFiles}
             enableTutorial={true}
             enableConfirmNotificationsToChannel={true}
@@ -137,6 +136,7 @@ function createPost({
             canPost={true}
             useChannelMentions={true}
             useGroupMentions={useGroupMentions}
+            tutorialStep={tutorialStep}
         />
     );
 }
@@ -1030,11 +1030,6 @@ describe('components/create_post', () => {
         wrapper.instance().replyToLastPost({preventDefault: jest.fn()});
         expect(selectPostFromRightHandSideSearchByPostId).toHaveBeenCalledTimes(1);
         expect(selectPostFromRightHandSideSearchByPostId.mock.calls[0][0]).toEqual(latestReplyablePostId);
-    });
-
-    it('should match snapshot for read only channel', () => {
-        const wrapper = shallowWithIntl(createPost({readOnlyChannel: true}));
-        expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot when cannot post', () => {
