@@ -33,17 +33,17 @@ const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
-    intl: IntlShape;
-    post: Post;
-    isSysAdmin: boolean;
-    teamId?: string;
-    location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
-    handleDropdownOpened?: (open: boolean) => void;
-    isMenuOpen?: boolean;
-    pluginMenuItems?: PluginComponent[];
     appBindings?: AppBinding[];
     appsEnabled: boolean;
+    handleDropdownOpened?: (open: boolean) => void;
+    intl: IntlShape;
+    isMenuOpen?: boolean;
+    isSysAdmin: boolean;
+    location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
+    pluginMenuItems?: PluginComponent[];
+    post: Post;
     showTutorialTip: boolean;
+    teamId?: string;
 
     /**
      * Components for overriding provided by plugins
@@ -55,14 +55,14 @@ type Props = {
     actions: {
 
         /**
-         * Function to open a modal
-         */
-        openModal: (postId: string) => void;
-
-        /**
          * Function to perform an app call
          */
         doAppCall: DoAppCall;
+
+        /**
+         * Function to open a modal
+         */
+        openModal: (postId: string) => void;
 
         /**
          * Function to post the ephemeral message for a call response
@@ -78,9 +78,9 @@ type State = {
 
 export class ActionMenuClass extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
+        appBindings: [],
         location: Locations.CENTER,
         pluginMenuItems: [],
-        appBindings: [],
     }
     private buttonRef: React.RefObject<HTMLButtonElement>;
 

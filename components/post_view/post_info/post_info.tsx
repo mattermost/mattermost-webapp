@@ -273,18 +273,15 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
-        let actionsMenu;
         const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || hover);
-        if (showActionsMenuIcon) {
-            actionsMenu = (
-                <ActionsMenu
-                    post={post}
-                    handleDropdownOpened={this.handleActionsMenuOpened}
-                    isMenuOpen={this.state.showActionsMenu}
-                    showTutorialTip={this.props.firstTimeActionsMenuOpened}
-                />
-            );
-        }
+        const actionsMenu = showActionsMenuIcon && (
+            <ActionsMenu
+                post={post}
+                handleDropdownOpened={this.handleActionsMenuOpened}
+                isMenuOpen={this.state.showActionsMenu}
+                showTutorialTip={this.props.firstTimeActionsMenuOpened}
+            />
+        );
 
         const showFlagIcon = !isSystemMessage && !isMobile && (hover || this.props.isFlagged);
         let postFlagIcon;
