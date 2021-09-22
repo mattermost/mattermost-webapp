@@ -57,6 +57,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         }
         id="sortChannels"
         openUp={false}
+        renderSelected={true}
         selectedValueText="Alphabetically"
         show={true}
         styleSelectableItem={true}
@@ -137,6 +138,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         }
         id="sortChannels"
         openUp={false}
+        renderSelected={true}
         selectedValueText="Alphabetically"
         show={true}
         styleSelectableItem={true}

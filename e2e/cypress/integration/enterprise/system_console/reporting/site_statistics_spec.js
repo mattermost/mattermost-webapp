@@ -124,15 +124,15 @@ describe('System Console > Site Statistics', () => {
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
 
-            // # Login as admin and set the langauge to french
+            // # Login as admin and set the language to french
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/town-square`);
-            cy.get('#headerUsername', {timeout: TIMEOUTS.ONE_MIN}).click();
-            cy.get('#accountSettings').should('be.visible').click();
-            cy.get('#displayButton').click();
-            cy.get('#languagesEdit').click();
-            cy.get('#displayLanguage').type('Français{enter}');
-            cy.get('#saveSetting').click();
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.uiOpenSettingsModal('Display').then(() => {
+                cy.findByText('Language').click();
+                cy.get('#displayLanguage').click();
+                cy.findByText('Français').click();
+                cy.uiSave();
+            });
 
             // * Once in site statistics, check and make sure the boxes are truncated or not according to image on test
             cy.visit('/admin_console/reporting/system_analytics');

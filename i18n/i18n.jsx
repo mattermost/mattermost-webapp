@@ -60,7 +60,7 @@ const languages = {
     },
     it: {
         value: 'it',
-        name: 'Italiano (Beta)',
+        name: 'Italiano (Alpha)',
         order: 5,
         url: it,
     },
@@ -78,7 +78,7 @@ const languages = {
     },
     pl: {
         value: 'pl',
-        name: 'Polski (Beta)',
+        name: 'Polski (Alpha)',
         order: 8,
         url: pl,
     },

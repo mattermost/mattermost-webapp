@@ -270,23 +270,17 @@ describe('Authentication', () => {
 
         cy.visit('/');
 
-        // * Verify the side bar is visible
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-        // # Click on the side bar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // * Verify Invite People button is visible and exist and then click it
-        cy.findByText('Invite People').should('be.visible').and('exist').click();
+        // # Open team menu and click on "Invite People"
+        cy.uiOpenTeamMenu('Invite People');
 
         // # Click invite members
         cy.findByText('Members').click();
 
         // # Input email, select member
-        cy.findByText('Add members or email addresses').type('HosseinTheBestProgrammer@Mattermost.com{enter}{enter}');
+        cy.findByText('Add members or email addresses').type('HosseinTheBestProgrammer@Mattermost.com{downarrow}{downarrow}{enter}');
 
         // # Click invite members button
-        cy.findByText('Invite Members').click();
+        cy.findByRole('button', {name: 'Invite Members'}).click({force: true});
 
         // * Verify message is what you expect it to be
         cy.contains('The following email addresses do not belong to an accepted domain:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');

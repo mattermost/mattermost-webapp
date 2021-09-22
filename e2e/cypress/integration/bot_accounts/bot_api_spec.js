@@ -53,28 +53,23 @@ describe('Bot accounts ownership and API', () => {
 
         cy.visit(`/${newTeam.name}/channels/town-square`);
 
-        // # Open the menu
-        cy.get('#lhsHeader', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
-            cy.get('#sidebarHeaderDropdownButton').click();
-            cy.get('.dropdown-menu').should('be.visible');
+        // # Open product switch menu and click "Integrations"
+        cy.uiOpenProductSwitchMenu('Integrations');
 
-            // * Confirm integrations are visible
-            cy.get('#integrations').should('be.visible');
-        });
+        // * Confirm integrations are visible
+        cy.url().should('include', `/${newTeam.name}/integrations`);
+        cy.get('.backstage-header').findByText('Integrations').should('be.visible');
 
         // # Login as a regular user
         cy.apiLogin(newUser);
 
         cy.visit(`/${newTeam.name}/channels/town-square`);
 
-        // # Open the menu
-        cy.get('#lhsHeader', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
-            cy.get('#sidebarHeaderDropdownButton').click();
-            cy.get('.dropdown-menu').should('be.visible');
+        // # Click product switch button
+        cy.uiOpenProductSwitchMenu();
 
-            // * Confirm integrations are not visible
-            cy.get('#integrations').should('not.exist');
-        });
+        // * Confirm "Integrations" is not visible
+        cy.uiGetProductSwitchMenu().should('not.contain', 'Integrations');
     });
 
     it('MM-T1863 Only System Admin are able to create bots (API)', () => {

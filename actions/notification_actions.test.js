@@ -346,7 +346,13 @@ describe('notification_actions', () => {
 
                 const store = testConfigureStore(baseState);
                 return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
-                    expect(spy).toHaveBeenCalled();
+                    expect(spy).toHaveBeenCalledWith({
+                        body: '@username: Where is Jessica Hyde?',
+                        requireInteraction: false,
+                        silent: true,
+                        title: 'Reply in Utopia',
+                        onClick: expect.any(Function),
+                    });
                     spy.mock.calls[0][0].onClick();
 
                     expect(pushSpy).toHaveBeenCalledWith('/team/pl/post_id');

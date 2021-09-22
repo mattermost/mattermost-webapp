@@ -47,10 +47,10 @@ describe('Account Settings - Timezone Mode', () => {
             },
         });
 
-        // # Create and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+        // # Create and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({user, offTopicUrl}) => {
             userId = user.id;
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
 
             // # Post messages from the past
             [date1, date2, date3, date4].forEach((createAt, index) => {
@@ -158,8 +158,8 @@ describe('Account Settings - Timezone Mode', () => {
 });
 
 function navigateToTimezoneDisplaySettings() {
-    // # Go to Display section of Account Settings
-    cy.uiOpenAccountSettingsModal('Display');
+    // # Go to Display section of Settings
+    cy.uiOpenSettingsModal('Display');
 
     // # Click "Edit" to the right of "Timezone"
     cy.get('#timezoneEdit').should('be.visible').click();

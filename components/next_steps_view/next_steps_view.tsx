@@ -43,6 +43,7 @@ type Props = {
         closeRightHandSide: () => void;
         getProfiles: () => void;
     };
+    downloadAppsAsNextStep: boolean;
 };
 
 type State = {
@@ -323,7 +324,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         <GettingStartedSvg/>
                     </div>
                 </div>
-                <DownloadSection isFirstAdmin={this.props.isFirstAdmin}/>
+                {!this.props.downloadAppsAsNextStep && <DownloadSection isFirstAdmin={this.props.isFirstAdmin}/>}
             </div>
         );
     }

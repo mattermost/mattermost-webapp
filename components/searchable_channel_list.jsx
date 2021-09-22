@@ -115,7 +115,7 @@ export default class SearchableChannelList extends React.PureComponent {
                             text={localizeMessage('more_channels.joining', 'Joining...')}
                         >
                             <FormattedMessage
-                                id={shouldShowArchivedChannels ? 'more_channels.view' : 'more_channels.join'}
+                                id={shouldShowArchivedChannels ? t('more_channels.view') : t('more_channels.join')}
                                 defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
                             />
                         </LoadingWrapper>

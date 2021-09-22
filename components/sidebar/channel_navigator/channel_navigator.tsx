@@ -12,8 +12,7 @@ import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 import AddChannelDropdown from '../add_channel_dropdown';
 import ChannelFilter from '../channel_filter';
-import InviteMembersButton from '../invite_members_button';
-import {InviteMembersBtnLocations, AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
+import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
 export type Props = {
     addChannelButton?: AddChannelButtonTreatments;
@@ -148,8 +147,6 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
             );
         }
 
-        const inviteMembersUserIcon = (<InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>);
-
         let layout;
         if (isDesktopApp() && !this.props.globalHeaderEnabled) {
             const historyArrows = (
@@ -182,7 +179,6 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                             {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
                             {!this.props.globalHeaderEnabled && historyArrows}
                         </div>
-                        {inviteMembersUserIcon}
                         {addChannelDropdown}
                     </div>
                 </div>
@@ -192,7 +188,6 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 <div className={'SidebarChannelNavigator webapp'}>
                     {!this.props.showUnreadsCategory && <ChannelFilter/>}
                     {jumpToButton}
-                    {inviteMembersUserIcon}
                     {addChannelDropdown}
                 </div>
             );
@@ -238,7 +233,6 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
     //                     {`${Utils.isMac() ? '⌘' : 'Ctrl+'}K`}
     //                 </div>
     //             </button>
-    //             <InviteMembersButton buttonType={InviteMembersBtnLocations.USER_ICON}/>
     //             {addChannelDropdown}
     //         </div>
     //     );

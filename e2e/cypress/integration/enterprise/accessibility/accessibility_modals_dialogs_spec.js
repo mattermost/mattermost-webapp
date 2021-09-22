@@ -12,31 +12,11 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-let selectedRowText;
-
-function verifyMainMenuModal(modalName, modalId, modalLabel, expectedModalName) {
-    cy.get('#headerInfo button').click();
-    cy.findByText(modalName).click();
-    cy.get(`#${modalId}`).should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', modalLabel).within(() => {
-        cy.get(`#${modalLabel}`).should('be.visible').and('contain', expectedModalName);
-        cy.get('.modal-content>.modal-header button.close').should('have.attr', 'aria-label', 'Close').click();
-    });
-}
-
-function verifyChannelMenuModal(menuItem, modalName, modalLabel) {
-    cy.get('#channelHeaderDropdownIcon').click();
-    cy.findByText(menuItem).click();
-
-    cy.get(`div[aria-labelledby='${modalLabel}']`).should('have.attr', 'role', 'dialog').within(() => {
-        cy.get(`#${modalLabel}`).should('be.visible').and('contain', modalName);
-        cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close').click();
-    });
-}
-
 describe('Verify Accessibility Support in Modals & Dialogs', () => {
     let testTeam;
     let testChannel;
     let testUser;
+    let selectedRowText;
 
     before(() => {
         // * Check if server has license for Guest Accounts
@@ -62,28 +42,25 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
     });
 
     it('MM-T1454 Accessibility Support in Different Modals and Dialog screen', () => {
-        // * Verify the aria-label in main menu button
-        cy.get('#headerInfo button', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.attr', 'aria-label', 'main menu');
-
         // * Verify the accessibility support in Account Settings Dialog
-        verifyMainMenuModal('Account Settings', 'accountSettingsModal', 'accountSettingsModalLabel', 'Account Settings');
+        verifyUserMenuModal('Account Settings');
 
         // * Verify the accessibility support in Team Settings Dialog
-        verifyMainMenuModal('Team Settings', 'teamSettingsModal', 'teamSettingsModalLabel', 'Team Settings');
+        verifyMainMenuModal('Team Settings');
 
         // * Verify the accessibility support in Manage Members Dialog
-        verifyMainMenuModal('Manage Members', 'teamMembersModal', 'teamMemberModalLabel', `${testTeam.display_name} Members`);
+        verifyMainMenuModal('Manage Members', `${testTeam.display_name} Members`);
 
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // * Verify the accessibility support in Channel Edit Header Dialog
-        verifyChannelMenuModal('Edit Channel Header', 'Edit Header for Off-Topic', 'editChannelHeaderModalLabel');
+        verifyChannelMenuModal('Edit Channel Header', 'Edit Header for Off-Topic');
 
         // * Verify the accessibility support in Channel Edit Purpose Dialog
-        verifyChannelMenuModal('Edit Channel Purpose', 'Edit Purpose for Off-Topic', 'editChannelPurposeModalLabel');
+        verifyChannelMenuModal('Edit Channel Purpose', 'Edit Purpose for Off-Topic');
 
         // * Verify the accessibility support in Rename Channel Dialog
-        verifyChannelMenuModal('Rename Channel', 'Rename Channel', 'renameChannelModalLabel');
+        verifyChannelMenuModal('Rename Channel');
     });
 
     it('MM-T1466 Accessibility Support in Direct Messages Dialog screen', () => {
@@ -91,15 +68,19 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.uiAddDirectMessage().click();
 
         // * Verify the accessibility support in Direct Messages Dialog`
-        cy.get('#moreDmModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreDmModalLabel').within(() => {
-            cy.get('#moreDmModalLabel').should('be.visible').and('contain', 'Direct Messages');
-            cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
+        // cy.get('#moreDmModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreDmModalLabel').within(() => {
+        cy.findAllByRole('dialog', 'Direct Messages').eq(0).within(() => {
+            cy.findByRole('heading', 'Direct Messages');
 
             // * Verify the accessibility support in search input
-            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search for people').and('have.attr', 'aria-autocomplete', 'list');
+            cy.findByRole('textbox', {name: 'Search for people'}).
+                should('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
-            cy.get('#selectItems input').type('s', {force: true}).wait(TIMEOUTS.HALF_SEC).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
+            cy.findByRole('textbox', {name: 'Search for people'}).
+                type('s', {force: true}).
+                wait(TIMEOUTS.HALF_SEC).
+                type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
             cy.get('#multiSelectList').children().eq(2).should('have.class', 'more-modal__row--selected').within(() => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
@@ -118,7 +99,9 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 });
 
             // # Search for an invalid text
-            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(TIMEOUTS.HALF_SEC);
+            cy.findByRole('textbox', {name: 'Search for people'}).
+                type('somethingwhichdoesnotexist', {force: true}).
+                wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
             cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No results found matching ****');
@@ -142,42 +125,37 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 // * Verify the aria-label in more public channels button
                 cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
-                // * Verify the accessibility support in More Channels Dialog`
-                cy.get('#moreChannelsModal').
-                    should('be.visible').
-                    and('have.attr', 'role', 'dialog').
-                    and('have.attr', 'aria-labelledby', 'moreChannelsModalLabel').
-                    within(() => {
-                        cy.get('#moreChannelsModalLabel').should('be.visible').and('contain', 'More Channels');
-                        cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
+                // * Verify the accessibility support in More Channels Dialog
+                cy.findByRole('dialog', {name: 'More Channels'}).within(() => {
+                    cy.findByRole('heading', {name: 'More Channels'});
 
-                        // * Verify the accessibility support in search input
-                        cy.get('#searchChannelsTextbox').should('have.attr', 'placeholder', 'Search channels');
+                    // * Verify the accessibility support in search input
+                    cy.findByPlaceholderText('Search channels');
 
-                        cy.waitUntil(() => cy.get('#moreChannelsList').then((el) => {
-                            return el[0].children.length === 2;
-                        }));
+                    cy.waitUntil(() => cy.get('#moreChannelsList').then((el) => {
+                        return el[0].children.length === 2;
+                    }));
 
-                        // # Focus on the Create Channel button and TAB twice
-                        cy.get('#createNewChannel').focus().tab().tab();
+                    // # Focus on the Create Channel button and TAB twice
+                    cy.get('#createNewChannel').focus().tab().tab();
 
-                        // * Verify channel name is highlighted and reader reads the channel name and channel description
-                        cy.get('#moreChannelsList').children().eq(0).within(() => {
-                            const selectedChannel = getChannelAriaLabel(channel);
-                            cy.findByLabelText(selectedChannel).should('have.class', 'a11y--active a11y--focused');
+                    // * Verify channel name is highlighted and reader reads the channel name and channel description
+                    cy.get('#moreChannelsList').children().eq(0).within(() => {
+                        const selectedChannel = getChannelAriaLabel(channel);
+                        cy.findByLabelText(selectedChannel).should('have.class', 'a11y--active a11y--focused');
 
-                            // * Press Tab and verify if focus changes to Join button
-                            cy.focused().tab();
-                            cy.findByText('Join').parent().should('have.class', 'a11y--active a11y--focused');
-
-                            // * Verify previous button should no longer be focused
-                            cy.findByLabelText(selectedChannel).should('not.have.class', 'a11y--active a11y--focused');
-                        });
-
-                        // * Press Tab again and verify if focus changes to next row
+                        // * Press Tab and verify if focus changes to Join button
                         cy.focused().tab();
-                        cy.findByLabelText(getChannelAriaLabel(otherChannel)).should('have.class', 'a11y--active a11y--focused');
+                        cy.findByText('Join').parent().should('have.class', 'a11y--active a11y--focused');
+
+                        // * Verify previous button should no longer be focused
+                        cy.findByLabelText(selectedChannel).should('not.have.class', 'a11y--active a11y--focused');
                     });
+
+                    // * Press Tab again and verify if focus changes to next row
+                    cy.focused().tab();
+                    cy.findByLabelText(getChannelAriaLabel(otherChannel)).should('have.class', 'a11y--active a11y--focused');
+                });
             });
         });
     });
@@ -197,24 +175,31 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.get('#channelHeaderDropdownIcon').click();
         cy.findByText('Add Members').click();
 
-        // * Verify the accessibility support in Add people Dialog`
-        cy.get('#addUsersToChannelModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'channelInviteModalLabel').within(() => {
-            cy.get('.channel-invite__header').should('be.visible').and('contain', `Add people to ${testChannel.display_name}`);
-            cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
+        // * Verify the accessibility support in Add people Dialog
+        cy.findAllByRole('dialog').eq(0).within(() => {
+            const modalName = `Add people to ${testChannel.display_name}`;
+            cy.findByRole('heading', {name: modalName});
 
             // * Verify the accessibility support in search input
-            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search for people').and('have.attr', 'aria-autocomplete', 'list');
+            cy.findByRole('textbox', {name: 'Search for people'}).
+                should('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
-            cy.get('#selectItems input').type('u', {force: true}).wait(TIMEOUTS.HALF_SEC).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
-            cy.get('#multiSelectList').children().eq(1).should('have.class', 'more-modal__row--selected').within(() => {
-                cy.get('.more-modal__name').invoke('text').then((user) => {
-                    selectedRowText = user.split(' - ')[0].replace('@', '');
-                });
+            cy.findByRole('textbox', {name: 'Search for people'}).
+                type('u', {force: true}).
+                wait(TIMEOUTS.HALF_SEC).
+                type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
+            cy.get('#multiSelectList').
+                children().eq(1).
+                should('have.class', 'more-modal__row--selected').
+                within(() => {
+                    cy.get('.more-modal__name').invoke('text').then((user) => {
+                        selectedRowText = user.split(' - ')[0].replace('@', '');
+                    });
 
-                // * Verify image alt is displayed
-                cy.get('img.Avatar').should('have.attr', 'alt', 'user profile image');
-            });
+                    // * Verify image alt is displayed
+                    cy.get('img.Avatar').should('have.attr', 'alt', 'user profile image');
+                });
 
             // * Verify if the reader is able to read out the selected row
             cy.get('.filtered-user-list .sr-only').
@@ -225,10 +210,14 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 });
 
             // # Search for an invalid text and check if reader can read no results
-            cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(TIMEOUTS.HALF_SEC);
+            cy.findByRole('textbox', {name: 'Search for people'}).
+                type('somethingwhichdoesnotexist', {force: true}).
+                wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
-            cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
+            cy.get('.no-channel-message').
+                should('be.visible').
+                and('contain', 'No results found matching');
         });
     });
 
@@ -240,13 +229,16 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.get('#channelHeaderDropdownIcon').click();
         cy.findByText('Manage Members').click();
 
-        // * Verify the accessibility support in Manage Members Dialog`
-        cy.get('#channelMembersModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'channelMembersModalLabel').within(() => {
-            cy.get('#channelMembersModalLabel').should('be.visible').and('contain', 'Off-Topic Members');
-            cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
+        // * Verify the accessibility support in Manage Members Dialog
+        cy.findByRole('dialog', {name: 'Off-Topic Members'}).within(() => {
+            cy.findByRole('heading', {name: 'Off-Topic Members'});
 
             // * Verify the accessibility support in search input
-            cy.get('#searchUsersInput').should('have.attr', 'placeholder', 'Search users').focus().type(' {backspace}').wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab().tab();
+            cy.findByPlaceholderText('Search users').
+                focus().
+                type(' {backspace}').
+                wait(TIMEOUTS.HALF_SEC).
+                tab({shift: true}).tab().tab().tab();
             cy.wait(TIMEOUTS.HALF_SEC);
 
             // * Verify channel name is highlighted and reader reads the channel name
@@ -276,7 +268,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     it('MM-T1515 Verify Accessibility Support in Invite People Flow', () => {
         // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.uiGetLHSHeader().click();
         cy.get('#invitePeople').should('be.visible').click();
 
         // * Verify accessibility support in Invite People Dialog
@@ -356,3 +348,33 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.get('#confirmModalButton').should('be.visible').click();
     });
 });
+
+function verifyMainMenuModal(menuItem, modalName) {
+    cy.uiGetLHSHeader().click();
+    verifyModal(menuItem, modalName);
+}
+
+function verifyChannelMenuModal(menuItem, modalName) {
+    cy.get('#channelHeaderDropdownIcon').click();
+    verifyModal(menuItem, modalName);
+}
+
+function verifyUserMenuModal(menuItem) {
+    cy.uiGetSetStatusButton().click();
+    verifyModal(menuItem);
+}
+
+function verifyModal(menuItem, modalName) {
+    // * Verify that menu is open
+    cy.findByRole('menu');
+
+    // # Click menu item
+    cy.findByText(menuItem).click();
+
+    // * Verify the modal
+    const name = modalName || menuItem;
+    cy.findByRole('dialog', {name}).within(() => {
+        cy.findByRole('heading', {name});
+        cy.uiClose();
+    });
+}

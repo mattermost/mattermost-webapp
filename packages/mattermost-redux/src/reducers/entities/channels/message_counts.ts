@@ -78,7 +78,7 @@ export default function messageCounts(state: RelationOneToOne<Channel, ChannelMe
     }
 }
 
-function updateMessageCount(state: RelationOneToOne<Channel, ChannelMessageCount>, channel: ServerChannel) {
+export function updateMessageCount(state: RelationOneToOne<Channel, ChannelMessageCount>, channel: ServerChannel) {
     const existing = state[channel.id];
     if (
         existing &&
@@ -91,7 +91,7 @@ function updateMessageCount(state: RelationOneToOne<Channel, ChannelMessageCount
     return {
         ...state,
         [channel.id]: {
-            root: channel.total_msg_count,
+            root: channel.total_msg_count_root,
             total: channel.total_msg_count,
         },
     };
