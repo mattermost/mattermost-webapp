@@ -44,6 +44,7 @@ type Props = {
 };
 
 // TODO: rewrite this to a functional component
+// (ticket: https://mattermost.atlassian.net/browse/MM-38448)
 class ProductSwitcherMenu extends React.PureComponent<Props> {
     static defaultProps = {
         isMobile: false,

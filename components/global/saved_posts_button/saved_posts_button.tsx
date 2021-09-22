@@ -15,7 +15,7 @@ import {RhsState} from 'types/store/rhs';
 import Constants, {RHSStates} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 
-const SavedPostsButton = (): JSX.Element | null => {
+const SavedPostsButton = (): JSX.Element => {
     const dispatch = useDispatch();
     const rhsState = useSelector<GlobalState, RhsState>((state: GlobalState) => getRhsState(state));
     const isRhsOpen = useSelector<GlobalState, boolean>((state: GlobalState) => getIsRhsOpen(state));

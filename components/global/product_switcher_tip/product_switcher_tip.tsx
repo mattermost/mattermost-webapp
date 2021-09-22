@@ -60,6 +60,7 @@ const screens = [
 ];
 
 // TODO: rewrite to functional component
+// (ticket: https://mattermost.atlassian.net/browse/MM-38473)
 export class ProductSwitcherTip extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);

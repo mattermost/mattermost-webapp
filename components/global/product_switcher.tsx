@@ -71,6 +71,7 @@ const MenuItemTextContainer = styled.div`
 `;
 
 // TODO: extract this to a separate file
+// (ticket: https://mattermost.atlassian.net/browse/MM-38478)
 const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNavEntryProps) => {
     return (
         <MenuItem
@@ -133,6 +134,7 @@ const ProductSwitcher = (): JSX.Element => {
                         // we currently need this, since not passing a onClick handler is disabling the IconButton
                         // this is a known issue and is being tracked by UI platform team
                         // TODO@UI: remove the onClick, when it is not a mandatory prop anymore
+                        // (ticket https://mattermost.atlassian.net/browse/MM-38476)
                         onClick={() => {}}
                         compact={true}
                         active={switcherOpen}

@@ -32,6 +32,7 @@ type State = {
 };
 
 // TODO: rewrite to functional component
+// (ticket: https://mattermost.atlassian.net/browse/MM-38475)
 class UserGuideDropdown extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);

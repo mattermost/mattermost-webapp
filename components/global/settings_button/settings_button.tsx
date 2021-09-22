@@ -18,7 +18,7 @@ type Props = {
     };
 };
 
-const SettingsButton = (props: Props): JSX.Element | null => {
+const SettingsButton = (props: Props): JSX.Element => {
     const tooltip = (
         <Tooltip id='productSettings'>
             <FormattedMessage
