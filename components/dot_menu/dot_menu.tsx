@@ -314,7 +314,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     onShortcutKeyDown = (e: ChangeEvent): void => {
-        // e.preventDefault();
         if (!this.isKeyboardEvent(e)) {
             return;
         }
@@ -384,7 +383,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     onShortcutKeyUp = (e: KeyboardEvent): void => {
-        // e.preventDefault();
         this.keysHeldDown = this.keysHeldDown.filter((key) => key !== e.key);
     }
 
