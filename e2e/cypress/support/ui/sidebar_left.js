@@ -107,6 +107,7 @@ Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
     return cy.get('.dropdown-menu').should('be.visible');
 });
 
-Cypress.Commands.add('uiVisitSidebarItem', (name) => {
-    cy.get(`#sidebarItem_${name}`).click();
+Cypress.Commands.add('uiClickSidebarItem', (channelName) => {
+    cy.get(`#sidebarItem_${channelName}`).click();
+    cy.findAllByTestId('postView').should('be.visible');
 });

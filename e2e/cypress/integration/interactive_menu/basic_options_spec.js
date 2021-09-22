@@ -30,6 +30,7 @@ describe('Interactive Menu', () => {
     let longUser;
     let testChannel;
     let incomingWebhook;
+    let teamId;
 
     before(() => {
         cy.requireWebhookServer();
@@ -37,6 +38,7 @@ describe('Interactive Menu', () => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
             testChannel = channel;
+            teamId = team.id;
 
             cy.apiCreateUser().then(({user: user2}) => {
                 otherUser = user2;
@@ -159,7 +161,7 @@ describe('Interactive Menu', () => {
                 });
 
                 // # Close RHS
-                cy.closeRHS();
+                cy.uiCloseRHS();
             });
         });
     });
@@ -275,13 +277,11 @@ describe('Interactive Menu', () => {
     it('should truncate properly the selected long channel display name option', () => {
         const channelOptions = getMessageMenusPayload({dataSource: 'channels'});
 
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create channel with long display name
-            cy.apiCreateChannel(teamId, 'test-channel', `AAAA Very Long Display Name of a Channel ${Date.now()}`).then(() => {
-                // # Post an incoming webhook for interactive menu with channel options and verify the post
-                cy.postIncomingWebhook({url: incomingWebhook.url, data: channelOptions, waitFor: 'attachment-pretext'}).then(() => {
-                    verifyLastPost();
-                });
+        // # Create channel with long display name
+        cy.apiCreateChannel(teamId, 'test-channel', `AAAA Very Long Display Name of a Channel ${Date.now()}`).then(() => {
+            // # Post an incoming webhook for interactive menu with channel options and verify the post
+            cy.postIncomingWebhook({url: incomingWebhook.url, data: channelOptions, waitFor: 'attachment-pretext'}).then(() => {
+                verifyLastPost();
             });
         });
     });
@@ -470,7 +470,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -533,7 +533,7 @@ describe('Interactive Menu', () => {
             // # Checking if we got updated ephemeral message with the new selection we made
             verifyEphemeralMessage('Ephemeral | select option: avocado');
 
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -572,7 +572,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 });
@@ -623,7 +623,7 @@ function verifyLastPost() {
         });
 
         // # Close the RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 }
 

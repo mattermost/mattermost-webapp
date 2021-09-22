@@ -65,7 +65,7 @@ describe('Permalink message edit', () => {
                         cy.visit(`/${testTeam.name}/channels/${channel1.name}`);
 
                         // * Verify that we've switched to the team related to channel
-                        cy.get('#headerTeamName').should('contain', testTeam.display_name);
+                        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
                         // * Prompt should be shown upon going to the screen
                         verifyPrivateChannelJoinPromptIsVisible(channel1);
@@ -74,7 +74,7 @@ describe('Permalink message edit', () => {
                         cy.get('#cancelModalButton').should('be.visible').click();
 
                         // * Verify that we've left the team and switched to other team
-                        cy.get('#headerTeamName').should('not.contain', testTeam.display_name);
+                        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
                         // # Go to public channel
                         gotoChannel(testTeam, testChannel);

@@ -73,9 +73,7 @@ describe('Join an open team from a direct message link', () => {
             cy.reload();
 
             // * Expect page to reload with new user session, username should display in the header
-            cy.get('#headerUsername').
-                should('be.visible').
-                and('have.text', `@${testUserOutsideOpenTeam.username}`);
+            cy.uiOpenUserMenu().findByText(`@${testUserOutsideOpenTeam.username}`);
 
             // # Open direct message from the user in the open team (testUserInOpenTeam)
             cy.visit(`/${secondTestTeam.name}/messages/@${testUserInOpenTeam.username}`);
@@ -96,9 +94,7 @@ describe('Join an open team from a direct message link', () => {
         });
 
         // * Expect the current team's display name to match the open team's display name
-        cy.get('#headerTeamName').
-            should('be.visible').
-            and('have.text', openTeam.display_name);
+        cy.uiGetLHSHeader().findByText(openTeam.display_name);
 
         // * Expect channel title to match the display name of our previously created channel
         cy.get('#channelHeaderTitle').

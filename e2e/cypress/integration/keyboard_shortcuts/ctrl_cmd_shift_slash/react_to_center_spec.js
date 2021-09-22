@@ -23,7 +23,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
     let testUser;
     let otherUser;
     let testTeam;
-    let townsquareChannel;
+    let offTopicChannel;
 
     before(() => {
         // # Enable Experimental View Archived Channels
@@ -40,8 +40,8 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
             cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
                 otherUser = user1;
 
-                cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
-                    townsquareChannel = out.channel;
+                cy.apiGetChannelByName(testTeam.name, 'off-topic').then((out) => {
+                    offTopicChannel = out.channel;
                 });
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id);
@@ -50,10 +50,10 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
     });
 
     beforeEach(() => {
-        // # Login as test user and visit town-square
+        // # Login as test user and visit off-topic
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Town Square');
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Off-Topic');
 
         // # Post a message without reaction for each test
         cy.postMessage('hello');
@@ -74,7 +74,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
 
     it('MM-T1804_2 Open emoji picker for last message even when focus is not on center textbox', () => {
         // # Click anywhere to take focus away from center text box
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
 
         // # Do keyboard shortcut without focus on center
         doReactToLastMessageShortcut();
@@ -126,7 +126,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.postMessageAs({
             sender: otherUser,
             message: MESSAGES.TINY,
-            channelId: townsquareChannel.id,
+            channelId: offTopicChannel.id,
         });
         cy.wait(TIMEOUTS.FIVE_SEC);
 
@@ -167,12 +167,12 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.postMessageAs({
             sender: otherUser,
             message: MESSAGES.MEDIUM,
-            channelId: townsquareChannel.id,
+            channelId: offTopicChannel.id,
         });
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Click anywhere to take focus away from RHS text box
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
 
         // # Do keyboard shortcut with focus on center
         doReactToLastMessageShortcut('CENTER');
@@ -196,7 +196,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
             cy.findByLabelText('remove reaction smile').should('not.exist');
         });
 
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T4060_2 Open emoji picker on center when focus is neither on center or comment textbox even if RHS is opened', () => {
@@ -217,7 +217,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.postMessageAs({
             sender: otherUser,
             message: MESSAGES.MEDIUM,
-            channelId: townsquareChannel.id,
+            channelId: offTopicChannel.id,
         });
         cy.wait(TIMEOUTS.TWO_SEC);
 
@@ -242,6 +242,6 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
             cy.get(`#post_${lastPostId}`).findByLabelText('remove reaction smile').should('not.exist');
         });
 
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 });
