@@ -16,8 +16,12 @@ describe('Cloud Onboarding - Sysadmin', () => {
     before(() => {
         cy.apiRequireLicenseForFeature('Cloud');
 
-        cy.apiInitSetup().then(({team}) => {
-            townSquarePage = `/${team.name}/channels/town-square`;
+        cy.apiUpdateConfig({
+            ServiceSettings: {EnableOnboardingFlow: true},
+        });
+
+        cy.apiInitSetup().then(({townSquareUrl}) => {
+            townSquarePage = townSquareUrl;
         });
 
         cy.apiAdminLogin().then((res) => {
@@ -176,8 +180,8 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.SidebarNextSteps').should('not.exist');
         cy.get('.app__content:not(.NextStepsView)').should('be.visible');
 
-        // # Click 'Getting Started' in the main menu
-        cy.uiOpenMainMenu('Getting Started');
+        // # Click 'Getting Started' in the help menu
+        cy.uiOpenHelpMenu('Getting Started');
 
         // * Verify that sidebar element and next steps view are back
         cy.get('.SidebarNextSteps').should('be.visible');
