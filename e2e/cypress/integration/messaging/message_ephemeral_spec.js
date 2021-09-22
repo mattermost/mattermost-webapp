@@ -11,13 +11,13 @@
 // Group: @messaging
 
 describe('Hide ephemeral message on refresh', () => {
-    let offtopiclinkLink;
+    let offtopiclink;
 
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            offtopiclinkLink = `/${team.name}/channels/off-topic`;
-            cy.visit(offtopiclinkLink);
+            offtopiclink = `/${team.name}/channels/off-topic`;
+            cy.visit(offtopiclink);
         });
     });
 
@@ -26,7 +26,7 @@ describe('Hide ephemeral message on refresh', () => {
         cy.get('#sidebarItem_off-topic').click({force: true});
 
         // * Validate if the channel has been opened
-        cy.url().should('include', offtopiclinkLink);
+        cy.url().should('include', offtopiclink);
 
         // # Set initial status to online
         cy.apiUpdateUserStatus('online');
@@ -41,7 +41,7 @@ describe('Hide ephemeral message on refresh', () => {
 
             // # Refresh the page
             cy.reload();
-            cy.visit(offtopiclinkLink);
+            cy.visit(offtopiclink);
 
             // * Assert message disappearing
             cy.get(`#postMessageText_${postID}`).should('not.exist');
