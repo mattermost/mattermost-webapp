@@ -19,6 +19,7 @@
 
         .MenuItem__icon {
             width: 20px;
+            margin-top: 4px;
             margin-right: 8px;
             font-size: 18px;
             text-align: center;
@@ -43,8 +44,6 @@
 
         span.MenuItem__left-decorator {
             display: inline-flex;
-            padding: 5px 0;
-            margin-top: 1px;
             color: rgba(var(--center-channel-color-rgb), 0.56);
             fill: rgba(var(--center-channel-color-rgb), 0.56);
             float: left;
@@ -116,6 +115,7 @@
 
             .MenuItem__icon {
                 position: relative;
+                top: 4px;
                 display: inline-flex;
                 width: 20px;
                 height: 20px;
