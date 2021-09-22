@@ -192,29 +192,33 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
     visitMarketplaceTip(): React.ReactElement {
         return (
-            <SystemPermissionGate
-                permissions={[Permissions.MANAGE_SYSTEM]}
+            <Menu.ItemAction
+                key={'marketplace-tip'}
             >
-                <div className='VisitMarketplace' >
-                    <FormattedMarkdownMessage
-                        id='post_info.actions.noActions'
-                        defaultMessage='No Actions currently\nconfigured for this server'
-                    />
-                </div>
-                <div className='VisitMarketplaceButton' >
-                    <button
-                        id='marketPlaceButton'
-                        className='btn btn-primary'
-                        onClick={this.handleOpenMarketplace}
-                    >
-                        {<i className='icon icon-view-grid-plus-outline'/>}
+                <SystemPermissionGate
+                    permissions={[Permissions.MANAGE_SYSTEM]}
+                >
+                    <div className='VisitMarketplace' >
                         <FormattedMarkdownMessage
-                            id='post_info.actions.visitMarketplace'
-                            defaultMessage='Visit the Marketplace'
+                            id='post_info.actions.noActions'
+                            defaultMessage='No Actions currently\nconfigured for this server'
                         />
-                    </button>
-                </div>
-            </SystemPermissionGate>
+                    </div>
+                    <div className='VisitMarketplaceButton' >
+                        <button
+                            id='marketPlaceButton'
+                            className='btn btn-primary'
+                            onClick={this.handleOpenMarketplace}
+                        >
+                            {<i className='icon icon-view-grid-plus-outline'/>}
+                            <FormattedMarkdownMessage
+                                id='post_info.actions.visitMarketplace'
+                                defaultMessage='Visit the Marketplace'
+                            />
+                        </button>
+                    </div>
+                </SystemPermissionGate>
+            </Menu.ItemAction>
         );
     }
 

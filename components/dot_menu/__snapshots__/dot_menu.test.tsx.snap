@@ -53,16 +53,10 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       leftDecorator={
         <i
-          className="icon icon-reply-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-reply-outline MenuItem__icon"
         />
       }
-      onClick={[MockFunction]}
+      onClick={[Function]}
       rightDecorator="R"
       show={true}
       text="Reply"
@@ -82,17 +76,10 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       />
     </Connect(ChannelPermissionGate)>
     <MenuItemAction
-      extraText="You will be notified about replies"
       id="follow_post_thread_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-message-check-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-message-check-outline MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -104,13 +91,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="unread_post_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-mark-as-unread"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-mark-as-unread MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -132,13 +113,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="unpin_post_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-pin-outline post-menu__item--active"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-pin MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -150,13 +125,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="pin_post_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-pin-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-pin-outline MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -173,13 +142,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="permalink_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-link-variant"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-link-variant MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -196,13 +159,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="edit_post_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-pencil-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-pencil-outline MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -215,13 +172,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       isDangerous={true}
       leftDecorator={
         <i
-          className="icon icon-trash-can-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-trash-can-outline MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -286,16 +237,10 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       leftDecorator={
         <i
-          className="icon icon-reply-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-reply-outline MenuItem__icon"
         />
       }
-      onClick={[MockFunction]}
+      onClick={[Function]}
       rightDecorator="R"
       show={true}
       text="Reply"
@@ -315,17 +260,10 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       />
     </Connect(ChannelPermissionGate)>
     <MenuItemAction
-      extraText="You will be notified about replies"
       id="follow_post_thread_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-message-check-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-message-check-outline MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -337,13 +275,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="unread_post_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-mark-as-unread"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-mark-as-unread MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -365,13 +297,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="unpin_post_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-pin-outline post-menu__item--active"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-pin MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -383,13 +309,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="pin_post_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-pin-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-pin-outline MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -406,13 +326,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="permalink_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-link-variant"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-link-variant MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -429,13 +343,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="edit_post_post_id_1"
       leftDecorator={
         <i
-          className="icon icon-pencil-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-pencil-outline MenuItem__icon"
         />
       }
       onClick={[Function]}
@@ -448,13 +356,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       isDangerous={true}
       leftDecorator={
         <i
-          className="icon icon-trash-can-outline"
-          style={
-            Object {
-              "fontSize": 18,
-              "marginTop": 1,
-            }
-          }
+          className="icon icon-trash-can-outline MenuItem__icon"
         />
       }
       onClick={[Function]}
