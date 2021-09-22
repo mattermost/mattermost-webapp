@@ -1538,6 +1538,7 @@ export const Constants = {
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_PUBLIC_CHANNELS: 'mention.public.channels',
+    MENTION_PRIVATE_CHANNELS: 'mention.private.channels',
     MENTION_RECENT_CHANNELS: 'mention.recent.channels',
     MENTION_SPECIAL: 'mention.special',
     MENTION_GROUPS: 'mention.groups',

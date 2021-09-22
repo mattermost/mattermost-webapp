@@ -4247,6 +4247,7 @@
   "suggestion.mention.moremembers": "Other Members",
   "suggestion.mention.nonmembers": "Not in Channel",
   "suggestion.mention.public.channels": "Public Channels",
+  "suggestion.mention.private.channels": "Private Channels",
   "suggestion.mention.recent.channels": "Recent",
   "suggestion.mention.special": "Special Mentions",
   "suggestion.mention.unread.channels": "Unread Channels",
