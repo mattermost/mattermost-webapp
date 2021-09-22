@@ -11,8 +11,6 @@
 // Group: @files_and_attachments
 
 describe('Image Link Preview', () => {
-    let testTeam;
-
     before(() => {
         // # Enable Link Previews
         cy.apiUpdateConfig({
@@ -21,15 +19,13 @@ describe('Image Link Preview', () => {
             },
         });
 
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            testTeam = team;
-
+        // # Create new team and new user and visit test channel
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
             // # For test user, enable link previews and expand image previews
             cy.apiSaveLinkPreviewsPreference('true');
             cy.apiSaveCollapsePreviewsPreference('false');
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(channelUrl);
         });
     });
 
@@ -41,31 +37,38 @@ describe('Image Link Preview', () => {
         // # Post a link to an externally hosted image
         cy.postMessage(link);
 
-        cy.findByLabelText('file thumbnail').click().then(() => {
+        const expectedSrc = `${baseUrl}/api/v4/image?url=${encodedIconUrl}`;
+
+        // # Open file preview
+        cy.uiGetPostEmbedContainer().
+            find('img').
+            should('have.attr', 'src', expectedSrc).
+            click();
+
+        cy.uiGetFilePreviewModal().within(() => {
             // * Assert that the image has the correct url
-            cy.findByTestId('imagePreview').should('have.attr', 'src', `${baseUrl}/api/v4/image?url=${encodedIconUrl}`);
+            cy.findByTestId('imagePreview').should('have.attr', 'src', expectedSrc);
 
-            // * Assert container elements
-            cy.findByTestId('fileCountFooter').should('be.visible');
-            cy.findByText('File 1 of 1').should('be.visible');
-            cy.findByText('Open').should('be.visible');
-
-            // * Assert that clicking the image will open in a new tab
-            cy.get('a[href*="image"]').should('have.attr', 'target', '_blank');
-
-            // * Assert image is available to be clicked (cypress limitation for opening new child window)
-            cy.findByTestId('imagePreview').then((el) => {
-                const imageUrl = el.prop('src');
-                cy.request(imageUrl).then((res) => {
-                    expect(res.status).equal(200);
-                });
+            cy.uiGetContentFilePreviewModal().find('img').should((img) => {
+                // * Verify image is rendered
+                expect(img.height()).to.be.closeTo(349, 2);
+                expect(img.width()).to.be.closeTo(620, 2);
             });
 
-            // * Close the image then assert that it is closed
-            cy.findByTestId('imagePreview').trigger('mouseover').then(() => {
-                cy.get('div.modal-close').click();
-                cy.findByTestId('imagePreview').should('not.exist');
+            // # Close modal
+            cy.uiCloseFilePreviewModal();
+        });
+
+        // # Verify modal is closed
+        cy.uiGetFilePreviewModal({exist: false});
+
+        cy.uiGetPostBody().find('.markdown__link').then((el) => {
+            const href = el.prop('href');
+            cy.request(href).then((res) => {
+                expect(res.status).equal(200);
             });
+
+            expect(link).to.equal(href);
         });
     });
 });

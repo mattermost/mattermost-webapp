@@ -18,7 +18,7 @@ describe('Custom emojis', () => {
     let testTeam;
     let testUser;
     let otherUser;
-    let townsquareLink;
+    let offTopicUrl;
 
     const largeEmojiFile = 'gif-image-file.gif';
     const largeEmojiFileResized = 'gif-image-file-resized.gif';
@@ -40,7 +40,7 @@ describe('Custom emojis', () => {
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
-            townsquareLink = `/${team.name}/channels/town-square`;
+            offTopicUrl = `/${team.name}/channels/off-topic`;
         });
 
         cy.apiCreateUser().then(({user: user1}) => {
@@ -48,7 +48,7 @@ describe('Custom emojis', () => {
             cy.apiAddUserToTeam(testTeam.id, otherUser.id);
         }).then(() => {
             cy.apiLogin(testUser);
-            cy.visit(townsquareLink);
+            cy.visit(offTopicUrl);
         });
     });
 

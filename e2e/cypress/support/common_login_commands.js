@@ -31,25 +31,28 @@ Cypress.Commands.add('checkMemberNoChannels', () => {
 
 Cypress.Commands.add('checkLeftSideBar', (settings = {}) => {
     if (settings.teamName != null && settings.teamName.length > 0) {
-        cy.get('#headerTeamName').should('be.visible').and('contain', settings.teamName);
+        cy.uiGetLHSHeader().should('contain', settings.teamName);
     }
 
     if (settings.user.username.length > 0) {
-        cy.get('#headerUsername').should('be.visible').and('contain', settings.user.username);
+        // * Verify username info
+        cy.uiOpenUserMenu().findByText(`@${settings.user.username}`);
+
+        // # Close status menu
+        cy.uiGetSetStatusButton().click();
     }
 
     if (settings.user.userType === 'Admin' || settings.user.isAdmin) {
-        //check that he is an admin
-        cy.get('#sidebarHeaderDropdownButton').click().then(() => {
-            cy.findByText('System Console').should('be.visible');
-            cy.get('#sidebarHeaderDropdownButton').click();
-        });
+        // # Check that user is an admin
+        cy.uiOpenProductSwitchMenu().findByText('System Console');
     } else {
-        cy.get('#sidebarHeaderDropdownButton').click().then(() => {
-            cy.findByText('System Console').should('not.exist');
-            cy.get('#sidebarHeaderDropdownButton').click();
-        });
+        // # Check that user is not an admin
+        cy.uiOpenProductSwitchMenu().findByText('System Console').should('not.exist');
     }
+
+    // # Close product switch menu
+    cy.uiGetProductSwitchButton().click();
+
     cy.get('#channel_view').should('be.visible');
 });
 

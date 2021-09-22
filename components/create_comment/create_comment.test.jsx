@@ -53,7 +53,6 @@ describe('components/CreateComment', () => {
         resetCreatePostRequest: jest.fn(),
         setShowPreview: jest.fn(),
         shouldShowPreview: false,
-        readOnlyChannel: false,
         enableEmojiPicker: true,
         enableGifPicker: true,
         enableConfirmNotificationsToChannel: true,
@@ -1099,15 +1098,6 @@ describe('components/CreateComment', () => {
 
         wrapper.setProps({rootId: 'new_root_id'});
         expect(wrapper.state('draft')).toEqual({...draft, uploadsInProgress: [], fileInfos: [{}, {}, {}]});
-    });
-
-    test('should match snapshot read only channel', () => {
-        const props = {...baseProps, readOnlyChannel: true};
-        const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
-        );
-
-        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when cannot post', () => {

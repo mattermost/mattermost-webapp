@@ -1,16 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {General, Permissions, Users} from '../constants';
+import {General, Users} from '../constants';
 import {MarkUnread} from 'mattermost-redux/constants/channels';
 
-import {hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
-import {haveITeamPermission, haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {Channel, ChannelMembership, ChannelType, ChannelNotifyProps, ChannelMessageCount} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership, ChannelNotifyProps, ChannelMessageCount} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UsersState, UserProfile, UserNotifyProps} from 'mattermost-redux/types/users';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {TeamMembership} from 'mattermost-redux/types/teams';
 import {Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {displayUsername} from './user_utils';
@@ -131,151 +128,6 @@ export function isDirectChannel(channel: Channel): boolean {
 
 export function isGroupChannel(channel: Channel): boolean {
     return channel.type === General.GM_CHANNEL;
-}
-
-export function showCreateOption(state: GlobalState, config: any, license: any, teamId: string, channelType: ChannelType, isAdmin: boolean, isSystemAdmin: boolean): boolean {
-    if (hasNewPermissions(state)) {
-        if (channelType === General.OPEN_CHANNEL) {
-            return haveITeamPermission(state, teamId, Permissions.CREATE_PUBLIC_CHANNEL);
-        } else if (channelType === General.PRIVATE_CHANNEL) {
-            return haveITeamPermission(state, teamId, Permissions.CREATE_PRIVATE_CHANNEL);
-        }
-        return true;
-    }
-
-    if (license.IsLicensed !== 'true') {
-        return true;
-    }
-
-    // Backwards compatibility with pre-advanced permissions config settings.
-    if (channelType === General.OPEN_CHANNEL) {
-        if (config.RestrictPublicChannelCreation === General.SYSTEM_ADMIN_ROLE && !isSystemAdmin) {
-            return false;
-        } else if (config.RestrictPublicChannelCreation === General.TEAM_ADMIN_ROLE && !isAdmin) {
-            return false;
-        }
-    } else if (channelType === General.PRIVATE_CHANNEL) {
-        if (config.RestrictPrivateChannelCreation === General.SYSTEM_ADMIN_ROLE && !isSystemAdmin) {
-            return false;
-        } else if (config.RestrictPrivateChannelCreation === General.TEAM_ADMIN_ROLE && !isAdmin) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-export function showManagementOptions(state: GlobalState, config: any, license: any, channel: Channel, isAdmin: boolean, isSystemAdmin: boolean, isChannelAdmin: boolean): boolean {
-    if (hasNewPermissions(state)) {
-        if (channel.type === General.OPEN_CHANNEL) {
-            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
-        } else if (channel.type === General.PRIVATE_CHANNEL) {
-            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES);
-        }
-        return true;
-    }
-
-    if (license.IsLicensed !== 'true') {
-        return true;
-    }
-
-    // Backwards compatibility with pre-advanced permissions config settings.
-    if (channel.type === General.OPEN_CHANNEL) {
-        if (config.RestrictPublicChannelManagement === General.SYSTEM_ADMIN_ROLE && !isSystemAdmin) {
-            return false;
-        }
-        if (config.RestrictPublicChannelManagement === General.TEAM_ADMIN_ROLE && !isAdmin) {
-            return false;
-        }
-        if (config.RestrictPublicChannelManagement === General.CHANNEL_ADMIN_ROLE && !isChannelAdmin && !isAdmin) {
-            return false;
-        }
-    } else if (channel.type === General.PRIVATE_CHANNEL) {
-        if (config.RestrictPrivateChannelManagement === General.SYSTEM_ADMIN_ROLE && !isSystemAdmin) {
-            return false;
-        }
-        if (config.RestrictPrivateChannelManagement === General.TEAM_ADMIN_ROLE && !isAdmin) {
-            return false;
-        }
-        if (config.RestrictPrivateChannelManagement === General.CHANNEL_ADMIN_ROLE && !isChannelAdmin && !isAdmin) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-export function showDeleteOption(state: GlobalState, config: any, license: any, channel: Channel, isAdmin: boolean, isSystemAdmin: boolean, isChannelAdmin: boolean): boolean {
-    if (hasNewPermissions(state)) {
-        if (channel.type === General.OPEN_CHANNEL) {
-            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.DELETE_PUBLIC_CHANNEL);
-        } else if (channel.type === General.PRIVATE_CHANNEL) {
-            return haveIChannelPermission(state, channel.team_id, channel.id, Permissions.DELETE_PRIVATE_CHANNEL);
-        }
-        return true;
-    }
-
-    if (license.IsLicensed !== 'true') {
-        return true;
-    }
-
-    // Backwards compatibility with pre-advanced permissions config settings.
-    if (channel.type === General.OPEN_CHANNEL) {
-        if (config.RestrictPublicChannelDeletion === General.SYSTEM_ADMIN_ROLE && !isSystemAdmin) {
-            return false;
-        }
-        if (config.RestrictPublicChannelDeletion === General.TEAM_ADMIN_ROLE && !isAdmin) {
-            return false;
-        }
-        if (config.RestrictPublicChannelDeletion === General.CHANNEL_ADMIN_ROLE && !isChannelAdmin && !isAdmin) {
-            return false;
-        }
-    } else if (channel.type === General.PRIVATE_CHANNEL) {
-        if (config.RestrictPrivateChannelDeletion === General.SYSTEM_ADMIN_ROLE && !isSystemAdmin) {
-            return false;
-        }
-        if (config.RestrictPrivateChannelDeletion === General.TEAM_ADMIN_ROLE && !isAdmin) {
-            return false;
-        }
-        if (config.RestrictPrivateChannelDeletion === General.CHANNEL_ADMIN_ROLE && !isChannelAdmin && !isAdmin) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-// Backwards compatibility with pre-advanced permissions config settings.
-
-export function canManageMembersOldPermissions(channel: Channel, user: UserProfile, teamMember: TeamMembership, channelMember: ChannelMembership, config: any, license: any): boolean {
-    if (channel.type === General.DM_CHANNEL ||
-        channel.type === General.GM_CHANNEL ||
-        channel.name === General.DEFAULT_CHANNEL) {
-        return false;
-    }
-
-    if (license.IsLicensed !== 'true') {
-        return true;
-    }
-
-    if (channel.type === General.PRIVATE_CHANNEL) {
-        const isSystemAdmin = user.roles.includes(General.SYSTEM_ADMIN_ROLE);
-        if (config.RestrictPrivateChannelManageMembers === General.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
-            return false;
-        }
-
-        const isTeamAdmin = teamMember.roles.includes(General.TEAM_ADMIN_ROLE);
-        if (config.RestrictPrivateChannelManageMembers === General.PERMISSIONS_TEAM_ADMIN && !isTeamAdmin && !isSystemAdmin) {
-            return false;
-        }
-
-        const isChannelAdmin = channelMember.roles.includes(General.CHANNEL_ADMIN_ROLE);
-        if (config.RestrictPrivateChannelManageMembers === General.PERMISSIONS_CHANNEL_ADMIN && !isChannelAdmin && !isTeamAdmin && !isSystemAdmin) {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 export function getChannelsIdForTeam(state: GlobalState, teamId: string): string[] {
