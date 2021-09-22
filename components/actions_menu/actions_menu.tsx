@@ -4,6 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import './actions_menu.scss';
 
 import {Tooltip} from 'react-bootstrap';
 
@@ -194,29 +195,13 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             <SystemPermissionGate
                 permissions={[Permissions.MANAGE_SYSTEM]}
             >
-                <div
-                    style={{
-                        textAlign: 'center',
-                        margin: 12,
-                        fontSize: 14,
-                    }}
-                >
+                <div className='VisitMarketplace' >
                     <FormattedMarkdownMessage
                         id='post_info.actions.noActions'
                         defaultMessage='No Actions currently\nconfigured for this server'
                     />
                 </div>
-                <div
-                    style={{
-                        textAlign: 'center',
-                        top: 1,
-                        paddingTop: 10,
-                        paddingBottom: 10,
-                        paddingLeft: 16,
-                        paddingRight: 16,
-                        fontSize: 12,
-                    }}
-                >
+                <div className='VisitMarketplaceButton' >
                     <button
                         id='marketPlaceButton'
                         className='btn btn-primary'
