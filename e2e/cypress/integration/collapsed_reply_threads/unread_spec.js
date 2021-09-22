@@ -67,7 +67,7 @@ describe('Collapsed Reply Threads', () => {
             cy.get('#rhsContainer').findByTestId('NotificationSeparator').should('exist');
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -81,7 +81,7 @@ describe('Collapsed Reply Threads', () => {
             cy.get('#rhsContainer').findByTestId('NotificationSeparator').should('not.exist');
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 });

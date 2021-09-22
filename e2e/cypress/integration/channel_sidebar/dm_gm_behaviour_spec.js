@@ -31,7 +31,7 @@ describe('DM category', () => {
         // # Create a new user to start a DM with
         cy.apiCreateUser().then(({user}) => {
             // * Verify that we can see the sidebar
-            cy.get('#headerTeamName').should('be.visible');
+            cy.uiGetLHSHeader();
 
             // # Click the + button next to the DM category
             cy.get('.SidebarChannelGroupHeader_addButton').should('be.visible').click();
@@ -56,7 +56,7 @@ describe('DM category', () => {
         // # Create a new user to start a DM with
         cy.apiCreateBot().then(({bot}) => {
             // * Verify that we can see the sidebar
-            cy.get('#headerTeamName').should('be.visible');
+            cy.uiGetLHSHeader();
 
             // * Verify that a DM channel shows up in the sidebar
             cy.get(`.SidebarLink:contains(${bot.username})`).should('be.visible');
@@ -77,7 +77,7 @@ describe('DM category', () => {
         cy.apiCreateUser().then(({user}) => {
             cy.apiCreateDirectChannel([testUser.id, user.id]).then(({channel}) => {
                 // * Verify that we can see the sidebar
-                cy.get('#headerTeamName').should('be.visible');
+                cy.uiGetLHSHeader();
 
                 // # Post a message as the new user
                 cy.postMessageAs({
@@ -114,7 +114,7 @@ describe('DM category', () => {
         cy.apiCreateUser().then(({user}) => {
             cy.apiCreateUser().then(({user: user2}) => {
                 // * Verify that we can see the sidebar
-                cy.get('#headerTeamName').should('be.visible');
+                cy.uiGetLHSHeader();
 
                 // # Click the + button next to the DM category
                 cy.get('.SidebarChannelGroupHeader_addButton').should('be.visible').click();
@@ -150,7 +150,7 @@ describe('DM category', () => {
             cy.apiCreateUser().then(({user: user2}) => {
                 cy.apiCreateGroupChannel([testUser.id, user.id, user2.id]).then(({channel}) => {
                     // * Verify that we can see the sidebar
-                    cy.get('#headerTeamName').should('be.visible');
+                    cy.uiGetLHSHeader();
 
                     // # Post a message as the new user
                     cy.postMessageAs({
@@ -189,7 +189,7 @@ describe('DM category', () => {
             cy.apiCreateUser().then(({user: user2}) => {
                 cy.apiCreateGroupChannel([testUser.id, user.id, user2.id]).then(({channel}) => {
                     // * Verify that we can see the sidebar
-                    cy.get('#headerTeamName').should('be.visible');
+                    cy.uiGetLHSHeader();
 
                     // # Post a message as the new user
                     cy.postMessageAs({

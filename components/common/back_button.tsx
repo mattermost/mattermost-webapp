@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 type Props = {
@@ -18,39 +18,33 @@ type Props = {
     onClick?: React.EventHandler<React.MouseEvent>;
 }
 
-export default class BackButton extends React.PureComponent<Props> {
-    public static defaultProps: Partial<Props> = {
-        url: '/',
-    }
+const BackButton = (props: Props): JSX.Element => {
+    const {formatMessage} = useIntl();
 
-    public render(): JSX.Element {
-        return (
-            <div
-                id='back_button'
-                className='signup-header'
+    return (
+        <div
+            id='back_button'
+            className='signup-header'
+        >
+            <Link
+                onClick={props.onClick}
+                to={props.url}
             >
-                <Link
-                    onClick={this.props.onClick}
-                    to={this.props.url}
-                >
-                    <FormattedMessage
-                        id='generic_icons.back'
-                        defaultMessage='Back Icon'
-                    >
-                        {(title: string | JSX.Element) => (
-                            <span
-                                id='back_button_icon'
-                                className='fa fa-1x fa-angle-left'
-                                title={title.toString()}
-                            />
-                        )}
-                    </FormattedMessage>
-                    <FormattedMessage
-                        id='web.header.back'
-                        defaultMessage='Back'
-                    />
-                </Link>
-            </div>
-        );
-    }
-}
+                <span
+                    id='back_button_icon'
+                    className='fa fa-1x fa-angle-left'
+                    title={formatMessage({id: 'generic_icons.back', defaultMessage: 'Back Icon'})}
+                />
+                <FormattedMessage
+                    id='web.header.back'
+                    defaultMessage='Back'
+                />
+            </Link>
+        </div>
+    );
+};
+BackButton.defaultProps = {
+    url: '/',
+};
+
+export default BackButton;

@@ -12,25 +12,28 @@
 
 describe('Identical Message Drafts', () => {
     let testTeam;
-    let testChannel;
+    let testChannelA;
+    let testChannelB;
 
     before(() => {
         // # Login as test user and visit test channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+        cy.apiInitSetup({
+            loginAfter: true,
+            channelPrefix: {name: 'ca', displayName: 'CB'},
+        }).then(({team, channel}) => {
             testTeam = team;
-            testChannel = channel;
+            testChannelA = channel;
 
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.apiCreateChannel(testTeam.id, 'cb', 'CB').then((out) => {
+                testChannelB = out.channel;
+            });
+
+            cy.visit(`/${testTeam.name}/channels/${testChannelA.name}`);
+            cy.postMessage('hello');
         });
     });
 
     it('MM-T132 Identical Message Drafts - Autocomplete shown in each channel', () => {
-        // # Go to test Channel A on sidebar
-        cy.get('#sidebarItem_town-square').should('be.visible').click();
-
-        // * Validate if the channel has been opened
-        cy.url().should('include', '/channels/town-square');
-
         // # Start a draft in Channel A containing just "@"
         cy.get('#post_textbox').should('be.visible').type('@');
 
@@ -38,11 +41,11 @@ describe('Identical Message Drafts', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // # Go to test Channel B on sidebar
-        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').click();
+        cy.get(`#sidebarItem_${testChannelB.name}`).should('be.visible').click();
 
         // * Validate if the newly navigated channel is open
         // * autocomplete should not be visible in channel
-        cy.url().should('include', `/channels/${testChannel.name}`);
+        cy.url().should('include', `/channels/${testChannelB.name}`);
         cy.get('#suggestionList').should('not.exist');
 
         // # Start a draft in Channel B containing just "@"
@@ -53,11 +56,11 @@ describe('Identical Message Drafts', () => {
 
         // # Go to Channel C then back to test Channel A on sidebar
         cy.get('#sidebarItem_off-topic').should('be.visible').click();
-        cy.get('#sidebarItem_town-square').should('be.visible').click();
+        cy.get(`#sidebarItem_${testChannelA.name}`).should('be.visible').click();
 
         // * Validate if the channel has been opened
         // * At mention auto-complete is preserved in Channel A
-        cy.url().should('include', '/channels/town-square');
+        cy.url().should('include', `/channels/${testChannelA.name}`);
         cy.get('#post_textbox').should('be.visible');
         cy.get('#suggestionList').should('be.visible');
     });

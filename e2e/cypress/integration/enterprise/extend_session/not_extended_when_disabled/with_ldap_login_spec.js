@@ -22,6 +22,7 @@ describe('Extended Session Length', () => {
         },
     };
     let ldapUser;
+    let offTopicUrl;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -41,7 +42,8 @@ describe('Extended Session Length', () => {
 
             cy.apiAdminLogin();
             cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
-            cy.apiInitSetup().then(({team}) => {
+            cy.apiInitSetup().then(({team, offTopicUrl: url}) => {
+                offTopicUrl = url;
                 cy.apiAddUserToTeam(team.id, user.id);
             });
         });
@@ -57,7 +59,8 @@ describe('Extended Session Length', () => {
         setting.ServiceSettings.ExtendSessionLengthWithActivity = true;
         cy.apiUpdateConfig(setting);
 
-        verifyExtendedSession(ldapUser, sessionLengthInDays, () => cy.apiLogin(ldapUser));
+        cy.apiLogin(ldapUser);
+        verifyExtendedSession(ldapUser, sessionLengthInDays, offTopicUrl);
     });
 
     it('MM-T4046_2 LDAP user session should not extend even with user activity when disabled', () => {
@@ -65,6 +68,7 @@ describe('Extended Session Length', () => {
         setting.ServiceSettings.ExtendSessionLengthWithActivity = false;
         cy.apiUpdateConfig(setting);
 
-        verifyNotExtendedSession(ldapUser, () => cy.apiLogin(ldapUser));
+        cy.apiLogin(ldapUser);
+        verifyNotExtendedSession(ldapUser, offTopicUrl);
     });
 });

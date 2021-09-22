@@ -270,10 +270,10 @@ function sortAndInjectProfiles(profiles: IDMappedObjects<UserProfile>, profileSe
     return currentProfiles.sort(sortByUsername);
 }
 
-export const getProfiles: (state: GlobalState, filters: Filters) => UserProfile[] = createSelector(
+export const getProfiles: (state: GlobalState, filters?: Filters) => UserProfile[] = createSelector(
     'getProfiles',
     getUsers,
-    (state: GlobalState, filters: Filters) => filters,
+    (state: GlobalState, filters?: Filters) => filters,
     (profiles, filters) => {
         return sortAndInjectProfiles(filterProfiles(profiles, filters), PROFILE_SET_ALL);
     },

@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @notifications
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Notifications', () => {
     let testTeam;
     let otherUser;
@@ -24,7 +22,7 @@ describe('Notifications', () => {
             cy.visit(`/${testTeam.name}`);
 
             // # Open 'Notifications' of 'Account Settings' modal
-            cy.uiOpenAccountSettingsModal('Notifications').within(() => {
+            cy.uiOpenSettingsModal('Notifications').within(() => {
                 // # Open 'Words That Trigger Mentions' setting and uncheck all the checkboxes
                 cy.findByRole('heading', {name: 'Words That Trigger Mentions'}).should('be.visible').click();
                 cy.findByRole('checkbox', {name: `Your case-sensitive first name "${otherUser.first_name}"`}).should('not.be.checked');
@@ -64,10 +62,10 @@ describe('Notifications', () => {
         cy.visit(`${testTeam.name}`);
 
         // # Click on the @ button
-        cy.get('#channelHeaderMentionButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
+        cy.uiGetRecentMentionButton().click();
 
         // * Ensure that the user's name is in the search box after clicking on the @ button
-        cy.get('#searchBox').should('be.visible').and('have.value', `@${otherUser.username} `);
+        cy.uiGetSearchBox().should('have.value', `@${otherUser.username} `);
         cy.get('#search-items-container').should('be.visible').within(() => {
             // * Ensure that the mentions are visible in the RHS
             cy.findByText(`@${otherUser.username}`).should('be.visible');

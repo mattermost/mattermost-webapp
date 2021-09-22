@@ -17,16 +17,16 @@ describe('Account Settings -> General -> Email', () => {
     let siteName;
     let testUser;
     let otherUser;
-    let testTeam;
+    let offTopicUrl;
 
     before(() => {
         cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: true}}).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
 
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             testUser = user;
-            testTeam = team;
+            offTopicUrl = url;
 
             cy.apiVerifyUserEmailById(testUser.id);
 
@@ -34,7 +34,7 @@ describe('Account Settings -> General -> Email', () => {
         }).then(({user: user1}) => {
             otherUser = user1;
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 

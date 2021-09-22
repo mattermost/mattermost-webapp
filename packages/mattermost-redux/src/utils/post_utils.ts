@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {General, Posts, Preferences, Permissions} from '../constants';
-import {hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
+import {Posts, Preferences, Permissions} from '../constants';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -58,30 +57,6 @@ export function isEdited(post: Post): boolean {
     return post.edit_at > 0;
 }
 
-export function canDeletePost(state: GlobalState, config: any, license: any, teamId: $ID<Team>, channelId: $ID<Channel>, userId: $ID<UserProfile>, post: Post, isAdmin: boolean, isSystemAdmin: boolean): boolean {
-    if (!post) {
-        return false;
-    }
-
-    const isOwner = isPostOwner(userId, post);
-
-    if (hasNewPermissions(state)) {
-        const canDelete = haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_POST);
-        if (!isOwner) {
-            return canDelete && haveIChannelPermission(state, teamId, channelId, Permissions.DELETE_OTHERS_POSTS);
-        }
-        return canDelete;
-    }
-
-    // Backwards compatibility with pre-advanced permissions config settings.
-    if (license.IsLicensed === 'true') {
-        return (config.RestrictPostDelete === General.PERMISSIONS_ALL && (isOwner || isAdmin)) ||
-            (config.RestrictPostDelete === General.PERMISSIONS_TEAM_ADMIN && isAdmin) ||
-            (config.RestrictPostDelete === General.PERMISSIONS_SYSTEM_ADMIN && isSystemAdmin);
-    }
-    return isOwner || isAdmin;
-}
-
 export function canEditPost(state: GlobalState, config: any, license: any, teamId: $ID<Team>, channelId: $ID<Channel>, userId: $ID<UserProfile>, post: Post): boolean {
     if (!post || isSystemMessage(post)) {
         return false;
@@ -90,23 +65,12 @@ export function canEditPost(state: GlobalState, config: any, license: any, teamI
     const isOwner = isPostOwner(userId, post);
     let canEdit = true;
 
-    if (hasNewPermissions(state)) {
-        const permission = isOwner ? Permissions.EDIT_POST : Permissions.EDIT_OTHERS_POSTS;
-        canEdit = haveIChannelPermission(state, teamId, channelId, permission);
-        if (license.IsLicensed === 'true' && config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
-            const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Date.now();
-            if (timeLeft <= 0) {
-                canEdit = false;
-            }
-        }
-    } else {
-        // Backwards compatibility with pre-advanced permissions config settings.
-        canEdit = isOwner && config.AllowEditPost !== 'never';
-        if (config.AllowEditPost === General.ALLOW_EDIT_POST_TIME_LIMIT) {
-            const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Date.now();
-            if (timeLeft <= 0) {
-                canEdit = false;
-            }
+    const permission = isOwner ? Permissions.EDIT_POST : Permissions.EDIT_OTHERS_POSTS;
+    canEdit = haveIChannelPermission(state, teamId, channelId, permission);
+    if (license.IsLicensed === 'true' && config.PostEditTimeLimit !== '-1' && config.PostEditTimeLimit !== -1) {
+        const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Date.now();
+        if (timeLeft <= 0) {
+            canEdit = false;
         }
     }
 

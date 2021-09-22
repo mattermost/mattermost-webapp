@@ -181,7 +181,7 @@ describe('Collapsed Reply Threads', () => {
             cy.get('#rhsContainer').find('.FollowButton').should('have.text', 'Follow');
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -228,7 +228,7 @@ describe('Collapsed Reply Threads', () => {
             cy.get('#rhsContainer').find('.FollowButton').should('have.text', 'Following');
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 });

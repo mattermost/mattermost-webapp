@@ -27,17 +27,18 @@ describe('Team Settings', () => {
 
     let testTeam;
     let siteName;
-    let isCloudLicensed;
     let isLicensed;
 
     before(() => {
-        // # If the instance the test is running on is licensed, assign true to isLicensed variable
         cy.apiGetClientLicense().then((data) => {
-            ({isLicensed, isCloudLicensed} = data);
+            ({isLicensed} = data);
         });
 
         // # Disable LDAP and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}}).then(({config}) => {
+        cy.apiUpdateConfig({
+            LdapSettings: {Enable: false},
+            ServiceSettings: {EnableOnboardingFlow: true},
+        }).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
         cy.apiEmailTest();
@@ -50,8 +51,7 @@ describe('Team Settings', () => {
 
     it('MM-T385 Invite new user to closed team using email invite', () => {
         // # Open 'Team Settings' modal
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.findByText('Team Settings').should('be.visible').click();
+        cy.uiOpenTeamMenu('Team Settings');
 
         // * Check that the 'Team Settings' modal was opened
         cy.get('#teamSettingsModal').should('exist').within(() => {
@@ -68,8 +68,7 @@ describe('Team Settings', () => {
         });
 
         // # Open the 'Invite People' full screen modal
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.get('#invitePeople').find('button').eq(0).click();
+        cy.uiOpenTeamMenu('Invite People');
 
         // # Wait half a second to ensure that the modal has been fully loaded
         cy.wait(TIMEOUTS.HALF_SEC);
@@ -112,7 +111,7 @@ describe('Team Settings', () => {
         cy.get('#createAccountButton').click();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
-        cy.get('#headerTeamName').should('contain.text', testTeam.display_name);
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active').within(() => {
@@ -120,15 +119,7 @@ describe('Team Settings', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        if (isCloudLicensed) {
-            cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
-        } else {
-            cy.get('#tutorialIntroOne').should('be.visible').
-                and('contain', 'Welcome to:').
-                and('contain', 'Mattermost').
-                and('contain', 'Your team communication all in one place, instantly searchable and available anywhere.').
-                and('contain', 'Keep your team connected to help them achieve what matters most.');
-        }
+        cy.findByText(`Welcome to ${siteName}`).should('be.visible');
     });
 });
 

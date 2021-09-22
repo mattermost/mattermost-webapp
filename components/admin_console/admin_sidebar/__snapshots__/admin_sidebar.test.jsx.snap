@@ -545,6 +545,20 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
+              definitionKey="user_management.teams"
+              key="user_management.teams"
+              name="user_management/teams"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Teams"
+                  id="admin.sidebar.teams"
+                />
+              }
+            />
+            <AdminSidebarSection
               definitionKey="user_management.permissions"
               key="user_management.permissions"
               name="user_management/permissions/"

@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @system_console
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import {backToTeam, saveSetting} from './helper';
 
 describe('SupportSettings', () => {
     const tosLink = 'https://github.com/mattermost/platform/blob/master/README.md';
@@ -18,19 +18,12 @@ describe('SupportSettings', () => {
     const aboutLink = 'http://www.mattermost.org/features/';
     const helpLink = 'https://github.com/mattermost/platform/blob/master/doc/help/README.md';
     const problemLink = 'https://forum.mattermost.org/c/general/trouble-shoot';
-
     const defaultTosLink = 'https://mattermost.com/terms-of-service/';
-
-    let testTeam;
 
     beforeEach(() => {
         // # Login as admin and reset config
         cy.apiAdminLogin();
         cy.apiUpdateConfig();
-
-        cy.apiInitSetup().then(({team}) => {
-            testTeam = team;
-        });
 
         // # Visit customization system console page
         cy.visit('/admin_console/site_config/customization');
@@ -44,53 +37,53 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.HelpLinkinput').clear().type(helpLink);
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(problemLink);
 
-        // # Save setting
+        // # Save setting then back to team view
         saveSetting();
+        backToTeam();
 
-        // # Click Main Menu
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-
-        // * Verify that report link is changed
-        cy.get('#reportLink').scrollIntoView();
-        cy.get('#reportLink').should('be.visible').within(() => {
-            cy.get('a').should('contain', 'Report a Problem').
-                and('have.attr', 'href').and('equal', problemLink);
+        // # Open about modal
+        cy.uiOpenHelpMenu().within(() => {
+            // * Verify links changed
+            [
+                {text: 'Report a problem', link: problemLink},
+                {text: 'Help resources', link: helpLink},
+            ].forEach((guide) => {
+                cy.findByText(guide.text).
+                    parent().
+                    should('have.attr', 'href', guide.link);
+            });
         });
-
-        // * Verify that help link is changed
-        cy.get('#helpLink').scrollIntoView();
-        cy.get('#helpLink').should('be.visible').within(() => {
-            cy.get('a').should('contain', 'Help').
-                and('have.attr', 'href').and('equal', helpLink);
-        });
-
-        // * Verify that /help opens correct link
-        // Note: This can not be tested with cypress yet, since it's opening link in a new tab
-        // cy.postMessage('/help');
-        // cy.url().should('equal', helpLink);
 
         // # Logout
-        cy.apiLogout();
-        cy.wait(TIMEOUTS.TWO_SEC);
+        cy.uiLogout();
 
         // * Verify that the user was redirected to the login page after the logout
         cy.url().should('include', '/login');
 
-        // * Verify that links are correct
-        cy.get('#about_link').should('contain', 'About').and('have.attr', 'href').and('equal', aboutLink);
-        cy.get('#privacy_link').should('contain', 'Privacy').and('have.attr', 'href').and('equal', privacyLink);
-        cy.get('#terms_link').should('contain', 'Terms').and('have.attr', 'href').and('equal', tosLink);
-        cy.get('#help_link').should('contain', 'Help').and('have.attr', 'href').and('equal', helpLink);
+        const guides = [
+            {text: 'About', link: aboutLink},
+            {text: 'Privacy', link: privacyLink},
+            {text: 'Terms', link: tosLink},
+            {text: 'Help', link: helpLink},
+        ];
+
+        // * Verify that links are correct at login page
+        guides.forEach((guide) => {
+            cy.findByText(guide.text).
+                parent().
+                should('have.attr', 'href', guide.link);
+        });
 
         // # Visit signup page
         cy.get('#signup').click();
+        cy.url().should('include', '/signup_user_complete');
 
-        // * Verify that links are correct
-        cy.get('#about_link').should('contain', 'About').and('have.attr', 'href').and('equal', aboutLink);
-        cy.get('#privacy_link').should('contain', 'Privacy').and('have.attr', 'href').and('equal', privacyLink);
-        cy.get('#terms_link').should('contain', 'Terms').and('have.attr', 'href').and('equal', tosLink);
-        cy.get('#help_link').should('contain', 'Help').and('have.attr', 'href').and('equal', helpLink);
+        // * Verify that links are correct at signup page
+        guides.forEach((guide) => {
+            cy.findByText(guide.text).
+                parent().
+                should('have.attr', 'href', guide.link);
+        });
     });
 
     it('MM-T1033 - Customization: Blank TOS link field (login page)', () => {
@@ -107,26 +100,25 @@ describe('SupportSettings', () => {
         cy.url().should('include', '/login');
 
         // * Verify that terms of services link is set to default
-        cy.get('#terms_link').should('contain', 'Terms').and('have.attr', 'href').and('equal', defaultTosLink);
+        cy.findByText('Terms').
+            parent().
+            should('have.attr', 'href', defaultTosLink);
     });
 
-    it('MM-T1036 - Customization: Blank Help and Report a Problem hides options from main menu', () => {
+    it('MM-T1036 - Customization: Blank Help and Report a Problem hides options from help menu', () => {
         // # Change help and report links to blanks
         cy.findByTestId('SupportSettings.HelpLinkinput').type('any').clear();
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').type('any').clear();
 
-        // # Save setting
+        // # Save setting and back to team view
         saveSetting();
-
-        // # Click Main Menu
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        backToTeam();
 
         // * Verify that report link does not exist
-        cy.get('#reportLink').should('not.exist');
-
-        // * Verify that help link does not exist
-        cy.get('#helpLink').should('not.exist');
+        cy.uiOpenHelpMenu().within(() => {
+            cy.get('Report a problem').should('not.exist');
+            cy.get('Help resources').should('not.exist');
+        });
     });
 
     it('MM-T1038 - Customization App download link - Change to different', () => {
@@ -134,18 +126,16 @@ describe('SupportSettings', () => {
         const link = 'some_link';
         cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').clear().type(link);
 
-        // # Save setting
+        // # Save setting then back to team view
         saveSetting();
+        backToTeam();
 
-        // # Click Main Menu
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-
-        // * Verify that app link is changed
-        cy.get('#nativeAppLink').scrollIntoView();
-        cy.get('#nativeAppLink').should('be.visible').within(() => {
-            cy.get('a').should('contain', 'Download Apps').
-                and('have.attr', 'href').and('equal', link);
+        // # Open about modal
+        cy.uiOpenProductSwitchMenu().within(() => {
+            // * Verify that 'Download Apps' has expected link
+            cy.findByText('Download Apps').
+                parent().
+                should('have.attr', 'href', link);
         });
     });
 
@@ -156,29 +146,31 @@ describe('SupportSettings', () => {
         // * Verify the help text
         cy.findByTestId('SupportSettings.EnableAskCommunityLinkhelp-text').should('contain', 'When true, "Ask the community" link appears on the Mattermost user interface and Main Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.');
 
-        // # Click Main Menu
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        // # Back to team view
+        backToTeam();
 
-        cy.get('#channel-header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
-            // * Verify that hover shows "Help" text
-            cy.get('#channelHeaderUserGuideButton').trigger('mouseover', {force: true});
-            cy.get('#channelHeaderUserGuideButton').should('have.attr', 'aria-describedby').and('equal', 'userGuideHelpTooltip');
-            cy.get('#channelHeaderUserGuideButton').trigger('mouseout', {force: true});
-            cy.get('#channelHeaderUserGuideButton').should('not.have.attr', 'aria-describedby');
+        // * Verify that hover shows "Help" text
+        cy.uiGetHelpButton().
+            trigger('mouseover', {force: true}).
+            should('have.attr', 'aria-describedby').
+            and('equal', 'userGuideHelpTooltip');
+        cy.uiGetHelpButton().
+            trigger('mouseout', {force: true}).
+            should('not.have.attr', 'aria-describedby');
 
-            // # Click on the help icon
-            cy.get('#channelHeaderUserGuideButton').click();
+        // # Open help menu
+        cy.uiOpenHelpMenu().within(() => {
+            // * Verify 5 options shown
+            cy.findByText('Ask the community');
+            cy.findByText('Help resources');
+            cy.findByText('Getting Started');
+            cy.findByText('Report a problem');
+            cy.findByText('Keyboard shortcuts');
 
-            // * Verify 4 options shown
-            cy.get('#askTheCommunityLink').should('be.visible');
-            cy.get('#helpResourcesLink').should('be.visible');
-            cy.get('#reportAProblemLink').should('be.visible');
-            cy.get('#keyboardShortcuts').should('be.visible');
-
-            // * Verify ask the default ask the community link
-            cy.get('#askTheCommunityLink').within(() => {
-                cy.get('a').should('have.attr', 'href').and('equal', 'https://mattermost.com/pl/default-ask-mattermost-community/');
-            });
+            // * Verify default link of Ask the community
+            cy.findByText('Ask the community').
+                parent().
+                should('have.attr', 'href', 'https://mattermost.com/pl/default-ask-mattermost-community/');
         });
     });
 
@@ -190,47 +182,33 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.HelpLinkinput').clear().type(helpLink);
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(problemLink);
 
-        // # Save setting
+        // # Save setting and back to team view
         saveSetting();
+        backToTeam();
 
-        // # Go to town-square
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-
-        cy.get('#channel-header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
-            // # Click on the help icon
-            cy.get('#channelHeaderUserGuideButton').click();
-
-            // * Verify only 3 options shown
-            cy.get('#askTheCommunityLink').should('not.exist');
-            cy.get('#helpResourcesLink').should('be.visible');
-            cy.get('#reportAProblemLink').should('be.visible');
-            cy.get('#keyboardShortcuts').should('be.visible');
+        // # Open help menu
+        cy.uiOpenHelpMenu().within(() => {
+            // * Verify 4 options shown
+            cy.findByText('Help resources');
+            cy.findByText('Getting Started');
+            cy.findByText('Report a problem');
+            cy.findByText('Keyboard shortcuts');
 
             // * Verify help link has changed
-            cy.get('#helpResourcesLink').within(() => {
-                cy.get('a').should('have.attr', 'href').and('equal', helpLink);
-            });
+            cy.findByText('Help resources').
+                parent().
+                should('have.attr', 'href', helpLink);
 
             // * Verify report a problem link has changed
-            cy.get('#reportAProblemLink').within(() => {
-                cy.get('a').should('have.attr', 'href').and('equal', problemLink);
-            });
+            cy.findByText('Report a problem').
+                parent().
+                should('have.attr', 'href', problemLink);
 
             // # Click on keyboard shortcuts
-            cy.get('#keyboardShortcuts').click();
+            cy.findByText('Keyboard shortcuts').click();
         });
 
         // * Verify link opens keyboard shortcuts modal
-        cy.get('#shortcutsModalLabel').should('be.visible');
+        cy.findAllByRole('dialog', 'Keyboard shortcuts');
     });
 });
-
-function saveSetting() {
-    // # Click save button, and verify text and visibility
-    cy.get('#saveSetting').
-        should('have.text', 'Save').
-        and('be.enabled').
-        click().
-        should('be.disabled').
-        wait(TIMEOUTS.HALF_SEC);
-}
