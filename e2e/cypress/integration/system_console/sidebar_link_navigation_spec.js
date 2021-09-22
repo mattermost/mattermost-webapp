@@ -213,7 +213,7 @@ describe('System Console - Non-Enterprise', () => {
         // # Go to default team/channel
         cy.visit('/');
 
-        // # Open product switch menu and click on "Main Menu"
+        // # Open product switch menu and click on "System Console"
         cy.uiOpenProductSwitchMenu('System Console');
 
         // * Verify that it redirects to "Edition and License" system console page
