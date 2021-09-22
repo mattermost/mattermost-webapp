@@ -472,6 +472,10 @@ export function postsInChannel(state: Dictionary<PostOrderBlock[]> = {}, action:
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 
+        if (action.features?.crtEnabled && post.root_id) {
+            return state;
+        }
+
         // Receiving a single post doesn't usually affect the order of posts in a channel, except for when we've
         // received a newly created post that was previously stored as pending
 

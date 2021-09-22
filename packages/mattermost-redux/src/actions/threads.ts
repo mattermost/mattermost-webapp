@@ -22,6 +22,8 @@ import {getThreadsInChannel} from 'mattermost-redux/selectors/entities/threads';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
 
@@ -63,6 +65,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     const state = getState();
     const currentUserId = getCurrentUserId(state);
     const currentTeamId = getCurrentTeamId(state);
+    const crtEnabled = isCollapsedThreadsEnabled(state);
     const thread = {...threadData, is_following: true};
 
     dispatch({
@@ -73,6 +76,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     dispatch({
         type: PostTypes.RECEIVED_POST,
         data: {...thread.post, update_at: 0},
+        features: {crtEnabled},
     });
 
     dispatch({
