@@ -39,6 +39,7 @@ describe('components/ChannelHeader', () => {
         currentRelativeTeamUrl: '',
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
+        lastActivityTimestamp: 1632146562846,
     };
 
     const populatedProps = {
@@ -328,6 +329,69 @@ describe('components/ChannelHeader', () => {
             customStatus: {
                 emoji: 'calender',
                 text: 'In a meeting',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with last active display', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+                status: 'offline',
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: false,
+                show_last_active: true,
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with no last active display because of online status', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+                status: 'online',
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: false,
+                show_last_active: true,
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with no last active display because it is disabled by user', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+                status: 'offline',
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: false,
+                show_last_active: false,
             },
         };
 

@@ -1,5 +1,659 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/ChannelHeader should match snapshot with last active display 1`] = `
+<div
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="8"
+  data-channelid="undefined"
+  id="channel-header"
+  role="banner"
+  tabIndex="-1"
+>
+  <div
+    className="flex-parent"
+  >
+    <div
+      className="flex-child"
+    >
+      <div
+        className="channel-header__info"
+        id="channelHeaderInfo"
+      >
+        <div
+          className="channel-header__title dropdown"
+        >
+          <div>
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+              onToggle={[Function]}
+            >
+              <div
+                className="channel-header__top"
+                id="channelHeaderDropdownButton"
+              >
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none "
+                >
+                  <strong
+                    aria-level="2"
+                    className="heading"
+                    id="channelHeaderTitle"
+                    role="heading"
+                  >
+                    <span>
+                      <ArchiveIcon
+                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                      />
+                      <MemoizedFormattedMessage
+                        defaultMessage="{displayname} (you) "
+                        id="channel_header.directchannel.you"
+                        values={
+                          Object {
+                            "displayname": undefined,
+                          }
+                        }
+                      />
+                      <GuestBadge
+                        className=""
+                        show={false}
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="icon icon-chevron-down header-dropdown-chevron-icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
+          </div>
+        </div>
+        <div
+          className="channel-header__description"
+          dir="auto"
+          id="channelHeaderDescription"
+        >
+          <StatusIcon
+            button={false}
+            className=""
+            status="offline"
+          />
+          <span
+            className="header-status__text"
+          >
+            <span
+              className="last-active__text"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Active {timestamp}"
+                id="channel_header.lastActive"
+                values={
+                  Object {
+                    "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+                      day="numeric"
+                      units={
+                        Array [
+                          "now",
+                          "minute",
+                          "hour",
+                          "day",
+                        ]
+                      }
+                      useTime={false}
+                      value={1632146562846}
+                    />,
+                  }
+                }
+              />
+            </span>
+          </span>
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderPinButton"
+            iconComponent={
+              <i
+                aria-hidden="true"
+                className="icon icon-pin-outline channel-header__pin"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-text-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
+          <div
+            className="header-popover-text-measurer"
+          >
+            <Connect(Markdown)
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
+            >
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="not the bot description"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+    <Connect(injectIntl(ChannelHeaderPlug))
+      channel={
+        Object {
+          "header": "not the bot description",
+          "status": "offline",
+          "type": "D",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(RHSSearchNav) />
+  </div>
+</div>
+`;
+
+exports[`components/ChannelHeader should match snapshot with no last active display because it is disabled by user 1`] = `
+<div
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="8"
+  data-channelid="undefined"
+  id="channel-header"
+  role="banner"
+  tabIndex="-1"
+>
+  <div
+    className="flex-parent"
+  >
+    <div
+      className="flex-child"
+    >
+      <div
+        className="channel-header__info"
+        id="channelHeaderInfo"
+      >
+        <div
+          className="channel-header__title dropdown"
+        >
+          <div>
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+              onToggle={[Function]}
+            >
+              <div
+                className="channel-header__top"
+                id="channelHeaderDropdownButton"
+              >
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none "
+                >
+                  <strong
+                    aria-level="2"
+                    className="heading"
+                    id="channelHeaderTitle"
+                    role="heading"
+                  >
+                    <span>
+                      <ArchiveIcon
+                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                      />
+                      <MemoizedFormattedMessage
+                        defaultMessage="{displayname} (you) "
+                        id="channel_header.directchannel.you"
+                        values={
+                          Object {
+                            "displayname": undefined,
+                          }
+                        }
+                      />
+                      <GuestBadge
+                        className=""
+                        show={false}
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="icon icon-chevron-down header-dropdown-chevron-icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
+          </div>
+        </div>
+        <div
+          className="channel-header__description"
+          dir="auto"
+          id="channelHeaderDescription"
+        >
+          <StatusIcon
+            button={false}
+            className=""
+            status="offline"
+          />
+          <span
+            className="header-status__text"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Offline"
+              id="status_dropdown.set_offline"
+            />
+          </span>
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderPinButton"
+            iconComponent={
+              <i
+                aria-hidden="true"
+                className="icon icon-pin-outline channel-header__pin"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-text-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
+          <div
+            className="header-popover-text-measurer"
+          >
+            <Connect(Markdown)
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
+            >
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="not the bot description"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+    <Connect(injectIntl(ChannelHeaderPlug))
+      channel={
+        Object {
+          "header": "not the bot description",
+          "status": "offline",
+          "type": "D",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(RHSSearchNav) />
+  </div>
+</div>
+`;
+
+exports[`components/ChannelHeader should match snapshot with no last active display because of online status 1`] = `
+<div
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="8"
+  data-channelid="undefined"
+  id="channel-header"
+  role="banner"
+  tabIndex="-1"
+>
+  <div
+    className="flex-parent"
+  >
+    <div
+      className="flex-child"
+    >
+      <div
+        className="channel-header__info"
+        id="channelHeaderInfo"
+      >
+        <div
+          className="channel-header__title dropdown"
+        >
+          <div>
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+              onToggle={[Function]}
+            >
+              <div
+                className="channel-header__top"
+                id="channelHeaderDropdownButton"
+              >
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none "
+                >
+                  <strong
+                    aria-level="2"
+                    className="heading"
+                    id="channelHeaderTitle"
+                    role="heading"
+                  >
+                    <span>
+                      <ArchiveIcon
+                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
+                      />
+                      <MemoizedFormattedMessage
+                        defaultMessage="{displayname} (you) "
+                        id="channel_header.directchannel.you"
+                        values={
+                          Object {
+                            "displayname": undefined,
+                          }
+                        }
+                      />
+                      <GuestBadge
+                        className=""
+                        show={false}
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="icon icon-chevron-down header-dropdown-chevron-icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
+          </div>
+        </div>
+        <div
+          className="channel-header__description"
+          dir="auto"
+          id="channelHeaderDescription"
+        >
+          <StatusIcon
+            button={false}
+            className=""
+            status="online"
+          />
+          <span
+            className="header-status__text"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Online"
+              id="status_dropdown.set_online"
+            />
+          </span>
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderPinButton"
+            iconComponent={
+              <i
+                aria-hidden="true"
+                className="icon icon-pin-outline channel-header__pin"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-text-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
+          <div
+            className="header-popover-text-measurer"
+          >
+            <Connect(Markdown)
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
+            >
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="not the bot description"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+    <Connect(injectIntl(ChannelHeaderPlug))
+      channel={
+        Object {
+          "header": "not the bot description",
+          "status": "online",
+          "type": "D",
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(RHSSearchNav) />
+  </div>
+</div>
+`;
+
 exports[`components/ChannelHeader should render active channel files 1`] = `
 <div
   aria-label="channel header region"
