@@ -369,8 +369,8 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         const newMessagesSeparatorIndex = getNewMessageIndex(this.props.replyListIds);
         if (typeof visibleStopIndex === 'number' && typeof visibleStartIndex === 'number') {
             return (
-                visibleStartIndex >= newMessagesSeparatorIndex &&
-                visibleStopIndex <= newMessagesSeparatorIndex
+                visibleStartIndex > newMessagesSeparatorIndex &&
+                visibleStopIndex < newMessagesSeparatorIndex
             );
         }
         return false;
