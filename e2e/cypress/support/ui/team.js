@@ -3,7 +3,7 @@
 
 Cypress.Commands.add('uiInviteMemberToCurrentTeam', (username) => {
     // # Open member invite screen
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('.icon-chevron-down').should('be.visible').click();
     cy.get('#invitePeople > button').should('contain.text', 'Invite People').click();
 
     // # Open members section if licensed for guest accounts
