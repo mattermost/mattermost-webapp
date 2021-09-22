@@ -16,8 +16,6 @@ describe('components/global/global_header', () => {
         spy.mockReturnValue(false);
         const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
         spyProduct.mockReturnValue(null);
-        const spyIsMobileView = jest.spyOn(hooks, 'useIsMobileView');
-        spyIsMobileView.mockReturnValue(false);
 
         const wrapper = shallow(
             <GlobalHeader/>,
@@ -32,8 +30,6 @@ describe('components/global/global_header', () => {
         spy.mockReturnValue(true);
         const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
         spyProduct.mockReturnValue(null);
-        const spyIsMobileView = jest.spyOn(hooks, 'useIsMobileView');
-        spyIsMobileView.mockReturnValue(false);
 
         const wrapper = shallow(
             <GlobalHeader/>,
