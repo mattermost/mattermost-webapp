@@ -38,8 +38,8 @@ describe('Account Settings > Sidebar > General', () => {
             cy.uiSaveAndClose();
         });
 
-        // # Open main menu and click "View Members"
-        cy.uiOpenMainMenu('View Members');
+        // # Open team menu and click "View Members"
+        cy.uiOpenTeamMenu('View Members');
 
         // # Search for username and check that no nickname is present
         cy.get('.modal-title').should('be.visible');
@@ -67,8 +67,8 @@ describe('Account Settings > Sidebar > General', () => {
             cy.uiSaveAndClose();
         });
 
-        // # Open main menu and click "View Members"
-        cy.uiOpenMainMenu('View Members');
+        // # Open team menu and click "View Members"
+        cy.uiOpenTeamMenu('View Members');
 
         // # Search for username and check that expected nickname is present
         cy.get('.modal-title').should('be.visible');
