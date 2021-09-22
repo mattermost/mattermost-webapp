@@ -607,6 +607,8 @@
   "admin.customization.enableGifPickerTitle": "Enable GIF Picker:",
   "admin.customization.enableLatexDesc": "Enable rendering of LaTeX code. If false, LaTeX code will be highlighted only.",
   "admin.customization.enableLatexTitle": "Enable LaTeX Rendering:",
+  "admin.customization.enableInlineLatexDesc": "When true, users may render inline Latex code with dollar signs surrounding the text. When false, Latex can only be rendered in a code block using syntax highlighting. [Learn more about text formatting in our documentation](!https://docs.mattermost.com/messaging/formatting-text.html).",
+  "admin.customization.enableInlineLatexTitle": "Enable Inline Latex Rendering:",
   "admin.customization.enableLinkPreviewsDesc": "Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.",
   "admin.customization.enableLinkPreviewsTitle": "Enable website link previews:",
   "admin.customization.enablePermalinkPreviewsDesc": "When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](!https://docs.mattermost.com/messaging/sharing-messages.html) for details.",

@@ -5,15 +5,23 @@ Cypress.Commands.add('uiGetFileThumbnail', (filename) => {
     return cy.findByLabelText(`file thumbnail ${filename.toLowerCase()}`);
 });
 
-Cypress.Commands.add('uiGetFilePreview', () => {
-    return cy.get('.file-preview-modal').should('be.visible');
+Cypress.Commands.add('uiGetFileUploadPreview', () => {
+    return cy.get('.file-preview__container').should('be.visible');
 });
 
-Cypress.Commands.add('uiGetFilePreviewHeader', () => {
-    return cy.uiGetFilePreview().find('.file-preview-modal-header').should('be.visible');
+Cypress.Commands.add('uiGetFilePreviewModal', (options = {exist: true}) => {
+    if (options.exist) {
+        return cy.get('.file-preview-modal').should('be.visible');
+    }
+
+    return cy.get('.file-preview-modal').should('not.exist');
 });
 
-Cypress.Commands.add('uiOpenFilePreview', (filename) => {
+Cypress.Commands.add('uiGetHeaderFilePreviewModal', () => {
+    return cy.uiGetFilePreviewModal().find('.file-preview-modal-header').should('be.visible');
+});
+
+Cypress.Commands.add('uiOpenFilePreviewModal', (filename) => {
     if (filename) {
         cy.uiGetFileThumbnail(filename.toLowerCase()).click();
     } else {
@@ -21,6 +29,26 @@ Cypress.Commands.add('uiOpenFilePreview', (filename) => {
     }
 });
 
-Cypress.Commands.add('uiCloseFilePreview', () => {
-    return cy.uiGetFilePreview().find('.icon-close').click();
+Cypress.Commands.add('uiCloseFilePreviewModal', () => {
+    return cy.uiGetFilePreviewModal().find('.icon-close').click();
+});
+
+Cypress.Commands.add('uiGetContentFilePreviewModal', () => {
+    return cy.uiGetFilePreviewModal().find('.file-preview-modal__content');
+});
+
+Cypress.Commands.add('uiGetDownloadLinkFilePreviewModal', () => {
+    return cy.uiGetFilePreviewModal().find('.icon-link-variant').parent();
+});
+
+Cypress.Commands.add('uiGetDownloadFilePreviewModal', () => {
+    return cy.uiGetFilePreviewModal().find('.icon-download-outline').parent();
+});
+
+Cypress.Commands.add('uiGetArrowLeftFilePreviewModal', () => {
+    return cy.uiGetFilePreviewModal().find('.icon-chevron-left').parent();
+});
+
+Cypress.Commands.add('uiGetArrowRightFilePreviewModal', () => {
+    return cy.uiGetFilePreviewModal().find('.icon-chevron-right').parent();
 });
