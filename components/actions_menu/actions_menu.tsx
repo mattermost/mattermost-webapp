@@ -62,7 +62,7 @@ type Props = {
         /**
          * Function to open a modal
          */
-        openModal: (modalData: {ModalId: string; dialogType: any; dialogProps?: {post: Post; isRHS: boolean}}) => Promise<{
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: {post: Post; isRHS: boolean}}) => Promise<{
             data: boolean;
         }>;
 
@@ -131,7 +131,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
     handleOpenMarketplace = (): void => {
         const openMarketplaceData = {
-            ModalId: ModalIdentifiers.PLUGIN_MARKETPLACE,
+            modalId: ModalIdentifiers.PLUGIN_MARKETPLACE,
             dialogType: MarketplaceModal,
         };
         this.props.actions.openModal(openMarketplaceData);

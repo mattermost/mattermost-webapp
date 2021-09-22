@@ -64,7 +64,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
 type Actions = {
     doAppCall: DoAppCall;
-    openModal: (modalData: {ModalId: string; dialogType: any; dialogProps?: {post: Post; isRHS: boolean}}) => Promise<{
+    openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: {post: Post; isRHS: boolean}}) => Promise<{
         data: boolean;
     }>;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
