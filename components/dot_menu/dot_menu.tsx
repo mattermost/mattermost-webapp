@@ -383,12 +383,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    getIcon = (name: string): JSX.Element => {
-        return (
-            <i className={`icon ${name} MenuItem__icon`}/>
-        );
-    }
-
     onShortcutKeyUp = (e: KeyboardEvent): void => {
         // e.preventDefault();
         this.keysHeldDown = this.keysHeldDown.filter((key) => key !== e.key);
@@ -433,7 +427,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <Menu.ItemAction
                         show={!isSystemMessage && this.props.location === Locations.CENTER}
                         text={Utils.localizeMessage('post_info.reply', 'Reply')}
-                        leftDecorator={this.getIcon('icon-reply-outline')}
+                        leftDecorator={Utils.getMenuItemIcon('icon-reply-outline')}
                         rightDecorator={'R'}
                         onClick={(e: any) => {
                             this.handleOnClickWithEvent(TELEMETRY_LABELS.REPLY, this.props.handleCommentClick, e);
@@ -467,10 +461,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                                 )
                         )}
                         {...this.props.isFollowingThread ? {
-                            leftDecorator: this.getIcon('icon-message-minus-outline'),
+                            leftDecorator: Utils.getMenuItemIcon('icon-message-minus-outline'),
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                         } : {
-                            leftDecorator: this.getIcon('icon-message-check-outline'),
+                            leftDecorator: Utils.getMenuItemIcon('icon-message-check-outline'),
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.follow', 'Follow thread') : Utils.localizeMessage('threading.threadMenu.followMessage', 'Follow message'),
                         }}
                     />
@@ -478,7 +472,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`unread_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH}
                         text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
-                        leftDecorator={this.getIcon('icon-mark-as-unread')}
+                        leftDecorator={Utils.getMenuItemIcon('icon-mark-as-unread')}
                         rightDecorator={'U'}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.UNREAD, this.handleUnreadMenuItemActivated);
@@ -498,7 +492,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`unpin_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.unpin', 'Unpin')}
-                        leftDecorator={this.getIcon('icon-pin')}
+                        leftDecorator={Utils.getMenuItemIcon('icon-pin')}
                         rightDecorator={'P'}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.UNPIN, this.handlePinMenuItemActivated);
@@ -508,7 +502,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`pin_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.isReadOnly && !this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
-                        leftDecorator={this.getIcon('icon-pin-outline')}
+                        leftDecorator={Utils.getMenuItemIcon('icon-pin-outline')}
                         rightDecorator={'P'}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.PIN, this.handlePinMenuItemActivated);
@@ -519,7 +513,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`permalink_${this.props.post.id}`}
                         show={!isSystemMessage}
                         text={Utils.localizeMessage('post_info.permalink', 'Copy Link')}
-                        leftDecorator={this.getIcon('icon-link-variant')}
+                        leftDecorator={Utils.getMenuItemIcon('icon-link-variant')}
                         rightDecorator={'K'}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.COPY_LINK, this.copyLink);
@@ -530,7 +524,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`edit_post_${this.props.post.id}`}
                         show={this.state.canEdit}
                         text={Utils.localizeMessage('post_info.edit', 'Edit')}
-                        leftDecorator={this.getIcon('icon-pencil-outline')}
+                        leftDecorator={Utils.getMenuItemIcon('icon-pencil-outline')}
                         rightDecorator={'E'}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.EDIT, this.handleEditMenuItemActivated);
@@ -540,7 +534,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`delete_post_${this.props.post.id}`}
                         show={this.state.canDelete}
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
-                        leftDecorator={this.getIcon('icon-trash-can-outline')}
+                        leftDecorator={Utils.getMenuItemIcon('icon-trash-can-outline')}
                         rightDecorator={'delete'}
                         onClick={(e: any) => {
                             this.handleOnClickWithEvent(TELEMETRY_LABELS.DELETE, this.handleDeleteMenuItemActivated, e);

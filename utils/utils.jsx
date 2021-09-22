@@ -542,6 +542,12 @@ export function getIconClassName(fileTypeIn) {
     return 'generic';
 }
 
+export function getMenuItemIcon(name) {
+    return (
+        <i className={`icon ${name} MenuItem__icon`}/>
+    );
+}
+
 export function toTitleCase(str) {
     function doTitleCase(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();

@@ -192,33 +192,29 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
     visitMarketplaceTip(): React.ReactElement {
         return (
-            <Menu.ItemAction
-                key={'marketplace-tip'}
+            <SystemPermissionGate
+                permissions={[Permissions.MANAGE_SYSTEM]}
             >
-                <SystemPermissionGate
-                    permissions={[Permissions.MANAGE_SYSTEM]}
-                >
-                    <div className='VisitMarketplace' >
+                <div className='VisitMarketplace' >
+                    <FormattedMarkdownMessage
+                        id='post_info.actions.noActions'
+                        defaultMessage='No Actions currently\nconfigured for this server'
+                    />
+                </div>
+                <div className='VisitMarketplaceButton' >
+                    <button
+                        id='marketPlaceButton'
+                        className='btn btn-primary'
+                        onClick={this.handleOpenMarketplace}
+                    >
+                        {Utils.getMenuItemIcon('icon-view-grid-plus-outline')}
                         <FormattedMarkdownMessage
-                            id='post_info.actions.noActions'
-                            defaultMessage='No Actions currently\nconfigured for this server'
+                            id='post_info.actions.visitMarketplace'
+                            defaultMessage='Visit the Marketplace'
                         />
-                    </div>
-                    <div className='VisitMarketplaceButton' >
-                        <button
-                            id='marketPlaceButton'
-                            className='btn btn-primary'
-                            onClick={this.handleOpenMarketplace}
-                        >
-                            {<i className='icon icon-view-grid-plus-outline'/>}
-                            <FormattedMarkdownMessage
-                                id='post_info.actions.visitMarketplace'
-                                defaultMessage='Visit the Marketplace'
-                            />
-                        </button>
-                    </div>
-                </SystemPermissionGate>
-            </Menu.ItemAction>
+                    </button>
+                </div>
+            </SystemPermissionGate>
         );
     }
 
@@ -294,7 +290,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         id={`marketplace_icon_${this.props.post.id}`}
                         show={true}
                         text={formatMessage({id: 'post_info.marketplace', defaultMessage: 'App Marketplace'})}
-                        leftDecorator={<i className='icon icon-view-grid-plus-outline'/>}
+                        leftDecorator={Utils.getMenuItemIcon('icon-view-grid-plus-outline')}
                         onClick={this.handleOpenMarketplace}
                     />
                 </>
