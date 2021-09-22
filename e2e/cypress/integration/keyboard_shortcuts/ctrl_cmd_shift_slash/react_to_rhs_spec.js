@@ -40,8 +40,8 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
     beforeEach(() => {
         // # Login as test user and visit town-square
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Town Square');
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Off-Topic');
 
         // # Post a message without reaction for each test
         cy.postMessage(MESSAGES.TINY);
