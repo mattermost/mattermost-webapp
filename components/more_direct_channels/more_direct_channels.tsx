@@ -23,6 +23,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Timestamp from 'components/timestamp';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import AlertBanner from 'components/alert_banner';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
@@ -68,6 +69,7 @@ type Props = {
     recentDMUsers?: Array<UserProfile & {last_post_at: number }>;
     statuses: RelationOneToOne<UserProfile, string>;
     totalCount?: number;
+    prepopulatedValues?: [];
 
     /*
     * List of current channel members of existing channel
@@ -137,7 +139,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         }
 
         this.state = {
-            values,
+            values: this.props.prepopulatedValues || [],
             show: true,
             search: false,
             saving: false,
@@ -550,6 +552,19 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             />
         );
 
+        const groupMessageWarning = (
+            <AlertBanner
+                variant='app'
+                mode='info'
+                title={(
+                    <FormattedMessage
+                        id='more_direct_channels.warning_for_groups'
+                        defaultMessage='This will start a new conversation'
+                    />
+                )}
+            />
+        );
+
         return (
             <Modal
                 dialogClassName='a11y__modal more-modal more-direct-channels'
@@ -576,6 +591,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                     role='application'
                 >
                     {body}
+                    {groupMessageWarning}
                 </Modal.Body>
                 <Modal.Footer className='modal-footer--invisible'>
                     <button

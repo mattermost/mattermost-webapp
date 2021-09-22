@@ -174,7 +174,7 @@ export function goToChannelByChannelName(match: Match, history: History): Action
             const user = getCurrentUser(getState());
             const isSystemAdmin = Utils.isSystemAdmin(user?.roles);
             if (isSystemAdmin) {
-                if (channel?.type === Constants.PRIVATE_CHANNEL) {
+                if (channel?.type === Constants.PRIVATE_CHANNEL || channel?.type === Constants.GM_CHANNEL) {
                     const joinPromptResult = await dispatch(joinPrivateChannelPrompt(teamObj, channel));
                     if ('data' in joinPromptResult && !joinPromptResult.data.join) {
                         return {data: undefined};

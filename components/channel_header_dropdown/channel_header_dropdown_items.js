@@ -155,7 +155,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         <Menu.ItemToggleModalRedux
                             id='channelAddMembers'
                             show={channel.type === Constants.GM_CHANNEL && !isArchived && !isGroupConstrained}
-                            modalId={ModalIdentifiers.CREATE_DM_CHANNEL}
+                            modalId={ModalIdentifiers.ADD_USER_TO_GROUP_MESSAGE}
                             dialogType={AddUserToGroupMessageModal}
                             text={localizeMessage('navbar.addMembers', 'Add Members')}
                         />

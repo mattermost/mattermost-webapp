@@ -73,6 +73,17 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
         key="addUsersToChannelKey"
         loading={true}
         maxValues={20}
+        numRemainingText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="You’ve reached the member limit for a group message."
+            id="channel_invite.remainingTextError"
+            values={
+              Object {
+                "count": NaN,
+              }
+            }
+          />
+        }
         optionRenderer={[Function]}
         options={
           Array [
@@ -233,6 +244,17 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
         key="addUsersToChannelKey"
         loading={true}
         maxValues={20}
+        numRemainingText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="You’ve reached the member limit for a group message."
+            id="channel_invite.remainingTextError"
+            values={
+              Object {
+                "count": NaN,
+              }
+            }
+          />
+        }
         optionRenderer={[Function]}
         options={
           Array [

@@ -9,7 +9,7 @@ import './alert_banner.scss';
 type Props = {
     mode: 'danger' | 'warning' | 'info';
     title?: React.ReactNode;
-    message: React.ReactNode;
+    message?: React.ReactNode;
     className?: string;
     onDismiss?: () => void;
     variant?: 'sys' | 'app';

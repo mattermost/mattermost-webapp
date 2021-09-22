@@ -7,7 +7,9 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {openModal} from 'actions/views/modals';
 import GenericModal from 'components/generic_modal';
@@ -24,9 +26,11 @@ type Props = {
 }
 
 const AddUserToGroupMessageModal: React.FC<Props> = (props: Props) => {
+    const getProfilesInChannel = makeGetProfilesInChannel();
     const dispatch = useDispatch();
     const channel: Channel = useSelector((state: GlobalState) => getCurrentChannel(state));
     const currentTeamId: string = useSelector((state: GlobalState) => getCurrentTeamId(state));
+    const profilesInChannel: UserProfile[] = useSelector((state: GlobalState) => getProfilesInChannel(state, channel.id));
 
     const channelWithTeamId = {
         ...channel,
@@ -38,6 +42,7 @@ const AddUserToGroupMessageModal: React.FC<Props> = (props: Props) => {
         dispatch(openModal({
             modalId: ModalIdentifiers.CREATE_DM_CHANNEL,
             dialogType: MoreDirectChannels,
+            dialogProps: {prepopulatedValues: profilesInChannel},
         }));
 
         setHasSeenModal(true);

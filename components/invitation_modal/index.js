@@ -42,7 +42,7 @@ export function mapStateToProps(state) {
     const currentTeam = getCurrentTeam(state);
     const subscriptionStats = getSubscriptionStats(state);
     const invitableChannels = channels.filter((channel) => {
-        if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
+        if (channel.type === Constants.DM_CHANNEL) {
             return false;
         }
         if (channel.type === Constants.PRIVATE_CHANNEL) {

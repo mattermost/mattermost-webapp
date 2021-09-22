@@ -20,7 +20,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.LeaveChannel should be hidden
 <MenuItemAction
   onClick={[Function]}
   show={true}
-  text="Leave Channel"
+  text="Leave Group Message"
 />
 `;
 

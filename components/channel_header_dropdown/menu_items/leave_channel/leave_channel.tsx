@@ -73,13 +73,14 @@ export default class LeaveChannel extends React.PureComponent<Props, State> {
 
     render() {
         const {channel, isDefault, isGuestUser, id} = this.props;
+        const text = channel.type === Constants.GM_CHANNEL ? localizeMessage('channel_header.leaveGroup', 'Leave Group Message') : localizeMessage('channel_header.leave', 'Leave Channel');
 
         return (
             <Menu.ItemAction
                 id={id}
                 show={(!isDefault || isGuestUser) && channel.type !== Constants.DM_CHANNEL}
                 onClick={this.handleLeave}
-                text={localizeMessage('channel_header.leave', 'Leave Channel')}
+                text={text}
             />
         );
     }
