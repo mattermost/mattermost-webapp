@@ -61,7 +61,7 @@ export const getChannelsByCategoryForCurrentTeam: (state: GlobalState) => Relati
 
 const getUnreadChannelIdsSet = createSelector(
     'getUnreadChannelIdsSet',
-    getUnreadChannelIds,
+    (state: GlobalState) => getUnreadChannelIds(state, state.views.channel.lastUnreadChannel),
     (unreadChannelIds) => {
         return new Set(unreadChannelIds);
     },
