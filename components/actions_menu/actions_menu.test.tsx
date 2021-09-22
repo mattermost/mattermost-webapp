@@ -22,18 +22,18 @@ jest.mock('utils/utils', () => {
 
 describe('components/actions_menu/ActionsMenu', () => {
     const baseProps = {
-        post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
-        isSysAdmin: true,
-        handleDropdownOpened: jest.fn(),
-        isMenuOpen: true,
-        pluginMenuItems: [],
         appBindings: [],
         appsEnabled: false,
+        handleDropdownOpened: jest.fn(),
+        isMenuOpen: true,
+        isSysAdmin: true,
+        pluginMenuItems: [],
+        post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
         showTutorialTip: false,
         components: {},
         actions: {
-            openModal: jest.fn(),
             doAppCall: jest.fn(),
+            openModal: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
         },
     };

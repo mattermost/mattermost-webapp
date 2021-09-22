@@ -196,6 +196,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         return (
             <SystemPermissionGate
                 permissions={[Permissions.MANAGE_SYSTEM]}
+                key='visit-marketplace-permissions'
             >
                 <div className='VisitMarketplace' >
                     <FormattedMarkdownMessage
