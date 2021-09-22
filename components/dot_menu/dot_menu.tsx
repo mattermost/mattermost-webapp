@@ -170,6 +170,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount(): void {
+        window.removeEventListener('keydown', this.onShortcutKeyDown);
+        window.removeEventListener('keyup', this.onShortcutKeyUp);
         this.editDisableAction.cancel();
     }
 
@@ -312,7 +314,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     onShortcutKeyDown = (e: ChangeEvent): void => {
-        e.preventDefault();
+        // e.preventDefault();
         if (!this.isKeyboardEvent(e)) {
             return;
         }
@@ -388,7 +390,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     onShortcutKeyUp = (e: KeyboardEvent): void => {
-        e.preventDefault();
+        // e.preventDefault();
         this.keysHeldDown = this.keysHeldDown.filter((key) => key !== e.key);
     }
 
