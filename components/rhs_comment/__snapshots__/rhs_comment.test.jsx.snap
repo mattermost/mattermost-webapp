@@ -322,6 +322,26 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             location="RHS_COMMENT"
             postId="id"
           />
+          <Connect(injectIntl(ActionMenuClass))
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
         </div>
       </div>
       <div
@@ -714,6 +734,26 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             teamId="team_id"
             toggleEmojiPicker={[Function]}
           />
+          <Connect(injectIntl(ActionMenuClass))
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
         </div>
       </div>
       <div
@@ -895,6 +935,26 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
             showEmojiPicker={false}
             teamId="team_id"
             toggleEmojiPicker={[Function]}
+          />
+          <Connect(injectIntl(ActionMenuClass))
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
           />
           <Connect(injectIntl(DotMenuClass))
             enableEmojiPicker={true}
@@ -1131,6 +1191,26 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
             showEmojiPicker={false}
             teamId="team_id"
             toggleEmojiPicker={[Function]}
+          />
+          <Connect(injectIntl(ActionMenuClass))
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
           />
         </div>
       </div>
