@@ -39,9 +39,9 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
     });
 
     beforeEach(() => {
-        // # Login as test user and visit town-square
+        // # Login as test user and visit off-topic
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Post a message without reaction for each test
         cy.postMessage('hello');
@@ -106,19 +106,16 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
     });
 
     it('MM-T4059_3 Do not open emoji picker if any modal is open', () => {
-        ['Account Settings', 'View Members', 'About Mattermost'].forEach((modal) => {
-            // # Open the modal and do keyboard shortcut
-            cy.uiOpenMainMenu(modal);
-            doReactToLastMessageShortcut();
+        cy.uiOpenProductSwitchMenu('About Mattermost');
+        verifyEmojiPickerNotOpen();
 
-            // * Verify emoji picker is not open
-            cy.get('#emojiPicker').should('not.exist');
+        cy.uiOpenTeamMenu('View Members');
+        verifyEmojiPickerNotOpen();
 
-            // # Close the modal
-            pressEscapeKey();
-        });
+        cy.uiOpenAccountSettingsModal();
+        verifyEmojiPickerNotOpen();
 
-        ['Edit Channel Header', 'View Members', 'Rename Channel'].forEach((modal) => {
+        ['Edit Channel Header', 'Manage Members', 'Rename Channel'].forEach((modal) => {
             // # Open the modal and do keyboard shortcut
             cy.uiOpenChannelMenu(modal);
             doReactToLastMessageShortcut();
@@ -140,7 +137,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.get('#emojiPicker').should('not.exist');
 
         // * Open the main menu dropdown and do keyboard shortcut
-        cy.uiOpenMainMenu();
+        cy.uiOpenTeamMenu();
         doReactToLastMessageShortcut();
 
         // * Verify emoji picker is not open
@@ -149,8 +146,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
 
     it('MM-T4059_5 Do not open emoji picker if RHS is fully expanded for search results, recent mentions and saved posts', () => {
         // # Open the saved message
-        cy.findByRole('banner', {name: 'channel header region'}).should('be.visible').
-            findByRole('button', {name: 'Saved posts'}).should('be.visible').click();
+        cy.uiGetSavedPostButton().click();
 
         // # Expand RHS
         cy.findByLabelText('Expand Sidebar Icon').click();
@@ -165,7 +161,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.findByLabelText('Collapse Sidebar Icon').click();
 
         // # Open the pinned posts
-        cy.findByLabelText('Pinned posts').click();
+        cy.uiGetChannelPinButton().click();
 
         // # Expand RHS
         cy.findByLabelText('Expand Sidebar Icon').click();
@@ -229,3 +225,14 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.get('#emojiPicker').should('not.exist');
     });
 });
+
+function verifyEmojiPickerNotOpen() {
+    // # Click emoji button
+    doReactToLastMessageShortcut();
+
+    // * Verify emoji picker is not open
+    cy.get('#emojiPicker').should('not.exist');
+
+    // # Close the modal
+    pressEscapeKey();
+}

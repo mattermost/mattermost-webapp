@@ -34,6 +34,16 @@ declare namespace Cypress {
         uiGetLHSHeader(): Chainable;
 
         /**
+         * Open team menu
+         *
+         * @param {string} item - ex. 'Invite People', 'Team Settings', etc.
+         *
+         * @example
+         *   cy.uiOpenTeamMenu();
+         */
+        uiOpenTeamMenu(item: string): Chainable;
+
+        /**
          * Get LHS add channel button
          *
          * @example
@@ -95,8 +105,8 @@ declare namespace Cypress {
          * @param {string} name - channel name for channels, and threads for Global Threads
          *
          * @example
-         *   cy.uiVisitSidebarItem('town-square');
+         *   cy.uiClickSidebarItem('town-square');
          */
-        uiVisitSidebarItem(name: string): Chainable;
+        uiClickSidebarItem(name: string): Chainable;
     }
 }

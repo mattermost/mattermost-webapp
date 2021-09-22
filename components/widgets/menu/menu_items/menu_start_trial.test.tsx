@@ -12,19 +12,22 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import MenuStartTrial from './menu_start_trial';
 
 describe('components/widgets/menu/menu_items/menu_start_trial', () => {
-    const useSelectorMock = jest.spyOn(reactRedux, 'useSelector');
     const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
 
     beforeEach(() => {
-        useSelectorMock.mockClear();
         useDispatchMock.mockClear();
     });
 
     const mockStore = configureStore();
 
-    test('should render when prevTrialLicense is not licensed', () => {
+    test('should render when no trial license has ever been used and there is no license currently loaded', () => {
         const state = {
             entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'false',
+                    },
+                },
                 admin: {
                     prevTrialLicense: {
                         IsLicensed: 'false',
@@ -39,12 +42,39 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
         expect(wrapper.find('button').exists()).toEqual(true);
     });
 
-    test('should render null when prevTrialLicense was licensed', () => {
+    test('should render null when prevTrialLicense was used and there is no license currently loaded', () => {
         const state = {
             entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'false',
+                    },
+                },
                 admin: {
                     prevTrialLicense: {
                         IsLicensed: 'true',
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+        const wrapper = mountWithIntl(<reactRedux.Provider store={store}><MenuStartTrial id='startTrial'/></reactRedux.Provider>);
+        expect(wrapper.find('button').exists()).toEqual(false);
+    });
+
+    test('should render null when no trial license has ever been used but there is a license currently loaded', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'true',
+                    },
+                },
+                admin: {
+                    prevTrialLicense: {
+                        IsLicensed: 'false',
                     },
                 },
             },

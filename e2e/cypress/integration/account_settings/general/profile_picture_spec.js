@@ -14,8 +14,8 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings -> General -> Profile Picture', () => {
     before(() => {
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -23,10 +23,13 @@ describe('Account Settings -> General -> Profile Picture', () => {
         const customImageMatch = 'image?_=';
 
         // * Verify the default profile image is shown first
-        cy.get('#lhsHeader img.Avatar').should('have.attr', 'src').should('not.include', customImageMatch);
+        cy.uiGetProfileHeader().
+            find('.Avatar').
+            should('have.attr', 'src').
+            and('not.include', customImageMatch);
 
         // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        cy.uiOpenAccountSettingsModal();
 
         // # Click "Edit" to the right of "Profile Picture"
         cy.get('#pictureEdit').should('be.visible').click();
@@ -39,10 +42,13 @@ describe('Account Settings -> General -> Profile Picture', () => {
         cy.get('body').type('{esc}');
 
         // * Profile picture is updated
-        cy.get('#lhsHeader img.Avatar').should('have.attr', 'src').should('include', customImageMatch);
+        cy.uiGetProfileHeader().
+            find('.Avatar').
+            should('have.attr', 'src').
+            and('include', customImageMatch);
 
         // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        cy.uiOpenAccountSettingsModal();
 
         // # Click "Edit" to the right of "Profile Picture"
         cy.get('#pictureEdit').should('be.visible').click();
@@ -58,6 +64,9 @@ describe('Account Settings -> General -> Profile Picture', () => {
         cy.get('body').type('{esc}');
 
         // * Verify the default profile image is shown
-        cy.get('#lhsHeader img.Avatar').should('have.attr', 'src').should('not.include', customImageMatch);
+        cy.uiGetProfileHeader().
+            find('.Avatar').
+            should('have.attr', 'src').
+            and('not.include', customImageMatch);
     });
 });
