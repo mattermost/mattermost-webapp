@@ -30,7 +30,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
             if (icon) {
                 textProp = (
                     <React.Fragment>
-                        <span className='icon MenuItem__dangerous'>{icon}</span>
+                        <span className='icon'>{icon}</span>
                         {text}
                     </React.Fragment>
                 );
