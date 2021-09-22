@@ -99,20 +99,20 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
 
         return (
             <React.Fragment>
+                <Menu.ItemToggleModalRedux
+                    id='channelViewInfo'
+                    show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
+                    modalId={ModalIdentifiers.CHANNEL_INFO}
+                    dialogType={ChannelInfoModal}
+                    dialogProps={{channel}}
+                    text={localizeMessage('navbar.viewInfo', 'View Info')}
+                />
+                <CategoryMenuItems
+                    channel={channel}
+                    openUp={false}
+                    location={'channel'}
+                />
                 <Menu.Group divider={divider}>
-                    <Menu.ItemToggleModalRedux
-                        id='channelViewInfo'
-                        show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
-                        modalId={ModalIdentifiers.CHANNEL_INFO}
-                        dialogType={ChannelInfoModal}
-                        dialogProps={{channel}}
-                        text={localizeMessage('navbar.viewInfo', 'View Info')}
-                    />
-                    <CategoryMenuItems
-                        channel={channel}
-                        openUp={false}
-                        location={'channel'}
-                    />
                     <MenuItemToggleFavoriteChannel
                         id='channelToggleFavorite'
                         show={isMobile}
