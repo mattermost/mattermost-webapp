@@ -203,7 +203,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({selectedProduct: selectedPlan});
     }
 
-    listPlans = (): JSX.Element => {
+    listPlans = (): JSX.Element | null => {
         const products = this.props.products!;
         const currentProduct = this.state.currentProduct!;
 
