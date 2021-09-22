@@ -51,9 +51,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     openUp={false}
   >
     <MenuItemAction
-      leftDecorator={
-        <i
-          className="icon icon-reply-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-reply-outline MenuItem__compass-icon-opaque"
         />
       }
       onClick={[Function]}
@@ -76,24 +76,24 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       />
     </Connect(ChannelPermissionGate)>
     <MenuItemAction
-      id="follow_post_thread_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-message-check-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-message-check-outline MenuItem__compass-icon-opaque"
         />
       }
+      id="follow_post_thread_post_id_1"
       onClick={[Function]}
       rightDecorator="F"
       show={false}
       text="Follow message"
     />
     <MenuItemAction
-      id="unread_post_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-mark-as-unread MenuItem__icon"
+      icon={
+        <span
+          className="icon-mark-as-unread MenuItem__compass-icon-opaque"
         />
       }
+      id="unread_post_post_id_1"
       onClick={[Function]}
       rightDecorator="U"
       show={true}
@@ -110,24 +110,24 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       text="Save"
     />
     <MenuItemAction
-      id="unpin_post_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-pin MenuItem__icon"
+      icon={
+        <span
+          className="icon-pin MenuItem__compass-icon-opaque"
         />
       }
+      id="unpin_post_post_id_1"
       onClick={[Function]}
       rightDecorator="P"
       show={false}
       text="Unpin"
     />
     <MenuItemAction
-      id="pin_post_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-pin-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-pin-outline MenuItem__compass-icon-opaque"
         />
       }
+      id="pin_post_post_id_1"
       onClick={[Function]}
       rightDecorator="P"
       show={true}
@@ -139,12 +139,12 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       role="menuitem"
     />
     <MenuItemAction
-      id="permalink_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-link-variant MenuItem__icon"
+      icon={
+        <span
+          className="icon-link-variant MenuItem__compass-icon-opaque"
         />
       }
+      id="permalink_post_id_1"
       onClick={[Function]}
       rightDecorator="K"
       show={true}
@@ -156,25 +156,25 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       role="menuitem"
     />
     <MenuItemAction
-      id="edit_post_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-pencil-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-pencil-outline MenuItem__compass-icon-opaque"
         />
       }
+      id="edit_post_post_id_1"
       onClick={[Function]}
       rightDecorator="E"
       show={true}
       text="Edit"
     />
     <MenuItemAction
-      id="delete_post_post_id_1"
-      isDangerous={true}
-      leftDecorator={
-        <i
-          className="icon icon-trash-can-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-trash-can-outline MenuItem__compass-icon-dangerous"
         />
       }
+      id="delete_post_post_id_1"
+      isDangerous={true}
       onClick={[Function]}
       rightDecorator="delete"
       show={true}
@@ -235,9 +235,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     openUp={false}
   >
     <MenuItemAction
-      leftDecorator={
-        <i
-          className="icon icon-reply-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-reply-outline MenuItem__compass-icon-opaque"
         />
       }
       onClick={[Function]}
@@ -260,24 +260,24 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       />
     </Connect(ChannelPermissionGate)>
     <MenuItemAction
-      id="follow_post_thread_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-message-check-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-message-check-outline MenuItem__compass-icon-opaque"
         />
       }
+      id="follow_post_thread_post_id_1"
       onClick={[Function]}
       rightDecorator="F"
       show={false}
       text="Follow message"
     />
     <MenuItemAction
-      id="unread_post_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-mark-as-unread MenuItem__icon"
+      icon={
+        <span
+          className="icon-mark-as-unread MenuItem__compass-icon-opaque"
         />
       }
+      id="unread_post_post_id_1"
       onClick={[Function]}
       rightDecorator="U"
       show={true}
@@ -294,24 +294,24 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       text="Save"
     />
     <MenuItemAction
-      id="unpin_post_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-pin MenuItem__icon"
+      icon={
+        <span
+          className="icon-pin MenuItem__compass-icon-opaque"
         />
       }
+      id="unpin_post_post_id_1"
       onClick={[Function]}
       rightDecorator="P"
       show={false}
       text="Unpin"
     />
     <MenuItemAction
-      id="pin_post_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-pin-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-pin-outline MenuItem__compass-icon-opaque"
         />
       }
+      id="pin_post_post_id_1"
       onClick={[Function]}
       rightDecorator="P"
       show={true}
@@ -323,12 +323,12 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       role="menuitem"
     />
     <MenuItemAction
-      id="permalink_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-link-variant MenuItem__icon"
+      icon={
+        <span
+          className="icon-link-variant MenuItem__compass-icon-opaque"
         />
       }
+      id="permalink_post_id_1"
       onClick={[Function]}
       rightDecorator="K"
       show={true}
@@ -340,25 +340,25 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       role="menuitem"
     />
     <MenuItemAction
-      id="edit_post_post_id_1"
-      leftDecorator={
-        <i
-          className="icon icon-pencil-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-pencil-outline MenuItem__compass-icon-opaque"
         />
       }
+      id="edit_post_post_id_1"
       onClick={[Function]}
       rightDecorator="E"
       show={true}
       text="Edit"
     />
     <MenuItemAction
-      id="delete_post_post_id_1"
-      isDangerous={true}
-      leftDecorator={
-        <i
-          className="icon icon-trash-can-outline MenuItem__icon"
+      icon={
+        <span
+          className="icon-trash-can-outline MenuItem__compass-icon-dangerous"
         />
       }
+      id="delete_post_post_id_1"
+      isDangerous={true}
       onClick={[Function]}
       rightDecorator="delete"
       show={false}

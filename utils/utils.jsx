@@ -542,9 +542,10 @@ export function getIconClassName(fileTypeIn) {
     return 'generic';
 }
 
-export function getMenuItemIcon(name) {
+export function getMenuItemIcon(name, dangerous) {
+    const colorClass = dangerous ? 'MenuItem__compass-icon-dangerous' : 'MenuItem__compass-icon-opaque';
     return (
-        <i className={`icon ${name} MenuItem__icon`}/>
+        <span className={`${name} ${colorClass}`}/>
     );
 }
 

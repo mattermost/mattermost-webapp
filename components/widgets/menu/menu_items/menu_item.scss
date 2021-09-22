@@ -20,9 +20,19 @@
         .MenuItem__icon {
             width: 20px;
             margin-top: 4px;
-            margin-right: 8px;
+            margin-right: 12px;
             font-size: 18px;
             text-align: center;
+        }
+
+        .MenuItem__compass-icon-opaque {
+            margin: 4px -6px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+
+        .MenuItem__compass-icon-dangerous {
+            margin: 4px -6px;
         }
 
         span.icon {
@@ -37,15 +47,6 @@
         span.MenuItem__primary-text {
             display: inline-flex;
             padding: 5px 4px;
-            float: left;
-            line-height: 22px;
-            white-space: normal;
-        }
-
-        span.MenuItem__left-decorator {
-            display: inline-flex;
-            color: rgba(var(--center-channel-color-rgb), 0.56);
-            fill: rgba(var(--center-channel-color-rgb), 0.56);
             float: left;
             line-height: 22px;
             white-space: normal;
@@ -121,7 +122,7 @@
                 height: 20px;
                 align-items: center;
                 justify-content: center;
-                margin-right: 8px;
+                margin-right: 12px;
             }
 
             &.MenuItem__dangerous {

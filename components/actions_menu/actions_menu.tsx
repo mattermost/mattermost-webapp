@@ -293,7 +293,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         id={`marketplace_icon_${this.props.post.id}`}
                         show={true}
                         text={formatMessage({id: 'post_info.marketplace', defaultMessage: 'App Marketplace'})}
-                        leftDecorator={Utils.getMenuItemIcon('icon-view-grid-plus-outline')}
+                        icon={Utils.getMenuItemIcon('icon-view-grid-plus-outline')}
                         onClick={this.handleOpenMarketplace}
                     />
                 </>
