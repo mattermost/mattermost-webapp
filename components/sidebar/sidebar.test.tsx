@@ -16,6 +16,7 @@ describe('components/sidebar', () => {
         hasSeenModal: true,
         isCloud: false,
         unreadFilterEnabled: false,
+        isMobileView: false,
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),
