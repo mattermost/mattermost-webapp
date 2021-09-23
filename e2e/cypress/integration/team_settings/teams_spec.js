@@ -93,8 +93,8 @@ describe('Teams Suite', () => {
             });
 
             // # Click "Invite Members" button, then "Done" button
-            cy.findByText(/Invite Members/).should('be.visible').click();
-            cy.findByText(/Done/).should('be.visible').click();
+            cy.findByRole('button', {name: 'Invite Members'}).click();
+            cy.findByRole('button', {name: 'Done'}).click();
 
             // * As sysadmin, verify system message posts in Town Square and Off-Topic
             cy.getLastPost().wait(TIMEOUTS.HALF_SEC).then(($el) => {
@@ -219,7 +219,7 @@ describe('Teams Suite', () => {
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
 
-        // Team display name shows as "Testing Team" at top of main menu
+        // Team display name shows as "Testing Team" at top of team menu
         cy.uiGetLHSHeader().findByText(teamName);
 
         // Team initials show in the team icon in the sidebar
@@ -245,14 +245,14 @@ describe('Teams Suite', () => {
         cy.get('#teamDescription').should('be.visible').clear().type(teamDescription);
         cy.get('#teamDescription').should('have.value', teamDescription);
 
-        // Save new team description
-        cy.findByText(/save/i).click();
+        // Save and close
+        cy.uiSaveAndClose();
 
-        // # Close the team settings
-        cy.get('body').type('{esc}', {force: true});
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
-        // Team tooltip should show description
-        verifyToolTip(teamDescription);
+        // * Verify team description is updated
+        cy.get('#descriptionDesc').should('have.text', teamDescription);
     });
 
     it('MM-T2318 Allow anyone to join this team', () => {
@@ -337,14 +337,6 @@ describe('Teams Suite', () => {
         cy.get('.more-modal__list').should('be.visible').children().should('have.length', 1);
     });
 });
-
-function verifyToolTip(label) {
-    cy.uiGetLHSHeader().should('be.visible').trigger('mouseover');
-    cy.findByText(label).should('be.visible');
-
-    cy.uiGetLHSHeader().trigger('mouseout');
-    cy.findByText(label).should('not.exist');
-}
 
 function removeTeamMember(teamName, username) {
     cy.apiAdminLogin();

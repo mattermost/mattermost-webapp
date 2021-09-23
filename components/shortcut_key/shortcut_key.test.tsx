@@ -3,7 +3,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {ShortcutKey, ShortcutKetVariant} from './shortcut_key';
+import {ShortcutKey, ShortcutKeyVariant} from './shortcut_key';
 
 describe('components/ShortcutKey', () => {
     test('should match snapshot for regular key', () => {
@@ -12,7 +12,7 @@ describe('components/ShortcutKey', () => {
     });
 
     test('should match snapshot for contrast key', () => {
-        const wrapper = shallow(<ShortcutKey variant={ShortcutKetVariant.Contrast}>{'Shift'}</ShortcutKey>);
+        const wrapper = shallow(<ShortcutKey variant={ShortcutKeyVariant.Contrast}>{'Shift'}</ShortcutKey>);
         expect(wrapper).toMatchSnapshot();
     });
 });

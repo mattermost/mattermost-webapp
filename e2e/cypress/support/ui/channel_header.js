@@ -5,6 +5,10 @@ Cypress.Commands.add('uiGetChannelFavoriteButton', () => {
     return cy.get('#toggleFavorite').should('be.visible');
 });
 
+Cypress.Commands.add('uiGetMuteButton', () => {
+    return cy.get('#toggleMute').should('be.visible');
+});
+
 Cypress.Commands.add('uiGetChannelMemberButton', () => {
     return cy.get('#member_popover').should('be.visible');
 });
