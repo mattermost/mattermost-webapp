@@ -36,7 +36,7 @@ export type Props = {
     canManageSystemBots: boolean;
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
-    intl?: IntlShape;
+    intl: IntlShape;
     onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
