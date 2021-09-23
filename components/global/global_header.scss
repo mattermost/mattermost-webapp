@@ -4,18 +4,6 @@
 .feature-global-header {
     // global header style adjustments
     @media screen and (min-width: 769px) {
-        .channel__wrap {
-
-            // indicates the RHS is open
-            &.move--left {
-
-                // adjust channel header width
-                #channel-header {
-                    width: calc(100% - 400px);
-                }
-            }
-        }
-
         // adjust RHS position and height
         #sidebar-right {
             z-index: 20;
