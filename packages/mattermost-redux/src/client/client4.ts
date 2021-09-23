@@ -3390,6 +3390,16 @@ export default class Client4 {
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
     // to breaking changes without pushing the major version of this package.
+    pingAppsPlugin = async () => {
+        return this.doFetch<{version: string}>(
+            `${this.getAppsProxyRoute()}/api/v1/ping`,
+            {method: 'get'},
+        );
+    }
+
+    // This function belongs to the Apps Framework feature.
+    // Apps Framework feature is experimental, and this function is susceptible
+    // to breaking changes without pushing the major version of this package.
     executeAppCall = async (call: AppCallRequest, type: AppCallType) => {
         const callCopy: AppCallRequest = {
             ...call,

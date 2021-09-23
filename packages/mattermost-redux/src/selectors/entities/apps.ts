@@ -12,13 +12,23 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
+
+
+export const appsPluginIsEnabled = (state: GlobalState) => state.entities.apps.pluginEnabled;
+
+export const appsConfiguredAsEnabled = createSelector(
+    'appsConfiguredAsEnabled',
+    (state: GlobalState) => getConfig(state),
+    (config: Partial<ClientConfig>) => {
+        return config?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>] === 'true';
+    },
+);
+
 export const appsEnabled = createSelector(
     'appsEnabled',
-    (state: GlobalState) => getConfig(state),
-    (state: GlobalState) => state.entities.apps.pluginEnabled as boolean,
-    (config: Partial<ClientConfig>, pluginEnabled: boolean) => {
-        const featureFlagEnabled = config?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>] === 'true';
-
+    appsConfiguredAsEnabled,
+    appsPluginIsEnabled,
+    (featureFlagEnabled: boolean, pluginEnabled: boolean) => {
         return featureFlagEnabled && pluginEnabled;
     },
 );

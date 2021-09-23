@@ -15,6 +15,20 @@ import {bindClientFunc} from './helpers';
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
 
+export function pingAppsPlugin(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            await Client4.pingAppsPlugin();
+        } catch (err) {
+            dispatch({type: AppsTypes.APPS_PLUGIN_DISABLED});
+            return {error: err};
+        }
+
+        dispatch({type: AppsTypes.APPS_PLUGIN_ENABLED});
+        return {data: true};
+    };
+}
+
 export function fetchAppBindings(channelID: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (!channelID) {

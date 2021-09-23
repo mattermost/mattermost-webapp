@@ -73,9 +73,10 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {appsConfiguredAsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
+import {fetchAppBindings, fetchRHSAppsBindings, pingAppsPlugin} from 'mattermost-redux/actions/apps';
 
 import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
@@ -187,6 +188,10 @@ export function reconnect(includeWebSocket = true) {
 
     loadPluginsIfNecessary();
 
+    if (appsConfiguredAsEnabled(state)) {
+        dispatch(pingAppsPlugin());
+    }
+
     Object.values(pluginReconnectHandlers).forEach((handler) => {
         if (handler && typeof handler === 'function') {
             handler();
@@ -202,7 +207,6 @@ export function reconnect(includeWebSocket = true) {
         const mostRecentPost = getPost(state, mostRecentId);
 
         dispatch(loadChannelsForCurrentUser());
-        dispatch(handleRefreshAppsBindings());
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
@@ -1452,15 +1456,8 @@ function handleRefreshAppsBindings() {
 }
 
 export function handleAppsPluginEnabled() {
-    return (doDispatch, doGetState) => {
-        doDispatch({
-            type: AppsTypes.APPS_PLUGIN_ENABLED,
-        });
-
-        const state = doGetState();
-        doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
-
-        return {data: true};
+    return {
+        type: AppsTypes.APPS_PLUGIN_ENABLED,
     };
 }
 
