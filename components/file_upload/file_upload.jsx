@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -30,6 +31,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import OverlayTrigger from 'components/overlay_trigger';
 
 const holders = defineMessages({
     limited: {
@@ -695,9 +698,24 @@ export class FileUpload extends PureComponent {
         }
 
         return (
-            <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
-                {bodyAction}
-            </div>
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                trigger='hover'
+                overlay={
+                    <Tooltip id='upload-tooltip'>
+                        <KeyboardShortcutSequence
+                            shortcut={KEYBOARD_SHORTCUTS.filesUpload}
+                            hoistDescription={true}
+                            isInsideTooltip={true}
+                        />
+                    </Tooltip>
+                }
+            >
+                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                    {bodyAction}
+                </div>
+            </OverlayTrigger>
         );
     }
 }
