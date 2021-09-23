@@ -542,7 +542,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
                         //  rightDecorator={'delete'}
                         onClick={(e: any) => {
-                            this.handleOnClick(TELEMETRY_LABELS.DELETE, () => this.handleDeleteMenuItemActivated, e);
+                            this.handleOnClick(TELEMETRY_LABELS.DELETE, this.handleDeleteMenuItemActivated, e);
                         }}
                         isDangerous={true}
                     />
