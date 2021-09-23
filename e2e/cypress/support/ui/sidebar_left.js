@@ -107,7 +107,16 @@ Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
     return cy.get('.dropdown-menu').should('be.visible');
 });
 
-Cypress.Commands.add('uiClickSidebarItem', (channelName) => {
-    cy.get(`#sidebarItem_${channelName}`).click();
-    cy.findAllByTestId('postView').should('be.visible');
+Cypress.Commands.add('uiClickSidebarItem', (name) => {
+    cy.uiGetSidebarItem(name).click();
+
+    if (name === 'threads') {
+        cy.findByRole('heading', {name: 'Followed threads'});
+    } else {
+        cy.findAllByTestId('postView').should('be.visible');
+    }
+});
+
+Cypress.Commands.add('uiGetSidebarItem', (channelName) => {
+    return cy.get(`#sidebarItem_${channelName}`);
 });
