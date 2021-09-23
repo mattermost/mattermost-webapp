@@ -12,14 +12,13 @@ import ProductSwitcherMenu, {Props as ProductSwitcherMenuProps} from './product_
 describe('components/global/product_switcher_menu', () => {
     // Neccessary for components enhanced by HOCs due to issue with enzyme.
     // See https://github.com/enzymejs/enzyme/issues/539
-    const getMainMenuWrapper = (props: ProductSwitcherMenuProps) => {
+    const getMenuWrapper = (props: ProductSwitcherMenuProps) => {
         const wrapper = shallowWithIntl(<ProductSwitcherMenu {...props}/>);
         return wrapper.find('MenuGroup').shallow();
     };
 
     const user = TestHelper.getUserMock({
-        id: 'user_id',
-        roles: '',
+        id: 'test-user-id',
         username: 'username',
     });
 
@@ -40,7 +39,6 @@ describe('components/global/product_switcher_menu', () => {
         canManageIntegrations: true,
         enablePluginMarketplace: false,
         onClick: () => jest.fn,
-        intl: {} as any,
     };
 
     test('should match snapshot with id', () => {
@@ -70,18 +68,6 @@ describe('components/global/product_switcher_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with plugins', () => {
-        const props = {
-            ...defaultProps,
-            pluginMenuItems: [
-                {id: 'plugin-1', action: jest.fn(), text: 'plugin-1-text', mobileIcon: 'plugin-1-mobile-icon'},
-                {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text', mobileIcon: 'plugin-2-mobile-icon'},
-            ],
-        };
-        const wrapper = shallowWithIntl(<ProductSwitcherMenu {...props}/>);
-        expect(wrapper).toMatchSnapshot();
-    });
-
     describe('should show integrations', () => {
         it('when incoming webhooks enabled', () => {
             const props = {...defaultProps, enableIncomingWebhooks: true};
@@ -99,30 +85,38 @@ describe('components/global/product_switcher_menu', () => {
 
         it('when slash commands enabled', () => {
             const props = {...defaultProps, enableCommands: true};
-            const wrapper = getMainMenuWrapper(props);
+            const wrapper = getMenuWrapper(props);
 
             expect(wrapper.find('#integrations').prop('show')).toBe(true);
         });
 
         it('when oauth providers enabled', () => {
             const props = {...defaultProps, enableOAuthServiceProvider: true};
-            const wrapper = getMainMenuWrapper(props);
+            const wrapper = getMenuWrapper(props);
 
             expect(wrapper.find('#integrations').prop('show')).toBe(true);
         });
 
         it('when can manage system bots', () => {
             const props = {...defaultProps, canManageSystemBots: true};
-            const wrapper = getMainMenuWrapper(props);
+            const wrapper = getMenuWrapper(props);
 
             expect(wrapper.find('#integrations').prop('show')).toBe(true);
         });
 
         it('unless cannot manage integrations', () => {
             const props = {...defaultProps, canManageIntegrations: false, enableCommands: true};
-            const wrapper = getMainMenuWrapper(props);
+            const wrapper = getMenuWrapper(props);
 
             expect(wrapper.find('#integrations').prop('show')).toBe(false);
+        });
+
+        it('should show integrations modal', () => {
+            const props = {...defaultProps, enableIncomingWebhooks: true};
+            const wrapper = getMenuWrapper(props);
+
+            wrapper.find('#integrations').simulate('click');
+            expect(wrapper).toMatchSnapshot();
         });
     });
 });

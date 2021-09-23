@@ -8,6 +8,17 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
     <Connect(SystemPermissionGate)
       permissions={
         Array [
+          "sysconsole_write_about_edition_and_license",
+        ]
+      }
+    >
+      <MenuStartTrial
+        id="startTrial"
+      />
+    </Connect(SystemPermissionGate)>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
           "sysconsole_read_about_edition_and_license",
           "sysconsole_read_billing",
           "sysconsole_read_reporting_site_statistics",
@@ -164,6 +175,17 @@ exports[`components/global/product_switcher_menu should match snapshot with most
     <Connect(SystemPermissionGate)
       permissions={
         Array [
+          "sysconsole_write_about_edition_and_license",
+        ]
+      }
+    >
+      <MenuStartTrial
+        id="startTrial"
+      />
+    </Connect(SystemPermissionGate)>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
           "sysconsole_read_about_edition_and_license",
           "sysconsole_read_billing",
           "sysconsole_read_reporting_site_statistics",
@@ -312,11 +334,26 @@ exports[`components/global/product_switcher_menu should match snapshot with most
 </MenuGroup>
 `;
 
-exports[`components/global/product_switcher_menu should match snapshot with plugins 1`] = `
-<MenuGroup>
+exports[`components/global/product_switcher_menu should show integrations should show integrations modal 1`] = `
+<Fragment>
+  <li
+    className="MenuGroup menu-divider"
+    onClick={[Function]}
+  />
   <div
     onClick={[Function]}
   >
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "sysconsole_write_about_edition_and_license",
+        ]
+      }
+    >
+      <MenuStartTrial
+        id="startTrial"
+      />
+    </Connect(SystemPermissionGate)>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -397,7 +434,7 @@ exports[`components/global/product_switcher_menu should match snapshot with plug
         />
       }
       id="integrations"
-      show={false}
+      show={true}
       text="Integrations"
       to="//integrations"
     />
@@ -465,5 +502,5 @@ exports[`components/global/product_switcher_menu should match snapshot with plug
       text="About "
     />
   </div>
-</MenuGroup>
+</Fragment>
 `;
