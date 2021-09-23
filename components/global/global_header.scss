@@ -2,12 +2,8 @@
 
 // css feature flag: apply styling overrides to legacy layout when global header is enabled
 .feature-global-header {
+    // global header style adjustments
     @media screen and (min-width: 769px) {
-        // adjust height of sidebar to account for GH
-        #SidebarContainer {
-            height: calc(100% - 40px);
-        }
-
         #lhsNavigator {
             .SidebarChannelNavigator {
                 margin-top: 0;

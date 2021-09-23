@@ -1374,3 +1374,11 @@
         padding: 0 32px 0 24px;
     }
 }
+
+// global header style adjustments
+@media screen and (min-width: 769px) {
+    // adjust height of sidebar to account for global header
+    #SidebarContainer {
+        height: calc(100% - 40px);
+    }
+}
