@@ -6,6 +6,7 @@ import React, {useEffect} from 'react';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import {showNotification} from 'utils/notifications';
 import {StepComponentProps} from '../../steps';
 
@@ -72,7 +73,7 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
     }
     return (
         <TextCardWithAction
-            cardBodyMessageId={'next_steps_view.notificationSetup'}
+            cardBodyMessageId={t('next_steps_view.notificationSetup')}
             cardBodyDefaultMessage={
                 'We recommend enabling desktop notifications so you don’t miss any important communications.'
             }
