@@ -55,7 +55,7 @@ describe('reply-notifications', () => {
 
         // # Get post id of message
         cy.getLastPostId().then((postId) => {
-            // # Switch to other channel so that unread notifications in test channel may be triggered
+            // # Switch to town-square so that unread notifications in test channel may be triggered
             cy.uiClickSidebarItem('town-square');
 
             // # Post a message in original thread as another user
@@ -95,7 +95,7 @@ describe('reply-notifications', () => {
 
         // # Get post id of message
         cy.getLastPostId().then((postId) => {
-            // # Switch to other channel so that unread notifications in test channel may be triggered
+            // # Switch to town-square so that unread notifications in test channel may be triggered
             cy.uiClickSidebarItem('town-square');
 
             // # Post a message in original thread as another user
@@ -138,7 +138,7 @@ describe('reply-notifications', () => {
 
         // # Get post id of message
         cy.getLastPostId().then((postId) => {
-            // # Switch to other channel so that unread notifications in test channel may be triggered
+            // # Switch to town-square so that unread notifications in test channel may be triggered
             cy.uiClickSidebarItem('town-square');
 
             // # Post a message in original thread as another user
@@ -196,7 +196,7 @@ describe('reply-notifications', () => {
 
             // # Wait till receiver's post is visible
             cy.getLastPostId().then(() => {
-                // # Switch to other channel so that unread notifications in test channel may be triggered
+                // # Switch to town-square so that unread notifications in test channel may be triggered
                 cy.uiClickSidebarItem('town-square');
 
                 // # Post a message in thread as another user
