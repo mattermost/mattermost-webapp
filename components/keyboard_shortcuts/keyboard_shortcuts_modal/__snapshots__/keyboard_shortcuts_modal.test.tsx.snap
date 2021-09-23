@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
+<KeyboardShortcutsModal>
+  <Modal
+    animation={true}
+    aria-labelledby="shortcutsModalLabel"
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    dialogClassName="a11y__modal shortcuts-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onExited={[Function]}
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    role="dialog"
+    show={false}
+  >
+    <Modal
+      autoFocus={true}
+      backdrop={true}
+      backdropClassName="modal-backdrop"
+      backdropTransition={[Function]}
+      containerClassName="modal-open"
+      enforceFocus={true}
+      keyboard={true}
+      manager={
+        ModalManager {
+          "add": [Function],
+          "containers": Array [],
+          "data": Array [],
+          "handleContainerOverflow": true,
+          "hideSiblingNodes": true,
+          "isTopModal": [Function],
+          "modals": Array [],
+          "remove": [Function],
+        }
+      }
+      onEntering={[Function]}
+      onExited={[Function]}
+      onHide={[Function]}
+      renderBackdrop={[Function]}
+      restoreFocus={true}
+      show={false}
+      transition={[Function]}
+    />
+  </Modal>
+</KeyboardShortcutsModal>
+`;

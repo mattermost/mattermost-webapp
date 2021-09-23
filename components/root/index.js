@@ -10,6 +10,7 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadMeAndConfig} from 'actions/views/root';
+import {emitBrowserWindowResized} from 'actions/views/browser';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import Root from './root.jsx';
@@ -39,6 +40,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadMeAndConfig,
+            emitBrowserWindowResized,
         }, dispatch),
     };
 }

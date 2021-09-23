@@ -12,5 +12,22 @@
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
             color: var(--center-channel-color);
         }
+
+        &.shortcut-key--tooltip {
+            padding: 2px 5px;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.72);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 16px;
+        }
+
+        &.shortcut-key--shortcut-modal {
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 16px;
+        }
     }
 }
