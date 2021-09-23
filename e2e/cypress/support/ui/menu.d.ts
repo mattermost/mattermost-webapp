@@ -11,37 +11,11 @@
 // - Each parameter with `@params`
 // - Return value with `@returns`
 // - Example usage with `@example`
-// Custom command should follow naming convention of having `ui` prefix, e.g. `uiOpenMainMenu`.
+// Custom command should follow naming convention of having `ui` prefix, e.g. `uiOpenSystemConsoleMainMenu`.
 // ***************************************************************
 
 declare namespace Cypress {
     interface Chainable {
-
-        /**
-         * Open the main menu
-         * @param {string} item - such as `'Account Settings'`, `'Invite People'`, `'Team Settings'` and other items in the main menu.
-         * @return the main menu
-         *
-         * @example
-         *   cy.uiOpenMainMenu();
-         */
-        uiOpenMainMenu(): Chainable;
-
-        /**
-         * Close the main menu
-         *
-         * @example
-         *   cy.uiCloseMainMenu();
-         */
-        uiCloseMainMenu(): Chainable;
-
-        /**
-         * Get the main menu
-         *
-         * @example
-         *   cy.uiGetMainMenu();
-         */
-        uiGetMainMenu(): Chainable;
 
         /**
          * Open main menu at system console
@@ -94,22 +68,5 @@ declare namespace Cypress {
          *   cy.uiGetChannelMenu();
          */
         uiGetChannelMenu(): Chainable;
-
-        /**
-         * Set Status
-         * @param {string} item - such as `'Online'`,`'Set a Custom Status'`, `'Away'`, `'Do Not Disturb'` and `'Offline'`
-         *
-         * @example
-         *   uiOpenSetStatusMenu(item);
-         */
-        uiOpenSetStatusMenu(item): Chainable;
-
-        /**
-         * Open DND status menu
-         *
-         * @example
-         *   uiOpenDndStatusSubMenu();
-         */
-        uiOpenDndStatusSubMenu(): Chainable;
     }
 }

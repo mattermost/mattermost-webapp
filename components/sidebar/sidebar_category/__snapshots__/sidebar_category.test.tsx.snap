@@ -267,7 +267,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
   >
     <Component />
   </Connect(Droppable)>
-  <InviteMembersButton />
+  <InviteMembersButton
+    className="followingSibling"
+  />
 </div>
 `;
 
@@ -316,6 +318,22 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
           placement="right"
         >
           Create new direct message
+          <Memo(KeyboardShortcutSequence)
+            hideDescription={true}
+            isInsideTooltip={true}
+            shortcut={
+              Object {
+                "default": Object {
+                  "defaultMessage": "Direct messages menu:	Ctrl|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu",
+                },
+                "mac": Object {
+                  "defaultMessage": "Direct messages menu:	⌘|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu.mac",
+                },
+              }
+            }
+          />
         </Tooltip>
       }
       placement="top"
@@ -338,7 +356,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content"
+    className="SidebarChannelGroup_content hasFollowingSibling"
   >
     <ul
       className="NavGroupContent"
@@ -377,7 +395,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
   >
     <Component />
   </Connect(Droppable)>
-  <InviteMembersButton />
+  <InviteMembersButton
+    className="followingSibling"
+  />
 </div>
 `;
 
@@ -426,6 +446,22 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
           placement="right"
         >
           Create new direct message
+          <Memo(KeyboardShortcutSequence)
+            hideDescription={true}
+            isInsideTooltip={true}
+            shortcut={
+              Object {
+                "default": Object {
+                  "defaultMessage": "Direct messages menu:	Ctrl|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu",
+                },
+                "mac": Object {
+                  "defaultMessage": "Direct messages menu:	⌘|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu.mac",
+                },
+              }
+            }
+          />
         </Tooltip>
       }
       placement="top"
@@ -448,7 +484,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content"
+    className="SidebarChannelGroup_content hasFollowingSibling"
   >
     <ul
       className="NavGroupContent"
