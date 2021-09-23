@@ -389,6 +389,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     render(): JSX.Element {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
+        const deleteShortcutText = (
+            <span className='MenuItem__opacity'>
+                {'delete'}
+            </span>
+        );
 
         return (
             <MenuWrapper
@@ -533,7 +538,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={this.state.canDelete}
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         icon={Utils.getMenuItemIcon('icon-trash-can-outline', true)}
-                        rightDecorator={'delete'}
+                        rightDecorator={deleteShortcutText}
+
+                        //  rightDecorator={'delete'}
                         onClick={(e: any) => {
                             this.handleOnClick(TELEMETRY_LABELS.DELETE, () => this.handleDeleteMenuItemActivated, e);
                         }}
