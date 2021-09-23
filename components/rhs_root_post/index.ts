@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {showActionsMenuPulsatingDotPulsatingDot} from 'selectors/actions_menu';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -21,6 +22,7 @@ import {isEmbedVisible} from 'selectors/posts';
 import {GlobalState} from 'types/store';
 import {FakePost} from 'types/store/rhs';
 
+import {shouldShowActionsMenu} from 'utils/post_utils';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 
@@ -41,6 +43,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const user = getUser(state, ownProps.post.user_id);
     const isBot = Boolean(user && user.is_bot);
+    const firstTimeActionsMenuOpened = showActionsMenuPulsatingDotPulsatingDot(state);
 
     return {
         isBot,
@@ -54,6 +57,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         shortcutReactToLastPostEmittedFrom,
+        shouldShowActionsMenu: shouldShowActionsMenu(state, ownProps.post),
+        firstTimeActionsMenuOpened,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
     };
 }

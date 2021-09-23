@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {showActionsMenuPulsatingDotPulsatingDot} from 'selectors/actions_menu';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -22,7 +23,7 @@ import {getHighlightedPostId} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 
 import {isArchivedChannel} from 'utils/channel_utils';
-import {areConsecutivePostsBySameUser} from 'utils/post_utils';
+import {areConsecutivePostsBySameUser, shouldShowActionsMenu} from 'utils/post_utils';
 import {Preferences} from 'utils/constants';
 
 import RhsComment from './rhs_comment.jsx';
@@ -56,6 +57,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const user = getUser(state, ownProps.post.user_id);
     const isBot = Boolean(user && user.is_bot);
     const highlightedPostId = getHighlightedPostId(state);
+    const firstTimeActionsMenuOpened = showActionsMenuPulsatingDotPulsatingDot(state);
 
     return {
         enableEmojiPicker,
@@ -68,6 +70,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isConsecutivePost: isConsecutivePost(state, ownProps),
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+        shouldShowActionsMenu: shouldShowActionsMenu(state, ownProps.post),
+        firstTimeActionsMenuOpened,
         shortcutReactToLastPostEmittedFrom,
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),

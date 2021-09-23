@@ -7,7 +7,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
-import {Posts} from 'mattermost-redux/constants/index';
+import {Posts, Preferences} from 'mattermost-redux/constants/index';
 import {
     isPostEphemeral,
     isPostPendingOrFailed,
@@ -78,9 +78,21 @@ export default class RhsComment extends React.PureComponent {
              * Function to set or unset emoji picker for last message
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
+
+            /**
+             * Function to set viewed Actions Menu for first time
+             */
+            setActionsMenuInitialisationState: PropTypes.func,
         }),
         timestampProps: PropTypes.object,
         collapsedThreadsEnabled: PropTypes.bool,
+
+        shouldShowActionsMenu: PropTypes.bool,
+
+        /**
+        * true when Actions Menu is first time opened
+         */
+        firstTimeActionsMenuOpened: PropTypes.bool,
 
         /**
          * To Check if the current post is to be highlighted and scrolled into center view of RHS
@@ -96,7 +108,8 @@ export default class RhsComment extends React.PureComponent {
 
         this.state = {
             showEmojiPicker: false,
-            dropdownOpened: false,
+            showDotMenu: false,
+            showActionsMenu: false,
             fileDropdownOpened: false,
             alt: false,
             hover: false,
@@ -230,7 +243,7 @@ export default class RhsComment extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.showDotMenu || this.state.showActionsMenu || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -251,15 +264,27 @@ export default class RhsComment extends React.PureComponent {
         }
     }
 
-    handleDropdownOpened = (isOpened) => {
+    handleDotMenuOpened = (isOpened) => {
         this.setState({
-            dropdownOpened: isOpened,
+            showDotMenu: isOpened,
         });
     };
 
     handleFileDropdownOpened = (isOpened) => {
         this.setState({
             fileDropdownOpened: isOpened,
+        });
+    };
+
+    handleActionsMenuOpened = (open) => {
+        const {actions} = this.props;
+        if (this.props.firstTimeActionsMenuOpened) {
+            actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+            return;
+        }
+
+        this.setState({
+            showActionsMenu: open,
         });
     };
 
@@ -485,12 +510,14 @@ export default class RhsComment extends React.PureComponent {
             );
         } else if (isPostDeleted) {
             options = null;
-        } else if (!isSystemMessage && (isMobile() || this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
-            const actionsMenu = (
+        } else if (!isSystemMessage && (isMobile() || this.state.hover || this.state.a11yActive || this.state.showDotMenu || this.state.showActionsMenu || this.state.showEmojiPicker)) {
+            const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || this.state.hover);
+            const actionsMenu = showActionsMenuIcon && (
                 <ActionsMenu
                     post={post}
                     handleDropdownOpened={this.handleActionsMenuOpened}
                     isMenuOpen={this.state.showActionsMenu}
+                    showTutorialTip={this.props.firstTimeActionsMenuOpened}
                 />
             );
             const dotMenu = (
@@ -498,10 +525,10 @@ export default class RhsComment extends React.PureComponent {
                     post={this.props.post}
                     location={Locations.RHS_COMMENT}
                     isFlagged={this.props.isFlagged}
-                    handleDropdownOpened={this.handleDropdownOpened}
+                    handleDropdownOpened={this.handleDotMenuOpened}
                     handleAddReactionClick={this.toggleEmojiPicker}
                     isReadOnly={isReadOnly || channelIsArchived}
-                    isMenuOpen={this.state.dropdownOpened}
+                    isMenuOpen={this.state.showDotMenu}
                     enableEmojiPicker={this.props.enableEmojiPicker}
                 />
             );
