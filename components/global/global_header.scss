@@ -4,13 +4,6 @@
 .feature-global-header {
     // global header style adjustments
     @media screen and (min-width: 769px) {
-        #lhsNavigator {
-            .SidebarChannelNavigator {
-                margin-top: 0;
-                margin-bottom: 11px;
-            }
-        }
-
         .channel__wrap {
 
             // indicates the RHS is open

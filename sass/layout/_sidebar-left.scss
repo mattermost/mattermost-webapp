@@ -1381,4 +1381,11 @@
     #SidebarContainer {
         height: calc(100% - 40px);
     }
+
+    #lhsNavigator {
+        .SidebarChannelNavigator {
+            margin-top: 0;
+            margin-bottom: 11px;
+        }
+    }
 }
