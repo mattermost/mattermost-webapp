@@ -36,12 +36,15 @@ export type Props = {
     canManageSystemBots: boolean;
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
-    intl: IntlShape;
     onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
+type PropsWithIntl = Props & {
+    intl: IntlShape;
+}
+
 // TODO: rewrite this to a functional component
-class ProductSwitcherMenu extends React.PureComponent<Props> {
+class ProductSwitcherMenu extends React.PureComponent<PropsWithIntl> {
     static defaultProps = {
         teamType: '',
         isMobile: false,
