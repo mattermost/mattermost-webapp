@@ -4252,6 +4252,7 @@
   "suggestion.mention.special": "Special Mentions",
   "suggestion.mention.unread.channels": "Unread Channels",
   "suggestion.search.direct": "Direct Messages",
+  "suggestion.search.group": "Group Messages",
   "suggestion.search.private": "Private Channels",
   "suggestion.search.public": "Public Channels",
   "suggestion.user.isCurrent": "(you)",
