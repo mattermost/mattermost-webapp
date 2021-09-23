@@ -109,6 +109,14 @@ export const Preferences = {
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
     CATEGORY_EMOJI: 'emoji',
     EMOJI_SKINTONE: 'emoji_skintone',
+
+    // For one off things that have a special, attention-grabbing UI until you interact with them
+    TOUCHED: 'touched',
+};
+
+// For one off things that have a special, attention-grabbing UI until you interact with them
+export const Touched = {
+    INVITE_MEMBERS: 'invite_members',
 };
 
 export const TrialPeriodDays = {

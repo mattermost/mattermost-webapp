@@ -49,6 +49,11 @@ describe('components/sidebar/invite_members_button', () => {
         },
     };
 
+    const props = {
+        onClick: jest.fn(),
+        touchedInviteMembersButton: false,
+    };
+
     const mockStore = configureStore();
     const store = mockStore(state);
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team_id2sss');
@@ -56,7 +61,7 @@ describe('components/sidebar/invite_members_button', () => {
     test('should match snapshot', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton/>
+                <InviteMembersButton {...props}/>
             </Provider>,
         );
 
@@ -78,7 +83,7 @@ describe('components/sidebar/invite_members_button', () => {
 
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton/>
+                <InviteMembersButton {...props}/>
             </Provider>,
         );
         expect(wrapper.find('i').exists()).toBeFalsy();
