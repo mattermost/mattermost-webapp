@@ -1,15 +1,25 @@
-.VisitMarketplace {
+.VisitMarketplaceText {
     margin: 12px;
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.VisitMarketplace {
+    top: 1px;
+    padding-top: 4px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    padding-left: 16px;
+    border-radius: 4px;
+    font-size: 12px;
     text-align: center;
 }
 
 .VisitMarketplaceButton {
-    top: 1px;
-    padding-top: 10px;
-    padding-right: 16px;
-    padding-bottom: 10px;
-    padding-left: 16px;
-    font-size: 12px;
-    text-align: center;
+    border-radius: 6px;
+}
+
+.VisitMarketplaceButtonIcon {
+    margin-right: 4px;
 }

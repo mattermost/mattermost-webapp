@@ -198,19 +198,19 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                 permissions={[Permissions.MANAGE_SYSTEM]}
                 key='visit-marketplace-permissions'
             >
-                <div className='VisitMarketplace' >
+                <div className='VisitMarketplaceText' >
                     <FormattedMarkdownMessage
                         id='post_info.actions.noActions'
                         defaultMessage='No Actions currently\nconfigured for this server'
                     />
                 </div>
-                <div className='VisitMarketplaceButton' >
+                <div className='VisitMarketplace' >
                     <button
                         id='marketPlaceButton'
-                        className='btn btn-primary'
+                        className='btn btn-primary VisitMarketplaceButton'
                         onClick={this.handleOpenMarketplace}
                     >
-                        {Utils.getMenuItemIcon('icon-view-grid-plus-outline')}
+                        {Utils.getMenuItemIcon('icon-view-grid-plus-outline VisitMarketplaceButtonIcon')}
                         <FormattedMarkdownMessage
                             id='post_info.actions.visitMarketplace'
                             defaultMessage='Visit the Marketplace'
