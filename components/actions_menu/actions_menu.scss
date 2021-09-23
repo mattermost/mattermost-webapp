@@ -1,7 +1,9 @@
 .VisitMarketplaceText {
     margin: 12px;
-    font-size: 12px;
-    font-weight: 600;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
     text-align: center;
 }
 
@@ -20,6 +22,14 @@
     border-radius: 6px;
 }
 
+.VisitMarketplaceButtonText {
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 9px;
+}
+
 .VisitMarketplaceButtonIcon {
-    margin-right: 4px;
+    margin-right: 5px;
+    font-size: 14.4px;
 }

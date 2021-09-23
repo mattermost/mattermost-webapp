@@ -211,10 +211,12 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         onClick={this.handleOpenMarketplace}
                     >
                         {Utils.getMenuItemIcon('icon-view-grid-plus-outline VisitMarketplaceButtonIcon')}
-                        <FormattedMarkdownMessage
-                            id='post_info.actions.visitMarketplace'
-                            defaultMessage='Visit the Marketplace'
-                        />
+                        <span className='VisitMarketplaceButtonText'>
+                            <FormattedMarkdownMessage
+                                id='post_info.actions.visitMarketplace'
+                                defaultMessage='Visit the Marketplace'
+                            />
+                        </span>
                     </button>
                 </div>
             </SystemPermissionGate>
