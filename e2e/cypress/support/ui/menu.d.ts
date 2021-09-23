@@ -42,31 +42,5 @@ declare namespace Cypress {
          *   cy.uiGetSystemConsoleMainMenu();
          */
         uiGetSystemConsoleMainMenu(): Chainable;
-
-        /**
-         * Open the main menu
-         * @param {string} item - such as `'View Info'`, `'Notification Preferences'`, `'Team Settings'` and other items in the main menu.
-         * @return the main menu
-         *
-         * @example
-         *   cy.uiOpenChannelMenu();
-         */
-        uiOpenChannelMenu(): Chainable;
-
-        /**
-         * Close the channel menu
-         *
-         * @example
-         *   cy.uiCloseChannelMenu();
-         */
-        uiCloseChannelMenu(): Chainable;
-
-        /**
-         * Get the channel menu
-         *
-         * @example
-         *   cy.uiGetChannelMenu();
-         */
-        uiGetChannelMenu(): Chainable;
     }
 }

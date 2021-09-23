@@ -115,9 +115,8 @@ describe('Multi-user group header', () => {
     });
 
     const editHeader = (header) => {
-        // # Click edit channel header
-        cy.get('#channelHeaderDropdownButton button').click();
-        cy.get('#channelEditHeader button').click();
+        // # Click edit conversation header
+        cy.uiOpenChannelMenu('Edit Conversation Header');
 
         // # type new header
         cy.get('#editChannelHeaderModalLabel').should('be.visible');
