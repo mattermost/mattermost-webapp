@@ -3742,6 +3742,7 @@
   "next_steps_view.invite_members_step.youCanInviteUpTo": "You can invite up to {members} team members using a space or comma between addresses",
   "next_steps_view.mobile_tips_message": "To configure your workspace, continue on a desktop computer.",
   "next_steps_view.nicelyDone": "Nicely done! You’re all set.",
+  "next_steps_view.notificationSetup": "We recommend enabling desktop notifications so you don’t miss any important communications.",
   "next_steps_view.notificationSetup.notficationsEnabledBody": "This is how notifications from Mattermost will appear",
   "next_steps_view.notificationSetup.notficationsEnabledTitle": "Notifications Enabled!",
   "next_steps_view.notificationSetup.setNotifications": "Set up notifications",

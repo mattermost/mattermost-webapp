@@ -9,7 +9,7 @@ import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/user
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
+import {t} from 'utils/i18n';
 
 import CompleteProfileStep from './steps/complete_profile_step';
 import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferences_step';
@@ -29,8 +29,11 @@ export type StepComponentProps = {
 }
 export type StepType = {
     id: string;
-    title: string;
-    component: React.ComponentType<StepComponentProps>;
+    title: {
+        titleId: string;
+        titleMessage: string;
+    };
+    component: React.ComponentType<StepComponentProps | StepComponentProps & {isFirstAdmin: boolean}>;
     visible: boolean;
 
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
@@ -43,50 +46,50 @@ export type StepType = {
 export const Steps: StepType[] = [
     {
         id: RecommendedNextSteps.COMPLETE_PROFILE,
-        title: localizeMessage(
-            'next_steps_view.titles.completeProfile',
-            'Complete your profile',
-        ),
+        title: {
+            titleId: t('next_steps_view.titles.completeProfile'),
+            titleMessage: 'Complete your profile',
+        },
         component: CompleteProfileStep,
         roles: [],
         visible: true,
     },
     {
         id: RecommendedNextSteps.TEAM_SETUP,
-        title: localizeMessage(
-            'next_steps_view.titles.teamSetup',
-            'Name your team',
-        ),
+        title: {
+            titleId: t('next_steps_view.titles.teamSetup'),
+            titleMessage: 'Name your team',
+        },
         roles: ['first_admin'],
         component: TeamProfileStep,
         visible: true,
     },
     {
         id: RecommendedNextSteps.NOTIFICATION_SETUP,
-        title: localizeMessage(
-            'next_steps_view.notificationSetup.setNotifications',
-            'Set up desktop notifications',
-        ),
+        title: {
+            titleId: t('next_steps_view.notificationSetup.setNotifications'),
+            titleMessage: 'Set up notifications',
+        },
         roles: ['system_user'],
         component: EnableNotificationsStep,
         visible: true,
     },
     {
         id: RecommendedNextSteps.PREFERENCES_SETUP,
-        title: localizeMessage(
-            'next_steps_view.titles.preferenceSetup',
-            'Set your preferences',
-        ),
+        title: {
+            titleId: t('next_steps_view.titles.preferenceSetup'),
+            titleMessage: 'Set your preferences',
+        },
         roles: ['system_user'],
         component: SetupPreferencesStep,
         visible: false,
     },
     {
         id: RecommendedNextSteps.INVITE_MEMBERS,
-        title: localizeMessage(
-            'next_steps_view.titles.inviteMembers',
-            'Invite members to the team',
-        ),
+        title: {
+            titleId: t('next_steps_view.titles.inviteMembers'),
+            titleMessage: 'Invite members to the team',
+        },
         roles: ['system_admin', 'system_user'],
         component: InviteMembersStep,
         visible: true,

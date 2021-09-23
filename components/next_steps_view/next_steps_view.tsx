@@ -219,7 +219,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         className='NextStepsView__cardHeader'
                     >
                         {icon}
-                        <span>{title}</span>
+                        <FormattedMessage
+                            id={title.titleId}
+                            defaultMessage={title.titleMessage}
+                        />
                     </button>
                 </Card.Header>
                 <Card.Body>
