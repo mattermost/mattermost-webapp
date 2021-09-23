@@ -13,11 +13,6 @@
             }
         }
 
-        .dropdown-menu {
-            top: calc(100% + 4px);
-            min-width: 245px;
-        }
-
         .team-sidebar {
             // use sidebar header variables for team sidebar
             --sidebar-teambar-bg: var(--sidebar-header-bg);
