@@ -35,6 +35,7 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
       showLinkAsButton
       modalButtonText="enable_notifications_banner.enable_button"
       modalButtonDefaultText="Enable" 
+      onButtonClick={handleEnableButtonClick}
       showCloseButton
       showDontAskAgainButton 
     />

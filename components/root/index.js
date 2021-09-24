@@ -41,12 +41,9 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadMeAndConfig,
-<<<<<<< HEAD
             setBrowserNotificationsPermission,
-            scheduleNextNotificationsPermissionRequest
-=======
+            scheduleNextNotificationsPermissionRequest,
             emitBrowserWindowResized,
->>>>>>> 8909de3bce6ae91e420511028e231dd2fda76183
         }, dispatch),
     };
 }

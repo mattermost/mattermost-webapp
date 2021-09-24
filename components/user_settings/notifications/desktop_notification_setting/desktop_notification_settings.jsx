@@ -299,6 +299,9 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                 inputs={inputs}
                 submit={this.props.submit}
                 saving={this.props.saving}
+                disabled={this.props.areNotificationsDisabled}
+                disabledMessage={'Your operating system notifications are disabled.'}
+                onEnableButtonClick={this.props.actions.enableBrowserNotifications}
                 server_error={this.props.error}
                 updateSection={this.handleMaxUpdateSection}
             />
@@ -375,6 +378,8 @@ export default class DesktopNotificationSettings extends React.PureComponent {
 
 DesktopNotificationSettings.propTypes = {
     activity: PropTypes.string.isRequired,
+    areNotificationsDisabled: PropTypes.bool.isRequired,
+    enableBrowserNotifications: PropTypes.func,
     threads: PropTypes.string.isRequired,
     sound: PropTypes.string.isRequired,
     updateSection: PropTypes.func,

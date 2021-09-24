@@ -111,6 +111,23 @@ export default class SettingItemMax extends React.PureComponent {
          * Text of save button
          */
         saveButtonText: PropTypes.string,
+
+        /**
+         * A flag for rendering this settings item as unavailable due to 
+         * lacking access to some underlying API (e.g. browser notifications) or any other condition
+         */
+        disabled: PropTypes.bool,
+
+        /**
+         * A descriptive message to render while the settings item is in "disabled" state
+         */
+        disabledMessage: PropTypes.string,
+
+        /**
+         * A callback which handles click on "Enable" button 
+         * inside "disabled" settings item
+         */
+        onEnableButtonClick: PropTypes.func,
     }
 
     constructor(props) {
@@ -267,6 +284,8 @@ export default class SettingItemMax extends React.PureComponent {
             );
         }
 
+        const { disabled, disabledMessage, onEnableButtonClick } = this.props;
+
         return (
             <section
                 className={`section-max form-horizontal ${this.props.containerStyle}`}
@@ -278,21 +297,39 @@ export default class SettingItemMax extends React.PureComponent {
                         ref={this.settingList}
                         className='setting-list'
                     >
-                        {listContent}
-                        <div className='setting-list-item'>
-                            <hr/>
-                            {this.props.submitExtra}
-                            {serverError}
-                            {clientError}
-                            {submit}
-                            <button
-                                id={'cancelSetting'}
-                                className='btn btn-sm btn-cancel cursor--pointer style--none'
-                                onClick={this.handleUpdateSection}
-                            >
-                                {cancelButtonText}
-                            </button>
-                        </div>
+                        {
+                            disabled 
+                                ? (
+                                    <div>
+                                        <p>
+                                            {disabledMessage}
+                                        </p>
+
+                                        <button className="btn btn-sm" onClick={onEnableButtonClick}>
+                                            Enable
+                                        </button>
+                                    </div>
+                                )
+                                : (
+                                    <> 
+                                        {listContent}
+                                        <div className='setting-list-item'>
+                                            <hr/>
+                                            {this.props.submitExtra}
+                                            {serverError}
+                                            {clientError}
+                                            {submit}
+                                            <button
+                                                id={'cancelSetting'}
+                                                className='btn btn-sm btn-cancel cursor--pointer style--none'
+                                                onClick={this.handleUpdateSection}
+                                            >
+                                                {cancelButtonText}
+                                            </button>
+                                        </div>
+                                    </>
+                                )
+                        }
                     </div>
                 </div>
             </section>

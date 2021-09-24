@@ -15,7 +15,7 @@ import SettingItemMin from 'components/setting_item_min';
 
 import {isDesktopApp} from 'utils/user_agent';
 
-import DesktopNotificationSettings from './desktop_notification_settings.jsx';
+import DesktopNotificationSettings from './desktop_notification_setting';
 import EmailNotificationSetting from './email_notification_setting';
 import ManageAutoResponder from './manage_auto_responder.jsx';
 
