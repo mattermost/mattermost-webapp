@@ -12,8 +12,6 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
-import UpgradeLink from 'components/widgets/links/upgrade_link';
-import NotifyLink from 'components/widgets/links/notify_link';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
 
@@ -21,7 +19,6 @@ import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 import './invitation_modal_members_step.scss';
 
@@ -35,14 +32,8 @@ class InvitationModalMembersStep extends React.PureComponent {
         emailInvitationsEnabled: PropTypes.bool.isRequired,
         onEdit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        userLimit: PropTypes.string.isRequired,
         currentUsers: PropTypes.number.isRequired,
-        userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
-        subscriptionStats: PropTypes.object,
-        actions: PropTypes.shape({
-            getSubscriptionStats: PropTypes.func.isRequired,
-        }).isRequired,
     };
 
     constructor(props) {
@@ -118,11 +109,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     onChange = (usersAndEmails) => {
-        this.setState({usersAndEmails}, () => {
-            if (this.shouldShowPickerError() && this.props.isCloud) {
-                trackEvent('cloud_invite_users', 'warning_near_limit', {remaining: this.getRemainingUsers() - this.state.usersAndEmails.length});
-            }
-        });
+        this.setState({usersAndEmails});
         this.props.onEdit(
             usersAndEmails.length > 0 || this.state.usersInputValue,
         );
@@ -151,33 +138,6 @@ class InvitationModalMembersStep extends React.PureComponent {
         this.props.onSubmit(users, emails, this.state.usersInputValue);
     };
 
-    getRemainingUsers = () => {
-        const {subscriptionStats} = this.props;
-        const {usersAndEmails} = this.state;
-        return subscriptionStats && subscriptionStats.remaining_seats - usersAndEmails.length;
-    }
-
-    shouldShowPickerError = () => {
-        const {userLimit, isCloud, subscriptionStats} = this.props;
-
-        if (subscriptionStats && subscriptionStats.is_paid_tier === 'true') {
-            return false;
-        }
-
-        if (userLimit === '0' || !isCloud) {
-            return false;
-        }
-
-        // usersRemaining is calculated against the limit, the current users, and how many are being invited in the current flow
-        const usersRemaining = this.getRemainingUsers();
-        if (usersRemaining === 0 && this.state.usersInputValue !== '') {
-            return true;
-        } else if (usersRemaining < 0) {
-            return true;
-        }
-        return false;
-    };
-
     render() {
         const inviteUrl =
             getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
@@ -203,21 +163,8 @@ class InvitationModalMembersStep extends React.PureComponent {
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
 
-        const {subscriptionStats} = this.props;
-        const remainingUsers = subscriptionStats && subscriptionStats.remaining_seats;
         const inviteMembersButtonDisabled = this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH || this.state.usersAndEmails.length === 0;
-
-        const errorProperties = {
-            showError: this.shouldShowPickerError(),
-            errorMessageId: t(
-                'invitation_modal.invite_members.hit_cloud_user_limit',
-            ),
-            errorMessageDefault: 'You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier.',
-            errorMessageValues: {
-                num: remainingUsers < 0 ? '0' : remainingUsers,
-            },
-            extraErrorText: (this.props.userIsAdmin ? <UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/> : <NotifyLink/>),
-        };
+        const errorProperties = {};
 
         if (this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
             errorProperties.showError = true;
@@ -225,7 +172,7 @@ class InvitationModalMembersStep extends React.PureComponent {
                 'invitation_modal.invite_members.exceeded_max_add_members_batch',
             );
             errorProperties.errorMessageDefault = 'No more than **{text}** people can be invited at once';
-            errorProperties.errorMessageValues.text = Constants.MAX_ADD_MEMBERS_BATCH;
+            errorProperties.errorMessageValues = {text: Constants.MAX_ADD_MEMBERS_BATCH};
         }
 
         return (
@@ -371,4 +318,4 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 }
 
-export default injectIntl(withGetCloudSubscription(InvitationModalMembersStep));
+export default injectIntl(InvitationModalMembersStep);

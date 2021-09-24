@@ -10,11 +10,9 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/widgets/icons/invite_icon';
 import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
-import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -24,9 +22,7 @@ import './invitation_modal_guests_step.scss';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import {PropsFromRedux} from './index';
-
-type OwnProps = {
+type Props = {
     teamName: string;
     myInvitableChannels: Channel[];
     currentTeamId: string;
@@ -38,8 +34,6 @@ type OwnProps = {
     onSubmit: (users: string[], emails: string[], channels: Channel[], message: string, extraUserText: string, extraChannelText: string) => Promise<void>;
     emailInvitationsEnabled: boolean;
 }
-
-type Props = OwnProps & PropsFromRedux
 
 type State = {
     customMessageOpen: boolean;
@@ -156,38 +150,6 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
         this.props.onSubmit(users, emails, this.state.channels, this.state.customMessageOpen ? this.state.customMessage : '', this.state.usersInputValue, this.state.channelsInputValue);
     }
 
-    getRemainingUsers = () => {
-        const {subscriptionStats} = this.props;
-        const {usersAndEmails} = this.state;
-        return subscriptionStats && subscriptionStats.remaining_seats - usersAndEmails.length;
-    }
-
-    shouldShowPickerError = () => {
-        const {
-            userLimit,
-            userIsAdmin,
-            isCloud,
-            subscriptionStats,
-        } = this.props;
-
-        if (subscriptionStats && subscriptionStats.is_paid_tier === 'true') {
-            return false;
-        }
-
-        if (userLimit === '0' || !userIsAdmin || !isCloud) {
-            return false;
-        }
-
-        // usersRemaining is calculated against the limit, the current users, and how many are being invited in the current flow
-        const usersRemaining = this.getRemainingUsers();
-        if (usersRemaining === 0 && this.state.usersInputValue !== '') {
-            return true;
-        } else if (usersRemaining < 0) {
-            return true;
-        }
-        return false;
-    };
-
     render() {
         let inputPlaceholder = localizeMessage('invitation_modal.guests.search-and-add.placeholder', 'Add guests or email addresses');
         let noMatchMessageId = t('invitation_modal.guests.users_emails_input.no_user_found_matching');
@@ -199,8 +161,6 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
 
-        const {subscriptionStats} = this.props;
-        const remainingUsers = subscriptionStats && subscriptionStats.remaining_seats;
         return (
             <div className='InvitationModalGuestsStep'>
                 <div className='modal-icon'>
@@ -231,17 +191,6 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
                                 'invitation_modal.guests.add_people.title',
                                 'Invite People',
                             )}
-                            showError={this.shouldShowPickerError()}
-                            errorMessageId={t(
-                                'invitation_modal.invite_members.hit_cloud_user_limit',
-                            )}
-                            errorMessageDefault={
-                                'You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier.'
-                            }
-                            errorMessageValues={{
-                                num: remainingUsers < 0 ? '0' : remainingUsers,
-                            }}
-                            extraErrorText={(<UpgradeLink/>)}
                             onChange={this.onUsersEmailsChange}
                             value={this.state.usersAndEmails}
                             onInputChange={this.onUsersInputChange}
@@ -375,4 +324,4 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
     }
 }
 
-export default withGetCloudSubscription(InvitationModalGuestsStep);
+export default InvitationModalGuestsStep;
