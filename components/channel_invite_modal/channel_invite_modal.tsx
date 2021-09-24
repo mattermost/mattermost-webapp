@@ -14,7 +14,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
-import {getFullName, localizeMessage, isGuest} from 'utils/utils.jsx';
+import {getLongDisplayNameParts, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
@@ -262,7 +262,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         <span>
-                            {getFullName(option)} 
+                            {getLongDisplayNameParts(option).displayName} 
                             <span style={{position: 'absolute', right: 20}} className='light'>{userMapping[option.id]}</span>
                         </span>
                         <BotBadge
