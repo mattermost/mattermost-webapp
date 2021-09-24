@@ -50,6 +50,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
+## @mattermost/compass-components
+
+This product contains '@mattermost/compass-components' by Mattermost.
+
+The compass components package is the implementation of the compass design system meant (but not limited) to be used in the mattermost products: Messaging, Playbooks and Focalboard.
+
+* HOMEPAGE:
+  * https://github.com/mattermost/compass-components
+
+* LICENSE: Apache License
+
+---
+
+## @mattermost/compass-icons
+
+This product contains '@mattermost/compass-icons' by Mattermost.
+
+Simple steps to adding new icons to the Compass Icons font.
+
+* HOMEPAGE:
+  * https://github.com/mattermost/compass-icons
+
+* LICENSE: Apache License
+
+---
+
 ## @stripe/react-stripe-js
 
 This product contains '@stripe/react-stripe-js' by Stripe.
@@ -2376,41 +2402,6 @@ SOFTWARE.
 
 ---
 
-## react-inlinesvg
-
-This product contains 'react-inlinesvg' by Gil Barbara.
-
-An SVG loader component for ReactJS
-
-* HOMEPAGE:
-  * https://github.com/gilbarbara/react-inlinesvg
-
-* LICENSE: MIT License
-
-Copyright (c) 2014, Matthew Dapena-Tretter / Gil Barbara
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-© 2020 GitHub, Inc.
-
----
-
 ## react-intl
 
 This product contains 'react-intl' by Eric Ferraiuolo.
@@ -3074,6 +3065,41 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ---
 
+## styled-components
+
+This product contains 'styled-components' by styled-components.
+
+Visual primitives for the component age. Use the best bits of ES6 and CSS to style your apps without stress
+
+* HOMEPAGE:
+  * https://github.com/styled-components/styled-components
+
+* LICENSE: MIT
+
+MIT License
+
+Copyright (c) 2016-present Glen Maddern and Maximilian Stoiber
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
 ## superagent
 
 This product contains 'superagent' by TJ Holowaychuk.
@@ -3107,6 +3133,41 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+## timezones.json
+
+This product contains 'timezones.json' by Dmytro Filipenko.
+
+Full list of UTC timezones
+
+* HOMEPAGE:
+  * https://github.com/dmfilipenko/timezones.json
+
+* LICENSE: MIT
+
+The MIT License (MIT)
+
+Copyright (c) 2014 Dmitriy Filipenko
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ---
 

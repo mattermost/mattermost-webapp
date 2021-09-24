@@ -19,6 +19,7 @@ import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getGlobalHeaderEnabled} from 'selectors/global_header';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import Sidebar from './sidebar';
 
@@ -50,6 +51,7 @@ function mapStateToProps(state: GlobalState) {
         isCloud: getLicense(state).Cloud === 'true',
         unreadFilterEnabled,
         globalHeaderEnabled: getGlobalHeaderEnabled(state),
+        isMobileView: getIsMobileView(state),
     };
 }
 
