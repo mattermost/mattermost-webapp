@@ -18,6 +18,14 @@ declare namespace Cypress {
     interface Chainable {
 
         /**
+         * Get channel header button.
+         *
+         * @example
+         *   cy.uiGetChannelHeaderButton().click();
+         */
+        uiGetChannelHeaderButton(): Chainable;
+
+        /**
          * Get favorite button from channel header.
          *
          * @example
@@ -56,5 +64,23 @@ declare namespace Cypress {
          *   cy.uiGetChannelFileButton().click();
          */
         uiGetChannelFileButton(): Chainable;
+
+        /**
+          * Get channel menu
+          *
+          * @example
+          *   cy.uiGetChannelMenu();
+          */
+        uiGetChannelMenu(): Chainable;
+
+        /**
+         * Open channel menu
+         * @param {string} item - such as `'View Info'`, `'Notification Preferences'`, `'Team Settings'` and other items in the main menu.
+         * @return the channel menu
+         *
+         * @example
+         *   cy.uiOpenChannelMenu();
+         */
+        uiOpenChannelMenu(): Chainable;
     }
 }

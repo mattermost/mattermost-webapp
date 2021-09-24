@@ -90,8 +90,7 @@ describe('DM category', () => {
                 cy.get(`.SidebarLink:contains(${user.username})`).should('be.visible').click();
 
                 // # Close the new DM
-                cy.get('#channelHeaderDropdownButton').click();
-                cy.get('#channelCloseMessage').click();
+                cy.uiOpenChannelMenu('Close Direct Message');
 
                 // * Verify that the DM channel disappears
                 cy.get(`.SidebarLink:contains(${user.username})`).should('not.exist');
@@ -163,8 +162,7 @@ describe('DM category', () => {
                     cy.get(`#sidebarItem_${channel.name}`).should('be.visible').click();
 
                     // # Close the new GM
-                    cy.get('#channelHeaderDropdownButton').click();
-                    cy.get('#channelCloseMessage').click();
+                    cy.uiOpenChannelMenu('Close Group Message');
 
                     // * Verify that the GM channel disappears
                     cy.get(`.SidebarLink:contains(${user.username})`).should('not.exist');

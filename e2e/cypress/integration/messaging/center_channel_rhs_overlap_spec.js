@@ -814,17 +814,12 @@ describe('Messaging', () => {
 
     it('MM-T2227 Channel shortlinking - can edit', () => {
         // # Click the channel header
-        cy.get('#channelHeaderDropdownButton button').click();
-
-        // # Select View Info
-        cy.get('#channelViewInfo button').click();
-
-        var channelUrl;
+        cy.uiOpenChannelMenu('View Info');
 
         // # Channel URL is listed
         cy.url().then((loc) => {
             cy.contains('div.info__value', loc).should('be.visible').then((el) => {
-                channelUrl = el.text();
+                const channelUrl = el.text();
 
                 // # Close the modal
                 cy.findAllByLabelText('Close').should('be.visible').first().click();

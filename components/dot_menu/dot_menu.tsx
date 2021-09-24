@@ -89,6 +89,11 @@ type Props = {
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 
+        /**
+         * Function to get the post menu bindings for this post.
+         */
+        fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -105,6 +110,7 @@ type State = {
     openUp: boolean;
     canEdit: boolean;
     canDelete: boolean;
+    appBindings?: AppBinding[];
 }
 
 export class DotMenuClass extends React.PureComponent<Props, State> {
@@ -165,7 +171,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     static getDerivedStateFromProps(props: Props) {
-        return {
+        const state: Partial<State> = {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
         };

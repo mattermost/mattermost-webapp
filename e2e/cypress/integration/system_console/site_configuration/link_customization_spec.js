@@ -105,7 +105,7 @@ describe('SupportSettings', () => {
             should('have.attr', 'href', defaultTosLink);
     });
 
-    it('MM-T1036 - Customization: Blank Help and Report a Problem hides options from main menu', () => {
+    it('MM-T1036 - Customization: Blank Help and Report a Problem hides options from help menu', () => {
         // # Change help and report links to blanks
         cy.findByTestId('SupportSettings.HelpLinkinput').type('any').clear();
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').type('any').clear();

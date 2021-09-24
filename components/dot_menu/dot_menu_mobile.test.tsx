@@ -45,6 +45,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 doAppCall: jest.fn(),
                 postEphemeralCallResponseForPost: jest.fn(),
                 setThreadFollow: jest.fn(),
+                fetchBindings: jest.fn(),
             },
             canEdit: false,
             canDelete: false,

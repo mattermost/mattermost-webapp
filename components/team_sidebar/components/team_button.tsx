@@ -11,10 +11,13 @@ import classNames from 'classnames';
 import {mark, trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import {isDesktopApp} from 'utils/user_agent';
-import {isMac, localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 interface Props {
     btnClass?: string;
@@ -51,7 +54,7 @@ class TeamButton extends React.PureComponent<Props> {
     }
 
     render() {
-        const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId} = this.props;
+        const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId, order} = this.props;
         const {formatMessage} = this.props.intl;
 
         let teamClass: string = this.props.active ? 'active' : '';
@@ -119,36 +122,22 @@ class TeamButton extends React.PureComponent<Props> {
         let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'This team does not have a name');
         let orderIndicator: JSX.Element | undefined;
         if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
-            let toolTipHelp;
-            if (isMac()) {
-                toolTipHelp = formatMessage({
-                    id: 'team.button.tooltip.mac',
-                    defaultMessage: '⌘ ⌥ {order}',
-                },
-                {
-                    order: this.props.order,
-                });
-            } else {
-                toolTipHelp = formatMessage({
-                    id: 'team.button.tooltip',
-                    defaultMessage: 'Ctrl+Alt+{order}',
-                },
-                {
-                    order: this.props.order,
-                });
-            }
-
             toolTip = (
                 <>
                     {toolTip}
-                    <div className='tooltip-help'>{toolTipHelp}</div>
+                    <KeyboardShortcutSequence
+                        shortcut={KEYBOARD_SHORTCUTS.teamNavigation}
+                        values={{order}}
+                        hideDescription={true}
+                        isInsideTooltip={true}
+                    />
                 </>
             );
 
             if (this.props.showOrder) {
                 orderIndicator = (
                     <div className='order-indicator'>
-                        {this.props.order}
+                        {order}
                     </div>
                 );
             }
