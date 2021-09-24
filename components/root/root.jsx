@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import throttle from 'lodash/throttle';
 
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
@@ -13,22 +14,27 @@ import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-import * as UserAgent from 'utils/user_agent';
-import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
-import {trackLoadTime} from 'actions/telemetry_actions.jsx';
-import * as GlobalActions from 'actions/global_actions';
-import BrowserStore from 'stores/browser_store';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
-import {initializePlugins} from 'plugins';
-import 'plugins/export.js';
-import Pluggable from 'plugins/pluggable';
-import Constants, {StoragePrefixes} from 'utils/constants';
+import * as GlobalActions from 'actions/global_actions';
+import {trackLoadTime} from 'actions/telemetry_actions.jsx';
+
+import {makeAsyncComponent} from 'components/async_load';
+import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
+import GlobalHeader from 'components/global/global_header';
+import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
-import {makeAsyncComponent} from 'components/async_load';
-import GlobalHeader from 'components/global/global_header';
+
+import {initializePlugins} from 'plugins';
+import 'plugins/export.js';
+import Pluggable from 'plugins/pluggable';
+import BrowserStore from 'stores/browser_store';
+import Constants, {StoragePrefixes} from 'utils/constants';
+import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+import webSocketClient from 'client/web_websocket_client.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
 const LazyLoginController = React.lazy(() => import('components/login/login_controller'));
@@ -97,6 +103,7 @@ export default class Root extends React.PureComponent {
             loadMeAndConfig: PropTypes.func.isRequired,
             setBrowserNotificationsPermission: PropTypes.func.isRequired,
             scheduleNextNotificationsPermissionRequest: PropTypes.func.isRequired,
+            emitBrowserWindowResized: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -143,6 +150,9 @@ export default class Root extends React.PureComponent {
         if (!UserAgent.isInternetExplorer()) {
             this.a11yController = new A11yController();
         }
+
+        // set initial window size state
+        this.props.actions.emitBrowserWindowResized();
     }
 
     onConfigLoaded = () => {
@@ -248,11 +258,15 @@ export default class Root extends React.PureComponent {
             this.onConfigLoaded();
         });
         trackLoadTime();
+
+        window.addEventListener('resize', this.handleWindowResizeEvent);
     }
 
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
+
+        window.removeEventListener('resize', this.handleWindowResizeEvent);
     }
 
     handleLogoutLoginSignal = (e) => {
@@ -279,6 +293,10 @@ export default class Root extends React.PureComponent {
             document.addEventListener('visibilitychange', onVisibilityChange, false);
         }
     }
+
+    handleWindowResizeEvent = throttle(() => {
+        this.props.actions.emitBrowserWindowResized();
+    }, 100);
 
     render() {
         if (!this.state.configLoaded) {
@@ -364,19 +382,23 @@ export default class Root extends React.PureComponent {
                         from={'/_redirect/pl/:postid'}
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
-                    <>
+                    <CompassThemeProvider theme={this.props.theme}>
+                        <ModalController/>
                         <GlobalHeader/>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route
                                     key={product.id}
                                     path={product.baseURL}
-                                    render={() => (
-                                        <Pluggable
-                                            pluggableName={'Product'}
-                                            subComponentName={'mainComponent'}
-                                            pluggableId={product.id}
-                                        />
+                                    render={(props) => (
+                                        <LoggedIn {...props}>
+                                            <Pluggable
+                                                pluggableName={'Product'}
+                                                subComponentName={'mainComponent'}
+                                                pluggableId={product.id}
+                                                webSocketClient={webSocketClient}
+                                            />
+                                        </LoggedIn>
                                     )}
                                 />
                             ))}
@@ -403,7 +425,7 @@ export default class Root extends React.PureComponent {
                                 }}
                             />
                         </Switch>
-                    </>
+                    </CompassThemeProvider>
                 </Switch>
             </IntlProvider>
         );

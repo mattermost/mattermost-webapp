@@ -20,13 +20,6 @@ describe('Verify Accessibility Support in Post', () => {
     let testChannel;
 
     before(() => {
-        // # Update Configs
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelOrganization: false,
-            },
-        });
-
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
             testTeam = team;
@@ -43,7 +36,7 @@ describe('Verify Accessibility Support in Post', () => {
     });
 
     beforeEach(() => {
-        // # Login as test user and visit the Town Square channel
+        // # Login as test user and visit the test channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');

@@ -34,9 +34,28 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         defaultClientLocale: 'en',
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
+        timezoneLabel: '',
         timezones: [
-            'America/New_York',
-            'America/Los_Angeles',
+            {
+                value: 'Caucasus Standard Time',
+                abbr: 'CST',
+                offset: 4,
+                isdst: false,
+                text: '(UTC+04:00) Yerevan',
+                utc: [
+                    'Asia/Yerevan',
+                ],
+            },
+            {
+                value: 'Afghanistan Standard Time',
+                abbr: 'AST',
+                offset: 4.5,
+                isdst: false,
+                text: '(UTC+04:30) Kabul',
+                utc: [
+                    'Asia/Kabul',
+                ],
+            },
         ],
         userTimezone: {
             useAutomaticTimezone: 'true',
@@ -44,7 +63,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             manualTimezone: '',
         },
         actions: {
-            getSupportedTimezones: jest.fn(),
             autoUpdateTimezone: jest.fn(),
             savePreferences: jest.fn(),
         },
@@ -65,6 +83,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         collapseDisplay: '',
         linkPreviewDisplay: '',
         globalHeaderDisplay: '',
+        globalHeaderAllowed: true,
     };
 
     test('should match snapshot, no active section', () => {

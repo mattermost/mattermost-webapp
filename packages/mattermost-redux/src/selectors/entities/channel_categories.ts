@@ -8,22 +8,22 @@ import {createSelector} from 'reselect';
 import {General, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
-import {getCurrentChannelId, getMyChannelMemberships, makeGetChannelsForIds} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelMessageCounts, getCurrentChannelId, getMyChannelMemberships, makeGetChannelsForIds} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
-import {getMyPreferences, getTeammateNameDisplaySetting, shouldAutocloseDMs, getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyPreferences, getTeammateNameDisplaySetting, getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership, ChannelMessageCount} from 'mattermost-redux/types/channels';
 import {ChannelCategory, ChannelCategoryType, CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {
+    calculateUnreadCount,
     getUserIdFromChannelName,
     isChannelMuted,
-    isUnreadChannel,
 } from 'mattermost-redux/utils/channel_utils';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
@@ -95,105 +95,6 @@ export function makeFilterArchivedChannels(): (state: GlobalState, channels: Cha
     );
 }
 
-function getDefaultAutocloseCutoff() {
-    return Date.now() - (7 * 24 * 60 * 60 * 1000);
-}
-
-// legacyMakeFilterAutoclosedDMs returns a selector that filters a given list of channels based on whether or not the channel has
-// been autoclosed by either being an inactive DM/GM or a DM with a deactivated user. The exact requirements for being
-// inactive are complicated, but they are intended to include the channel not having been opened, posted in, or viewed
-// recently. The selector returns the original array if no channels are filtered out.
-export function legacyMakeFilterAutoclosedDMs(getAutocloseCutoff = getDefaultAutocloseCutoff): (state: GlobalState, channels: Channel[], categoryType: string) => Channel[] {
-    return createSelector(
-        'legacyMakeFilterAutoclosedDMs',
-        (state: GlobalState, channels: Channel[]) => channels,
-        (state: GlobalState, channels: Channel[], categoryType: string) => categoryType,
-        getMyPreferences,
-        shouldAutocloseDMs,
-        getCurrentChannelId,
-        (state: GlobalState) => state.entities.users.profiles,
-        getCurrentUserId,
-        getMyChannelMemberships,
-        getLastPostPerChannel,
-        isCollapsedThreadsEnabled,
-        (channels, categoryType, myPreferences, autocloseDMs, currentChannelId, profiles, currentUserId, myMembers, lastPosts, collapsedThreads) => {
-            if (categoryType !== CategoryTypes.DIRECT_MESSAGES) {
-                // Only autoclose DMs that haven't been assigned to a category
-                return channels;
-            }
-
-            // Ideally, this would come from a selector, but that would cause the filter to recompute too often
-            const cutoff = getAutocloseCutoff();
-
-            const filtered = channels.filter((channel) => {
-                if (channel.type !== General.DM_CHANNEL && channel.type !== General.GM_CHANNEL) {
-                    return true;
-                }
-
-                if (isUnreadChannel(myMembers, channel, collapsedThreads)) {
-                    // Unread DMs/GMs are always visible
-                    return true;
-                }
-
-                if (currentChannelId === channel.id) {
-                    // The current channel is always visible
-                    return true;
-                }
-
-                // viewTime is the time the channel was last viewed by the user
-                const viewTimePref = myPreferences[getPreferenceKey(Preferences.CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME, channel.id)];
-                const viewTime = parseInt(viewTimePref ? viewTimePref.value! : '0', 10);
-
-                // Recently viewed channels will never be hidden. Note that viewTime is not set correctly at the time of writing.
-                if (viewTime > cutoff) {
-                    return true;
-                }
-
-                // openTime is the time the channel was last opened (like from the More DMs list) after having been closed
-                const openTimePref = myPreferences[getPreferenceKey(Preferences.CATEGORY_CHANNEL_OPEN_TIME, channel.id)];
-                const openTime = parseInt(openTimePref ? openTimePref.value! : '0', 10);
-
-                // DMs with deactivated users will be visible if you're currently viewing them and they were opened
-                // since the user was deactivated
-                if (channel.type === General.DM_CHANNEL) {
-                    const teammateId = getUserIdFromChannelName(currentUserId, channel.name);
-                    const teammate = profiles[teammateId];
-
-                    if (!teammate || teammate.delete_at > openTime) {
-                        return false;
-                    }
-                }
-
-                // Skip the rest of the checks if autoclosing inactive DMs is disabled
-                if (!autocloseDMs) {
-                    return true;
-                }
-
-                // Keep the channel open if it had a recent post. If we have posts loaded for the channel, use the create_at
-                // of the last post in the channel since channel.last_post_at isn't kept up to date on the client. If we don't
-                // have posts loaded, then fall back to the last_post_at.
-                const lastPost = lastPosts[channel.id];
-
-                if (lastPost && lastPost.create_at > cutoff) {
-                    return true;
-                }
-
-                if (openTime > cutoff) {
-                    return true;
-                }
-
-                if (channel.last_post_at && channel.last_post_at > cutoff) {
-                    return true;
-                }
-
-                return false;
-            });
-
-            return filtered.length === channels.length ? channels : filtered;
-        },
-    );
-}
-
 export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channel[], categoryType: string) => Channel[] {
     return createSelector(
         'makeFilterAutoclosedDMs',
@@ -203,10 +104,11 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
         (state: GlobalState) => state.entities.users.profiles,
         getCurrentUserId,
         getMyChannelMemberships,
+        getChannelMessageCounts,
         (state: GlobalState) => getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, 20),
         getMyPreferences,
         isCollapsedThreadsEnabled,
-        (channels, categoryType, currentChannelId, profiles, currentUserId, myMembers, limitPref, myPreferences, collapsedThreads) => {
+        (channels, categoryType, currentChannelId, profiles, currentUserId, myMembers, messageCounts, limitPref, myPreferences, collapsedThreads) => {
             if (categoryType !== CategoryTypes.DIRECT_MESSAGES) {
                 // Only autoclose DMs that haven't been assigned to a category
                 return channels;
@@ -228,7 +130,7 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
 
             let unreadCount = 0;
             let visibleChannels = channels.filter((channel) => {
-                if (isUnreadChannel(myMembers, channel, collapsedThreads)) {
+                if (isUnreadChannel(channel.id, messageCounts, myMembers, collapsedThreads)) {
                     unreadCount++;
 
                     // Unread DMs/GMs are always visible
@@ -264,9 +166,9 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
                 }
 
                 // Second priority is for unread channels
-                if (isUnreadChannel(myMembers, channelA, collapsedThreads) && !isUnreadChannel(myMembers, channelB, collapsedThreads)) {
+                if (isUnreadChannel(channelA.id, messageCounts, myMembers, collapsedThreads) && !isUnreadChannel(channelB.id, messageCounts, myMembers, collapsedThreads)) {
                     return -1;
-                } else if (!isUnreadChannel(myMembers, channelA, collapsedThreads) && isUnreadChannel(myMembers, channelB, collapsedThreads)) {
+                } else if (!isUnreadChannel(channelA.id, messageCounts, myMembers, collapsedThreads) && isUnreadChannel(channelB.id, messageCounts, myMembers, collapsedThreads)) {
                     return 1;
                 }
 
@@ -303,8 +205,9 @@ export function makeFilterManuallyClosedDMs(): (state: GlobalState, channels: Ch
         getCurrentChannelId,
         getCurrentUserId,
         getMyChannelMemberships,
+        getChannelMessageCounts,
         isCollapsedThreadsEnabled,
-        (channels, myPreferences, currentChannelId, currentUserId, myMembers, collapsedThreads) => {
+        (channels, myPreferences, currentChannelId, currentUserId, myMembers, messageCounts, collapsedThreads) => {
             const filtered = channels.filter((channel) => {
                 let preference;
 
@@ -312,7 +215,7 @@ export function makeFilterManuallyClosedDMs(): (state: GlobalState, channels: Ch
                     return true;
                 }
 
-                if (isUnreadChannel(myMembers, channel, collapsedThreads)) {
+                if (isUnreadChannel(channel.id, messageCounts, myMembers, collapsedThreads)) {
                     // Unread DMs/GMs are always visible
                     return true;
                 }
@@ -572,4 +475,14 @@ export function makeGetChannelsByCategory() {
         lastChannelsByCategory = channelsByCategory;
         return channelsByCategory;
     };
+}
+
+function isUnreadChannel(
+    channelId: string,
+    messageCounts: RelationOneToOne<Channel, ChannelMessageCount>,
+    members: RelationOneToOne<Channel, ChannelMembership>,
+    crtEnabled: boolean,
+): boolean {
+    const unreadCount = calculateUnreadCount(messageCounts[channelId], members[channelId], crtEnabled);
+    return unreadCount.showUnread;
 }

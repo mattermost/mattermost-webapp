@@ -10,22 +10,20 @@ import * as UserActions from 'mattermost-redux/actions/users';
 import {Preferences as PreferencesRedux, General} from 'mattermost-redux/constants';
 import {
     getChannel,
-    getCurrentChannelId,
-    getMyChannels,
-    getMyChannelMember,
     getChannelMembersInChannels,
-    getDirectChannels,
+    getChannelMessageCount,
+    getCurrentChannelId,
+    getMyChannelMember,
+    getMyChannels,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {legacyMakeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+
+import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
 import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
-import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {getDisplayedChannels} from 'selectors/views/channel_sidebar';
 
@@ -295,26 +293,9 @@ export async function loadProfilesForSidebar() {
 }
 
 export const getGMsForLoading = (() => {
-    const legacyFilterAutoclosedDMs = legacyMakeFilterAutoclosedDMs();
-    const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
-
     return (state) => {
-        const config = getConfig(state);
-
-        let channels;
-        if (config.EnableLegacySidebar === 'true') {
-            // Start with all channels
-            channels = getMyChannels(state);
-
-            // Filter out autoclosed DMs/GMs and any other category
-            channels = legacyFilterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
-
-            // Then filter out manually closed DMs/GMs
-            channels = filterManuallyClosedDMs(state, channels);
-        } else {
-            // Get all channels visible on the current team which doesn't include hidden GMs/DMs
-            channels = getDisplayedChannels(state);
-        }
+        // Get all channels visible on the current team which doesn't include hidden GMs/DMs
+        let channels = getDisplayedChannels(state);
 
         // Make sure we only have GMs
         channels = channels.filter((channel) => channel.type === General.GM_CHANNEL);
@@ -343,13 +324,12 @@ export async function loadProfilesForGM() {
         const isVisible = getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channel.id);
 
         if (!isVisible) {
+            const messageCount = getChannelMessageCount(state, channel.id);
             const member = getMyChannelMember(state, channel.id);
 
-            const noUnreads = collapsedThreads ?
-                (member.mention_count_root === 0 && member.msg_count_root >= channel.total_msg_count_root) :
-                (member.mention_count === 0 && member.msg_count >= channel.total_msg_count);
+            const unreadCount = calculateUnreadCount(messageCount, member, collapsedThreads);
 
-            if (!member || noUnreads) {
+            if (!unreadCount.showUnread) {
                 continue;
             }
 
@@ -395,12 +375,11 @@ export async function loadProfilesForDM() {
 
         if (!isVisible) {
             const member = getMyChannelMember(state, channel.id);
+            const messageCount = getChannelMessageCount(state, channel.id);
 
-            const noUnreads = collapsedThreads ?
-                (member.mention_count_root === 0 && member.msg_count_root >= channel.total_msg_count_root) :
-                (member.mention_count === 0 && member.msg_count >= channel.total_msg_count);
+            const unreadCount = calculateUnreadCount(messageCount, member, collapsedThreads);
 
-            if (!member || noUnreads) {
+            if (!member || !unreadCount.showUnread) {
                 continue;
             }
 
@@ -460,15 +439,5 @@ export function autoResetStatus() {
         }
 
         return userStatus;
-    };
-}
-
-export function trackDMGMOpenChannels() {
-    return (doDispatch, doGetState) => {
-        const state = doGetState();
-        const channels = getDirectChannels(state);
-        trackEvent('ui', 'LHS_DM_GM_Count', {count: channels.length});
-
-        return {data: true};
     };
 }

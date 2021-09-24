@@ -22,11 +22,9 @@ describe('Selectors.Roles', () => {
     channel1.display_name = 'Channel Name';
 
     const channel2 = TestHelper.fakeChannelWithId(team1.id);
-    channel2.total_msg_count = 2;
     channel2.display_name = 'DEF';
 
     const channel3 = TestHelper.fakeChannelWithId(team2.id);
-    channel3.total_msg_count = 2;
 
     const channel4 = TestHelper.fakeChannelWithId('');
     channel4.display_name = 'Channel 4';
@@ -39,11 +37,9 @@ describe('Selectors.Roles', () => {
     const channel7 = TestHelper.fakeChannelWithId('');
     channel7.display_name = '';
     channel7.type = General.GM_CHANNEL;
-    channel7.total_msg_count = 1;
 
     const channel8 = TestHelper.fakeChannelWithId(team1.id);
     channel8.display_name = 'ABC';
-    channel8.total_msg_count = 1;
 
     const channel9 = TestHelper.fakeChannelWithId(team1.id);
     const channel10 = TestHelper.fakeChannelWithId(team1.id);

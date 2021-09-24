@@ -6,7 +6,7 @@ import {createSelector} from 'reselect';
 import {General} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {ClientConfig, FeatureFlags} from 'mattermost-redux/types/config';
+import {ClientConfig, FeatureFlags, ClientLicense} from 'mattermost-redux/types/config';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
@@ -21,12 +21,8 @@ export function getFeatureFlagValue(state: GlobalState, key: keyof FeatureFlags)
     return getConfig(state)?.[`FeatureFlag${key}` as keyof Partial<ClientConfig>];
 }
 
-export function getLicense(state: GlobalState): any {
+export function getLicense(state: GlobalState): ClientLicense {
     return state.entities.general.license;
-}
-
-export function getSupportedTimezones(state: GlobalState): string[] {
-    return state.entities.general.timezones;
 }
 
 export function getCurrentUrl(state: GlobalState): string {
@@ -46,15 +42,6 @@ export function isCompatibleWithJoinViewTeamPermissions(state: GlobalState): boo
     return isMinimumServerVersion(version, 5, 10, 0) ||
        (version.indexOf('dev') !== -1 && isMinimumServerVersion(version, 5, 8, 0)) ||
        (version.match(/^5.8.\d.\d\d\d\d.*$/) !== null && isMinimumServerVersion(version, 5, 8, 0));
-}
-
-export function hasNewPermissions(state: GlobalState): boolean {
-    const version = state.entities.general.serverVersion;
-
-    // FIXME This must be changed to 4, 9, 0 before we generate the 4.9.0 release
-    return isMinimumServerVersion(version, 4, 9, 0) ||
-           (version.indexOf('dev') !== -1 && isMinimumServerVersion(version, 4, 8, 0)) ||
-           (version.match(/^4.8.\d.\d\d\d\d.*$/) !== null && isMinimumServerVersion(version, 4, 8, 0));
 }
 
 export const canUploadFilesOnMobile: (a: GlobalState) => boolean = createSelector(

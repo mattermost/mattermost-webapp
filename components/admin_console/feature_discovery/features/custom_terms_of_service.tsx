@@ -14,7 +14,7 @@ const CustomTermsOfServiceFeatureDiscovery: React.FC = () => {
         <FeatureDiscovery
             featureName='custom_terms_of_service'
             titleID='admin.custom_terms_of_service_feature_discovery.title'
-            titleDefault='Create custom terms of service with Mattermost Enterprise E20'
+            titleDefault='Create custom terms of service with Mattermost Enterprise'
             copyID='admin.custom_terms_of_service_feature_discovery.copy'
             copyDefault={'Create your own terms of service that new users must accept before accessing your Mattermost instance on desktop, web, or mobile.'}
             learnMoreURL='https://docs.mattermost.com/cloud/cloud-administration/custom-terms-of-service.html'

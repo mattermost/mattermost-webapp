@@ -79,13 +79,8 @@ describe('System Console - Non-Enterprise', () => {
         // # Go to default team/channel
         cy.visit('/');
 
-        // # Click on "Main Menu"
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-
-        // # Click on "System Console"
-        cy.get('.Menu__content').should('be.visible').within(() => {
-            cy.findByText('System Console').should('be.visible').click();
-        });
+        // # Open product switch menu and click on "System Console"
+        cy.uiOpenProductSwitchMenu('System Console');
 
         // * Verify that it redirects to "Edition and License" system console page
         cy.url().should('include', '/admin_console/about/license');

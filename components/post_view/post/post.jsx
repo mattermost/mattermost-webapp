@@ -19,8 +19,9 @@ import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
-// When adding clickable targets within a root post, please add to/maintain the selector below
-const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment');
+// When adding clickable targets within a root post to exclude from post's on click to open thread,
+// please add to/maintain the selector below
+const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment, .hljs, code');
 
 export default class Post extends React.PureComponent {
     static propTypes = {
@@ -161,7 +162,6 @@ export default class Post extends React.PureComponent {
 
     handleCommentClick = (e) => {
         e.preventDefault();
-        e.stopPropagation();
 
         const post = this.props.post;
         if (!post) {

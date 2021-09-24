@@ -233,8 +233,8 @@ describe('components/MarkdownImage', () => {
             postId: 'post_id',
             src: 'https://example.com/image.png',
             imageIsLink: false,
-            height: 76,
-            width: 50,
+            height: '76',
+            width: '50',
         };
 
         const wrapper = shallow(
@@ -251,8 +251,10 @@ describe('components/MarkdownImage', () => {
         expect(childrenWrapper.find(SizeAwareImage).prop('className')).
             toEqual(`${props.className} markdown-inline-img--hover cursor--pointer a11y--active`);
 
-        expect(childrenWrapper.find(SizeAwareImage).prop('width')).toEqual(50);
-        expect(childrenWrapper.find(SizeAwareImage).prop('height')).toEqual(76);
+        // These props can be strings since they're passed directly through to HTML tags
+        expect(childrenWrapper.find(SizeAwareImage).prop('width')).toEqual('50');
+        expect(childrenWrapper.find(SizeAwareImage).prop('height')).toEqual('76');
+
         expect(childrenWrapper.find(SizeAwareImage).prop('title')).toEqual('test title');
     });
 
@@ -264,8 +266,8 @@ describe('components/MarkdownImage', () => {
             postId: 'post_id',
             src: 'https://example.com/image.png',
             imageIsLink: false,
-            height: 250,
-            width: 50,
+            height: '250',
+            width: '50',
         };
 
         const wrapper = shallow(
@@ -288,8 +290,8 @@ describe('components/MarkdownImage', () => {
             postId: 'post_id',
             src: 'https://example.com/image.png',
             imageIsLink: false,
-            height: 250,
-            width: 50,
+            height: '250',
+            width: '50',
         };
 
         const wrapper = shallow(

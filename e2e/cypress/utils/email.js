@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 export function getEmailUrl() {
-    const smtpUrl = Cypress.env('smtpUrl') || 'http://localhost:10080';
+    const smtpUrl = Cypress.env('smtpUrl') || 'http://localhost:9001';
 
     return `${smtpUrl}/api/v1/mailbox`;
 }
@@ -52,8 +52,8 @@ export function getMentionEmailTemplate(sender, message, postId, siteName, teamN
         '',
         `@${sender}`,
         '<skip-local-time-check>',
-        '',
         channelDisplayName,
+        '',
         message,
         '',
         'Want to change your notifications settings?',

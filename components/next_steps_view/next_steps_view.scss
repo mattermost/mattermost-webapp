@@ -16,7 +16,7 @@
     flex-direction: column;
     -webkit-overflow-scrolling: touch;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     transition: left 0.5s ease-in;
 }
 
@@ -454,6 +454,11 @@
 
     > img {
         object-fit: contain;
+    }
+
+    &--next-step {
+        padding: 24px 40px;
+        margin-top: 0;
     }
 }
 

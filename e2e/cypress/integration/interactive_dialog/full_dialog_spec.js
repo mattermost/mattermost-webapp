@@ -190,7 +190,7 @@ describe('Interactive Dialog', () => {
             const element = fullDialog.dialog.elements[index];
 
             if (!element.optional && !element.default) {
-                cy.wrap($elForm).find('div.error-text').scrollIntoView().should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(253, 89, 96)');
+                cy.wrap($elForm).find('div.error-text').scrollIntoView().should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(210, 75, 78)');
             } else {
                 cy.wrap($elForm).find('div.error-text').should('not.exist');
             }
@@ -253,7 +253,7 @@ describe('Interactive Dialog', () => {
         cy.get('#interactiveDialogSubmit').click();
 
         cy.get('.modal-body').should('be.visible').children().eq(2).within(($elForm) => {
-            cy.wrap($elForm).find('div.error-text').should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(253, 89, 96)');
+            cy.wrap($elForm).find('div.error-text').should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(210, 75, 78)');
         });
 
         closeInteractiveDialog();

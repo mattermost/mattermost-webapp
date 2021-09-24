@@ -55,7 +55,6 @@ export default class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
-        isInViewport: PropTypes.func.isRequired,
 
         /**
          * If the user that made the post is a bot.
@@ -85,7 +84,7 @@ export default class RhsComment extends React.PureComponent {
         /**
          * To Check if the current post is to be highlighted and scrolled into center view of RHS
          */
-        isFocused: PropTypes.bool,
+        shouldHighlight: PropTypes.bool,
     };
 
     constructor(props) {
@@ -114,9 +113,6 @@ export default class RhsComment extends React.PureComponent {
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
-            if (this.props.isFocused) {
-                this.scrollIntoHighlight();
-            }
         }
     }
 
@@ -131,7 +127,7 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost, isFocused} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
@@ -143,18 +139,6 @@ export default class RhsComment extends React.PureComponent {
             // Opening the emoji picker when more than one post in rhs is present
             this.handleShortcutReactToLastPost(isLastPost);
         }
-
-        if (isFocused && !prevProps.isFocused) {
-            this.scrollIntoHighlight();
-        }
-    }
-
-    scrollIntoHighlight = () => {
-        window.requestAnimationFrame(() => {
-            if (this.postRef.current && !this.props.isInViewport(this.postRef.current)) {
-                this.postRef.current.scrollIntoView();
-            }
-        });
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -229,7 +213,7 @@ export default class RhsComment extends React.PureComponent {
     getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--thread same--root post--comment';
 
-        if (this.props.isFocused) {
+        if (this.props.shouldHighlight) {
             className += ' post--highlight';
         }
 
@@ -517,6 +501,7 @@ export default class RhsComment extends React.PureComponent {
             options = (
                 <div
                     ref={this.dotMenuRef}
+                    data-testid={`post-menu-${this.props.post.id}`}
                     className='col post-menu'
                 >
                     {!collapsedThreadsEnabled && dotMenu}

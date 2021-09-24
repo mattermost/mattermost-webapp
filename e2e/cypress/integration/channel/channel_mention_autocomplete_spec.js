@@ -17,20 +17,22 @@ describe('Channel', () => {
     let ownChannel;
     let otherChannel;
     let testUser;
+    let offTopicUrl;
 
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup().then(({team, channel, user, offTopicUrl: url}) => {
             testTeam = team;
             ownChannel = channel;
             testUser = user;
+            offTopicUrl = url;
 
             cy.apiCreateChannel(testTeam.id, 'delta-test', 'Delta Channel').then((out) => {
                 otherChannel = out.channel;
             });
 
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -81,7 +83,7 @@ describe('Channel', () => {
 
             // # Login as test user and visit the test team
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
 
             // # Type "~"
             cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.HALF_SEC);

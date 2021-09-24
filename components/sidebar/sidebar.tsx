@@ -10,6 +10,8 @@ import MoreDirectChannels from 'components/more_direct_channels';
 import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
+import InvitationModal from 'components/invitation_modal';
+
 import Pluggable from 'plugins/pluggable';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -17,6 +19,7 @@ import * as Utils from 'utils/utils';
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
+import LegacySidebarHeader from './legacy_sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
 
 type Props = {
@@ -36,6 +39,8 @@ type Props = {
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
+    globalHeaderEnabled: boolean;
+    isMobileView: boolean;
 };
 
 type State = {
@@ -116,6 +121,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         trackEvent('ui', 'ui_channels_more_public_v2');
     }
 
+    invitePeopleModal = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.INVITATION,
+            dialogType: InvitationModal,
+        });
+        trackEvent('ui', 'ui_channels_dropdown_invite_people');
+    }
+
     showNewChannelModal = () => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
@@ -170,11 +183,24 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             <div
                 id='SidebarContainer'
                 className={classNames({
-                    'move--right': this.props.isOpen && Utils.isMobile(),
+                    'move--right': this.props.isOpen && this.props.isMobileView,
                     dragging: this.state.isDragging,
                 })}
             >
-                <SidebarHeader/>
+                {
+                    this.props.globalHeaderEnabled && !this.props.isMobileView ? (
+                        <SidebarHeader
+                            showNewChannelModal={this.showNewChannelModal}
+                            showMoreChannelsModal={this.showMoreChannelsModal}
+                            invitePeopleModal={this.invitePeopleModal}
+                            showCreateCategoryModal={this.showCreateCategoryModal}
+                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                            canJoinPublicChannel={this.props.canJoinPublicChannel}
+                            handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                            unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        />
+                    ) : <LegacySidebarHeader/>
+                }
                 <div
                     id='lhsNavigator'
                     role='application'
@@ -185,6 +211,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     <ChannelNavigator
                         showNewChannelModal={this.showNewChannelModal}
                         showMoreChannelsModal={this.showMoreChannelsModal}
+                        invitePeopleModal={this.invitePeopleModal}
                         showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                         canJoinPublicChannel={this.props.canJoinPublicChannel}

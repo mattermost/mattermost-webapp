@@ -13,6 +13,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
+import LocalizedIcon from 'components/localized_icon';
 import ProfilePicture from 'components/profile_picture';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
@@ -23,7 +24,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
-import {getMonthLong} from 'utils/i18n.jsx';
+import {getMonthLong, t} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AddMembersButton from './add_members_button';
@@ -41,7 +42,6 @@ type Props = {
     teammate?: UserProfileRedux;
     teammateName?: string;
     stats: any;
-    theme: any;
     usersLimit: number;
     actions: {
         getTotalUsersStats: () => any;
@@ -69,7 +69,6 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             teammateName,
             stats,
             usersLimit,
-            theme,
         } = this.props;
 
         let centeredIntro = '';
@@ -82,11 +81,11 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
-            return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, theme, enableUserCreation, isReadOnly, teamIsGroupConstrained);
+            return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, enableUserCreation, isReadOnly, teamIsGroupConstrained);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
-            return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, theme);
+            return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, theme, stats, usersLimit, locale, creatorName);
+            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName);
         }
         return null;
     }
@@ -200,7 +199,7 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?
     );
 }
 
-function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, theme: any) {
+function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number) {
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const children = createSetHeaderButton(channel);
     const totalUsers = stats.total_users_count;
@@ -224,7 +223,6 @@ function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, sta
             totalUsers={totalUsers}
             usersLimit={usersLimit}
             channel={channel}
-            theme={theme}
         />
     );
 
@@ -261,7 +259,6 @@ export function createDefaultIntroMessage(
     centeredIntro: string,
     stats: any,
     usersLimit: number,
-    theme: any,
     enableUserCreation?: boolean,
     isReadOnly?: boolean,
     teamIsGroupConstrained?: boolean,
@@ -302,7 +299,6 @@ export function createDefaultIntroMessage(
                             totalUsers={totalUsers}
                             usersLimit={usersLimit}
                             channel={channel}
-                            theme={theme}
                         />
                     }
                     {teamIsGroupConstrained &&
@@ -311,17 +307,10 @@ export function createDefaultIntroMessage(
                         dialogType={AddGroupsToTeamModal}
                         dialogProps={{channel}}
                     >
-                        <FormattedMessage
-                            id='generic_icons.add'
-                            defaultMessage='Add Icon'
-                        >
-                            {(title: string) => (
-                                <i
-                                    className='fa fa-user-plus'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <LocalizedIcon
+                            className='fa fa-user-plus'
+                            title={{id: t('generic_icons.add'), defaultMessage: 'Add Icon'}}
+                        />
                         <FormattedMessage
                             id='intro_messages.addGroupsToTeam'
                             defaultMessage='Add other groups to this team'
@@ -374,7 +363,7 @@ export function createDefaultIntroMessage(
     );
 }
 
-function createStandardIntroMessage(channel: Channel, centeredIntro: string, theme: any, stats: any, usersLimit: number, locale: string, creatorName: string) {
+function createStandardIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, locale: string, creatorName: string) {
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
@@ -502,7 +491,6 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, the
             usersLimit={usersLimit}
             channel={channel}
             setHeader={setHeaderButton}
-            theme={theme}
         />
     );
 

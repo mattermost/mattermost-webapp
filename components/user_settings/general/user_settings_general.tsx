@@ -12,6 +12,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
+import LocalizedIcon from 'components/localized_icon';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
@@ -1338,22 +1339,15 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <FormattedMessage
-                                id='generic_icons.collapse'
-                                defaultMessage='Collapse Icon'
-                            >
-                                {(title?: string) => (
-                                    <i
-                                        className='fa fa-angle-left'
-                                        title={title}
-                                        onClick={this.props.collapseModal}
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <LocalizedIcon
+                                className='fa fa-angle-left'
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
+                                onClick={this.props.collapseModal}
+                            />
                         </div>
                         <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
+                            id='user.settings.modal.profile'
+                            defaultMessage='Profile'
                         />
                     </h4>
                 </div>
@@ -1363,8 +1357,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         className='tab-header'
                     >
                         <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
+                            id='user.settings.modal.profile'
+                            defaultMessage='Profile'
                         />
                     </h3>
                     <div className='divider-dark first'/>

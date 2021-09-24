@@ -17,10 +17,8 @@ import {
     getMyCurrentChannelMembership,
     isCurrentChannelFavorite,
     isCurrentChannelMuted,
-    isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -39,6 +37,7 @@ import {
     showMentions,
     closeRightHandSide,
 } from 'actions/views/rhs';
+import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
@@ -52,7 +51,6 @@ function makeMapStateToProps() {
     const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
-        const config = getConfig(state);
         const channel = getCurrentChannel(state) || {};
         const user = getCurrentUser(state);
         const teams = getMyTeams(state);
@@ -80,7 +78,7 @@ function makeMapStateToProps() {
             rhsState: getRhsState(state),
             rhsOpen: getIsRhsOpen(state),
             isFavorite: isCurrentChannelFavorite(state),
-            isReadOnly: isCurrentChannelReadOnly(state),
+            isReadOnly: false,
             isMuted: isCurrentChannelMuted(state),
             isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
             hasGuests: stats.guest_count > 0,
@@ -88,11 +86,11 @@ function makeMapStateToProps() {
             hasMoreThanOneTeam,
             teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
-            isLegacySidebar: config.EnableLegacySidebar === 'true',
             announcementBarCount: getAnnouncementBarCount(state),
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
+            globalHeaderEnabled: getGlobalHeaderEnabled(state),
         };
     };
 }

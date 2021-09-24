@@ -4,7 +4,6 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {
-    createDirectChannel,
     fetchMyChannelsAndMembers,
     getChannelByNameAndTeamName,
     getChannelStats,
@@ -13,8 +12,9 @@ import {
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels, getChannelMessageCount} from 'mattermost-redux/selectors/entities/channels';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
@@ -22,6 +22,7 @@ import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
+import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
 import {browserHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -39,6 +40,8 @@ import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
+import {GlobalState} from 'types/store';
+
 import {ActionTypes, Constants, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -50,17 +53,6 @@ const dispatch = store.dispatch;
 const getState = store.getState;
 
 export function emitChannelClickEvent(channel: Channel) {
-    async function userVisitedFakeChannel(chan: Channel, success: (received: Channel) => void, fail: () => void) {
-        const state = getState();
-        const currentUserId = getCurrentUserId(state);
-        const otherUserId = Utils.getUserIdFromChannelName(chan);
-        const res = await createDirectChannel(currentUserId, otherUserId)(dispatch, getState);
-        if ('data' in res) {
-            success(res.data);
-        } else {
-            fail();
-        }
-    }
     function switchToChannel(chan: Channel) {
         const state = getState();
         const userId = getCurrentUserId(state);
@@ -92,34 +84,49 @@ export function emitChannelClickEvent(channel: Channel) {
             loadProfilesForSidebar();
         }
 
-        dispatch(batchActions([{
-            type: ChannelTypes.SELECT_CHANNEL,
-            data: chan.id,
-        }, {
-            type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
-            data: chan.id,
-            channel: chan,
-            member: member || {},
-        }]));
+        dispatch(batchActions([
+            {
+                type: ChannelTypes.SELECT_CHANNEL,
+                data: chan.id,
+            },
+            {
+                type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
+                data: chan.id,
+                channel: chan,
+                member: member || {},
+            },
+            setLastUnreadChannel(state, chan),
+        ]));
 
         if (appsEnabled(state)) {
-            dispatch(fetchAppBindings(userId, chan.id));
+            dispatch(fetchAppBindings(chan.id));
         }
     }
 
-    if (channel.fake) {
-        userVisitedFakeChannel(
-            channel,
-            (data) => {
-                switchToChannel(data);
-            },
-            () => {
-                browserHistory.push('/');
-            },
-        );
-    } else {
-        switchToChannel(channel);
+    switchToChannel(channel);
+}
+
+function setLastUnreadChannel(state: GlobalState, channel: Channel) {
+    const member = getMyChannelMember(state, channel.id);
+    const messageCount = getChannelMessageCount(state, channel.id);
+
+    let hadMentions = false;
+    let hadUnreads = false;
+    if (member && messageCount) {
+        const crtEnabled = isCollapsedThreadsEnabled(state);
+
+        const unreadCount = calculateUnreadCount(messageCount, member, crtEnabled);
+
+        hadMentions = unreadCount.mentions > 0;
+        hadUnreads = unreadCount.showUnread && unreadCount.messages > 0;
     }
+
+    return {
+        type: ActionTypes.SET_LAST_UNREAD_CHANNEL,
+        channelId: channel.id,
+        hadMentions,
+        hadUnreads,
+    };
 }
 
 export function updateNewMessagesAtInChannel(channelId: string, lastViewedAt = Date.now()) {

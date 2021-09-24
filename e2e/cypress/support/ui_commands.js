@@ -23,40 +23,6 @@ Cypress.Commands.add('getCurrentUserId', () => {
 });
 
 // ***********************************************************
-// Account Settings Modal
-// ***********************************************************
-
-// Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', () => {
-    cy.get('#channel_view', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#accountSettings').should('be.visible').click();
-    cy.get('#accountSettingsModal').should('be.visible');
-});
-
-/**
- * Change the message display setting
- * @param {String} setting - as 'STANDARD' or 'COMPACT'
- */
-Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => {
-    const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
-
-    cy.toAccountSettingsModal();
-    cy.get('#displayButton').click();
-
-    cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
-
-    cy.get('#message_displayTitle').scrollIntoView();
-    cy.get('#message_displayTitle').click();
-    cy.get('.section-max').scrollIntoView();
-
-    cy.get(SETTINGS[setting]).check().should('be.checked');
-
-    cy.get('#saveSetting').click();
-    cy.get('#accountSettingsHeader > .close').click();
-});
-
-// ***********************************************************
 // Key Press
 // ***********************************************************
 
@@ -177,7 +143,7 @@ function waitUntilPermanentPost() {
 Cypress.Commands.add('getLastPost', () => {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').last();
+    return cy.findAllByTestId('postView').last();
 });
 
 Cypress.Commands.add('getLastPostId', () => {
@@ -232,7 +198,7 @@ Cypress.Commands.add('getNthPostId', (index = 0) => {
 Cypress.Commands.add('uiGetNthPost', (index) => {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').eq(index);
+    return cy.findAllByTestId('postView').eq(index);
 });
 
 /**
@@ -424,11 +390,6 @@ Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'commentIcon');
 });
 
-// Close RHS by clicking close button
-Cypress.Commands.add('closeRHS', () => {
-    cy.get('#rhsCloseButton').should('be.visible').click();
-});
-
 // ***********************************************************
 // Teams
 // ***********************************************************
@@ -438,10 +399,6 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
     cy.get('#teamNameInput').type(teamName).type('{enter}');
     cy.get('#teamURLInput').type(teamURL).type('{enter}');
     cy.visit(`/${teamURL}`);
-});
-
-Cypress.Commands.add('getCurrentTeamId', () => {
-    return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
 });
 
 Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
@@ -459,8 +416,8 @@ Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
 });
 
 Cypress.Commands.add('leaveTeam', () => {
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#sidebarDropdownMenu #leaveTeam').should('be.visible').click();
+    // # Open team menu and click "Leave Team"
+    cy.uiOpenTeamMenu('Leave Team');
 
     // * Check that the "leave team modal" opened up
     cy.get('#leaveTeamModal').should('be.visible');
@@ -504,16 +461,6 @@ Cypress.Commands.add('minDisplaySettings', () => {
 
     cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');
     cy.get('#languagesEdit').should('be.visible', 'contain', 'Edit');
-});
-
-// Reverts theme color changes to the default Mattermost theme
-Cypress.Commands.add('defaultTheme', (username) => {
-    cy.toAccountSettingsModal(username);
-    cy.get('#displayButton').click();
-    cy.get('#themeEdit').click();
-    cy.get('#standardThemes').click();
-    cy.get('.col-xs-6.col-sm-3.premade-themes').first().click();
-    cy.get('#saveSetting').click();
 });
 
 // ***********************************************************

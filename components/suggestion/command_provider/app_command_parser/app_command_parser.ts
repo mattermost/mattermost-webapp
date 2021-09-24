@@ -6,6 +6,7 @@
 import {getChannelSuggestions, getUserSuggestions, inTextMentionSuggestions} from '../mentions';
 
 import {
+    AppsTypes,
     AppCallRequest,
     AppBinding,
     AppField,
@@ -44,9 +45,13 @@ import {
     getCurrentTeam,
     selectChannelByName,
     errorMessage as parserErrorMessage,
+    filterEmptyOptions,
     autocompleteUsersInChannel,
     autocompleteChannels,
     UserProfile,
+    getAppCommandForm,
+    getAppRHSCommandForm,
+    makeRHSAppBindingSelector,
 } from './app_command_parser_dependencies';
 
 export interface Store {
@@ -72,6 +77,17 @@ export enum ParseState {
     EndQuotedValue = 'EndQuotedValue',
     EndTickedValue = 'EndTickedValue',
     Error = 'Error',
+    MultiselectStart = 'MultiselectStart',
+    MultiselectStartValue = 'MultiselectStartValue',
+    MultiselectNonspaceValue = 'MultiselectNonspaceValue',
+    MultiselectQuotedValue = 'MultiselectQuotedValue',
+    MultiselectTickValue = 'MultiselectTickValue',
+    MultiselectEndValue = 'MultiselectEndValue',
+    MultiselectEndQuotedValue = 'MultiselectEndQuotedValue',
+    MultiselectEndTickedValue = 'MultiselectEndTickedValue',
+    MultiselectValueSeparator = 'MultiselectValueSeparator',
+    MultiselectNextValue = 'MultiselectNextValue',
+    Rest = 'Rest',
 }
 
 interface FormsCache {
@@ -88,6 +104,7 @@ type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
 }
 
 const getCommandBindings = makeAppBindingsSelector(AppBindingLocations.COMMAND);
+const getRHSCommandBindings = makeRHSAppBindingSelector(AppBindingLocations.COMMAND);
 
 export class ParsedCommand {
     state = ParseState.Start;
@@ -100,7 +117,7 @@ export class ParsedCommand {
     formsCache: FormsCache;
     field: AppField | undefined;
     position = 0;
-    values: {[name: string]: string} = {};
+    values: {[name: string]: string | string[]} = {};
     location = '';
     error = '';
     intl: Intl;
@@ -293,18 +310,48 @@ export class ParsedCommand {
                     // Positional parameter.
                     this.position++;
                     // eslint-disable-next-line no-loop-func
-                    const field = fields.find((f: AppField) => f.position === this.position);
+                    let field = fields.find((f: AppField) => f.position === this.position);
                     if (!field) {
-                        return this.asError(this.intl.formatMessage({
-                            id: 'apps.error.parser.no_argument_pos_x',
-                            defaultMessage: 'Unable to identify argument.',
-                        }));
+                        field = fields.find((f) => f.position === -1 && f.type === AppFieldTypes.TEXT);
+                        if (!field || this.values[field.name]) {
+                            return this.asError(this.intl.formatMessage({
+                                id: 'apps.error.parser.no_argument_pos_x',
+                                defaultMessage: 'Unable to identify argument.',
+                            }));
+                        }
+                        this.incompleteStart = this.i;
+                        this.incomplete = '';
+                        this.field = field;
+                        this.state = ParseState.Rest;
+                        break;
                     }
                     this.field = field;
                     this.state = ParseState.StartValue;
                     break;
                 }
                 }
+                break;
+            }
+
+            case ParseState.Rest: {
+                if (!this.field) {
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.missing_field_value',
+                        defaultMessage: 'Field value is missing.',
+                    }));
+                }
+
+                if (autocompleteMode && c === '') {
+                    return this;
+                }
+
+                if (c === '') {
+                    this.values[this.field.name] = this.incomplete;
+                    return this;
+                }
+
+                this.i++;
+                this.incomplete += c;
                 break;
             }
 
@@ -424,6 +471,16 @@ export class ParsedCommand {
                         id: 'apps.error.parser.unexpected_whitespace',
                         defaultMessage: 'Unreachable: Unexpected whitespace.',
                     }));
+                case '[':
+                    if (!this.field?.multiselect) {
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.unexpected_squared_bracket',
+                            defaultMessage: 'Unexpected list opening.',
+                        }));
+                    }
+                    this.state = ParseState.MultiselectStart;
+                    this.i++;
+                    break;
                 default: {
                     this.state = ParseState.NonspaceValue;
                     break;
@@ -538,13 +595,13 @@ export class ParsedCommand {
                     (!autocompleteMode && this.incomplete !== 'true' && this.incomplete !== 'false'))) {
                     // reset back where the value started, and treat as a new parameter
                     this.i = this.incompleteStart;
-                    this.values![this.field.name] = 'true';
+                    this.values[this.field.name] = 'true';
                     this.state = ParseState.StartParameter;
                 } else {
                     if (autocompleteMode && c === '') {
                         return this;
                     }
-                    this.values![this.field.name] = this.incomplete;
+                    this.values[this.field.name] = this.incomplete;
                     this.incomplete = '';
                     this.incompleteStart = this.i;
                     if (c === '') {
@@ -554,6 +611,230 @@ export class ParsedCommand {
                 }
                 break;
             }
+
+            case ParseState.MultiselectStart:
+                if (!this.field) {
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.missing_field_value',
+                        defaultMessage: 'Field value is missing.',
+                    }));
+                }
+
+                this.values![this.field.name] = [];
+                switch (c) {
+                case ' ':
+                case '\t':
+                    this.i++;
+                    break;
+                case ']':
+                    this.i++;
+                    this.state = ParseState.ParameterSeparator;
+                    break;
+                default:
+                    this.state = ParseState.MultiselectStartValue;
+                    break;
+                }
+                break;
+
+            case ParseState.MultiselectStartValue:
+                this.incomplete = '';
+                this.incompleteStart = this.i;
+                switch (c) {
+                case '':
+                    if (!autocompleteMode) {
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.missing_list_end',
+                            defaultMessage: 'Expected list closing token.',
+                        }));
+                    }
+                    return this;
+                case '"': {
+                    this.state = ParseState.MultiselectQuotedValue;
+                    this.i++;
+                    break;
+                }
+                case '`': {
+                    this.state = ParseState.MultiselectTickValue;
+                    this.i++;
+                    break;
+                }
+                case ' ':
+                case '\t':
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.unexpected_whitespace',
+                        defaultMessage: 'Unreachable: Unexpected whitespace.',
+                    }));
+                case ',':
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.unexpected_comma',
+                        defaultMessage: 'Unexpected comma.',
+                    }));
+                default: {
+                    this.state = ParseState.MultiselectNonspaceValue;
+                    break;
+                }
+                }
+                break;
+
+            case ParseState.MultiselectNonspaceValue: {
+                switch (c) {
+                case '':
+                case ' ':
+                case '\t':
+                case ',':
+                case ']': {
+                    this.state = ParseState.MultiselectEndValue;
+                    break;
+                }
+                default: {
+                    this.incomplete += c;
+                    this.i++;
+                    break;
+                }
+                }
+                break;
+            }
+
+            case ParseState.MultiselectQuotedValue: {
+                switch (c) {
+                case '': {
+                    if (!autocompleteMode) {
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.missing_quote',
+                            defaultMessage: 'Matching double quote expected before end of input.',
+                        }));
+                    }
+                    return this;
+                }
+                case '"': {
+                    if (this.incompleteStart === this.i - 1) {
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.empty_value',
+                            defaultMessage: 'empty values are not allowed',
+                        }));
+                    }
+                    this.i++;
+                    this.state = ParseState.MultiselectEndQuotedValue;
+                    break;
+                }
+                case '\\': {
+                    escaped = true;
+                    this.i++;
+                    break;
+                }
+                default: {
+                    this.incomplete += c;
+                    this.i++;
+                    if (escaped) {
+                        //TODO: handle \n, \t, other escaped chars
+                        escaped = false;
+                    }
+                    break;
+                }
+                }
+                break;
+            }
+
+            case ParseState.MultiselectTickValue: {
+                switch (c) {
+                case '': {
+                    if (!autocompleteMode) {
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.missing_tick',
+                            defaultMessage: 'Matching tick quote expected before end of input.',
+                        }));
+                    }
+                    return this;
+                }
+                case '`': {
+                    if (this.incompleteStart === this.i - 1) {
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.empty_value',
+                            defaultMessage: 'empty values are not allowed',
+                        }));
+                    }
+                    this.i++;
+                    this.state = ParseState.MultiselectEndTickedValue;
+                    break;
+                }
+                default: {
+                    this.incomplete += c;
+                    this.i++;
+                    break;
+                }
+                }
+                break;
+            }
+
+            case ParseState.MultiselectEndTickedValue:
+            case ParseState.MultiselectEndQuotedValue:
+            case ParseState.MultiselectEndValue: {
+                if (!this.field) {
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.missing_field_value',
+                        defaultMessage: 'Field value is missing.',
+                    }));
+                }
+
+                if (autocompleteMode && c === '') {
+                    return this;
+                }
+                (this.values![this.field.name] as string[]).push(this.incomplete);
+                this.incomplete = '';
+                this.incompleteStart = this.i;
+                if (c === '') {
+                    return this;
+                }
+                this.state = ParseState.MultiselectValueSeparator;
+                break;
+            }
+
+            case ParseState.MultiselectValueSeparator:
+                switch (c) {
+                case '':
+                    if (!autocompleteMode) {
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.missing_list_end',
+                            defaultMessage: 'Expected list closing token.',
+                        }));
+                    }
+                    return this;
+                case ']':
+                    this.i++;
+                    this.state = ParseState.ParameterSeparator;
+                    break;
+                case ' ':
+                case '\t':
+                    this.i++;
+                    break;
+                case ',':
+                    this.i++;
+                    this.state = ParseState.MultiselectNextValue;
+                    break;
+                default:
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.unexpected_character',
+                        defaultMessage: 'Unexpected character.',
+                    }));
+                }
+                break;
+            case ParseState.MultiselectNextValue:
+                switch (c) {
+                case ' ':
+                case '\t':
+                    this.i++;
+                    break;
+                default:
+                    this.state = ParseState.MultiselectStartValue;
+                }
+                break;
+            default:
+                return this.asError(this.intl.formatMessage({
+                    id: 'apps.error.parser.unexpected_state',
+                    defaultMessage: 'Unreachable: Unexpected state in matchBinding: `{state}`.',
+                }, {
+                    state: this.state,
+                }));
             }
         }
     }
@@ -565,8 +846,6 @@ export class AppCommandParser {
     private teamID: string;
     private rootPostID?: string;
     private intl: Intl;
-
-    forms: {[location: string]: AppForm} = {};
 
     constructor(store: Store|null, intl: Intl, channelID: string, teamID = '', rootPostID = '') {
         this.store = store || getStore();
@@ -805,7 +1084,7 @@ export class AppCommandParser {
             return {call: null, errorMessage};
         }
 
-        const context = this.getAppContext(parsed.binding.app_id);
+        const context = this.getAppContext(parsed.binding);
         return {call: createCallRequest(call, context, {}, values, parsed.command)};
     }
 
@@ -821,65 +1100,202 @@ export class AppCommandParser {
             }
             switch (f.type) {
             case AppFieldTypes.DYNAMIC_SELECT:
+                if (f.multiselect && Array.isArray(values[f.name])) {
+                    const options: AppSelectOption[] = [];
+                    const commandValues = values[f.name] as string[];
+                    for (const value of commandValues) {
+                        if (options.find((o) => o.value === value)) {
+                            errors[f.name] = this.intl.formatMessage({
+                                id: 'apps.error.command.same_option',
+                                defaultMessage: 'Option repeated for field `{fieldName}`: `{option}`.',
+                            }, {
+                                fieldName: f.name,
+                                option: value,
+                            });
+                        }
+                    }
+                    values[f.name] = options;
+                    break;
+                }
+
                 values[f.name] = {label: '', value: values[f.name]};
                 break;
             case AppFieldTypes.STATIC_SELECT: {
-                const option = f.options?.find((o) => (o.value === values[f.name]));
-                if (!option) {
+                const getOption = (value: string) => {
+                    return f.options?.find((o) => (o.value === value));
+                };
+
+                const setOptionError = (value: string) => {
                     errors[f.name] = this.intl.formatMessage({
                         id: 'apps.error.command.unknown_option',
                         defaultMessage: 'Unknown option for field `{fieldName}`: `{option}`.',
                     }, {
                         fieldName: f.name,
-                        option: values[f.name],
+                        option: value,
                     });
+                };
+
+                if (f.multiselect && Array.isArray(values[f.name])) {
+                    const options: AppSelectOption[] = [];
+                    const commandValues = values[f.name] as string[];
+                    for (const value of commandValues) {
+                        const option = getOption(value);
+                        if (!option) {
+                            setOptionError(value);
+                            return;
+                        }
+                        if (options.find((o) => o.value === option.value)) {
+                            errors[f.name] = this.intl.formatMessage({
+                                id: 'apps.error.command.same_option',
+                                defaultMessage: 'Option repeated for field `{fieldName}`: `{option}`.',
+                            }, {
+                                fieldName: f.name,
+                                option: value,
+                            });
+                        }
+                        options.push(option);
+                    }
+                    values[f.name] = options;
+                    break;
+                }
+
+                const option = getOption(values[f.name]);
+                if (!option) {
+                    setOptionError(values[f.name]);
                     return;
                 }
                 values[f.name] = option;
                 break;
             }
             case AppFieldTypes.USER: {
+                const getUser = async (userName: string) => {
+                    let user = selectUserByUsername(this.store.getState(), userName);
+                    if (!user) {
+                        const dispatchResult = await this.store.dispatch(getUserByUsername(userName) as any);
+                        if ('error' in dispatchResult) {
+                            return null;
+                        }
+                        user = dispatchResult.data;
+                    }
+                    return user;
+                };
+
+                const setUserError = (username: string) => {
+                    errors[f.name] = this.intl.formatMessage({
+                        id: 'apps.error.command.unknown_user',
+                        defaultMessage: 'Unknown user for field `{fieldName}`: `{option}`.',
+                    }, {
+                        fieldName: f.name,
+                        option: username,
+                    });
+                };
+
+                if (f.multiselect && Array.isArray(values[f.name])) {
+                    const options: AppSelectOption[] = [];
+                    const commandValues = values[f.name] as string[];
+                    /* eslint-disable no-await-in-loop */
+                    for (const value of commandValues) {
+                        let userName = value;
+                        if (userName[0] === '@') {
+                            userName = userName.substr(1);
+                        }
+                        const user = await getUser(userName);
+                        if (!user) {
+                            setUserError(userName);
+                            return;
+                        }
+
+                        if (options.find((o) => o.value === user?.id)) {
+                            errors[f.name] = this.intl.formatMessage({
+                                id: 'apps.error.command.same_user',
+                                defaultMessage: 'User repeated for field `{fieldName}`: `{option}`.',
+                            }, {
+                                fieldName: f.name,
+                                option: userName,
+                            });
+                        }
+                        options.push({label: user.username, value: user.id});
+                    }
+                    /* eslint-enable no-await-in-loop */
+                    values[f.name] = options;
+                    break;
+                }
+
                 let userName = values[f.name] as string;
                 if (userName[0] === '@') {
                     userName = userName.substr(1);
                 }
-                let user = selectUserByUsername(this.store.getState(), userName);
+                const user = await getUser(userName);
                 if (!user) {
-                    const dispatchResult = await this.store.dispatch(getUserByUsername(userName) as any);
-                    if ('error' in dispatchResult) {
-                        errors[f.name] = this.intl.formatMessage({
-                            id: 'apps.error.command.unknown_user',
-                            defaultMessage: 'Unknown user for field `{fieldName}`: `{option}`.',
-                        }, {
-                            fieldName: f.name,
-                            option: values[f.name],
-                        });
-                        return;
-                    }
-                    user = dispatchResult.data;
+                    setUserError(userName);
+                    return;
                 }
                 values[f.name] = {label: user.username, value: user.id};
                 break;
             }
             case AppFieldTypes.CHANNEL: {
+                const getChannel = async (channelName: string) => {
+                    let channel = selectChannelByName(this.store.getState(), channelName);
+                    if (!channel) {
+                        const dispatchResult = await this.store.dispatch(getChannelByNameAndTeamName(getCurrentTeam(this.store.getState()).name, channelName) as any);
+                        if ('error' in dispatchResult) {
+                            return null;
+                        }
+                        channel = dispatchResult.data;
+                    }
+                    return channel;
+                };
+
+                const setChannelError = (channelName: string) => {
+                    errors[f.name] = this.intl.formatMessage({
+                        id: 'apps.error.command.unknown_channel',
+                        defaultMessage: 'Unknown channel for field `{fieldName}`: `{option}`.',
+                    }, {
+                        fieldName: f.name,
+                        option: channelName,
+                    });
+                };
+
+                if (f.multiselect && Array.isArray(values[f.name])) {
+                    const options: AppSelectOption[] = [];
+                    const commandValues = values[f.name] as string[];
+                    /* eslint-disable no-await-in-loop */
+                    for (const value of commandValues) {
+                        let channelName = value;
+                        if (channelName[0] === '~') {
+                            channelName = channelName.substr(1);
+                        }
+                        const channel = await getChannel(channelName);
+                        if (!channel) {
+                            setChannelError(channelName);
+                            return;
+                        }
+
+                        if (options.find((o) => o.value === channel?.id)) {
+                            errors[f.name] = this.intl.formatMessage({
+                                id: 'apps.error.command.same_channel',
+                                defaultMessage: 'Channel repeated for field `{fieldName}`: `{option}`.',
+                            }, {
+                                fieldName: f.name,
+                                option: channelName,
+                            });
+                        }
+
+                        options.push({label: channel?.display_name, value: channel?.id});
+                    }
+                    /* eslint-enable no-await-in-loop */
+                    values[f.name] = options;
+                    break;
+                }
+
                 let channelName = values[f.name] as string;
                 if (channelName[0] === '~') {
                     channelName = channelName.substr(1);
                 }
-                let channel = selectChannelByName(this.store.getState(), channelName);
+                const channel = await getChannel(channelName);
                 if (!channel) {
-                    const dispatchResult = await this.store.dispatch(getChannelByNameAndTeamName(getCurrentTeam(this.store.getState()).name, channelName) as any);
-                    if ('error' in dispatchResult) {
-                        errors[f.name] = this.intl.formatMessage({
-                            id: 'apps.error.command.unknown_channel',
-                            defaultMessage: 'Unknown channel for field `{fieldName}`: `{option}`.',
-                        }, {
-                            fieldName: f.name,
-                            option: values[f.name],
-                        });
-                        return;
-                    }
-                    channel = dispatchResult.data;
+                    setChannelError(channelName);
+                    return;
                 }
                 values[f.name] = {label: channel?.display_name, value: channel?.id};
                 break;
@@ -922,8 +1338,11 @@ export class AppCommandParser {
     // getCommandBindings returns the commands in the redux store.
     // They are grouped by app id since each app has one base command
     private getCommandBindings = (): AppBinding[] => {
-        const bindings = getCommandBindings(this.store.getState());
-        return bindings;
+        const state = this.store.getState();
+        if (this.rootPostID) {
+            return getRHSCommandBindings(state);
+        }
+        return getCommandBindings(state);
     }
 
     // getChannel gets the channel in which the user is typing the command
@@ -933,9 +1352,6 @@ export class AppCommandParser {
     }
 
     public setChannelContext = (channelID: string, teamID = '', rootPostID?: string) => {
-        if (this.channelID !== channelID || this.rootPostID !== rootPostID || this.teamID !== teamID) {
-            this.forms = {};
-        }
         this.channelID = channelID;
         this.rootPostID = rootPostID;
         this.teamID = teamID;
@@ -964,10 +1380,10 @@ export class AppCommandParser {
     }
 
     // getAppContext collects post/channel/team info for performing calls
-    private getAppContext = (appID: string): AppContext => {
+    private getAppContext = (binding: AppBinding): AppContext => {
         const context: AppContext = {
-            app_id: appID,
-            location: AppBindingLocations.COMMAND,
+            app_id: binding.app_id,
+            location: binding.location,
             root_id: this.rootPostID,
         };
 
@@ -993,7 +1409,7 @@ export class AppCommandParser {
 
         const payload = createCallRequest(
             binding.call,
-            this.getAppContext(binding.app_id),
+            this.getAppContext(binding),
         );
 
         const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM, this.intl)) as DoAppCallResult;
@@ -1032,15 +1448,21 @@ export class AppCommandParser {
     public getForm = async (location: string, binding: AppBinding): Promise<{form?: AppForm; error?: string} | undefined> => {
         const rootID = this.rootPostID || '';
         const key = `${this.channelID}-${rootID}-${location}`;
-        const form = this.forms[key];
+        const form = this.rootPostID ? getAppRHSCommandForm(this.store.getState(), key) : getAppCommandForm(this.store.getState(), key);
         if (form) {
             return {form};
         }
 
-        this.forms = {};
         const fetched = await this.fetchForm(binding);
         if (fetched?.form) {
-            this.forms[key] = fetched.form;
+            let actionType: string = AppsTypes.RECEIVED_APP_COMMAND_FORM;
+            if (this.rootPostID) {
+                actionType = AppsTypes.RECEIVED_APP_RHS_COMMAND_FORM;
+            }
+            this.store.dispatch({
+                data: {form: fetched.form, location: key},
+                type: actionType,
+            });
         }
         return fetched;
     }
@@ -1093,18 +1515,66 @@ export class AppCommandParser {
         case ParseState.Flag:
             return this.getFlagNameSuggestions(parsed);
 
+        case ParseState.FlagValueSeparator: {
+            const suggestions = await this.getValueSuggestions(parsed);
+            if (parsed.field?.multiselect) {
+                suggestions.unshift({
+                    Complete: '[',
+                    Suggestion: '[',
+                    Description: 'Start building a list',
+                    Hint: '',
+                    IconData: '',
+                });
+            }
+            return suggestions;
+        }
         case ParseState.EndValue:
-        case ParseState.FlagValueSeparator:
         case ParseState.NonspaceValue:
+        case ParseState.MultiselectNextValue:
+        case ParseState.MultiselectStart:
+        case ParseState.MultiselectNonspaceValue:
+        case ParseState.MultiselectEndValue:
+        case ParseState.MultiselectStartValue:
             return this.getValueSuggestions(parsed);
         case ParseState.EndQuotedValue:
         case ParseState.QuotedValue:
+        case ParseState.MultiselectQuotedValue:
             return this.getValueSuggestions(parsed, '"');
         case ParseState.EndTickedValue:
         case ParseState.TickValue:
+        case ParseState.MultiselectTickValue:
             return this.getValueSuggestions(parsed, '`');
+        case ParseState.MultiselectValueSeparator:
+            return this.getMultiselectValueSeparatorSuggestion();
+        case ParseState.Rest: {
+            const execute = getExecuteSuggestion(parsed);
+            const value = await this.getValueSuggestions(parsed);
+            if (execute) {
+                return [execute, ...value];
+            }
+            return value;
+        }
         }
         return [];
+    }
+
+    private getMultiselectValueSeparatorSuggestion = (): AutocompleteSuggestion[] => {
+        return [
+            {
+                Complete: ',',
+                Suggestion: ',',
+                Description: 'Add new element',
+                Hint: '',
+                IconData: '',
+            },
+            {
+                Complete: ']',
+                Suggestion: ']',
+                Description: 'End list',
+                Hint: '',
+                IconData: '',
+            },
+        ];
     }
 
     // getMissingFields collects the required fields that were not supplied in a submission
@@ -1283,7 +1753,8 @@ export class AppCommandParser {
             }));
         }
 
-        const items = callResponse?.data?.items;
+        let items = callResponse?.data?.items;
+        items = items?.filter(filterEmptyOptions);
         if (!items?.length) {
             return [{
                 Complete: '',
@@ -1309,7 +1780,7 @@ export class AppCommandParser {
             }
             return ({
                 Complete: complete,
-                Description: s.label,
+                Description: s.label || s.value,
                 Suggestion: s.value,
                 Hint: '',
                 IconData: s.icon_data || parsed.binding?.icon || '',

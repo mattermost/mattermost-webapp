@@ -1,13 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {MutableRefObject, useEffect} from 'react';
+import {MutableRefObject, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useLocation} from 'react-router';
 
 import {GlobalState} from 'types/store';
 import {ProductComponent} from 'types/store/plugins';
 import {getBasePath} from 'utils/url';
+import {Preferences} from 'utils/constants';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+
+import {getIsMobileView} from 'selectors/views/browser';
+import {isModalOpen} from 'selectors/views/modals';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
 
@@ -52,3 +60,33 @@ export const useCurrentProductId = (products?: ProductComponent[]): string | nul
     return null;
 };
 
+export const useShowTutorialStep = (stepToShow: number): boolean => {
+    const currentUserId = useSelector<GlobalState, string>(getCurrentUserId);
+    const boundGetInt = (state: GlobalState) => getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0);
+    const step = useSelector<GlobalState, number>(boundGetInt);
+
+    return step === stepToShow;
+};
+
+export const useIsLoggedIn = (): boolean => {
+    return Boolean(useSelector<GlobalState, UserProfile>(getCurrentUser));
+};
+
+/**
+ * Hook that returns the current open state of the specified modal
+ * - returns both the direct boolean for regular use and a ref that contains the boolean for usage in a callback
+ */
+export const useIsModalOpen = (modalIdentifier: string): [boolean, React.RefObject<boolean>] => {
+    const modalOpenState = useSelector((state: GlobalState) => isModalOpen(state, modalIdentifier));
+    const modalOpenStateRef = useRef(modalOpenState);
+
+    useEffect(() => {
+        modalOpenStateRef.current = modalOpenState;
+    }, [modalOpenState]);
+
+    return [modalOpenState, modalOpenStateRef];
+};
+
+export const useIsMobileView = (): boolean => {
+    return Boolean(useSelector(getIsMobileView));
+};

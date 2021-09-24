@@ -11,6 +11,7 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadMeAndConfig} from 'actions/views/root';
 import {setBrowserNotificationsPermission, scheduleNextNotificationsPermissionRequest} from 'actions/notification_actions';
+import {emitBrowserWindowResized} from 'actions/views/browser';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import Root from './root.jsx';
@@ -40,8 +41,12 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadMeAndConfig,
+<<<<<<< HEAD
             setBrowserNotificationsPermission,
             scheduleNextNotificationsPermissionRequest
+=======
+            emitBrowserWindowResized,
+>>>>>>> 8909de3bce6ae91e420511028e231dd2fda76183
         }, dispatch),
     };
 }

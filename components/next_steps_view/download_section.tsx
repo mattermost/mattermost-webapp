@@ -3,18 +3,20 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {isDesktopApp, isWindows, isMac} from 'utils/user_agent';
 import {isMobile} from 'utils/utils';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import downloadApps from 'images/download-app.svg';
 import Card from 'components/card/card';
 
+import DownloadApps from './images/download-apps.svg';
 import {getAnalyticsCategory} from './step_helpers';
 
 type Props = {
     isFirstAdmin: boolean;
+    withinNextStep?: boolean;
 }
 
 function DownloadSection(props: Props): JSX.Element | null {
@@ -34,8 +36,12 @@ function DownloadSection(props: Props): JSX.Element | null {
         );
     } else if (!isDesktopApp()) {
         return (
-            <div className='NextStepsView__download'>
-                <img src={downloadApps}/>
+            <div
+                className={classNames('NextStepsView__download', {
+                    'NextStepsView__download--next-step': props.withinNextStep,
+                })}
+            >
+                <DownloadApps/>
                 <div className='NextStepsView__downloadText'>
                     <h4>
                         <FormattedMessage

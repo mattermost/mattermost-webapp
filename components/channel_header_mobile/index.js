@@ -11,7 +11,6 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentChannel,
     getMyCurrentChannelMembership,
-    isCurrentChannelReadOnly,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
@@ -36,7 +35,7 @@ const mapStateToProps = (state, {location: {pathname}}) => ({
     user: getCurrentUser(state),
     channel: getCurrentChannel(state),
     isMuted: isCurrentChannelMuted(state),
-    isReadOnly: isCurrentChannelReadOnly(state),
+    isReadOnly: false,
     isRHSOpen: getIsRhsOpen(state),
     currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
     inGlobalThreads: Boolean(matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'})),

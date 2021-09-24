@@ -24,6 +24,7 @@ export type ViewsState = {
     browser: {
         focused: boolean;
         isNotificationsPermissionGranted: boolean;
+        windowSize: string;
     };
 
     channel: {

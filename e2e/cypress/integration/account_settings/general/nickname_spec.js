@@ -17,16 +17,16 @@ describe('Account Settings > Sidebar > General', () => {
     let testTeam;
 
     before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({team, user, offTopicUrl}) => {
             testUser = user;
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T3848 No nickname is present', () => {
-        // # Open 'Account Settings' modal and view the default 'General Settings'
+        // # Open 'Account Settings' modal and view the default 'Profile'
         cy.uiOpenAccountSettingsModal().within(() => {
             // # Open 'Nickname' setting
             cy.uiGetHeading('Nickname').click();
@@ -38,8 +38,8 @@ describe('Account Settings > Sidebar > General', () => {
             cy.uiSaveAndClose();
         });
 
-        // # Open main menu and click "View Members"
-        cy.uiOpenMainMenu('View Members');
+        // # Open team menu and click "View Members"
+        cy.uiOpenTeamMenu('View Members');
 
         // # Search for username and check that no nickname is present
         cy.get('.modal-title').should('be.visible');
@@ -67,8 +67,8 @@ describe('Account Settings > Sidebar > General', () => {
             cy.uiSaveAndClose();
         });
 
-        // # Open main menu and click "View Members"
-        cy.uiOpenMainMenu('View Members');
+        // # Open team menu and click "View Members"
+        cy.uiOpenTeamMenu('View Members');
 
         // # Search for username and check that expected nickname is present
         cy.get('.modal-title').should('be.visible');
@@ -96,7 +96,7 @@ describe('Account Settings > Sidebar > General', () => {
             cy.get('#selectItems input').type('sys').wait(TIMEOUTS.ONE_SEC);
 
             // * Verify that the username span contains the '@' symbol and the dark colour
-            cy.get('#multiSelectList > div > .more-modal__details > .more-modal__name > span').should('contain', '@').and('have.css', 'color', 'rgb(61, 60, 64)');
+            cy.get('#multiSelectList > div > .more-modal__details > .more-modal__name > span').should('contain', '@').and('have.css', 'color', 'rgb(63, 67, 80)');
 
             // # Close modal
             cy.get('body').type('{esc}');
@@ -108,7 +108,7 @@ describe('Account Settings > Sidebar > General', () => {
             });
 
             // * Verify that the username span contains the '@' symbol and the dark colour
-            cy.findByTestId('userListItemDetails').find('.more-modal__name').should('be.visible').should('contain', '@').and('have.css', 'color', 'rgb(61, 60, 64)');
+            cy.findByTestId('userListItemDetails').find('.more-modal__name').should('be.visible').should('contain', '@').and('have.css', 'color', 'rgb(63, 67, 80)');
 
             // # Close modal
             cy.get('body').type('{esc}');
@@ -122,7 +122,7 @@ describe('Account Settings > Sidebar > General', () => {
                 cy.get('#selectItems').click().type('@');
 
                 // * Verify that the username span contains the '@' symbol and the dark colour
-                cy.get('.more-modal__details > .more-modal__name').should('contain', '@').and('have.css', 'color', 'rgb(61, 60, 64)');
+                cy.get('.more-modal__details > .more-modal__name').should('contain', '@').and('have.css', 'color', 'rgb(63, 67, 80)');
             });
 
             // # Exit the modal

@@ -26,7 +26,7 @@
             .modal-image {
                 .modal-image__wrapper {
                     img {
-                        max-height: calc(100vh - 100px);
+                        max-height: calc(100vh - 108px);
                     }
 
                     >div {
@@ -37,10 +37,6 @@
                     .modal-close {
                         @include opacity(1);
                     }
-                }
-
-                .modal-image__content {
-                    max-height: calc(100vh - 100px);
                 }
 
                 .modal-button-bar {
@@ -257,7 +253,8 @@
                         }
                     }
 
-                    &.post--root {
+                    &.post--root,
+                    .post-preview {
                         .post__img {
                             img {
                                 display: block;

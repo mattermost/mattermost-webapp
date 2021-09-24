@@ -95,16 +95,11 @@ export const Preferences = {
     CATEGORY_THEME: 'theme',
     CATEGORY_FLAGGED_POST: 'flagged_post',
     CATEGORY_NOTIFICATIONS: 'notifications',
-    CATEGORY_FAVORITE_CHANNEL: 'favorite_channel',
     EMAIL_INTERVAL: 'email_interval',
     INTERVAL_IMMEDIATE: 30, // "immediate" is a 30 second interval
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
     INTERVAL_NEVER: 0,
-    GLOBAL_HEADER_DISPLAY: 'global_header_display',
-    GLOBAL_HEADER_DISPLAY_ON: 'global_header_display_on',
-    GLOBAL_HEADER_DISPLAY_OFF: 'global_header_display_off',
-    GLOBAL_HEADER_DISPLAY_DEFAULT: 'global_header_display_off',
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
@@ -114,6 +109,14 @@ export const Preferences = {
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
     CATEGORY_EMOJI: 'emoji',
     EMOJI_SKINTONE: 'emoji_skintone',
+
+    // For one off things that have a special, attention-grabbing UI until you interact with them
+    TOUCHED: 'touched',
+};
+
+// For one off things that have a special, attention-grabbing UI until you interact with them
+export const Touched = {
+    INVITE_MEMBERS: 'invite_members',
 };
 
 export const TrialPeriodDays = {
@@ -164,6 +167,7 @@ export const ActionTypes = keyMirror({
 
     BROWSER_CHANGE_FOCUS: null,
     BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED: null,
+    BROWSER_WINDOW_RESIZED: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
@@ -182,6 +186,7 @@ export const ActionTypes = keyMirror({
     MODAL_CLOSE: null,
 
     SELECT_CHANNEL_WITH_MEMBER: null,
+    SET_LAST_UNREAD_CHANNEL: null,
     UPDATE_CHANNEL_LAST_VIEWED_AT: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
@@ -308,6 +313,7 @@ export const ModalIdentifiers = {
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
+    START_TRIAL_MODAL: 'start_trial_modal',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
@@ -445,7 +451,14 @@ export const TutorialSteps = {
     CHANNEL_POPOVER: 1,
     ADD_CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
+    PRODUCT_SWITCHER: 4,
+    SETTINGS: 5,
     FINISHED: 999,
+};
+
+export const TopLevelProducts = {
+    BOARDS: 'Boards',
+    PLAYBOOKS: 'Playbooks',
 };
 
 export const RecommendedNextSteps = {
@@ -454,7 +467,7 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
-    ENTER_SUPPORT_EMAIL: 'enter_support_email',
+    DOWNLOAD_APPS: 'download_apps',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -954,7 +967,7 @@ export const exportFormats = {
 };
 
 export const ZoomSettings = {
-    DEFAULT_SCALE: 1,
+    DEFAULT_SCALE: 1.75,
     SCALE_DELTA: 0.25,
     MIN_SCALE: 0.25,
     MAX_SCALE: 3.0,
@@ -1045,7 +1058,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 5,
+    MAX_UPLOAD_FILES: 10,
     MAX_FILENAME_LENGTH: 35,
     EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT: 100,
     THUMBNAIL_WIDTH: 128,
@@ -1055,7 +1068,11 @@ export const Constants = {
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
+
+    DESKTOP_SCREEN_WIDTH: 1679,
+    TABLET_SCREEN_WIDTH: 1020,
     MOBILE_SCREEN_WIDTH: 768,
+
     POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
@@ -1539,9 +1556,10 @@ export const Constants = {
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_PUBLIC_CHANNELS: 'mention.public.channels',
+    MENTION_PRIVATE_CHANNELS: 'mention.private.channels',
     MENTION_RECENT_CHANNELS: 'mention.recent.channels',
     MENTION_SPECIAL: 'mention.special',
-    MENTION_GROUPS: 'mention.groups',
+    MENTION_GROUPS: 'search.group',
     DEFAULT_NOTIFICATION_DURATION: 5000,
     STATUS_INTERVAL: 60000,
     AUTOCOMPLETE_TIMEOUT: 100,
@@ -1562,6 +1580,7 @@ export const Constants = {
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
+    THREADS_PAGE_SIZE: 25,
 };
 
 export const ValidationErrors = {
@@ -1571,6 +1590,13 @@ export const ValidationErrors = {
     INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
     RESERVED_NAME: 'RESERVED_NAME',
     INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
+export const WindowSizes = {
+    MOBILE_VIEW: 'mobileView',
+    TABLET_VIEW: 'tabletView',
+    SMALL_DESKTOP_VIEW: 'smallDesktopView',
+    DESKTOP_VIEW: 'desktopView',
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
@@ -1594,17 +1620,20 @@ export const searchFilesHintOptions = [{searchTerm: 'From:', message: {id: t('se
     {searchTerm: '""', message: {id: t('search_files_list_option.phrases'), defaultMessage: 'Files with phrases'}},
 ];
 
+// adding these rtranslations here so the weblate CI step will not fail with empty translation strings
+t('suggestion.archive');
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
-t('suggestion.mention.public.channels');
+t('suggestion.mention.private.channels');
 t('suggestion.mention.recent.channels');
 t('suggestion.mention.special');
-t('suggestion.archive');
 t('suggestion.mention.groups');
+t('suggestion.search.public');
+t('suggestion.search.group');
 
 const {
     DONT_CLEAR,

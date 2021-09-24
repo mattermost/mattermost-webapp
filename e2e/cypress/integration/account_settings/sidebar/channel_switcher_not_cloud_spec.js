@@ -23,9 +23,9 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     });
 
     beforeEach(() => {
-        // # Visit town-square
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+        // # Visit off-topic
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
     });
 
     it('Cmd/Ctrl+Shift+L closes Channel Switch modal and sets focus to post textbox', () => {

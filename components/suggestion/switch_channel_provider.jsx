@@ -16,12 +16,11 @@ import {
     getChannelByName,
     getCurrentChannel,
     getDirectTeammate,
-    getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
 
-import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyPreferences, isGroupChannelManuallyVisible, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -34,8 +33,7 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {getChannels, searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
-import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel} from 'mattermost-redux/utils/channel_utils';
+import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -64,11 +62,12 @@ class SwitchChannelSuggestion extends Suggestion {
             hasDraft: PropTypes.bool,
             userImageUrl: PropTypes.string,
             dmChannelTeammate: PropTypes.object,
+            collapsedThreads: PropTypes.bool,
         };
     }
 
     render() {
-        const {item, isSelection, userImageUrl, status, userItem} = this.props;
+        const {item, isSelection, userImageUrl, status, userItem, collapsedThreads} = this.props;
         const channel = item.channel;
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
@@ -76,9 +75,10 @@ class SwitchChannelSuggestion extends Suggestion {
         const teammate = this.props.dmChannelTeammate;
         let badge = null;
 
-        if (member) {
-            if (member.notify_props && member.mention_count > 0) {
-                badge = <span className='badge'>{member.mention_count}</span>;
+        if (member && member.notify_props) {
+            const unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
+            if (unreadMentions > 0) {
+                badge = <span className='badge'>{unreadMentions}</span>;
             }
         }
 
@@ -223,6 +223,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && getDirectTeammate(state, channel.id);
     const userItem = getUserByUsername(state, channel.name);
     const status = getStatusForUserId(state, channel.userId);
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
     if (channel && !dmChannelTeammate) {
         dmChannelTeammate = getUser(state, channel.userId);
@@ -235,6 +236,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
         dmChannelTeammate,
         status,
         userItem,
+        collapsedThreads,
     };
 }
 
@@ -469,6 +471,7 @@ export default class SwitchChannelProvider extends Provider {
                 type: Constants.DM_CHANNEL,
                 last_picture_update: user.last_picture_update || 0,
             },
+            type: 'search.direct',
             name: user.username,
             deactivated: user.delete_at,
         };
@@ -509,12 +512,17 @@ export default class SwitchChannelProvider extends Provider {
                     continue;
                 } else if (channelIsArchived && members[channel.id]) {
                     wrappedChannel.type = Constants.ARCHIVED_CHANNEL;
+                } else if (newChannel.type === Constants.OPEN_CHANNEL) {
+                    wrappedChannel.type = Constants.MENTION_PUBLIC_CHANNELS;
+                } else if (newChannel.type === Constants.PRIVATE_CHANNEL) {
+                    wrappedChannel.type = Constants.MENTION_PRIVATE_CHANNELS;
                 } else if (channelIsArchived && !members[channel.id]) {
                     continue;
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = newChannel.display_name;
                     wrappedChannel.name = newChannel.name;
-                    const isGMVisible = isGroupChannelVisible(config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
+                    wrappedChannel.type = Constants.MENTION_GROUPS;
+                    const isGMVisible = isGroupChannelManuallyVisible(state, channel.id);
                     if (!isGMVisible && skipNotMember) {
                         continue;
                     }
@@ -579,7 +587,7 @@ export default class SwitchChannelProvider extends Provider {
 
     fetchAndFormatRecentlyViewedChannels(resultsCallback) {
         const state = getState();
-        const recentChannels = getAllRecentChannels(state);
+        const recentChannels = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state));
         const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
         if (channels.length === 0) {
             prefix = '';

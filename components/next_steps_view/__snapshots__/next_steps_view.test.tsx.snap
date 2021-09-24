@@ -105,7 +105,7 @@ exports[`components/next_steps_view should match snapshot 1`] = `
   <NextStepsTips
     animating={false}
     currentUserId="user_id"
-    isCloud={false}
+    globalHeaderEnabled={true}
     isFirstAdmin={true}
     savePreferences={[MockFunction]}
     setShowNextStepsView={[MockFunction]}

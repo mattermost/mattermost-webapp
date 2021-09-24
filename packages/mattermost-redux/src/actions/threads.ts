@@ -30,7 +30,7 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
         let userThreadList: undefined | UserThreadList;
 
         try {
-            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, pageSize: perPage, extended: false, unread});
+            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread});
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -47,7 +47,7 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
         }
 
         dispatch({
-            type: ThreadTypes.RECEIVED_THREADS,
+            type: unread ? ThreadTypes.RECEIVED_UNREAD_THREADS : ThreadTypes.RECEIVED_THREADS,
             data: {
                 ...userThreadList,
                 threads: userThreadList?.threads?.map((thread) => ({...thread, is_following: true})) ?? [],
