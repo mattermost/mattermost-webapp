@@ -13,7 +13,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
 
-
 export const appsPluginIsEnabled = (state: GlobalState) => state.entities.apps.pluginEnabled;
 
 export const appsConfiguredAsEnabled = createSelector(
