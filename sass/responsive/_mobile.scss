@@ -2,7 +2,7 @@
 
 @media screen and (max-width: 768px) {
     // hide global header until mobile implementation is ready
-    > header {
+    #root > header {
         display: none;
     }
 
