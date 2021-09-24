@@ -24,17 +24,20 @@ describe('components/actions_menu/ActionsMenu', () => {
     const baseProps = {
         appBindings: [],
         appsEnabled: false,
+        currentTeamId: 'team_id_1',
         handleDropdownOpened: jest.fn(),
         isMenuOpen: true,
         isSysAdmin: true,
         pluginMenuItems: [],
         post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
         showTutorialTip: false,
+        userId: 'user_id_1',
         components: {},
         actions: {
             doAppCall: jest.fn(),
             openModal: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
+            fetchBindings: jest.fn(),
         },
     };
 

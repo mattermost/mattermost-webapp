@@ -27,14 +27,17 @@ describe('components/actions_menu/ActionsMenu on mobile view', () => {
         const baseProps = {
             post: TestHelper.getPostMock({id: 'post_id_1'}),
             components: {},
+            currentTeamId: 'team_id_1',
             actions: {
                 openModal: jest.fn(),
                 doAppCall: jest.fn(),
                 postEphemeralCallResponseForPost: jest.fn(),
+                fetchBindings: jest.fn(),
             },
             appBindings: [],
             pluginMenuItems: [],
             showTutorialTip: false,
+            userId: 'user_id_1',
             appsEnabled: false,
             isSysAdmin: true,
         };

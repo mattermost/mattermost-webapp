@@ -33,8 +33,9 @@ const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
-    appBindings?: AppBinding[];
+    appBindings: AppBinding[] | null;
     appsEnabled: boolean;
+    currentTeamId: string;
     handleDropdownOpened?: (open: boolean) => void;
     intl: IntlShape;
     isMenuOpen?: boolean;
@@ -44,6 +45,7 @@ type Props = {
     post: Post;
     showTutorialTip: boolean;
     teamId?: string;
+    userId: string;
 
     /**
      * Components for overriding provided by plugins
@@ -71,11 +73,17 @@ type Props = {
          */
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 
+        /**
+         * Function to get the post menu bindings for this post.
+         */
+        fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+
     }; // TechDebt: Made non-mandatory while converting to typescript
 }
 
 type State = {
     openUp: boolean;
+    appBindings?: AppBinding[];
 }
 
 export class ActionMenuClass extends React.PureComponent<Props, State> {
@@ -107,6 +115,26 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             />
         </Tooltip>
     )
+
+    componentDidUpdate(prevProps: Props) {
+        if (!this.state.appBindings && this.props.isMenuOpen && !prevProps.isMenuOpen) {
+            this.fetchBindings();
+        }
+    }
+
+    static getDerivedStateFromProps(props: Props) {
+        const state: Partial<State> = { };
+        if (props.appBindings) {
+            state.appBindings = props.appBindings;
+        }
+        return state;
+    }
+
+    fetchBindings = () => {
+        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(({data}) => {
+            this.setState({appBindings: data});
+        });
+    }
 
     refCallback = (menuRef: Menu): void => {
         if (menuRef) {
@@ -260,8 +288,8 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             }) || [];
 
         let appBindings = [] as JSX.Element[];
-        if (this.props.appsEnabled && this.props.appBindings) {
-            appBindings = this.props.appBindings.map((item) => {
+        if (this.props.appsEnabled && this.state.appBindings) {
+            appBindings = this.state.appBindings.map((item) => {
                 let icon: JSX.Element | undefined;
                 if (item.icon) {
                     icon = (<img src={item.icon}/>);
