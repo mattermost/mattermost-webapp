@@ -15,7 +15,7 @@ import {InviteTypes} from 'utils/constants';
 
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step';
-import InvitationModalGuestsStep from './invitation_modal_guest_step';
+import InvitationModalGuestsStep from './invitation_modal_guest_step/index';
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
 
 import './invitation_modal.scss';

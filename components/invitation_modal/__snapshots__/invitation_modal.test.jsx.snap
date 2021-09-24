@@ -88,7 +88,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
             />
           }
         />
-        <Connect(_class)
+        <InvitationModalGuestsStep
           currentTeamId="test"
           defaultChannels={Array []}
           defaultMessage=""
@@ -144,7 +144,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
             />
           }
         />
-        <Connect(injectIntl(_class))
+        <Connect(injectIntl(InvitationModalMembersStep))
           currentTeamId="test"
           emailInvitationsEnabled={true}
           inviteId="test-invite-id"

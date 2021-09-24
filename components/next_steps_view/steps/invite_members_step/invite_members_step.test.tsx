@@ -61,62 +61,6 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         wrapper.setState({emails: []});
     });
 
-    test('should not allow more than 10 emails', () => {
-        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
-            <InviteMembersStep {...baseProps}/>,
-        );
-
-        const emails = Array(11).fill('a').map((a) => `email_${a}@email.com`);
-
-        wrapper.instance().onInputChange(emails.join(' '), {} as any);
-        expect(wrapper.state('emails').map((email: any) => email.value)).toStrictEqual(emails);
-        expect(wrapper.state('emailError')).not.toBe(undefined);
-        wrapper.setState({emails: [], emailError: undefined});
-
-        wrapper.instance().onInputChange(emails.slice(0, 10).join(' '), {} as any);
-        expect(wrapper.state('emails').map((email: any) => email.value)).toStrictEqual(emails.slice(0, 10));
-        expect(wrapper.state('emailError')).toBe(undefined);
-        wrapper.setState({emails: [], emailError: undefined});
-    });
-
-    test('should have limit errors when remaining_seats are 0 and free tier', () => {
-        const props = {
-            ...baseProps,
-            subscriptionStats: {
-                remaining_seats: 0,
-                is_paid_tier: 'false',
-            },
-        };
-        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
-            <InviteMembersStep {...props}/>,
-        );
-
-        const emails = Array(11).fill('a').map((a) => `email_${a}@email.com`);
-
-        wrapper.instance().onInputChange(emails.join(' '), {} as any);
-        expect(wrapper.state('emails').map((email: any) => email.value)).toStrictEqual(emails);
-        expect(wrapper.state('emailError')).toBe('The free tier is limited to 10 members.');
-    });
-
-    test('should have NO limit errors when remaining_seats are 0 but paid tier', () => {
-        const props = {
-            ...baseProps,
-            subscriptionStats: {
-                remaining_seats: 0,
-                is_paid_tier: 'true',
-            },
-        };
-        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
-            <InviteMembersStep {...props}/>,
-        );
-
-        const emails = Array(11).fill('a').map((a) => `email_${a}@email.com`);
-
-        wrapper.instance().onInputChange(emails.join(' '), {} as any);
-        expect(wrapper.state('emails').map((email: any) => email.value)).toStrictEqual(emails);
-        expect(wrapper.state('emailError')).toBe(undefined);
-    });
-
     test('do not fire onChange unless it is a removal or a pop', () => {
         const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
             <InviteMembersStep {...baseProps}/>,
