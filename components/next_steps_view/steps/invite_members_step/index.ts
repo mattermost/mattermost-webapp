@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {sendEmailInvitesToTeamGracefully, regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
 import {DownloadAppsCTATreatments} from 'mattermost-redux/constants/config';
-import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getDownloadAppsCTATreatment} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
@@ -24,9 +24,6 @@ function mapStateToProps(state: GlobalState) {
     return {
         team: getCurrentTeam(state),
         isEmailInvitesEnabled: config.EnableEmailInvitations === 'true',
-        isCloud: getLicense(state).Cloud === 'true',
-        cloudUserLimit: config.ExperimentalCloudUserLimit || 10,
-        subscriptionStats: getSubscriptionStats(state),
         downloadAppsAsNextStep,
     };
 }
