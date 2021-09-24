@@ -177,6 +177,8 @@ export function unregisterPluginReconnectHandler(pluginId) {
 }
 
 export function reconnect(includeWebSocket = true) {
+    const state = getState();
+
     if (includeWebSocket) {
         reconnectWebSocket();
     }
@@ -198,7 +200,6 @@ export function reconnect(includeWebSocket = true) {
         }
     });
 
-    const state = getState();
     const currentTeamId = state.entities.teams.currentTeamId;
     if (currentTeamId) {
         const currentUserId = getCurrentUserId(state);
