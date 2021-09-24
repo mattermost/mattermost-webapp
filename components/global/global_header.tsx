@@ -23,8 +23,6 @@ import SettingsTip from './settings_tip';
 
 import {useCurrentProductId, useIsLoggedIn, useProducts, useShowTutorialStep} from './hooks';
 
-import './global_header.scss';
-
 const GlobalHeaderContainer = styled.header`
     position: relative;
     display: flex;
