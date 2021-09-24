@@ -226,19 +226,15 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           },
         ]
       }
-      values={
-        Array [
-          Object {
-            "id": "user_id_1",
-            "label": "user_id_1",
-            "value": "user_id_1",
-          },
-          Object {
-            "id": "user_id_2",
-            "label": "user_id_2",
-            "value": "user_id_2",
-          },
-        ]
+      values={Array []}
+    />
+    <AlertBanner
+      mode="info"
+      title={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="This will start a new conversation"
+          id="more_direct_channels.warning_for_groups"
+        />
       }
       variant="app"
     />
