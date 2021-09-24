@@ -19,6 +19,7 @@ import './draft_title.scss';
 type Props = {
     channel: Channel;
     channelName: string;
+    membersCount?: number;
     selfDraft: boolean;
     teammate?: UserProfile;
     teammateId?: string;
@@ -28,6 +29,7 @@ type Props = {
 function DraftTitle({
     channel,
     channelName,
+    membersCount,
     selfDraft,
     teammate,
     teammateId,
@@ -67,7 +69,7 @@ function DraftTitle({
     if (channel.type === Constants.GM_CHANNEL) {
         icon = (
             <div className='DraftTitle__group-icon'>
-                {channelName.split(',').length}
+                {membersCount}
             </div>
         );
     }

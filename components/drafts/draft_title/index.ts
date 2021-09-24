@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {getUser, getUserIdsInChannels} from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
@@ -25,6 +25,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let channelName = channel.display_name;
     let teammateId;
     let teammate;
+    let membersCount;
 
     if (channel.type === Constants.DM_CHANNEL) {
         teammateId = getUserIdFromChannelName(userId, channel.name);
@@ -32,11 +33,25 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         channelName = displayUsername(teammate, getTeammateNameDisplaySetting(state));
     }
 
+    if (channel.type === Constants.GM_CHANNEL) {
+        const memberIds = getUserIdsInChannels(state);
+
+        membersCount = 0;
+        if (memberIds && memberIds[ownProps.channel.id]) {
+            const groupMemberIds: Set<string> = memberIds[ownProps.channel.id] as unknown as Set<string>;
+            membersCount = groupMemberIds.size;
+            if (groupMemberIds.has(userId)) {
+                membersCount--;
+            }
+        }
+    }
+
     return {
         channelName,
-        teammateId,
-        teammate,
+        membersCount,
         selfDraft: teammateId === userId,
+        teammate,
+        teammateId,
     };
 }
 export default connect(mapStateToProps)(DraftTitle);

@@ -122,4 +122,4 @@ function ThreadDraft({
     );
 }
 
-export default ThreadDraft;
+export default memo(ThreadDraft);
