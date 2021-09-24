@@ -21,16 +21,35 @@
     }
 
     &__left {
+        display: flex;
         flex: 1;
+        align-items: center;
         font-weight: 600;
 
         > span {
             display: inline-flex;
+            min-width: 0;
             align-items: center;
         }
     }
 
     &__timestamp {
         color: rgba(var(--center-channel-color-rgb), 0.64);
+    }
+
+    &__actions {
+        display: none;
+
+        &.show {
+            display: inline-flex !important;
+        }
+    }
+
+    &__info {
+        display: inline-flex;
+
+        &.hide {
+            display: none;
+        }
     }
 }

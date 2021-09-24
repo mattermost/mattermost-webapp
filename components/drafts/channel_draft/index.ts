@@ -4,6 +4,9 @@
 import {connect} from 'react-redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {getChannelURL} from 'utils/utils';
 
 import {GlobalState} from 'types/store';
 
@@ -16,8 +19,12 @@ type OwnProps = {
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const channel = getChannel(state, ownProps.id);
 
+    const teamId = getCurrentTeamId(state);
+    const channelUrl = getChannelURL(state, channel, teamId);
+
     return {
         channel,
+        channelUrl,
     };
 }
 export default connect(mapStateToProps)(ChannelDraft);

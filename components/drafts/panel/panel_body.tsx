@@ -45,8 +45,8 @@ function Body({
     }, [draftId]);
 
     return (
-        <div className='PanelBody post'>
-            <div className='PanelBody__left post__img'>
+        <div className='DraftPanelBody post'>
+            <div className='DraftPanelBody__left post__img'>
                 <ProfilePicture
                     status={status}
                     channelId={channelId}
@@ -57,7 +57,7 @@ function Body({
                 />
             </div>
             <div className='post__content'>
-                <div className='PanelBody__right'>
+                <div className='DraftPanelBody__right'>
                     <div className='post__header'>
                         <strong>{displayName}</strong>
                     </div>

@@ -3,16 +3,14 @@
 
 import React, {memo} from 'react';
 
-import {PostDraft} from 'types/store/rhs';
-
 import './channel_pencil_icon.scss';
 
 type Props = {
-    draft: PostDraft|null;
+    hasDraft: boolean;
 };
 
-function ChannelPencilIcon({draft}: Props) {
-    if (draft) {
+function ChannelPencilIcon({hasDraft}: Props) {
+    if (hasDraft) {
         return (
             <i
                 data-testid='draftIcon'

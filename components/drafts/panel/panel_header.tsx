@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {ComponentProps} from 'react';
+import cn from 'classnames';
 
 import Timestamp from 'components/timestamp';
 import Label, {LabelType} from 'components/label/label';
@@ -42,10 +43,10 @@ function PanelHeader({
                 {title}
             </div>
             <div className='PanelHeader__right'>
-                <div style={{display: hover ? 'inline-flex' : 'none'}}>
+                <div className={cn('PanelHeader__actions', {show: hover})}>
                     {actions}
                 </div>
-                <div style={{display: hover ? 'none' : 'inline-flex'}}>
+                <div className={cn('PanelHeader__info', {hide: hover})}>
                     <div className='PanelHeader__timestamp'>
                         {Boolean(timestamp) && (
                             <Timestamp

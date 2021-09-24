@@ -5,6 +5,13 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {setGlobalItem} from 'actions/storage';
 import {PostDraft} from 'types/store/rhs';
 
+export function removeDraft(key: string) {
+    return (dispatch: DispatchFunc) => {
+        localStorage.removeItem(key);
+        dispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: []}));
+    };
+}
+
 export function removeFilePreview(key: string, id: string) {
     return (dispatch: DispatchFunc) => {
         const item = localStorage.getItem(key);

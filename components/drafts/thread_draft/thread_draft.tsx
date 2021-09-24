@@ -4,7 +4,6 @@
 import React, {memo, useCallback, useMemo, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
-import {getChannel} from 'mattermost-redux/actions/channels';
 import {getPost} from 'mattermost-redux/actions/posts';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread, UserThreadSynthetic} from 'mattermost-redux/types/threads';
@@ -13,8 +12,8 @@ import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
 import {selectPost} from 'actions/views/rhs';
+import {removeDraft} from 'actions/views/drafts';
 import {makeOnSubmit} from 'actions/views/create_comment';
-import {setGlobalItem} from 'actions/storage';
 
 import {PostDraft} from 'types/store/rhs';
 
@@ -25,7 +24,7 @@ import Header from '../panel/panel_header';
 import Body from '../panel/panel_body';
 
 type Props = {
-    channel?: Channel;
+    channel: Channel;
     displayName: string;
     draftId: string;
     id: $ID<UserThread | UserThreadSynthetic>;
@@ -55,48 +54,30 @@ function ThreadDraft({
         }
     }, [thread?.id]);
 
-    useEffect(() => {
-        if (!channel?.id) {
-            dispatch(getChannel(id));
-        }
-    }, [channel?.id]);
-
     const onSubmit = useMemo(() => {
-        if (channel && thread) {
+        if (thread) {
             return makeOnSubmit(channel.id, thread.id, '');
         }
 
         return () => Promise.resolve({data: true});
-    }, [channel?.id, thread?.id]);
-
-    const handleSubmit = async () => {
-        await dispatch(onSubmit(value));
-        return {data: true};
-    };
+    }, [channel.id, thread?.id]);
 
     const handleOnDelete = useCallback((id: string) => {
-        localStorage.removeItem(id);
-        dispatch(setGlobalItem(id, {message: '', fileInfos: [], uploadsInProgress: []}));
+        dispatch(removeDraft(id));
     }, [id]);
 
     const handleOnEdit = useCallback(() => {
-        if (channel) {
-            dispatch(selectPost({id, channel_id: channel.id} as Post));
-        }
+        dispatch(selectPost({id, channel_id: channel.id} as Post));
     }, [channel]);
 
-    const handleOnSend = useCallback((id: string) => {
-        if (!thread || !channel) {
-            return;
-        }
+    const handleOnSend = useCallback(async (id: string) => {
+        await dispatch(onSubmit(value));
 
-        handleSubmit().then(() => {
-            handleOnDelete(id);
-            handleOnEdit();
-        });
-    }, [thread, channel]);
+        handleOnDelete(id);
+        handleOnEdit();
+    }, [value]);
 
-    if (!thread || !channel) {
+    if (!thread) {
         return null;
     }
 
@@ -140,4 +121,4 @@ function ThreadDraft({
     );
 }
 
-export default memo(ThreadDraft);
+export default ThreadDraft;

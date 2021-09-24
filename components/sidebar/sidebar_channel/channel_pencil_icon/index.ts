@@ -25,7 +25,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const draft = ownProps.channel?.id ? getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channel.id) : null;
 
     return {
-        draft: hasDraft(draft, currentChannelId, ownProps.channel) ? draft : null,
+        hasDraft: hasDraft(draft, currentChannelId, ownProps.channel),
     };
 }
 

@@ -7,23 +7,23 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 
+import {PostDraft} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 
 import ThreadDraft from './thread_draft';
 
 type OwnProps = {
     id: string;
+    value: PostDraft;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const channel = getChannel(state, ownProps.value.channel_id);
     const post = getPost(state, ownProps.id);
 
     let thread;
-    let channel;
-
     if (post) {
         thread = getThreadOrSynthetic(state, post);
-        channel = getChannel(state, post.channel_id);
     }
 
     return {

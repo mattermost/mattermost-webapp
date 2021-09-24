@@ -30,7 +30,7 @@ type State = {
     show: boolean;
 }
 
-export default class GenericModal extends React.Component<Props, State> {
+export default class GenericModal extends React.PureComponent<Props, State> {
     static defaultProps: Partial<Props> = {
         show: true,
         id: 'genericModal',

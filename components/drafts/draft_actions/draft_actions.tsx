@@ -2,10 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useCallback, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
-
-import {localizeMessage} from 'utils/utils';
-import {t} from 'utils/i18n';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import GenericModal from 'components/generic_modal';
 
@@ -28,6 +25,7 @@ function DraftActions({
     onEdit,
     onSend,
 }: Props) {
+    const {formatMessage} = useIntl();
     const [confirm, setConfirm] = useState({show: false, type: ''});
 
     const handleDelete = useCallback(() => {
@@ -56,20 +54,20 @@ function DraftActions({
     let message;
 
     if (confirm.type === 'send') {
-        title = localizeMessage(
-            'drafts.confirm.send.title',
-            'Send Message now',
-        );
-        confirmButtonText = localizeMessage(
-            'drafts.confirm.send.button',
-            'Yes, Send Now',
-        );
+        title = formatMessage({
+            id: 'drafts.confirm.send.title',
+            defaultMessage: 'Send Message now',
+        });
+        confirmButtonText = formatMessage({
+            id: 'drafts.confirm.send.button',
+            defaultMessage: 'Yes, Send Now',
+        });
         message = (
             <FormattedMessage
-                id={t('drafts.confirm.send.text')}
-                defaultMessage={'Are you sure you want to send this message to <b>{channelName}</b>?'}
+                id={'drafts.confirm.send.text'}
+                defaultMessage={'Are you sure you want to send this message to <strong>{channelName}</strong>?'}
                 values={{
-                    b: (chunk: string) => <b>{chunk}</b>,
+                    b: (chunk: string) => <strong>{chunk}</strong>,
                     channelName,
                 }}
             />
@@ -79,20 +77,20 @@ function DraftActions({
     if (confirm.type === 'delete') {
         confirmButtonClass = 'delete';
 
-        title = localizeMessage(
-            'drafts.confirm.delete.title',
-            'Delete Draft',
-        );
-        confirmButtonText = localizeMessage(
-            'drafts.confirm.delete.button',
-            'Yes, Delete',
-        );
+        title = formatMessage({
+            id: 'drafts.confirm.delete.title',
+            defaultMessage: 'Delete Draft',
+        });
+        confirmButtonText = formatMessage({
+            id: 'drafts.confirm.delete.button',
+            defaultMessage: 'Yes, Delete',
+        });
         message = (
             <FormattedMessage
-                id={t('drafts.confirm.delete.text')}
-                defaultMessage={'Are you sure you want to delete this draft to <b>{channelName}</b>?'}
+                id={'drafts.confirm.delete.text'}
+                defaultMessage={'Are you sure you want to delete this draft to <strong>{channelName}</strong>?'}
                 values={{
-                    b: (chunk: string) => <b>{chunk}</b>,
+                    b: (chunk: string) => <strong>{chunk}</strong>,
                     channelName,
                 }}
             />
