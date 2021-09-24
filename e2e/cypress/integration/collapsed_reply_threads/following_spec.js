@@ -78,7 +78,7 @@ describe('Collapsed Reply Threads', () => {
             cy.get('#rhsContainer').find('.FollowButton').should('have.text', 'Following');
 
             // # Visit global threads
-            cy.uiVisitSidebarItem('threads');
+            cy.uiClickSidebarItem('threads');
 
             // * There should be a thread there
             cy.get('article.ThreadItem').should('have.have.lengthOf', 1);
@@ -130,7 +130,7 @@ describe('Collapsed Reply Threads', () => {
                 });
 
                 // # Visit global threads
-                cy.uiVisitSidebarItem('threads');
+                cy.uiClickSidebarItem('threads');
 
                 // * There should be 2 threads now
                 cy.get('article.ThreadItem').should('have.have.lengthOf', 2);

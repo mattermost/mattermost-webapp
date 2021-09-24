@@ -158,6 +158,7 @@ export const ActionTypes = keyMirror({
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,
+    BROWSER_WINDOW_RESIZED: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
@@ -1058,7 +1059,11 @@ export const Constants = {
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
+
+    DESKTOP_SCREEN_WIDTH: 1679,
+    TABLET_SCREEN_WIDTH: 1020,
     MOBILE_SCREEN_WIDTH: 768,
+
     POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
@@ -1564,6 +1569,7 @@ export const Constants = {
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
+    THREADS_PAGE_SIZE: 25,
 };
 
 export const ValidationErrors = {
@@ -1573,6 +1579,13 @@ export const ValidationErrors = {
     INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
     RESERVED_NAME: 'RESERVED_NAME',
     INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
+export const WindowSizes = {
+    MOBILE_VIEW: 'mobileView',
+    TABLET_VIEW: 'tabletView',
+    SMALL_DESKTOP_VIEW: 'smallDesktopView',
+    DESKTOP_VIEW: 'desktopView',
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];

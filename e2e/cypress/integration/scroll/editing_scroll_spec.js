@@ -31,16 +31,17 @@ describe('Scroll', () => {
     message`;
 
     before(() => {
+        cy.apiCreateUser().then(({user}) => {
+            otherUser = user;
+        });
         cy.apiInitSetup().then(({team, channel}) => {
             testChannelId = channel.id;
             testChannelLink = `/${team.name}/channels/${channel.name}`;
-            cy.apiCreateUser().then(({user: user2}) => {
-                otherUser = user2;
-                cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
-                    cy.apiAddUserToChannel(testChannelId, otherUser.id);
-                });
+
+            cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
+                cy.apiAddUserToChannel(testChannelId, otherUser.id);
+                cy.visit(testChannelLink);
             });
-            cy.visit(testChannelLink);
         });
     });
 

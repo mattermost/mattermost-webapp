@@ -52,6 +52,7 @@ export type UserThreadList = {
 
 export type ThreadsState = {
     threadsInTeam: RelationOneToMany<Team, UserThread>;
+    unreadThreadsInTeam: RelationOneToMany<Team, UserThread>;
     threads: IDMappedObjects<UserThread>;
     counts: RelationOneToOne<Team, {
         total: number;

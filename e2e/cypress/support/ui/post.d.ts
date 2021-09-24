@@ -18,6 +18,16 @@ declare namespace Cypress {
     interface Chainable {
 
         /**
+         * Get post profile image of a given post ID or the last post if post ID is not given
+         *
+         * @param {string} - postId (optional)
+         *
+         * @example
+         *   cy.uiGetPostProfileImage();
+         */
+        uiGetPostProfileImage(postId: string): Chainable;
+
+        /**
          * Get post header of a given post ID or the last post if post ID is not given
          *
          * @param {string} - postId (optional)
@@ -36,6 +46,16 @@ declare namespace Cypress {
          *   cy.uiGetPostBody();
          */
         uiGetPostBody(postId: string): Chainable;
+
+        /**
+         * Get post thread footer of a given post ID or the last post if post ID is not given
+         *
+         * @param {string} - postId (optional)
+         *
+         * @example
+         *   cy.uiGetPostThreadFooter();
+         */
+        uiGetPostThreadFooter(postId: string): Chainable;
 
         /**
          * Get post embed container of a given post ID or the last post if post ID is not given
