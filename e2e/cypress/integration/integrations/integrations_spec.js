@@ -204,7 +204,7 @@ describe('Integrations page', () => {
         // # Visit home channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Click 'Integrations' at main menu
+        // # Click 'Integrations' at product menu
         cy.uiOpenProductSwitchMenu('Integrations');
 
         // * Verify we are at integrations page URL
@@ -276,7 +276,7 @@ describe('Integrations page', () => {
         // # Visit home channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Click 'Integrations' at main menu
+        // # Click 'Integrations' at product menu
         cy.uiOpenProductSwitchMenu('Integrations');
 
         // * Verify we are at integrations page URL
@@ -364,7 +364,7 @@ describe('Integrations page', () => {
     it('MM-T580 Custom slash command auto-complete displays trigger word and not command name', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Click 'Integrations' at main menu
+        // # Click 'Integrations' at product menu
         cy.uiOpenProductSwitchMenu('Integrations');
 
         // * Verify we are at integrations page URL

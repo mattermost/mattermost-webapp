@@ -45,6 +45,45 @@ describe('Selectors.Threads.getThreadOrderInCurrentTeam', () => {
     });
 });
 
+describe('Selectors.Threads.getUnreadThreadOrderInCurrentTeam', () => {
+    const team1 = TestHelper.fakeTeamWithId();
+    const team2 = TestHelper.fakeTeamWithId();
+
+    it('should return unread threads order in current team based on last reply time', () => {
+        const user = TestHelper.fakeUserWithId();
+
+        const profiles = {
+            [user.id]: user,
+        };
+
+        const testState = deepFreezeAndThrowOnMutation({
+            entities: {
+                users: {
+                    currentUserId: user.id,
+                    profiles,
+                },
+                teams: {
+                    currentTeamId: team1.id,
+                },
+                threads: {
+                    threads: {
+                        a: {last_reply_at: 1, is_following: true, unread_replies: 1},
+                        b: {last_reply_at: 2, is_following: true, unread_replies: 1},
+                    },
+                    threadsInTeam: {},
+                    unreadThreadsInTeam: {
+                        [team1.id]: ['a', 'b'],
+                        [team2.id]: ['c', 'd'],
+                    },
+                },
+            },
+        });
+
+        assert.deepEqual(Selectors.getThreadOrderInCurrentTeam(testState), []);
+        assert.deepEqual(Selectors.getUnreadThreadOrderInCurrentTeam(testState), ['b', 'a']);
+    });
+});
+
 describe('Selectors.Threads.getThreadsInCurrentTeam', () => {
     const team1 = TestHelper.fakeTeamWithId();
     const team2 = TestHelper.fakeTeamWithId();

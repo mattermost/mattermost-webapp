@@ -16,6 +16,7 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {AppBinding} from 'mattermost-redux/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -124,6 +125,7 @@ type Actions = {
     }>;
     markPostAsUnread: (post: Post) => void;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
+    fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -137,6 +139,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             openModal,
             markPostAsUnread,
             setThreadFollow,
+            fetchBindings,
         }, dispatch),
     };
 }

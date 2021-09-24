@@ -41,6 +41,7 @@ describe('components/dot_menu/DotMenu', () => {
             markPostAsUnread: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
             setThreadFollow: jest.fn(),
+            fetchBindings: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
