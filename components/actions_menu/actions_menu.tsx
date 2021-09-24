@@ -330,11 +330,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             );
         }
 
-        if (typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
-            return null;
-        }
-
-        if (!appBindings.length && !pluginItems.length && !this.props.isSysAdmin) {
+        if (isSystemMessage || !this.props.isSysAdmin) {
             return null;
         }
 
@@ -344,7 +340,13 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             tutorialTip = (
                 <ActionsTutorialTip/>
             );
-        } else if (appBindings.length || pluginItems.length) {
+        }
+
+        const hasApps = appBindings.length > 0;
+        const hasPluggables = this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0;
+        const hasPluginItems = typeof pluginItems !== 'undefined' && pluginItems.length > 0;
+
+        if (hasPluginItems || hasApps || hasPluggables) {
             const pluggable = (
                 <Pluggable
                     postId={this.props.post.id}
