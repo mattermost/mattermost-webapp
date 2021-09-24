@@ -6,12 +6,13 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
+import thunk from 'redux-thunk';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InviteMembersButton from 'components/sidebar/invite_members_button';
 
 import * as teams from 'mattermost-redux/selectors/entities/teams';
-import thunk from 'redux-thunk';
 
 describe('components/sidebar/invite_members_button', () => {
     // required state to mount using the provider
@@ -94,29 +95,29 @@ describe('components/sidebar/invite_members_button', () => {
         const mock = jest.fn();
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton {...{...props, onClick: mock}} />
+                <InviteMembersButton {...{...props, onClick: mock}}/>
             </Provider>,
         );
         expect(mock).not.toHaveBeenCalled();
-        wrapper.find('i').simulate('click')
+        wrapper.find('i').simulate('click');
         expect(mock).toHaveBeenCalled();
     });
 
     test('should not have untouched ui when component has been touched', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton {...{...props, touchedInviteMembersButton: true}} />
+                <InviteMembersButton {...{...props, touchedInviteMembersButton: true}}/>
             </Provider>,
         );
-        expect(wrapper.find('li').prop('className')).not.toContain('untouched')
+        expect(wrapper.find('li').prop('className')).not.toContain('untouched');
     });
 
     test('should have untouched ui when component has not been touched', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton {...props} />
+                <InviteMembersButton {...props}/>
             </Provider>,
         );
-        expect(wrapper.find('li').prop('className')).toContain('untouched')
+        expect(wrapper.find('li').prop('className')).toContain('untouched');
     });
 });
