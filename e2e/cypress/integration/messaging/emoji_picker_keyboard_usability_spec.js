@@ -11,21 +11,21 @@
 // Group: @messaging
 
 describe('MM-13064 - Emoji picker keyboard usability', () => {
-    let townsquareLink;
+    let offTopicUrl;
 
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            townsquareLink = `/${team.name}/channels/town-square`;
+        // # Login as test user
+        cy.apiInitSetup({loginAfter: true}).then((out) => {
+            offTopicUrl = out.offTopicUrl;
         });
     });
 
     beforeEach(() => {
-        // # Visit the Town Square channel
-        cy.visit(townsquareLink);
+        // # Visit the Off-Topic channel
+        cy.visit(offTopicUrl);
 
         // # Open emoji picker
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
 
         // # Wait for emoji picker to load
         cy.get('#emojiPicker').should('be.visible');

@@ -11,29 +11,35 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 export function searchAndValidate(query, expectedResults = []) {
-    cy.reload();
-
     // # Enter in search query, and hit enter
-    cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}').should('be.empty');
+    cy.uiGetSearchBox().
+        clear().
+        wait(TIMEOUTS.HALF_SEC).
+        type(query).
+        wait(TIMEOUTS.HALF_SEC).
+        type('{enter}').
+        should('be.empty');
 
     cy.get('#loadingSpinner').should('not.exist');
-    cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
     // * Verify the amount of results matches the amount of our expected results
-    cy.findAllByTestId('search-item-container').should('have.length', expectedResults.length).then((results) => {
-        if (expectedResults.length > 0) {
-            // * Verify text of each result
-            cy.wrap(results).each((result, index) => {
-                cy.wrap(result).find('.post-message').should('have.text', expectedResults[index]);
-            });
-        } else {
-            // * If we expect no results, verify results message
-            cy.get('.no-results__title').should('be.visible').and('have.text', `No results for "${query}"`);
-        }
-    });
+    cy.uiGetRHSSearchContainer().
+        findAllByTestId('search-item-container').
+        should('have.length', expectedResults.length).
+        then((results) => {
+            if (expectedResults.length > 0) {
+                // * Verify text of each result
+                cy.wrap(results).each((result, index) => {
+                    cy.wrap(result).find('.post-message').should('have.text', expectedResults[index]);
+                });
+            } else {
+                // * If we expect no results, verify results message
+                cy.get('.no-results__title').should('be.visible').and('have.text', `No results for "${query}"`);
+            }
+        });
 
-    cy.get('#searchResultsCloseButton').click();
-    cy.get('.search-item__container').should('not.exist');
+    cy.uiCloseRHS();
+    cy.uiGetRHSSearchContainer({visible: false});
 }
 
 export function getMsAndQueryForDate(date) {
@@ -78,7 +84,7 @@ export function getTestMessages() {
     };
 }
 
-export function setupTestData(data, {team, admin, anotherAdmin}) {
+export function setupTestData(data, {team, channel, admin, anotherAdmin}) {
     const {
         todayMessage,
         firstMessage,
@@ -99,26 +105,26 @@ export function setupTestData(data, {team, admin, anotherAdmin}) {
     cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     cy.postMessage(todayMessage).wait(TIMEOUTS.ONE_SEC);
 
-    cy.apiGetChannelByName(team.name, 'town-square').then(({channel: townSquareChannel}) => {
-        // # Post message as new admin to Town Square
-        cy.postMessageAs({sender: anotherAdmin, message: firstMessage, channelId: townSquareChannel.id, createAt: firstDateEarly.ms});
+    // # Post message as new admin to test channel
+    cy.postMessageAs({sender: anotherAdmin, message: firstMessage, channelId: channel.id, createAt: firstDateEarly.ms});
 
-        // # Post message as sysadmin to Town Square
-        cy.postMessageAs({sender: admin, message: secondMessage, channelId: townSquareChannel.id, createAt: secondDateEarly.ms});
+    // # Post message as sysadmin to test channel
+    cy.postMessageAs({sender: admin, message: secondMessage, channelId: channel.id, createAt: secondDateEarly.ms});
 
-        cy.apiGetChannelByName(team.name, 'off-topic').then(({channel: offTopicChannel}) => {
-            // # Post message as sysadmin to off topic
-            cy.postMessageAs({sender: admin, message: firstOffTopicMessage, channelId: offTopicChannel.id, createAt: firstDateLater.ms});
+    cy.apiGetChannelByName(team.name, 'off-topic').then(({channel: offTopicChannel}) => {
+        // # Post message as sysadmin to off topic
+        cy.postMessageAs({sender: admin, message: firstOffTopicMessage, channelId: offTopicChannel.id, createAt: firstDateLater.ms});
 
-            // # Post message as new admin to off topic
-            cy.postMessageAs({sender: anotherAdmin, message: secondOffTopicMessage, channelId: offTopicChannel.id, createAt: secondDateLater.ms});
+        // # Post message as new admin to off topic
+        cy.postMessageAs({sender: anotherAdmin, message: secondOffTopicMessage, channelId: offTopicChannel.id, createAt: secondDateLater.ms});
 
-            // # Add 10 users and each post random messages to town-square and off-topic channels
-            Cypress._.times(10, () => {
-                cy.apiCreateUser().then(({user}) => {
-                    cy.apiAddUserToTeam(team.id, user.id).then(() => {
-                        [townSquareChannel, offTopicChannel].forEach((channel) => {
-                            cy.postMessageAs({sender: user, message: getRandomId(), channelId: channel.id});
+        // # Add 10 users and each post random messages to test and off-topic channels
+        Cypress._.times(10, () => {
+            cy.apiCreateUser().then(({user}) => {
+                cy.apiAddUserToTeam(team.id, user.id).then(() => {
+                    cy.apiAddUserToChannel(channel.id, user.id).then(() => {
+                        [channel, offTopicChannel].forEach((c) => {
+                            cy.postMessageAs({sender: user, message: getRandomId(), channelId: c.id});
                         });
                     });
                 });

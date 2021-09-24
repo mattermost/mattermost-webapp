@@ -7,6 +7,10 @@ import {FormattedMessage} from 'react-intl';
 import fileOverlayImage from 'images/filesOverlay.png';
 import overlayLogoImage from 'images/logoWhite.png';
 
+import {t} from 'utils/i18n';
+
+import LocalizedIcon from './localized_icon';
+
 type Props = {
     overlayType: string;
 }
@@ -29,17 +33,10 @@ const FileUploadOverlay: React.FC<Props> = (props: Props) => {
                         alt='Files'
                     />
                     <span>
-                        <FormattedMessage
-                            id='generic_icons.upload'
-                            defaultMessage='Upload Icon'
-                        >
-                            {(title) => (
-                                <i
-                                    className='fa fa-upload'
-                                    title={title as string}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <LocalizedIcon
+                            className='fa fa-upload'
+                            title={{id: t('generic_icons.upload'), defaultMessage: 'Upload Icon'}}
+                        />
                         <FormattedMessage
                             id='upload_overlay.info'
                             defaultMessage='Drop a file to upload it.'

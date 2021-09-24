@@ -19,11 +19,11 @@ describe('Message', () => {
     let testChannel;
 
     before(() => {
-        // # Create new team and new user and visit Town Square channel
+        // # Create new team and new user and visit Off-Topic channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 

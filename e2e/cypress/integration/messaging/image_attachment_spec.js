@@ -10,6 +10,150 @@
 // Stage: @prod
 // Group: @messaging
 
+describe('Image attachment', () => {
+    before(() => {
+        // # Login as new user
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
+        });
+    });
+
+    it('Image smaller than 48px in both width and height', () => {
+        const filename = 'small-image.png';
+
+        // # Upload a file on center view
+        cy.get('#fileUploadInput').attachFile(filename);
+
+        verifyImageInPostFooter();
+
+        // # Post message
+        cy.postMessage('Image upload');
+
+        verifyImageInPostFooter(false);
+
+        // # File thumbnail should have correct dimensions
+        verifyFileThumbnail({
+            filename,
+            actualImage: {height: 24, width: 24},
+            container: {height: 48, width: 48},
+        });
+    });
+
+    it('Image with height smaller than 48px', () => {
+        const filename = 'image-small-height.png';
+
+        // # Upload a file on center view
+        cy.get('#fileUploadInput').attachFile(filename);
+
+        verifyImageInPostFooter();
+
+        // # Post message
+        cy.postMessage('Image upload');
+
+        verifyImageInPostFooter(false);
+
+        // # File thumbnail should have correct dimensions
+        verifyFileThumbnail({
+            filename,
+            actualImage: {height: 24, width: 340},
+            container: {height: 48, width: 342},
+        });
+    });
+
+    it('Image with width smaller than 48px', () => {
+        const filename = 'image-small-width.png';
+
+        // # Upload a file on center view
+        cy.get('#fileUploadInput').attachFile(filename);
+
+        verifyImageInPostFooter();
+
+        // # Post message
+        cy.postMessage('Image upload');
+
+        verifyImageInPostFooter(false);
+
+        // # File thumbnail should have correct dimensions
+        verifyFileThumbnail({
+            filename,
+            actualImage: {height: 350, width: 21},
+            container: {height: 348, width: 46},
+        });
+    });
+
+    it('Image with width and height bigger than 48px', () => {
+        const filename = 'MM-logo-horizontal.png';
+
+        // # Upload a file on center view
+        cy.get('#fileUploadInput').attachFile(filename);
+
+        verifyImageInPostFooter();
+
+        // # Post message
+        cy.postMessage('Image upload');
+
+        verifyImageInPostFooter(false);
+
+        // # File thumbnail should have correct dimensions
+        verifyFileThumbnail({
+            filename,
+            actualImage: {height: 151, width: 958},
+        });
+    });
+
+    it('opens image preview window when image is clicked', () => {
+        const filename = 'MM-logo-horizontal.png';
+
+        // # Upload a file on center view
+        cy.get('#fileUploadInput').attachFile(filename);
+
+        verifyImageInPostFooter();
+
+        // # Post message
+        cy.postMessage('Image upload');
+
+        verifyImageInPostFooter(false);
+
+        // # File thumbnail should have correct dimensions
+        verifyFileThumbnail({
+            filename,
+            actualImage: {height: 151, width: 958},
+            clickPreview: () => cy.uiGetFileThumbnail(filename).click(),
+        });
+
+        // * Verify that the preview modal open up
+        cy.uiGetFilePreviewModal();
+
+        // # Close the modal
+        cy.uiCloseFilePreviewModal();
+    });
+
+    it('opens image preview window when small image is clicked', () => {
+        const filename = 'small-image.png';
+
+        // # Upload a file on center view
+        cy.get('#fileUploadInput').attachFile(filename);
+
+        verifyImageInPostFooter();
+
+        // # Post message
+        cy.postMessage('Image upload');
+
+        verifyImageInPostFooter(false);
+
+        // # File thumbnail should have correct dimensions
+        verifyFileThumbnail({
+            filename,
+            actualImage: {height: 24, width: 24},
+            container: {height: 48, width: 48},
+            clickPreview: () => cy.uiGetFileThumbnail(filename).click(),
+        });
+
+        // * Verify that the preview modal open up
+        cy.uiGetFilePreviewModal();
+    });
+});
+
 function verifyImageInPostFooter(verifyExistence = true) {
     if (verifyExistence) {
         // * Verify that the image exists in the post message footer
@@ -22,189 +166,28 @@ function verifyImageInPostFooter(verifyExistence = true) {
     }
 }
 
-describe('Image attachment', () => {
-    before(() => {
-        // # Login as new user
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+function verifyFileThumbnail({filename, actualImage = {}, container = {}, clickPreview}) {
+    // # File thumbnail should have correct dimensions
+    cy.getLastPostId().then((postId) => {
+        // * Verify that the image is inside a container div
+        cy.get(`#${postId}_message`).within(() => {
+            cy.uiGetFileThumbnail(filename).
+                should((img) => {
+                    expect(img.height()).to.be.closeTo(actualImage.height, 2.0);
+                    expect(img.width()).to.be.closeTo(actualImage.width, 2.0);
+                }).
+                parent().
+                should((img) => {
+                    if (container.width || container.height) {
+                        expect(img.height()).to.be.closeTo(container.height, 2.0);
+                        expect(img.width()).to.be.closeTo(container.width, 2.0);
+                    }
+                });
+
+            if (clickPreview) {
+                // # Open file preview
+                clickPreview();
+            }
         });
     });
-
-    it('Image smaller than 48px in both width and height', () => {
-        // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('small-image.png');
-
-        verifyImageInPostFooter();
-
-        // # Post message
-        cy.postMessage('Image upload');
-
-        verifyImageInPostFooter(false);
-
-        // * Verify that HTML Content is correct.
-        // Note we check width and height to verify that img element is actually loaded
-        cy.getLastPostId().then((postId) => {
-            // * Verify that the image is inside a container div
-            cy.get(`#${postId}_message`).should('be.visible').within(() => {
-                cy.get('div.small-image__container').as('containerDiv').
-                    should('have.class', 'cursor--pointer').
-                    and('have.class', 'a11y--active').
-                    and('have.class', 'small-image__container--min-width').
-                    and('have.css', 'height', '48px').
-                    and('have.css', 'width', '48px');
-
-                cy.get('@containerDiv').children('img').
-                    should('have.class', 'min-preview').
-                    and('have.css', 'height', '24px').
-                    and('have.css', 'width', '24px');
-            });
-        });
-    });
-
-    it('Image with height smaller than 48px', () => {
-        // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('image-small-height.png');
-
-        verifyImageInPostFooter();
-
-        // # Post message
-        cy.postMessage('Image upload');
-
-        verifyImageInPostFooter(false);
-
-        // * Verify that HTML Content is correct.
-        // Note we check width and height to verify that img element is actually loaded
-        cy.getLastPostId().then((postId) => {
-            // * Verify that the image is inside a container div
-            cy.get(`#${postId}_message`).should('be.visible').within(() => {
-                cy.get('div.small-image__container').as('containerDiv').
-                    should('have.class', 'cursor--pointer').
-                    and('have.class', 'a11y--active').
-                    and('have.css', 'height', '48px').
-                    and('have.css', 'width', '342px');
-
-                cy.get('@containerDiv').children('img').
-                    should('have.class', 'min-preview').
-                    and('have.css', 'height', '25px').
-                    and('have.css', 'width', '340px');
-            });
-        });
-    });
-
-    it('Image with width smaller than 48px', () => {
-        // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('image-small-width.png');
-
-        verifyImageInPostFooter();
-
-        // # Post message
-        cy.postMessage('Image upload');
-
-        verifyImageInPostFooter(false);
-
-        // * Verify that HTML Content is correct.
-        // Note we check width and height to verify that img element is actually loaded
-        cy.getLastPostId().then((postId) => {
-            // * Verify that the image is inside a container div
-            cy.get(`#${postId}_message`).should('be.visible').within(() => {
-                cy.get('div.small-image__container').as('containerDiv').
-                    should('have.class', 'cursor--pointer').
-                    and('have.class', 'a11y--active').
-                    and('have.class', 'small-image__container--min-width').
-                    and('have.css', 'height', '350px').
-                    and('have.css', 'width', '48px');
-
-                cy.get('@containerDiv').children('img').
-                    should('have.class', 'min-preview').
-                    and('have.css', 'height', '350px').
-                    and((img) => {
-                        expect(img.width()).to.be.closeTo(21, 0.9);
-                    });
-            });
-        });
-    });
-
-    it('Image with width and height bigger than 48px', () => {
-        // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('MM-logo-horizontal.png');
-
-        verifyImageInPostFooter();
-
-        // # Post message
-        cy.postMessage('Image upload');
-
-        verifyImageInPostFooter(false);
-
-        // * Verify that HTML Content is correct.
-        // Note we check width and height to verify that img element is actually loaded
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#${postId}_message`).should('be.visible').within(() => {
-                cy.get('div.file-preview__button').as('div');
-
-                cy.get('@div').find('img').
-                    and((img) => {
-                        expect(img.height()).to.be.closeTo(151, 2.0);
-                        expect(img.width()).to.be.closeTo(958, 2.0);
-                    });
-            });
-        });
-    });
-
-    it('opens image preview window when image is clicked', () => {
-        // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('MM-logo-horizontal.png');
-
-        verifyImageInPostFooter();
-
-        // # Post message
-        cy.postMessage('Image upload');
-
-        verifyImageInPostFooter(false);
-
-        cy.getLastPostId().then((postId) => {
-            // # Get the image and simulate a click.
-            cy.get(`#${postId}_message`).should('be.visible').within(() => {
-                cy.get('div.file-preview__button').as('div');
-
-                cy.get('@div').find('img').
-                    and((img) => {
-                        expect(img.height()).to.be.closeTo(151, 2.0);
-                        expect(img.width()).to.be.closeTo(958, 2.0);
-                    }).
-                    click();
-            });
-
-            // * Verify that the preview modal opens
-            cy.get('div.modal-image__content').should('be.visible').trigger('mouseover');
-
-            // # Close the modal
-            cy.get('div.modal-close').should('exist').click({force: true});
-        });
-    });
-
-    it('opens image preview window when small image is clicked', () => {
-        // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('small-image.png');
-
-        verifyImageInPostFooter();
-
-        // # Post message
-        cy.postMessage('Image upload');
-
-        verifyImageInPostFooter(false);
-
-        cy.getLastPostId().then((postId) => {
-            // # Get the container div and simulate a click.
-            cy.get(`#${postId}_message`).should('be.visible').within(() => {
-                cy.get('div.small-image__container').
-                    should('be.visible').
-                    and('have.css', 'height', '48px').
-                    and('have.css', 'width', '48px').
-                    click();
-            });
-
-            // * Verify that the preview modal opens
-            cy.get('div.modal-image__content').should('be.visible');
-        });
-    });
-});
+}

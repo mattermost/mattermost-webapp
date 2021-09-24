@@ -12,7 +12,7 @@
 
 describe('Messaging', () => {
     let testUser;
-    let townSquareLink;
+    let offTopicUrl;
 
     before(() => {
         // # Enable Link Previews
@@ -22,16 +22,16 @@ describe('Messaging', () => {
             },
         });
 
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl: url, user}) => {
             testUser = user;
-            townSquareLink = `/${team.name}/channels/town-square`;
+            offTopicUrl = url;
 
             // # Save Show Preview Preference to true
             // # Save Preview Collapsed Preference to false
             cy.apiSaveLinkPreviewsPreference('true');
             cy.apiSaveCollapsePreviewsPreference('false');
 
-            cy.visit(townSquareLink);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -48,7 +48,7 @@ describe('Messaging', () => {
 
             // # Log-in to the other user
             cy.apiAdminLogin();
-            cy.visit(townSquareLink);
+            cy.visit(offTopicUrl);
 
             // * Check the preview is shown
             cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
@@ -56,7 +56,7 @@ describe('Messaging', () => {
 
             // # Log-in back to the first user
             cy.apiLogin(testUser);
-            cy.visit(townSquareLink);
+            cy.visit(offTopicUrl);
 
             // # Collapse the preview
             cy.get(`#${postId}_message`).find('.post__embed-visibility').click({force: true});
@@ -67,7 +67,7 @@ describe('Messaging', () => {
 
             // # Log-in to the other user
             cy.apiAdminLogin();
-            cy.visit(townSquareLink);
+            cy.visit(offTopicUrl);
 
             // * Check the preview is shown
             cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
@@ -75,7 +75,7 @@ describe('Messaging', () => {
 
             // # Log-in back to the first user
             cy.apiLogin(testUser);
-            cy.visit(townSquareLink);
+            cy.visit(offTopicUrl);
 
             // # Remove the preview
             cy.get(`#${postId}_message`).within(() => {
@@ -88,7 +88,7 @@ describe('Messaging', () => {
 
             // # Log-in to the other user
             cy.apiAdminLogin();
-            cy.visit(townSquareLink);
+            cy.visit(offTopicUrl);
 
             // * Preview should not exist
             cy.get(`#${postId}_message`).find('.attachment--opengraph').should('not.exist');

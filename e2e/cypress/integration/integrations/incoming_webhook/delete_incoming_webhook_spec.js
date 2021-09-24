@@ -32,9 +32,9 @@ describe('Incoming webhook', () => {
         cy.apiAdminLogin();
         enableUsernameAndIconOverride(true);
 
-        // # Go to test team/channel, open main menu and click "Integrations"
+        // # Go to test team/channel, open product menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.uiOpenMainMenu('Integrations');
+        cy.uiOpenProductSwitchMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Incoming Webhooks"
         cy.url().should('include', `${testTeam.name}/integrations`);
@@ -90,8 +90,8 @@ describe('Incoming webhook', () => {
                     });
                 });
 
-                // # Click 'Integrations' at main menu
-                cy.uiOpenMainMenu('Integrations');
+                // # Click 'Integrations' at product menu
+                cy.uiOpenProductSwitchMenu('Integrations');
 
                 // * Verify that it redirects to integrations URL. Then, click "Incoming Webhooks"
                 cy.url().should('include', `${testTeam.name}/integrations`);
