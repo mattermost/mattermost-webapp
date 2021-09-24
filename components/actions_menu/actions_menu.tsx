@@ -324,6 +324,8 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                 />);
 
             menuItems = [
+                pluginItems,
+                appBindings,
                 pluggable,
                 marketPlace,
             ];

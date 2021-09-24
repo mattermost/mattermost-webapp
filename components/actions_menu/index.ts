@@ -55,7 +55,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         components: state.plugins.components,
         currentTeamId: currentTeam.id,
         isSysAdmin,
-        pluginMenuItems: state.plugins.components.PostDropdownMenuItem,
+        pluginMenuItems: state.plugins.components.PostDropdownMenu,
         teamId: getCurrentTeamId(state),
         userId,
         ...ownProps,
