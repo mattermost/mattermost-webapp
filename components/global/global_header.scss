@@ -2,23 +2,6 @@
 
 // css feature flag: apply styling overrides to legacy layout when global header is enabled
 .feature-global-header {
-    .Menu > .product-switcher-menu {
-        .MenuItem {
-            .MenuItem__primary-text {
-                line-height: 26px;
-            }
-
-            a,
-            button {
-                padding: 0 20px;
-
-                .icon {
-                    color: rgba(var(--center-channel-color-rgb), 0.56);
-                }
-            }
-        }
-    }
-
     .status-dropdown-menu-global-header {
         padding: 4px 8px;
         border-radius: 4px;
