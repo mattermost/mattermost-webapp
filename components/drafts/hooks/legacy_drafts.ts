@@ -16,10 +16,10 @@ import {StoragePrefixes, StorageTypes} from 'utils/constants';
 const getChannelDrafts: DraftSelector = makeGetDraftsByPrefix(StoragePrefixes.DRAFT);
 const getThreadDrafts: DraftSelector = makeGetDraftsByPrefix(StoragePrefixes.COMMENT_DRAFT);
 
-// Drafts pre global drafts are missing the channel_id in the value
+// Drafts pre global drafts are missing the channelId in the value
 // thus making it hard to determine in which team they belong.
 //
-// This hook is fixing those drafts so they include the channel_id.
+// This hook is fixing those drafts so they include the channelId.
 // The most trick part is that for drafts in threads we have to fetch the post since
 // it's not guaranteed that they exist at mount.
 // This should be an one-off.
@@ -31,11 +31,11 @@ export function useSyncLegacyDrafts(): void {
     const posts = useSelector(getAllPosts);
 
     useEffect(() => {
-        const legacyDrafts = channelDrafts?.filter((draft) => !draft?.value?.channel_id);
+        const legacyDrafts = channelDrafts?.filter((draft) => !draft?.value?.channelId);
 
         const actions: GenericAction[] = [];
         legacyDrafts.forEach((draft) => {
-            const updatedValue = {...draft.value, channel_id: draft.id};
+            const updatedValue = {...draft.value, channelId: draft.id};
             localStorage.setItem(String(draft.key), JSON.stringify(updatedValue));
 
             actions.push({
@@ -53,12 +53,12 @@ export function useSyncLegacyDrafts(): void {
     }, [channelDrafts, teamId]);
 
     useEffect(() => {
-        const legacyDrafts = threadDrafts?.filter((draft) => !draft?.value?.channel_id);
+        const legacyDrafts = threadDrafts?.filter((draft) => !draft?.value?.channelId);
         const actions: GenericAction[] = [];
 
         legacyDrafts.forEach(async (draft) => {
             if (posts[draft.id]) {
-                const updatedValue = {...draft.value, channel_id: posts[draft.id].channel_id};
+                const updatedValue = {...draft.value, channelId: posts[draft.id].channel_id};
                 localStorage.setItem(String(draft.key), JSON.stringify(updatedValue));
 
                 actions.push({
@@ -73,7 +73,7 @@ export function useSyncLegacyDrafts(): void {
                 const {data, error} = await dispatch(getPost(draft.id));
 
                 if (!error && data) {
-                    const updatedValue = {...draft.value, channel_id: data.channel_id};
+                    const updatedValue = {...draft.value, channelId: data.channel_id};
                     localStorage.setItem(String(draft.key), JSON.stringify(updatedValue));
 
                     actions.push({

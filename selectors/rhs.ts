@@ -121,7 +121,7 @@ export function getIsSearchGettingMore(state: GlobalState): boolean {
 }
 
 export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): PostDraft {
-    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: [], createAt: new Date(0), channel_id: ''};
+    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: [], createAt: new Date(0), channelId: ''};
     const draft = makeGetGlobalItem(prefixId + suffixId, defaultDraft)(state);
 
     if (

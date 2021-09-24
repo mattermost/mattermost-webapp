@@ -172,7 +172,7 @@ function setDraft(key: string, value: PostDraft) {
             const channelId = getCurrentChannelId(getState());
             updatedValue = {
                 ...value,
-                channel_id: channelId,
+                channelId,
                 createAt: data.createAt || new Date(),
             };
             localStorage.setItem(key, JSON.stringify(updatedValue));

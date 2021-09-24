@@ -89,7 +89,8 @@ function ThreadDraft({
                         hover={hover}
                         actions={(
                             <DraftActions
-                                channelName={channel.display_name || displayName}
+                                channel={channel}
+                                userId={user.id}
                                 draftId={draftId}
                                 onDelete={handleOnDelete}
                                 onEdit={handleOnEdit}

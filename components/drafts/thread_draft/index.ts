@@ -18,7 +18,7 @@ type OwnProps = {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const channel = getChannel(state, ownProps.value.channel_id);
+    const channel = getChannel(state, ownProps.value.channelId);
     const post = getPost(state, ownProps.id);
 
     let thread;

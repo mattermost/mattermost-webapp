@@ -24,7 +24,7 @@ export type PostDraft = {
     uploadsInProgress: string[];
     props?: any;
     caretPosition?: number;
-    channel_id: string;
+    channelId: string;
     createAt: Date;
 };
 

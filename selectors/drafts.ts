@@ -97,7 +97,7 @@ export function makeGetDrafts(): DraftSelector {
                 }
 
                 return 0;
-            }).filter((draft) => myChannels.indexOf(draft.value.channel_id) !== -1);
+            }).filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1);
         },
     );
 }
@@ -111,6 +111,6 @@ export function makeGetDraftsCount(): DraftCountSelector {
         getRHSDrafts,
         (state: GlobalState) => getMyChannels(state).map((chan) => chan.id),
         (channelDrafts, rhsDrafts, myChannels) => [...channelDrafts, ...rhsDrafts].
-            filter((draft) => myChannels.indexOf(draft.value.channel_id) !== -1).length,
+            filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1).length,
     );
 }
