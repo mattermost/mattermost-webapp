@@ -1,28 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
-import {useSelector} from 'react-redux';
+import React, {memo, useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {NavLink, useRouteMatch} from 'react-router-dom';
 import {useIntl} from 'react-intl';
+
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {makeGetDraftsCount} from 'selectors/drafts';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 
-import {useSyncLegacyDrafts} from './hooks/legacy_drafts';
+import {syncLegacyDrafts} from './actions/legacy_drafts';
 
 import './drafts_link.scss';
 
 const getDraftsCount = makeGetDraftsCount();
 
 function DraftsLink() {
-    useSyncLegacyDrafts();
-
+    const dispatch = useDispatch();
     const {formatMessage} = useIntl();
     const {url} = useRouteMatch();
     const match = useRouteMatch('/:team/drafts');
     const count = useSelector(getDraftsCount);
+
+    const teamId = useSelector(getCurrentTeamId);
+
+    useEffect(() => {
+        dispatch(syncLegacyDrafts());
+    }, [teamId]);
 
     if (!count && !match) {
         return null;

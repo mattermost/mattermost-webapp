@@ -1,16 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {getPost} from 'mattermost-redux/actions/posts';
-import {DispatchFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {getAllPosts} from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetDraftsByPrefix, DraftSelector} from 'selectors/drafts';
+import {GlobalState} from 'types/store';
 import {StoragePrefixes, StorageTypes} from 'utils/constants';
 
 const getChannelDrafts: DraftSelector = makeGetDraftsByPrefix(StoragePrefixes.DRAFT);
@@ -23,18 +21,20 @@ const getThreadDrafts: DraftSelector = makeGetDraftsByPrefix(StoragePrefixes.COM
 // The most trick part is that for drafts in threads we have to fetch the post since
 // it's not guaranteed that they exist at mount.
 // This should be an one-off.
-export function useSyncLegacyDrafts(): void {
-    const dispatch: DispatchFunc = useDispatch();
-    const channelDrafts = useSelector(getChannelDrafts);
-    const threadDrafts = useSelector(getThreadDrafts);
-    const teamId = useSelector(getCurrentTeamId);
-    const posts = useSelector(getAllPosts);
+export function syncLegacyDrafts() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
 
-    useEffect(() => {
-        const legacyDrafts = channelDrafts?.filter((draft) => !draft?.value?.channelId);
+        const channelDrafts = getChannelDrafts(state);
+        const threadDrafts = getThreadDrafts(state);
+        const posts = getAllPosts(state);
 
         const actions: GenericAction[] = [];
-        legacyDrafts.forEach((draft) => {
+
+        const legacyChannelDrafts = channelDrafts?.filter((draft) => !draft?.value?.channelId);
+        const legacyThreadDrafts = threadDrafts?.filter((draft) => !draft?.value?.channelId);
+
+        legacyChannelDrafts.forEach((draft) => {
             const updatedValue = {...draft.value, channelId: draft.id};
             localStorage.setItem(String(draft.key), JSON.stringify(updatedValue));
 
@@ -48,15 +48,7 @@ export function useSyncLegacyDrafts(): void {
             });
         });
 
-        // Batch update storage drafts with updated draft shape
-        dispatch(batchActions(actions));
-    }, [channelDrafts, teamId]);
-
-    useEffect(() => {
-        const legacyDrafts = threadDrafts?.filter((draft) => !draft?.value?.channelId);
-        const actions: GenericAction[] = [];
-
-        legacyDrafts.forEach(async (draft) => {
+        legacyThreadDrafts.forEach(async (draft) => {
             if (posts[draft.id]) {
                 const updatedValue = {...draft.value, channelId: posts[draft.id].channel_id};
                 localStorage.setItem(String(draft.key), JSON.stringify(updatedValue));
@@ -88,7 +80,6 @@ export function useSyncLegacyDrafts(): void {
             }
         });
 
-        // Batch update storage drafts with updated draft shape
-        dispatch(batchActions(actions));
-    }, [threadDrafts, teamId, posts]);
+        batchActions(actions);
+    };
 }
