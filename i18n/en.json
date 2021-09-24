@@ -2843,6 +2843,7 @@
   "create_post.tutorialTip1": "Type your first message and select **Enter** to send it.",
   "create_post.tutorialTip2": "Use the **Attachments** and **Emoji** buttons to add files and emojis to your messages.",
   "create_post.write": "Write to {channelDisplayName}",
+  "create_post.helper_text": "**ENTER** to Save, **ESC** to Cancel",
   "create_team.agreement": "By proceeding to create your account and use {siteName}, you agree to our [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}.",
   "create_team.display_name.charLength": "Name must be {min} or more characters up to a maximum of {max}. You can add a longer team description later.",
   "create_team.display_name.nameHelp": "Name your team in any language. Your team name shows in menus and headings.",

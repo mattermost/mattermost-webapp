@@ -628,6 +628,13 @@
     }
 }
 
+.post-body__helper-text {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'Open Sans', sans-serif;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+}
+
 .post-create-footer {
     position: relative;
     padding: 6px 0 0;
@@ -2177,4 +2184,8 @@
             pointer-events: auto;
         }
     }
+}
+
+.post--editing {
+    background-color: rgba(var(--button-bg-rgb), 0.08);
 }

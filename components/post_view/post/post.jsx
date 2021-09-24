@@ -86,6 +86,8 @@ export default class Post extends React.PureComponent {
          */
         isLastPost: PropTypes.bool,
 
+        isBeingEdited: PropTypes.bool,
+
         /**
          * Whether or not the channel that contains this post is archived
          */
@@ -296,12 +298,16 @@ export default class Post extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.a11yActive) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || (this.state.a11yActive && !this.props.isBeingEdited)) {
             className += ' post--hovered';
         }
 
         if (post.is_pinned || this.props.isFlagged) {
             className += ' post--pinned-or-flagged';
+        }
+
+        if (this.props.isBeingEdited) {
+            className += ' post--editing';
         }
 
         if (
@@ -422,7 +428,7 @@ export default class Post extends React.PureComponent {
                                 compactDisplay={this.props.compactDisplay}
                                 isFirstReply={this.props.isFirstReply}
                                 showTimeWithoutHover={!hideProfilePicture}
-                                hover={this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened}
+                                hover={this.state.hover || (this.state.a11yActive && !this.props.isBeingEdited) || this.state.fileDropdownOpened}
                                 isLastPost={this.props.isLastPost}
                             />
                             <PostBody

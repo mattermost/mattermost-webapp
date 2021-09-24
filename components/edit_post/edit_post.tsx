@@ -18,6 +18,7 @@ import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from '../../uti
 import * as Utils from '../../utils/utils';
 import DeletePostModal from '../delete_post_modal';
 import EmojiPickerOverlay from '../emoji_picker/emoji_picker_overlay';
+import FormattedMarkdownMessage from '../formatted_markdown_message';
 import Textbox from '../textbox';
 import EmojiIcon from '../widgets/icons/emoji_icon';
 
@@ -55,7 +56,6 @@ export type Props = {
         post?: Post;
         postId?: string;
         refocusId?: string;
-        show: boolean;
         title?: string;
         isRHS?: boolean;
     };
@@ -95,6 +95,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
 
     const {formatMessage} = useIntl();
 
+    useEffect(() => textboxRef.current.focus(), []);
     useEffect(() => {
         const handlePaste = (e: ClipboardEvent) => {
             if (
@@ -457,6 +458,12 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element => {
                 useChannelMentions={rest.useChannelMentions}
             />
             <div className='post-body__actions'>{emojiPicker}</div>
+            <div className='post-body__helper-text'>
+                <FormattedMarkdownMessage
+                    id='create_post.helper_text'
+                    defaultMessage='**ENTER** to Save, **ESC** to Cancel'
+                />
+            </div>
             {postError && (
                 <div className={classNames('edit-post-footer', {'has-error': postError})}>
                     <label className={classNames('post-error', errorClass)}>{postError}</label>

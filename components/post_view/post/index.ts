@@ -20,6 +20,7 @@ import {GlobalState} from 'types/store';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 import {areConsecutivePostsBySameUser} from 'utils/post_utils';
+import {getEditingPost} from '../../../selectors/posts';
 
 import PostComponent from './post';
 
@@ -52,6 +53,7 @@ function makeMapStateToProps() {
     return (state: GlobalState, ownProps: OwnProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
         const channel = getChannel(state, post.channel_id);
+        const editingPost = getEditingPost(state);
 
         let previousPost = null;
         if (ownProps.previousPostId) {
@@ -68,6 +70,7 @@ function makeMapStateToProps() {
 
         return {
             post,
+            isBeingEdited: editingPost.postId === post.id,
             currentUserId: getCurrentUserId(state),
             isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
             consecutivePostByUser,
