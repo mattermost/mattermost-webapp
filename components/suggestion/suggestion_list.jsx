@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
+import {cloneDeep} from 'lodash';
 
 import {isEmptyObject, windowHeight} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
@@ -195,17 +196,29 @@ export default class SuggestionList extends React.PureComponent {
             return null;
         }
 
+        const clonedItems = cloneDeep(this.props.items);
+
         const items = [];
-        if (this.props.items.length === 0) {
+        if (clonedItems.length === 0) {
             if (!this.props.renderNoResults) {
                 return null;
             }
             items.push(this.renderNoResults());
         }
 
+        const sortedItems = clonedItems.sort((itemA, itemB) => {
+            if (!itemA.type) {
+                return 1;
+            }
+            if (!itemB.type) {
+                return -1;
+            }
+            return itemA.type.localeCompare(itemB.type);
+        });
+
         let lastType;
-        for (let i = 0; i < this.props.items.length; i++) {
-            const item = this.props.items[i];
+        for (let i = 0; i < sortedItems.length; i++) {
+            const item = sortedItems[i];
             const term = this.props.terms[i];
             const isSelection = term === this.props.selection;
 
@@ -230,7 +243,7 @@ export default class SuggestionList extends React.PureComponent {
                 <Component
                     key={term}
                     ref={(ref) => this.itemRefs.set(term, ref)}
-                    item={this.props.items[i]}
+                    item={sortedItems[i]}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}
                     isSelection={isSelection}
