@@ -10,7 +10,7 @@ This project hosts the webapp client code. Please file issues at [/mattermost-se
 - [Review developer documentation](https://developers.mattermost.com/).
 - [Download compiled version](https://mattermost.com/download).
 
-Try out Mattermost: 
+Try out Mattermost: yest
 
 - [Join the Mattermost Contributor's server](https://community.mattermost.com) to join community discussions about contributions, development and more
 - [Get started with Mattermost Cloud](https://customers.mattermost.com/cloud/signup) to try out Mattermost
