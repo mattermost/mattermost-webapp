@@ -38,9 +38,40 @@ describe('threads', () => {
         });
         expect(nextState.threadsInTeam.a).toContain('t1');
     });
+
+    test('RECEIVED_UNREAD_THREADS should update the state', () => {
+        const state = deepFreeze({
+            threadsInTeam: {},
+            unreadThreadsInTeam: {},
+            threads: {},
+            counts: {},
+        });
+
+        const nextState = threadsReducer(state, {
+            type: ThreadTypes.RECEIVED_UNREAD_THREADS,
+            data: {
+                team_id: 'a',
+                threads: [
+                    {id: 't1'},
+                ],
+                total: 3,
+                total_unread_threads: 0,
+                total_unread_mentions: 1,
+            },
+        });
+
+        expect(nextState).not.toBe(state);
+        expect(nextState.threads.t1).toEqual({
+            id: 't1',
+        });
+        expect(nextState.unreadThreadsInTeam.a).toContain('t1');
+        expect(nextState.threadsInTeam).toBe(state.threadsInTeam);
+    });
+
     test('ALL_TEAM_THREADS_READ should clear the counts', () => {
         const state = deepFreeze({
             threadsInTeam: {},
+            unreadThreadsInTeam: {},
             threads: {},
             counts: {
                 a: {
@@ -67,7 +98,12 @@ describe('threads', () => {
 
     test('READ_CHANGED_THREAD should update the count for thread per channel', () => {
         const state = deepFreeze({
-            threadsInTeam: {},
+            threadsInTeam: {
+                a: ['id'],
+            },
+            unreadThreadsInTeam: {
+                a: ['a', 'id', 'c'],
+            },
             threads: {},
             counts: {
                 a: {
@@ -80,6 +116,7 @@ describe('threads', () => {
         const nextState2 = threadsReducer(state, {
             type: ThreadTypes.READ_CHANGED_THREAD,
             data: {
+                id: 'id',
                 teamId: 'a',
                 prevUnreadMentions: 3,
                 newUnreadMentions: 0,
@@ -93,10 +130,13 @@ describe('threads', () => {
             total_unread_threads: 1,
             total_unread_mentions: 0,
         });
+        expect(nextState2.threadsInTeam.a).toEqual(['id']);
+        expect(nextState2.unreadThreadsInTeam.a).toEqual(['a', 'c']);
 
         const nextState3 = threadsReducer(nextState2, {
             type: ThreadTypes.READ_CHANGED_THREAD,
             data: {
+                id: 'id',
                 teamId: 'a',
                 prevUnreadMentions: 0,
                 newUnreadMentions: 3,
@@ -105,6 +145,8 @@ describe('threads', () => {
         });
 
         expect(nextState3).not.toBe(nextState2);
+        expect(nextState3.threadsInTeam.a).toEqual(['id']);
+        expect(nextState3.unreadThreadsInTeam.a).toEqual(['a', 'c', 'id']);
         expect(nextState3.counts.a).toEqual({
             total: 3,
             total_unread_threads: 1,
@@ -114,6 +156,7 @@ describe('threads', () => {
     test('LEAVE_TEAM should clean the state', () => {
         const state = deepFreeze({
             threadsInTeam: {},
+            unreadThreadsInTeam: {},
             threads: {},
             counts: {},
         });
@@ -151,6 +194,9 @@ describe('threads', () => {
             threadsInTeam: {
                 a: ['t1', 't2', 't3'],
             },
+            unreadThreadsInTeam: {
+                a: ['t1', 't2', 't3'],
+            },
             threads: {
                 t1: {
                     id: 't1',
@@ -173,11 +219,15 @@ describe('threads', () => {
         expect(nextState).not.toBe(state);
         expect(nextState.threads.t2).toBe(undefined);
         expect(nextState.threadsInTeam.a).toEqual(['t1', 't3']);
+        expect(nextState.unreadThreadsInTeam.a).toEqual(['t1', 't3']);
     });
 
     test('POST_REMOVED should do nothing when not a root post', () => {
         const state = deepFreeze({
             threadsInTeam: {
+                a: ['t1', 't2', 't3'],
+            },
+            unreadThreadsInTeam: {
                 a: ['t1', 't2', 't3'],
             },
             threads: {
@@ -202,11 +252,15 @@ describe('threads', () => {
         expect(nextState).toBe(state);
         expect(nextState.threads.t2).toBe(state.threads.t2);
         expect(nextState.threadsInTeam.a).toEqual(['t1', 't2', 't3']);
+        expect(nextState.unreadThreadsInTeam.a).toEqual(['t1', 't2', 't3']);
     });
 
     test('POST_REMOVED should do nothing when post not exist', () => {
         const state = deepFreeze({
             threadsInTeam: {
+                a: ['t1', 't2'],
+            },
+            unreadThreadsInTeam: {
                 a: ['t1', 't2'],
             },
             threads: {
@@ -228,10 +282,15 @@ describe('threads', () => {
         expect(nextState).toBe(state);
         expect(nextState.threads.t2).toBe(state.threads.t2);
         expect(nextState.threadsInTeam.a).toEqual(['t1', 't2']);
+        expect(nextState.unreadThreadsInTeam.a).toEqual(['t1', 't2']);
     });
     test('LEAVE_CHANNEL should remove threads that belong to that channel', () => {
         const state = deepFreeze({
             threadsInTeam: {
+                a: ['t1', 't2', 't3'],
+                b: ['t4', 't5', 't6'],
+            },
+            unreadThreadsInTeam: {
                 a: ['t1', 't2', 't3'],
                 b: ['t4', 't5', 't6'],
             },
@@ -314,6 +373,7 @@ describe('threads', () => {
         });
 
         expect(nextState.threadsInTeam.a).toEqual(['t1']);
+        expect(nextState.unreadThreadsInTeam.a).toEqual(['t1']);
 
         expect(nextState.counts.a).toEqual({
             total: 1,
