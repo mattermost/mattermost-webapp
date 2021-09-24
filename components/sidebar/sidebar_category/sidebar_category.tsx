@@ -349,15 +349,17 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                 className='followingSibling'
                                 touchedInviteMembersButton={this.props.touchedInviteMembersButton}
                                 onClick={() => {
-                                    this.props.actions.savePreferences(
-                                        this.props.currentUserId,
-                                        [{
-                                            category: Preferences.TOUCHED,
-                                            user_id: this.props.currentUserId,
-                                            name: Touched.INVITE_MEMBERS,
-                                            value: 'true',
-                                        }],
-                                    );
+                                    if (!this.props.touchedInviteMembersButton) {
+                                        this.props.actions.savePreferences(
+                                            this.props.currentUserId,
+                                            [{
+                                                category: Preferences.TOUCHED,
+                                                user_id: this.props.currentUserId,
+                                                name: Touched.INVITE_MEMBERS,
+                                                value: 'true',
+                                            }],
+                                        );
+                                    }
                                 }}
                             />
                         );

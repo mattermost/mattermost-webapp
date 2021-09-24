@@ -11,6 +11,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import InviteMembersButton from 'components/sidebar/invite_members_button';
 
 import * as teams from 'mattermost-redux/selectors/entities/teams';
+import thunk from 'redux-thunk';
 
 describe('components/sidebar/invite_members_button', () => {
     // required state to mount using the provider
@@ -54,7 +55,7 @@ describe('components/sidebar/invite_members_button', () => {
         touchedInviteMembersButton: false,
     };
 
-    const mockStore = configureStore();
+    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team_id2sss');
 
@@ -87,5 +88,35 @@ describe('components/sidebar/invite_members_button', () => {
             </Provider>,
         );
         expect(wrapper.find('i').exists()).toBeFalsy();
+    });
+
+    test('should should fire onClick prop on click', () => {
+        const mock = jest.fn();
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...{...props, onClick: mock}} />
+            </Provider>,
+        );
+        expect(mock).not.toHaveBeenCalled();
+        wrapper.find('i').simulate('click')
+        expect(mock).toHaveBeenCalled();
+    });
+
+    test('should not have untouched ui when component has been touched', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...{...props, touchedInviteMembersButton: true}} />
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).not.toContain('untouched')
+    });
+
+    test('should have untouched ui when component has not been touched', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...props} />
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).toContain('untouched')
     });
 });
