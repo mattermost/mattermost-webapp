@@ -136,6 +136,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         const paidTierProps = {
             ...baseProps,
             subscriptionStats: {
+                remaining_seats: 0, // this value doesn't matter if is_paid_tier is true because no limitations are applied to paid tiers
                 is_paid_tier: 'true',
             },
         };
