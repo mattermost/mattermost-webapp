@@ -14,11 +14,11 @@ describe('Post PreHeader', () => {
     let testTeam;
 
     before(() => {
-        // # Login as test user and visit town-square channel
+        // # Login as test user and visit off-topic channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
@@ -135,7 +135,7 @@ describe('Post PreHeader', () => {
                 cy.get('.sidebar--right__title').
                     should('be.visible').
                     and('contain', 'Pinned Posts').
-                    and('contain', 'Town Square');
+                    and('contain', 'Off-Topic');
 
                 // * Check that the post pre-header is not shown for the pinned message in RHS
                 cy.findByTestId('search-item-container').within(() => {

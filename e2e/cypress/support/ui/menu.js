@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const MAIN_MENU = 'main menu';
 const SYSTEM_CONSOLE_MAIN_MENU = 'Menu Icon';
-const CHANNEL_MENU = 'channel menu';
 
 function openMenu(name, item) {
     const menu = () => cy.findByRole('button', {name}).should('be.visible');
@@ -23,18 +21,6 @@ function getMenu(name) {
     return cy.findByRole('button', {name}).should('be.visible');
 }
 
-Cypress.Commands.add('uiOpenMainMenu', (item = '') => {
-    return openMenu(MAIN_MENU, item);
-});
-
-Cypress.Commands.add('uiCloseMainMenu', () => {
-    return cy.uiGetMainMenu().click();
-});
-
-Cypress.Commands.add('uiGetMainMenu', () => {
-    return getMenu(MAIN_MENU);
-});
-
 Cypress.Commands.add('uiOpenSystemConsoleMainMenu', (item = '') => {
     return openMenu(SYSTEM_CONSOLE_MAIN_MENU, item);
 });
@@ -45,16 +31,4 @@ Cypress.Commands.add('uiCloseSystemConsoleMainMenu', () => {
 
 Cypress.Commands.add('uiGetSystemConsoleMainMenu', () => {
     return getMenu(SYSTEM_CONSOLE_MAIN_MENU);
-});
-
-Cypress.Commands.add('uiOpenChannelMenu', (item = '') => {
-    return openMenu(CHANNEL_MENU, item);
-});
-
-Cypress.Commands.add('uiCloseChannelMenu', () => {
-    return cy.uiGetChannelMenu().click();
-});
-
-Cypress.Commands.add('uiGetChannelMenu', () => {
-    return getMenu(CHANNEL_MENU);
 });

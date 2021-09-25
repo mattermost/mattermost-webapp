@@ -12,11 +12,11 @@
 describe('Scroll', () => {
     before(() => {
         // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
             // # Switch the account settings for the test user to have images collapsed by default
             cy.apiSaveCollapsePreviewsPreference('true');
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
 
             // # Post at least 10 messages in a channel
             Cypress._.times(10, (index) => cy.postMessage(index));
@@ -34,7 +34,7 @@ describe('Scroll', () => {
         cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
         // * Observe image preview is collapsed
-        cy.findByLabelText('file thumbnail').should('not.exist');
+        cy.uiGetFileThumbnail(filename).should('not.exist');
 
         // # Save height of the last post
         cy.getLastPost().then((lastPost) => {
@@ -52,6 +52,11 @@ describe('Scroll', () => {
         });
 
         // * Observe image preview is collapsed after reloading the page
-        cy.findByLabelText('file thumbnail').should('not.exist');
+        cy.uiGetFileThumbnail(filename).should('not.exist');
+
+        // # Sanity check that it's visible when collapsed preview is disabled
+        cy.apiSaveCollapsePreviewsPreference('false');
+        cy.reload();
+        cy.uiGetFileThumbnail(filename).should('be.visible');
     });
 });

@@ -20,7 +20,7 @@ describe('Channel sidebar', () => {
     let channelName;
 
     before(() => {
-        cy.apiInitSetup({loginAfter: true});
+        cy.apiCreateCustomAdmin({loginAfter: true});
     });
 
     beforeEach(() => {

@@ -9,24 +9,22 @@ import classNames from 'classnames';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
-
 import {trackEvent} from 'actions/telemetry_actions';
-
 import OverlayTrigger from 'components/overlay_trigger';
-
 import {DraggingState} from 'types/store';
-
-import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates, Preferences, Touched} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
-
 import SidebarChannel from '../sidebar_channel';
 import {SidebarCategoryHeader} from '../sidebar_category_header';
 import InviteMembersButton from '../invite_members_button';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
-
 import SidebarCategoryMenu from './sidebar_category_menu';
 
 type Props = {
@@ -38,9 +36,12 @@ type Props = {
     getChannelRef: (channelId: string) => HTMLLIElement | undefined;
     isNewCategory: boolean;
     draggingState: DraggingState;
+    currentUserId: string;
+    touchedInviteMembersButton: boolean;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
 };
 
@@ -283,6 +284,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     className='hidden-xs'
                 >
                     {addHelpLabel}
+                    <KeyboardShortcutSequence
+                        shortcut={KEYBOARD_SHORTCUTS.navDMMenu}
+                        hideDescription={true}
+                        isInsideTooltip={true}
+                    />
                 </Tooltip>
             );
 
@@ -336,7 +342,29 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 disableInteractiveElementBlocking={true}
             >
                 {(provided, snapshot) => {
-                    const inviteMembersButton = category.type === 'direct_messages' ? <InviteMembersButton className='followingSibling'/> : null;
+                    let inviteMembersButton = null;
+                    if (category.type === 'direct_messages') {
+                        inviteMembersButton = (
+                            <InviteMembersButton
+                                className='followingSibling'
+                                touchedInviteMembersButton={this.props.touchedInviteMembersButton}
+                                onClick={() => {
+                                    if (!this.props.touchedInviteMembersButton) {
+                                        this.props.actions.savePreferences(
+                                            this.props.currentUserId,
+                                            [{
+                                                category: Preferences.TOUCHED,
+                                                user_id: this.props.currentUserId,
+                                                name: Touched.INVITE_MEMBERS,
+                                                value: 'true',
+                                            }],
+                                        );
+                                    }
+                                }}
+                            />
+                        );
+                    }
+
                     return (
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {

@@ -109,6 +109,14 @@ export const Preferences = {
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
     CATEGORY_EMOJI: 'emoji',
     EMOJI_SKINTONE: 'emoji_skintone',
+
+    // For one off things that have a special, attention-grabbing UI until you interact with them
+    TOUCHED: 'touched',
+};
+
+// For one off things that have a special, attention-grabbing UI until you interact with them
+export const Touched = {
+    INVITE_MEMBERS: 'invite_members',
 };
 
 export const TrialPeriodDays = {
@@ -158,6 +166,7 @@ export const ActionTypes = keyMirror({
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,
+    BROWSER_WINDOW_RESIZED: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
@@ -457,6 +466,7 @@ export const RecommendedNextSteps = {
     INVITE_MEMBERS: 'invite_members',
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
+    DOWNLOAD_APPS: 'download_apps',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -1055,7 +1065,11 @@ export const Constants = {
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
+
+    DESKTOP_SCREEN_WIDTH: 1679,
+    TABLET_SCREEN_WIDTH: 1020,
     MOBILE_SCREEN_WIDTH: 768,
+
     POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
@@ -1538,9 +1552,10 @@ export const Constants = {
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
     MENTION_PUBLIC_CHANNELS: 'mention.public.channels',
+    MENTION_PRIVATE_CHANNELS: 'mention.private.channels',
     MENTION_RECENT_CHANNELS: 'mention.recent.channels',
     MENTION_SPECIAL: 'mention.special',
-    MENTION_GROUPS: 'mention.groups',
+    MENTION_GROUPS: 'search.group',
     DEFAULT_NOTIFICATION_DURATION: 5000,
     STATUS_INTERVAL: 60000,
     AUTOCOMPLETE_TIMEOUT: 100,
@@ -1561,6 +1576,7 @@ export const Constants = {
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
+    THREADS_PAGE_SIZE: 25,
 };
 
 export const ValidationErrors = {
@@ -1570,6 +1586,13 @@ export const ValidationErrors = {
     INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
     RESERVED_NAME: 'RESERVED_NAME',
     INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
+export const WindowSizes = {
+    MOBILE_VIEW: 'mobileView',
+    TABLET_VIEW: 'tabletView',
+    SMALL_DESKTOP_VIEW: 'smallDesktopView',
+    DESKTOP_VIEW: 'desktopView',
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
@@ -1593,17 +1616,20 @@ export const searchFilesHintOptions = [{searchTerm: 'From:', message: {id: t('se
     {searchTerm: '""', message: {id: t('search_files_list_option.phrases'), defaultMessage: 'Files with phrases'}},
 ];
 
+// adding these rtranslations here so the weblate CI step will not fail with empty translation strings
+t('suggestion.archive');
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
-t('suggestion.mention.public.channels');
+t('suggestion.mention.private.channels');
 t('suggestion.mention.recent.channels');
 t('suggestion.mention.special');
-t('suggestion.archive');
 t('suggestion.mention.groups');
+t('suggestion.search.public');
+t('suggestion.search.group');
 
 const {
     DONT_CLEAR,

@@ -63,9 +63,8 @@ describe('Onboarding', () => {
         cy.apiAdminLogin();
         cy.reload();
 
-        // # Open the 'Invite People' full screen modal
-        cy.findByLabelText('main menu', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
-        cy.findByText('Invite People').should('be.visible').click();
+        // # Open the 'Invite People' modal
+        cy.uiOpenTeamMenu('Invite People');
 
         // # Wait half a second to ensure that the modal has been fully loaded
         cy.wait(TIMEOUTS.HALF_SEC);

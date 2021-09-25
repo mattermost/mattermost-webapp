@@ -170,12 +170,20 @@ Cypress.Commands.add('apiPatchMe', (data) => {
     });
 });
 
-Cypress.Commands.add('apiCreateCustomAdmin', () => {
+Cypress.Commands.add('apiCreateCustomAdmin', ({loginAfter = false} = {}) => {
     const sysadminUser = generateRandomUser('other-admin');
 
     return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
         return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
-            return cy.wrap({sysadmin: user});
+            const data = {sysadmin: user};
+
+            if (loginAfter) {
+                return cy.apiLogin(user).then(() => {
+                    return cy.wrap(data);
+                });
+            }
+
+            return cy.wrap(data);
         });
     });
 });

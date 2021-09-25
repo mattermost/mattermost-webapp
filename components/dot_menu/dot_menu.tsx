@@ -49,7 +49,7 @@ type Props = {
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
-    appBindings?: AppBinding[];
+    appBindings: AppBinding[] | null;
     appsEnabled: boolean;
 
     /**
@@ -111,6 +111,11 @@ type Props = {
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 
+        /**
+         * Function to get the post menu bindings for this post.
+         */
+        fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -127,6 +132,7 @@ type State = {
     openUp: boolean;
     canEdit: boolean;
     canDelete: boolean;
+    appBindings?: AppBinding[];
 }
 
 export class DotMenuClass extends React.PureComponent<Props, State> {
@@ -175,11 +181,21 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.disableCanEditPostByTime();
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (!this.state.appBindings && this.props.isMenuOpen && !prevProps.isMenuOpen) {
+            this.fetchBindings();
+        }
+    }
+
     static getDerivedStateFromProps(props: Props) {
-        return {
+        const state: Partial<State> = {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
         };
+        if (props.appBindings) {
+            state.appBindings = props.appBindings;
+        }
+        return state;
     }
 
     componentWillUnmount() {
@@ -358,6 +374,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
+    fetchBindings = () => {
+        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(({data}) => {
+            this.setState({appBindings: data});
+        });
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
@@ -394,8 +416,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             }) || [];
 
         let appBindings = [] as JSX.Element[];
-        if (this.props.appsEnabled && this.props.appBindings) {
-            appBindings = this.props.appBindings.map((item) => {
+        if (this.props.appsEnabled && this.state.appBindings) {
+            appBindings = this.state.appBindings.map((item) => {
                 let icon: JSX.Element | undefined;
                 if (item.icon) {
                     icon = (<img src={item.icon}/>);

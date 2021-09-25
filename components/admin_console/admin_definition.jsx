@@ -510,7 +510,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.teams'),
             title_default: 'Teams',
             isHidden: it.any(
-                it.not(it.licensedForFeature('LDAPGroups')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             ),
             schema: {
@@ -1943,7 +1942,7 @@ const AdminDefinition = {
                         label: t('admin.support.emailTitle'),
                         label_default: 'Support Email:',
                         help_text: t('admin.support.emailHelp'),
-                        help_text_default: 'Email address displayed on email notifications and during tutorial for end users to ask support questions.',
+                        help_text_default: 'Email address displayed on email notifications.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -2574,6 +2573,18 @@ const AdminDefinition = {
                         help_text: t('admin.customization.enableLatexDesc'),
                         help_text_default: 'Enable rendering of Latex code. If false, Latex code will be highlighted only.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableInlineLatex',
+                        label: t('admin.customization.enableInlineLatexTitle'),
+                        label_default: 'Enable Inline Latex Rendering:',
+                        help_text: t('admin.customization.enableInlineLatexDesc'),
+                        help_text_default: 'When true, users may render inline Latex code with dollar signs surrounding the text. When false, Latex can only be rendered in a code block using syntax highlighting. [Learn more about text formatting in our documentation](!https://docs.mattermost.com/messaging/formatting-text.html).',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                            it.configIsFalse('ServiceSettings', 'EnableLatex'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
