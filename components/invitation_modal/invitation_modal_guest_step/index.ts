@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {
@@ -15,7 +15,7 @@ import {GlobalState} from 'types/store';
 
 import {isAdmin} from 'utils/utils.jsx';
 
-import InvitationModalMembersStep from './invitation_modal_members_step';
+import InvitationModalGuestsStep from './invitation_modal_guests_step';
 
 function mapStateToProps(state: GlobalState) {
     return {
@@ -32,4 +32,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InvitationModalMembersStep);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(InvitationModalGuestsStep);

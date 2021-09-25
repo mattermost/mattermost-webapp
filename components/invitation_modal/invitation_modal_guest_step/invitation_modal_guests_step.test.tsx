@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InvitationModalGuestsStep from './index';
+import InvitationModalGuestsStep from './invitation_modal_guests_step';
 
 describe('components/invitation_modal/InvitationModalGuestsStep', () => {
     const props = {
@@ -15,9 +15,19 @@ describe('components/invitation_modal/InvitationModalGuestsStep', () => {
         emailInvitationsEnabled: true,
         onSubmit: jest.fn(),
         onEdit: jest.fn(),
+        userIsAdmin: true,
+        userLimit: '0',
         currentUsers: 4,
+        isCloud: false,
+        subscriptionStats: {
+            remaining_seats: 6,
+            is_paid_tier: 'false',
+        },
         myInvitableChannels: [],
         searchChannels: jest.fn(),
+        actions: {
+            getSubscriptionStats: () => {},
+        },
     };
     test('should match the snapshot', () => {
         const wrapper = shallow(

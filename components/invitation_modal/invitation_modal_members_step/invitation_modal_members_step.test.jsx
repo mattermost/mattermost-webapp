@@ -16,8 +16,17 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
         emailInvitationsEnabled: true,
         onSubmit: jest.fn(),
         onEdit: jest.fn(),
+        userIsAdmin: true,
+        userLimit: '0',
         currentUsers: 4,
         isCloud: false,
+        subscriptionStats: {
+            remaining_seats: 6,
+            is_paid_tier: 'false',
+        },
+        actions: {
+            getSubscriptionStats: () => {},
+        },
     };
 
     test('should match the snapshot', () => {
