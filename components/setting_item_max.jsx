@@ -124,6 +124,11 @@ export default class SettingItemMax extends React.PureComponent {
         disabledMessage: PropTypes.string,
 
         /**
+         * A text for "enable" button
+         */
+        enableButtonText: PropTypes.string,
+
+        /**
          * A callback which handles click on "Enable" button 
          * inside "disabled" settings item
          */
@@ -284,7 +289,7 @@ export default class SettingItemMax extends React.PureComponent {
             );
         }
 
-        const { disabled, disabledMessage, onEnableButtonClick } = this.props;
+        const { disabled, disabledMessage, onEnableButtonClick, enableButtonText } = this.props;
 
         return (
             <section
@@ -305,8 +310,8 @@ export default class SettingItemMax extends React.PureComponent {
                                             {disabledMessage}
                                         </p>
 
-                                        <button className="btn btn-sm" onClick={onEnableButtonClick}>
-                                            Enable
+                                        <button className="btn btn-sm btn-secondary" onClick={onEnableButtonClick}>
+                                            {enableButtonText}
                                         </button>
                                     </div>
                                 )

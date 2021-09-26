@@ -300,8 +300,9 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                 submit={this.props.submit}
                 saving={this.props.saving}
                 disabled={this.props.areNotificationsDisabled}
-                disabledMessage={'Your operating system notifications are disabled.'}
+                disabledMessage={Utils.localizeMessage('user.settings.notifications.desktop.disabledMessage', 'Your operating system notifications are disabled.')}
                 onEnableButtonClick={this.props.actions.enableBrowserNotifications}
+                enableButtonText={Utils.localizeMessage('user.settings.notifications.desktop.enableButtonText', 'Enable')}
                 server_error={this.props.error}
                 updateSection={this.handleMaxUpdateSection}
             />
