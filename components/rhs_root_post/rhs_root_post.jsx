@@ -226,9 +226,9 @@ export default class RhsRootPost extends React.PureComponent {
         });
     };
 
-    handleDotMenuOpened = (isOpened) => {
+    handleDotMenuOpened = (open) => {
         this.setState({
-            showDotMenu: isOpened,
+            showDotMenu: open,
         });
     };
 
@@ -236,9 +236,9 @@ export default class RhsRootPost extends React.PureComponent {
         this.setState({showActionsMenu: open});
     };
 
-    handleFileDropdownOpened = (isOpened) => {
+    handleFileDropdownOpened = (open) => {
         this.setState({
-            fileDropdownOpened: isOpened,
+            fileDropdownOpened: open,
         });
     };
 

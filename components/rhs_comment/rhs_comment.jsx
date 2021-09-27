@@ -264,15 +264,15 @@ export default class RhsComment extends React.PureComponent {
         }
     }
 
-    handleDotMenuOpened = (isOpened) => {
+    handleDotMenuOpened = (open) => {
         this.setState({
-            showDotMenu: isOpened,
+            showDotMenu: open,
         });
     };
 
-    handleFileDropdownOpened = (isOpened) => {
+    handleFileDropdownOpened = (open) => {
         this.setState({
-            fileDropdownOpened: isOpened,
+            fileDropdownOpened: open,
         });
     };
 

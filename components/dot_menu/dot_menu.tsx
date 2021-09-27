@@ -283,7 +283,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    renderDivider = (suffix: string): JSX.Element => {
+    renderDivider = (suffix: string): React.ReactNode => {
         return (
             <li
                 id={`divider_post_${this.props.post.id}_${suffix}`}

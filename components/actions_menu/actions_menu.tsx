@@ -251,7 +251,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    render(): JSX.Element | null {
+    render(): React.ReactNode {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
 
         // const isMobile = Utils.isMobile(); TODO
@@ -342,9 +342,9 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             );
         }
 
-        const hasApps = appBindings.length > 0;
-        const hasPluggables = this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0;
-        const hasPluginItems = typeof pluginItems !== 'undefined' && pluginItems.length > 0;
+        const hasApps = Boolean(appBindings.length);
+        const hasPluggables = Boolean(this.props.components[PLUGGABLE_COMPONENT]?.length);
+        const hasPluginItems = Boolean(pluginItems?.length);
 
         if (hasPluginItems || hasApps || hasPluggables) {
             const pluggable = (
