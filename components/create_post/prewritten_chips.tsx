@@ -47,7 +47,7 @@ function getChips(channel: Channel, currentUserId: string): ChipData[] {
         event: 'prefilled_message_selected_custom',
         messageId: '',
         message: '',
-        displayId: 'create_post.prewritten.custom',
+        displayId: t('create_post.prewritten.custom'),
         display: 'Write a custom message...',
         leadingIcon: '',
     };

@@ -17,20 +17,29 @@ describe('components/next_steps_view', () => {
             {
                 id: 'step_1',
                 roles: [],
-                title: 'Step_1',
+                title: {
+                    titleId: 'Step_1',
+                    titleMessage: 'Step_1',
+                },
                 component: jest.fn(),
                 visible: true,
             },
             {
                 id: 'step_2',
-                title: 'Step_2',
+                title: {
+                    titleId: 'Step_2',
+                    titleMessage: 'Step_2',
+                },
                 roles: [],
                 component: jest.fn(),
                 visible: true,
             },
             {
                 id: 'step_3',
-                title: 'Step_3',
+                title: {
+                    titleId: 'Step_3',
+                    titleMessage: 'Step_3',
+                },
                 roles: [],
                 component: jest.fn(),
                 visible: true,
