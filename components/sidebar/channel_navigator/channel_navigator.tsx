@@ -36,7 +36,6 @@ export type Props = {
     townSquareDisplayName: string;
     offTopicDisplayName: string;
     showTutorialTip: boolean;
-    globalHeaderEnabled: boolean;
     isQuickSwitcherOpen: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
@@ -165,7 +164,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
         );
 
         let layout;
-        if (isDesktopApp() && !this.props.globalHeaderEnabled) {
+        if (isDesktopApp()) {
             const historyArrows = (
                 <>
                     <OverlayTrigger
@@ -208,7 +207,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                         <div className='SidebarContainer_rightContainer'>
                             {!this.props.showUnreadsCategory && <ChannelFilter/>}
                             {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
-                            {!this.props.globalHeaderEnabled && historyArrows}
+                            {historyArrows}
                         </div>
                         {addChannelDropdown}
                     </div>
