@@ -239,28 +239,28 @@ describe('components/Menu', () => {
         expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
     });
 
-    test('should show subscribe now button when in trial period', () => {
-        const props = {...defaultProps, isCloud: true, isFreeTrial: true};
+    test('mobile view should show subscribe now button when in trial period', () => {
+        const props = {...defaultProps, mobile: true, isCloud: true, isFreeTrial: true};
         const wrapper = getMainMenuWrapper(props);
 
         expect(wrapper.find('UpgradeLink')).toHaveLength(1);
     });
 
-    test('should hide the subscribe now button when NOT in trial period', () => {
-        const props = {...defaultProps, isCloud: true, isFreeTrial: false};
+    test('mobile view should hide the subscribe now button when NOT in trial period', () => {
+        const props = {...defaultProps, mobile: true, isCloud: true, isFreeTrial: false};
         const wrapper = getMainMenuWrapper(props);
 
         expect(wrapper.find('UpgradeLink')).toHaveLength(0);
     });
 
-    test('should hide the subscribe now button when is NOT cloud', () => {
-        const props = {...defaultProps, isCloud: false, isFreeTrial: false};
+    test('mobile view should hide the subscribe now button when is NOT cloud', () => {
+        const props = {...defaultProps, mobile: true, isCloud: false, isFreeTrial: false};
         const wrapper = getMainMenuWrapper(props);
 
         expect(wrapper.find('UpgradeLink')).toHaveLength(0);
     });
 
-    test('should hide the subscribe now button when does not have permissions', () => {
+    test('mobile view should hide the subscribe now button when does not have permissions', () => {
         const noPermissionsState = {...defaultState};
         noPermissionsState.entities.roles.roles.system_manager.permissions = [];
         const store = mockStore(noPermissionsState);
@@ -274,7 +274,7 @@ describe('components/Menu', () => {
         expect(wrapper.find('UpgradeLink')).toHaveLength(0);
     });
 
-    test('should hide start trial menu item because user state does not have permission to write license', () => {
+    test('mobile view should hide start trial menu item because user state does not have permission to write license', () => {
         const store = mockStore(defaultState);
 
         const wrapper = mountWithIntl(

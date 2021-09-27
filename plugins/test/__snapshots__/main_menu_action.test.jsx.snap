@@ -1,23 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`plugins/MainMenuActions should match snapshot and click plugin item for main menu 1`] = `
+exports[`plugins/MainMenuActions should match snapshot in mobile view with some plugin and ability to click plugin 1`] = `
 <Menu
   ariaLabel="main menu"
-  mobile={false}
+  mobile={true}
 >
   <MenuGroup>
     <MenuItemAction
-      icon={false}
+      icon={
+        <i
+          className="mentions"
+        >
+          @
+        </i>
+      }
       id="recentMentions"
       onClick={[Function]}
-      show={false}
+      show={true}
       text="Recent Mentions"
     />
     <MenuItemAction
-      icon={false}
+      icon={
+        <i
+          className="fa fa-bookmark"
+        />
+      }
       id="flaggedPosts"
       onClick={[Function]}
-      show={false}
+      show={true}
       text="Saved Posts"
     />
   </MenuGroup>
@@ -50,7 +60,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
           "type": [Function],
         }
       }
-      icon={false}
+      icon={
+        <i
+          className="fa fa-cog"
+        />
+      }
       id="accountSettings"
       modalId="user_settings"
       show={true}
@@ -76,7 +90,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
             "type": [Function],
           }
         }
-        icon={false}
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
         id="addGroupsToTeam"
         modalId="add_groups_to_team"
         show={true}
@@ -103,7 +121,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
           }
         }
         extraText="Add people to the team"
-        icon={false}
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
         id="invitePeople"
         modalId="invitation"
         show={true}
@@ -130,7 +152,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
             "type": [Function],
           }
         }
-        icon={false}
+        icon={
+          <i
+            className="fa fa-globe"
+          />
+        }
         id="teamSettings"
         modalId="team_settings"
         show={true}
@@ -160,7 +186,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
             "type": [Function],
           }
         }
-        icon={false}
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
         id="manageGroups"
         modalId="manage_team_groups"
         show={true}
@@ -186,7 +216,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
             "type": [Function],
           }
         }
-        icon={false}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
         id="manageMembers"
         modalId="team_members"
         show={true}
@@ -213,7 +247,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
             "type": [Function],
           }
         }
-        icon={false}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
         id="viewMembers"
         modalId="team_members"
         show={true}
@@ -230,7 +268,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       }
     >
       <MenuItemLink
-        icon={false}
+        icon={
+          <i
+            className="fa fa-plus-square"
+          />
+        }
         id="createTeam"
         show={true}
         text="Create a Team"
@@ -238,7 +280,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       />
     </Connect(SystemPermissionGate)>
     <MenuItemLink
-      icon={false}
+      icon={
+        <i
+          className="fa fa-plus-square"
+        />
+      }
       id="joinTeam"
       show={true}
       text="Join Another Team"
@@ -254,7 +300,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
           "type": [Function],
         }
       }
-      icon={false}
+      icon={<LeaveTeamIcon />}
       id="leaveTeam"
       modalId="leave_team"
       show={false}
@@ -263,7 +309,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
   </MenuGroup>
   <MenuGroup>
     <MenuItemAction
-      icon={false}
       id="someplugin_pluginmenuitem"
       key="someplugin_pluginmenuitem"
       onClick={[Function]}
@@ -274,7 +319,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
   <MenuGroup>
     <MenuItemLink
       id="integrations"
-      show={true}
+      show={false}
       text="Integrations"
       to="/somename/integrations"
     />
@@ -370,7 +415,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       }
     >
       <MenuItemLink
-        icon={false}
+        icon={
+          <i
+            className="fa fa-wrench"
+          />
+        }
         id="systemConsole"
         show={true}
         text="System Console"
@@ -380,13 +429,21 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
   </MenuGroup>
   <MenuGroup>
     <MenuItemExternalLink
-      icon={false}
+      icon={
+        <i
+          className="fa fa-question"
+        />
+      }
       id="helpLink"
       show={false}
       text="Help"
     />
     <MenuItemAction
-      icon={false}
+      icon={
+        <i
+          className="icon icon-play"
+        />
+      }
       id="gettingStarted"
       onClick={[Function]}
       show={true}
@@ -399,13 +456,21 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       text="Keyboard Shortcuts"
     />
     <MenuItemExternalLink
-      icon={false}
+      icon={
+        <i
+          className="fa fa-phone"
+        />
+      }
       id="reportLink"
       show={false}
       text="Report a Problem"
     />
     <MenuItemExternalLink
-      icon={false}
+      icon={
+        <i
+          className="fa fa-mobile"
+        />
+      }
       id="nativeAppLink"
       show={true}
       text="Download Apps"
@@ -420,7 +485,11 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
           "type": [Function],
         }
       }
-      icon={false}
+      icon={
+        <i
+          className="fa fa-info"
+        />
+      }
       id="about"
       modalId="about"
       show={true}
@@ -429,12 +498,219 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
   </MenuGroup>
   <MenuGroup>
     <MenuItemAction
-      icon={false}
+      icon={
+        <i
+          className="fa fa-sign-out"
+        />
+      }
       id="logout"
       onClick={[Function]}
       show={true}
       text="Log Out"
     />
+  </MenuGroup>
+</Menu>
+`;
+
+exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
+<Menu
+  ariaLabel="main menu"
+  mobile={false}
+>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(AddGroupsToTeamModal)",
+            "type": [Function],
+          }
+        }
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={true}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(InvitationModal)",
+            "type": [Function],
+          }
+        }
+        extraText="Add people to the team"
+        icon={false}
+        id="invitePeople"
+        modalId="invitation"
+        show={true}
+        text="Invite People"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(TeamSettingsModal)",
+            "type": [Function],
+          }
+        }
+        id="teamSettings"
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "someteamid",
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
+            "type": [Function],
+          }
+        }
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={true}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(TeamMembersModal)",
+            "type": [Function],
+          }
+        }
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(TeamMembersModal)",
+            "type": [Function],
+          }
+        }
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      id="joinTeam"
+      show={true}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      className="destructive"
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(LeaveTeamModal)",
+          "type": [Function],
+        }
+      }
+      id="leaveTeam"
+      modalId="leave_team"
+      show={false}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        id="createTeam"
+        show={true}
+        text="Create a Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
   </MenuGroup>
 </Menu>
 `;

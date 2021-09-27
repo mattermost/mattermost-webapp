@@ -444,26 +444,6 @@ class MainMenu extends React.PureComponent {
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
-                {isCloud && isFreeTrial && (
-                    <Menu.Group>
-                        <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
-                            <Menu.TopNotification
-                                show={true}
-                                id='topNotification'
-                            >
-                                <FormattedMessage
-                                    id='admin.billing.subscription.cloudTrial.trialTopMenuNotification'
-                                    defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
-                                    values={{daysLeftOnTrial}}
-                                />
-                                <UpgradeLink
-                                    buttonText='Subscribe Now'
-                                    styleLink={true}
-                                />
-                            </Menu.TopNotification>
-                        </SystemPermissionGate>
-                    </Menu.Group>
-                )}
                 <Menu.Group>
                     <TeamPermissionGate
                         teamId={teamId}
