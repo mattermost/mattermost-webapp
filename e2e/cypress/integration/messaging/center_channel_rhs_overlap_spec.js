@@ -18,7 +18,6 @@ describe('Messaging', () => {
     let testTeam;
     let testUser;
     let otherUser;
-    let townsquareLink;
 
     const firstMessage = 'Hello';
     const message1 = 'message1';
@@ -33,10 +32,11 @@ describe('Messaging', () => {
     const messageWithCodeblockTextOnly3 = 'codeblock3';
 
     before(() => {
+        let offTopicUrl;
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
-            townsquareLink = `/${team.name}/channels/town-square`;
+            offTopicUrl = `/${team.name}/channels/off-topic`;
         });
 
         cy.apiCreateUser().then(({user: user1}) => {
@@ -44,7 +44,7 @@ describe('Messaging', () => {
             cy.apiAddUserToTeam(testTeam.id, otherUser.id);
         }).then(() => {
             cy.apiLogin(testUser);
-            cy.visit(townsquareLink);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -814,17 +814,12 @@ describe('Messaging', () => {
 
     it('MM-T2227 Channel shortlinking - can edit', () => {
         // # Click the channel header
-        cy.get('#channelHeaderDropdownButton button').click();
-
-        // # Select View Info
-        cy.get('#channelViewInfo button').click();
-
-        var channelUrl;
+        cy.uiOpenChannelMenu('View Info');
 
         // # Channel URL is listed
         cy.url().then((loc) => {
             cy.contains('div.info__value', loc).should('be.visible').then((el) => {
-                channelUrl = el.text();
+                const channelUrl = el.text();
 
                 // # Close the modal
                 cy.findAllByLabelText('Close').should('be.visible').first().click();
@@ -854,8 +849,8 @@ describe('Messaging', () => {
 });
 
 function setSendMessagesOnCtrlEnter(name) {
-    // # Open 'Advanced' section of 'Account Settings' modal
-    cy.uiOpenAccountSettingsModal('Advanced').within(() => {
+    // # Open 'Advanced' section of 'Settings' modal
+    cy.uiOpenSettingsModal('Advanced').within(() => {
         // # Open 'Send Messages on Cmd/Ctrl+Enter' setting
         cy.findByRole('heading', {name: `Send Messages on ${isMac() ? '⌘+ENTER' : 'CTRL+ENTER'}`}).should('be.visible').click();
 

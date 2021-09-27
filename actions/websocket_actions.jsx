@@ -75,9 +75,9 @@ import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selec
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {fetchAppBindings} from 'mattermost-redux/actions/apps';
+import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
-import {getSelectedChannelId} from 'selectors/rhs';
+import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
@@ -1417,9 +1417,33 @@ function handleCloudPaymentStatusUpdated() {
 function handleRefreshAppsBindings() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
-        if (appsEnabled(state)) {
-            doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
+        if (!appsEnabled(state)) {
+            return {data: true};
         }
+
+        doDispatch(fetchAppBindings(getCurrentChannelId(state)));
+
+        const siteURL = state.entities.general.config.SiteURL;
+        const currentURL = window.location.href;
+        let threadIdentifier;
+        if (currentURL.startsWith(siteURL)) {
+            const parts = currentURL.substr(siteURL.length + (siteURL.endsWith('/') ? 0 : 1)).split('/');
+            if (parts.length === 3 && parts[1] === 'threads') {
+                threadIdentifier = parts[2];
+            }
+        }
+        const rhsPost = getSelectedPost(state);
+        let selectedThread;
+        if (threadIdentifier) {
+            selectedThread = getThread(state, threadIdentifier);
+        }
+        const rootID = threadIdentifier || rhsPost?.id;
+        const channelID = selectedThread?.post?.channel_id || rhsPost?.channel_id;
+        if (!rootID) {
+            return {data: true};
+        }
+
+        doDispatch(fetchRHSAppsBindings(channelID));
         return {data: true};
     };
 }
@@ -1477,6 +1501,13 @@ function handleThreadUpdated(msg) {
         const currentTeamId = getCurrentTeamId(state);
 
         let lastViewedAt;
+
+        // if current user has replied to the thread
+        // make sure to set following as true
+        if (currentUserId === threadData.post.user_id) {
+            threadData.is_following = true;
+        }
+
         if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
             lastViewedAt = Date.now();
 

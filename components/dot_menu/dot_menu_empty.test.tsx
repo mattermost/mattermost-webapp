@@ -44,6 +44,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
                 postEphemeralCallResponseForPost: jest.fn(),
                 setThreadFollow: jest.fn(),
                 openAppsModal: jest.fn(),
+                fetchBindings: jest.fn(),
             },
             canEdit: false,
             canDelete: false,

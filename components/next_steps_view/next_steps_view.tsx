@@ -43,6 +43,7 @@ type Props = {
         closeRightHandSide: () => void;
         getProfiles: () => void;
     };
+    downloadAppsAsNextStep: boolean;
 };
 
 type State = {
@@ -219,7 +220,10 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         className='NextStepsView__cardHeader'
                     >
                         {icon}
-                        <span>{title}</span>
+                        <FormattedMessage
+                            id={title.titleId}
+                            defaultMessage={title.titleMessage}
+                        />
                     </button>
                 </Card.Header>
                 <Card.Body>
@@ -323,7 +327,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         <GettingStartedSvg/>
                     </div>
                 </div>
-                <DownloadSection isFirstAdmin={this.props.isFirstAdmin}/>
+                {!this.props.downloadAppsAsNextStep && <DownloadSection isFirstAdmin={this.props.isFirstAdmin}/>}
             </div>
         );
     }
@@ -348,7 +352,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         currentUserId={this.props.currentUser.id}
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
                         team={this.props.team}
-                        isCloud={this.props.isCloud}
                         globalHeaderEnabled={this.props.globalHeaderEnabled}
                     />
                 </>}

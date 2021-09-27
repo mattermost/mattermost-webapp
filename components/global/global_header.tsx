@@ -21,7 +21,7 @@ import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
 import SettingsTip from './settings_tip';
 
-import {useCurrentProductId, useProducts, useShowTutorialStep} from './hooks';
+import {useCurrentProductId, useIsLoggedIn, useProducts, useShowTutorialStep} from './hooks';
 
 import './global_header.scss';
 
@@ -78,6 +78,7 @@ const RightControls = styled.div`
 
 const GlobalHeader = (): JSX.Element | null => {
     const enabled = useSelector(getGlobalHeaderEnabled);
+    const isLoggedIn = useIsLoggedIn();
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
     const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
@@ -94,7 +95,7 @@ const GlobalHeader = (): JSX.Element | null => {
         };
     }, [enabled]);
 
-    if (!enabled) {
+    if (!enabled || !isLoggedIn) {
         return null;
     }
 

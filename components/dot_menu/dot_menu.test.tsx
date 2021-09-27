@@ -43,6 +43,7 @@ describe('components/dot_menu/DotMenu', () => {
             postEphemeralCallResponseForPost: jest.fn(),
             setThreadFollow: jest.fn(),
             openAppsModal: jest.fn(),
+            fetchBindings: jest.fn(),
         },
         canEdit: false,
         canDelete: false,

@@ -163,11 +163,6 @@ type Props = {
     resetCreatePostRequest: () => void;
 
     /**
-      * Set if channel is read only
-      */
-    readOnlyChannel?: boolean;
-
-    /**
       * Set if @channel should warn in this channel.
       */
     enableConfirmNotificationsToChannel: boolean;
@@ -349,7 +344,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
-        this.props.resetCreatePostRequest();
+        this.props.resetCreatePostRequest?.();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
         window.removeEventListener('beforeunload', this.saveDraft);
@@ -1061,7 +1056,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             showPostDeletedModal: false,
         });
 
-        this.props.resetCreatePostRequest();
+        this.props.resetCreatePostRequest?.();
     }
 
     handleBlur = () => {
@@ -1083,7 +1078,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
     render() {
         const draft = this.state.draft!;
-        const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
+        const readOnlyChannel = !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar, channelTimezoneCount, mentions, memberNotifyCount} = this.state;

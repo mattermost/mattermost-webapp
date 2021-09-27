@@ -3,7 +3,8 @@
 
 Cypress.Commands.add('uiOpenAccountSettingsModal', (section = '') => {
     // # Open account settings modal
-    cy.uiOpenMainMenu('Account Settings');
+    cy.uiGetSetStatusButton().click();
+    cy.findByRole('button', {name: 'Account Settings dialog'}).click();
 
     const accountSettingsModal = () => cy.findByRole('dialog', {name: 'Account Settings'}).should('be.visible');
 
@@ -27,7 +28,7 @@ Cypress.Commands.add('verifyAccountNameSettings', (firstname, lastname) => {
 });
 
 Cypress.Commands.add('uiChangeGenericDisplaySetting', (setting, option) => {
-    cy.uiOpenAccountSettingsModal('Display');
+    cy.uiOpenSettingsModal('Display');
     cy.get(setting).scrollIntoView();
     cy.get(setting).click();
     cy.get('.section-max').scrollIntoView();

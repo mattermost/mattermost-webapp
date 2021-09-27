@@ -15,20 +15,22 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -54,24 +56,28 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
@@ -79,20 +85,34 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         ariaLabel="do not disturb. disables desktop, email and push notifications"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -157,20 +177,22 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -268,24 +290,28 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
@@ -293,20 +319,34 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         ariaLabel="do not disturb. disables desktop, email and push notifications"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -371,20 +411,22 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -431,24 +473,28 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
@@ -456,20 +502,34 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         ariaLabel="do not disturb. disables desktop, email and push notifications"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -534,20 +594,22 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -594,24 +656,28 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
@@ -619,20 +685,34 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         ariaLabel="do not disturb. disables desktop, email and push notifications"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -697,20 +777,22 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -758,24 +840,28 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
@@ -783,20 +869,34 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         ariaLabel="do not disturb. disables desktop, email and push notifications"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -865,20 +965,22 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -904,24 +1006,28 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
@@ -929,20 +1035,34 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         ariaLabel="do not disturb. disables desktop, email and push notifications"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
@@ -1007,20 +1127,22 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
       className="status style--none"
     >
       <StatusIcon
-        button={true}
-        className=""
+        size="sm"
         status="offline"
       />
     </button>
     <span
       className="status status-edit edit"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Dropdown Icon"
-        id="generic_icons.dropdown"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        ariaLabel={
+          Object {
+            "defaultMessage": "Dropdown Icon",
+            "id": "generic_icons.dropdown",
+          }
+        }
+        className="fa fa-caret-down"
+      />
     </span>
   </div>
   <Menu
@@ -1046,24 +1168,28 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
       <MenuItemAction
         ariaLabel="online"
         icon={
-          <StatusOnlineIcon
-            className="online--icon"
+          <StatusIcon
+            className="status-icon"
+            status="online"
           />
         }
         id="status-menu-online"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Online"
       />
       <MenuItemAction
         ariaLabel="away"
         icon={
-          <StatusAwayIcon
-            className="away--icon"
+          <StatusIcon
+            className="status-icon"
+            status="away"
           />
         }
         id="status-menu-away"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Away"
       />
@@ -1071,20 +1197,34 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         ariaLabel="do not disturb. disables desktop, email and push notifications"
         extraText="Disables all notifications"
         icon={
-          <StatusDndIcon
-            className="dnd--icon"
+          <StatusIcon
+            className="status-icon"
+            status="dnd"
           />
         }
         id="status-menu-dnd"
         onClick={[Function]}
+        rightDecorator={false}
         show={true}
         text="Do not disturb"
       />
       <MenuItemAction
         ariaLabel="offline"
-        icon={<StatusOfflineIcon />}
+        icon={
+          <StatusIcon
+            className="status-icon"
+            status="offline"
+          />
+        }
         id="status-menu-offline"
         onClick={[Function]}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Offline"
       />
