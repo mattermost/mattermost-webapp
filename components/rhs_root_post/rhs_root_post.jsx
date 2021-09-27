@@ -177,10 +177,7 @@ export default class RhsRootPost extends React.PureComponent {
 
     toggleEmojiPicker = () => {
         const showEmojiPicker = !this.state.showEmojiPicker;
-
-        this.setState({
-            showEmojiPicker,
-        });
+        this.setState({showEmojiPicker});
     };
 
     getClassName = (post, isSystemMessage, isMeMessage) => {
@@ -221,15 +218,11 @@ export default class RhsRootPost extends React.PureComponent {
             return;
         }
 
-        this.setState({
-            showActionsMenu: open,
-        });
+        this.setState({showActionsMenu: open});
     };
 
     handleDotMenuOpened = (open) => {
-        this.setState({
-            showDotMenu: open,
-        });
+        this.setState({showDotMenu: open});
     };
 
     handleActionsMenuOpened = (open) => {
@@ -237,9 +230,7 @@ export default class RhsRootPost extends React.PureComponent {
     };
 
     handleFileDropdownOpened = (open) => {
-        this.setState({
-            fileDropdownOpened: open,
-        });
+        this.setState({fileDropdownOpened: open});
     };
 
     handlePostClick = (e) => {

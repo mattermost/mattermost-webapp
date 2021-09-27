@@ -265,15 +265,11 @@ export default class RhsComment extends React.PureComponent {
     }
 
     handleDotMenuOpened = (open) => {
-        this.setState({
-            showDotMenu: open,
-        });
+        this.setState({showDotMenu: open});
     };
 
     handleFileDropdownOpened = (open) => {
-        this.setState({
-            fileDropdownOpened: open,
-        });
+        this.setState({fileDropdownOpened: open});
     };
 
     handleActionsMenuOpened = (open) => {
@@ -283,9 +279,7 @@ export default class RhsComment extends React.PureComponent {
             return;
         }
 
-        this.setState({
-            showActionsMenu: open,
-        });
+        this.setState({showActionsMenu: open});
     };
 
     getDotMenuRef = () => {
