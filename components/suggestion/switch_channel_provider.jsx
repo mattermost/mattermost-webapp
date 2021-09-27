@@ -575,6 +575,7 @@ export default class SwitchChannelProvider extends Provider {
 
         const channelNames = channels.
             sort(quickSwitchSorter).
+            sort((a, b) => sortChannelsByTypeAndDisplayName('en', a.channel, b.channel)).
             map((wrappedChannel) => wrappedChannel.channel.userId || wrappedChannel.channel.id);
 
         return {

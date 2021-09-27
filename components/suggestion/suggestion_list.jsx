@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import {cloneDeep} from 'lodash';
 
 import {isEmptyObject, windowHeight} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
@@ -192,40 +191,39 @@ export default class SuggestionList extends React.PureComponent {
     }
 
     render() {
-        if (!this.props.open || this.props.cleared) {
+        const {
+            items,
+            terms,
+            selection,
+            components,
+            open,
+            cleared,
+            renderDividers,
+            renderNoResults,
+        } = this.props;
+
+        if (!open || cleared) {
             return null;
         }
 
-        const clonedItems = cloneDeep(this.props.items);
-
-        const items = [];
-        if (clonedItems.length === 0) {
-            if (!this.props.renderNoResults) {
+        const handledItems = [];
+        if (items.length === 0) {
+            if (!renderNoResults) {
                 return null;
             }
-            items.push(this.renderNoResults());
+            handledItems.push(this.renderNoResults());
         }
 
-        const sortedItems = clonedItems.sort((itemA, itemB) => {
-            if (!itemA.type) {
-                return 1;
-            }
-            if (!itemB.type) {
-                return -1;
-            }
-            return itemA.type.localeCompare(itemB.type);
-        });
-
         let lastType;
-        for (let i = 0; i < sortedItems.length; i++) {
-            const item = sortedItems[i];
-            const term = this.props.terms[i];
-            const isSelection = term === this.props.selection;
+        for (let i = 0; i < items.length; i++) {
+            const item = handledItems[i];
+            const term = terms[i];
+            const isSelection = term === selection;
 
             // ReactComponent names need to be upper case when used in JSX
-            const Component = this.props.components[i];
+            const Component = components[i];
 
-            if (this.props.renderDividers && item.type !== lastType) {
+            if (renderDividers && item.type !== lastType) {
                 items.push(this.renderDivider(item.type));
                 lastType = item.type;
             }
@@ -243,7 +241,7 @@ export default class SuggestionList extends React.PureComponent {
                 <Component
                     key={term}
                     ref={(ref) => this.itemRefs.set(term, ref)}
-                    item={sortedItems[i]}
+                    item={item}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}
                     isSelection={isSelection}
@@ -252,8 +250,10 @@ export default class SuggestionList extends React.PureComponent {
                 />,
             );
         }
+
         const mainClass = 'suggestion-list suggestion-list--' + this.props.position;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.position;
+
         let maxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
         if (this.props.wrapperHeight) {
             maxHeight = Math.min(
