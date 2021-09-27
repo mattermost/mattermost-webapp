@@ -1501,6 +1501,13 @@ function handleThreadUpdated(msg) {
         const currentTeamId = getCurrentTeamId(state);
 
         let lastViewedAt;
+
+        // if current user has replied to the thread
+        // make sure to set following as true
+        if (currentUserId === threadData.post.user_id) {
+            threadData.is_following = true;
+        }
+
         if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
             lastViewedAt = Date.now();
 
