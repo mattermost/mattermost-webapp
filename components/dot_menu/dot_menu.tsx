@@ -112,6 +112,7 @@ type Props = {
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 
         openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+
         /**
          * Function to get the post menu bindings for this post.
          */

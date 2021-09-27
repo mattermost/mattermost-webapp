@@ -19,7 +19,7 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -45,8 +45,6 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
 import {Locations} from 'utils/constants';
-
-import {AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 
 import DotMenu from './dot_menu';
 
