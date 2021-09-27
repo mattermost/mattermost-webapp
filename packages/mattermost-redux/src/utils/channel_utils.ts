@@ -249,7 +249,7 @@ export function sortChannelsByTypeListAndDisplayName(locale: string, typeList: s
 }
 
 export function sortChannelsByType(locale: string, a: Channel, b: Channel): number {
-    return channelTypeOrder[a.type] - channelTypeOrder[b.type];
+    return channelTypeOrder[b.type] - channelTypeOrder[a.type];
 }
 
 export function sortChannelsByTypeAndDisplayName(locale: string, a: Channel, b: Channel): number {
