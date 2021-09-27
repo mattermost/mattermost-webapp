@@ -248,6 +248,10 @@ export function sortChannelsByTypeListAndDisplayName(locale: string, typeList: s
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase(), locale, {numeric: true});
 }
 
+export function sortChannelsByType(locale: string, a: Channel, b: Channel): number {
+    return channelTypeOrder[a.type] - channelTypeOrder[b.type];
+}
+
 export function sortChannelsByTypeAndDisplayName(locale: string, a: Channel, b: Channel): number {
     if (channelTypeOrder[a.type] !== channelTypeOrder[b.type]) {
         if (channelTypeOrder[a.type] < channelTypeOrder[b.type]) {

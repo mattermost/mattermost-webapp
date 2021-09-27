@@ -214,22 +214,19 @@ export default class SuggestionList extends React.PureComponent {
             handledItems.push(this.renderNoResults());
         }
 
-        let lastType;
+        let lastType = '';
         for (let i = 0; i < items.length; i++) {
-            const item = handledItems[i];
+            const item = items[i];
             const term = terms[i];
             const isSelection = term === selection;
 
-            // ReactComponent names need to be upper case when used in JSX
-            const Component = components[i];
-
             if (renderDividers && item.type !== lastType) {
-                items.push(this.renderDivider(item.type));
+                handledItems.push(this.renderDivider(item.type));
                 lastType = item.type;
             }
 
             if (item.loading) {
-                items.push(<LoadingSpinner key={item.type}/>);
+                handledItems.push(<LoadingSpinner key={item.type}/>);
                 continue;
             }
 
@@ -237,7 +234,10 @@ export default class SuggestionList extends React.PureComponent {
                 this.currentItem = item;
             }
 
-            items.push(
+            // ReactComponent names need to be upper case when used in JSX
+            const Component = components[i];
+
+            handledItems.push(
                 <Component
                     key={term}
                     ref={(ref) => this.itemRefs.set(term, ref)}
@@ -275,7 +275,7 @@ export default class SuggestionList extends React.PureComponent {
                     className={contentClass}
                     onMouseDown={this.props.preventClose}
                 >
-                    {items}
+                    {handledItems}
                 </div>
             </div>
         );

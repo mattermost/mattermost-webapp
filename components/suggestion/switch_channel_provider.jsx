@@ -33,7 +33,10 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {getChannels, searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
-import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+import {
+    sortChannelsByType,
+    sortChannelsByTypeAndDisplayName,
+} from 'mattermost-redux/utils/channel_utils';
 
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -573,10 +576,11 @@ export default class SwitchChannelProvider extends Provider {
             channels.push(wrappedChannel);
         }
 
-        const channelNames = channels.
+        channels.
             sort(quickSwitchSorter).
-            sort((a, b) => sortChannelsByTypeAndDisplayName('en', a.channel, b.channel)).
-            map((wrappedChannel) => wrappedChannel.channel.userId || wrappedChannel.channel.id);
+            sort((a, b) => sortChannelsByType('en', a.channel, b.channel));
+
+        const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.userId || wrappedChannel.channel.id);
 
         return {
             matchedPretext: channelPrefix,
