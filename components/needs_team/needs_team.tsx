@@ -8,7 +8,7 @@ import iNoBounce from 'inobounce';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
-import {UserStatus} from 'mattermost-redux/types/users';
+import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
@@ -42,9 +42,7 @@ declare global {
 
 type Props = {
     license: Record<string, any>;
-    currentUser?: {
-        id: string;
-    };
+    currentUser?: UserProfile;
     currentChannelId?: string;
     currentTeamId?: string;
     actions: {
@@ -232,7 +230,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         this.props.actions.selectTeam(team);
         this.props.actions.setPreviousTeamId(team.id);
 
-        if (Utils.isGuest(this.props.currentUser)) {
+        if (this.props.currentUser && Utils.isGuest(this.props.currentUser)) {
             this.setState({finishedFetchingChannels: false});
         }
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(
