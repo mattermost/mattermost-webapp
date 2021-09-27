@@ -145,9 +145,10 @@
     }
 
     .SidebarChannelNavigator {
+        margin: 16px 14px 8px 14px;
+
         &.desktop {
             display: block;
-            margin: 16px 14px 8px 14px;
 
             .AddChannelDropdown_dropdownButton,
             .SidebarFilters_filterButton,
@@ -165,7 +166,6 @@
 
         &.webapp {
             display: flex;
-            margin: 16px 14px 8px 14px;
 
             .AddChannelDropdown_dropdownButton,
             .SidebarChannelNavigator_inviteUsers,
@@ -1380,9 +1380,7 @@
     // adjust height of sidebar to account for global header
     #SidebarContainer {
         height: calc(100% - 40px);
-    }
 
-    #lhsNavigator {
         .SidebarChannelNavigator {
             margin-top: 0;
             margin-bottom: 11px;
