@@ -382,7 +382,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                 type='text'
                                 readOnly={true}
                                 value={this.getInviteURL()}
-                                aria-label={Utils.localizeMessage({id: 'next_steps_view.invite_members_step.shareLinkInput', defaultMessage: 'team invite link'})}
+                                aria-label={Utils.localizeMessage('next_steps_view.invite_members_step.shareLinkInput', 'team invite link')}
                                 data-testid='InviteMembersStep__shareLinkInput'
                             />
                             <button
