@@ -626,8 +626,8 @@ describe('components/SwitchChannelProvider', () => {
         switchProvider.startNewRequest();
         await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
         const expectedOrder = [
-            'other_user1',
             'other_gm_channel',
+            'other_user1',
             'channel_other_user1',
         ];
 
