@@ -17,11 +17,17 @@ const fileExist = (filename) => {
 
 /**
  * Write data to a file in the fixtures folder
- * @param {string} filename - filename to check if it exists
+ * @param {string} filename - filename where to write data into
+ * @param {string} fixturesFolder - folder at cypress/fixtures
  * @param {string} data - The data to write
  */
-const writeToFile = ({filename, data = ''}) => {
-    const filePath = path.resolve(__dirname, `../fixtures/${filename}`);
+const writeToFile = ({filename, fixturesFolder, data = ''}) => {
+    const folder = path.resolve(__dirname, `../fixtures/${fixturesFolder}`);
+    if (!fs.existsSync(folder)) {
+        fs.mkdirSync(folder, {recursive: true});
+    }
+
+    const filePath = `${folder}/${filename}`;
 
     fs.writeFileSync(filePath, data);
     return null;

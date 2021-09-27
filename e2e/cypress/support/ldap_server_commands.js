@@ -3,6 +3,8 @@
 
 import {getRandomId} from '../utils';
 
+const ldapTmpFolder = 'ldap_tmp';
+
 Cypress.Commands.add('modifyLDAPUsers', (filename) => {
     cy.exec(`ldapmodify -x -D "cn=admin,dc=mm,dc=test,dc=com" -w mostest -H ldap://${Cypress.env('ldapServer')}:${Cypress.env('ldapPort')} -f cypress/fixtures/${filename} -c`, {failOnNonZeroExit: false});
 });
@@ -14,10 +16,10 @@ Cypress.Commands.add('resetLDAPUsers', () => {
 Cypress.Commands.add('createLDAPUser', ({prefix = 'ldap', user} = {}) => {
     const ldapUser = user || generateLDAPUser(prefix);
     const data = generateContent(ldapUser);
-    const filename = `ldap/user_${Date.now()}.ldif`;
-    const filePath = `cypress/fixtures/${filename}`;
+    const filename = `new_user_${Date.now()}.ldif`;
+    const filePath = `cypress/fixtures/${ldapTmpFolder}/${filename}`;
 
-    cy.task('writeToFile', ({filename, data}));
+    cy.task('writeToFile', ({filename, fixturesFolder: ldapTmpFolder, data}));
 
     return cy.ldapAdd(filePath).then(() => {
         return cy.wrap(ldapUser);
@@ -26,10 +28,10 @@ Cypress.Commands.add('createLDAPUser', ({prefix = 'ldap', user} = {}) => {
 
 Cypress.Commands.add('updateLDAPUser', (user) => {
     const data = generateContent(user, true);
-    const filename = `ldap/user_${Date.now()}.ldif`;
-    const filePath = `cypress/fixtures/${filename}`;
+    const filename = `update_user_${Date.now()}.ldif`;
+    const filePath = `cypress/fixtures/${ldapTmpFolder}/${filename}`;
 
-    cy.task('writeToFile', ({filename, data}));
+    cy.task('writeToFile', ({filename, fixturesFolder: ldapTmpFolder, data}));
 
     return cy.ldapModify(filePath).then(() => {
         return cy.wrap(user);
