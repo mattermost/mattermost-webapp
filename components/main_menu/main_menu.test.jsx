@@ -187,7 +187,7 @@ describe('components/Menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should show Marketplace modal', () => {
+    test('should not show Marketplace modal in web view', () => {
         const store = mockStore(defaultState);
 
         const props = {
@@ -200,7 +200,24 @@ describe('components/Menu', () => {
             </Provider>,
         );
 
-        expect(wrapper.find('#marketplaceModal').at(0).props().show).toEqual(true);
+        expect(wrapper.find('#marketplaceModal')).toEqual({});
+    });
+
+    test('should show Marketplace modal in mobile view', () => {
+        const store = mockStore(defaultState);
+
+        const props = {
+            ...defaultProps,
+            mobile: true,
+            enablePluginMarketplace: true,
+        };
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <MainMenu {...props}/>
+            </Provider>,
+        );
+
+        expect(wrapper.find('#marketplaceModal').at(0).prop('show')).toEqual(true);
     });
 
     test('should show leave team option when primary team is set', () => {
@@ -267,56 +284,5 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper.find('#startTrial')).toHaveLength(0);
-    });
-
-    describe('should show integrations', () => {
-        it('when incoming webhooks enabled', () => {
-            const props = {...defaultProps, enableIncomingWebhooks: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when outgoing webhooks enabled', () => {
-            const props = {...defaultProps, enableOutgoingWebhooks: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when slash commands enabled', () => {
-            const props = {...defaultProps, enableCommands: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when oauth providers enabled', () => {
-            const props = {...defaultProps, enableOAuthServiceProvider: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('when can manage system bots', () => {
-            const props = {...defaultProps, canManageSystemBots: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(true);
-        });
-
-        it('unless mobile', () => {
-            const props = {...defaultProps, mobile: true, canManageSystemBots: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(false);
-        });
-
-        it('unless cannot manage integrations', () => {
-            const props = {...defaultProps, canManageIntegrations: false, enableCommands: true};
-            const wrapper = getMainMenuWrapper(props);
-
-            expect(wrapper.find('#integrations').prop('show')).toBe(false);
-        });
     });
 });
