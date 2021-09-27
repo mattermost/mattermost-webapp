@@ -68,7 +68,6 @@ class MainMenu extends React.PureComponent {
         isCloud: PropTypes.bool,
         subscriptionStats: PropTypes.object,
         firstAdminVisitMarketplaceStatus: PropTypes.bool,
-        globalHeaderEnabled: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -181,138 +180,31 @@ class MainMenu extends React.PureComponent {
             />
         );
 
-        return (this.props.globalHeaderEnabled && !this.props.mobile) ? (
-            <Menu
-                mobile={this.props.mobile}
-                id={this.props.id}
-                ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
-            >
-                <Menu.Group>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_TEAM]}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='addGroupsToTeam'
-                            show={teamIsGroupConstrained && isLicensedForLDAPGroups}
-                            modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
-                            dialogType={AddGroupsToTeamModal}
-                            text={formatMessage({id: 'navbar_dropdown.addGroupsToTeam', defaultMessage: 'Add Groups to Team'})}
-                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-                        />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
-                    >
-                        {invitePeopleModal}
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_TEAM]}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='teamSettings'
-                            modalId={ModalIdentifiers.TEAM_SETTINGS}
-                            dialogType={TeamSettingsModal}
-                            text={formatMessage({id: 'navbar_dropdown.teamSettings', defaultMessage: 'Team Settings'})}
-                            icon={this.props.mobile && <i className='fa fa-globe'/>}
-                        />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_TEAM]}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='manageGroups'
-                            show={teamIsGroupConstrained && isLicensedForLDAPGroups}
-                            modalId={ModalIdentifiers.MANAGE_TEAM_GROUPS}
-                            dialogProps={{
-                                teamID: this.props.teamId,
-                            }}
-                            dialogType={TeamGroupsManageModal}
-                            text={formatMessage({id: 'navbar_dropdown.manageGroups', defaultMessage: 'Manage Groups'})}
-                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-                        />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='manageMembers'
-                            modalId={ModalIdentifiers.TEAM_MEMBERS}
-                            dialogType={TeamMembersModal}
-                            text={formatMessage({id: 'navbar_dropdown.manageMembers', defaultMessage: 'Manage Members'})}
-                            icon={this.props.mobile && <i className='fa fa-users'/>}
-                        />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
-                        invert={true}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='viewMembers'
-                            modalId={ModalIdentifiers.TEAM_MEMBERS}
-                            dialogType={TeamMembersModal}
-                            text={formatMessage({id: 'navbar_dropdown.viewMembers', defaultMessage: 'View Members'})}
-                            icon={this.props.mobile && <i className='fa fa-users'/>}
-                        />
-                    </TeamPermissionGate>
-                    <Menu.ItemLink
-                        id='joinTeam'
-                        show={!this.props.experimentalPrimaryTeam && this.props.moreTeamsToJoin}
-                        to='/select_team'
-                        text={formatMessage({id: 'navbar_dropdown.join', defaultMessage: 'Join Another Team'})}
-                        icon={this.props.mobile && <i className='fa fa-plus-square'/>}
-                    />
-                    <Menu.ItemToggleModalRedux
-                        id='leaveTeam'
-                        className='destructive'
-                        show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
-                        modalId={ModalIdentifiers.LEAVE_TEAM}
-                        dialogType={LeaveTeamModal}
-                        text={formatMessage({id: 'navbar_dropdown.leave', defaultMessage: 'Leave Team'})}
-                        icon={this.props.mobile && <LeaveTeamIcon/>}
-                    />
-                </Menu.Group>
-                <Menu.Group>
-                    <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
-                        <Menu.ItemLink
-                            id='createTeam'
-                            to='/create_team'
-                            text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
-                            icon={this.props.mobile && <i className='fa fa-plus-square'/>}
-                        />
-                    </SystemPermissionGate>
-                </Menu.Group>
-            </Menu>
-        ) : (
+        return this.props.mobile ? (
             <Menu
                 mobile={this.props.mobile}
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
                 {isCloud && isFreeTrial &&
-                    <Menu.Group>
-                        <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
-                            <Menu.TopNotification
-                                show={true}
-                                id='topNotification'
-                            >
-                                <FormattedMessage
-                                    id='admin.billing.subscription.cloudTrial.trialTopMenuNotification'
-                                    defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
-                                    values={{daysLeftOnTrial}}
-                                />
-                                <UpgradeLink
-                                    buttonText='Subscribe Now'
-                                    styleLink={true}
-                                />
-                            </Menu.TopNotification>
-                        </SystemPermissionGate>
-                    </Menu.Group>
+                <Menu.Group>
+                    <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
+                        <Menu.TopNotification
+                            show={true}
+                            id='topNotification'
+                        >
+                            <FormattedMessage
+                                id='admin.billing.subscription.cloudTrial.trialTopMenuNotification'
+                                defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
+                                values={{daysLeftOnTrial}}
+                            />
+                            <UpgradeLink
+                                buttonText='Subscribe Now'
+                                styleLink={true}
+                            />
+                        </Menu.TopNotification>
+                    </SystemPermissionGate>
+                </Menu.Group>
                 }
                 <Menu.Group>
                     <Menu.ItemAction
@@ -540,6 +432,113 @@ class MainMenu extends React.PureComponent {
                         text={formatMessage({id: 'navbar_dropdown.logout', defaultMessage: 'Log Out'})}
                         icon={this.props.mobile && <i className='fa fa-sign-out'/>}
                     />
+                </Menu.Group>
+            </Menu>
+        ) : (
+            <Menu
+                mobile={this.props.mobile}
+                id={this.props.id}
+                ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
+            >
+                <Menu.Group>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.MANAGE_TEAM]}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='addGroupsToTeam'
+                            show={teamIsGroupConstrained && isLicensedForLDAPGroups}
+                            modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
+                            dialogType={AddGroupsToTeamModal}
+                            text={formatMessage({id: 'navbar_dropdown.addGroupsToTeam', defaultMessage: 'Add Groups to Team'})}
+                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
+                    >
+                        {invitePeopleModal}
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.MANAGE_TEAM]}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='teamSettings'
+                            modalId={ModalIdentifiers.TEAM_SETTINGS}
+                            dialogType={TeamSettingsModal}
+                            text={formatMessage({id: 'navbar_dropdown.teamSettings', defaultMessage: 'Team Settings'})}
+                            icon={this.props.mobile && <i className='fa fa-globe'/>}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.MANAGE_TEAM]}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='manageGroups'
+                            show={teamIsGroupConstrained && isLicensedForLDAPGroups}
+                            modalId={ModalIdentifiers.MANAGE_TEAM_GROUPS}
+                            dialogProps={{
+                                teamID: this.props.teamId,
+                            }}
+                            dialogType={TeamGroupsManageModal}
+                            text={formatMessage({id: 'navbar_dropdown.manageGroups', defaultMessage: 'Manage Groups'})}
+                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='manageMembers'
+                            modalId={ModalIdentifiers.TEAM_MEMBERS}
+                            dialogType={TeamMembersModal}
+                            text={formatMessage({id: 'navbar_dropdown.manageMembers', defaultMessage: 'Manage Members'})}
+                            icon={this.props.mobile && <i className='fa fa-users'/>}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                        invert={true}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='viewMembers'
+                            modalId={ModalIdentifiers.TEAM_MEMBERS}
+                            dialogType={TeamMembersModal}
+                            text={formatMessage({id: 'navbar_dropdown.viewMembers', defaultMessage: 'View Members'})}
+                            icon={this.props.mobile && <i className='fa fa-users'/>}
+                        />
+                    </TeamPermissionGate>
+                    <Menu.ItemLink
+                        id='joinTeam'
+                        show={!this.props.experimentalPrimaryTeam && this.props.moreTeamsToJoin}
+                        to='/select_team'
+                        text={formatMessage({id: 'navbar_dropdown.join', defaultMessage: 'Join Another Team'})}
+                        icon={this.props.mobile && <i className='fa fa-plus-square'/>}
+                    />
+                    <Menu.ItemToggleModalRedux
+                        id='leaveTeam'
+                        className='destructive'
+                        show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
+                        modalId={ModalIdentifiers.LEAVE_TEAM}
+                        dialogType={LeaveTeamModal}
+                        text={formatMessage({id: 'navbar_dropdown.leave', defaultMessage: 'Leave Team'})}
+                        icon={this.props.mobile && <LeaveTeamIcon/>}
+                    />
+                </Menu.Group>
+                <Menu.Group>
+                    <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
+                        <Menu.ItemLink
+                            id='createTeam'
+                            to='/create_team'
+                            text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
+                            icon={this.props.mobile && <i className='fa fa-plus-square'/>}
+                        />
+                    </SystemPermissionGate>
                 </Menu.Group>
             </Menu>
         );

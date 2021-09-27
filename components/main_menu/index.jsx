@@ -27,7 +27,6 @@ import {unhideNextSteps} from 'actions/views/next_steps';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 
 import {
     showOnboarding,
@@ -112,7 +111,6 @@ function mapStateToProps(state) {
         isCloud,
         subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
     };
 }
 
