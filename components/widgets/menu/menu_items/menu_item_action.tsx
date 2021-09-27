@@ -50,7 +50,7 @@ export const MenuItemActionImpl = ({
                         className={classNames([
                             'MenuItem__right-decorator',
                             {
-                                'MenuItem__text-color-opaque': !isDangerous,
+                                'MenuItem__text-color': !isDangerous,
                             },
                         ])}
                     >

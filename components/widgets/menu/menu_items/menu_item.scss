@@ -25,7 +25,7 @@
             text-align: center;
         }
 
-        .MenuItem__compass-icon-opaque {
+        .MenuItem__compass-icon {
             margin: 4px -6px;
             color: rgba(var(--center-channel-color-rgb), 0.56);
             fill: rgba(var(--center-channel-color-rgb), 0.56);
@@ -59,11 +59,12 @@
         span.MenuItem__right-decorator {
             display: inline-flex;
             padding: 5px 0;
+            float: right;
             line-height: 22px;
             white-space: normal;
         }
 
-        span.MenuItem__text-color-opaque {
+        span.MenuItem__text-color {
             color: rgba(var(--center-channel-color-rgb), 0.56);
         }
 
