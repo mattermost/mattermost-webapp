@@ -421,32 +421,25 @@ export default class SwitchChannelProvider extends Provider {
 
         const localChannelData = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state)) || [];
         const localUserData = Object.assign([], searchProfilesMatchingWithTerm(state, channelPrefix, false)) || [];
+        const localFormattedData = this.formatList(channelPrefix, localChannelData, localUserData);
 
         const remoteChannelData = channelsFromServer.concat(getGroupChannels(state)) || [];
         const remoteUserData = Object.assign([], usersFromServer.users) || [];
-
-        const combinedUserData = [
-            ...localUserData,
-            ...remoteUserData.filter((remoteUser) => !localUserData.find((localUser) => localUser.id === remoteUser.id)),
-        ];
-
-        const combinedChannelData = [
-            ...localChannelData,
-            ...remoteChannelData.filter((remoteChannel) => !localChannelData.find((localChannel) => localChannel.id === remoteChannel.id)),
-        ];
-
-        const formattedData = this.formatList(channelPrefix, combinedChannelData, combinedUserData, false);
+        const remoteFormattedData = this.formatList(channelPrefix, remoteChannelData, remoteUserData, false);
 
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILES_LIST,
             data: [...localUserData.filter((user) => user.id !== currentUserId), ...remoteUserData.filter((user) => user.id !== currentUserId)],
         });
 
+        const combinedTerms = [...localFormattedData.terms, ...remoteFormattedData.terms.filter((term) => !localFormattedData.terms.includes(term))];
+        const combinedItems = [...localFormattedData.items, ...remoteFormattedData.items.filter((item) => !localFormattedData.terms.includes(item.channel.userId || item.channel.id))];
+
         resultsCallback({
-            ...formattedData,
+            ...localFormattedData,
             ...{
-                items: [...new Set(formattedData.items)],
-                terms: [...new Set(formattedData.terms)],
+                items: combinedItems,
+                terms: combinedTerms,
             },
         });
     }
