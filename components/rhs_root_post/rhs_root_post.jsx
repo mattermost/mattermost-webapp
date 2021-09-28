@@ -72,6 +72,8 @@ export default class RhsRootPost extends React.PureComponent {
         collapsedThreadsEnabled: PropTypes.bool,
         oneClickReactionsEnabled: PropTypes.bool,
         recentEmojis: PropTypes.arrayOf(Emoji),
+
+        isExpanded: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -249,7 +251,7 @@ export default class RhsRootPost extends React.PureComponent {
                     teamId={this.props.teamId}
                     emojis={this.props.recentEmojis}
                     getDotMenuRef={this.getDotMenuRef}
-                    size={1}
+                    size={this.props.isExpanded ? 3 : 1}
                 />
             );
         }

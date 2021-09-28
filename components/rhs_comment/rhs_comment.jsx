@@ -90,6 +90,8 @@ export default class RhsComment extends React.PureComponent {
 
         oneClickReactionsEnabled: PropTypes.bool,
         recentEmojis: PropTypes.arrayOf(Emoji),
+
+        isExpanded: PropTypes.bool,
     };
 
     constructor(props) {
@@ -464,7 +466,7 @@ export default class RhsComment extends React.PureComponent {
                     teamId={this.props.teamId}
                     emojis={this.props.recentEmojis}
                     getDotMenuRef={this.getDotMenuRef}
-                    size={1}
+                    size={this.props.isExpanded ? 3 : 1}
                 />
             );
         }
