@@ -62,7 +62,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
 
         const invitePeople = (
-            <>
+            <Menu.Group>
                 <Menu.ItemAction
                     id='invitePeople'
                     onClick={this.props.invitePeopleModal}
@@ -70,8 +70,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                     text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeople', defaultMessage: 'Invite People'})}
                     extraText={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeopleExtraText', defaultMessage: 'Add people to the team'})}
                 />
-                <li className='MenuGroup menu-divider'/>
-            </>
+            </Menu.Group>
         );
 
         let joinPublicChannel;
@@ -123,12 +122,12 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         return (
             <>
                 <Menu.Group>
-                    {invitePeople}
                     {joinPublicChannel}
                     {createChannel}
                     {createDirectMessage}
                 </Menu.Group>
                 {createCategory}
+                {invitePeople}
             </>
         );
     }

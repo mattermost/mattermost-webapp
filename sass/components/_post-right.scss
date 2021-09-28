@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .post-right__container,
 .ThreadViewer {
@@ -205,10 +205,10 @@
 }
 
 .post-right__container {
-    height: 100%;
+    flex: 1;
 
     .ThreadViewer {
-        height: 100%;
+        flex: 1;
     }
 }
 

@@ -36,6 +36,7 @@ export type Props = {
     postId?: string;
     text: React.ReactNode;
     selectedValueText?: React.ReactNode;
+    renderSelected?: boolean;
     subMenu?: Props[];
     subMenuClass?: string;
     icon?: React.ReactNode;
@@ -61,6 +62,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         show: true,
         direction: 'left',
         subMenuClass: 'pl-4',
+        renderSelected: true,
     };
 
     public constructor(props: Props) {
@@ -146,7 +148,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -187,7 +189,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     style={subMenuStyle}
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
-                        const hasDivider = s.id === 'SidebarChannelMenu-moveToDivider';
+                        const hasDivider = s.id === 'ChannelMenu-moveToDivider';
                         return (
                             <span
                                 className={classNames(['SubMenuItemContainer', {hasDivider}])}
@@ -235,8 +237,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 >
                     <span className='MenuItem__primary-text'>
                         {textProp}
-                        {selectedValueText && selectedValueElement}
-                        {id !== 'SidebarChannelMenu-moveToDivider' &&
+                        {renderSelected && selectedValueElement}
+                        {id !== 'ChannelMenu-moveToDivider' &&
                             <span
                                 id={'channelHeaderDropdownIconRight_' + id}
                                 className={classNames([`fa fa-angle-right SubMenu__icon-right${hasSubmenu ? '' : '-empty'}`, {mobile: isMobile}])}

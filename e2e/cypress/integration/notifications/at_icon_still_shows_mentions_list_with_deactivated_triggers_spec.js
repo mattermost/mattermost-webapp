@@ -21,8 +21,8 @@ describe('Notifications', () => {
 
             cy.visit(`/${testTeam.name}`);
 
-            // # Open 'Notifications' of 'Account Settings' modal
-            cy.uiOpenSettingsModal('Notifications').within(() => {
+            // # Open 'Settings' modal
+            cy.uiOpenSettingsModal().within(() => {
                 // # Open 'Words That Trigger Mentions' setting and uncheck all the checkboxes
                 cy.findByRole('heading', {name: 'Words That Trigger Mentions'}).should('be.visible').click();
                 cy.findByRole('checkbox', {name: `Your case-sensitive first name "${otherUser.first_name}"`}).should('not.be.checked');

@@ -42,7 +42,7 @@ describe('Messaging', () => {
         });
 
         // # Close the RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('At-mention user autocomplete should open above the textbox in RHS is filled with messages', () => {
@@ -75,7 +75,7 @@ describe('Messaging', () => {
         });
 
         // # Close the RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T70_1 At-mention user autocomplete is legible when it overlaps with channel header when drafting a long message containing a file attachment', () => {

@@ -31,8 +31,7 @@ describe('Authentication', () => {
         cy.visit('/login');
         fillCredentialsForUser(testUser);
 
-        // # From Account Settings, set your desktop notifications to Never (if not already done)
-        // Click hamburger main menu.
+        // # Open settings modal
         cy.uiOpenSettingsModal().within(() => {
             // Click "Desktop"
             cy.findByText('Desktop Notifications').should('be.visible').click();

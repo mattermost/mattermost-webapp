@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @accessibility
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Verify Accessibility Support in Dropdown Menus', () => {
     let offTopicUrl;
 
@@ -35,44 +33,48 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
     it('MM-T1464 Accessibility Support in Channel Menu Dropdown', () => {
         // # Press tab from the Channel Favorite button
-        cy.get('#toggleFavorite').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab({shift: true});
+        cy.uiGetChannelFavoriteButton().
+            focus().
+            tab({shift: true}).
+            tab().
+            tab({shift: true});
 
         // * Verify the aria-label in channel menu button
-        cy.get('#channelHeaderDropdownButton button').should('have.attr', 'aria-label', 'channel menu').and('have.class', 'a11y--active a11y--focused').click();
+        cy.uiGetChannelHeaderButton().
+            findByLabelText('channel menu').
+            should('be.focused').click();
 
         // * Verify the accessibility support in the Channel Dropdown menu
-        cy.get('#channelHeaderDropdownMenu').should('have.attr', 'aria-label', 'channel menu').and('have.class', 'a11y__popup').and('have.attr', 'role', 'menu');
+        cy.uiGetChannelMenu().
+            parent().
+            should('have.attr', 'aria-label', 'channel menu').
+            and('have.attr', 'role', 'menu');
 
         // * Verify the first option is not selected by default
-        cy.get('#channelHeaderDropdownMenu .MenuItem').children().eq(0).should('not.have.class', 'a11y--active a11y--focused');
+        cy.uiGetChannelMenu().children().eq(0).should('not.be.focused');
 
         // # Press tab
         cy.focused().tab();
 
         // * Verify the accessibility support in the Channel Dropdown menu items
         const menuItems = [
-            {id: 'channelViewInfo', label: 'View Info dialog'},
-            {id: 'channelNotificationPreferences', label: 'Notification Preferences dialog'},
-            {id: 'channelToggleMuteChannel', text: 'Mute Channel'},
-            {id: 'channelAddMembers', label: 'Add Members dialog'},
-            {id: 'channelManageMembers', label: 'Manage Members dialog'},
-            {id: 'channelEditHeader', label: 'Edit Channel Header dialog'},
-            {id: 'channelEditPurpose', label: 'Edit Channel Purpose dialog'},
-            {id: 'channelRename', label: 'Rename Channel dialog'},
-            {id: 'channelConvertToPrivate', label: 'Convert to Private Channel dialog'},
-            {id: 'channelArchiveChannel', label: 'Archive Channel dialog'},
-            {id: 'channelLeaveChannel', text: 'Leave Channel'},
+            'View Info',
+            'Move to...',
+            'Notification Preferences',
+            'Mute Channel',
+            'Add Members',
+            'Manage Members',
+            'Edit Channel Header',
+            'Edit Channel Purpose',
+            'Rename Channel',
+            'Convert to Private Channel',
+            'Archive Channel',
+            'Leave Channel',
         ];
 
         menuItems.forEach((item) => {
             // * Verify that the menu item is focused
-            cy.get('#channelHeaderDropdownMenu').find(`#${item.id}`).should('be.visible').within(() => {
-                if (item.label) {
-                    cy.findByLabelText(item.label).should('have.class', 'a11y--active a11y--focused');
-                } else {
-                    cy.findByText(item.text).parent().should('have.class', 'a11y--active a11y--focused');
-                }
-            });
+            cy.uiGetChannelMenu().findByText(item).parent().should('be.focused');
 
             // # Press tab for next item
             cy.focused().tab();
@@ -80,7 +82,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
         // * Verify if menu is closed when we press Escape
         cy.get('body').type('{esc}', {force: true});
-        cy.get('#channelHeaderDropdownMenu').should('not.exist');
+        cy.uiGetChannelMenu({exist: false});
     });
 
     it('MM-T1476 Accessibility Support in Main Menu Dropdown', () => {

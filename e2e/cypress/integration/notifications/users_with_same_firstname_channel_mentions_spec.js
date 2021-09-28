@@ -67,8 +67,7 @@ describe('Notifications', () => {
             checkUnreadMentions(channel);
 
             // # Leave the test channel and logout
-            cy.get('#channelHeaderDropdownButton').should('be.visible').click();
-            cy.get('#channelLeaveChannel').should('be.visible').click();
+            cy.uiOpenChannelMenu('Leave Channel');
             cy.apiLogout();
 
             // # Login as first user and visit town square

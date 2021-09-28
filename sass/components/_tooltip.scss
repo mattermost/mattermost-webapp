@@ -2,15 +2,16 @@
 
 .tooltip {
     max-width: 220px;
+    font-family: inherit;
     pointer-events: none;
     word-wrap: break-word;
 
     .tooltip-inner {
         max-width: 100%;
-        padding: 5px 10px 6px;
+        padding: 4px 8px;
         box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-        font-size: 13px;
-        font-weight: 500;
+        font-size: 12px;
+        font-weight: 600;
         line-height: 18px;
         text-align: center;
         word-break: break-word;
