@@ -202,15 +202,12 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleActionsMenuOpened = (open: boolean) => {
-        console.log('clicked Actions Menu button');
         const {actions} = this.props;
         if (this.props.firstTimeActionsMenuOpened) {
-            console.log('First time opened menu ');
             actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
             return;
         }
 
-        console.log('Already opened the menu');
         this.setState({showActionsMenu: open});
         this.props.handleDropdownOpened(open);
     };

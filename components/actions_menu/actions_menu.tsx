@@ -392,8 +392,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             menuItems = [this.visitMarketplaceTip()];
         }
 
-        console.log('this.state.showTip', this.state.showTip);
-        console.log('this.props.showTutorialTip', this.props.showTutorialTip);
         if (this.state.showTip) {
             menuItems = [
                 this.tutorialTipComponent(),
