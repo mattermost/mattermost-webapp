@@ -3763,6 +3763,7 @@
   "next_steps_view.invite_members_step.sendInvitationsViaEmail": "Send invitations via email",
   "next_steps_view.invite_members_step.shareThisLink": "Share this link to invite members",
   "next_steps_view.invite_members_step.tooManyEmails": "The free tier is limited to {num} members.",
+  "next_steps_view.invite_members_step.youCanInvite": "You can invite team members using a space or comma between addresses",
   "next_steps_view.invite_members_step.youCanInviteUpTo": "You can invite up to {members} team members using a space or comma between addresses",
   "next_steps_view.mobile_tips_message": "To configure your workspace, continue on a desktop computer.",
   "next_steps_view.nicelyDone": "Nicely done! You’re all set.",

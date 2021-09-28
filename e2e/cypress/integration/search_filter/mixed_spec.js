@@ -47,4 +47,10 @@ describe('Search Date Filter', () => {
     it('MM-T593 "before:", "after:", "from:", and "in:" can be used in one search', () => {
         searchAndValidate(`before:${Cypress.dayjs().format('YYYY-MM-DD')} after:${firstDateEarly.query} from:${anotherAdmin.username} in:off-topic ${commonText}`, [secondOffTopicMessage]);
     });
+
+    it('MM-T603 Place a string when a date is expected', () => {
+        searchAndValidate(`on:hippo ${commonText}`, []);
+        searchAndValidate(`before:hippo ${commonText}`, []);
+        searchAndValidate(`after:hippo ${commonText}`, []);
+    });
 });
