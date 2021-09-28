@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {StoragePrefixes, StorageTypes} from 'utils/constants';
-import {getPrefix} from 'utils/storage_utils';
-import {areObjectsEqual} from 'utils/utils';
+import deepEqual from 'fast-deep-equal';
 
 import {batchActions} from 'mattermost-redux/types/actions';
 
 import {getGlobalItem} from 'selectors/storage';
+
+import {StoragePrefixes, StorageTypes} from 'utils/constants';
+import {getPrefix} from 'utils/storage_utils';
 
 export function setItem(name, value) {
     return (dispatch, getState) => {
@@ -97,7 +98,7 @@ function rehydrateDrafts() {
             const parsed = JSON.parse(value);
 
             const existing = getGlobalItem(state, key);
-            if (existing && areObjectsEqual(existing, parsed)) {
+            if (existing && deepEqual(existing, parsed)) {
                 continue;
             }
 
