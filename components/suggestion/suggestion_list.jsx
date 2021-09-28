@@ -198,7 +198,6 @@ export default class SuggestionList extends React.PureComponent {
             components,
             open,
             cleared,
-            renderDividers,
             renderNoResults,
         } = this.props;
 
@@ -214,15 +213,15 @@ export default class SuggestionList extends React.PureComponent {
             handledItems.push(this.renderNoResults());
         }
 
-        let lastType = '';
+        let dividerRendered = false;
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             const term = terms[i];
             const isSelection = term === selection;
 
-            if (renderDividers && item.type !== lastType) {
+            if (!dividerRendered && item.type === 'mention.recent.channels') {
                 handledItems.push(this.renderDivider(item.type));
-                lastType = item.type;
+                dividerRendered = true;
             }
 
             if (item.loading) {
