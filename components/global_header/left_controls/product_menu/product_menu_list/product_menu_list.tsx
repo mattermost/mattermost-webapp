@@ -103,6 +103,18 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         />
                     }
                 />
+                <Menu.ItemLink
+                    id='tasks'
+                    show={isMessaging}
+                    to={'/time'}
+                    text={formatMessage({id: 'navbar_dropdown.tasks', defaultMessage: 'Tasks'})}
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'webhook-incoming'}
+                        />
+                    }
+                />
                 <TeamPermissionGate
                     teamId={teamId}
                     permissions={[Permissions.SYSCONSOLE_WRITE_PLUGINS]}

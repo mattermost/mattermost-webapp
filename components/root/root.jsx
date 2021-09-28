@@ -26,6 +26,7 @@ import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
+import TimeManagement from 'components/time_management/root';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -421,6 +422,10 @@ export default class Root extends React.PureComponent {
                                     )}
                                 />
                             ))}
+                            <LoggedInRoute
+                                path='/time'
+                                component={TimeManagement}
+                            />
                             <LoggedInRoute
                                 path={'/:team'}
                                 component={NeedsTeam}

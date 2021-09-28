@@ -4,9 +4,11 @@
 import plugins from './plugins';
 import views from './views';
 import storage from './storage';
+import time from './time_management';
 
 export default {
     views,
     plugins,
     storage,
+    time,
 };
