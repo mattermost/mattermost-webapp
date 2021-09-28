@@ -230,6 +230,9 @@ export default class Root extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
+        if (!Utils.areObjectsEqual(prevProps.theme, this.props.theme)) {
+            Utils.applyTheme(this.props.theme);
+        }
         if (this.props.location.pathname === '/') {
             if (this.props.noAccounts) {
                 prevProps.history.push('/signup_user_complete');
