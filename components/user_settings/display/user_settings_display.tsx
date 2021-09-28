@@ -103,6 +103,7 @@ type Props = {
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
     oneClickReactionsOnPosts: string;
+    emojiPickerEnabled: boolean;
     timezoneLabel: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -883,34 +884,37 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             );
         }
 
-        const oneClickReactionsOnPostsSection = this.createSection({
-            section: Preferences.ONE_CLICK_REACTIONS_ENABLED,
-            display: 'oneClickReactionsOnPosts',
-            value: this.state.oneClickReactionsOnPosts,
-            defaultDisplay: 'true',
-            title: {
-                id: t('user.settings.display.oneClickReactionsOnPostsTitle'),
-                message: 'One-click reactions on messages',
-            },
-            firstOption: {
-                value: 'true',
-                radionButtonText: {
-                    id: t('user.settings.sidebar.on'),
-                    message: 'On',
+        let oneClickReactionsOnPostsSection;
+        if (this.props.emojiPickerEnabled) {
+            oneClickReactionsOnPostsSection = this.createSection({
+                section: Preferences.ONE_CLICK_REACTIONS_ENABLED,
+                display: 'oneClickReactionsOnPosts',
+                value: this.state.oneClickReactionsOnPosts,
+                defaultDisplay: 'true',
+                title: {
+                    id: t('user.settings.display.oneClickReactionsOnPostsTitle'),
+                    message: 'One-click reactions on messages',
                 },
-            },
-            secondOption: {
-                value: 'false',
-                radionButtonText: {
-                    id: t('user.settings.sidebar.off'),
-                    message: 'Off',
+                firstOption: {
+                    value: 'true',
+                    radionButtonText: {
+                        id: t('user.settings.sidebar.on'),
+                        message: 'On',
+                    },
                 },
-            },
-            description: {
-                id: t('user.settings.display.oneClickReactionsOnPostsDescription'),
-                message: 'When enabled, you can react in one-click with recently used reactions when hovering over a message.',
-            },
-        });
+                secondOption: {
+                    value: 'false',
+                    radionButtonText: {
+                        id: t('user.settings.sidebar.off'),
+                        message: 'Off',
+                    },
+                },
+                description: {
+                    id: t('user.settings.display.oneClickReactionsOnPostsDescription'),
+                    message: 'When enabled, you can react in one-click with recently used reactions when hovering over a message.',
+                },
+            });
+        }
 
         return (
             <div id='displaySettings'>
