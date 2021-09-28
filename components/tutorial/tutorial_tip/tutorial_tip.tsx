@@ -56,7 +56,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.targetRef = React.createRef();
     }
 
-    public show = (): void => {
+    private show = (): void => {
         this.setState({show: true});
     }
 
