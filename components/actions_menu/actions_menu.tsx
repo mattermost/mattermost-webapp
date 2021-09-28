@@ -273,8 +273,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
     }
 
     render(): React.ReactNode {
-        const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-
         // const isMobile = Utils.isMobile(); TODO
 
         const pluginItems = this.props.pluginMenuItems?.
@@ -349,11 +347,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                     />
                 </>
             );
-        }
-
-        // if (isSystemMessage || !this.props.isSysAdmin) {
-        if (isSystemMessage) {
-            return null;
         }
 
         let tutorialTip = null;
