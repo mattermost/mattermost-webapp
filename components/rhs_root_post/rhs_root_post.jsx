@@ -239,7 +239,7 @@ export default class RhsRootPost extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
 
-        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled);
+        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker);
         let showRecentReacions;
         if (showRecentlyUsedReactions) {
             showRecentReacions = (
@@ -249,6 +249,7 @@ export default class RhsRootPost extends React.PureComponent {
                     teamId={this.props.teamId}
                     emojis={this.props.recentEmojis}
                     getDotMenuRef={this.getDotMenuRef}
+                    size={1}
                 />
             );
         }

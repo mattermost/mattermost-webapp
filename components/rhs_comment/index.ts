@@ -60,7 +60,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let emojis = [];
     const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
     if (oneClickReactionsEnabled) {
-        emojis = getOneClickReactionEmojis(state);
+        emojis = getOneClickReactionEmojis(state, 1);
     }
 
     return {

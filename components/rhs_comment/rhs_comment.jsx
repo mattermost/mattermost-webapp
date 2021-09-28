@@ -454,7 +454,7 @@ export default class RhsComment extends React.PureComponent {
             );
         }
 
-        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled);
+        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker);
         let showRecentReacions;
         if (showRecentlyUsedReactions) {
             showRecentReacions = (
@@ -464,6 +464,7 @@ export default class RhsComment extends React.PureComponent {
                     teamId={this.props.teamId}
                     emojis={this.props.recentEmojis}
                     getDotMenuRef={this.getDotMenuRef}
+                    size={1}
                 />
             );
         }

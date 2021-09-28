@@ -215,7 +215,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
-        const showRecentlyUsedReactions = !isSystemMessage && hover && !isReadOnly && this.props.oneClickReactionsEnabled;
+        const showRecentlyUsedReactions = !isMobile && !isSystemMessage && hover && !isReadOnly && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker;
         let showRecentReacions;
         if (showRecentlyUsedReactions) {
             showRecentReacions = (

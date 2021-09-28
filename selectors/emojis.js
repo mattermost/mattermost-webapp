@@ -49,8 +49,8 @@ export function isCustomEmojiEnabled(state) {
     return config && config.EnableCustomEmoji === 'true';
 }
 
-export const getOneClickReactionEmojis = (state) => {
-    const recentEmojis = getRecentEmojis(state).slice(-3);
+export const getOneClickReactionEmojis = (state, size) => {
+    const recentEmojis = getRecentEmojis(state).slice(-size);
     const emojiMap = getEmojiMap(state);
     const emojis = [];
     for (let i = 0; i < recentEmojis.length; i++) {

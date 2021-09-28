@@ -23,6 +23,7 @@ type Props = {
     location: LocationTypes;
     locale: string;
     emojis: Emoji[];
+    size: number;
     defaultEmojis: Emoji[];
     actions: {
         addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
@@ -36,6 +37,7 @@ type State = {
 export default class PostRecentReactions extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
         location: Locations.CENTER as 'CENTER',
+        size: 3,
     };
 
     handleAddEmoji = (emoji: Emoji): void => {
@@ -55,7 +57,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
             return !ignore;
         });
         const l = emojis.length;
-        for (let i = 0; i < 3 - l; i++) {
+        for (let i = 0; i < this.props.size - l; i++) {
             emojis.push(additional[i]);
         }
 
@@ -77,7 +79,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         } = this.props;
 
         let emojis = [...this.props.emojis];
-        if (emojis.length < 3) {
+        if (emojis.length < this.props.size) {
             emojis = this.complementEmojis(emojis);
         }
 
