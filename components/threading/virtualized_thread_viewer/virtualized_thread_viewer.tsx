@@ -315,6 +315,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                         ref={this.postCreateContainerRef}
                         teammate={this.props.directTeammate}
                         threadId={this.props.selected.id}
+                        isThreadView={true}
                     />
                 )}
             </>

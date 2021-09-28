@@ -238,6 +238,7 @@ type Props = {
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     onHeightChange?: (height: number, maxHeight: number) => void;
     focusOnMount?: boolean;
+    isThreadView?: boolean;
 }
 
 type State = {
@@ -1249,7 +1250,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                     onUploadProgress={this.handleUploadProgress}
                     rootId={this.props.rootId}
                     channelId={this.props.channelId}
-                    postType='comment'
+                    postType={this.props.isThreadView ? 'thread' : 'comment'}
                 />
             );
         }
