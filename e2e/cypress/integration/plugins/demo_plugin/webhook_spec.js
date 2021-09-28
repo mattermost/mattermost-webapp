@@ -49,7 +49,7 @@ describe('Demo plugin - Webhook events', () => {
             cy.apiUploadAndEnablePlugin(demoPlugin);
 
             // # Enable webhook events
-            cy.visit(`/${team1.name}/channels/town-square`);
+            cy.visit(`/${team1.name}/channels/off-topic`);
             cy.postMessage('/demo_plugin true ').wait(TIMEOUTS.TWO_SEC);
 
             // * Verify that hooks are enabled
@@ -79,7 +79,7 @@ describe('Demo plugin - Webhook events', () => {
 
     it('MM-T2408_1 - User posts a message Webhook event', () => {
         // # Post message
-        cy.visit(`/${team1.name}/channels/town-square`);
+        cy.visit(`/${team1.name}/channels/off-topic`);
         cy.postMessage(MESSAGES.SMALL);
 
         // * Verify message is posted in the demo channel
@@ -108,7 +108,7 @@ describe('Demo plugin - Webhook events', () => {
 
     it('MM-T2408_4 - User edited a message Webhook event', () => {
         // # Post message
-        cy.visit(`/${team1.name}/channels/town-square`);
+        cy.visit(`/${team1.name}/channels/off-topic`);
         cy.postMessage(MESSAGES.SMALL);
 
         // # Get last post ID
@@ -133,13 +133,13 @@ describe('Demo plugin - Webhook events', () => {
             cy.visit(`/${team1.name}/channels/demo_plugin`);
 
             // * Verify event posted in the channel
-            cy.findAllByTestId('postView').should('contain', `MessageHasBeenUpdated: @${testUser.username}, ~Town Square`);
+            cy.findAllByTestId('postView').should('contain', `MessageHasBeenUpdated: @${testUser.username}, ~Off-Topic`);
         });
     });
 
     it('MM-T2408_5 - User adds a reaction to a message Webhook event', () => {
         // # Post message
-        cy.visit(`/${team1.name}/channels/town-square`);
+        cy.visit(`/${team1.name}/channels/off-topic`);
         cy.postMessage(MESSAGES.SMALL);
 
         cy.getLastPostId().then((postId) => {

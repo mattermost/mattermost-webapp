@@ -2,20 +2,22 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory, getDownloadAppsCTATreatment} from 'mattermost-redux/selectors/entities/preferences';
+import {DownloadAppsCTATreatments} from 'mattermost-redux/constants/config';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
+import {t} from 'utils/i18n';
 
 import CompleteProfileStep from './steps/complete_profile_step';
 import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferences_step';
 import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
+import DownloadAppsStep from './steps/download_apps_step/download_apps_step';
 
 import {isStepForUser} from './step_helpers';
 
@@ -29,8 +31,11 @@ export type StepComponentProps = {
 }
 export type StepType = {
     id: string;
-    title: string;
-    component: React.ComponentType<StepComponentProps>;
+    title: {
+        titleId: string;
+        titleMessage: string;
+    };
+    component: React.ComponentType<StepComponentProps | StepComponentProps & {isFirstAdmin: boolean}>;
     visible: boolean;
 
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
@@ -43,52 +48,62 @@ export type StepType = {
 export const Steps: StepType[] = [
     {
         id: RecommendedNextSteps.COMPLETE_PROFILE,
-        title: localizeMessage(
-            'next_steps_view.titles.completeProfile',
-            'Complete your profile',
-        ),
+        title: {
+            titleId: t('next_steps_view.titles.completeProfile'),
+            titleMessage: 'Complete your profile',
+        },
         component: CompleteProfileStep,
         roles: [],
         visible: true,
     },
     {
         id: RecommendedNextSteps.TEAM_SETUP,
-        title: localizeMessage(
-            'next_steps_view.titles.teamSetup',
-            'Name your team',
-        ),
+        title: {
+            titleId: t('next_steps_view.titles.teamSetup'),
+            titleMessage: 'Name your team',
+        },
         roles: ['first_admin'],
         component: TeamProfileStep,
         visible: true,
     },
     {
         id: RecommendedNextSteps.NOTIFICATION_SETUP,
-        title: localizeMessage(
-            'next_steps_view.notificationSetup.setNotifications',
-            'Set up desktop notifications',
-        ),
+        title: {
+            titleId: t('next_steps_view.notificationSetup.setNotifications'),
+            titleMessage: 'Set up notifications',
+        },
         roles: ['system_user'],
         component: EnableNotificationsStep,
         visible: true,
     },
     {
         id: RecommendedNextSteps.PREFERENCES_SETUP,
-        title: localizeMessage(
-            'next_steps_view.titles.preferenceSetup',
-            'Set your preferences',
-        ),
+        title: {
+            titleId: t('next_steps_view.titles.preferenceSetup'),
+            titleMessage: 'Set your preferences',
+        },
         roles: ['system_user'],
         component: SetupPreferencesStep,
         visible: false,
     },
     {
         id: RecommendedNextSteps.INVITE_MEMBERS,
-        title: localizeMessage(
-            'next_steps_view.titles.inviteMembers',
-            'Invite members to the team',
-        ),
+        title: {
+            titleId: t('next_steps_view.titles.inviteMembers'),
+            titleMessage: 'Invite members to the team',
+        },
         roles: ['system_admin', 'system_user'],
         component: InviteMembersStep,
+        visible: true,
+    },
+    {
+        id: RecommendedNextSteps.DOWNLOAD_APPS,
+        title: {
+            titleId: t('next_steps_view.downloadDesktopAndMobile'),
+            titleMessage: 'Download the Desktop and Mobile apps',
+        },
+        roles: [],
+        component: DownloadAppsStep,
         visible: true,
     },
 ];
@@ -113,14 +128,23 @@ export const isFirstAdmin = createSelector(
     },
 );
 
+function filterDownloadAppsStep(step: StepType, downloadAppsAsNextStep: boolean): boolean {
+    if (step.id !== RecommendedNextSteps.DOWNLOAD_APPS) {
+        return true;
+    }
+
+    return downloadAppsAsNextStep;
+}
+
 export const getSteps = createSelector(
     'getSteps',
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
-    (currentUser, firstAdmin) => {
+    (state: GlobalState) => getDownloadAppsCTATreatment(state) === DownloadAppsCTATreatments.TIPS_AND_NEXT_STEPS,
+    (currentUser, firstAdmin, downloadAppsAsNextStep) => {
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
-            isStepForUser(step, roles) && step.visible,
+            isStepForUser(step, roles) && step.visible && filterDownloadAppsStep(step, downloadAppsAsNextStep),
         );
     },
 );

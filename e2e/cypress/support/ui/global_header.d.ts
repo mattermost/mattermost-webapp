@@ -113,12 +113,36 @@ declare namespace Cypress {
         uiOpenUserMenu(option: Record<string, boolean>): Chainable;
 
         /**
+         * Get search form container
+         *
+         * @example
+         *   cy.uiGetSearchContainer();
+         */
+        uiGetSearchContainer(): Chainable;
+
+        /**
+         * Get search box
+         *
+         * @example
+         *   cy.uiGetSearchBox();
+         */
+        uiGetSearchBox(): Chainable;
+
+        /**
          * Get at-mention button
          *
          * @example
          *   cy.uiGetRecentMentionButton();
          */
         uiGetRecentMentionButton(): Chainable;
+
+        /**
+         * Get saved posts button
+         *
+         * @example
+         *   cy.uiGetSavedPostButton();
+         */
+        uiGetSavedPostButton(): Chainable;
 
         /**
          * Get settings button

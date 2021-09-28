@@ -1,5 +1,187 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`PostMessagePreview should not render bot icon 1`] = `
+<PostAttachmentContainer
+  className="permalink"
+  link="/team1/pl/post_id"
+>
+  <div
+    className="post-preview"
+  >
+    <div
+      className="post-preview__header"
+    >
+      <div
+        className="col col__name"
+      >
+        <div
+          className="post__img"
+        >
+          <span
+            className="profile-icon"
+          >
+            <Memo(Avatar)
+              className="avatar-post-preview"
+              size="sm"
+              url="/api/v4/users/user_1/image?_=0"
+              username="username1"
+            />
+          </span>
+        </div>
+      </div>
+      <div
+        className="col col__name"
+      >
+        <Connect(UserProfile)
+          disablePopover={true}
+          hasMention={true}
+          overwriteName=""
+          userId="user_1"
+        />
+      </div>
+      <div
+        className="col"
+      >
+        <Connect(injectIntl(Timestamp))
+          className="post-preview__time"
+          day="numeric"
+          units={
+            Array [
+              "now",
+              "minute",
+              "hour",
+              "day",
+            ]
+          }
+          useTime={false}
+        />
+      </div>
+    </div>
+    <Connect(PostMessageView)
+      maxHeight={105}
+      overflowType="ellipsis"
+      post={
+        Object {
+          "id": "post_id",
+          "message": "post message",
+          "props": Object {
+            "from_webhook": "false",
+            "override_icon_url": "https://fakeicon.com/image.jpg",
+            "use_user_icon": "false",
+          },
+        }
+      }
+    />
+    <div
+      className="post__preview-footer"
+    >
+      <p>
+        <MemoizedFormattedMessage
+          defaultMessage="Originally posted in ~{channel}"
+          id="post_message_preview.channel"
+          values={
+            Object {
+              "channel": "channel name",
+            }
+          }
+        />
+      </p>
+    </div>
+  </div>
+</PostAttachmentContainer>
+`;
+
+exports[`PostMessagePreview should render bot icon 1`] = `
+<PostAttachmentContainer
+  className="permalink"
+  link="/team1/pl/post_id"
+>
+  <div
+    className="post-preview"
+  >
+    <div
+      className="post-preview__header"
+    >
+      <div
+        className="col col__name"
+      >
+        <div
+          className="post__img"
+        >
+          <span
+            className="profile-icon"
+          >
+            <Memo(Avatar)
+              className="avatar-post-preview"
+              size="sm"
+              url="https://fakeicon.com/image.jpg"
+              username="username1"
+            />
+          </span>
+        </div>
+      </div>
+      <div
+        className="col col__name"
+      >
+        <Connect(UserProfile)
+          disablePopover={true}
+          hasMention={true}
+          overwriteName=""
+          userId="user_1"
+        />
+      </div>
+      <div
+        className="col"
+      >
+        <Connect(injectIntl(Timestamp))
+          className="post-preview__time"
+          day="numeric"
+          units={
+            Array [
+              "now",
+              "minute",
+              "hour",
+              "day",
+            ]
+          }
+          useTime={false}
+        />
+      </div>
+    </div>
+    <Connect(PostMessageView)
+      maxHeight={105}
+      overflowType="ellipsis"
+      post={
+        Object {
+          "id": "post_id",
+          "message": "post message",
+          "props": Object {
+            "from_webhook": "true",
+            "override_icon_url": "https://fakeicon.com/image.jpg",
+            "use_user_icon": false,
+          },
+        }
+      }
+    />
+    <div
+      className="post__preview-footer"
+    >
+      <p>
+        <MemoizedFormattedMessage
+          defaultMessage="Originally posted in ~{channel}"
+          id="post_message_preview.channel"
+          values={
+            Object {
+              "channel": "channel name",
+            }
+          }
+        />
+      </p>
+    </div>
+  </div>
+</PostAttachmentContainer>
+`;
+
 exports[`PostMessagePreview should render correctly 1`] = `
 <PostAttachmentContainer
   className="permalink"
@@ -35,6 +217,7 @@ exports[`PostMessagePreview should render correctly 1`] = `
         <Connect(UserProfile)
           disablePopover={true}
           hasMention={true}
+          overwriteName=""
           userId="user_1"
         />
       </div>

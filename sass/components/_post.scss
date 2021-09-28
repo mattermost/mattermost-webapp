@@ -397,6 +397,14 @@
         width: 100%;
         padding: 0 15px 0;
         margin: 0 auto;
+
+        &.prewritten {
+            background: rgba(var(--button-bg-rgb), 0.08);
+
+            .custom-textarea {
+                background: var(--center-channel-bg);
+            }
+        }
     }
 
     .center {
@@ -451,6 +459,13 @@
                 padding-right: 90px;
             }
         }
+    }
+
+    .post-create-prewritten-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 0;
     }
 
     .post-create-body {
@@ -1059,13 +1074,18 @@
     }
 
     .post-edited__indicator {
-        @include opacity(0.6);
-
-        font-size: 0.87em;
+        display: inline-block;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 11px;
+        font-style: italic;
         -webkit-user-select: none; /* Chrome all / Safari all */
         -moz-user-select: none;    /* Firefox all */
         -ms-user-select: none;     /* IE 10+ */
         user-select: none;
+
+        > i {
+            margin-right: 2px;
+        }
     }
 
     .emoticon {
@@ -1930,7 +1950,11 @@
 
 .post-message {
     position: relative;
+
+    // MM-38006 - There's a bug on Chrome/Safari where a collapsed post will sometimes have its contents scroll. This
+    // is prevented by using clip instead of hidden, but that's not supported on the stable version of Safari yet.
     overflow: hidden;
+    overflow: clip;
 }
 
 .post-collapse {
