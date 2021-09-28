@@ -54,16 +54,21 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         {
             replaceChildren: false,
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'span' && node.attribs['data-edited-post-id'] && node.attribs['data-edited-post-id'] === options.postId,
-            processNode: () => (
-                <>
-                    {' '}
+            processNode: () => {
+                const indicator = (
                     <PostEditedIndicator
                         key={options.postId}
                         postId={options.postId}
                         editedAt={options.editedAt}
                     />
-                </>
-            ),
+                );
+                return indicator ? (
+                    <>
+                        {' '}
+                        {indicator}
+                    </>
+                ) : null;
+            },
         },
     ];
 
