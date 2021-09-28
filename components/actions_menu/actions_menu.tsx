@@ -422,21 +422,16 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         <i className={'icon icon-apps'}/>
                         {tutorialTip}
                     </button>
-                    <div>
-                        {/* {(!showTip && */}
-                        <Menu
-                            id={`${this.props.location}_dropdown_${this.props.post.id}`}
-                            openLeft={true}
-                            openUp={this.state.openUp}
-                            ref={this.refCallback}
-                            ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
-                        >
-                            {/* {!this.props.showTutorialTip && menuItems} */}
-                            {menuItems}
-                        </Menu>
-                        {/* )} */}
-                    </div>
                 </OverlayTrigger>
+                <Menu
+                    id={`${this.props.location}_dropdown_${this.props.post.id}`}
+                    openLeft={true}
+                    openUp={this.state.openUp}
+                    ref={this.refCallback}
+                    ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
+                >
+                    {menuItems}
+                </Menu>
             </MenuWrapper>
         );
     }
