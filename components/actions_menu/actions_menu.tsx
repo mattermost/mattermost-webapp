@@ -402,31 +402,41 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         return (
 
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
-                <button
-                    ref={this.buttonRef}
-                    id={`${this.props.location}_button_${this.props.post.id}`}
-                    aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'Actions').toLowerCase()}
-                    className={classNames('post-menu__item', {
-                        'post-menu__item--active': this.props.isMenuOpen,
-                    })}
-                    type='button'
-                    aria-expanded='false'
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={500}
+                    placement='top'
+                    overlay={this.tooltip}
+                    rootClose={true}
                 >
-                    <i className={'icon icon-apps'}/>
-                    {tutorialTip}
-                </button>
-                <div>
-                    <Menu
-                        id={`${this.props.location}_dropdown_${this.props.post.id}`}
-                        openLeft={true}
-                        openUp={this.state.openUp}
-                        ref={this.refCallback}
-                        ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
+                    <button
+                        ref={this.buttonRef}
+                        id={`${this.props.location}_button_${this.props.post.id}`}
+                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'Actions').toLowerCase()}
+                        className={classNames('post-menu__item', {
+                            'post-menu__item--active': this.props.isMenuOpen,
+                        })}
+                        type='button'
+                        aria-expanded='false'
                     >
-                        {/* {!this.props.showTutorialTip && menuItems} */}
-                        {menuItems}
-                    </Menu>
-                </div>
+                        <i className={'icon icon-apps'}/>
+                        {tutorialTip}
+                    </button>
+                    <div>
+                        {/* {(!showTip && */}
+                        <Menu
+                            id={`${this.props.location}_dropdown_${this.props.post.id}`}
+                            openLeft={true}
+                            openUp={this.state.openUp}
+                            ref={this.refCallback}
+                            ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
+                        >
+                            {/* {!this.props.showTutorialTip && menuItems} */}
+                            {menuItems}
+                        </Menu>
+                        {/* )} */}
+                    </div>
+                </OverlayTrigger>
             </MenuWrapper>
         );
     }
