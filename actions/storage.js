@@ -3,8 +3,11 @@
 
 import {StoragePrefixes, StorageTypes} from 'utils/constants';
 import {getPrefix} from 'utils/storage_utils';
+import {areObjectsEqual} from 'utils/utils';
 
 import {batchActions} from 'mattermost-redux/types/actions';
+
+import {getGlobalItem} from 'selectors/storage';
 
 export function setItem(name, value) {
     return (dispatch, getState) => {
@@ -31,12 +34,9 @@ export function removeItem(name) {
 }
 
 export function setGlobalItem(name, value) {
-    return (dispatch) => {
-        dispatch({
-            type: StorageTypes.SET_GLOBAL_ITEM,
-            data: {name, value, timestamp: new Date()},
-        });
-        return {data: true};
+    return {
+        type: StorageTypes.SET_GLOBAL_ITEM,
+        data: {name, value, timestamp: new Date()},
     };
 }
 
@@ -84,22 +84,31 @@ export function actionOnItemsWithPrefix(prefix, action) {
 
 // Temporary action to manually rehydrate drafts from localStorage.
 function rehydrateDrafts() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         const actions = [];
 
-        Object.entries(localStorage).forEach((entry) => {
-            const key = entry[0];
-            const value = entry[1];
-            if (key.indexOf(StoragePrefixes.DRAFT) === 0 || key.indexOf(StoragePrefixes.COMMENT_DRAFT) === 0) {
-                actions.push({
-                    type: StorageTypes.SET_GLOBAL_ITEM,
-                    data: {name: key, value: JSON.parse(value), timestamp: new Date()},
-                });
-            }
-        });
+        const state = getState();
 
-        dispatch(batchActions(actions));
-        return {data: true};
+        for (const [key, value] of Object.entries(localStorage)) {
+            if (!key.startsWith(StoragePrefixes.DRAFT) && !key.startsWith(StoragePrefixes.COMMENT_DRAFT)) {
+                continue;
+            }
+
+            const parsed = JSON.parse(value);
+
+            const existing = getGlobalItem(state, key);
+            if (existing && areObjectsEqual(existing, parsed)) {
+                continue;
+            }
+
+            actions.push(setGlobalItem(key, parsed));
+        }
+
+        if (actions.length === 0) {
+            return {data: false};
+        }
+
+        return dispatch(batchActions(actions));
     };
 }
 
