@@ -159,7 +159,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         );
 
         let tutorialTip = null;
-        if (this.props.showTutorialTip) {
+        if (true) {
             tutorialTip = (
                 <AddChannelTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}

@@ -208,7 +208,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             return;
         }
 
-        this.setState({showActionsMenu: open});
+        this.setState({showActionsMenu: false});
         this.props.handleDropdownOpened(open);
     };
 
@@ -274,6 +274,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || hover);
+        console.log('this.state.showActionsMenu', this.state.showActionsMenu);
         const actionsMenu = showActionsMenuIcon && (
             <ActionsMenu
                 post={post}

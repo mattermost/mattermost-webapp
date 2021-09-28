@@ -8,7 +8,11 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
 
-export default class ActionsTutorialTip extends React.PureComponent {
+type Props = {
+    show?: boolean;
+}
+
+export default class ActionsTutorialTip extends React.PureComponent <Props> {
     render = (): JSX.Element => {
         const screens = [];
         screens.push(
@@ -30,6 +34,7 @@ export default class ActionsTutorialTip extends React.PureComponent {
 
         return (
             <TutorialTip
+                show={this.props.show}
                 placement='top'
                 screens={screens}
                 overlayClass='tip-overlay--actions'

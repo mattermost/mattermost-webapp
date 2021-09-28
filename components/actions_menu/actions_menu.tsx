@@ -251,6 +251,27 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
+    tutorialTipComponent(): React.ReactElement {
+        return (
+            <>
+                <div className='tip-overlay--actions'>
+                    <h4>
+                        <FormattedMessage
+                            id='post_info.actions.tutorialTip.title'
+                            defaultMessage='Actions for messages'
+                        />
+                    </h4>
+                    <p>
+                        <FormattedMarkdownMessage
+                            id='post_info.actions.tutorialTip'
+                            defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
+                        />
+                    </p>
+                </div>
+            </>
+        );
+    }
+
     render(): React.ReactNode {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
 
@@ -330,23 +351,28 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             );
         }
 
-        if (isSystemMessage || !this.props.isSysAdmin) {
+        // if (isSystemMessage || !this.props.isSysAdmin) {
+        if (isSystemMessage) {
             return null;
         }
 
-        let menuItems;
         let tutorialTip = null;
         if (this.props.showTutorialTip) {
             tutorialTip = (
                 <ActionsTutorialTip/>
             );
         }
+        console.log('this.props.showTutorialTip', this.props.showTutorialTip);
 
         const hasApps = Boolean(appBindings.length);
         const hasPluggables = Boolean(this.props.components[PLUGGABLE_COMPONENT]?.length);
         const hasPluginItems = Boolean(pluginItems?.length);
 
+        let menuItems;
+
+        // let tutorialTip;
         if (hasPluginItems || hasApps || hasPluggables) {
+            console.log('2. IN HERE!');
             const pluggable = (
                 <Pluggable
                     postId={this.props.post.id}
@@ -359,19 +385,29 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                 pluggable,
                 marketPlace,
             ];
+
+        // // } else {
+        // } else if (true) {
+        //     console.log('1. IN HERE!');
+        //     const junk = (
+        //         <ActionsTutorialTip
+        //             show={true}
+        //         />
+        //     );
+        //     menuItems = [junk];
         } else {
             menuItems = [this.visitMarketplaceTip()];
         }
 
         return (
-            <MenuWrapper onToggle={this.props.handleDropdownOpened}>
-                <OverlayTrigger
-                    className='hidden-xs'
-                    delayShow={500}
-                    placement='top'
-                    overlay={this.tooltip}
-                    rootClose={true}
-                >
+            <OverlayTrigger
+                className='hidden-xs'
+                delayShow={500}
+                placement='top'
+                overlay={this.tooltip}
+                rootClose={true}
+            >
+                <MenuWrapper onToggle={this.props.handleDropdownOpened}>
                     <button
                         ref={this.buttonRef}
                         id={`${this.props.location}_button_${this.props.post.id}`}
@@ -385,17 +421,22 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         <i className={'icon icon-apps'}/>
                         {tutorialTip}
                     </button>
-                </OverlayTrigger>
-                <Menu
-                    id={`${this.props.location}_dropdown_${this.props.post.id}`}
-                    openLeft={true}
-                    openUp={this.state.openUp}
-                    ref={this.refCallback}
-                    ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
-                >
-                    {menuItems}
-                </Menu>
-            </MenuWrapper>
+                    <div>
+                        {/* {(!showtip && */}
+                        <Menu
+                            id={`${this.props.location}_dropdown_${this.props.post.id}`}
+                            openLeft={true}
+                            openUp={this.state.openUp}
+                            ref={this.refCallback}
+                            ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
+                        >
+                            {/* {!this.props.showTutorialTip && menuItems} */}
+                            {menuItems}
+                        </Menu>
+                        {/* )} */}
+                    </div>
+                </MenuWrapper>
+            </OverlayTrigger>
         );
     }
 }
