@@ -5,21 +5,11 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import StatusDropdown from 'components/status_dropdown';
-import {TutorialSteps} from 'utils/constants';
-import Pluggable from 'plugins/pluggable';
-import {isDesktopApp} from 'utils/user_agent';
+import CenterControls from './center_controls/center_controls';
+import LeftControls from './left_controls/left_controls';
+import RightControls from './right_controls/right_controls';
 
-import GlobalSearchNav from './global_search_nav/global_search_nav';
-import ProductSwitcher from './product_switcher';
-import HistoryButtons from './history_buttons';
-import UserGuideDropdown from './user_guide_dropdown';
-import AtMentionsButton from './at_mentions_button/at_mentions_button';
-import SavedPostsButton from './saved_posts_button/saved_posts_button';
-import SettingsButton from './settings_button';
-import SettingsTip from './settings_tip';
-
-import {useCurrentProductId, useIsLoggedIn, useProducts, useShowTutorialStep} from './hooks';
+import {useCurrentProductId, useIsLoggedIn, useProducts} from './hooks';
 
 const GlobalHeaderContainer = styled.header`
     position: relative;
@@ -38,45 +28,10 @@ const GlobalHeaderContainer = styled.header`
     }
 `;
 
-const LeftControls = styled.div`
-    display: flex;
-    align-items: center;
-    height: 40px;
-    flex-shrink: 0;
-
-    > * + * {
-        margin-left: 12px;
-    }
-`;
-
-const CenterControls = styled.div`
-    display: flex;
-    align-items: center;
-    height: 40px;
-    justify-content: center;
-    flex-grow: 1;
-
-    > * + * {
-        margin-left: 8px;
-    }
-`;
-
-const RightControls = styled.div`
-    display: flex;
-    align-items: center;
-    height: 40px;
-    flex-shrink: 0;
-
-    > * + * {
-        margin-left: 8px;
-    }
-`;
-
 const GlobalHeader = (): JSX.Element | null => {
     const isLoggedIn = useIsLoggedIn();
     const products = useProducts();
     const currentProductID = useCurrentProductId(products);
-    const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
 
     if (!isLoggedIn) {
         return null;
@@ -84,43 +39,9 @@ const GlobalHeader = (): JSX.Element | null => {
 
     return (
         <GlobalHeaderContainer>
-            <LeftControls>
-                <ProductSwitcher/>
-                {isDesktopApp() && <HistoryButtons/>}
-            </LeftControls>
-            <CenterControls>
-                {currentProductID !== null &&
-                    <Pluggable
-                        pluggableName={'Product'}
-                        subComponentName={'headerCentreComponent'}
-                        pluggableId={currentProductID}
-                    />
-                }
-                {currentProductID === null &&
-                    <>
-                        <GlobalSearchNav/>
-                        <UserGuideDropdown/>
-                    </>
-                }
-            </CenterControls>
-            <RightControls>
-                {currentProductID !== null &&
-                    <Pluggable
-                        pluggableName={'Product'}
-                        subComponentName={'headerRightComponent'}
-                        pluggableId={currentProductID}
-                    />
-                }
-                {currentProductID === null &&
-                    <>
-                        <AtMentionsButton/>
-                        <SavedPostsButton/>
-                        <SettingsButton/>
-                        {showSettingsTip && <SettingsTip/>}
-                    </>
-                }
-                <StatusDropdown globalHeader={true}/>
-            </RightControls>
+            <LeftControls/>
+            <CenterControls productId={currentProductID}/>
+            <RightControls productId={currentProductID}/>
         </GlobalHeaderContainer>
     );
 };
