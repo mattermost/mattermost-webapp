@@ -47,7 +47,7 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
         }
 
         dispatch({
-            type: ThreadTypes.RECEIVED_THREADS,
+            type: unread ? ThreadTypes.RECEIVED_UNREAD_THREADS : ThreadTypes.RECEIVED_THREADS,
             data: {
                 ...userThreadList,
                 threads: userThreadList?.threads?.map((thread) => ({...thread, is_following: true})) ?? [],

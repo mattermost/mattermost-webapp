@@ -20,7 +20,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 
-type Props = {
+export type Props = {
     isMobile: boolean;
     id: string;
     teamId: string;
@@ -36,18 +36,18 @@ type Props = {
     canManageSystemBots: boolean;
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
-    pluginMenuItems: any;
-    intl: IntlShape;
-    firstAdminVisitMarketplaceStatus: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
+type PropsWithIntl = Props & {
+    intl: IntlShape;
+}
+
 // TODO: rewrite this to a functional component
-class ProductSwitcherMenu extends React.PureComponent<Props> {
+class ProductSwitcherMenu extends React.PureComponent<PropsWithIntl> {
     static defaultProps = {
         teamType: '',
         isMobile: false,
-        pluginMenuItems: [],
     };
 
     handleEmitUserLoggedOutEvent = () => {

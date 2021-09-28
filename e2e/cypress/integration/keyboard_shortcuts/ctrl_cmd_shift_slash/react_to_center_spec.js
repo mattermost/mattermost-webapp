@@ -196,7 +196,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
             cy.findByLabelText('remove reaction smile').should('not.exist');
         });
 
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T4060_2 Open emoji picker on center when focus is neither on center or comment textbox even if RHS is opened', () => {
@@ -242,6 +242,6 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
             cy.get(`#post_${lastPostId}`).findByLabelText('remove reaction smile').should('not.exist');
         });
 
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 });

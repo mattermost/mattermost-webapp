@@ -13,7 +13,10 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
     }
   }
 >
-  <InviteMembersButton>
+  <InviteMembersButton
+    onClick={[MockFunction]}
+    touchedInviteMembersButton={false}
+  >
     <Connect(TeamPermissionGate)
       permissions={
         Array [
@@ -49,6 +52,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
           }
           id="introTextInvite"
           modalId="invitation"
+          onClick={[MockFunction]}
         >
           <injectIntl(ModalToggleButtonRedux)
             accessibilityLabel="Invite Users"
@@ -69,6 +73,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
             }
             id="introTextInvite"
             modalId="invitation"
+            onClick={[MockFunction]}
           >
             <ModalToggleButtonRedux
               accessibilityLabel="Invite Users"
@@ -126,6 +131,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
                 }
               }
               modalId="invitation"
+              onClick={[MockFunction]}
             >
               <button
                 aria-label="Invite Users dialog"
@@ -136,7 +142,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
               >
                 <li
                   aria-label="Invite Members"
-                  className="SidebarChannelNavigator_inviteMembersLhsButton"
+                  className="SidebarChannelNavigator_inviteMembersLhsButton SidebarChannelNavigator_inviteMembersLhsButton--untouched"
                 >
                   <i
                     className="icon-plus-box"

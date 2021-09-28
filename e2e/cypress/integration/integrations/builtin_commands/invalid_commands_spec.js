@@ -124,7 +124,7 @@ describe('Invalid slash command', () => {
         verifyLastPostedMessageContainsPlainTextOfCommand(incorrectCommand3);
 
         // # Close RHS
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 });
 
