@@ -370,22 +370,6 @@ class MainMenu extends React.PureComponent {
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
                         />
                     </TeamPermissionGate>
-                    <Menu.ItemLink
-                        id='customEmojis'
-                        show={this.props.enableCustomEmoji && this.props.canCreateOrDeleteCustomEmoji}
-                        to={'/' + this.props.teamName + '/emoji'}
-                        text={formatMessage({id: 'navbar_dropdown.emoji', defaultMessage: 'Custom Emoji'})}
-                    />
-                </Menu.Group>
-                <Menu.Group>
-                    <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
-                        <Menu.ItemLink
-                            id='systemConsole'
-                            to='/admin_console'
-                            text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
-                            icon={<i className='fa fa-wrench'/>}
-                        />
-                    </SystemPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemExternalLink
@@ -401,11 +385,6 @@ class MainMenu extends React.PureComponent {
                         onClick={() => this.props.actions.unhideNextSteps()}
                         text={formatMessage({id: this.props.showNextStepsTips ? 'sidebar_next_steps.tipsAndNextSteps' : 'navbar_dropdown.gettingStarted', defaultMessage: this.props.showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
                         icon={<i className={`icon ${this.props.showNextStepsTips ? 'icon-lightbulb-outline' : 'icon-play'}`}/>}
-                    />
-                    <Menu.ItemAction
-                        id='keyboardShortcuts'
-                        onClick={this.toggleShortcutsModal}
-                        text={formatMessage({id: 'navbar_dropdown.keyboardShortcuts', defaultMessage: 'Keyboard Shortcuts'})}
                     />
                     <Menu.ItemExternalLink
                         id='reportLink'
