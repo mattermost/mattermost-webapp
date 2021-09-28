@@ -21,7 +21,6 @@ type Preference = {
 
 type Props = {
     currentUserId: string;
-    show: boolean;
     step: number;
     screens: JSX.Element[];
     placement: string;
@@ -50,7 +49,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
         this.state = {
             currentScreen: 0,
-            show: this.props.show || false,
+            show: false,
         };
 
         this.targetRef = React.createRef();

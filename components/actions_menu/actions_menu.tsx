@@ -11,16 +11,15 @@ import {Tooltip} from 'react-bootstrap';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {Post} from 'mattermost-redux/types/posts';
+import PulsatingDot from 'components/widgets/pulsating_dot';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, Constants, ModalIdentifiers} from 'utils/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
-import ActionsTutorialTip from 'components/actions_menu/actions_menu_tutorial_tip';
 import MarketplaceModal from 'components/plugin_marketplace';
 import OverlayTrigger from 'components/overlay_trigger';
-import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import Pluggable from 'plugins/pluggable';
@@ -82,6 +81,7 @@ type Props = {
 }
 
 type State = {
+    showTip: boolean;
     openUp: boolean;
     appBindings?: AppBinding[];
 }
@@ -99,6 +99,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
         this.state = {
             openUp: false,
+            showTip: false,
         };
 
         this.buttonRef = React.createRef<HTMLButtonElement>();
@@ -165,6 +166,10 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         this.props.actions.openModal(openMarketplaceData);
     };
 
+    handleTutorialButtonClick = (): void => {
+        this.setState({showTip: false});
+    };
+
     onClickAppBinding = async (binding: AppBinding): Promise<void> => {
         const {post, intl} = this.props;
 
@@ -220,6 +225,39 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
+    tutorialTipComponent(): React.ReactElement {
+        return (
+            <>
+                <div className='TutorialTipHeader'>
+                    <FormattedMessage
+                        id='post_info.actions.tutorialTip.title'
+                        defaultMessage='Actions for messages'
+                    />
+                </div>
+                <div className='TutorialTipText'>
+                    <FormattedMarkdownMessage
+                        id='post_info.actions.tutorialTip'
+                        defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
+                    />
+                </div>
+                <div className='TutorialButton'>
+                    <button
+                        id='marketPlaceButton'
+                        className='btn btn-primary'
+                        onClick={this.handleTutorialButtonClick}
+                    >
+                        <span className='TutorialButtonText'>
+                            <FormattedMarkdownMessage
+                                id='post_info.actions.tutorialTip.buttontext'
+                                defaultMessage='Got it!'
+                            />
+                        </span>
+                    </button>
+                </div>
+            </>
+        );
+    }
+
     visitMarketplaceTip(): React.ReactElement {
         return (
             <SystemPermissionGate
@@ -248,27 +286,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                     </button>
                 </div>
             </SystemPermissionGate>
-        );
-    }
-
-    tutorialTipComponent(): React.ReactElement {
-        return (
-            <>
-                <div className='tip-overlay--actions'>
-                    <h4>
-                        <FormattedMessage
-                            id='post_info.actions.tutorialTip.title'
-                            defaultMessage='Actions for messages'
-                        />
-                    </h4>
-                    <p>
-                        <FormattedMarkdownMessage
-                            id='post_info.actions.tutorialTip'
-                            defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
-                        />
-                    </p>
-                </div>
-            </>
         );
     }
 
@@ -349,23 +366,16 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             );
         }
 
-        let tutorialTip = null;
         if (this.props.showTutorialTip) {
-            tutorialTip = (
-                <ActionsTutorialTip/>
-            );
+            this.setState({showTip: true});
         }
-        console.log('this.props.showTutorialTip', this.props.showTutorialTip);
 
         const hasApps = Boolean(appBindings.length);
         const hasPluggables = Boolean(this.props.components[PLUGGABLE_COMPONENT]?.length);
         const hasPluginItems = Boolean(pluginItems?.length);
 
         let menuItems;
-
-        // let tutorialTip;
         if (hasPluginItems || hasApps || hasPluggables) {
-            console.log('2. IN HERE!');
             const pluggable = (
                 <Pluggable
                     postId={this.props.post.id}
@@ -378,43 +388,48 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                 pluggable,
                 marketPlace,
             ];
-
-        // // } else {
-        // } else if (true) {
-        //     console.log('1. IN HERE!');
-        //     const junk = (
-        //         <ActionsTutorialTip
-        //             show={true}
-        //         />
-        //     );
-        //     menuItems = [junk];
-        } else {
+        } else if (this.props.isSysAdmin) {
             menuItems = [this.visitMarketplaceTip()];
         }
 
-        return (
+        console.log('this.state.showTip', this.state.showTip);
+        console.log('this.props.showTutorialTip', this.props.showTutorialTip);
+        if (this.state.showTip) {
+            menuItems = [
+                this.tutorialTipComponent(),
+            ];
+        }
 
+        const pulsatingDot = this.state.showTip && (
+            <div className='pulsatingIcon'>
+                <PulsatingDot/>
+            </div>
+        );
+
+        return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
                 <OverlayTrigger
                     className='hidden-xs'
                     delayShow={500}
                     placement='top'
-                    overlay={this.tooltip}
+                    overlay={pulsatingDot}
                     rootClose={true}
                 >
-                    <button
-                        ref={this.buttonRef}
-                        id={`${this.props.location}_button_${this.props.post.id}`}
-                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'Actions').toLowerCase()}
-                        className={classNames('post-menu__item', {
-                            'post-menu__item--active': this.props.isMenuOpen,
-                        })}
-                        type='button'
-                        aria-expanded='false'
-                    >
-                        <i className={'icon icon-apps'}/>
-                        {tutorialTip}
-                    </button>
+                    <div>
+                        <button
+                            ref={this.buttonRef}
+                            id={`${this.props.location}_button_${this.props.post.id}`}
+                            aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'Actions').toLowerCase()}
+                            className={classNames('post-menu__item', {
+                                'post-menu__item--active': this.props.isMenuOpen,
+                            })}
+                            type='button'
+                            aria-expanded='false'
+                        >
+                            <i className={'icon icon-apps'}/>
+                        </button>
+                        {pulsatingDot}
+                    </div>
                 </OverlayTrigger>
                 <Menu
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}

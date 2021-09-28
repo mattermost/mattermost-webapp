@@ -202,13 +202,16 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleActionsMenuOpened = (open: boolean) => {
+        console.log('clicked Actions Menu button');
         const {actions} = this.props;
         if (this.props.firstTimeActionsMenuOpened) {
+            console.log('First time opened menu ');
             actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
             return;
         }
 
-        this.setState({showActionsMenu: false});
+        console.log('Already opened the menu');
+        this.setState({showActionsMenu: open});
         this.props.handleDropdownOpened(open);
     };
 
@@ -273,8 +276,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        // const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || hover);
         const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || hover);
-        console.log('this.state.showActionsMenu', this.state.showActionsMenu);
         const actionsMenu = showActionsMenuIcon && (
             <ActionsMenu
                 post={post}

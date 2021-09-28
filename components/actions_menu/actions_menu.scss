@@ -32,3 +32,38 @@
     margin-right: 5px;
     font-size: 14.4px;
 }
+
+.TutorialTipHeader {
+    margin: 12px;
+    font-family: 'Open Sans';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+}
+
+.TutorialTipText {
+    min-width: 500px;
+    margin: 12px;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+}
+
+.TutorialButton {
+    border-radius: 4px;
+    text-align: right;
+}
+
+.TutorialButtonText {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 9px;
+}
+
+.pulsatingIcon {
+    margin-top: -27px;
+    margin-right: 7px;
+}
