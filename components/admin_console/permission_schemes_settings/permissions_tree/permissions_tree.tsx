@@ -116,6 +116,29 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
                 ],
             },
             {
+                id: 'playbook_public',
+                permissions: [
+                    Permissions.PLAYBOOK_PUBLIC_CREATE,
+                    Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+                    Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+                    Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
+                ],
+            },
+            {
+                id: 'playbook_private',
+                permissions: [
+                    Permissions.PLAYBOOK_PRIVATE_CREATE,
+                    Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
+                    Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+                ],
+            },
+            {
+                id: 'runs',
+                permissions: [
+                    Permissions.RUN_CREATE,
+                ],
+            },
+            {
                 id: 'posts',
                 permissions: [
                     {
