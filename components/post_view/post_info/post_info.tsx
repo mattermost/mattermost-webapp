@@ -282,7 +282,6 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
-        // const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || hover);
         const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || hover);
         const actionsMenu = showActionsMenuIcon && (
             <ActionsMenu
