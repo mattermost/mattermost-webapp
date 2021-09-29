@@ -7,58 +7,30 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Requires openldap and keycloak running
-// Requires keycloak certificate at fixtures folder
-// - copy ./mattermost-server/build/docker/keycloak/keycloak.crt to ./mattermost-webapp/e2e/cypress/fixtures/keycloak.crt
-// Requires Cypress' chromeWebSecurity to be false
+// - Requires openldap and keycloak running
+// - Requires keycloak certificate at fixtures folder
+//  -> copy ./mattermost-server/build/docker/keycloak/keycloak.crt to ./mattermost-webapp/e2e/cypress/fixtures/keycloak.crt
+// - Requires Cypress' chromeWebSecurity to be false
 
 // Group: @enterprise @not_cloud @extend_session @ldap @saml @keycloak
 
-import testusers from '../../../../fixtures/saml_ldap_users.json';
+import {getKeycloakServerSettings} from '../../../../utils/config';
 
 import {verifyExtendedSession, verifyNotExtendedSession} from './helpers';
 
 describe('Extended Session Length', () => {
     const sessionLengthInDays = 1;
-    const baseUrl = Cypress.config('baseUrl');
-    const {keycloakBaseUrl, keycloakAppName} = Cypress.env();
-    const idpUrl = `${keycloakBaseUrl}/auth/realms/${keycloakAppName}/protocol/saml`;
-    const idpDescriptorUrl = `${keycloakBaseUrl}/auth/realms/${keycloakAppName}`;
-
-    const samlConfig = {
-        SamlSettings: {
-            Enable: true,
-            Encrypt: false,
-            IdpURL: idpUrl,
-            IdpDescriptorURL: idpDescriptorUrl,
-            ServiceProviderIdentifier: `${baseUrl}/login/sso/saml`,
-            AssertionConsumerServiceURL: `${baseUrl}/login/sso/saml`,
-            SignatureAlgorithm: 'RSAwithSHA256',
-            PublicCertificateFile: '',
-            PrivateKeyFile: '',
-            FirstNameAttribute: 'firstName',
-            LastNameAttribute: 'lastName',
-            EmailAttribute: 'email',
-            UsernameAttribute: 'username',
-            EnableSyncWithLdap: true,
-            EnableSyncWithLdapIncludeAuth: true,
-            IdAttribute: 'username',
-        },
-        LdapSettings: {
-            EnableSync: true,
-            BaseDN: 'ou=e2etest,dc=mm,dc=test,dc=com',
-        },
-    };
-
+    const samlConfig = getKeycloakServerSettings();
     const sessionConfig = {
         ServiceSettings: {
             SessionLengthSSOInDays: sessionLengthInDays,
         },
     };
 
-    let samlUser;
-    let testSettings;
+    let testTeamId;
+    let testSamlUser;
     let offTopicUrl;
+    let samlLdapUser;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -67,43 +39,40 @@ describe('Extended Session Length', () => {
         // * Server database should match with the DB client and config at "cypress.json"
         cy.apiRequireServerDBToMatch();
 
-        cy.apiUpdateConfig(samlConfig).then(({config}) => {
+        // # Create new LDAP user
+        cy.createLDAPUser().then((user) => {
+            samlLdapUser = user;
+        });
+
+        // # Create new team
+        cy.apiCreateTeam('saml-team', 'SAML Team').then(({team}) => {
+            testTeamId = team.id;
+            offTopicUrl = `/${team.name}/channels/off-topic`;
+        });
+
+        cy.apiUpdateConfig(samlConfig).then(() => {
             // # Require keycloak with realm setup
             cy.apiRequireKeycloak();
 
             // # Upload certificate, overwrite existing
             cy.apiUploadSAMLIDPCert('keycloak.crt');
 
-            // # Reset keycloak user
-            const samlTestUser1 = testusers.user1;
-            cy.keycloakResetUsers([samlTestUser1]);
+            // # Create Keycloak user and login for the first time
+            cy.keycloakCreateUsers([samlLdapUser]);
+            cy.doKeycloakLogin(samlLdapUser);
 
-            // # Test LDAP connection and add/reset LDAP/SAML test users
-            cy.apiLDAPTest();
-            cy.resetLDAPUsers();
-
-            cy.apiGetUserByEmail(samlTestUser1.email, false).then(({user}) => {
-                cy.apiSaveTutorialStep(user.id, '999');
-                samlUser = {...user, password: samlTestUser1.password};
-
-                testSettings = {
-                    loginButtonText: 'SAML',
-                    siteName: config.TeamSettings.SiteName,
-                    siteUrl: config.ServiceSettings.SiteURL,
-                    teamName: '',
-                    user: samlUser,
-                };
-
-                cy.apiCreateTeam().then(({team}) => {
-                    offTopicUrl = `/${team.name}/channels/off-topic`;
-                });
-            });
+            // # Wait for the UI to be ready which indicates SAML registration is complete
+            cy.findByText('Logout').click();
         });
     });
 
     beforeEach(() => {
         cy.apiAdminLogin();
-        cy.apiRevokeUserSessions(samlUser.id);
+        cy.apiGetUserByEmail(samlLdapUser.email).then(({user}) => {
+            testSamlUser = user;
+            cy.apiAddUserToTeam(testTeamId, user.id);
+            cy.apiRevokeUserSessions(user.id);
+        });
     });
 
     it('MM-T4047_1 SAML/SSO user session should have extended due to user activity when enabled', () => {
@@ -111,8 +80,12 @@ describe('Extended Session Length', () => {
         sessionConfig.ServiceSettings.ExtendSessionLengthWithActivity = true;
         cy.apiUpdateConfig({...samlConfig, ...sessionConfig});
 
-        doSamlAndKeycloakLogin(testSettings);
-        verifyExtendedSession(samlUser, sessionLengthInDays, offTopicUrl);
+        // # Login via Keycloak
+        cy.doKeycloakLogin(samlLdapUser);
+        cy.postMessage('hello');
+
+        // # Verify session is extended
+        verifyExtendedSession(testSamlUser, sessionLengthInDays, offTopicUrl);
     });
 
     it('MM-T4047_2 SAML/SSO user session should not extend even with user activity when disabled', () => {
@@ -120,18 +93,11 @@ describe('Extended Session Length', () => {
         sessionConfig.ServiceSettings.ExtendSessionLengthWithActivity = false;
         cy.apiUpdateConfig({...samlConfig, ...sessionConfig});
 
-        doSamlAndKeycloakLogin(testSettings);
-        verifyNotExtendedSession(samlUser, offTopicUrl);
+        // # Login via Keycloak
+        cy.doKeycloakLogin(samlLdapUser);
+        cy.postMessage('hello');
+
+        // # Verify session is not extended
+        verifyNotExtendedSession(testSamlUser, offTopicUrl);
     });
 });
-
-function doSamlAndKeycloakLogin(testSettings) {
-    // # Mattermost user login via SAML
-    cy.doSamlLogin(testSettings);
-
-    // # User login to Keycloak
-    cy.doKeycloakLogin(testSettings.user);
-
-    // // # Create team if no membership
-    // cy.skipOrCreateTeam(testSettings, getRandomId());
-}

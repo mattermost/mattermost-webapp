@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "Votre essai a démarré ! Il reste {daysLeftOnTrial} jours",
   "admin.billing.subscription.cloudTrial.subscribe": "Souscrire",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Souscrire maintenant",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Il reste {daysLeftOnTrial} jours à votre essai Cloud.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Il reste {daysLeftOnTrial} jours à votre essai Cloud.",
   "admin.billing.subscription.creditCardExpired": "Votre carte de crédit a expiré. Mettez à jour vos moyens de paiement pour éviter toute interruption de service.",
   "admin.billing.subscription.creditCardHasExpired": "Votre carte de crédit a expiré",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " pour éviter toute interruption de service.",
