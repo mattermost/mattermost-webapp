@@ -36,6 +36,10 @@ const GlobalHeaderContainer = styled.header`
     > * + * {
         margin-left: 12px;
     }
+
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const LeftControls = styled.div`

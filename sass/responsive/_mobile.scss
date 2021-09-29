@@ -1,11 +1,6 @@
 @charset "utf-8";
 
 @media screen and (max-width: 768px) {
-    // hide global header until mobile implementation is ready
-    #root > header {
-        display: none;
-    }
-
     #navbar_wrapper {
         .navbar-default {
             .navbar-brand {
