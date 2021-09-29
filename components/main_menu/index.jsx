@@ -42,7 +42,6 @@ function mapStateToProps(state) {
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
-    const enablePluginMarketplace = config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const helpLink = config.HelpLink;
     const reportAProblemLink = config.ReportAProblemLink;
@@ -63,7 +62,6 @@ function mapStateToProps(state) {
         enableOAuthServiceProvider,
         enableOutgoingWebhooks,
         canManageSystemBots,
-        enablePluginMarketplace,
         experimentalPrimaryTeam,
         helpLink,
         reportAProblemLink,

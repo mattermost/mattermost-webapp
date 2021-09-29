@@ -26,7 +26,6 @@ import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
-import MarketplaceModal from 'components/plugin_marketplace';
 
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
@@ -48,7 +47,6 @@ class MainMenu extends React.PureComponent {
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         canManageSystemBots: PropTypes.bool.isRequired,
         canManageIntegrations: PropTypes.bool.isRequired,
-        enablePluginMarketplace: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
@@ -327,18 +325,6 @@ class MainMenu extends React.PureComponent {
                         to={'/' + this.props.teamName + '/integrations'}
                         text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
                     />
-                    <TeamPermissionGate
-                        teamId={teamId}
-                        permissions={[Permissions.SYSCONSOLE_WRITE_PLUGINS]}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='marketplaceModal'
-                            modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
-                            show={this.props.enablePluginMarketplace}
-                            dialogType={MarketplaceModal}
-                            text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
-                        />
-                    </TeamPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemExternalLink

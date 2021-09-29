@@ -187,39 +187,6 @@ describe('components/Menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should not show Marketplace modal in web view', () => {
-        const store = mockStore(defaultState);
-
-        const props = {
-            ...defaultProps,
-            enablePluginMarketplace: true,
-        };
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <MainMenu {...props}/>
-            </Provider>,
-        );
-
-        expect(wrapper.find('#marketplaceModal')).toEqual({});
-    });
-
-    test('should show Marketplace modal in mobile view', () => {
-        const store = mockStore(defaultState);
-
-        const props = {
-            ...defaultProps,
-            mobile: true,
-            enablePluginMarketplace: true,
-        };
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <MainMenu {...props}/>
-            </Provider>,
-        );
-
-        expect(wrapper.find('#marketplaceModal').at(0).prop('show')).toEqual(true);
-    });
-
     test('should show leave team option when primary team is set', () => {
         const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
         const wrapper = getMainMenuWrapper(props);
