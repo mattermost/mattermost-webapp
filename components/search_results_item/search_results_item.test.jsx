@@ -253,7 +253,7 @@ describe('components/SearchResultsItem', () => {
     test('should show team name when provided', () => {
         const props = {
             ...defaultProps,
-            channelTeamName: 'teamname',
+            channelTeamDisplayName: 'teamname',
         };
 
         const wrapper = shallow(

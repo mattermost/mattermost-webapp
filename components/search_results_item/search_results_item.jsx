@@ -113,6 +113,7 @@ export default class SearchResultsItem extends React.PureComponent {
          */
         isPinnedPosts: PropTypes.bool,
 
+        channelTeamDisplayName: PropTypes.string,
         channelTeamName: PropTypes.string,
 
         /**
@@ -222,7 +223,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived, channelTeamName, canReply} = this.props;
+        const {post, channelIsArchived, channelTeamDisplayName, canReply} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -400,9 +401,9 @@ export default class SearchResultsItem extends React.PureComponent {
                                 />
                             </span>
                         }
-                        {Boolean(channelTeamName) &&
+                        {Boolean(channelTeamDisplayName) &&
                             <span className='search-team__name'>
-                                {channelTeamName}
+                                {channelTeamDisplayName}
                             </span>
                         }
                     </div>

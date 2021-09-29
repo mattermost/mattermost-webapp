@@ -50,6 +50,7 @@ export function mapStateToProps() {
         const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
         const user = getUser(state, post.user_id);
         const channel = getChannel(state, post.channel_id) || {delete_at: 0};
+        let channelTeamDisplayName = '';
         let channelTeamName = '';
         const memberships = getTeamMemberships(state);
         const isDMorGM = channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL;
@@ -59,7 +60,9 @@ export function mapStateToProps() {
             !isDMorGM && // Not show for DM or GMs since they don't belong to a team
             memberships && Object.values(memberships).length > 1 // Not show if the user only belongs to one team
         ) {
-            channelTeamName = getTeam(state, channel.team_id)?.display_name;
+            const team = getTeam(state, channel.team_id);
+            channelTeamDisplayName = team?.display_name;
+            channelTeamName = team?.name;
         }
 
         const currentTeam = getCurrentTeam(state);
@@ -68,6 +71,7 @@ export function mapStateToProps() {
 
         return {
             currentTeamName: currentTeam.name,
+            channelTeamDisplayName,
             channelTeamName,
             channelId: channel.id,
             channelName: channel.display_name,

@@ -138,7 +138,8 @@ describe('components/SearchResultsItem/WithStore', () => {
             },
         };
         let newProps = mstp(state, defaultProps);
-        expect(newProps.channelTeamName).toBe(team.display_name);
+        expect(newProps.channelTeamName).toBe(team.name);
+        expect(newProps.channelTeamDisplayName).toBe(team.display_name);
 
         state = {
             ...state,
@@ -158,7 +159,8 @@ describe('components/SearchResultsItem/WithStore', () => {
         };
 
         newProps = mstp(state, defaultProps);
-        expect(newProps.channelTeamName).toBe(team.display_name);
+        expect(newProps.channelTeamName).toBe(team.name);
+        expect(newProps.channelTeamDisplayName).toBe(team.display_name);
     });
 
     test('should not show team name but show reply button for private and group channels when user belongs to more than one team', () => {
