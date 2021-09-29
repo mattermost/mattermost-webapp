@@ -35,7 +35,6 @@ export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
     appBindings: AppBinding[] | null;
     appsEnabled: boolean;
-    currentTeamId: string;
     handleDropdownOpened?: (open: boolean) => void;
     intl: IntlShape;
     isMenuOpen?: boolean;
@@ -44,7 +43,7 @@ type Props = {
     pluginMenuItems?: PluginComponent[];
     post: Post;
     showTutorialTip: boolean;
-    teamId?: string;
+    teamId: string;
     userId: string;
 
     /**
@@ -131,7 +130,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
     }
 
     fetchBindings = () => {
-        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.currentTeamId).then(({data}) => {
+        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.teamId).then(({data}) => {
             this.setState({appBindings: data});
         });
     }

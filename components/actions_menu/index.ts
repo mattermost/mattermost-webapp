@@ -44,8 +44,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
 
     const userId = getCurrentUserId(state);
-    const currentTeam = getCurrentTeam(state) || {};
-
     const systemMessage = isSystemMessage(post);
 
     const apps = appsEnabled(state);
@@ -61,7 +59,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         appBindings,
         appsEnabled: apps,
         components: state.plugins.components,
-        currentTeamId: currentTeam.id,
         isSysAdmin,
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
         teamId: getCurrentTeamId(state),
