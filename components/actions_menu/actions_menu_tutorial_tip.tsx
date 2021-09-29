@@ -14,25 +14,25 @@ export default class ActionsTutorialTip extends React.PureComponent<Props> {
     render = (): JSX.Element => {
         return (
             <>
-                <div className='TutorialTipHeader'>
+                <div className='tutorial-tip-Header'>
                     <FormattedMessage
                         id='post_info.actions.tutorialTip.title'
                         defaultMessage='Actions for messages'
                     />
                 </div>
-                <div className='TutorialTipText'>
+                <div className='tutorial-tip-text'>
                     <FormattedMarkdownMessage
                         id='post_info.actions.tutorialTip'
                         defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
                     />
                 </div>
-                <div className='TutorialButton'>
+                <div className='tutorial-button'>
                     <button
                         id='marketPlaceButton'
                         className='btn btn-primary'
                         onClick={this.props.onClick}
                     >
-                        <span className='TutorialButtonText'>
+                        <span className='tutorial-button-text'>
                             <FormattedMarkdownMessage
                                 id='post_info.actions.tutorialTip.buttontext'
                                 defaultMessage='Got it!'
