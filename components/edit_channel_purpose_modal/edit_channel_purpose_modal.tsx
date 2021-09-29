@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, KeyboardEvent} from 'react';
+import React, {ChangeEvent} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
@@ -52,14 +52,16 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
     }
 
     handleEntering = () => {
-        Utils.placeCaretAtEnd(this.purpose.current);
+        if (this.purpose.current) {
+            Utils.placeCaretAtEnd(this.purpose.current);
+        }
     }
 
     onHide = () => {
         this.setState({show: false});
     }
 
-    handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    handleKeyDown = (e: React.KeyboardEvent) => {
         const {ctrlSend} = this.props;
 
         // listen for line break key combo and insert new line character

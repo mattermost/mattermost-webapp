@@ -3761,6 +3761,7 @@
   "next_steps_view.invite_members_step.orShareThisLink": "Or share this link to invite members",
   "next_steps_view.invite_members_step.send": "Send",
   "next_steps_view.invite_members_step.sendInvitationsViaEmail": "Send invitations via email",
+  "next_steps_view.invite_members_step.shareLinkInput": "team invite link",
   "next_steps_view.invite_members_step.shareThisLink": "Share this link to invite members",
   "next_steps_view.invite_members_step.tooManyEmails": "The free tier is limited to {num} members.",
   "next_steps_view.invite_members_step.youCanInvite": "You can invite team members using a space or comma between addresses",
