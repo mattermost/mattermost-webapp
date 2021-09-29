@@ -206,28 +206,18 @@ export default class SuggestionList extends React.PureComponent {
             items.push(this.renderNoResults());
         }
 
-        const sortedItems = clonedItems.sort((itemA, itemB) => {
-            if (!itemA.type) {
-                return 1;
-            }
-            if (!itemB.type) {
-                return -1;
-            }
-            return itemA.type.localeCompare(itemB.type);
-        });
-
-        let lastType;
-        for (let i = 0; i < sortedItems.length; i++) {
-            const item = sortedItems[i];
+        let dividerRendered = false;
+        for (let i = 0; i < this.props.items.length; i++) {
+            const item = this.props.items[i];
             const term = this.props.terms[i];
             const isSelection = term === this.props.selection;
 
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
 
-            if (this.props.renderDividers && item.type !== lastType) {
+            if (!dividerRendered && item.type === 'mention.recent.channels') {
                 items.push(this.renderDivider(item.type));
-                lastType = item.type;
+                dividerRendered = true;
             }
 
             if (item.loading) {
@@ -243,7 +233,7 @@ export default class SuggestionList extends React.PureComponent {
                 <Component
                     key={term}
                     ref={(ref) => this.itemRefs.set(term, ref)}
-                    item={sortedItems[i]}
+                    item={this.props.items[i]}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}
                     isSelection={isSelection}
