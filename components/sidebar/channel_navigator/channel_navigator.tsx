@@ -134,7 +134,11 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
         );
 
         let addChannelDropdown = null;
-        if (!this.props.addChannelButton || this.props.addChannelButton === AddChannelButtonTreatments.NONE) {
+        if (
+            !this.props.addChannelButton ||
+            this.props.addChannelButton === AddChannelButtonTreatments.NONE ||
+            (this.props.addChannelButton === AddChannelButtonTreatments.BY_TEAM_NAME && !this.props.globalHeaderEnabled)
+        ) {
             addChannelDropdown = (
                 <AddChannelDropdown
                     showNewChannelModal={this.props.showNewChannelModal}

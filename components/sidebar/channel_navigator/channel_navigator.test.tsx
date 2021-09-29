@@ -56,4 +56,11 @@ describe('Components/ChannelNavigator', () => {
         const wrapper = shallow(<ChannelNavigator {...props}/>);
         expect(wrapper.find(AddChannelDropdown).length).toBe(0);
     });
+
+    it('should show AddChannelDropdown when there is an active A/B treatment and the global header is disabled', () => {
+        props.addChannelButton = AddChannelButtonTreatments.BY_TEAM_NAME;
+        props.globalHeaderEnabled = false;
+        const wrapper = shallow(<ChannelNavigator {...props}/>);
+        expect(wrapper.find(AddChannelDropdown).length).toBe(1);
+    });
 });
