@@ -336,30 +336,6 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
       text="Integrations"
       to="/somename/integrations"
     />
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "sysconsole_write_plugins",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(MarketplaceModal)",
-            "type": [Function],
-          }
-        }
-        id="marketplaceModal"
-        modalId="plugin_marketplace"
-        show={true}
-        text="Marketplace"
-      />
-    </Connect(TeamPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <MenuItemExternalLink
