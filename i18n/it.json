@@ -260,7 +260,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "Il periodo di prova è inziato. Rimangono ancora {daysLeftOnTrial} giorni",
   "admin.billing.subscription.cloudTrial.subscribe": "Iscriviti",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Iscriviti ora",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Sono rimasti {daysLeftOnTrial} giorni nel periodo di prova del Cloud.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Sono rimasti {daysLeftOnTrial} giorni nel periodo di prova del Cloud.",
   "admin.billing.subscription.creditCardExpired": "La carta di credito è scaduta. Aggiorna le informazioni di pagamento per evitare interruzioni.",
   "admin.billing.subscription.creditCardHasExpired": "La carta di credito è scaduta",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " per evitare interruzioni.",

@@ -73,7 +73,6 @@ type Props = {
         push(path: string): void;
     };
     teamsList: Team[];
-    theme: any;
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     plugins?: any;
     selectedThreadId: string | null;
@@ -154,10 +153,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        const {theme} = this.props;
-        if (!Utils.areObjectsEqual(prevProps.theme, theme)) {
-            Utils.applyTheme(theme);
-        }
         if (this.props.match.params.team !== prevProps.match.params.team) {
             if (this.state.team) {
                 this.initTeam(this.state.team);

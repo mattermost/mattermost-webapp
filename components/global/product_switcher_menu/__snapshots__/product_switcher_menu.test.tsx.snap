@@ -8,6 +8,17 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
     <Connect(SystemPermissionGate)
       permissions={
         Array [
+          "sysconsole_write_billing",
+        ]
+      }
+    >
+      <MenuCloudTrial
+        id="menuCloudTrial"
+      />
+    </Connect(SystemPermissionGate)>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
           "sysconsole_write_about_edition_and_license",
         ]
       }
@@ -172,6 +183,17 @@ exports[`components/global/product_switcher_menu should match snapshot with most
   <div
     onClick={[Function]}
   >
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "sysconsole_write_billing",
+        ]
+      }
+    >
+      <MenuCloudTrial
+        id="menuCloudTrial"
+      />
+    </Connect(SystemPermissionGate)>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -343,6 +365,17 @@ exports[`components/global/product_switcher_menu should show integrations should
   <div
     onClick={[Function]}
   >
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "sysconsole_write_billing",
+        ]
+      }
+    >
+      <MenuCloudTrial
+        id="menuCloudTrial"
+      />
+    </Connect(SystemPermissionGate)>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
