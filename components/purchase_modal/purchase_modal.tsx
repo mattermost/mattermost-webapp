@@ -684,6 +684,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         contactSupportLink={this.props.contactSalesLink}
                                         selectedProduct={this.state.selectedProduct}
                                         currentProduct={this.state.currentProduct}
+                                        isFirstPurchase={this.props.isFreeTrial}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                     />

@@ -35,6 +35,7 @@ type Props = {
     selectedProduct?: Product | null | undefined;
     currentProduct?: Product | null | undefined;
     isProratedPayment?: boolean;
+    isFirstPurchase?: boolean;
 }
 
 type State = {
@@ -186,9 +187,11 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 </>
             );
         }
+        const title = this.props.isFirstPurchase ? t('admin.billing.subscription.firstPurchaseSuccess') :
+            t('admin.billing.subscription.upgradedSuccess');
         return (
             <IconMessage
-                title={t('admin.billing.subscription.upgradedSuccess')}
+                title={title}
                 subtitle={t('admin.billing.subscription.nextBillingDate')}
                 date={getNextBillingDate()}
                 error={error}
