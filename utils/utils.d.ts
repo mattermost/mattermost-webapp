@@ -39,7 +39,7 @@ export function hasSoundOptions(): boolean;
 export function getDateForUnixTicks(ticks: number);
 export function getTimestamp(): number;
 
-export function getRemainingDaysFromFutureTimestamp(timestamp: number): number;
+export function getRemainingDaysFromFutureTimestamp(timestamp: number | undefined): number;
 export function getLocaleDateFromUTC(timestamp: number, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = ''): number;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
