@@ -12,7 +12,7 @@ import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
 import reduxInitialState from 'mattermost-redux/store/initial_state';
 
-import {storageRehydrate} from 'actions/storage';
+import {storageRehydrate, rehydrateDrafts} from 'actions/storage';
 import {clearUserCookie} from 'actions/views/cookie';
 import appReducer from 'reducers';
 import {ActionTypes} from 'utils/constants';
@@ -76,6 +76,7 @@ export default function configureStore(initialState) {
                     }
                 }).then(() => {
                     storageRehydrate(restoredState, persistor)(store.dispatch, store.getState);
+                    store.dispatch(rehydrateDrafts());
                 });
 
                 observable.subscribe({
@@ -85,6 +86,7 @@ export default function configureStore(initialState) {
 
                             var statePartial = {};
                             statePartial[keyspace] = args.newValue;
+
                             storageRehydrate(statePartial, persistor)(store.dispatch, store.getState);
                         }
                     },
