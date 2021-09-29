@@ -239,27 +239,6 @@ describe('components/Menu', () => {
         expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
     });
 
-    test('mobile view should show subscribe now button when in trial period', () => {
-        const props = {...defaultProps, mobile: true, isCloud: true, isFreeTrial: true};
-        const wrapper = getMainMenuWrapper(props);
-
-        expect(wrapper.find('UpgradeLink')).toHaveLength(1);
-    });
-
-    test('mobile view should hide the subscribe now button when NOT in trial period', () => {
-        const props = {...defaultProps, mobile: true, isCloud: true, isFreeTrial: false};
-        const wrapper = getMainMenuWrapper(props);
-
-        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
-    });
-
-    test('mobile view should hide the subscribe now button when is NOT cloud', () => {
-        const props = {...defaultProps, mobile: true, isCloud: false, isFreeTrial: false};
-        const wrapper = getMainMenuWrapper(props);
-
-        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
-    });
-
     test('mobile view should hide the subscribe now button when does not have permissions', () => {
         const noPermissionsState = {...defaultState};
         noPermissionsState.entities.roles.roles.system_manager.permissions = [];

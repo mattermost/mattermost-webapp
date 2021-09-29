@@ -43,12 +43,10 @@ class MainMenu extends React.PureComponent {
         currentUser: PropTypes.object,
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
-        enableCustomEmoji: PropTypes.bool.isRequired,
         enableIncomingWebhooks: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         canManageSystemBots: PropTypes.bool.isRequired,
-        canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
         canManageIntegrations: PropTypes.bool.isRequired,
         enablePluginMarketplace: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
@@ -62,9 +60,6 @@ class MainMenu extends React.PureComponent {
         showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         showNextStepsTips: PropTypes.bool,
-        isCloud: PropTypes.bool,
-        subscriptionStats: PropTypes.object,
-        firstAdminVisitMarketplaceStatus: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -121,15 +116,6 @@ class MainMenu extends React.PureComponent {
             this.props.actions.closeRhsMenu();
             this.props.actions.showMentions();
         }
-    }
-
-    shouldShowUpgradeModal = () => {
-        const {subscriptionStats, isCloud} = this.props;
-
-        if (subscriptionStats?.is_paid_tier === 'true') { // eslint-disable-line camelcase
-            return false;
-        }
-        return isCloud && subscriptionStats?.remaining_seats <= 0;
     }
 
     render() {
