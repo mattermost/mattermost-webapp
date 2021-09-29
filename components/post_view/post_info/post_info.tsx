@@ -203,6 +203,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
 
     handleActionsMenuOpened = (open: boolean) => {
         const {actions} = this.props;
+        this.setState({showActionsMenu: true});
         if (this.props.firstTimeActionsMenuOpened) {
             actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
             return;
@@ -210,6 +211,18 @@ export default class PostInfo extends React.PureComponent<Props, State> {
 
         this.setState({showActionsMenu: open});
         this.props.handleDropdownOpened(open);
+    };
+
+    handlePulsatingDotClick = (): void => {
+        const {actions} = this.props;
+        this.setState({showActionsMenu: true});
+        if (this.props.firstTimeActionsMenuOpened) {
+            actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+            return;
+        }
+
+        this.setState({showActionsMenu: true});
+        this.props.handleDropdownOpened(true);
     };
 
     getDotMenu = (): HTMLDivElement => {
@@ -279,6 +292,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             <ActionsMenu
                 post={post}
                 handleDropdownOpened={this.handleActionsMenuOpened}
+                handlePulsingDotClick={this.handlePulsatingDotClick}
                 isMenuOpen={this.state.showActionsMenu}
                 showTutorialTip={this.props.firstTimeActionsMenuOpened}
             />

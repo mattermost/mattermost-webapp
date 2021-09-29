@@ -28,6 +28,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';
 
+import ActionsTutorialTip from './actions_menu_tutorial_tip';
+
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
@@ -36,6 +38,7 @@ type Props = {
     appsEnabled: boolean;
     currentTeamId: string;
     handleDropdownOpened?: (open: boolean) => void;
+    handlePulsingDotClick?: () => void;
     intl: IntlShape;
     isMenuOpen?: boolean;
     isSysAdmin: boolean;
@@ -225,39 +228,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    tutorialTipComponent(): React.ReactElement {
-        return (
-            <>
-                <div className='TutorialTipHeader'>
-                    <FormattedMessage
-                        id='post_info.actions.tutorialTip.title'
-                        defaultMessage='Actions for messages'
-                    />
-                </div>
-                <div className='TutorialTipText'>
-                    <FormattedMarkdownMessage
-                        id='post_info.actions.tutorialTip'
-                        defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
-                    />
-                </div>
-                <div className='TutorialButton'>
-                    <button
-                        id='marketPlaceButton'
-                        className='btn btn-primary'
-                        onClick={this.handleTutorialButtonClick}
-                    >
-                        <span className='TutorialButtonText'>
-                            <FormattedMarkdownMessage
-                                id='post_info.actions.tutorialTip.buttontext'
-                                defaultMessage='Got it!'
-                            />
-                        </span>
-                    </button>
-                </div>
-            </>
-        );
-    }
-
     visitMarketplaceTip(): React.ReactElement {
         return (
             <SystemPermissionGate
@@ -394,13 +364,18 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
         if (this.state.showTip) {
             menuItems = [
-                this.tutorialTipComponent(),
+                <ActionsTutorialTip
+                    key='actions-tutorial-tip'
+                    onClick={this.handleTutorialButtonClick}
+                />,
             ];
         }
 
         const pulsatingDot = this.state.showTip && (
             <div className='pulsatingIcon'>
-                <PulsatingDot/>
+                <PulsatingDot
+                    onClick={this.props.handlePulsingDotClick}
+                />
             </div>
         );
 
