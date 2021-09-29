@@ -83,7 +83,7 @@ export function actionOnItemsWithPrefix(prefix, action) {
 }
 
 // Temporary action to manually rehydrate drafts from localStorage.
-function rehydrateDrafts() {
+export function rehydrateDrafts() {
     return (dispatch) => {
         const actions = [];
 
@@ -138,7 +138,7 @@ export function storageRehydrate(incoming, persistor) {
                 data: storage,
             });
         });
-        dispatch(rehydrateDrafts());
+
         persistor.resume();
         return {data: true};
     };
