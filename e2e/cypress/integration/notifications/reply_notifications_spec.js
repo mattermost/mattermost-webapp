@@ -14,34 +14,35 @@ import {spyNotificationAs} from '../../support/notification';
 
 describe('reply-notifications', () => {
     let testTeam;
-    let otherChannel;
-    let townsquareChannelId;
+    let testChannelUrl;
+    let testChannelId;
+    let testChannelName;
     let receiver;
     let sender;
 
     before(() => {
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiCreateUser().then(({user}) => {
+            sender = user;
+        });
+
+        cy.apiInitSetup().then(({team, channel, user, channelUrl}) => {
             testTeam = team;
-            otherChannel = channel;
             receiver = user;
+            testChannelUrl = channelUrl;
+            testChannelId = channel.id;
+            testChannelName = channel.name;
 
-            cy.apiCreateUser().then(({user: user1}) => {
-                sender = user1;
-
-                cy.apiAddUserToTeam(testTeam.id, sender.id);
+            cy.apiAddUserToTeam(testTeam.id, sender.id).then(() => {
+                cy.apiAddUserToChannel(testChannelId, sender.id);
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
-                townsquareChannelId = out.channel.id;
-            });
-
-            // # Login as receiver and visit town-square channel
+            // # Login as receiver
             cy.apiLogin(receiver);
         });
     });
 
     it('MM-T551 Do not trigger notifications on messages in reply threads unless I\'m mentioned', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(testChannelUrl);
 
         // Setup notification spy
         spyNotificationAs('notifySpy', 'granted');
@@ -49,48 +50,42 @@ describe('reply-notifications', () => {
         // # Set users notification settings
         setReplyNotificationsSetting('#notificationCommentsNever');
 
-        // # Navigate to town square channel
-        cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
-
         // # Post a message
         cy.postMessage('Hi there, this is a root message');
 
         // # Get post id of message
         cy.getLastPostId().then((postId) => {
-            // # Switch to other channel so that unread notifications in 'town-square` may be triggered
-            cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
+            // # Switch to town-square so that unread notifications in test channel may be triggered
+            cy.uiClickSidebarItem('town-square');
 
             // # Post a message in original thread as another user
-            cy.postMessageAs({sender, message: 'This is a reply to the root post', channelId: townsquareChannelId, rootId: postId});
+            cy.postMessageAs({sender, message: 'This is a reply to the root post', channelId: testChannelId, rootId: postId});
 
             // * Verify stub was not called
             cy.get('@notifySpy').should('be.not.called');
 
             // * Verify unread mentions badge does not exist
-            cy.get('#sidebarItem_town-square').find('#unreadMentions').should('not.exist');
+            cy.uiGetSidebarItem(testChannelName).find('#unreadMentions').should('not.exist');
 
             // # Switch again to other channel
-            cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
+            cy.uiClickSidebarItem('town-square');
 
             // # Reply to a post as another user mentioning the receiver
-            cy.postMessageAs({sender, message: `Another reply with mention @${receiver.username}`, channelId: townsquareChannelId, rootId: postId});
+            cy.postMessageAs({sender, message: `Another reply with mention @${receiver.username}`, channelId: testChannelId, rootId: postId});
 
             // * Verify stub was called
             cy.get('@notifySpy').should('be.called');
 
             // * Verify unread mentions badge exists
-            cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible');
+            cy.uiGetSidebarItem(testChannelName).find('#unreadMentions').should('be.visible');
         });
     });
 
     it('MM-T552 Trigger notifications on messages in threads that I start', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(testChannelUrl);
 
         // Setup notification spy
         spyNotificationAs('notifySpy', 'granted');
-
-        // # Navigate to town square channel
-        cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
 
         // # Set users notification settings
         setReplyNotificationsSetting('#notificationCommentsRoot');
@@ -100,20 +95,20 @@ describe('reply-notifications', () => {
 
         // # Get post id of message
         cy.getLastPostId().then((postId) => {
-            // # Switch to other channel so that unread notifications in 'town-square` may be triggered
-            cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
+            // # Switch to town-square so that unread notifications in test channel may be triggered
+            cy.uiClickSidebarItem('town-square');
 
             // # Post a message in original thread as another user
             const message = 'This is a reply to the root post';
-            cy.postMessageAs({sender, message, channelId: townsquareChannelId, rootId: postId}).then(() => {
+            cy.postMessageAs({sender, message, channelId: testChannelId, rootId: postId}).then(() => {
                 // * Verify stub was called
                 cy.get('@notifySpy').should('be.called');
 
                 // * Verify unread mentions badge exists
-                cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible');
+                cy.uiGetSidebarItem(testChannelName).find('#unreadMentions').should('be.visible');
 
-                // # Navigate to town square channel
-                cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
+                // # Navigate to test channel
+                cy.uiClickSidebarItem(testChannelName);
 
                 // * Verify entire message
                 cy.getLastPostId().then((msgId) => {
@@ -130,7 +125,7 @@ describe('reply-notifications', () => {
     });
 
     it('MM-T553 Trigger notifications on messages in reply threads that I start or participate in - start thread', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(testChannelUrl);
 
         // Setup notification spy
         spyNotificationAs('notifySpy', 'granted');
@@ -143,20 +138,20 @@ describe('reply-notifications', () => {
 
         // # Get post id of message
         cy.getLastPostId().then((postId) => {
-            // # Switch to other channel so that unread notifications in 'town-square` may be triggered
-            cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
+            // # Switch to town-square so that unread notifications in test channel may be triggered
+            cy.uiClickSidebarItem('town-square');
 
             // # Post a message in original thread as another user
             const message = 'This is a reply to the root post';
-            cy.postMessageAs({sender, message, channelId: townsquareChannelId, rootId: postId}).then(() => {
+            cy.postMessageAs({sender, message, channelId: testChannelId, rootId: postId}).then(() => {
                 // * Verify stub was called
                 cy.get('@notifySpy').should('be.called');
 
                 // * Verify unread mentions badge exists
-                cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible');
+                cy.uiGetSidebarItem(testChannelName).find('#unreadMentions').should('be.visible');
 
-                // # Navigate to town square channel
-                cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
+                // # Navigate to test channel
+                cy.uiClickSidebarItem(testChannelName);
 
                 // * Verify entire message
                 cy.getLastPostId().then((msgId) => {
@@ -173,7 +168,7 @@ describe('reply-notifications', () => {
     });
 
     it('MM-T554 Trigger notifications on messages in reply threads that I start or participate in - participate in', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(testChannelUrl);
 
         // Setup notification spy
         spyNotificationAs('notifySpy', 'granted');
@@ -183,7 +178,7 @@ describe('reply-notifications', () => {
 
         // # Make a root post as some other user
         const rootPostMessage = 'a root message by some other user';
-        cy.postMessageAs({sender, message: rootPostMessage, channelId: townsquareChannelId}).then((post) => {
+        cy.postMessageAs({sender, message: rootPostMessage, channelId: testChannelId}).then((post) => {
             const rootPostId = post.id;
             const rootPostMessageId = `#rhsPostMessageText_${rootPostId}`;
 
@@ -201,20 +196,20 @@ describe('reply-notifications', () => {
 
             // # Wait till receiver's post is visible
             cy.getLastPostId().then(() => {
-                // # Switch to other channel so that unread notifications in 'town-square` may be triggered
-                cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
+                // # Switch to town-square so that unread notifications in test channel may be triggered
+                cy.uiClickSidebarItem('town-square');
 
                 // # Post a message in thread as another user
                 const message = 'This is a reply by sender';
-                cy.postMessageAs({sender, message, channelId: townsquareChannelId, rootId: rootPostId}).then(() => {
+                cy.postMessageAs({sender, message, channelId: testChannelId, rootId: rootPostId}).then(() => {
                     // * Verify stub was called
                     cy.get('@notifySpy').should('be.called');
 
                     // * Verify unread mentions badge exists
-                    cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.visible');
+                    cy.uiGetSidebarItem(testChannelName).find('#unreadMentions').should('be.visible');
 
-                    // # Navigate to town square channel
-                    cy.get(`#sidebarItem_${'town-square'}`).click({force: true});
+                    // # Navigate to test channel
+                    cy.uiClickSidebarItem(testChannelName);
 
                     cy.getLastPostId().then((msgId) => {
                         // * Verify entire message

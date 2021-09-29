@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "Ihre kostenlose Testphase hat begonnen! Es sind noch {daysLeftOnTrial} übrig",
   "admin.billing.subscription.cloudTrial.subscribe": "Abonnieren",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Jetzt abonnieren",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Es verbleiben noch {daysLeftOnTrial} Tage in Ihrer Cloud-Testversion.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Es verbleiben noch {daysLeftOnTrial} Tage in Ihrer Cloud-Testversion.",
   "admin.billing.subscription.creditCardExpired": "Ihre Kreditkarte ist abgelaufen. Aktualisieren Sie Ihre Zahlungsinformationen, um Unterbrechungen zu vermeiden.",
   "admin.billing.subscription.creditCardHasExpired": "Ihre Kreditkarte ist abgelaufen",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " um jede Störung zu vermeiden.",

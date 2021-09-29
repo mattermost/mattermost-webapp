@@ -170,24 +170,14 @@ describe('Direct Message', () => {
         // # Visit the DM channel
         cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
 
-        // # Clicks on Mute Channel
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelToggleMuteChannel button').click().then(() => {
-                // * Assert that channel is muted
-                cy.get('#toggleMute').should('be.visible');
-            });
-        });
+        // # Open channel menu and click Mute Conversation
+        cy.uiOpenChannelMenu('Mute Conversation');
 
         // * Assert that channel appears as muted on the LHS
         cy.uiGetLhsSection('DIRECT MESSAGES').find('.muted').first().should('contain', otherUser.username);
 
-        // # Clicks on UnMute Channel
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelToggleMuteChannel button').click().then(() => {
-                // * Assert that channel is unmuted
-                cy.get('#toggleMute').should('not.exist');
-            });
-        });
+        // # Open channel menu and click Unmute Conversation
+        cy.uiOpenChannelMenu('Unmute Conversation');
 
         // * Assert that channel does not appear as muted on the LHS
         cy.uiGetLhsSection('DIRECT MESSAGES').find('.muted').should('not.exist');

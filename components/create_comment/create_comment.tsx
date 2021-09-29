@@ -793,7 +793,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
-        const caretPosition = Utils.getCaretPosition(e.target);
+        const caretPosition = Utils.getCaretPosition(e.target as HTMLElement);
         this.setState({
             caretPosition,
         });
