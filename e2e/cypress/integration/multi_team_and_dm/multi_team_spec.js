@@ -12,7 +12,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 // Stage: @prod
 // Group: @multi_team_and_dm
 
-describe('Send a DM', () => {
+describe('Multi-Team + DMs', () => {
     let userA; // Member of team A and B
     let userB; // Member of team A and B
     let userC; // Member of team A
@@ -52,9 +52,6 @@ describe('Send a DM', () => {
     beforeEach(() => {
         // # Log in to Team A with an account that has joined multiple teams.
         cy.apiLogin(userA);
-
-        // # On an account on two teams, view Team A
-        cy.visit(offTopicUrlA);
     });
 
     it('MM-T433 Switch teams', () => {
@@ -146,5 +143,10 @@ describe('Send a DM', () => {
         cy.get(`#${teamA.name}TeamButton`).should('be.visible').within(() => {
             cy.get('.badge').should('not.exist');
         });
+    });
+
+    it('MM-T1805 No infinite loading spinner on Select Team page', () => {
+        cy.visit('/select_team');
+        cy.get('.loading-screen').should('not.exist');
     });
 });
