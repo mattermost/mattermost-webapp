@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
-import {showActionsMenuPulsatingDotPulsatingDot} from 'selectors/actions_menu';
+import {showActionsMenuPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 
 import {removePost} from 'mattermost-redux/actions/posts';
@@ -40,7 +40,7 @@ function makeMapStateToProps() {
         const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
         const teamId = getCurrentTeamId(state);
         const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
-        const firstTimeActionsMenuOpened = showActionsMenuPulsatingDotPulsatingDot(state);
+        const firstTimeActionsMenuOpened = showActionsMenuPulsatingDot(state);
 
         return {
             teamId,

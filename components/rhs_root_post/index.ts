@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {showActionsMenuPulsatingDotPulsatingDot} from 'selectors/actions_menu';
+import {showActionsMenuPulsatingDot} from 'selectors/actions_menu';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -43,7 +43,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const user = getUser(state, ownProps.post.user_id);
     const isBot = Boolean(user && user.is_bot);
-    const firstTimeActionsMenuOpened = showActionsMenuPulsatingDotPulsatingDot(state);
+    const firstTimeActionsMenuOpened = showActionsMenuPulsatingDot(state);
 
     return {
         isBot,
