@@ -362,14 +362,15 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             menuItems = [this.visitMarketplaceTip()];
         }
 
-        if (this.state.showTip) {
-            menuItems = [
-                <ActionsTutorialTip
-                    key='actions-tutorial-tip'
-                    onClick={this.handleTutorialButtonClick}
-                />,
-            ];
-        }
+        // if (this.state.showTip) {
+        menuItems = [
+            <ActionsTutorialTip
+                key='actions-tutorial-tip'
+                onClick={this.handleTutorialButtonClick}
+            />,
+        ];
+
+        // }
 
         const pulsatingDot = this.state.showTip && (
             <div className='pulsating-icon'>

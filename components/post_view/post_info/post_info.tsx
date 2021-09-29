@@ -201,7 +201,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
-    handleActionsMenuOpened = (open: boolean) => {
+    handleOpenActionsMenu = (open: boolean): void => {
         const {actions} = this.props;
         this.setState({showActionsMenu: true});
         if (this.props.firstTimeActionsMenuOpened) {
@@ -211,18 +211,14 @@ export default class PostInfo extends React.PureComponent<Props, State> {
 
         this.setState({showActionsMenu: open});
         this.props.handleDropdownOpened(open);
+    }
+
+    handleActionsMenuOpened = (open: boolean): void => {
+        this.handleOpenActionsMenu(open);
     };
 
     handlePulsatingDotClick = (): void => {
-        const {actions} = this.props;
-        this.setState({showActionsMenu: true});
-        if (this.props.firstTimeActionsMenuOpened) {
-            actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
-            return;
-        }
-
-        this.setState({showActionsMenu: true});
-        this.props.handleDropdownOpened(true);
+        this.handleOpenActionsMenu(true);
     };
 
     getDotMenu = (): HTMLDivElement => {
