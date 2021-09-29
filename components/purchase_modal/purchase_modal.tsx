@@ -17,6 +17,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
+import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -29,8 +30,6 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
 import BackgroundSvg from 'components/common/svg_images_components/background.svg';
 import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud.svg';
-
-import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
 import {getNextBillingDate} from 'utils/utils';
 
