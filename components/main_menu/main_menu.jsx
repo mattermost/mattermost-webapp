@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -27,7 +27,6 @@ import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
-import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
@@ -63,8 +62,6 @@ class MainMenu extends React.PureComponent {
         showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         showNextStepsTips: PropTypes.bool,
-        isFreeTrial: PropTypes.bool,
-        daysLeftOnTrial: PropTypes.number,
         isCloud: PropTypes.bool,
         subscriptionStats: PropTypes.object,
         firstAdminVisitMarketplaceStatus: PropTypes.bool,
@@ -137,7 +134,7 @@ class MainMenu extends React.PureComponent {
     }
 
     render() {
-        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups, isFreeTrial, daysLeftOnTrial, isCloud} = this.props;
+        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups} = this.props;
 
         if (!currentUser) {
             return null;
@@ -294,26 +291,24 @@ class MainMenu extends React.PureComponent {
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
-                {isCloud && isFreeTrial &&
-                    <Menu.Group>
-                        <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
-                            <Menu.TopNotification
-                                show={true}
-                                id='topNotification'
-                            >
-                                <FormattedMessage
-                                    id='admin.billing.subscription.cloudTrial.trialTopMenuNotification'
-                                    defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
-                                    values={{daysLeftOnTrial}}
-                                />
-                                <UpgradeLink
-                                    buttonText='Subscribe Now'
-                                    styleLink={true}
-                                />
-                            </Menu.TopNotification>
-                        </SystemPermissionGate>
-                    </Menu.Group>
-                }
+                <Menu.Group>
+                    <SystemPermissionGate
+                        permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}
+                    >
+                        <Menu.CloudTrial
+                            id='menuCloudTrial'
+                        />
+                    </SystemPermissionGate>
+                </Menu.Group>
+                <Menu.Group>
+                    <SystemPermissionGate
+                        permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
+                    >
+                        <Menu.StartTrial
+                            id='startTrial'
+                        />
+                    </SystemPermissionGate>
+                </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemAction
                         id='recentMentions'
@@ -329,15 +324,6 @@ class MainMenu extends React.PureComponent {
                         icon={this.props.mobile && <i className='fa fa-bookmark'/>}
                         text={formatMessage({id: 'sidebar_right_menu.flagged', defaultMessage: 'Saved Posts'})}
                     />
-                </Menu.Group>
-                <Menu.Group>
-                    <SystemPermissionGate
-                        permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
-                    >
-                        <Menu.StartTrial
-                            id='startTrial'
-                        />
-                    </SystemPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemToggleModalRedux
