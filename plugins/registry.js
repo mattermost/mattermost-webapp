@@ -740,7 +740,7 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Register a hook that will be called when a message is updated by the user before it
+    // Register a hook that will be called when a message is edited by the user before it
     // is sent to the server. Accepts a function that receives the post as an argument.
     //
     // To reject a post, return an object containing an error such as
