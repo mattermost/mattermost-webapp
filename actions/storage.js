@@ -148,7 +148,7 @@ export function storageRehydrate(incoming, persistor) {
                 data: storage,
             });
         });
-        dispatch(rehydrateDrafts());
+
         persistor.resume();
         return {data: true};
     };

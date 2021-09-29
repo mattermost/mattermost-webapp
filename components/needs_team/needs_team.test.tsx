@@ -98,9 +98,9 @@ describe('components/needs_team', () => {
     const baseProps = {
         license: {},
         actions,
-        currentUser: {
+        currentUser: TestHelper.getUserMock({
             id: 'test',
-        },
+        }),
         mfaRequired: false,
         match,
         teamsList,

@@ -21,18 +21,11 @@ describe('components/admin_console/team_channel_settings/group/UsersToRemove', (
     }
 
     function createMembership(userId: string, admin: boolean): TeamMembership {
-        return {
-            mention_count: 0,
-            msg_count: 0,
-            mention_count_root: 0,
-            msg_count_root: 0,
-            team_id: 'team',
+        return TestHelper.getTeamMembershipMock({
             user_id: userId,
             roles: admin ? 'team_user team_admin' : 'team_user',
-            delete_at: 0,
-            scheme_user: true,
             scheme_admin: admin,
-        };
+        });
     }
 
     const user1 = createUser('userid1', 'user-1', false);
