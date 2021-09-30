@@ -97,7 +97,9 @@
 
                 >li {
                     >a,
-                    >button {
+                    >button,
+                    >.styleSelectableItemDiv {
+                        display: block;
                         width: 100%;
                         height: auto;
                         padding: 0.4rem 2rem;
