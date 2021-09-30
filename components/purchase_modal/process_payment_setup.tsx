@@ -131,19 +131,21 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             return;
         }
 
-        this.props.savePreferences(this.props.currentUser.id, [{
-            category: Preferences.UNIQUE,
-            user_id: this.props.currentUser.id,
-            name: Unique.HAS_CLOUD_PURCHASE,
-            value: 'true',
-        }]);
-
         this.completePayment();
     }
 
     private completePayment = () => {
         clearInterval(this.intervalId);
         this.setState({state: ProcessState.SUCCESS, progress: 100});
+
+        if (this.props.isFirstPurchase) {
+            this.props.savePreferences(this.props.currentUser.id, [{
+                category: Preferences.UNIQUE,
+                user_id: this.props.currentUser.id,
+                name: Unique.HAS_CLOUD_PURCHASE,
+                value: 'true',
+            }]);
+        }
     }
 
     private handleGoBack = () => {
