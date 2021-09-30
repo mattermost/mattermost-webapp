@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled, makeGetPostOptionBinding} from 'mattermost-redux/selectors/entities/apps';
 
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
