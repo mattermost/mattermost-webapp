@@ -40,6 +40,12 @@
     }
 }
 
+#status-menu-dnd-timed_menuitem {
+    .SubMenuItem.MenuItem {
+        width: 100%;
+    }
+}
+
 .custom_status__row {
     position: relative;
     height: auto;
