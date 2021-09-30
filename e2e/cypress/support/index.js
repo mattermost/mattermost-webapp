@@ -106,6 +106,8 @@ Cypress.on('uncaught:exception', () => {
 });
 
 before(() => {
+    cy.apiLogout();
+
     // # Clear localforage state
     localforage.clear();
 
