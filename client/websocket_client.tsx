@@ -86,7 +86,7 @@ export default class WebSocketClient {
 
             if (this.connectFailCount > 0) {
                 console.log('websocket re-established connection'); //eslint-disable-line no-console
-                if (!reliableWebSockets && this.reconnectCallback) {
+                if (this.reconnectCallback) {
                     this.reconnectCallback();
                 }
             } else if (this.firstConnectCallback) {
