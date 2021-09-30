@@ -59,7 +59,7 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
     };
 }
 
-export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFunc, threadData: UserThread, teamId: string) {
+export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFunc, threadData: UserThread, teamId: string, previousUnreadReplies = 0, previousUnreadMentions = 0) {
     const state = getState();
     const currentUserId = getCurrentUserId(state);
     const currentTeamId = getCurrentTeamId(state);
@@ -91,9 +91,9 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
         thread.post.channel_id,
         {
             lastViewedAt: thread.last_viewed_at,
-            prevUnreadMentions: oldThreadData?.unread_mentions ?? 0,
+            prevUnreadMentions: oldThreadData?.unread_mentions ?? previousUnreadMentions,
             newUnreadMentions: thread.unread_mentions,
-            prevUnreadReplies: oldThreadData?.unread_replies ?? 0,
+            prevUnreadReplies: oldThreadData?.unread_replies ?? previousUnreadReplies,
             newUnreadReplies: thread.unread_replies,
         },
     );

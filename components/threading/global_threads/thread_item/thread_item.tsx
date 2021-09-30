@@ -92,7 +92,7 @@ function ThreadItem({
         return [post.user_id, ...ids];
     }, [thread?.participants]);
 
-    const selectHandler = useCallback(() => select(threadId), []);
+    const selectHandler = useCallback(() => select(threadId), [threadId]);
 
     const imageProps = useMemo(() => ({
         onImageHeightChanged: () => {},

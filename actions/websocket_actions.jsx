@@ -1461,26 +1461,25 @@ function handleThreadReadChanged(msg) {
         if (msg.data.thread_id) {
             const state = doGetState();
             const thread = getThreads(state)?.[msg.data.thread_id];
-            if (thread) {
-                // skip marking the thread as read (when the user is viewing the thread)
-                if (!isThreadOpen(state, thread.id)) {
-                    doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
-                }
 
-                handleReadChanged(
-                    doDispatch,
-                    msg.data.thread_id,
-                    msg.broadcast.team_id,
-                    msg.data.channel_id,
-                    {
-                        lastViewedAt: msg.data.timestamp,
-                        prevUnreadMentions: thread.unread_mentions,
-                        newUnreadMentions: msg.data.unread_mentions,
-                        prevUnreadReplies: thread.unread_replies,
-                        newUnreadReplies: msg.data.unread_replies,
-                    },
-                );
+            // skip marking the thread as read (when the user is viewing the thread)
+            if (thread && !isThreadOpen(state, thread.id)) {
+                doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
             }
+
+            handleReadChanged(
+                doDispatch,
+                msg.data.thread_id,
+                msg.broadcast.team_id,
+                msg.data.channel_id,
+                {
+                    lastViewedAt: msg.data.timestamp,
+                    prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
+                    newUnreadMentions: msg.data.unread_mentions,
+                    prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
+                    newUnreadReplies: msg.data.unread_replies,
+                },
+            );
         } else if (msg.broadcast.channel_id) {
             handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);
         } else {
@@ -1533,7 +1532,7 @@ function handleThreadUpdated(msg) {
             dispatch(updateThreadRead(currentUserId, currentTeamId, threadData.id, lastViewedAt));
         }
 
-        handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
+        handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id, msg.data.previous_unread_replies, msg.data.previous_unread_mentions);
     };
 }
 
