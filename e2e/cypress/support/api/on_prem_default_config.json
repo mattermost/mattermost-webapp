@@ -464,6 +464,9 @@
             },
             "com.mattermost.plugin-incident-management": {
                 "Enable": false
+            },
+            "playbooks": {
+                "Enable": false
             }
         },
         "EnableMarketplace": true,
