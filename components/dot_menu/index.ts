@@ -18,8 +18,8 @@ import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -29,7 +29,7 @@ import {setThreadFollow} from 'mattermost-redux/actions/threads';
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall, makeFetchBindings, postEphemeralCallResponseForPost} from 'actions/apps';
+import {doAppCall, openAppsModal, makeFetchBindings, postEphemeralCallResponseForPost} from 'actions/apps';
 
 import {
     flagPost,
@@ -146,12 +146,13 @@ type Actions = {
     doAppCall: DoAppCall;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
+    openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             flagPost,
             unflagPost,
             setEditingPost,
@@ -162,6 +163,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             doAppCall,
             postEphemeralCallResponseForPost,
             setThreadFollow,
+            openAppsModal,
             fetchBindings,
         }, dispatch),
     };
