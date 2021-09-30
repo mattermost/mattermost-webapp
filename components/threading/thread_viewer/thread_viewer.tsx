@@ -14,6 +14,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 
 import deferComponentRender from 'components/deferComponentRender';
+import FileUploadOverlay from 'components/file_upload_overlay';
 import LoadingScreen from 'components/loading_screen';
 import {FakePost} from 'types/store/rhs';
 import ThreadViewerVirtualized from '../virtualized_thread_viewer';
@@ -204,19 +205,22 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             <>
                 <div className={classNames('ThreadViewer', this.props.className)}>
                     <div className='post-right-comments-container'>
-                        {this.props.selected && (
-                            <DeferredThreadViewerVirt
-                                key={this.props.selected.id}
-                                channel={this.props.channel}
-                                onCardClick={this.handleCardClick}
-                                onCardClickPost={this.handleCardClickPost}
-                                postIds={this.props.postIds}
-                                removePost={this.props.actions.removePost}
-                                selected={this.props.selected}
-                                useRelativeTimestamp={this.props.useRelativeTimestamp || false}
-                                highlightedPostId={this.props.highlightedPostId}
-                            />
-                        )}
+                        <>
+                            <FileUploadOverlay overlayType='right'/>
+                            {this.props.selected && (
+                                <DeferredThreadViewerVirt
+                                    key={this.props.selected.id}
+                                    channel={this.props.channel}
+                                    onCardClick={this.handleCardClick}
+                                    onCardClickPost={this.handleCardClickPost}
+                                    postIds={this.props.postIds}
+                                    removePost={this.props.actions.removePost}
+                                    selected={this.props.selected}
+                                    useRelativeTimestamp={this.props.useRelativeTimestamp || false}
+                                    highlightedPostId={this.props.highlightedPostId}
+                                />
+                            )}
+                        </>
                     </div>
                 </div>
             </>

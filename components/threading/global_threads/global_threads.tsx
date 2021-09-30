@@ -35,7 +35,6 @@ import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
 import NextStepsView from 'components/next_steps_view';
-import FileUploadOverlay from 'components/file_upload_overlay';
 
 import {useThreadRouting} from '../hooks';
 import ChatIllustration from '../common/chat_illustration';
@@ -163,7 +162,6 @@ const GlobalThreads = () => {
                         <ThreadPane
                             thread={selectedThread}
                         >
-                            <FileUploadOverlay overlayType='right'/>
                             <ThreadViewer
                                 rootPostId={selectedThread.id}
                                 useRelativeTimestamp={true}
