@@ -137,15 +137,6 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
     private completePayment = () => {
         clearInterval(this.intervalId);
         this.setState({state: ProcessState.SUCCESS, progress: 100});
-
-        if (this.props.isFirstPurchase) {
-            this.props.savePreferences(this.props.currentUser.id, [{
-                category: Preferences.UNIQUE,
-                user_id: this.props.currentUser.id,
-                name: Unique.HAS_CLOUD_PURCHASE,
-                value: 'true',
-            }]);
-        }
     }
 
     private handleGoBack = () => {
@@ -201,8 +192,16 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 </>
             );
         }
-        const title = this.props.isFirstPurchase ? t('admin.billing.subscription.firstPurchaseSuccess') :
-            t('admin.billing.subscription.upgradedSuccess');
+        let title = t('admin.billing.subscription.upgradedSuccess');
+        if (this.props.isFirstPurchase) {
+            title = t('admin.billing.subscription.firstPurchaseSuccess');
+            this.props.savePreferences(this.props.currentUser.id, [{
+                category: Preferences.UNIQUE,
+                user_id: this.props.currentUser.id,
+                name: Unique.HAS_CLOUD_PURCHASE,
+                value: 'true',
+            }]);
+        }
         return (
             <IconMessage
                 title={title}
