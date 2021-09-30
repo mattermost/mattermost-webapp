@@ -461,6 +461,11 @@ export default class SwitchChannelProvider extends Provider {
             displayName += `${Utils.getFullName(user)}`;
         }
 
+        const currentUserId = getCurrentUserId(getState());
+        if (user.id === currentUserId) {
+            displayName += ' (you)';
+        }
+
         return {
             channel: {
                 display_name: displayName,
