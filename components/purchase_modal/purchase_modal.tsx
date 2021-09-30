@@ -12,11 +12,19 @@ import {Tooltip} from 'react-bootstrap';
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
-
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {Dictionary} from 'mattermost-redux/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
+import {
+    Constants,
+    TELEMETRY_CATEGORIES,
+    CloudLinks,
+    CloudProducts,
+    BillingSchemes,
+    Unique,
+} from 'utils/constants';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
@@ -60,6 +68,8 @@ type Props = {
     contactSalesLink: string;
     isFreeTrial: boolean;
     productId: string | undefined;
+    currentUser: UserProfile;
+    preferences: PreferenceType[];
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -67,6 +77,7 @@ type Props = {
         subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
 }
 
@@ -684,9 +695,13 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         contactSupportLink={this.props.contactSalesLink}
                                         selectedProduct={this.state.selectedProduct}
                                         currentProduct={this.state.currentProduct}
-                                        isFirstPurchase={this.props.isFreeTrial}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
+                                        currentUser={this.props.currentUser}
+                                        savePreferences={this.props.actions.savePreferences}
+                                        isFirstPurchase={!this.props.preferences.some((pref) =>
+                                            pref.name === Unique.HAS_CLOUD_PURCHASE && pref.value === 'true')
+                                        }
                                     />
                                 </div>
                             ) : null}

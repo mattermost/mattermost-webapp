@@ -6,9 +6,12 @@ import {Stripe} from '@stripe/stripe-js';
 
 import {FormattedMessage} from 'react-intl';
 
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {Unique, Preferences, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {t} from 'utils/i18n';
 import {getNextBillingDate} from 'utils/utils';
@@ -35,7 +38,9 @@ type Props = {
     selectedProduct?: Product | null | undefined;
     currentProduct?: Product | null | undefined;
     isProratedPayment?: boolean;
-    isFirstPurchase?: boolean;
+    currentUser: UserProfile;
+    savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+    isFirstPurchase: boolean;
 }
 
 type State = {
@@ -125,6 +130,13 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             setTimeout(this.completePayment, MIN_PROCESSING_MILLISECONDS - millisecondsElapsed);
             return;
         }
+
+        this.props.savePreferences(this.props.currentUser.id, [{
+            category: Preferences.UNIQUE,
+            user_id: this.props.currentUser.id,
+            name: Unique.HAS_CLOUD_PURCHASE,
+            value: 'true',
+        }]);
 
         this.completePayment();
     }
