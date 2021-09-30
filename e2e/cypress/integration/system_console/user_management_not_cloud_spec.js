@@ -22,17 +22,14 @@ describe('User Management', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
 
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiInitSetup().then(({team, channel, user, customAdmin}) => {
             testChannel = channel;
             testTeam = team;
             testUser = user;
+            sysadmin = customAdmin;
             return cy.apiCreateUser();
         }).then(({user: user2}) => {
             otherUser = user2;
-        });
-
-        cy.apiAdminLogin().then((res) => {
-            sysadmin = res.user;
         });
     });
 
@@ -46,7 +43,7 @@ describe('User Management', () => {
             cy.postMessage('hello');
         });
 
-        cy.apiLogout().apiAdminLogin();
+        cy.apiLogout().apiLogin(sysadmin);
         activateUser(otherUser, false);
         cy.apiLogout().wait(TIMEOUTS.FIVE_SEC);
 
@@ -111,7 +108,7 @@ describe('User Management', () => {
         });
 
         // # Restore the user.
-        cy.apiLogout().apiAdminLogin();
+        cy.apiLogout().apiLogin(sysadmin);
         activateUser(otherUser, true);
     });
 
@@ -140,7 +137,7 @@ describe('User Management', () => {
         cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('be.visible');
 
         // # System Console > Users Deactivate the user.
-        cy.apiLogout().apiAdminLogin();
+        cy.apiLogout().apiLogin(sysadmin);
         activateUser(otherUser, false);
 
         // # Go back to view team.
@@ -159,7 +156,7 @@ describe('User Management', () => {
         cy.findByTestId('post_textbox').should('be.visible');
 
         // # Restore the user.
-        cy.apiLogout().apiAdminLogin();
+        cy.apiLogout().apiLogin(sysadmin);
         activateUser(otherUser, true);
     });
 

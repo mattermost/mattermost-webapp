@@ -173,7 +173,7 @@ Cypress.Commands.add('apiPatchMe', (data) => {
 Cypress.Commands.add('apiCreateCustomAdmin', ({loginAfter = false} = {}) => {
     const sysadminUser = generateRandomUser('other-admin');
 
-    return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
+    return cy.apiCreateUser({user: sysadminUser}).as('customAdmin').then(({user}) => {
         return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
             const data = {sysadmin: user};
 

@@ -115,8 +115,11 @@ before(() => {
             sysadminSetup(response.user);
         } else {
             // # Create and login a newly created user as sysadmin
-            cy.apiCreateAdmin().then(({sysadmin}) => {
-                cy.apiAdminLogin().then(() => sysadminSetup(sysadmin));
+            cy.apiCreateAdmin().then(() => {
+                return cy.apiAdminLogin();
+            }).then(({user}) => {
+                resetFirstAdminPreference(user);
+                sysadminSetup(user);
             });
         }
 
@@ -134,6 +137,9 @@ before(() => {
         // Log license status and server details before test
         printLicenseStatus();
         printServerDetails();
+
+        // # Use custom admin for setting up test isolation
+        cy.apiCreateCustomAdmin({loginAfter: true});
     });
 });
 
@@ -158,6 +164,11 @@ function printServerDetails() {
     });
 }
 
+function resetFirstAdminPreference(user) {
+    cy.apiSaveTutorialStep(user.id, '999');
+    cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
+}
+
 function sysadminSetup(user) {
     if (Cypress.env('firstTest')) {
         // Sends dummy call to update the config to server
@@ -171,25 +182,6 @@ function sysadminSetup(user) {
 
     // # Reset config and invalidate cache
     cy.apiUpdateConfig();
-    cy.apiGetClientLicense().then(({isCloudLicensed}) => {
-        // Invalidating cache on cloud server is not permitted since sysadmin is restricted by default
-        if (!isCloudLicensed) {
-            cy.apiInvalidateCache();
-        }
-    });
-
-    // # Reset admin preference, online status and locale
-    cy.apiSaveTeammateNameDisplayPreference('username');
-    cy.apiSaveLinkPreviewsPreference('true');
-    cy.apiSaveCollapsePreviewsPreference('false');
-    cy.apiSaveClockDisplayModeTo24HourPreference(false);
-    cy.apiSaveTutorialStep(user.id, '999');
-    cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
-    cy.apiUpdateUserStatus('online');
-    cy.apiPatchMe({
-        locale: 'en',
-        timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'},
-    });
 
     // # Reset roles
     cy.apiGetClientLicense().then(({isLicensed}) => {
@@ -213,22 +205,26 @@ function sysadminSetup(user) {
         if (!defaultTeam) {
             cy.apiCreateTeam(DEFAULT_TEAM.name, DEFAULT_TEAM.display_name, 'O', false);
         } else if (defaultTeam && Cypress.env('resetBeforeTest')) {
-            teams.forEach((team) => {
-                if (team.name !== DEFAULT_TEAM.name) {
-                    cy.apiDeleteTeam(team.id);
-                }
-            });
-
-            cy.apiGetChannelsForUser('me', defaultTeam.id).then(({channels}) => {
-                channels.forEach((channel) => {
-                    if (
-                        (channel.team_id === defaultTeam.id || channel.team_name === defaultTeam.name) &&
-                        (channel.name !== 'town-square' && channel.name !== 'off-topic')
-                    ) {
-                        cy.apiDeleteChannel(channel.id);
-                    }
-                });
-            });
+            removeNonDefaultTeamsAndChannels(teams, defaultTeam);
         }
+    });
+}
+
+function removeNonDefaultTeamsAndChannels(allTeams = {}, defaultTeam = {}) {
+    allTeams.forEach((team) => {
+        if (team.name !== defaultTeam.name) {
+            cy.apiDeleteTeam(team.id);
+        }
+    });
+
+    cy.apiGetChannelsForUser('me', defaultTeam.id).then(({channels}) => {
+        channels.forEach((channel) => {
+            if (
+                (channel.team_id === defaultTeam.id || channel.team_name === defaultTeam.name) &&
+                (channel.name !== 'town-square' && channel.name !== 'off-topic')
+            ) {
+                cy.apiDeleteChannel(channel.id);
+            }
+        });
     });
 }

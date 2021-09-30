@@ -13,9 +13,6 @@
 import {getRandomId} from '../../../utils';
 
 describe('Account Settings > Sidebar > General', () => {
-    const randomId = getRandomId();
-    const newFirstName = `정트리나${randomId}/trina.jung/집단사무국(CO)`;
-
     let testUser;
     let otherUser;
     let offTopicUrl;
@@ -29,24 +26,27 @@ describe('Account Settings > Sidebar > General', () => {
                 otherUser = user1;
                 cy.apiAddUserToTeam(team.id, otherUser.id);
             });
-
-            // # Login as test user, visit off-topic and go to the Account Settings
-            cy.apiLogin(testUser);
-            cy.visit(offTopicUrl);
-            cy.uiOpenAccountSettingsModal();
-
-            // # Open Full Name section
-            cy.get('#nameDesc').click();
-
-            // # Set first name value
-            cy.get('#firstName').clear().type(newFirstName);
-
-            // # Save form
-            cy.uiSave();
         });
     });
 
     it('MM-T183 Filtering by first name with Korean characters', () => {
+        const randomId = getRandomId();
+        const newFirstName = `정트리나${randomId}/trina.jung/집단사무국(CO)`;
+
+        // # Login as test user, visit off-topic and go to the Account Settings
+        cy.apiLogin(testUser);
+        cy.visit(offTopicUrl);
+        cy.uiOpenAccountSettingsModal();
+
+        // # Open Full Name section
+        cy.get('#nameDesc').click();
+
+        // # Set first name value
+        cy.get('#firstName').clear().type(newFirstName);
+
+        // # Save form
+        cy.uiSave();
+
         const {username} = testUser;
 
         cy.apiLogin(otherUser);
@@ -56,7 +56,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#post_textbox').clear().type(`@${newFirstName.substring(0, 11)}`);
 
         // * Verify that the testUser is selected from mention autocomplete
-        cy.uiVerifyAtMentionInSuggestionList('Channel Members', {...testUser, first_name: newFirstName}, true);
+        cy.uiVerifyAtMentionSuggestion({...testUser, first_name: newFirstName}, true);
 
         // # Press tab on text input
         cy.get('#post_textbox').tab();
@@ -73,27 +73,13 @@ describe('Account Settings > Sidebar > General', () => {
             scrollIntoView().
             should('be.visible');
     });
-});
-
-describe('Account Settings -> General -> Full Name', () => {
-    let testUser;
-
-    before(() => {
-        cy.apiAdminLogin();
-
-        // # Login as new user and visit off-topic
-        cy.apiInitSetup({loginAfter: true}).then(({user, offTopicUrl}) => {
-            testUser = user;
-            cy.visit(offTopicUrl);
-        });
-    });
-
-    beforeEach(() => {
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal();
-    });
 
     it('MM-T2043 Enter first name', () => {
+        cy.apiLogin(testUser);
+        cy.visit(offTopicUrl);
+
+        cy.uiOpenAccountSettingsModal();
+
         // # Click "Edit" to the right of "Full Name"
         cy.get('#nameEdit').should('be.visible').click();
 

@@ -8,6 +8,11 @@ Cypress.Commands.add('apiInitSetup', ({
     teamPrefix = {name: 'team', displayName: 'Team'},
     channelPrefix = {name: 'channel', displayName: 'Channel'},
 } = {}) => {
+    let customAdmin;
+    cy.get('@customAdmin').then(({user}) => {
+        customAdmin = user;
+    });
+
     return cy.apiCreateTeam(teamPrefix.name, teamPrefix.displayName).then(({team}) => {
         // # Add public channel
         return cy.apiCreateChannel(team.id, channelPrefix.name, channelPrefix.displayName).then(({channel}) => {
@@ -21,6 +26,7 @@ Cypress.Commands.add('apiInitSetup', ({
                         const getUrl = (channelName) => `/${team.name}/channels/${channelName}`;
 
                         const data = {
+                            customAdmin,
                             channel,
                             team,
                             user,
