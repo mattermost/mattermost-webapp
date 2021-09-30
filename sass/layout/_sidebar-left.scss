@@ -725,10 +725,6 @@
             margin-left: 5px;
         }
 
-        &:hover {
-            color: var(--sidebar-text);
-        }
-
         &--untouched {
             color: var(--sidebar-unread-text);
             font-weight: $font-weight--semibold;
