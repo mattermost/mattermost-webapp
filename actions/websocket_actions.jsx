@@ -213,8 +213,11 @@ export function reconnect(includeWebSocket = true) {
         }
         StatusActions.loadStatusesForChannelAndSidebar();
 
-        dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state), true));
-        dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+        const crtEnabled = isCollapsedThreadsEnabled(state);
+        dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
+        if (crtEnabled) {
+            dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+        }
     }
 
     if (state.websocket.lastDisconnectAt) {
