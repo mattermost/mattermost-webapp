@@ -740,7 +740,11 @@
     }
 
     #introTextInvite {
-        margin-top: -2px;
+        display: flex;
+        width: 100%;
+        &:hover {
+            background-color: var(--sidebar-text-hover-bg);
+        }
     }
 
     .SidebarChannelNavigator_inviteUsersSticky {
