@@ -20,6 +20,7 @@ describe('components/MenuItemToggleModalRedux', () => {
         expect(wrapper).toMatchInlineSnapshot(`
             <Fragment>
               <Connect(injectIntl(ModalToggleButtonRedux))
+                accessibilityLabel="Whatever"
                 className=""
                 dialogProps={
                   Object {
