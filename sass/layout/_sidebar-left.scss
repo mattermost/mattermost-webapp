@@ -725,10 +725,6 @@
             margin-left: 5px;
         }
 
-        &:hover {
-            color: var(--sidebar-text);
-        }
-
         &--untouched {
             color: var(--sidebar-unread-text);
             font-weight: $font-weight--semibold;
@@ -740,7 +736,12 @@
     }
 
     #introTextInvite {
-        margin-top: -2px;
+        display: flex;
+        width: 100%;
+
+        &:hover {
+            background-color: var(--sidebar-text-hover-bg);
+        }
     }
 
     .SidebarChannelNavigator_inviteUsersSticky {
