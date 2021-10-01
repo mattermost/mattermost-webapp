@@ -3561,9 +3561,13 @@ export default class Client4 {
     }
 
     // Cloud routes
-    getCloudProducts = () => {
+    getCloudProducts = (families?: string[]) => {
+        let query = ''
+        if (families) {
+            query = families.reduce((acc, family, i) => `${acc}${i === 0 ? '?' : '&'}family=${family}`, '');
+        }
         return this.doFetch<Product[]>(
-            `${this.getCloudRoute()}/products`, {method: 'get'},
+            `${this.getCloudRoute()}/products${query}`, {method: 'get'},
         );
     };
 

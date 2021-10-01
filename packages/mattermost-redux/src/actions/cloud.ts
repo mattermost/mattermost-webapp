@@ -15,10 +15,11 @@ export function getCloudSubscription(): ActionFunc {
     });
 }
 
-export function getCloudProducts(): ActionFunc {
+export function getCloudProducts(families?: string[]): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getCloudProducts,
         onSuccess: [CloudTypes.RECEIVED_CLOUD_PRODUCTS],
+        params: [families],
     });
 }
 
