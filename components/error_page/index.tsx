@@ -8,7 +8,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
 import {GlobalState} from 'types/store';
 
-import {isGuest} from 'utils/utils.jsx';
+import { isGuest } from 'mattermost-redux/utils/user_utils';
 
 import ErrorPage from './error_page';
 
@@ -19,7 +19,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         siteName: config.SiteName,
         asymmetricSigningPublicKey: config.AsymmetricSigningPublicKey,
-        isGuest: Boolean(user && isGuest(user)),
+        isGuest: Boolean(user && isGuest(user.roles)),
     };
 }
 

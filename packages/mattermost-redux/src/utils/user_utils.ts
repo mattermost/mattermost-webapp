@@ -42,7 +42,7 @@ export function displayUsername(
 }
 
 export function spaceSeparatedStringIncludes(spaceSeparated: string, item: string): boolean {
-    const items = spaceSeparated.split(' ');
+    const items = String(spaceSeparated).split(' ');
     return items.includes(item);
 }
 

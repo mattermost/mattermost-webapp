@@ -14,7 +14,8 @@ import {filterProfiles} from 'mattermost-redux/selectors/entities/users';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage } from 'utils/utils.jsx';
+import { isGuest } from 'mattermost-redux/utils/user_utils';
 import ProfilePicture from 'components/profile_picture';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -129,7 +130,7 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
                             className='badge-popoverlist'
                         />
                         <GuestBadge
-                            show={isGuest(option)}
+                            show={isGuest(option.roles)}
                             className='popoverlist'
                         />
                     </div>

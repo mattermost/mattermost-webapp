@@ -10,6 +10,7 @@ import ProfilePicture from 'components/profile_picture';
 import MessageIcon from 'components/widgets/icons/message_icon';
 import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import { isGuest } from 'mattermost-redux/utils/user_utils';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import SharedUserIndicator from 'components/shared_user_indicator';
@@ -85,7 +86,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
                             className='badge-popoverlist'
                         />
                         <GuestBadge
-                            show={Utils.isGuest(this.props.user)}
+                            show={isGuest(this.props.user.roles)}
                             className='badge-popoverlist'
                         />
                     </div>

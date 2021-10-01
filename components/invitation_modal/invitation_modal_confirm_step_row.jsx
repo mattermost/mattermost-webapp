@@ -12,7 +12,8 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
-import {imageURLForUser, isGuest, getLongDisplayName} from 'utils/utils.jsx';
+import {imageURLForUser, getLongDisplayName} from 'utils/utils.jsx';
+import { isGuest } from 'mattermost-redux/utils/user_utils';
 
 import './invitation_modal_confirm_step_row.scss';
 
@@ -43,7 +44,7 @@ export default class InvitationModalConfirmStepRow extends React.PureComponent {
             if (invitation.user.is_bot) {
                 botBadge = <BotBadge/>;
             }
-            if (isGuest(invitation.user)) {
+            if (isGuest(invitation.user.roles)) {
                 guestBadge = <GuestBadge/>;
             }
         } else if (invitation.email) {

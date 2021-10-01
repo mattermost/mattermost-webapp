@@ -169,46 +169,6 @@ export function isInRole(roles, inRole) {
     return false;
 }
 
-export function isChannelAdmin(isLicensed, roles, hasAdminScheme = false) {
-    if (!isLicensed) {
-        return false;
-    }
-
-    if (isInRole(roles, 'channel_admin') || hasAdminScheme) {
-        return true;
-    }
-
-    return false;
-}
-
-export function isAdmin(roles) {
-    if (isInRole(roles, 'team_admin')) {
-        return true;
-    }
-
-    if (isInRole(roles, 'system_admin')) {
-        return true;
-    }
-
-    return false;
-}
-
-export function isSystemAdmin(roles) {
-    if (isInRole(roles, 'system_admin')) {
-        return true;
-    }
-
-    return false;
-}
-
-export function isGuest(user) {
-    if (user && user.roles && isInRole(user.roles, 'system_guest')) {
-        return true;
-    }
-
-    return false;
-}
-
 export function getTeamRelativeUrl(team) {
     if (!team) {
         return '';

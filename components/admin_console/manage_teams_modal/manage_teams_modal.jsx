@@ -10,6 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import { isAdmin } from 'mattermost-redux/utils/user_utils';
 import LoadingScreen from 'components/loading_screen';
 import Avatar from 'components/widgets/users/avatar';
 
@@ -115,7 +116,7 @@ export default class ManageTeamsModal extends React.PureComponent {
             return <LoadingScreen/>;
         }
 
-        const isSystemAdmin = Utils.isAdmin(user.roles);
+        const isSystemAdmin = isAdmin(user.roles);
 
         let name = Utils.getFullName(user);
         if (name) {

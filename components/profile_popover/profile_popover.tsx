@@ -14,6 +14,7 @@ import * as GlobalActions from 'actions/global_actions';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
+import { isGuest, isSystemAdmin } from 'mattermost-redux/utils/user_utils';
 import Pluggable from 'plugins/pluggable';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
@@ -634,13 +635,13 @@ ProfilePopoverState
                     {Utils.localizeMessage('bots.is_bot', 'BOT')}
                 </span>
             );
-        } else if (Utils.isGuest(this.props.user)) {
+        } else if (isGuest(this.props.user.roles)) {
             roleTitle = (
                 <span className='user-popover__role'>
                     {Utils.localizeMessage('post_info.guest', 'GUEST')}
                 </span>
             );
-        } else if (Utils.isSystemAdmin(this.props.user.roles)) {
+        } else if (isSystemAdmin(this.props.user.roles)) {
             roleTitle = (
                 <span className='user-popover__role'>
                     {Utils.localizeMessage(

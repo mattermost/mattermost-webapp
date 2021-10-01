@@ -6,6 +6,7 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
+import { isGuest } from 'mattermost-redux/utils/user_utils';
 
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -56,7 +57,7 @@ class UserSuggestion extends Suggestion {
                     </span>
                 </div>
                 <BotBadge show={Boolean(item.is_bot)}/>
-                <GuestBadge show={Utils.isGuest(item)}/>
+                <GuestBadge show={isGuest(item.roles)}/>
             </div>
         );
     }

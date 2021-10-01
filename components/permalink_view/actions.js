@@ -17,7 +17,7 @@ import {selectPostAndHighlight} from 'actions/views/rhs';
 import {browserHistory} from 'utils/browser_history';
 import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
-import {isSystemAdmin} from 'utils/utils';
+import { isSystemAdmin } from 'mattermost-redux/utils/user_utils';
 import {isComment, getPostURL} from 'utils/post_utils';
 
 let privateChannelJoinPromptVisible = false;

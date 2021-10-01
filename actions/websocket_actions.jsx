@@ -99,7 +99,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
-import {isGuest} from 'utils/utils';
+import { isGuest } from 'mattermost-redux/utils/user_utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
 
@@ -760,14 +760,14 @@ export function handleLeaveTeamEvent(msg) {
                 redirectUserToDefaultTeam();
             }
         }
-        if (isGuest(currentUser)) {
+        if (isGuest(currentUser.roles)) {
             dispatch(removeNotVisibleUsers());
         }
     } else {
         const team = getTeam(state, msg.data.team_id);
         const members = getChannelMembersInChannels(state);
         const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
-        if (team && isGuest(currentUser) && !isMember) {
+        if (team && isGuest(currentUser.roles) && !isMember) {
             dispatch(batchActions([
                 {
                     type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
@@ -960,7 +960,7 @@ export async function handleUserRemovedEvent(msg) {
             }
         }
 
-        if (isGuest(currentUser)) {
+        if (isGuest(currentUser.roles)) {
             dispatch(removeNotVisibleUsers());
         }
     } else if (msg.broadcast.channel_id === currentChannel.id) {
@@ -978,7 +978,7 @@ export async function handleUserRemovedEvent(msg) {
         const channel = getChannel(state, msg.broadcast.channel_id);
         const members = getChannelMembersInChannels(state);
         const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
-        if (channel && isGuest(currentUser) && !isMember) {
+        if (channel && isGuest(currentUser.roles) && !isMember) {
             const actions = [
                 {
                     type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
@@ -1022,7 +1022,7 @@ export async function handleUserUpdatedEvent(msg) {
     const config = getConfig(state);
     const license = getLicense(state);
 
-    const userIsGuest = isGuest(user);
+    const userIsGuest = isGuest(user.roles);
     const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
     const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
 
@@ -1040,7 +1040,7 @@ export async function handleUserUpdatedEvent(msg) {
             if (isLDAPEnabled && isTimezoneEnabled) {
                 dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
             }
-            if (isGuest(user)) {
+            if (isGuest(user.roles)) {
                 dispatch(getChannelStats(currentChannelId));
             }
         }

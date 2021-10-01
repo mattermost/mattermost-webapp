@@ -21,7 +21,7 @@ import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
 
 import {t} from 'utils/i18n.jsx';
-import {isGuest} from 'utils/utils';
+import { isGuest } from 'mattermost-redux/utils/user_utils';
 
 import './users_emails_input.scss';
 
@@ -110,7 +110,7 @@ export default class UsersEmailsInput extends React.PureComponent {
             botBadge = <BotBadge/>;
         }
 
-        if (!isEmail(user.value) && isGuest(user)) {
+        if (!isEmail(user.value) && isGuest(user.roles)) {
             guestBadge = <GuestBadge/>;
         }
 
