@@ -87,7 +87,7 @@ describe('Permalink message edit', () => {
         cy.wait(TIMEOUTS.FIVE_SEC).url().should('include', `/${team.name}/channels/town-square`).and('not.include', `/${permalinkId}`);
 
         // * Verify edited post
-        cy.get(`#postMessageText_${permalinkId}`).should('have.text', text);
-        cy.get(`#postEdited_${permalinkId}`).should('have.text', '(edited)');
+        cy.get(`#postMessageText_${permalinkId}`).should('have.text', `${text} Edited`);
+        cy.get(`#postEdited_${permalinkId}`).should('have.text', 'Edited');
     }
 });

@@ -10,9 +10,11 @@
 // Stage: @prod
 // Group: @accessibility @smoke
 
+import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
+    const sysadmin = getAdminAccount();
     let testUser;
     let testTeam;
     let testChannel;
@@ -27,6 +29,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
             testTeam = team;
             testChannel = channel;
             offTopicUrl = url;
+            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
             return cy.apiCreateChannel(testTeam.id, 'test', 'Test');
         }).then(({channel}) => {
             otherChannel = channel;
@@ -95,6 +98,17 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     });
 
     it('MM-T1472 Verify Tab Support in Direct Messages section', () => {
+        const usersPrefixes = ['a', 'c', 'd'];
+        usersPrefixes.forEach((prefix) => {
+            //# Create users with prefixes in alphabetical order
+            cy.apiCreateUser({prefix}).then(({user: newUser}) => {
+                cy.apiCreateDirectChannel([testUser.id, newUser.id]).then(({channel}) => {
+                    // # Post message in The DM channel
+                    cy.postMessageAs({sender: newUser, message: 'test', channelId: channel.id});
+                });
+            });
+        });
+
         // # Trigger DM with a user
         cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();

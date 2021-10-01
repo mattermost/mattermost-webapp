@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "¡Tu prueba ha comenzado! Quedan {daysLeftOnTrial} días",
   "admin.billing.subscription.cloudTrial.subscribe": "Suscribir",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Suscríbase ahora",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Quedan {daysLeftOnTrial} días de la prueba en Cloud.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Quedan {daysLeftOnTrial} días de la prueba en Cloud.",
   "admin.billing.subscription.creditCardExpired": "Tu tarjeta de crédito ha caducado. Actualiza la información de pago para evitar interrupciones.",
   "admin.billing.subscription.creditCardHasExpired": "Tu tarjeta de crédito ha caducado",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " para evitar cualquier interrupción.",

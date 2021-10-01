@@ -47,25 +47,25 @@ describe('Messaging', () => {
         // * Verify the attached items can be cycled through
         cy.getLastPostId().then((postId) => {
             cy.get(`#${postId}_message`).within(() => {
-                cy.uiOpenFilePreview();
+                cy.uiOpenFilePreviewModal();
             });
 
             // * Verify image preview is visible
-            cy.uiGetFilePreview();
+            cy.uiGetFilePreviewModal();
 
             // * Verify the header with the count of the file exists
-            cy.uiGetFilePreviewHeader().contains('1 of 4');
+            cy.uiGetHeaderFilePreviewModal().contains('1 of 4');
 
             for (var index = 2; index <= 4; index++) {
                 // # click on right arrow to preview next attached image
                 cy.get('#previewArrowRight').should('be.visible').click();
 
                 // * Verify the header counter
-                cy.uiGetFilePreviewHeader().contains(`${index} of 4`);
+                cy.uiGetHeaderFilePreviewModal().contains(`${index} of 4`);
             }
 
             // # Close the modal
-            cy.uiCloseFilePreview();
+            cy.uiCloseFilePreviewModal();
         });
     });
 });

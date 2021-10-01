@@ -8,8 +8,6 @@ import {shallow} from 'enzyme';
 import {markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
 jest.mock('mattermost-redux/actions/threads');
 
-import {GlobalState} from 'types/store';
-
 import Header from 'components/widgets/header';
 
 import Button from '../../common/button';
@@ -29,7 +27,7 @@ jest.mock('../../hooks', () => {
 });
 
 const mockDispatch = jest.fn();
-let mockState: GlobalState;
+let mockState: any;
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
@@ -57,7 +55,19 @@ describe('components/threading/global_threads/thread_list', () => {
             setFilter: jest.fn(),
         };
 
-        mockState = {} as GlobalState;
+        mockState = {
+            entities: {
+                threads: {
+                    counts: {
+                        tid: {
+                            total: 0,
+                            total_unread_threads: 0,
+                            total_unread_mentions: 0,
+                        },
+                    },
+                },
+            },
+        };
     });
 
     test('should match snapshot', () => {

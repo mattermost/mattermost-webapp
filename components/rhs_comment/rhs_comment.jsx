@@ -55,7 +55,6 @@ export default class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
-        isInViewport: PropTypes.func.isRequired,
 
         /**
          * If the user that made the post is a bot.

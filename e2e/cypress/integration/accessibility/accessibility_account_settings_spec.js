@@ -75,7 +75,7 @@ describe('Verify Accessibility Support in different sections in Account Settings
             },
         });
 
-        // # Login as test user and visit town-square
+        // # Login as test user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
             cy.visit(offTopicUrl);
             cy.postMessage('hello');

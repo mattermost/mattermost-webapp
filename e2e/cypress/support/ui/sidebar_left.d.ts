@@ -101,12 +101,21 @@ declare namespace Cypress {
         uiGetChannelSidebarMenu(channelName: string): Chainable;
 
         /**
-         * Navigate to sidebar item link
+         * Click sidebar item by channel or thread name
          * @param {string} name - channel name for channels, and threads for Global Threads
          *
          * @example
-         *   cy.uiVisitSidebarItem('town-square');
+         *   cy.uiClickSidebarItem('town-square');
          */
-        uiVisitSidebarItem(name: string): Chainable;
+        uiClickSidebarItem(name: string): Chainable;
+
+        /**
+         * Get sidebar item by channel or thread name
+         * @param {string} name - channel name for channels, and threads for Global Threads
+         *
+         * @example
+         *   cy.uiGetSidebarItem('town-square').find('.badge').should('be.visible');
+         */
+        uiGetSidebarItem(name: string): Chainable;
     }
 }

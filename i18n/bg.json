@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "Пробният период започна! Остават {daysLeftOnTrial} дни",
   "admin.billing.subscription.cloudTrial.subscribe": "Абониране",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Абонирайте се сега",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Остават {daysLeftOnTrial} дни до края на пробния Ви период за Cloud.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Остават {daysLeftOnTrial} дни до края на пробния Ви период за Cloud.",
   "admin.billing.subscription.creditCardExpired": "Вашата кредитна карта е изтекла. Актуализирайте данните си за плащане, за да избегнете смущения.",
   "admin.billing.subscription.creditCardHasExpired": "Вашата кредитна карта е изтекла",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " за да избегнете смущения.",

@@ -13,40 +13,34 @@
 import {getRandomId} from '../../utils';
 
 describe('Notifications', () => {
-    let testTeam;
     let otherUser;
-    let townsquareChannelId;
+    let offTopicChannelId;
     const numberOfPosts = 30;
 
     before(() => {
-        cy.apiInitSetup().then(({team}) => {
-            testTeam = team;
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
+            otherUser = user;
 
-            cy.apiCreateUser().then(({user}) => {
-                otherUser = user;
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
+            cy.apiGetChannelByName(team.name, 'off-topic').then(({channel}) => {
+                offTopicChannelId = channel.id;
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then(({channel}) => {
-                townsquareChannelId = channel.id;
-            });
-
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
     it('MM-T562 New message bar - Message posted while scrolled up in same channel', () => {
-        // # Post 30 random messages from the 'otherUser' account in Town Square
+        // # Post 30 random messages from the 'otherUser' account in off-topic
         Cypress._.times(numberOfPosts, (num) => {
-            cy.postMessageAs({sender: otherUser, message: `${num} ${getRandomId()}`, channelId: townsquareChannelId});
+            cy.postMessageAs({sender: otherUser, message: `${num} ${getRandomId()}`, channelId: offTopicChannelId});
         });
 
         // # Scroll to the top of the channel so that the 'Jump to New Messages' button would be visible
         cy.get('.post-list__dynamic').scrollTo('top');
 
         // # Post two new messages as 'otherUser'
-        cy.postMessageAs({sender: otherUser, message: 'Random Message', channelId: townsquareChannelId});
-        cy.postMessageAs({sender: otherUser, message: 'Last Message', channelId: townsquareChannelId});
+        cy.postMessageAs({sender: otherUser, message: 'Random Message', channelId: offTopicChannelId});
+        cy.postMessageAs({sender: otherUser, message: 'Last Message', channelId: offTopicChannelId});
 
         // * Verify that the last message is currently not visible
         cy.findByText('Last Message').should('not.be.visible');
