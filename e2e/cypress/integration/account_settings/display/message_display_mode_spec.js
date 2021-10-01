@@ -64,11 +64,11 @@ function verifyLineBreaksRemainIntact(display) {
         cy.get('#editButton').click();
 
         // * Verify HTML includes newline and the edit
-        cy.get(postMessageTextId).should('have.html', `<p>${firstLine}</p>\n<p>${secondLine},edited</p>`);
+        cy.get(postMessageTextId).should('contain.html', `<p>${firstLine}</p>\n<p>${secondLine},edited <span`);
 
         // * Post should have (edited)
         cy.get(`#postEdited_${postId}`).
             should('be.visible').
-            should('contain', '(edited)');
+            should('contain', 'Edited');
     });
 }
