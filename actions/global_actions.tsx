@@ -122,6 +122,11 @@ export function emitChannelClickEvent(channel: Channel) {
     }
 }
 
+export const clearLastUnreadChannel = {
+    type: ActionTypes.SET_LAST_UNREAD_CHANNEL,
+    channelId: '',
+};
+
 export function updateNewMessagesAtInChannel(channelId: string, lastViewedAt = Date.now()) {
     return {
         type: ActionTypes.UPDATE_CHANNEL_LAST_VIEWED_AT,
