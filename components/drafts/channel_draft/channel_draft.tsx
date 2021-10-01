@@ -56,7 +56,7 @@ function ChannelDraft({
         await dispatch(onSubmit(value));
         handleOnDelete(id);
         handleOnEdit();
-    }, [value]);
+    }, [value, onSubmit]);
 
     const handleOnDelete = useCallback((id: string) => {
         dispatch(removeDraft(id));
@@ -74,7 +74,9 @@ function ChannelDraft({
                         hover={hover}
                         actions={(
                             <DraftActions
-                                channel={channel}
+                                channelDisplayName={channel.display_name}
+                                channelType={channel.type}
+                                channelName={channel.name}
                                 userId={user.id}
                                 draftId={draftId}
                                 onDelete={handleOnDelete}
@@ -94,12 +96,12 @@ function ChannelDraft({
                     <Body
                         channelId={channel.id}
                         displayName={displayName}
-                        draftId={draftId}
                         fileInfos={value.fileInfos}
                         message={value.message}
                         status={status}
                         uploadsInProgress={value.uploadsInProgress}
-                        user={user}
+                        userId={user.id}
+                        username={user.username}
                     />
                 </>
             )}

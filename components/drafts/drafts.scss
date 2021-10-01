@@ -38,6 +38,18 @@
     .no-results__wrapper > svg {
         margin-bottom: 20px;
     }
+
+    @media screen and (max-width: 768px) {
+        grid-template-rows: 0 1fr;
+
+        > .Header {
+            display: none;
+        }
+
+        .Header {
+            border-top: var(--border);
+        }
+    }
 }
 
 .move--left {

@@ -9,23 +9,28 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {getPostDraft} from 'selectors/rhs';
 import {StoragePrefixes} from 'utils/constants';
 import {GlobalState} from 'types/store';
+import {PostDraft} from 'types/store/rhs';
 
 import ChannelPencilIcon from './channel_pencil_icon';
 
 type OwnProps = {
-    channel?: Channel;
+    id: Channel['id'];
 }
 
-function hasDraft(draft: any, currentChannelId?: string, channel?: Channel) {
-    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channel?.id;
+function hasDraft(draft: PostDraft|null, id: Channel['id'], currentChannelId?: string): boolean {
+    if (draft === null) {
+        return false;
+    }
+
+    return Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== id;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentChannelId = getCurrentChannelId(state);
-    const draft = ownProps.channel?.id ? getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channel.id) : null;
+    const draft = getPostDraft(state, StoragePrefixes.DRAFT, ownProps.id);
 
     return {
-        hasDraft: hasDraft(draft, currentChannelId, ownProps.channel),
+        hasDraft: hasDraft(draft, ownProps.id, currentChannelId),
     };
 }
 

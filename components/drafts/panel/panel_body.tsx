@@ -1,10 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback} from 'react';
-import {useDispatch} from 'react-redux';
-
-import {removeFilePreview} from 'actions/views/drafts';
+import React from 'react';
 
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
@@ -20,40 +17,34 @@ import './panel_body.scss';
 type Props = {
     channelId: string;
     displayName: string;
-    draftId: string;
     fileInfos: PostDraft['fileInfos'];
     message: string;
     status: UserStatus['status'];
     uploadsInProgress: PostDraft['uploadsInProgress'];
-    user: UserProfile;
+    userId: UserProfile['id'];
+    username: UserProfile['username'];
 }
 
 function Body({
     channelId,
     displayName,
-    draftId,
     fileInfos,
     message,
     status,
     uploadsInProgress,
-    user,
+    userId,
+    username,
 }: Props) {
-    const dispatch = useDispatch();
-
-    const handleRemovePreview = useCallback((id: string) => {
-        dispatch(removeFilePreview(draftId, id));
-    }, [draftId]);
-
     return (
         <div className='DraftPanelBody post'>
             <div className='DraftPanelBody__left post__img'>
                 <ProfilePicture
                     status={status}
                     channelId={channelId}
-                    username={user.username}
-                    userId={user.id}
+                    username={username}
+                    userId={userId}
                     size={'md'}
-                    src={imageURLForUser(user.id)}
+                    src={imageURLForUser(userId)}
                 />
             </div>
             <div className='post__content'>
@@ -67,7 +58,6 @@ function Body({
                     {(fileInfos.length > 0 || uploadsInProgress?.length > 0) && (
                         <FilePreview
                             fileInfos={fileInfos}
-                            onRemove={handleRemovePreview}
                             uploadsInProgress={uploadsInProgress}
                         />
                     )}

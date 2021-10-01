@@ -54,6 +54,8 @@ export default class ChannelHeaderMobile extends React.PureComponent {
 
         inGlobalThreads: PropTypes.bool,
 
+        inDrafts: PropTypes.bool,
+
         /**
          * Object with action creators
          */
@@ -85,7 +87,7 @@ export default class ChannelHeaderMobile extends React.PureComponent {
     }
 
     render() {
-        const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl, inGlobalThreads} = this.props;
+        const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl, inGlobalThreads, inDrafts} = this.props;
 
         let heading;
         if (inGlobalThreads) {
@@ -93,6 +95,13 @@ export default class ChannelHeaderMobile extends React.PureComponent {
                 <FormattedMessage
                     id='globalThreads.heading'
                     defaultMessage='Followed threads'
+                />
+            );
+        } else if (inDrafts) {
+            heading = (
+                <FormattedMessage
+                    id='drafts.heading'
+                    defaultMessage='Drafts'
                 />
             );
         } else if (channel) {

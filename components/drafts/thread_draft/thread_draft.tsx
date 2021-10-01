@@ -75,7 +75,7 @@ function ThreadDraft({
 
         handleOnDelete(id);
         handleOnEdit();
-    }, [value]);
+    }, [value, onSubmit]);
 
     if (!thread) {
         return null;
@@ -89,7 +89,9 @@ function ThreadDraft({
                         hover={hover}
                         actions={(
                             <DraftActions
-                                channel={channel}
+                                channelDisplayName={channel.display_name}
+                                channelName={channel.name}
+                                channelType={channel.type}
                                 userId={user.id}
                                 draftId={draftId}
                                 onDelete={handleOnDelete}
@@ -109,12 +111,12 @@ function ThreadDraft({
                     <Body
                         channelId={channel.id}
                         displayName={displayName}
-                        draftId={draftId}
                         fileInfos={value.fileInfos}
                         message={value.message}
                         status={status}
                         uploadsInProgress={value.uploadsInProgress}
-                        user={user}
+                        userId={user.id}
+                        username={user.username}
                     />
                 </>
             )}

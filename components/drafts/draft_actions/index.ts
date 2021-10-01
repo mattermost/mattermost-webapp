@@ -16,25 +16,27 @@ import {GlobalState} from 'types/store';
 import DraftActions from './draft_actions';
 
 type OwnProps = {
-    channel: Channel;
+    channelDisplayName: Channel['display_name'];
+    channelType: Channel['type'];
+    channelName: Channel['name'];
     userId: string;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const {channel, userId} = ownProps;
+    const {channelDisplayName, userId, channelName, channelType} = ownProps;
 
-    let channelName = channel.display_name;
+    let displayName = channelDisplayName;
     let teammateId;
     let teammate;
 
-    if (channel.type === Constants.DM_CHANNEL) {
-        teammateId = getUserIdFromChannelName(userId, channel.name);
+    if (channelType === Constants.DM_CHANNEL) {
+        teammateId = getUserIdFromChannelName(userId, channelName);
         teammate = getUser(state, teammateId);
-        channelName = displayUsername(teammate, getTeammateNameDisplaySetting(state));
+        displayName = displayUsername(teammate, getTeammateNameDisplaySetting(state));
     }
 
     return {
-        channelName,
+        displayName,
     };
 }
 

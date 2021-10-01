@@ -22,7 +22,7 @@ export type FilePreviewInfo = FileInfo & UploadInfo;
 
 type Props = {
     enableSVGs: boolean;
-    onRemove: (id: string) => void;
+    onRemove?: (id: string) => void;
     fileInfos: FilePreviewInfo[];
     uploadsInProgress?: string[];
     uploadsProgressPercent?: {[clientID: string]: FilePreviewInfo};
@@ -36,7 +36,7 @@ export default class FilePreview extends React.PureComponent<Props> {
     };
 
     handleRemove = (id: string) => {
-        this.props.onRemove(id);
+        this.props.onRemove?.(id);
     }
 
     render() {
@@ -104,12 +104,14 @@ export default class FilePreview extends React.PureComponent<Props> {
                             </div>
                         </div>
                         <div>
-                            <a
-                                className='file-preview__remove'
-                                onClick={this.handleRemove.bind(this, info.id)}
-                            >
-                                <i className='icon icon-close'/>
-                            </a>
+                            {Boolean(this.props.onRemove) && (
+                                <a
+                                    className='file-preview__remove'
+                                    onClick={this.handleRemove.bind(this, info.id)}
+                                >
+                                    <i className='icon icon-close'/>
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>,

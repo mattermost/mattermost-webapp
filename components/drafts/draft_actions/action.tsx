@@ -15,10 +15,10 @@ type Props = {
     id: string;
     name: string;
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    tooltip: React.ReactNode;
+    tooltipText: React.ReactNode;
 };
 
-function Action({name, icon, onClick, id, tooltip}: Props) {
+function Action({name, icon, onClick, id, tooltipText}: Props) {
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     return (
@@ -32,7 +32,7 @@ function Action({name, icon, onClick, id, tooltip}: Props) {
                         id={`tooltip_${id}`}
                         className='hidden-xs'
                     >
-                        {tooltip}
+                        {tooltipText}
                     </Tooltip>
                 }
             >

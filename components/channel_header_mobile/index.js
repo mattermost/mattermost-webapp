@@ -39,6 +39,7 @@ const mapStateToProps = (state, {location: {pathname}}) => ({
     isRHSOpen: getIsRhsOpen(state),
     currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
     inGlobalThreads: Boolean(matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'})),
+    inDrafts: matchPath(pathname, {path: '/:team/drafts'}) != null,
 });
 
 const mapDispatchToProps = (dispatch) => ({

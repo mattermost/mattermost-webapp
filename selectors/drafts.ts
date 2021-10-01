@@ -18,7 +18,7 @@ export type Draft = Info & {
     key: keyof GlobalState['storage']['storage'];
     value: PostDraft;
     timestamp: Date;
-};
+}
 
 export type DraftSelector = (state: GlobalState) => Draft[];
 export type DraftCountSelector = (state: GlobalState) => number;
@@ -81,13 +81,11 @@ export function makeGetDrafts(): DraftSelector {
         getChannelDrafts,
         getRHSDrafts,
         (state: GlobalState) => getMyChannels(state).map((chan) => chan.id),
-        (channelDrafts, rhsDrafts, myChannels) => {
-            const drafts = [
-                ...channelDrafts,
-                ...rhsDrafts,
-            ];
-
-            return drafts.sort((a, b) => {
+        (channelDrafts, rhsDrafts, myChannels) => (
+            [...channelDrafts, ...rhsDrafts]
+        ).
+            filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1).
+            sort((a, b) => {
                 if (a.value.createAt < b.value.createAt) {
                     return 1;
                 }
@@ -95,10 +93,8 @@ export function makeGetDrafts(): DraftSelector {
                 if (a.value.createAt > b.value.createAt) {
                     return -1;
                 }
-
                 return 0;
-            }).filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1);
-        },
+            }),
     );
 }
 

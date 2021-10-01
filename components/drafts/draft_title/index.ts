@@ -37,8 +37,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         const memberIds = getUserIdsInChannels(state);
 
         membersCount = 0;
-        if (memberIds && memberIds[ownProps.channel.id]) {
-            const groupMemberIds: Set<string> = memberIds[ownProps.channel.id] as unknown as Set<string>;
+        if (memberIds && memberIds[channel.id]) {
+            const groupMemberIds: Set<string> = memberIds[channel.id] as unknown as Set<string>;
             membersCount = groupMemberIds.size;
             if (groupMemberIds.has(userId)) {
                 membersCount--;

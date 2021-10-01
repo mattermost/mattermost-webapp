@@ -59,7 +59,7 @@ function Drafts({
                 })}
                 right={globalHeaderEnabled ? null : <RHSSearchNav/>}
             />
-            <main className='Drafts__main'>
+            <div className='Drafts__main'>
                 {drafts.map((d) => (
                     <DraftRow
                         key={d.key}
@@ -83,7 +83,7 @@ function Drafts({
                         })}
                     />
                 )}
-            </main>
+            </div>
         </div>
     );
 }

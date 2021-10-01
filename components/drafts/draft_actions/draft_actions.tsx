@@ -11,7 +11,7 @@ import Action from './action';
 import './draft_actions.scss';
 
 type Props = {
-    channelName: string;
+    displayName: string;
     draftId: string;
     onDelete: (draftId: string) => void;
     onEdit: () => void;
@@ -19,7 +19,7 @@ type Props = {
 }
 
 function DraftActions({
-    channelName,
+    displayName,
     draftId,
     onDelete,
     onEdit,
@@ -65,10 +65,10 @@ function DraftActions({
         message = (
             <FormattedMessage
                 id={'drafts.confirm.send.text'}
-                defaultMessage={'Are you sure you want to send this message to <strong>{channelName}</strong>?'}
+                defaultMessage={'Are you sure you want to send this message to <strong>{displayName}</strong>?'}
                 values={{
-                    b: (chunk: string) => <strong>{chunk}</strong>,
-                    channelName,
+                    strong: (chunk: string) => <strong>{chunk}</strong>,
+                    displayName,
                 }}
             />
         );
@@ -88,10 +88,10 @@ function DraftActions({
         message = (
             <FormattedMessage
                 id={'drafts.confirm.delete.text'}
-                defaultMessage={'Are you sure you want to delete this draft to <strong>{channelName}</strong>?'}
+                defaultMessage={'Are you sure you want to delete this draft to <strong>{displayName}</strong>?'}
                 values={{
-                    b: (chunk: string) => <strong>{chunk}</strong>,
-                    channelName,
+                    strong: (chunk: string) => <strong>{chunk}</strong>,
+                    displayName,
                 }}
             />
         );
@@ -103,7 +103,7 @@ function DraftActions({
                 icon='icon-trash-can-outline'
                 id='delete'
                 name='delete'
-                tooltip={(
+                tooltipText={(
                     <FormattedMessage
                         id='drafts.actions.delete'
                         defaultMessage='Delete draft'
@@ -115,7 +115,7 @@ function DraftActions({
                 icon='icon-pencil-outline'
                 id='edit'
                 name='edit'
-                tooltip={(
+                tooltipText={(
                     <FormattedMessage
                         id='drafts.actions.edit'
                         defaultMessage='Edit draft'
@@ -127,7 +127,7 @@ function DraftActions({
                 icon='icon-send-outline'
                 id='send'
                 name='send'
-                tooltip={(
+                tooltipText={(
                     <FormattedMessage
                         id='drafts.actions.send'
                         defaultMessage='Send draft'
