@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "您的试用已经开始！还有 {daysLeftOnTrial} 天",
   "admin.billing.subscription.cloudTrial.subscribe": "订阅",
   "admin.billing.subscription.cloudTrial.subscribeButton": "立刻订阅",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "您的 Cloud 试用还剩下{daysLeftOnTrial} 天。",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "您的 Cloud 试用还剩下{daysLeftOnTrial} 天。",
   "admin.billing.subscription.creditCardExpired": "您的信用卡已过期。请更新您的付款信息，以免造成任何中断。",
   "admin.billing.subscription.creditCardHasExpired": "您的信用卡已过期",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " 以免造成任何中断。",

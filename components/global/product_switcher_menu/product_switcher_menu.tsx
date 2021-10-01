@@ -69,6 +69,11 @@ class ProductSwitcherMenu extends React.PureComponent<PropsWithIntl> {
         return (
             <Menu.Group>
                 <div onClick={onClick}>
+                    <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
+                        <Menu.CloudTrial
+                            id='menuCloudTrial'
+                        />
+                    </SystemPermissionGate>
                     <SystemPermissionGate
                         permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
                     >

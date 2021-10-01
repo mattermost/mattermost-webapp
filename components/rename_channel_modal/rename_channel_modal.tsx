@@ -111,7 +111,9 @@ export class RenameChannelModal extends React.PureComponent<Props, State> {
     }
 
     handleEntering = () => {
-        Utils.placeCaretAtEnd(this.textbox);
+        if (this.textbox) {
+            Utils.placeCaretAtEnd(this.textbox);
+        }
     }
 
     handleHide = (e?: MouseEvent) => {
