@@ -146,7 +146,7 @@ type Actions = {
     addReaction: (postId: string, emojiName: string) => void;
     onSubmitPost: (post: Post, fileInfos: FileInfo[]) => void;
     removeReaction: (postId: string, emojiName: string) => void;
-    clearDraftUploads: (prefix: string, action: (key: string, value?: PostDraft) => PostDraft | undefined) => void;
+    clearDraftUploads: () => void;
     runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
     runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
     setDraft: (name: string, value: PostDraft | null) => void;
@@ -172,6 +172,16 @@ function setDraft(key: string, value: PostDraft) {
     return setGlobalItem(key, value);
 }
 
+function clearDraftUploads() {
+    return actionOnGlobalItemsWithPrefix(StoragePrefixes.DRAFT, (_key: string, draft: PostDraft) => {
+        if (!draft || draft.uploadsInProgress.length === 0) {
+            return draft;
+        }
+
+        return {...draft, uploadsInProgress: []};
+    });
+}
+
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
@@ -182,7 +192,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             addReaction,
             removeReaction,
             setDraft,
-            clearDraftUploads: actionOnGlobalItemsWithPrefix,
+            clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
             emitShortcutReactToLastPostFrom,

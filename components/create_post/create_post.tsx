@@ -255,7 +255,7 @@ type Props = {
         /**
       *  func called on load of component to clear drafts
       */
-        clearDraftUploads: (prefix: string, action: (key: string, value?: PostDraft) => PostDraft | undefined) => void;
+        clearDraftUploads: () => void;
 
         /**
       * hooks called before a message is sent to the server
@@ -391,12 +391,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         this.onOrientationChange();
         actions.setShowPreview(false);
-        actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
-            if (value) {
-                return {...value, uploadsInProgress: []};
-            }
-            return value;
-        });
+        actions.clearDraftUploads();
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
