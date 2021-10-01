@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "Din testperiod har startat! Det är {daysLeftOnTrial} dagar kvar",
   "admin.billing.subscription.cloudTrial.subscribe": "Prenumerera",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Prenumerera nu",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Det är {daysLeftOnTrial} dagar kvar på testperioden av Mattermost Cloud.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Det är {daysLeftOnTrial} dagar kvar på testperioden av Mattermost Cloud.",
   "admin.billing.subscription.creditCardExpired": "Giltighetstiden på ditt betalkort är på väg att passeras. Uppdatera din betalinformation för att undvika avbrott i tjänsten.",
   "admin.billing.subscription.creditCardHasExpired": "Giltighetstiden på ditt betalkort har passerats",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " för att undvika avbrott i tjänsten.",

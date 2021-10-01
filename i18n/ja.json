@@ -272,7 +272,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "トライアルが開始されました! あと {daysLeftOnTrial} 残っています",
   "admin.billing.subscription.cloudTrial.subscribe": "申し込む",
   "admin.billing.subscription.cloudTrial.subscribeButton": "いますぐ申し込む",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "トライアルは、あと {daysLeftOnTrial} 日です。",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "トライアルは、あと {daysLeftOnTrial} 日です。",
   "admin.billing.subscription.creditCardExpired": "あなたのクレジットカードは有効期限が過ぎています。支払い情報を更新してください。",
   "admin.billing.subscription.creditCardHasExpired": "貴方のクレジットカードは有効期限が過ぎています",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " 混乱を避けるため。",

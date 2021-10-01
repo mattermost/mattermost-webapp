@@ -739,4 +739,31 @@ export default class PluginRegistry {
 
         return id;
     }
+
+    // Register a hook that will be called when a message is edited by the user before it
+    // is sent to the server. Accepts a function that receives the post as an argument.
+    //
+    // To reject a post, return an object containing an error such as
+    //     {error: {message: 'Rejected'}}
+    // To modify or allow the post without modification, return an object containing the post
+    // such as
+    //     {post: {...}}
+    //
+    // If the hook function is asynchronous, the message will not be sent to the server
+    // until the hook returns.
+    registerMessageWillBeUpdatedHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'MessageWillBeUpdated',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
 }
