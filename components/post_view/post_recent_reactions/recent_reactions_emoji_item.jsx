@@ -12,6 +12,7 @@ class EmojiItem extends React.Component {
     static propTypes = {
         emoji: PropTypes.object.isRequired,
         onItemClick: PropTypes.func.isRequired,
+        order: PropTypes.number,
     };
 
     handleClick = () => {
@@ -19,18 +20,21 @@ class EmojiItem extends React.Component {
     };
 
     render() {
-        const {emoji} = this.props;
+        const {
+            emoji,
+            order,
+        } = this.props;
         const itemClassName = 'post-menu__item';
 
         return (
             <div
                 className={itemClassName}
             >
-                <span
+                <button
+                    id={`recent_reaction_${order}`}
                     data-testid={itemClassName + '_emoji'}
                     className='Reaction__emoji--post-menu emoticon'
-                    style={{backgroundImage: 'url(' + getEmojiImageUrl(emoji) + ')'}}
-                    role='button'
+                    style={{backgroundImage: 'url(' + getEmojiImageUrl(emoji) + ')', backgroundColor: 'transparent'}}
                     onClick={this.handleClick}
                 />
             </div>

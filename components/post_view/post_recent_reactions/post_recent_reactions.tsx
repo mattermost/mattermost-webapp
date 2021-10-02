@@ -83,7 +83,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
             emojis = this.complementEmojis(emojis);
         }
 
-        return emojis.map((emoji) => (
+        return emojis.map((emoji, n) => (
             <ChannelPermissionGate
                 key={this.emojiName(emoji, this.props.locale)} // emojis will be unique therefore no duplication expected.
                 channelId={channelId}
@@ -109,7 +109,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
                                 // eslint-disable-next-line react/no-array-index-key
                                 emoji={emoji}
                                 onItemClick={this.handleAddEmoji}
-                                category={emoji.category}
+                                order={n}
                             />
                         </React.Fragment>
                     </div>
