@@ -12,7 +12,7 @@ describe('Utils.Route', () => {
             const config: ConfigOption = {EnableMultifactorAuthentication: 'true', EnforceMultifactorAuthentication: 'true'};
             const license = {MFA: 'true'};
 
-            assert.ok(checkIfMFARequired(user, license, confi+g, ''));
+            assert.ok(checkIfMFARequired(user, license, config, ''));
             assert.ok(!checkIfMFARequired(user, license, config, '/mfa/setup'));
             assert.ok(!checkIfMFARequired(user, license, config, '/mfa/confirm'));
 
