@@ -5,16 +5,15 @@ import {ErrorPageTypes} from 'utils/constants';
 
 import {isGuest} from 'utils/utils.jsx';
 
-export function importComponentSuccess(callback: any): any { 
-    return (comp: any) => callback(null, comp.default); 
-
+export function importComponentSuccess(callback: any): any {
+    return (comp: any) => callback(null, comp.default);
 }
 
-export function createGetChildComponentsFunction(arrayOfComponents: []): any { 
-    return (locaiton: string, callback: any) => callback(null, arrayOfComponents); 
+export function createGetChildComponentsFunction(arrayOfComponents: []): any {
+    return (locaiton: string, callback: any) => callback(null, arrayOfComponents);
 }
 
-export const notFoundParams = { 
+export const notFoundParams = {
     type: ErrorPageTypes.PAGE_NOT_FOUND,
 };
 
