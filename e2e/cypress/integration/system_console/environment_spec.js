@@ -284,6 +284,16 @@ describe('Environment', () => {
         });
     });
 
+    describe('System Console/Environment/Web Server', () => {
+        it('MM-T963 Configuration - Purge caches', () => {
+            cy.visit('/admin_console/environment/web_server');
+
+            cy.get('#PurgeButton').scrollIntoView().should('be.visible').within(() => {
+                cy.findByText('Purge All Caches').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
+            });
+        });
+    });
+
     function waitForAlert(message) {
         cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((alert) => {
             return alert[0].innerText === message;
