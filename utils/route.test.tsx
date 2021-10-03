@@ -3,7 +3,8 @@
 import assert from 'assert';
 
 import {checkIfMFARequired} from 'utils/route';
-import { ConfigOption } from './route';
+
+import {ConfigOption} from './route';
 
 describe('Utils.Route', () => {
     describe('checkIfMFARequired', () => {
