@@ -28,22 +28,13 @@ const mfaAuthServices = [
     'ldap',
 ];
 
-export type License = ClientLicense &{
-    MFA: string;
-}
-
 export type ConfigOption = {
     EnableMultifactorAuthentication?: string;
     EnforceMultifactorAuthentication?: string;
     GuestAccountsEnforceMultifactorAuthentication?: string;
 }
 
-export type myuser = {
-    mfa_active: boolean;
-    auth_service: string;
-}
-
-export function checkIfMFARequired(user: myuser, license: License, config: ConfigOption, path: string): boolean {
+export function checkIfMFARequired(user: any, license: any, config: ConfigOption, path: string): boolean {
     if (license.MFA === 'true' &&
         config.EnableMultifactorAuthentication === 'true' &&
         config.EnforceMultifactorAuthentication === 'true' &&

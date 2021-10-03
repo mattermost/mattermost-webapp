@@ -3,16 +3,16 @@
 import assert from 'assert';
 
 import {checkIfMFARequired} from 'utils/route';
-import { ConfigOption, myuser, License } from './route';
+import { ConfigOption } from './route';
 
 describe('Utils.Route', () => {
     describe('checkIfMFARequired', () => {
         test('mfa is enforced', () => {
-            const user: myuser = {mfa_active: false, auth_service: ''};
+            const user = {mfa_active: false, auth_service: ''};
             const config: ConfigOption = {EnableMultifactorAuthentication: 'true', EnforceMultifactorAuthentication: 'true'};
-            const license: License = {MFA: 'true'};
+            const license = {MFA: 'true'};
 
-            assert.ok(checkIfMFARequired(user, license, config, ''));
+            assert.ok(checkIfMFARequired(user, license, confi+g, ''));
             assert.ok(!checkIfMFARequired(user, license, config, '/mfa/setup'));
             assert.ok(!checkIfMFARequired(user, license, config, '/mfa/confirm'));
 
