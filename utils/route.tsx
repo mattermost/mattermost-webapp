@@ -1,19 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import UserProfile from 'components/user_profile/user_profile';
-import { ErrorPageTypes } from 'utils/constants';
-import { isGuest } from 'utils/utils.jsx';
-import { ClientLicense } from '../packages/mattermost-redux/src/types/config';
 
-export function importComponentSuccess(callback: any): any {
-    return (comp:any) => callback(null, comp.default);
+import {ErrorPageTypes} from 'utils/constants';
+
+import {isGuest} from 'utils/utils.jsx';
+
+export function importComponentSuccess(callback: any): any { 
+    return (comp: any) => callback(null, comp.default); 
+
 }
 
-export function createGetChildComponentsFunction(arrayOfComponents: []): any {
-    return (locaiton: string, callback: any) => callback(null, arrayOfComponents);
+export function createGetChildComponentsFunction(arrayOfComponents: []): any { 
+    return (locaiton: string, callback: any) => callback(null, arrayOfComponents); 
 }
 
-export const notFoundParams = {
+export const notFoundParams = { 
     type: ErrorPageTypes.PAGE_NOT_FOUND,
 };
 
