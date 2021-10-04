@@ -1,17 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {useIntl, FormattedMessage} from 'react-intl';
 
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch, useStore} from 'react-redux';
 
 import {Permissions} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'types/store';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import InvitationModal from 'components/invitation_modal';
@@ -25,14 +28,23 @@ type Props = {
     onClick: () => void;
 }
 
-const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element => {
+const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null => {
+    const dispatch = useDispatch<DispatchFunc>();
+    const store = useStore();
+
     const intl = useIntl();
     const currentTeamId = useSelector(getCurrentTeamId);
-    const usersStats = useSelector((state: GlobalState) => state.entities.users.stats);
+    const totalUserCount = useSelector((state: GlobalState) => state.entities.users.stats?.total_users_count);
+
+    useEffect(() => {
+        if (!totalUserCount) {
+            getTotalUsersStats()(dispatch, store.getState());
+        }
+    }, []);
 
     let buttonClass = 'SidebarChannelNavigator_inviteMembersLhsButton';
 
-    if (!props.touchedInviteMembersButton && Number(usersStats?.total_users_count) <= Constants.USER_LIMIT) {
+    if (!props.touchedInviteMembersButton && Number(totalUserCount) <= Constants.USER_LIMIT) {
         buttonClass += ' SidebarChannelNavigator_inviteMembersLhsButton--untouched';
     }
 
