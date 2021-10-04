@@ -22,6 +22,8 @@ export function setItem(name, value) {
     };
 }
 
+// WARNING: This will remove the item from state.storage.storage, but it will come back on refresh.
+// See MM-38895 for more details.
 export function removeItem(name) {
     return (dispatch, getState) => {
         const state = getState();
@@ -41,13 +43,12 @@ export function setGlobalItem(name, value) {
     };
 }
 
+// WARNING: This will remove the item from state.storage.storage, but it will come back on refresh.
+// See MM-38895 for more details.
 export function removeGlobalItem(name) {
-    return (dispatch) => {
-        dispatch({
-            type: StorageTypes.REMOVE_GLOBAL_ITEM,
-            data: {name},
-        });
-        return {data: true};
+    return {
+        type: StorageTypes.REMOVE_GLOBAL_ITEM,
+        data: {name},
     };
 }
 

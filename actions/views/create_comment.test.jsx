@@ -13,7 +13,6 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {
     clearCommentDraftUploads,
-    updateCommentDraft,
     makeOnMoveHistoryIndex,
     submitPost,
     submitReaction,
@@ -21,7 +20,7 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
 import * as HookActions from 'actions/hooks';
@@ -57,6 +56,7 @@ jest.mock('actions/hooks', () => ({
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
+    ...jest.requireActual('actions/post_actions'),
     addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
     createPost: jest.fn(() => ({type: 'MOCK_CREATE_POST'})),
     setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args}),
@@ -184,20 +184,6 @@ describe('rhs view actions', () => {
         });
     });
 
-    describe('updateCommentDraft', () => {
-        const draft = {message: 'test msg', fileInfos: [{id: 1}], uploadsInProgress: [2, 3]};
-
-        test('it calls setGlobalItem action correctly', () => {
-            store.dispatch(updateCommentDraft(rootId, draft));
-
-            const testStore = mockStore(initialState);
-
-            testStore.dispatch(setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, draft));
-
-            expect(store.getActions()).toEqual(testStore.getActions());
-        });
-    });
-
     describe('makeOnMoveHistoryIndex', () => {
         test('it moves comment history index back', () => {
             const onMoveHistoryIndex = makeOnMoveHistoryIndex(rootId, -1);
@@ -220,7 +206,7 @@ describe('rhs view actions', () => {
 
             const testStore = mockStore(initialState);
 
-            testStore.dispatch(updateCommentDraft(rootId, {message: 'test message', fileInfos: [], uploadsInProgress: []}));
+            testStore.dispatch(PostActions.storeCommentDraft(rootId, {message: 'test message', fileInfos: [], uploadsInProgress: []}));
 
             expect(store.getActions()).toEqual(
                 expect.arrayContaining(testStore.getActions()),
@@ -231,15 +217,15 @@ describe('rhs view actions', () => {
     describe('submitPost', () => {
         const draft = {message: '', fileInfos: []};
 
-        const post = {
-            file_ids: [],
-            message: draft.message,
-            channel_id: channelId,
-            root_id: rootId,
-            user_id: currentUserId,
-        };
-
         test('it call PostActions.createPost with post', async () => {
+            const post = {
+                file_ids: [],
+                message: draft.message,
+                channel_id: channelId,
+                root_id: rootId,
+                user_id: currentUserId,
+            };
+
             await store.dispatch(submitPost(channelId, rootId, draft));
 
             expect(HookActions.runMessageWillBePostedHooks).toHaveBeenCalled();
@@ -259,6 +245,9 @@ describe('rhs view actions', () => {
 
             expect(HookActions.runMessageWillBePostedHooks).toHaveBeenCalled();
             expect(PostActions.createPost).not.toHaveBeenCalled();
+
+            // This mock has to be reset manually here for some reason to prevent later tests from failing
+            HookActions.runMessageWillBePostedHooks.mockImplementation((post) => () => ({data: post}));
         });
     });
 
@@ -347,11 +336,11 @@ describe('rhs view actions', () => {
             );
         });
 
-        test('it clears comment draft', () => {
-            store.dispatch(onSubmit(draft));
+        test('it creates the post', async () => {
+            await store.dispatch(onSubmit(draft));
 
             const testStore = mockStore(initialState);
-            testStore.dispatch(updateCommentDraft(rootId, null));
+            testStore.dispatch(PostActions.createPost({}, []));
 
             expect(store.getActions()).toEqual(
                 expect.arrayContaining(testStore.getActions()),

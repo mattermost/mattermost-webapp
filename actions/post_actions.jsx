@@ -119,15 +119,32 @@ export function createPost(post, files) {
 }
 
 export function storeDraft(channelId, draft) {
-    return (dispatch) => {
-        dispatch(StorageActions.setGlobalItem('draft_' + channelId, draft));
-    };
+    return setDraft(StoragePrefixes.DRAFT + channelId, draft);
 }
 
-export function storeCommentDraft(rootPostId, draft) {
-    return (dispatch) => {
-        dispatch(StorageActions.setGlobalItem('comment_draft_' + rootPostId, draft));
-    };
+export function storeCommentDraft(rootId, draft) {
+    return setDraft(StoragePrefixes.COMMENT_DRAFT + rootId, draft);
+}
+
+// Temporarily store draft manually in localStorage since the current version of redux-persist
+// we're on will not save the draft quickly enough on page unload.
+function setDraft(key, draft) {
+    if (
+        !draft || (
+            draft.message === '' &&
+            draft.fileInfos.length === 0 &&
+            draft.uploadsInProgress.length === 0
+        )
+    ) {
+        localStorage.removeItem(key);
+
+        // We can't actually remove the draft from storage (MM-38895), so save an empty draft instead.
+        return StorageActions.setGlobalItem(key, null);
+    }
+
+    localStorage.setItem(key, JSON.stringify(draft));
+
+    return StorageActions.setGlobalItem(key, draft);
 }
 
 export function addReaction(postId, emojiName) {

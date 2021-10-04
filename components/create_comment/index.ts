@@ -27,12 +27,11 @@ import {getCurrentLocale} from 'selectors/i18n';
 
 import {
     clearCommentDraftUploads,
-    updateCommentDraft,
     makeOnMoveHistoryIndex,
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
+import {emitShortcutReactToLastPostFrom, storeCommentDraft} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
@@ -98,14 +97,9 @@ function makeMapStateToProps() {
     };
 }
 
-function makeOnUpdateCommentDraft(rootId: string) {
-    return (draft?: PostDraft) => updateCommentDraft(rootId, draft);
-}
-
 type Actions = {
     clearCommentDraftUploads: () => void;
-    onUpdateCommentDraft: (draft?: PostDraft) => void;
-    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
+    storeCommentDraft: (rootID: string, draft: PostDraft | undefined) => void;
     onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
     onResetHistoryIndex: () => void;
     onMoveHistoryIndexBack: () => void;
@@ -119,7 +113,6 @@ type Actions = {
 }
 
 function makeMapDispatchToProps() {
-    let onUpdateCommentDraft: (draft?: PostDraft) => void;
     let onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
@@ -135,7 +128,6 @@ function makeMapDispatchToProps() {
 
     return (dispatch: Dispatch, ownProps: OwnProps) => {
         if (rootId !== ownProps.rootId) {
-            onUpdateCommentDraft = makeOnUpdateCommentDraft(ownProps.rootId);
             onMoveHistoryIndexBack = makeOnMoveHistoryIndex(ownProps.rootId, -1);
             onMoveHistoryIndexForward = makeOnMoveHistoryIndex(ownProps.rootId, 1);
         }
@@ -154,8 +146,7 @@ function makeMapDispatchToProps() {
 
         return bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             clearCommentDraftUploads,
-            onUpdateCommentDraft,
-            updateCommentDraftWithRootId: updateCommentDraft,
+            storeCommentDraft,
             onSubmit,
             onResetHistoryIndex,
             onMoveHistoryIndexBack,

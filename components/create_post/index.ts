@@ -44,7 +44,13 @@ import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-re
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {
+    addReaction,
+    createPost,
+    emitShortcutReactToLastPostFrom,
+    setEditingPost,
+    storeDraft,
+} from 'actions/post_actions';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
@@ -54,7 +60,7 @@ import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
@@ -149,7 +155,7 @@ type Actions = {
     clearDraftUploads: () => void;
     runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
     runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
-    setDraft: (name: string, value: PostDraft | null) => void;
+    storeDraft: (name: string, value: PostDraft | null) => void;
     setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
     openModal: (modalData: ModalData) => void;
@@ -159,17 +165,6 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
-}
-
-// Temporarily store draft manually in localStorage since the current version of redux-persist
-// we're on will not save the draft quickly enough on page unload.
-function setDraft(key: string, value: PostDraft) {
-    if (value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, value);
 }
 
 function clearDraftUploads() {
@@ -191,7 +186,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             moveHistoryIndexForward,
             addReaction,
             removeReaction,
-            setDraft,
+            storeDraft,
             clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,

@@ -23,7 +23,7 @@ import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
@@ -43,18 +43,6 @@ export function clearCommentDraftUploads() {
     });
 }
 
-// Temporarily store draft manually in localStorage since the current version of redux-persist
-// we're on will not save the draft quickly enough on page unload.
-export function updateCommentDraft(rootId: string, draft?: PostDraft | null) {
-    const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
-    if (draft) {
-        localStorage.setItem(key, JSON.stringify(draft));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, draft);
-}
-
 export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
     const getMessageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
 
@@ -72,7 +60,7 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
 
         const nextMessageInHistory = getMessageInHistory(getState());
 
-        dispatch(updateCommentDraft(rootId, {...draft, message: nextMessageInHistory}));
+        dispatch(PostActions.storeCommentDraft(rootId, {...draft, message: nextMessageInHistory}));
         return {data: true};
     };
 }
@@ -163,8 +151,6 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
 
         dispatch(addMessageIntoHistory(message));
 
-        dispatch(updateCommentDraft(rootId, null));
-
         const isReaction = Utils.REACTION_PATTERN.exec(message);
 
         const emojis = getCustomEmojisByName(getState());
@@ -173,14 +159,9 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
         if (isReaction && emojiMap.has(isReaction[2])) {
             dispatch(submitReaction(latestPostId, isReaction[1], isReaction[2]));
         } else if (message.indexOf('/') === 0 && !options.ignoreSlash) {
-            try {
-                await dispatch(submitCommand(channelId, rootId, draft));
-            } catch (err) {
-                dispatch(updateCommentDraft(rootId, draft));
-                throw err;
-            }
+            await dispatch(submitCommand(channelId, rootId, draft));
         } else {
-            dispatch(submitPost(channelId, rootId, draft));
+            await dispatch(submitPost(channelId, rootId, draft));
         }
         return {data: true};
     };

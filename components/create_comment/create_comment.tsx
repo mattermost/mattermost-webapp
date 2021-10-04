@@ -120,12 +120,7 @@ type Props = {
     /**
       * Called when comment draft needs to be updated
       */
-    onUpdateCommentDraft: (draft?: PostDraft) => void;
-
-    /**
-      * Called when comment draft needs to be updated for an specific root ID
-      */
-    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
+    storeCommentDraft: (rootID: string, draft: PostDraft | undefined) => void;
 
     /**
       * Called when submitting the comment
@@ -384,7 +379,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     saveDraft = () => {
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
-            this.props.onUpdateCommentDraft(this.state.draft);
+            this.props.storeCommentDraft(this.props.rootId, this.state.draft);
             this.saveDraftFrame = null;
         }
     }
@@ -453,7 +448,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
         const updatedDraft = {...draft, message};
 
-        this.props.onUpdateCommentDraft(updatedDraft);
+        this.props.storeCommentDraft(this.props.rootId, updatedDraft);
         this.setState({draft: updatedDraft});
     }
 
@@ -507,7 +502,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             message: newMessage,
         };
 
-        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.props.storeCommentDraft(this.props.rootId, modifiedDraft);
         this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         this.setState({
@@ -534,7 +529,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             message: newMessage,
         };
 
-        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.props.storeCommentDraft(this.props.rootId, modifiedDraft);
         this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         this.setState({
@@ -594,7 +589,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                 },
             };
 
-            this.props.onUpdateCommentDraft(updatedDraft);
+            this.props.storeCommentDraft(this.props.rootId, updatedDraft);
             this.setState({draft: updatedDraft});
         }
 
@@ -618,7 +613,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                 },
             };
 
-            this.props.onUpdateCommentDraft(updatedDraft);
+            this.props.storeCommentDraft(this.props.rootId, updatedDraft);
             this.setState({draft: updatedDraft});
         }
 
@@ -686,7 +681,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             });
         } catch (err) {
             if (isErrorInvalidSlashCommand(err)) {
-                this.props.onUpdateCommentDraft(draft);
+                this.props.storeCommentDraft(this.props.rootId, draft);
             }
             err.submittedMessage = draft.message;
             this.setState({serverError: err});
@@ -735,7 +730,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             if (withClosedCodeBlock && message) {
                 const draft = this.state.draft!;
                 const updatedDraft = {...draft, message};
-                this.props.onUpdateCommentDraft(updatedDraft);
+                this.props.storeCommentDraft(this.props.rootId, updatedDraft);
                 this.setState({draft: updatedDraft}, () => this.handleSubmit(e));
                 this.draftsForPost[this.props.rootId] = updatedDraft;
             } else {
@@ -781,7 +776,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             clearTimeout(this.saveDraftFrame);
         }
         this.saveDraftFrame = window.setTimeout(() => {
-            this.props.onUpdateCommentDraft(updatedDraft);
+            this.props.storeCommentDraft(this.props.rootId, updatedDraft);
         }, CreateCommentDraftTimeoutMilliseconds);
 
         this.setState({draft: updatedDraft, serverError}, () => {
@@ -877,7 +872,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             message: res.message,
         };
 
-        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.props.storeCommentDraft(this.props.rootId, modifiedDraft);
         this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         this.setState({
@@ -900,7 +895,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             ...draft,
             uploadsInProgress,
         };
-        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.props.storeCommentDraft(this.props.rootId, modifiedDraft);
         this.setState({draft: modifiedDraft});
         this.draftsForPost[this.props.rootId] = modifiedDraft;
 
@@ -933,7 +928,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             fileInfos: newFileInfos,
             uploadsInProgress,
         };
-        this.props.updateCommentDraftWithRootId(rootId, modifiedDraft);
+        this.props.storeCommentDraft(this.props.rootId, modifiedDraft);
         this.draftsForPost[rootId] = modifiedDraft;
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
@@ -954,7 +949,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                 ...draft,
                 uploadsInProgress,
             };
-            this.props.updateCommentDraftWithRootId(rootId, modifiedDraft);
+            this.props.storeCommentDraft(this.props.rootId, modifiedDraft);
             this.draftsForPost[rootId] = modifiedDraft;
             if (this.props.rootId === rootId) {
                 this.setState({draft: modifiedDraft});
@@ -1003,7 +998,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             uploadsInProgress,
         };
 
-        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.props.storeCommentDraft(this.props.rootId, modifiedDraft);
         this.setState({draft: modifiedDraft});
         this.draftsForPost[this.props.rootId] = modifiedDraft;
 
