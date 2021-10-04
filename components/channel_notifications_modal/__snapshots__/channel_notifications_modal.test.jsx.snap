@@ -112,7 +112,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
             <NotificationSection
               expand={false}
               memberNotificationLevel="default"
-              memberThreadsNotificationLevel="all"
+              memberThreadsNotificationLevel="default"
               onChange={[Function]}
               onChangeThreads={[Function]}
               onSubmit={[Function]}

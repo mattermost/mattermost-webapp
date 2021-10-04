@@ -266,12 +266,12 @@ export default function ExpandView({
 ExpandView.propTypes = {
     ignoreChannelMentions: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    onChangeThreads: PropTypes.func.isRequired,
+    onChangeThreads: PropTypes.func,
     onCollapseSection: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     globalNotifyLevel: PropTypes.string,
     memberNotifyLevel: PropTypes.string.isRequired,
-    memberThreadsNotifyLevel: PropTypes.string.isRequired,
+    memberThreadsNotifyLevel: PropTypes.string,
     section: PropTypes.string.isRequired,
     serverError: PropTypes.string,
 };

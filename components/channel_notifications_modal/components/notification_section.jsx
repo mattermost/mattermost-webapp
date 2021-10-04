@@ -30,7 +30,7 @@ export default class NotificationSection extends React.PureComponent {
         /**
          * Member's desktop_threads notification level
          */
-        memberThreadsNotificationLevel: PropTypes.string.isRequired,
+        memberThreadsNotificationLevel: PropTypes.string,
 
         /**
          * Ignore channel-wide mentions @channel, @here and @all
@@ -50,7 +50,7 @@ export default class NotificationSection extends React.PureComponent {
         /**
          * onChangeThreads handles update of desktop_threads notification level
          */
-        onChangeThreads: PropTypes.func.isRequired,
+        onChangeThreads: PropTypes.func,
 
         /**
          * Submit function to save notification level
