@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {NotificationSections} from 'utils/constants';
+import {NotificationSections, NotificationLevels} from 'utils/constants';
 
 import CollapseView from './collapse_view.jsx';
 import ExpandView from './expand_view.jsx';
@@ -28,6 +28,11 @@ export default class NotificationSection extends React.PureComponent {
         memberNotificationLevel: PropTypes.string.isRequired,
 
         /**
+         * Member's desktop_threads notification level
+         */
+        memberThreadsNotificationLevel: PropTypes.string.isRequired,
+
+        /**
          * Ignore channel-wide mentions @channel, @here and @all
          */
         ignoreChannelMentions: PropTypes.string,
@@ -41,6 +46,11 @@ export default class NotificationSection extends React.PureComponent {
          * onChange handles update of desktop notification level
          */
         onChange: PropTypes.func.isRequired,
+
+        /**
+         * onChangeThreads handles update of desktop_threads notification level
+         */
+        onChangeThreads: PropTypes.func.isRequired,
 
         /**
          * Submit function to save notification level
@@ -62,6 +72,12 @@ export default class NotificationSection extends React.PureComponent {
         this.props.onChange(e.target.value);
     }
 
+    handleOnChangeThreads = (e) => {
+        const value = e.target.checked ? NotificationLevels.ALL : NotificationLevels.MENTION;
+
+        this.props.onChangeThreads(value);
+    }
+
     handleExpandSection = () => {
         this.props.onUpdateSection(this.props.section);
     }
@@ -75,6 +91,7 @@ export default class NotificationSection extends React.PureComponent {
             expand,
             globalNotificationLevel,
             memberNotificationLevel,
+            memberThreadsNotificationLevel,
             ignoreChannelMentions,
             onSubmit,
             section,
@@ -86,9 +103,11 @@ export default class NotificationSection extends React.PureComponent {
                 <ExpandView
                     section={section}
                     memberNotifyLevel={memberNotificationLevel}
+                    memberThreadsNotifyLevel={memberThreadsNotificationLevel}
                     globalNotifyLevel={globalNotificationLevel}
                     ignoreChannelMentions={ignoreChannelMentions}
                     onChange={this.handleOnChange}
+                    onChangeThreads={this.handleOnChangeThreads}
                     onSubmit={onSubmit}
                     serverError={serverError}
                     onCollapseSection={this.handleCollapseSection}
