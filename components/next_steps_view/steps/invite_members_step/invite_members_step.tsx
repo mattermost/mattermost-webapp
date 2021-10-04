@@ -36,7 +36,7 @@ type Props = StepComponentProps & {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
     };
-    subscriptionStats: SubscriptionStats;
+    subscriptionStats: SubscriptionStats | null;
     intl: IntlShape;
     isCloud: boolean;
     downloadAppsAsNextStep: boolean;
@@ -278,20 +278,25 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
 
     render(): JSX.Element {
         const linkBtn = this.props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/> : <NotifyLink/>;
-        const subtitle = this.props?.subscriptionStats?.is_paid_tier === 'true' ? (
+        let subtitle = (
             <FormattedMessage
                 id='next_steps_view.invite_members_step.youCanInvite'
                 defaultMessage='You can invite team members using a space or comma between addresses'
             />
-        ) : (
-            <FormattedMessage
-                id='next_steps_view.invite_members_step.youCanInviteUpTo'
-                defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
-                values={{
-                    members: this.props?.subscriptionStats?.remaining_seats,
-                }}
-            />
         );
+
+        if (this.props?.subscriptionStats?.is_paid_tier === 'false') {
+            subtitle = (
+                <FormattedMessage
+                    id='next_steps_view.invite_members_step.youCanInviteUpTo'
+                    defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
+                    values={{
+                        members: this.props?.subscriptionStats?.remaining_seats,
+                    }}
+                />
+            );
+        }
+
         let finishMessage = (
             <FormattedMessage
                 id='next_steps_view.invite_members_step.finish'
