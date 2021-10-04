@@ -9,7 +9,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
     <form
       aria-labelledby="searchBox"
       autocomplete="off"
-      class="search__form search__form--global"
+      class="search__form"
       role="application"
       style="overflow: visible;"
     >
@@ -33,7 +33,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
             aria-describedby="searchbar-help-popup"
             aria-label="Search"
             autocomplete="off"
-            class="search-bar form-control a11y__region Global__search-bar"
+            class="search-bar form-control a11y__region"
             data-a11y-sort-order="9"
             id="searchBox"
             placeholder="Search"
@@ -70,7 +70,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search, with
     <form
       aria-labelledby="searchBox"
       autocomplete="off"
-      class="search__form search__form--global"
+      class="search__form"
       role="application"
       style="overflow: visible;"
     >
@@ -102,7 +102,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search, with
             aria-describedby="searchbar-help-popup"
             aria-label="Search"
             autocomplete="off"
-            class="search-bar form-control a11y__region Global__search-bar"
+            class="search-bar form-control a11y__region"
             data-a11y-sort-order="9"
             id="searchBox"
             placeholder="Search"
@@ -139,7 +139,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
     <form
       aria-labelledby="searchBox"
       autocomplete="off"
-      class="search__form search__form--global"
+      class="search__form"
       role="application"
       style="overflow: visible;"
     >
@@ -163,7 +163,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
             aria-describedby="searchbar-help-popup"
             aria-label="Search"
             autocomplete="off"
-            class="search-bar form-control a11y__region Global__search-bar"
+            class="search-bar form-control a11y__region"
             data-a11y-sort-order="9"
             id="searchBox"
             placeholder="Search"
@@ -188,7 +188,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     <form
       aria-labelledby="searchBox"
       autocomplete="off"
-      class="search__form search__form--global search__form--focused"
+      class="search__form search__form--focused"
       role="application"
       style="overflow: visible;"
     >
@@ -212,7 +212,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
             aria-describedby="searchbar-help-popup"
             aria-label="Search"
             autocomplete="off"
-            class="search-bar form-control a11y__region Global__search-bar"
+            class="search-bar form-control a11y__region"
             data-a11y-sort-order="9"
             id="searchBox"
             placeholder="Search"
@@ -237,7 +237,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search, w
     <form
       aria-labelledby="searchBox"
       autocomplete="off"
-      class="search__form search__form--global"
+      class="search__form"
       role="application"
       style="overflow: visible;"
     >
@@ -269,7 +269,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search, w
             aria-describedby="searchbar-help-popup"
             aria-label="Search"
             autocomplete="off"
-            class="search-bar form-control a11y__region Global__search-bar"
+            class="search-bar form-control a11y__region"
             data-a11y-sort-order="9"
             id="searchBox"
             placeholder="Search"
@@ -294,7 +294,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search, w
     <form
       aria-labelledby="searchBox"
       autocomplete="off"
-      class="search__form search__form--global"
+      class="search__form"
       role="application"
       style="overflow: visible;"
     >
@@ -318,7 +318,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search, w
             aria-describedby="searchbar-help-popup"
             aria-label="Search"
             autocomplete="off"
-            class="search-bar form-control a11y__region Global__search-bar"
+            class="search-bar form-control a11y__region"
             data-a11y-sort-order="9"
             id="searchBox"
             placeholder="Search"
