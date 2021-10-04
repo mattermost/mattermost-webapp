@@ -995,6 +995,9 @@ export const Constants = {
         VIEW_ACTION: null,
     }),
 
+    // limit of users to show the lhs invite members button highlighted
+    USER_LIMIT: 10,
+
     StatTypes,
     STAT_MAX_ACTIVE_USERS: 20,
     STAT_MAX_NEW_USERS: 20,

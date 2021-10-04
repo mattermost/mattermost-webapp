@@ -19,7 +19,7 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import InvitationModal from 'components/invitation_modal';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import {ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
     touchedInviteMembersButton: boolean;
@@ -32,7 +32,6 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element => {
     const dispatch = useDispatch<DispatchFunc>();
     const currentTeamId = useSelector(getCurrentTeamId);
     const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
-    const userLimit = 10;
 
     useEffect(() => {
         if (!analytics) {
@@ -44,7 +43,7 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element => {
 
     let buttonClass = 'SidebarChannelNavigator_inviteMembersLhsButton';
 
-    if (!props.touchedInviteMembersButton && Number(analytics?.TOTAL_USERS) <= userLimit) {
+    if (!props.touchedInviteMembersButton && Number(analytics?.TOTAL_USERS) <= Constants.USER_LIMIT) {
         buttonClass += ' SidebarChannelNavigator_inviteMembersLhsButton--untouched';
     }
 

@@ -48,6 +48,11 @@ describe('components/sidebar/invite_members_button', () => {
                     team_role: {permissions: ['test_team_no_permission']},
                 },
             },
+            admin: {
+                analytics: {
+                    TOTAL_USERS: 10,
+                }
+            }
         },
     };
 
@@ -103,7 +108,7 @@ describe('components/sidebar/invite_members_button', () => {
         expect(mock).toHaveBeenCalled();
     });
 
-    test('should not have untouched ui when component has been touched', () => {
+    test('should not be highlighted when button has been touched/clicked', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <InviteMembersButton {...{...props, touchedInviteMembersButton: true}}/>
@@ -112,7 +117,31 @@ describe('components/sidebar/invite_members_button', () => {
         expect(wrapper.find('li').prop('className')).not.toContain('untouched');
     });
 
-    test('should have untouched ui when component has not been touched', () => {
+    test('should be highlighted when component has not been touched/clicked and has less than 10 users', () => {
+        const lessThan10Users = {
+            analytics: {
+                TOTAL_USERS: 9,
+            }
+        };
+        const lessThan10UsersState = {...state, entities: {...state.entities, analytics: lessThan10Users}};
+        const store = mockStore(lessThan10UsersState);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...props}/>
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).toContain('untouched');
+    });
+
+
+    test('should not be highlighted when component has not been touched/clicked but the workspace has more than 10 users', () => {
+        const moreThan10Users = {
+            analytics: {
+                TOTAL_USERS: 11,
+            }
+        };
+        const moreThan10UsersState = {...state, entities: {...state.entities, analytics: moreThan10Users}};
+        const store = mockStore(moreThan10UsersState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <InviteMembersButton {...props}/>
