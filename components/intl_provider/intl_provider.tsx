@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ReactElementLike} from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {IntlProvider as BaseIntlProvider} from 'react-intl';
 
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
@@ -16,9 +15,9 @@ import {localizeMessage} from 'utils/utils';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 type Props = {
-    children: ReactElementLike;
+    children: ReactNode;
     locale: string;
-    translations: Record<string, string> | Record<string, MessageFormatElement[]> | null;
+    translations?: Record<string, string> | Record<string, MessageFormatElement[]>;
     actions: {
         loadTranslations: ((locale: string, url: string) => ActionFunc) | (() => void);
     };
