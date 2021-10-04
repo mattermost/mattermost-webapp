@@ -3561,10 +3561,10 @@ export default class Client4 {
     }
 
     // Cloud routes
-    getCloudProducts = (families?: string[]) => {
+    getCloudProducts = (includeLegacyProducts?: boolean) => {
         let query = ''
-        if (families) {
-            query = families.reduce((acc, family, i) => `${acc}${i === 0 ? '?' : '&'}family=${family}`, '');
+        if (includeLegacyProducts) {
+            query = "?include_legacy=true";
         }
         return this.doFetch<Product[]>(
             `${this.getCloudRoute()}/products${query}`, {method: 'get'},
