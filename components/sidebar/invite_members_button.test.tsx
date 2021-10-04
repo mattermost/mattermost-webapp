@@ -41,16 +41,14 @@ describe('components/sidebar/invite_members_button', () => {
                         roles: 'system_role',
                     },
                 },
+                stats: {
+                    total_users_count: 10,
+                },
             },
             roles: {
                 roles: {
                     system_role: {permissions: ['test_system_permission', 'add_user_to_team', 'invite_guest']},
                     team_role: {permissions: ['test_team_no_permission']},
-                },
-            },
-            admin: {
-                analytics: {
-                    TOTAL_USERS: 10,
                 },
             },
         },
@@ -119,11 +117,12 @@ describe('components/sidebar/invite_members_button', () => {
 
     test('should be highlighted when component has not been touched/clicked and has less than 10 users', () => {
         const lessThan10Users = {
-            analytics: {
-                TOTAL_USERS: 9,
+            ...state.entities.users,
+            stats: {
+                total_users_count: 9,
             },
         };
-        const lessThan10UsersState = {...state, entities: {...state.entities, admin: lessThan10Users}};
+        const lessThan10UsersState = {...state, entities: {...state.entities, users: lessThan10Users}};
         const store = mockStore(lessThan10UsersState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
@@ -135,11 +134,12 @@ describe('components/sidebar/invite_members_button', () => {
 
     test('should not be highlighted when component has not been touched/clicked but the workspace has more than 10 users', () => {
         const moreThan10Users = {
-            analytics: {
-                TOTAL_USERS: 11,
+            ...state.entities.users,
+            stats: {
+                total_users_count: 11,
             },
         };
-        const moreThan10UsersState = {...state, entities: {...state.entities, admin: moreThan10Users}};
+        const moreThan10UsersState = {...state, entities: {...state.entities, users: moreThan10Users}};
         const store = mockStore(moreThan10UsersState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
