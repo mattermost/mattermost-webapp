@@ -51,8 +51,8 @@ describe('components/sidebar/invite_members_button', () => {
             admin: {
                 analytics: {
                     TOTAL_USERS: 10,
-                }
-            }
+                },
+            },
         },
     };
 
@@ -121,9 +121,9 @@ describe('components/sidebar/invite_members_button', () => {
         const lessThan10Users = {
             analytics: {
                 TOTAL_USERS: 9,
-            }
+            },
         };
-        const lessThan10UsersState = {...state, entities: {...state.entities, analytics: lessThan10Users}};
+        const lessThan10UsersState = {...state, entities: {...state.entities, admin: lessThan10Users}};
         const store = mockStore(lessThan10UsersState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
@@ -133,20 +133,19 @@ describe('components/sidebar/invite_members_button', () => {
         expect(wrapper.find('li').prop('className')).toContain('untouched');
     });
 
-
     test('should not be highlighted when component has not been touched/clicked but the workspace has more than 10 users', () => {
         const moreThan10Users = {
             analytics: {
                 TOTAL_USERS: 11,
-            }
+            },
         };
-        const moreThan10UsersState = {...state, entities: {...state.entities, analytics: moreThan10Users}};
+        const moreThan10UsersState = {...state, entities: {...state.entities, admin: moreThan10Users}};
         const store = mockStore(moreThan10UsersState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <InviteMembersButton {...props}/>
             </Provider>,
         );
-        expect(wrapper.find('li').prop('className')).toContain('untouched');
+        expect(wrapper.find('li').prop('className')).not.toContain('untouched');
     });
 });
