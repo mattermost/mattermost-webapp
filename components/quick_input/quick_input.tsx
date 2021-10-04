@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ReactComponentLike, ReactElementLike} from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 import classNames from 'classnames';
+
+import {ReactComponentLike} from 'prop-types';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import AutosizeTextarea from 'components/autosize_textarea';
@@ -39,12 +40,12 @@ export type Props = {
      * The optional tooltip text to display on the X shown when clearable. Pass a components
      * such as FormattedMessage to localize.
      */
-    clearableTooltipText?: string | ReactElementLike;
+    clearableTooltipText?: string | ReactNode;
 
     /**
      * Callback to clear the input value, and used in tandem with the clearable prop above.
      */
-    onClear?: () => any;
+    onClear?: () => void;
 
     /**
      * ClassName for the clear button container
@@ -69,7 +70,7 @@ export type Props = {
 
     maxLength?: number;
     className?: string;
-    placeholder?: string | { id: any; defaultMessage: string };
+    placeholder?: string | { id: string; defaultMessage: string };
     autoFocus?: boolean;
     type?: string;
     id?: string;
@@ -79,7 +80,7 @@ export type Props = {
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
 export default class QuickInput extends React.PureComponent<Props> {
-    private input: any;
+    private input?: HTMLInputElement | AutosizeTextarea;
 
     static defaultProps = {
         delayInputUpdate: false,
@@ -107,19 +108,19 @@ export default class QuickInput extends React.PureComponent<Props> {
     }
 
     get value(): string {
-        return this.input.value;
+        return this.input!.value;
     }
 
     set value(value: string) {
-        this.input.value = value;
+        this.input!.value = value;
     }
 
     focus() {
-        this.input.focus();
+        this.input!.focus();
     }
 
     blur() {
-        this.input.blur();
+        this.input!.blur();
     }
 
     getInput = () => {
@@ -130,7 +131,7 @@ export default class QuickInput extends React.PureComponent<Props> {
         this.input = input;
     }
 
-    onClear = (e: any) => {
+    onClear = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
         if (this.props.onClear) {
