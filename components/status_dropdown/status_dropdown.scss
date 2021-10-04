@@ -44,7 +44,8 @@
     .SubMenuItem.MenuItem {
         flex-grow: 1;
     }
-    .SubMenuItemContainer{
+
+    .SubMenuItemContainer {
         &:hover,
         &:focus {
             background-color: unset;
