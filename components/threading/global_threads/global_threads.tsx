@@ -84,7 +84,8 @@ const GlobalThreads = () => {
     }, [currentTeamId, selectedThreadId, threadIdentifier]);
 
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 200}));
+        // this is needed to jump start threads fetching
+        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 10}));
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {

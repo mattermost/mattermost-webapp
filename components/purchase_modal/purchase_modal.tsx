@@ -17,6 +17,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
+import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -29,8 +30,6 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
 import BackgroundSvg from 'components/common/svg_images_components/background.svg';
 import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud.svg';
-
-import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
 import {getNextBillingDate} from 'utils/utils';
 
@@ -203,7 +202,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({selectedProduct: selectedPlan});
     }
 
-    listPlans = (): JSX.Element => {
+    listPlans = (): JSX.Element | null => {
         const products = this.props.products!;
         const currentProduct = this.state.currentProduct!;
 
@@ -233,11 +232,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             if (currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
                 flatFeeProducts = [];
                 userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
-                    return option.price >= currentProduct.price_per_seat;
+                    return option.price > currentProduct.price_per_seat;
                 });
             } else {
                 flatFeeProducts = flatFeeProducts.filter((option: RadioGroupOption) => {
-                    return option.price >= currentProduct.price_per_seat;
+                    return option.price > currentProduct.price_per_seat;
                 });
             }
         }
@@ -251,15 +250,28 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             />
         );
 
+        if (options.length <= 1) {
+            return null;
+        }
+
         return (
-            <div className='plans-list'>
-                <RadioButtonGroup
-                    id='list-plans-radio-buttons'
-                    values={options!}
-                    value={this.state.selectedProduct?.id as string}
-                    sideLegend={{matchVal: currentProduct.id as string, text: sideLegendTitle}}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
-                />
+            <div className='select-plan'>
+                <div className='title'>
+                    <FormattedMessage
+                        id='cloud_subscribe.select_plan'
+                        defaultMessage='Select a plan'
+                    />
+                    {this.comparePlan}
+                </div>
+                <div className='plans-list'>
+                    <RadioButtonGroup
+                        id='list-plans-radio-buttons'
+                        values={options!}
+                        value={this.state.selectedProduct?.id as string}
+                        sideLegend={{matchVal: currentProduct.id as string, text: sideLegendTitle}}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
+                    />
+                </div>
             </div>
         );
     }
@@ -527,18 +539,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
-                        {(this.props.products && Object.keys(this.props.products).length > 1) &&
-                            <div className='select-plan'>
-                                <div className='title'>
-                                    <FormattedMessage
-                                        id='cloud_subscribe.select_plan'
-                                        defaultMessage='Select a plan'
-                                    />
-                                    {this.comparePlan}
-                                </div>
-                                {this.listPlans()}
-                            </div>
-                        }
+                        {this.listPlans()}
                         <div className='bold-text'>
                             {this.state.selectedProduct?.name || ''}
                         </div>

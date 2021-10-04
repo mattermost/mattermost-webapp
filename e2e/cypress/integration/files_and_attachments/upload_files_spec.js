@@ -10,34 +10,31 @@
 // Stage: @prod
 // Group: @files_and_attachments
 
-import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {downloadAttachmentAndVerifyItsProperties} from './helpers';
+import {
+    downloadAttachmentAndVerifyItsProperties,
+    interceptFileUpload,
+    waitUntilUploadComplete,
+} from './helpers';
 
 describe('Upload Files', () => {
-    let testTeam;
-    let testChannel;
-    let otherUser;
+    let channelUrl;
+    let channelId;
+    let testUser;
 
     beforeEach(() => {
         // # Login as sysadmin
         cy.apiAdminLogin();
 
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup().then(({team, channel}) => {
-            testTeam = team;
-            testChannel = channel;
+        // # Init setup
+        cy.apiInitSetup().then((out) => {
+            channelUrl = out.channelUrl;
+            channelId = out.channel.id;
+            testUser = out.user;
 
-            cy.apiCreateUser().then(({user: user2}) => {
-                otherUser = user2;
-
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
-                });
-            });
-
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(channelUrl);
+            interceptFileUpload();
         });
     });
 
@@ -49,31 +46,31 @@ describe('Upload Files', () => {
 
         // # Post an image in center channel
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-        cy.get('.post-image').should('be.visible');
+        waitUntilUploadComplete();
         cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
         // # Click reply arrow to open the reply thread in RHS
         cy.clickPostCommentIcon();
 
-        cy.get('#rhsContainer').within(() => {
+        cy.uiGetRHS().within(() => {
             // # Observe image thumbnail displays the same
-            cy.get('img[src*="/preview"]').should('be.visible').and((img) => {
-                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
+            cy.uiGetFileThumbnail(filename).should((img) => {
+                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 1);
             });
 
             // # In the RHS, click the expand arrows to expand the RHS
-            cy.findByLabelText('Expand').click();
+            cy.uiExpandRHS();
         });
 
-        cy.get('.sidebar--right--expanded').should('be.visible').within(() => {
-            // * Observe image thumnail displays the same
-            cy.get('img[src*="/preview"]').should('be.visible').and((img) => {
-                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
+        cy.uiGetRHS().isExpanded().within(() => {
+            // * Observe image thumbnail displays the same
+            cy.uiGetFileThumbnail(filename).should((img) => {
+                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 1);
             });
         });
 
         // # Close the RHS panel
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T340 Download - File name link on thumbnail', () => {
@@ -108,46 +105,16 @@ describe('Upload Files', () => {
         attachmentFilesList.forEach((file) => {
             // # Attach the file as attachment and post a message
             cy.get('#fileUploadInput').attachFile(file.filename);
-            cy.postMessage(MESSAGES.SMALL);
+            waitUntilUploadComplete();
+            cy.postMessage('hello');
+            cy.uiWaitUntilMessagePostedIncludes('hello');
 
-            // # Get the post id of the last message
-            cy.getLastPostId().then((lastPostId) => {
-                // # Scan inside of the last post message
-                cy.get(`#${lastPostId}_message`).should('exist').and('be.visible').within(() => {
-                    // # If file type is document then file container will be rendered
-                    if (file.type === 'document') {
-                        // * Check if the download icon is exists
-                        cy.findByLabelText('download').should('exist').then((fileAttachment) => {
-                            // * Verify if download attribute exists which allows to download instead of navigation
-                            expect(fileAttachment.attr('download')).to.equal(file.filename);
-
-                            const fileAttachmentURL = fileAttachment.attr('href');
-
-                            // * Verify that download link has correct name
-                            downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, file.filename, 'attachment');
-                        });
-
-                        // * Check if the file name is shown in the attachment
-                        cy.findByText(file.filename).should('be.visible');
-
-                        // * Check if correct extension is shown in the attachment and click to open preview
-                        cy.findByText(file.extensions).should('be.visible').click();
-                    } else if (file.type === 'image') {
-                        // * Check that image is in the post message with valid source link
-                        cy.findByLabelText(`file thumbnail ${file.filename}`).should('be.visible').
-                            and('have.attr', 'src');
-
-                        // # Click on the image to open the preview
-                        cy.findByLabelText(`file thumbnail ${file.filename}`).click();
-                    }
-                });
-            });
-
-            // * Verify preview modal is opened
-            cy.get('.a11y__modal').should('exist').and('be.visible').
-                within(() => {
-                    // * Check for download property of the download button
-                    cy.findByText('Download').should('be.visible').parent().then((fileAttachment) => {
+            // # Get the body of the last post
+            cy.uiGetPostBody().within(() => {
+                // # If file type is document then file container will be rendered
+                if (file.type === 'document') {
+                    // * Check if the download icon exists
+                    cy.findByLabelText('download').then((fileAttachment) => {
                         // * Verify if download attribute exists which allows to download instead of navigation
                         expect(fileAttachment.attr('download')).to.equal(file.filename);
 
@@ -156,40 +123,68 @@ describe('Upload Files', () => {
                         // * Verify that download link has correct name
                         downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, file.filename, 'attachment');
                     });
-                });
 
-            // # Close the image preview modal
-            cy.get('body').type('{esc}');
+                    // * Check if the file name is shown in the attachment
+                    cy.findByText(file.filename);
+
+                    // * Check if correct extension is shown in the attachment and click to open preview
+                    cy.findByText(file.extensions).click();
+                } else if (file.type === 'image') {
+                    // # Check that image is shown and then click to open the preview
+                    cy.uiGetFileThumbnail(file.filename).click();
+                }
+            });
+
+            // * Verify image preview modal is opened
+            cy.uiGetFilePreviewModal().within(() => {
+                // * Download button should exist
+                cy.uiGetDownloadFilePreviewModal().then((downloadLink) => {
+                    expect(downloadLink.attr('download')).to.equal(file.filename);
+
+                    const fileAttachmentURL = downloadLink.attr('href');
+
+                    // * Verify that download link has correct name
+                    downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, file.filename, 'attachment');
+                });
+            });
+
+            // # Close the modal
+            cy.uiCloseFilePreviewModal();
         });
     });
 
     it('MM-T341 Download link on preview - Image file (non SVG)', () => {
-        ['bmp-image-file.bmp', 'png-image-file.png', 'jpg-image-file.jpg', 'gif-image-file.gif', 'tiff-image-file.tif'].
-            forEach((image) => {
-                cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(image);
-                cy.get('.post-image').should('be.visible');
-                cy.postMessage(MESSAGES.SMALL);
-                cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
-                cy.getLastPostId().then((postId) => {
-                    cy.get(`#post_${postId}`).within(() => {
-                    // # Click the thumbnail of a non-SVG image attachment to open the previewer
-                        cy.get('div.image-loaded').find('img').click();
-                    });
-                });
-                cy.get('.a11y__modal').should('be.visible').within(() => {
-                // # Click the "Download" link in the previewer
-                    cy.findByText('Download').should('be.visible').parent().then((fileAttachment) => {
-                    // * Verify if download attribute exists which allows to download instead of navigation
-                        expect(fileAttachment.attr('download')).to.equal(image);
+        const imageFilenames = [
+            'bmp-image-file.bmp',
+            'png-image-file.png',
+            'jpg-image-file.jpg',
+            'gif-image-file.gif',
+            'tiff-image-file.tif',
+        ];
 
-                        const fileAttachmentURL = fileAttachment.attr('href');
+        imageFilenames.forEach((filename) => {
+            cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+            waitUntilUploadComplete();
+            cy.postMessage('hello');
+            cy.uiWaitUntilMessagePostedIncludes('hello');
+            cy.uiGetFileThumbnail(filename).click();
 
-                        // * Verify that download link has correct name
-                        downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, image, 'attachment');
-                    });
+            // * Verify image preview modal is opened
+            cy.uiGetFilePreviewModal().within(() => {
+                // * Download button should exist
+                cy.uiGetDownloadFilePreviewModal().then((downloadLink) => {
+                    expect(downloadLink.attr('download')).to.equal(filename);
+
+                    const fileAttachmentURL = downloadLink.attr('href');
+
+                    // * Verify that download link has correct name
+                    downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
                 });
-                cy.get('body').type('{esc}');
             });
+
+            // # Close the modal
+            cy.uiCloseFilePreviewModal();
+        });
     });
 
     it('MM-T12 Loading indicator when posting images', () => {
@@ -197,11 +192,11 @@ describe('Upload Files', () => {
 
         // # Post an image in center channel
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-        cy.get('.post-image').should('be.visible');
+        waitUntilUploadComplete();
         cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
-        // # Login as otherUser
-        cy.apiLogin(otherUser);
+        // # Login as testUser
+        cy.apiLogin(testUser);
 
         // # Reload the page
         cy.reload();
@@ -212,9 +207,9 @@ describe('Upload Files', () => {
         Cypress._.times(5, () => {
             // # OtherUser creates posts in the channel
             cy.postMessageAs({
-                sender: otherUser,
+                sender: testUser,
                 message: 'message',
-                channelId: testChannel.id,
+                channelId,
             });
 
             // * Verify image is not loading for each posts
@@ -225,14 +220,12 @@ describe('Upload Files', () => {
     });
 
     it('MM-T337 CTRL/CMD+U - Five files on one message, thumbnails while uploading', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(channelUrl);
         const filename = 'huge-image.jpg';
-        cy.get('#centerChannelFooter').find('#fileUploadInput').
-            attachFile(filename).
-            attachFile(filename).
-            attachFile(filename).
-            attachFile(filename).
-            attachFile(filename);
+        Cypress._.times(5, () => {
+            cy.get('#fileUploadInput').attachFile(filename);
+            waitUntilUploadComplete();
+        });
         for (let i = 1; i < 4; i++) {
             cy.get(`:nth-child(${i}) > .post-image__thumbnail > .post-image`).should('be.visible');
         }
@@ -261,6 +254,7 @@ describe('Upload Files', () => {
 
         // # Attach an image but don't post it yet
         cy.get('#fileUploadInput').attachFile(imageFilename);
+        waitUntilUploadComplete();
 
         // # Scan inside of the message footer region
         cy.get('#postCreateFooter').should('be.visible').within(() => {
@@ -283,16 +277,9 @@ describe('Upload Files', () => {
         // # Now post with the message attachment
         cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
-        // # Get the post id of the last message
-        cy.getLastPostId().then((lastPostId) => {
-            // # Scan inside of the last post message
-            cy.get(`#${lastPostId}_message`).and('be.visible').within(() => {
-                // * Check that image is in the post message with valid source link
-                cy.findByLabelText(`file thumbnail ${imageFilename}`).should('be.visible').
-                    and('have.attr', 'src').then((src) => {
-                        downloadAttachmentAndVerifyItsProperties(src, imageFilename, 'inline');
-                    });
-            });
+        // * Check that the image in the post is with valid source link
+        cy.uiGetFileThumbnail(imageFilename).should('have.attr', 'src').then((src) => {
+            downloadAttachmentAndVerifyItsProperties(src, imageFilename, 'inline');
         });
     });
 
@@ -300,14 +287,12 @@ describe('Upload Files', () => {
         const filename = 'svg.svg';
         const aspectRatio = 1;
 
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(channelUrl);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Attach file
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-        cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-            return el.find('.post-image.normal').length > 0;
-        }));
+        waitUntilUploadComplete();
 
         cy.get('#create_post').find('.file-preview').within(() => {
             // * Filename is correct
@@ -325,23 +310,20 @@ describe('Upload Files', () => {
 
         // # Post message
         cy.postMessage('hello');
+        cy.uiWaitUntilMessagePostedIncludes('hello');
 
-        cy.getLastPost().within(() => {
-            // * Click to open preview
-            cy.get('.file-preview__button').click();
-        });
+        // # Open file preview
+        cy.uiGetFileThumbnail(filename).click();
 
-        cy.get('.modal-body').within(() => {
-            cy.get('.modal-image__content').get('img').should('exist').and((img) => {
+        // * Verify image preview modal is opened
+        cy.uiGetFilePreviewModal().within(() => {
+            cy.uiGetContentFilePreviewModal().find('img').should((img) => {
                 // * Image aspect ratio is maintained
-                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
+                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 1);
             });
 
-            // # Hover over the image
-            cy.get('.modal-image__content').trigger('mouseover');
-
             // * Download button should exist
-            cy.findByText('Download').should('exist').parent().then((downloadLink) => {
+            cy.uiGetDownloadFilePreviewModal().then((downloadLink) => {
                 expect(downloadLink.attr('download')).to.equal(filename);
 
                 const fileAttachmentURL = downloadLink.attr('href');
@@ -351,7 +333,7 @@ describe('Upload Files', () => {
             });
 
             // # Close modal
-            cy.get('.modal-close').click();
+            cy.uiCloseFilePreviewModal();
         });
     });
 
@@ -385,16 +367,14 @@ describe('Upload Files', () => {
         ];
         const minimumSeparation = 5;
 
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(channelUrl);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Upload files
-        cy.get('#centerChannelFooter').find('#fileUploadInput').
-            attachFile(attachmentFilesList[0].filename).
-            attachFile(attachmentFilesList[1].filename).
-            attachFile(attachmentFilesList[2].filename).
-            attachFile(attachmentFilesList[3].filename).
-            attachFile(attachmentFilesList[4].filename);
+        Cypress._.forEach(attachmentFilesList, ({filename}) => {
+            cy.get('#fileUploadInput').attachFile(filename);
+            waitUntilUploadComplete();
+        });
 
         // # Wait for files to finish uploading
         cy.wait(TIMEOUTS.THREE_SEC);
@@ -411,28 +391,32 @@ describe('Upload Files', () => {
                     });
                 });
             }
-
-            // # Click on one element
-            cy.get(':nth-child(1)').first().click();
         });
-        cy.get('.modal-body').within(() => {
-            // * File information should be OK
-            cy.get('.file-details__name').should('contain.text', attachmentFilesList[0].filename);
-            cy.get('.file-details__info').should('contain.text', `File type ${attachmentFilesList[0].extensions}`);
 
-            // # Move to the next element using arrows
-            cy.get('.modal-image__content').type('{rightarrow}');
+        cy.uiOpenFilePreviewModal();
 
-            // * Next file information should be OK
-            cy.get('.file-details__name').should('contain.text', attachmentFilesList[1].filename);
-            cy.get('.file-details__info').should('contain.text', `File type ${attachmentFilesList[1].extensions}`);
+        // * Verify image preview modal is opened
+        cy.uiGetFilePreviewModal().within(() => {
+            // * Should show first file
+            cy.uiGetHeaderFilePreviewModal().within(() => {
+                cy.findByText(attachmentFilesList[0].filename);
+            });
 
-            // # Move back to the previous element using arrows
-            cy.get('.modal-image__content').type('{leftarrow}');
+            // # Move to the next element using right arrow
+            cy.uiGetArrowRightFilePreviewModal().click();
 
-            // * First element information should be still OK
-            cy.get('.file-details__name').should('contain.text', attachmentFilesList[0].filename);
-            cy.get('.file-details__info').should('contain.text', `File type ${attachmentFilesList[0].extensions}`);
+            // * Should show second file
+            cy.uiGetHeaderFilePreviewModal().within(() => {
+                cy.findByText(attachmentFilesList[1].filename);
+            });
+
+            // # Move back to the previous element using left arrow
+            cy.uiGetArrowLeftFilePreviewModal().click();
+
+            // * Should show first file again
+            cy.uiGetHeaderFilePreviewModal().within(() => {
+                cy.findByText(attachmentFilesList[0].filename);
+            });
         });
     });
 });
