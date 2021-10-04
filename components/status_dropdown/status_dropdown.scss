@@ -42,7 +42,13 @@
 
 #status-menu-dnd-timed_menuitem {
     .SubMenuItem.MenuItem {
-        width: 100%;
+        flex-grow: 1;
+    }
+    .SubMenuItemContainer{
+        &:hover,
+        &:focus {
+            background-color: unset;
+        }
     }
 }
 
