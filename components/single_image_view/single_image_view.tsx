@@ -144,7 +144,9 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         }
 
         const fileHeader = (
-            <div className='image-header'>
+            <div className={`image-header ${this.props.isEmbedVisible && 'active'}`}>
+                {toggle}
+                {!this.props.isEmbedVisible &&
                 <div
                     data-testid='image-name'
                     className={imageNameClass}
@@ -154,8 +156,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                     >
                         {fileInfo.name}
                     </div>
-                </div>
-                {toggle}
+                </div>}
             </div>
         );
 
@@ -195,7 +196,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
 
         return (
             <div
-                className={`${'file-view--single'}`}
+                className='file-view--single'
             >
                 <div
                     className='file__image'

@@ -1,0 +1,38 @@
+.file-view--single {
+    .file__image {
+        position: relative;
+
+        .image-header {
+            button.post__embed-visibility {
+                width: 1.4rem;
+                height: 1.4rem;
+                color: #8c8c8d;
+                text-align: left;
+            }
+
+            &.active {
+                position: absolute;
+                z-index: 3;
+                top: -5px;
+                left: -5px;
+
+                button.post__embed-visibility {
+                    width: 2.4rem;
+                    height: 0;
+                    border: 1px solid #e7e7e7;
+                    background: var(--button-color);
+                    border-radius: 50%;
+                    opacity: 0;
+                    text-align: center;
+                    transition: height 0s linear 0.3s, opacity 0.3s ease-in-out;
+                }
+            }
+        }
+
+        &:hover .image-header.active button.post__embed-visibility {
+            height: 2.4rem;
+            opacity: 1;
+            transition: height 0s linear 0s, opacity 0.3s;
+        }
+    }
+}
