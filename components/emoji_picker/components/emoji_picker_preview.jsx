@@ -22,6 +22,9 @@ export default class EmojiPickerPreview extends React.PureComponent {
         if (!this.props.customEmojisEnabled) {
             return null;
         }
+        if (!this.props.currentTeamName) {
+            return null;
+        }
         return (
             <AnyTeamPermissionGate permissions={[Permissions.CREATE_EMOJIS]}>
                 <div className='emoji-picker__custom'>

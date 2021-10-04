@@ -187,39 +187,6 @@ describe('components/Menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should not show Marketplace modal in web view', () => {
-        const store = mockStore(defaultState);
-
-        const props = {
-            ...defaultProps,
-            enablePluginMarketplace: true,
-        };
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <MainMenu {...props}/>
-            </Provider>,
-        );
-
-        expect(wrapper.find('#marketplaceModal')).toEqual({});
-    });
-
-    test('should show Marketplace modal in mobile view', () => {
-        const store = mockStore(defaultState);
-
-        const props = {
-            ...defaultProps,
-            mobile: true,
-            enablePluginMarketplace: true,
-        };
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <MainMenu {...props}/>
-            </Provider>,
-        );
-
-        expect(wrapper.find('#marketplaceModal').at(0).prop('show')).toEqual(true);
-    });
-
     test('should show leave team option when primary team is set', () => {
         const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
         const wrapper = getMainMenuWrapper(props);
@@ -237,27 +204,6 @@ describe('components/Menu', () => {
         wrapper.setProps({experimentalPrimaryTeam: 'other_name'});
         expect(wrapper.find('#leaveTeam')).toHaveLength(1);
         expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
-    });
-
-    test('mobile view should show subscribe now button when in trial period', () => {
-        const props = {...defaultProps, mobile: true, isCloud: true, isFreeTrial: true};
-        const wrapper = getMainMenuWrapper(props);
-
-        expect(wrapper.find('UpgradeLink')).toHaveLength(1);
-    });
-
-    test('mobile view should hide the subscribe now button when NOT in trial period', () => {
-        const props = {...defaultProps, mobile: true, isCloud: true, isFreeTrial: false};
-        const wrapper = getMainMenuWrapper(props);
-
-        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
-    });
-
-    test('mobile view should hide the subscribe now button when is NOT cloud', () => {
-        const props = {...defaultProps, mobile: true, isCloud: false, isFreeTrial: false};
-        const wrapper = getMainMenuWrapper(props);
-
-        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
     });
 
     test('mobile view should hide the subscribe now button when does not have permissions', () => {

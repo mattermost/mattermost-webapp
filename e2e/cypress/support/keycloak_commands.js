@@ -190,20 +190,30 @@ Cypress.Commands.add('keycloakCreateUser', (accessToken, user) => {
     });
 });
 
-Cypress.Commands.add('keycloakUpdateUser', (userId, data) => {
+Cypress.Commands.add('keycloakCreateUsers', (users = []) => {
     return cy.keycloakGetAccessTokenAPI().then((accessToken) => {
-        return cy.keycloakUpdateUserAPI(accessToken, userId, data);
+        return users.forEach((user) => {
+            return cy.keycloakCreateUser(accessToken, user);
+        });
     });
 });
 
-Cypress.Commands.add('keycloakSuspendUser', (userId) => {
-    const data = {enabled: false};
-    cy.keycloakUpdateUser(userId, data);
+Cypress.Commands.add('keycloakUpdateUser', (userEmail, data) => {
+    return cy.keycloakGetAccessTokenAPI().then((accessToken) => {
+        return cy.keycloakGetUserAPI(accessToken, userEmail).then((userId) => {
+            return cy.keycloakUpdateUserAPI(accessToken, userId, data);
+        });
+    });
 });
 
-Cypress.Commands.add('keycloakUnsuspendUser', (userId) => {
+Cypress.Commands.add('keycloakSuspendUser', (userEmail) => {
+    const data = {enabled: false};
+    cy.keycloakUpdateUser(userEmail, data);
+});
+
+Cypress.Commands.add('keycloakUnsuspendUser', (userEmail) => {
     const data = {enabled: true};
-    cy.keycloakUpdateUser(userId, data);
+    cy.keycloakUpdateUser(userEmail, data);
 });
 
 Cypress.Commands.add('checkKeycloakLoginPage', () => {
@@ -213,7 +223,9 @@ Cypress.Commands.add('checkKeycloakLoginPage', () => {
 });
 
 Cypress.Commands.add('doKeycloakLogin', (user) => {
-    cy.checkKeycloakLoginPage();
+    cy.apiLogout();
+    cy.visit('/login');
+    cy.findByText('SAML').click();
     cy.findByText('Username or email').type(user.email);
     cy.findByText('Password').type(user.password);
     cy.findAllByText('Log In').last().click();

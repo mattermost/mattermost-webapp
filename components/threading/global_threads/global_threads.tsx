@@ -123,7 +123,6 @@ const GlobalThreads = () => {
                     id: 'globalThreads.subtitle',
                     defaultMessage: 'Threads you’re participating in will automatically show here',
                 })}
-                right={null}
             />
 
             {isEmpty(threadIds) ? (

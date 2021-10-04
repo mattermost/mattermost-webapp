@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -26,8 +26,6 @@ import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
-import MarketplaceModal from 'components/plugin_marketplace';
-import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
@@ -44,14 +42,11 @@ class MainMenu extends React.PureComponent {
         currentUser: PropTypes.object,
         appDownloadLink: PropTypes.string,
         enableCommands: PropTypes.bool.isRequired,
-        enableCustomEmoji: PropTypes.bool.isRequired,
         enableIncomingWebhooks: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         canManageSystemBots: PropTypes.bool.isRequired,
-        canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
         canManageIntegrations: PropTypes.bool.isRequired,
-        enablePluginMarketplace: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
@@ -63,11 +58,6 @@ class MainMenu extends React.PureComponent {
         showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         showNextStepsTips: PropTypes.bool,
-        isFreeTrial: PropTypes.bool,
-        daysLeftOnTrial: PropTypes.number,
-        isCloud: PropTypes.bool,
-        subscriptionStats: PropTypes.object,
-        firstAdminVisitMarketplaceStatus: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -126,23 +116,11 @@ class MainMenu extends React.PureComponent {
         }
     }
 
-    shouldShowUpgradeModal = () => {
-        const {subscriptionStats, isCloud} = this.props;
-
-        if (subscriptionStats?.is_paid_tier === 'true') { // eslint-disable-line camelcase
-            return false;
-        }
-        return isCloud && subscriptionStats?.remaining_seats <= 0;
-    }
-
     render() {
         const {
             currentUser,
             teamIsGroupConstrained,
             isLicensedForLDAPGroups,
-            isFreeTrial,
-            daysLeftOnTrial,
-            isCloud,
             teamId,
         } = this.props;
 
@@ -194,26 +172,24 @@ class MainMenu extends React.PureComponent {
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
-                {isCloud && isFreeTrial && (
-                    <Menu.Group>
-                        <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
-                            <Menu.TopNotification
-                                show={true}
-                                id='topNotification'
-                            >
-                                <FormattedMessage
-                                    id='admin.billing.subscription.cloudTrial.trialTopMenuNotification'
-                                    defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
-                                    values={{daysLeftOnTrial}}
-                                />
-                                <UpgradeLink
-                                    buttonText='Subscribe Now'
-                                    styleLink={true}
-                                />
-                            </Menu.TopNotification>
-                        </SystemPermissionGate>
-                    </Menu.Group>
-                )}
+                <Menu.Group>
+                    <SystemPermissionGate
+                        permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}
+                    >
+                        <Menu.CloudTrial
+                            id='menuCloudTrial'
+                        />
+                    </SystemPermissionGate>
+                </Menu.Group>
+                <Menu.Group>
+                    <SystemPermissionGate
+                        permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
+                    >
+                        <Menu.StartTrial
+                            id='startTrial'
+                        />
+                    </SystemPermissionGate>
+                </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemAction
                         id='recentMentions'
@@ -227,15 +203,6 @@ class MainMenu extends React.PureComponent {
                         icon={<i className='fa fa-bookmark'/>}
                         text={formatMessage({id: 'sidebar_right_menu.flagged', defaultMessage: 'Saved Posts'})}
                     />
-                </Menu.Group>
-                <Menu.Group>
-                    <SystemPermissionGate
-                        permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
-                    >
-                        <Menu.StartTrial
-                            id='startTrial'
-                        />
-                    </SystemPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemToggleModalRedux
@@ -358,34 +325,6 @@ class MainMenu extends React.PureComponent {
                         to={'/' + this.props.teamName + '/integrations'}
                         text={formatMessage({id: 'navbar_dropdown.integrations', defaultMessage: 'Integrations'})}
                     />
-                    <TeamPermissionGate
-                        teamId={teamId}
-                        permissions={[Permissions.SYSCONSOLE_WRITE_PLUGINS]}
-                    >
-                        <Menu.ItemToggleModalRedux
-                            id='marketplaceModal'
-                            modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
-                            show={this.props.enablePluginMarketplace}
-                            dialogType={MarketplaceModal}
-                            text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
-                        />
-                    </TeamPermissionGate>
-                    <Menu.ItemLink
-                        id='customEmojis'
-                        show={this.props.enableCustomEmoji && this.props.canCreateOrDeleteCustomEmoji}
-                        to={'/' + this.props.teamName + '/emoji'}
-                        text={formatMessage({id: 'navbar_dropdown.emoji', defaultMessage: 'Custom Emoji'})}
-                    />
-                </Menu.Group>
-                <Menu.Group>
-                    <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
-                        <Menu.ItemLink
-                            id='systemConsole'
-                            to='/admin_console'
-                            text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
-                            icon={<i className='fa fa-wrench'/>}
-                        />
-                    </SystemPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemExternalLink
@@ -401,11 +340,6 @@ class MainMenu extends React.PureComponent {
                         onClick={() => this.props.actions.unhideNextSteps()}
                         text={formatMessage({id: this.props.showNextStepsTips ? 'sidebar_next_steps.tipsAndNextSteps' : 'navbar_dropdown.gettingStarted', defaultMessage: this.props.showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
                         icon={<i className={`icon ${this.props.showNextStepsTips ? 'icon-lightbulb-outline' : 'icon-play'}`}/>}
-                    />
-                    <Menu.ItemAction
-                        id='keyboardShortcuts'
-                        onClick={this.toggleShortcutsModal}
-                        text={formatMessage({id: 'navbar_dropdown.keyboardShortcuts', defaultMessage: 'Keyboard Shortcuts'})}
                     />
                     <Menu.ItemExternalLink
                         id='reportLink'
