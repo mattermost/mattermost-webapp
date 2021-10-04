@@ -21,7 +21,7 @@ describe('components/widgets/menu/menu_items/submenu_item', () => {
             />,
         );
 
-        expect(wrapper.html()).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
     test('present subMenu should match snapshot with submenu', () => {
         const wrapper = mount(
@@ -46,7 +46,7 @@ describe('components/widgets/menu/menu_items/submenu_item', () => {
             />,
         );
 
-        expect(wrapper.html()).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
     test('test subMenu click triggers action', async () => {
         const action1 = jest.fn().mockReturnValueOnce('default');
