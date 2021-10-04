@@ -19,7 +19,7 @@ type Location = {
 
 type Props = {
     location: Location;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     mfa: boolean;
     enableMultifactorAuthentication: boolean;
     enforceMultifactorAuthentication: boolean;
@@ -36,7 +36,7 @@ type State = {
     enforceMultifactorAuthentication?: boolean;
 }
 
-export default class MFAController extends React.PureComponent<Props & RouteComponentProps> {
+export default class MFAController extends React.PureComponent<Props & RouteComponentProps, State> {
     public constructor(props: Props & RouteComponentProps) {
         super(props);
 
