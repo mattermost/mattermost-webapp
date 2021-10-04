@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
+import {ReactComponentLike, ReactElementLike} from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
@@ -11,65 +11,75 @@ import OverlayTrigger from 'components/overlay_trigger';
 import AutosizeTextarea from 'components/autosize_textarea';
 import Constants from 'utils/constants.jsx';
 
+export type Props = {
+
+    /**
+     * Whether to delay updating the value of the textbox from props. Should only be used
+     * on textboxes that to properly compose CJK characters as the user types.
+     */
+    delayInputUpdate?: boolean;
+
+    /**
+     * An optional React component that will be used instead of an HTML input when rendering
+     */
+    inputComponent?: ReactComponentLike;
+
+    /**
+     * The string value displayed in this input
+     */
+    value: string;
+
+    /**
+     * When true, and an onClear callback is defined, show an X on the input field that clears
+     * the input when clicked.
+     */
+    clearable?: boolean;
+
+    /**
+     * The optional tooltip text to display on the X shown when clearable. Pass a components
+     * such as FormattedMessage to localize.
+     */
+    clearableTooltipText?: string | ReactElementLike;
+
+    /**
+     * Callback to clear the input value, and used in tandem with the clearable prop above.
+     */
+    onClear?: () => any;
+
+    /**
+     * ClassName for the clear button container
+     */
+    clearClassName?: string;
+
+    /**
+     * Position in which the tooltip will be displayed
+     */
+    tooltipPosition?: 'top' | 'bottom';
+
+    /**
+     * Callback to handle the change event of the input
+     */
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+
+    /**
+     * When true, and an onClear callback is defined, show an X on the input field even if
+     * the input is empty.
+     */
+    clearableWithoutValue?: boolean;
+
+    maxLength?: number;
+    className?: string;
+    placeholder?: string | { id: any; defaultMessage: string };
+    autoFocus?: boolean;
+    type?: string;
+    id?: string;
+    onInput?: () => void;
+}
+
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
-export default class QuickInput extends React.PureComponent {
-    static propTypes = {
-
-        /**
-         * Whether to delay updating the value of the textbox from props. Should only be used
-         * on textboxes that to properly compose CJK characters as the user types.
-         */
-        delayInputUpdate: PropTypes.bool,
-
-        /**
-         * An optional React component that will be used instead of an HTML input when rendering
-         */
-        inputComponent: PropTypes.elementType,
-
-        /**
-         * The string value displayed in this input
-         */
-        value: PropTypes.string.isRequired,
-
-        /**
-         * When true, and an onClear callback is defined, show an X on the input field that clears
-         * the input when clicked.
-         */
-        clearable: PropTypes.bool,
-
-        /**
-         * The optional tooltip text to display on the X shown when clearable. Pass a components
-         * such as FormattedMessage to localize.
-         */
-        clearableTooltipText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-
-        /**
-         * Callback to clear the input value, and used in tandem with the clearable prop above.
-         */
-        onClear: PropTypes.func,
-
-        /**
-         * ClassName for the clear button container
-         */
-        clearClassName: PropTypes.string,
-
-        /**
-         * Position in which the tooltip will be displayed
-         */
-        tooltipPosition: PropTypes.oneOf(['top', 'bottom']),
-
-        /**
-         * Callback to handle the change event of the input
-         */
-        onChange: PropTypes.func,
-
-        /**
-         * When true, and an onClear callback is defined, show an X on the input field even if
-         * the input is empty.
-         */
-        clearableWithoutValue: PropTypes.bool,
-    };
+export default class QuickInput extends React.PureComponent<Props> {
+    private input: any;
 
     static defaultProps = {
         delayInputUpdate: false,
@@ -78,7 +88,7 @@ export default class QuickInput extends React.PureComponent {
         tooltipPosition: 'bottom',
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.value !== this.props.value) {
             if (this.props.delayInputUpdate) {
                 requestAnimationFrame(this.updateInputFromProps);
@@ -96,11 +106,11 @@ export default class QuickInput extends React.PureComponent {
         this.input.value = this.props.value;
     }
 
-    get value() {
+    get value(): string {
         return this.input.value;
     }
 
-    set value(value) {
+    set value(value: string) {
         this.input.value = value;
     }
 
@@ -116,11 +126,11 @@ export default class QuickInput extends React.PureComponent {
         return this.input;
     };
 
-    setInput = (input) => {
+    setInput = (input: HTMLInputElement) => {
         this.input = input;
     }
 
-    onClear = (e) => {
+    onClear = (e: any) => {
         e.preventDefault();
         e.stopPropagation();
         if (this.props.onClear) {
@@ -146,7 +156,15 @@ export default class QuickInput extends React.PureComponent {
             </Tooltip>
         );
 
-        const {value, inputComponent, clearable, clearClassName, tooltipPosition, clearableWithoutValue, ...props} = this.props;
+        const {
+            value,
+            inputComponent,
+            clearable,
+            clearClassName,
+            tooltipPosition,
+            clearableWithoutValue,
+            ...props
+        } = this.props;
 
         Reflect.deleteProperty(props, 'delayInputUpdate');
         Reflect.deleteProperty(props, 'onClear');
@@ -172,24 +190,24 @@ export default class QuickInput extends React.PureComponent {
         return (<div>
             {inputElement}
             {showClearButton &&
-                <div
-                    className={classNames(clearClassName, 'input-clear visible')}
-                    onMouseDown={this.onClear}
-                    onTouchEnd={this.onClear}
+            <div
+                className={classNames(clearClassName, 'input-clear visible')}
+                onMouseDown={this.onClear}
+                onTouchEnd={this.onClear}
+            >
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement={tooltipPosition}
+                    overlay={clearableTooltip}
                 >
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement={tooltipPosition}
-                        overlay={clearableTooltip}
+                    <span
+                        className='input-clear-x'
+                        aria-hidden='true'
                     >
-                        <span
-                            className='input-clear-x'
-                            aria-hidden='true'
-                        >
-                            <i className='icon icon-close-circle'/>
-                        </span>
-                    </OverlayTrigger>
-                </div>
+                        <i className='icon icon-close-circle'/>
+                    </span>
+                </OverlayTrigger>
+            </div>
             }
         </div>);
     }
