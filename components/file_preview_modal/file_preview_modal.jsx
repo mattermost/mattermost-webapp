@@ -381,7 +381,7 @@ export default class FilePreviewModal extends React.PureComponent {
                 animation={true}
                 backdrop={false}
                 role='dialog'
-                style={{'padding-left': 0}}
+                style={{paddingLeft: 0}}
                 aria-labelledby='viewImageModalLabel'
             >
                 <Modal.Body className='file-preview-modal__body'>

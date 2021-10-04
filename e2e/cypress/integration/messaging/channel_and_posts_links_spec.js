@@ -117,7 +117,11 @@ describe('Message permalink', () => {
         });
 
         // # Post channel mention
-        cy.get('#post_textbox').type('{enter}{enter}');
+        cy.get('#post_textbox').
+            type('{enter}').
+            should('contain', testChannel.name).
+            type('{enter}');
+        cy.uiWaitUntilMessagePostedIncludes(testChannel.display_name);
 
         cy.apiLogout();
         cy.apiLogin(notInChannelUser);

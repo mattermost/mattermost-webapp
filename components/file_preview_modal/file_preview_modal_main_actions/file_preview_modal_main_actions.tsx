@@ -44,7 +44,7 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
         dispatch(getFilePublicLink(props.fileInfo.id));
     }, [props.fileInfo]);
     const copyPublicLink = () => {
-        copyToClipboard(selectedFilePublicLink);
+        copyToClipboard(selectedFilePublicLink ?? '');
         setPublicLinkCopied(true);
     };
 

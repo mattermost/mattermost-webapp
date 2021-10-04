@@ -46,7 +46,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     /**
      * User the popover is being opened for
      */
-    user?: Partial<UserProfile>;
+    user?: UserProfile;
     userId: string;
     channelId?: string;
 

@@ -267,7 +267,7 @@
   "admin.billing.subscription.cloudTrial.moreThan3Days": "Procesul dumneavoastră a început! Mai sunt {daysLeftOnTrial} zile rămase",
   "admin.billing.subscription.cloudTrial.subscribe": "Abonare",
   "admin.billing.subscription.cloudTrial.subscribeButton": "Abonează-te Acum",
-  "admin.billing.subscription.cloudTrial.trialTopMenuNotification": "Mai sunt {daysLeftOnTrial} zile rămase din perioada de probă Cloud.",
+  "admin.billing.subscription.cloudTrial.menuCloudTrial": "Mai sunt {daysLeftOnTrial} zile rămase din perioada de probă Cloud.",
   "admin.billing.subscription.creditCardExpired": "Cardul dvs. de credit a expirat. Actualizați informațiile de plată pentru a evita întreruperile.",
   "admin.billing.subscription.creditCardHasExpired": "Cardul dvs. de credit a expirat",
   "admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption": " pentru a evita orice perturbare.",
