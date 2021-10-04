@@ -3562,9 +3562,9 @@ export default class Client4 {
 
     // Cloud routes
     getCloudProducts = (includeLegacyProducts?: boolean) => {
-        let query = ''
+        let query = '';
         if (includeLegacyProducts) {
-            query = "?include_legacy=true";
+            query = '?include_legacy=true';
         }
         return this.doFetch<Product[]>(
             `${this.getCloudRoute()}/products${query}`, {method: 'get'},
