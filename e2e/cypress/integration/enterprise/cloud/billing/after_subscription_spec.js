@@ -65,25 +65,6 @@ describe('System Console - after subscription scenarios', () => {
     });
 
     describe('System Console - Subscription section', () => {
-        it('MM-T4117 UI and Navigation check after subscription', () => {
-            navigateToBillingScreen('#billing\\/subscription', 'Subscription');
-
-            // * Check for non existence of trial tag
-            cy.contains('span', 'Trial').should('not.exist');
-
-            // * Check for '(Current Plan)' label
-            cy.contains('.PlanDetails__currentPlan>span', '(Current Plan)').should('be.visible');
-
-            // * Check for Paid label
-            cy.get('.paid>span').should('have.text', 'Paid');
-
-            // # Click on see Billing history link
-            cy.contains('span', 'See Billing History').parent().click();
-
-            // * Check for billing history navigation
-            cy.url().should('include', '/billing/billing_history');
-        });
-
         it('MM-T4134 Downloading of invoice after subscription', () => {
             navigateToBillingScreen('#billing\\/subscription', 'Subscription');
 
