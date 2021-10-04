@@ -1,10 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, RouteComponentProps} from 'react-router-dom';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
 import logoImage from 'images/logo.png';
@@ -14,27 +13,60 @@ import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 import Setup from '../setup';
 import Confirm from '../confirm';
 
-export default class MFAController extends React.PureComponent {
-    componentDidMount() {
+type Location = {
+    search: string;
+}
+
+type Props = {
+    location: Location;
+    children: React.ReactNode;
+    mfa: boolean;
+    enableMultifactorAuthentication: boolean;
+    enforceMultifactorAuthentication: boolean;
+
+    /*
+     * Object from react-router
+     */
+    match: {
+        url: string;
+    };
+}
+
+type State = {
+    enforceMultifactorAuthentication?: boolean;
+}
+
+export default class MFAController extends React.PureComponent<Props & RouteComponentProps> {
+    public constructor(props: Props & RouteComponentProps) {
+        super(props);
+
+        this.state = {enforceMultifactorAuthentication: props.enableMultifactorAuthentication};
+    }
+
+    public componentDidMount(): void {
         document.body.classList.add('sticky');
-        document.getElementById('root').classList.add('container-fluid');
+        document.getElementById('root')!.classList.add('container-fluid');
 
         if (!this.props.enableMultifactorAuthentication) {
             this.props.history.push('/');
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         document.body.classList.remove('sticky');
-        document.getElementById('root').classList.remove('container-fluid');
+        document.getElementById('root')!.classList.remove('container-fluid');
     }
 
-    handleOnClick = (e) => {
+    public handleOnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         emitUserLoggedOutEvent('/login');
     }
 
-    render() {
+    public updateParent = (state: State): void => {
+        this.setState(state);
+    };
+
+    public render(): JSX.Element {
         let backButton;
         if (this.props.mfa && this.props.enforceMultifactorAuthentication) {
             backButton = (
@@ -105,18 +137,3 @@ export default class MFAController extends React.PureComponent {
         );
     }
 }
-
-MFAController.propTypes = {
-    location: PropTypes.object.isRequired,
-    children: PropTypes.node,
-    mfa: PropTypes.bool.isRequired,
-    enableMultifactorAuthentication: PropTypes.bool.isRequired,
-    enforceMultifactorAuthentication: PropTypes.bool.isRequired,
-
-    /*
-     * Object from react-router
-     */
-    match: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-    }).isRequired,
-};
