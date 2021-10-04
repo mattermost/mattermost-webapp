@@ -150,9 +150,9 @@ export default class FilePreviewModal extends React.PureComponent {
     }
     componentDidMount() {
         window.addEventListener('resize', this.handleWindowResize);
-        if (Object.keys(this.props.post).length === 0) {
-            this.props.actions.getPostAction(this.props.postId);
-        }
+        // if (Object.keys(this.props.post).length === 0) {
+        //     this.props.actions.getPostAction(this.props.postId);
+        // }
     }
 
     componentWillUnmount() {

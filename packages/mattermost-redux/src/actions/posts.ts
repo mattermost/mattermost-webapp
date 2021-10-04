@@ -993,6 +993,30 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     return Promise.all(promises);
 }
 
+export function getPostsByIds(ids: string[]) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let posts;
+
+        try {
+            posts = await Client4.getPostsByIds(ids);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(batchActions([
+                {type: PostTypes.GET_POSTS_FAILURE, error},
+                logError(error),
+            ]));
+            return {error};
+        }
+
+        dispatch({
+            type: PostTypes.RECEIVED_POSTS,
+            data: {posts},
+        });
+
+        return {data: {posts}};
+    };
+}
+
 export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[]): Set<string> {
     let usersByUsername: Dictionary<UserProfile>; // Populate this lazily since it's relatively expensive
 
