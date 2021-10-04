@@ -13,7 +13,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import LocalizedInput from 'components/localized_input/localized_input';
 
 type MFAControllerState = {
-    enforceMultifactorAuthentication?: boolean;
+    enforceMultifactorAuthentication: boolean;
 };
 
 type Props = {

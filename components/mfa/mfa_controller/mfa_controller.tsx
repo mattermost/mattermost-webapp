@@ -33,7 +33,7 @@ type Props = {
 }
 
 type State = {
-    enforceMultifactorAuthentication?: boolean;
+    enforceMultifactorAuthentication: boolean;
 }
 
 export default class MFAController extends React.PureComponent<Props & RouteComponentProps, State> {
