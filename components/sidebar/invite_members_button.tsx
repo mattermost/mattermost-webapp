@@ -1,13 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {useIntl, FormattedMessage} from 'react-intl';
 
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Permissions} from 'mattermost-redux/constants';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+
+import {GlobalState} from 'types/store';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
@@ -25,11 +29,22 @@ type Props = {
 
 const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element => {
     const intl = useIntl();
-
+    const dispatch = useDispatch<DispatchFunc>();
     const currentTeamId = useSelector(getCurrentTeamId);
+    const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
+    const userLimit = 10;
+
+    useEffect(() => {
+        if (!analytics) {
+            (async function getAllAnalytics() {
+                await dispatch(getStandardAnalytics());
+            }());
+        }
+    }, []);
+
     let buttonClass = 'SidebarChannelNavigator_inviteMembersLhsButton';
 
-    if (!props.touchedInviteMembersButton) {
+    if (!props.touchedInviteMembersButton && Number(analytics?.TOTAL_USERS) <= userLimit) {
         buttonClass += ' SidebarChannelNavigator_inviteMembersLhsButton--untouched';
     }
 
