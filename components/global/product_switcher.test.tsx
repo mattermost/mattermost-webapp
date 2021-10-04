@@ -38,17 +38,13 @@ describe('components/global/product_switcher', () => {
     });
 
     it('should match snapshot', () => {
-        const wrapper = shallow(
-            <ProductSwitcher/>
-        );
+        const wrapper = shallow(<ProductSwitcher/>);
 
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should render once when there are no top level products available', () => {
-        const wrapper = shallow(
-            <ProductSwitcher/>
-        );
+        const wrapper = shallow(<ProductSwitcher/>);
 
         const spyProducts = jest.spyOn(hooks, 'useProducts');
 
@@ -58,9 +54,7 @@ describe('components/global/product_switcher', () => {
     });
 
     it('should render the correct amount of times when there are products available', () => {
-        const wrapper = shallow(
-            <ProductSwitcher/>
-        );
+        const wrapper = shallow(<ProductSwitcher/>);
         const products = [
             makeProduct(TopLevelProducts.BOARDS),
             makeProduct(TopLevelProducts.PLAYBOOKS),
@@ -74,9 +68,7 @@ describe('components/global/product_switcher', () => {
     });
 
     it('should have an active button state when the switcher menu is open', () => {
-        const wrapper = shallow(
-            <ProductSwitcher/>
-        );
+        const wrapper = shallow(<ProductSwitcher/>);
         const setState = jest.fn();
 
         const useStateSpy = jest.spyOn(React, 'useState');
@@ -85,14 +77,12 @@ describe('components/global/product_switcher', () => {
         wrapper.find(ProductSwitcherContainer).simulate('click');
         expect(wrapper.find(ProductSwitcherButton).props().active).toEqual(true);
         expect(wrapper).toMatchSnapshot();
-    })
+    });
 
     it('should match snapshot with product switcher menu', () => {
-        const wrapper = shallow(
-            <ProductSwitcher/>
-        );
+        const wrapper = shallow(<ProductSwitcher/>);
 
         expect(wrapper.find(ProductSwitcherMenu)).toHaveLength(1);
         expect(wrapper).toMatchSnapshot();
-    })
+    });
 });
