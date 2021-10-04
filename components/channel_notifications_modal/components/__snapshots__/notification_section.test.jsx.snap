@@ -23,6 +23,7 @@ exports[`components/channel_notifications_modal/NotificationSection should match
   globalNotifyLevel="default"
   memberNotifyLevel="all"
   onChange={[Function]}
+  onChangeThreads={[Function]}
   onCollapseSection={[Function]}
   onSubmit={[Function]}
   section="desktop"
@@ -44,6 +45,7 @@ exports[`components/channel_notifications_modal/NotificationSection should match
   globalNotifyLevel={null}
   memberNotifyLevel="all"
   onChange={[Function]}
+  onChangeThreads={[Function]}
   onCollapseSection={[Function]}
   onSubmit={[Function]}
   section="markUnread"
@@ -65,6 +67,7 @@ exports[`components/channel_notifications_modal/NotificationSection should match
   globalNotifyLevel="default"
   memberNotifyLevel="all"
   onChange={[Function]}
+  onChangeThreads={[Function]}
   onCollapseSection={[Function]}
   onSubmit={[Function]}
   section="push"

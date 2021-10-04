@@ -98,7 +98,9 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
               expand={false}
               globalNotificationLevel="all"
               memberNotificationLevel="all"
+              memberThreadsNotificationLevel="all"
               onChange={[Function]}
+              onChangeThreads={[Function]}
               onSubmit={[Function]}
               onUpdateSection={[Function]}
               section="desktop"
@@ -110,7 +112,9 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
             <NotificationSection
               expand={false}
               memberNotificationLevel="default"
+              memberThreadsNotificationLevel="all"
               onChange={[Function]}
+              onChangeThreads={[Function]}
               onSubmit={[Function]}
               onUpdateSection={[Function]}
               section="push"
