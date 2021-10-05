@@ -70,7 +70,6 @@ import {
     SAMLFeatureDiscovery,
     OpenIDFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
-    ChannelsFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
     CustomTermsOfServiceFeatureDiscovery,
     DataRetentionFeatureDiscovery,
