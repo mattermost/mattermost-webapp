@@ -14,6 +14,7 @@ import InviteMembersButton from 'components/sidebar/invite_members_button';
 
 import * as teams from 'mattermost-redux/selectors/entities/teams';
 
+jest.useFakeTimers();
 describe('components/sidebar/invite_members_button', () => {
     // required state to mount using the provider
     const state = {

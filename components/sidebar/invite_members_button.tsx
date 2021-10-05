@@ -48,6 +48,10 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
         buttonClass += ' SidebarChannelNavigator_inviteMembersLhsButton--untouched';
     }
 
+    if (!currentTeamId || !totalUserCount) {
+        return null;
+    }
+
     return (
         <TeamPermissionGate
             teamId={currentTeamId}
