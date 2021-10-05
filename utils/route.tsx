@@ -1,3 +1,6 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import { ErrorPageTypes } from "utils/constants";
 
 import { isGuest } from "utils/utils.jsx";
@@ -25,9 +28,9 @@ export const notFoundParams = {
     type: ErrorPageTypes.PAGE_NOT_FOUND,
 };
 
-const mfaPaths = ["/mfa/setup", "/mfa/confirm"];
+const mfaPaths = ['/mfa/setup', '/mfa/confirm'];
 
-const mfaAuthServices = ["", "email", "ldap"];
+const mfaAuthServices = ['', 'email', 'ldap'];
 
 export type ConfigOption = {
     EnableMultifactorAuthentication?: string;
@@ -42,14 +45,14 @@ export function checkIfMFARequired(
     path: string
 ): boolean {
     if (
-        license.MFA === "true" &&
-        config.EnableMultifactorAuthentication === "true" &&
-        config.EnforceMultifactorAuthentication === "true" &&
+        license.MFA === 'true' &&
+        config.EnableMultifactorAuthentication === 'true' &&
+        config.EnforceMultifactorAuthentication === 'true' &&
         mfaPaths.indexOf(path) === -1
     ) {
         if (
             isGuest(user) &&
-            config.GuestAccountsEnforceMultifactorAuthentication !== "true"
+            config.GuestAccountsEnforceMultifactorAuthentication !== 'true'
         ) {
             return false;
         }
