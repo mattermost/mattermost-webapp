@@ -58,6 +58,7 @@ export default class PostImage extends React.PureComponent {
                                     has_preview_image: false,
                                     link: safeLink,
                                     extension: this.props.imageMetadata.format,
+                                    name: this.props.link,
                                 }]}
                             />
                         </React.Fragment>

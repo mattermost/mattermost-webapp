@@ -58,7 +58,7 @@ describe('Permalink message edit', () => {
             const editedText = `edited - ${searchWord}`;
 
             // # Add new text in edit box
-            cy.get('#edit_textbox').should('be.visible').type('any').clear().type(editedText);
+            cy.get('#edit_textbox').should('be.visible').type('any').clear({force: true}).type(editedText);
 
             // # Click edit button
             cy.get('#editButton').click();
