@@ -594,7 +594,6 @@ export const StorageTypes = keyMirror({
     REMOVE_GLOBAL_ITEM: null,
     CLEAR: null,
     ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
-    ACTION_ON_ITEMS_WITH_PREFIX: null,
     STORAGE_REHYDRATE: null,
 });
 
