@@ -3,8 +3,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import * as redux from 'react-redux';
-
 import configureStore from 'redux-mock-store';
+
 import GlobalSearchNav from './global_search_nav';
 
 describe('components/GlobalSearchNav', () => {
@@ -15,13 +15,13 @@ describe('components/GlobalSearchNav', () => {
     test('should match snapshot with active flagged posts', () => {
         const spy = jest.spyOn(redux, 'useSelector');
 
-        spy.mockReturnValue({rhsState: 'flag'})
-        spy.mockReturnValue({isRhsOpen: true})
+        spy.mockReturnValue({rhsState: 'flag'});
+        spy.mockReturnValue({isRhsOpen: true});
 
         const wrapper = shallow(
             <redux.Provider store={store}>
-                <GlobalSearchNav />
-            </redux.Provider>
+                <GlobalSearchNav/>
+            </redux.Provider>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -29,13 +29,13 @@ describe('components/GlobalSearchNav', () => {
     test('should match snapshot with active mentions posts', () => {
         const spy = jest.spyOn(redux, 'useSelector');
 
-        spy.mockReturnValue({ rhsState: 'mentions' })
-        spy.mockReturnValue({ isRhsOpen: 'true' })
+        spy.mockReturnValue({rhsState: 'mentions'});
+        spy.mockReturnValue({isRhsOpen: 'true'});
 
         const wrapper = shallow(
             <redux.Provider store={store}>
-                <GlobalSearchNav />
-            </redux.Provider>
+                <GlobalSearchNav/>
+            </redux.Provider>,
         );
         expect(wrapper).toMatchSnapshot();
     });
