@@ -5,7 +5,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
