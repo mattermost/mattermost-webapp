@@ -2,26 +2,28 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import {imageURLForTeam} from 'utils/utils';
+import {Team} from 'mattermost-redux/types/teams';
 
-export default class TeamInList extends React.PureComponent {
-    static propTypes = {
-        team: PropTypes.object.isRequired,
-        onRemoveTeam: PropTypes.func,
-        isDisabled: PropTypes.bool,
-    }
+type Props = {
+    team: Team;
+    onRemoveTeam?: (teamId: string) => void;
+    isDisabled?: boolean;
+}
 
+export default class TeamInList extends React.PureComponent<Props> {
     handleRemoveTeam = () => {
         const {team, isDisabled, onRemoveTeam} = this.props;
         if (isDisabled) {
             return;
         }
-        onRemoveTeam(team.id);
+        if (onRemoveTeam) {
+            onRemoveTeam(team.id);
+        }
     }
 
     render() {
