@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/global/AtMentionsButton should match snapshot 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={400}
+  overlay={<React.Fragment />}
+  placement="bottom"
+  trigger={
+    Array [
+      "hover",
+    ]
+  }
+>
+  <ForwardRef
+    aria-label="Select to toggle a list of recent mentions."
+    compact={true}
+    icon="at"
+    inverted={true}
+    onClick={[Function]}
+    size="sm"
+    toggled={false}
+  />
+</OverlayTrigger>
+`;
+
+exports[`components/global/settings_button should match snapshot 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
+>
+  <AtMentionsButton />
+</ContextProvider>
+`;
