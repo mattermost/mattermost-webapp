@@ -42,7 +42,7 @@ const commonProps = {
                 {props.data.label}
             </div>
         ),
-    }
+    },
 };
 
 export default class AppsFormSelectField extends React.PureComponent<Props, State> {
