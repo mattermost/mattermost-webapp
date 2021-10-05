@@ -55,14 +55,15 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const license = getLicense(state);
 
-    const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
+    const isLicensed = license?.IsLicensed === 'true';
 
     // Channel Moderation is only available for Professional, Enterprise and backward compatible with E20
-    const channelModerationEnabled = license?.IsLicensed && (license.SkuShortName === LicenseSkus.Professional || license.SkuShortName === LicenseSkus.Enterprise || license.SkuShortName === LicenseSkus.E20);
+    const channelModerationEnabled = isLicensed && (license.SkuShortName === LicenseSkus.Professional || license.SkuShortName === LicenseSkus.Enterprise || license.SkuShortName === LicenseSkus.E20);
 
     // Channel Groups is only available for Enterprise and backward compatible with E20
-    const channelGroupsEnabled = license?.IsLicensed && (license.SkuShortName === LicenseSkus.Enterprise || license.SkuShortName === LicenseSkus.E20);
+    const channelGroupsEnabled = isLicensed && (license.SkuShortName === LicenseSkus.Enterprise || license.SkuShortName === LicenseSkus.E20);
 
+    const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
     const channelID = ownProps.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
     const team = getTeam(state, channel.team_id) || {};
