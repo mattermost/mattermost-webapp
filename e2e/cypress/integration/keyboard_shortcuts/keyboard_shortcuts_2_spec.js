@@ -43,7 +43,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('/');
 
         // # Verify that the 'Keyboard Shortcuts' modal is open
-        cy.get('#shortcutsModalLabel').should('be.visible');
+        modalShouldOpen();
 
         // # Verify that the 'Keyboard Shortcuts' modal displays the CTRL/CMD+U shortcut
         cy.get('.section').eq(2).within(() => {
@@ -64,7 +64,7 @@ describe('Keyboard Shortcuts', () => {
 
         // # Type /shortcuts
         cy.get('#post_textbox').clear().type('/shortcuts{enter}');
-        cy.get('#shortcutsModalLabel').should('be.visible');
+        modalShouldOpen();
 
         // # Close the 'Keyboard Shortcuts' modal using the x button
         cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close').click();
@@ -132,10 +132,10 @@ describe('Keyboard Shortcuts', () => {
         });
 
         cy.getLastPostId().then((postId) => {
-            // * Post should have (edited)
+            // * Post should have "Edited"
             cy.get(`#postEdited_${postId}`).
                 should('be.visible').
-                should('contain', '(edited)');
+                should('contain', 'Edited');
         });
     });
 
@@ -200,7 +200,11 @@ describe('Keyboard Shortcuts', () => {
         // # Click "Keyboard shortcuts" at help menu
         cy.uiOpenHelpMenu('Keyboard shortcuts');
 
-        const name = isMac() ? /Keyboard Shortcuts ⌘ \// : /Keyboard Shortcuts Ctrl \//;
-        cy.findByRole('dialog', {name}).should('be.visible');
+        modalShouldOpen();
     });
 });
+
+function modalShouldOpen() {
+    const name = isMac() ? /Keyboard Shortcuts ⌘ \// : /Keyboard Shortcuts Ctrl \//;
+    cy.findByRole('dialog', {name}).should('be.visible');
+}
