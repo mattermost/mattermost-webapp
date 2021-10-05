@@ -57,7 +57,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
     const channelModerationEnabled = license?.IsLicensed && (license.SkuShortName === LicenseSkus.Professional || license.SkuShortName === LicenseSkus.Enterprise);
-    const channelGroupsEnabeld = license?.IsLicensed && license.SkuShortName === LicenseSkus.Enterprise;
+    const channelGroupsEnabled = license?.IsLicensed && license.SkuShortName === LicenseSkus.Enterprise;
 
     const channelID = ownProps.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
@@ -78,7 +78,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         teamScheme,
         guestAccountsEnabled,
         channelModerationEnabled,
-        channelGroupsEnabeld,
+        channelGroupsEnabled,
     };
 }
 
