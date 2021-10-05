@@ -7,9 +7,10 @@ import Icon from '@mattermost/compass-components/foundations/icon';
 import {ProductComponent} from 'types/store/plugins';
 import {TopLevelProducts} from 'utils/constants';
 
-import ProductBranding from './product_branding';
 import * as hooks from '../hooks';
-import {makeProduct} from '../test_helpers'
+import {makeProduct} from '../test_helpers';
+
+import ProductBranding from './product_branding';
 
 describe('components/ProductBranding', () => {
     test('should show correct icon glyph when we are on Channels', () => {
@@ -28,9 +29,10 @@ describe('components/ProductBranding', () => {
 
     test('should show correct icon glyph when we are on Playbooks', () => {
         const products = jest.spyOn(hooks, 'useProducts');
-        products.mockReturnValue([makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
-                                    makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent
-                                ]);
+        products.mockReturnValue([
+            makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
+            makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent,
+        ]);
 
         const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
         spyProduct.mockReturnValue('Playbooks');
@@ -44,9 +46,10 @@ describe('components/ProductBranding', () => {
 
     test('should show correct icon glyph when we are on Boards', () => {
         const products = jest.spyOn(hooks, 'useProducts');
-        products.mockReturnValue([makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
-                                    makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent
-                                ]);
+        products.mockReturnValue([
+            makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
+            makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent,
+        ]);
 
         const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
         spyProduct.mockReturnValue('Boards');

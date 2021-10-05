@@ -8,8 +8,9 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 import {ProductComponent} from 'types/store/plugins';
 import {TutorialSteps, TopLevelProducts} from 'utils/constants';
 
+import {makeProduct} from '../test_helpers';
+
 import {Props, ProductSwitcherTip} from './product_switcher_tip';
-import {makeProduct} from '../test_helpers'
 
 let props: Props = {
     currentUserId: '',
