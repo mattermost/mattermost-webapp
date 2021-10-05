@@ -37,6 +37,7 @@ type Props = {
     selected: Post | FakePost;
     teamId: string;
     useRelativeTimestamp: boolean;
+    isThreadView: boolean;
 }
 
 type State = {
@@ -315,7 +316,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                         ref={this.postCreateContainerRef}
                         teammate={this.props.directTeammate}
                         threadId={this.props.selected.id}
-                        isThreadView={true}
+                        isThreadView={this.props.isThreadView}
                     />
                 )}
             </>
