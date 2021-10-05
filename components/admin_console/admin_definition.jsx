@@ -4334,7 +4334,10 @@ const AdminDefinition = {
                 shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
             },
             isHidden: it.any(
-                it.not(it.licensed),
+                it.any(
+                    it.not(it.licensed),
+                    it.licensedForSku('starter'),
+                ),
                 it.all(
                     it.licensedForFeature('OpenId'),
                     it.not(usesLegacyOauth),

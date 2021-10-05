@@ -23,6 +23,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
+import {clearLastUnreadChannel} from 'actions/global_actions';
 import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
@@ -66,6 +67,7 @@ const GlobalThreads = () => {
     useEffect(() => {
         dispatch(suppressRHS);
         dispatch(selectChannel(''));
+        dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
 
         // unsuppresses RHS on navigating away (unmount)

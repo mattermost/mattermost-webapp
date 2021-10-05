@@ -40,6 +40,19 @@
     }
 }
 
+#status-menu-dnd-timed_menuitem {
+    .SubMenuItem.MenuItem {
+        flex-grow: 1;
+    }
+
+    .SubMenuItemContainer {
+        &:hover,
+        &:focus {
+            background-color: unset;
+        }
+    }
+}
+
 .custom_status__row {
     position: relative;
     height: auto;
