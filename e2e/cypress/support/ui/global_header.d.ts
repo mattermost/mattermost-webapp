@@ -52,6 +52,14 @@ declare namespace Cypress {
         uiGetSetStatusButton(): Chainable;
 
         /**
+         * Get profile header
+         *
+         * @example
+         *   cy.uiGetProfileHeader();
+         */
+        uiGetProfileHeader(): Chainable;
+
+        /**
          * Get status menu container
          *
          * @param {bool} option.exist - Set to false to not verify if the element exists. Otherwise, true (default) to check existence.
@@ -69,6 +77,32 @@ declare namespace Cypress {
         uiGetStatusMenu(): Chainable;
 
         /**
+         * Open help menu
+         *
+         * @param {string} item - menu item ex. Ask the community, Help resources, etc.
+         *
+         * @example
+         *   cy.uiOpenHelpMenu();
+         */
+        uiOpenHelpMenu(item: string): Chainable;
+
+        /**
+         * Get help button
+         *
+         * @example
+         *   cy.uiGetHelpButton();
+         */
+        uiGetHelpButton(): Chainable;
+
+        /**
+         * Get help menu
+         *
+         * @example
+         *   cy.uiGetHelpMenu();
+         */
+        uiGetHelpMenu(): Chainable;
+
+        /**
          * Open user menu
          *
          * @param {string} item - menu item ex. Account Settings, Logout, etc.
@@ -76,7 +110,39 @@ declare namespace Cypress {
          * @example
          *   cy.uiOpenUserMenu();
          */
-        uiOpenUserMenu(): Chainable;
+        uiOpenUserMenu(option: Record<string, boolean>): Chainable;
+
+        /**
+         * Get search form container
+         *
+         * @example
+         *   cy.uiGetSearchContainer();
+         */
+        uiGetSearchContainer(): Chainable;
+
+        /**
+         * Get search box
+         *
+         * @example
+         *   cy.uiGetSearchBox();
+         */
+        uiGetSearchBox(): Chainable;
+
+        /**
+         * Get at-mention button
+         *
+         * @example
+         *   cy.uiGetRecentMentionButton();
+         */
+        uiGetRecentMentionButton(): Chainable;
+
+        /**
+         * Get saved posts button
+         *
+         * @example
+         *   cy.uiGetSavedPostButton();
+         */
+        uiGetSavedPostButton(): Chainable;
 
         /**
          * Get settings button
@@ -84,7 +150,7 @@ declare namespace Cypress {
          * @example
          *   cy.uiGetSettingsButton();
          */
-        uiGetSettingsButton(option: Record<string, boolean>): Chainable;
+        uiGetSettingsButton(): Chainable;
 
         /**
          * Open settings modal
@@ -94,7 +160,7 @@ declare namespace Cypress {
          * @example
          *   cy.uiOpenSettingsModal();
          */
-        uiOpenSettingsModal(): Chainable;
+        uiOpenSettingsModal(section: string): Chainable;
 
         /**
          * User log out via user menu

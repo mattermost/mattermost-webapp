@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @guest_account
 
 /**
@@ -129,7 +128,7 @@ describe('Guest Account - Guest User Experience', () => {
         // # Close the profile popover
         cy.get('#channel-header').click();
 
-        // * Verify Guest User can see only 1 additional channel in LHS plus town-square and off-topic
+        // * Verify Guest User can see only 1 additional channel in LHS plus off-topic and off-topic
         cy.uiGetLhsSection('CHANNELS').find('.SidebarChannel').should('have.length', 3);
 
         // * Verify list of Users a Guest User can see in Team Members dialog
@@ -165,7 +164,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.uiGetLHSAddChannelButton();
 
         // * Verify Guest Badge in Channel Header is removed
-        cy.get('#sidebarItem_town-square').click();
+        cy.get('#sidebarItem_off-topic').click();
         cy.get('#channelIntro').should('be.visible');
         cy.get('#channelHeaderDescription').within(($el) => {
             cy.wrap($el).find('.has-guest-header').should('not.exist');
@@ -187,7 +186,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#member_popover').click();
 
         // * Verify Guest Badge is removed when user posts a message
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get('#sidebarItem_off-topic').click({force: true});
         cy.postMessage('testing');
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {

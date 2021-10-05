@@ -45,7 +45,7 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
                     },
                 },
                 files: {
-                    filePublicLink: 'http://example.com/img.png',
+                    filePublicLink: {link: 'http://example.com/img.png'},
                 },
             },
         } as GlobalState;

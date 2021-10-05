@@ -6,6 +6,32 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
   mobile={false}
 >
   <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "sysconsole_write_billing",
+        ]
+      }
+    >
+      <MenuCloudTrial
+        id="menuCloudTrial"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "sysconsole_write_about_edition_and_license",
+        ]
+      }
+    >
+      <MenuStartTrial
+        id="startTrial"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <MenuItemAction
       icon={false}
       id="recentMentions"
@@ -20,19 +46,6 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       show={false}
       text="Saved Posts"
     />
-  </MenuGroup>
-  <MenuGroup>
-    <Connect(SystemPermissionGate)
-      permissions={
-        Array [
-          "sysconsole_write_about_edition_and_license",
-        ]
-      }
-    >
-      <MenuStartTrial
-        id="startTrial"
-      />
-    </Connect(SystemPermissionGate)>
   </MenuGroup>
   <MenuGroup>
     <MenuItemToggleModalRedux

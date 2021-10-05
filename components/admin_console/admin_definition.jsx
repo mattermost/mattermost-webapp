@@ -510,7 +510,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.teams'),
             title_default: 'Teams',
             isHidden: it.any(
-                it.not(it.licensedForFeature('LDAPGroups')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             ),
             schema: {
@@ -1943,7 +1942,7 @@ const AdminDefinition = {
                         label: t('admin.support.emailTitle'),
                         label_default: 'Support Email:',
                         help_text: t('admin.support.emailHelp'),
-                        help_text_default: 'Email address displayed on email notifications and during tutorial for end users to ask support questions.',
+                        help_text_default: 'Email address displayed on email notifications.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -2574,6 +2573,18 @@ const AdminDefinition = {
                         help_text: t('admin.customization.enableLatexDesc'),
                         help_text_default: 'Enable rendering of Latex code. If false, Latex code will be highlighted only.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableInlineLatex',
+                        label: t('admin.customization.enableInlineLatexTitle'),
+                        label_default: 'Enable Inline Latex Rendering:',
+                        help_text: t('admin.customization.enableInlineLatexDesc'),
+                        help_text_default: 'When true, users may render inline Latex code with dollar signs surrounding the text. When false, Latex can only be rendered in a code block using syntax highlighting. [Learn more about text formatting in our documentation](!https://docs.mattermost.com/messaging/formatting-text.html).',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                            it.configIsFalse('ServiceSettings', 'EnableLatex'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -4323,7 +4334,10 @@ const AdminDefinition = {
                 shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
             },
             isHidden: it.any(
-                it.not(it.licensed),
+                it.any(
+                    it.not(it.licensed),
+                    it.licensedForSku('starter'),
+                ),
                 it.all(
                     it.licensedForFeature('OpenId'),
                     it.not(usesLegacyOauth),
@@ -5180,20 +5194,6 @@ const AdminDefinition = {
                         help_text: t('admin.oauth.providerDescription'),
                         help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) to learn more.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_PERMISSION,
-                        key: 'ServiceSettings.EnableOnlyAdminIntegrations',
-                        label: t('admin.service.integrationAdmin'),
-                        label_default: 'Restrict managing integrations to Admins:',
-                        help_text: t('admin.service.integrationAdminDesc'),
-                        help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
-                        permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                        isHidden: it.any(
-                            it.not(it.licensed),
-                            it.licensedForSku('starter'),
-                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -6072,20 +6072,6 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
                         help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.ExperimentalTownSquareIsReadOnly',
-                        label: t('admin.experimental.experimentalTownSquareIsReadOnly.title'),
-                        label_default: 'Town Square is Read-Only:',
-                        help_text: t('admin.experimental.experimentalTownSquareIsReadOnly.desc'),
-                        help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
-                        help_text_markdown: true,
-                        isHidden: it.any(
-                            it.not(it.licensed),
-                            it.licensedForSku('starter'),
-                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {

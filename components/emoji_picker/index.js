@@ -20,7 +20,7 @@ function mapStateToProps(state) {
         emojiMap: getEmojiMap(state),
         recentEmojis: getRecentEmojis(state),
         userSkinTone: getUserSkinTone(state),
-        currentTeamName: currentTeam.name,
+        currentTeamName: currentTeam ? currentTeam.name : '',
     };
 }
 

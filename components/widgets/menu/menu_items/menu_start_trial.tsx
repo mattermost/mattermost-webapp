@@ -9,6 +9,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {openModal} from 'actions/views/modals';
 import StartTrialModal from 'components/start_trial_modal';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import './menu_item.scss';
@@ -33,8 +34,12 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
     };
 
     const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
-    const isLicensed = prevTrialLicense?.IsLicensed;
-    const show = isLicensed !== undefined && isLicensed !== 'true';
+    const currentLicense = useSelector(getLicense);
+    const isPrevLicensed = prevTrialLicense?.IsLicensed;
+    const isCurrentLicensed = currentLicense?.IsLicensed;
+
+    // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
+    const show = (isCurrentLicensed === 'false') && (isPrevLicensed === 'false');
 
     if (!show) {
         return null;

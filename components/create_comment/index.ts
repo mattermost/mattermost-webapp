@@ -13,7 +13,6 @@ import {ModalData} from 'types/actions.js';
 import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
@@ -83,7 +82,6 @@ function makeMapStateToProps() {
             codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             createPostErrorId: err.server_error_id,
-            readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
             enableConfirmNotificationsToChannel,
             enableEmojiPicker,
             enableGifPicker,

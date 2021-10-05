@@ -653,34 +653,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             helpText={
               <SchemaText
                 isTranslated={true}
-                text="help-text-o"
-                textDefault="This is some help text for the permissions field."
-              />
-            }
-            id="settingo"
-            key="Config_bool_settingo"
-            label="Setting Fourteen"
-            onChange={[Function]}
-            setByEnv={false}
-            trueText={
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="true"
-                id="admin.true"
-              />
-            }
-            value={false}
-          />
-          <BooleanSetting
-            disabled={false}
-            falseText={
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="false"
-                id="admin.false"
-              />
-            }
-            helpText={
-              <SchemaText
-                isTranslated={true}
                 text="escaped-help-text-a"
                 textDefault="This is some help text for the first escaped field."
               />

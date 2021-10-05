@@ -164,11 +164,6 @@ type Props = {
     resetCreatePostRequest: () => void;
 
     /**
-      * Set if channel is read only
-      */
-    readOnlyChannel?: boolean;
-
-    /**
       * Set if @channel should warn in this channel.
       */
     enableConfirmNotificationsToChannel: boolean;
@@ -809,7 +804,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
-        const caretPosition = Utils.getCaretPosition(e.target);
+        const caretPosition = Utils.getCaretPosition(e.target as HTMLElement);
         this.setState({
             caretPosition,
         });
@@ -1094,7 +1089,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
     render() {
         const draft = this.state.draft!;
-        const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
+        const readOnlyChannel = !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;

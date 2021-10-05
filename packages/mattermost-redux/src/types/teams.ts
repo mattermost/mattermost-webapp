@@ -9,8 +9,9 @@ export type TeamMembership = TeamUnread & {
     user_id: string;
     roles: string;
     delete_at: number;
-    scheme_user: boolean;
     scheme_admin: boolean;
+    scheme_guest: boolean;
+    scheme_user: boolean;
 };
 
 export type TeamMemberWithError = {

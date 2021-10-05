@@ -8,10 +8,9 @@ const admin = getAdminAccount();
 const oneDay = 24 * 60 * 60 * 1000;
 const twentySeconds = 20 * 1000;
 
-export function verifyExtendedSession(testUser, sessionLengthInDays, loginTestUser) {
+export function verifyExtendedSession(testUser, sessionLengthInDays, channelUrl) {
     // # Login as test user and visit default channel
-    loginTestUser();
-    cy.visit('/');
+    cy.visit(channelUrl);
 
     // # Get active user sessions as baseline reference
     cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
@@ -37,7 +36,7 @@ export function verifyExtendedSession(testUser, sessionLengthInDays, loginTestUs
             cy.reload();
 
             // # Visit default channel
-            cy.visit('/');
+            cy.visit(channelUrl);
 
             // # Get active session of test user
             cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: extendedSessions}) => {
@@ -60,10 +59,9 @@ export function verifyExtendedSession(testUser, sessionLengthInDays, loginTestUs
     });
 }
 
-export function verifyNotExtendedSession(testUser, loginTestUser) {
+export function verifyNotExtendedSession(testUser, channelUrl) {
     // # Login as test user and visit default channel
-    loginTestUser();
-    cy.visit('/');
+    cy.visit(channelUrl);
 
     // # Get active user sessions as baseline reference
     cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
@@ -90,7 +88,7 @@ export function verifyNotExtendedSession(testUser, loginTestUser) {
             cy.reload();
 
             // # Visit default channel
-            cy.visit('/');
+            cy.visit(channelUrl);
 
             // # Get active session of test user
             cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: soonToExpireSessions}) => {

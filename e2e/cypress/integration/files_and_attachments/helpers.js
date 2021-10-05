@@ -16,20 +16,26 @@ export function downloadAttachmentAndVerifyItsProperties(fileURL, filename, http
     });
 }
 
-export function waitUntilUploadComplete(thumbnailElement) {
+export function interceptFileUpload() {
+    cy.intercept({
+        method: 'POST',
+        url: '/api/v4/files',
+    }).as('fileUpload');
+}
+
+export function waitUntilUploadComplete() {
+    cy.wait('@fileUpload', {timeout: TIMEOUTS.TEN_SEC}).then((interception) => {
+        const fileInfo = interception.response.body.file_infos[0];
+        cy.log(`file id: ${fileInfo.id}`);
+    });
+
+    cy.wait(TIMEOUTS.ONE_SEC);
+
     const options = {
         timeout: TIMEOUTS.HALF_MIN,
         interval: TIMEOUTS.HALF_SEC,
         errorMsg: 'File upload did not complete in time',
     };
-
-    // * Verify the thumbnail exists
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image__thumbnail').length > 0;
-    }), options);
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find(thumbnailElement).length > 0;
-    }), options);
 
     // # Wait until file upload processing is complete
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {

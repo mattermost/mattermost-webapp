@@ -19,13 +19,14 @@ describe('Integrations', () => {
     let testTeam;
     const userGroup = [];
     let testChannel;
-    let townSquareUrl;
+    let testChannelUrl;
+    let offTopicUrl;
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, user, offTopicUrl: url}) => {
             testUser = user;
             testTeam = team;
-            townSquareUrl = `/${team.name}/channels/town-square`;
+            offTopicUrl = url;
 
             Cypress._.times(8, () => {
                 cy.apiCreateUser().then(({user: otherUser}) => {
@@ -40,6 +41,7 @@ describe('Integrations', () => {
         cy.apiAdminLogin();
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
             testChannel = channel;
+            testChannelUrl = `/${testTeam.name}/channels/${channel.name}`;
             cy.apiAddUserToChannel(channel.id, testUser.id);
         });
     });
@@ -50,7 +52,7 @@ describe('Integrations', () => {
         }).then((deactivatedUser) => {
             const userToInvite = userGroup[0];
 
-            loginAndVisitChannel(testUser, `/${testTeam.name}/channels/${testChannel.name}`);
+            loginAndVisitChannel(testUser, testChannelUrl);
 
             // # Post `/invite @username` where username is a user who is not in the current channel
             cy.postMessage(`/invite @${userToInvite.username} `);
@@ -63,8 +65,7 @@ describe('Integrations', () => {
             cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
 
             cy.apiLogout();
-            cy.apiLogin(userToInvite);
-            cy.visit(`${testTeam.name}/channels/town-square`);
+            loginAndVisitChannel(userToInvite, offTopicUrl);
 
             // * Added user sees channel added to LHS, mention badge
             cy.uiGetLhsSection('CHANNELS').
@@ -80,7 +81,7 @@ describe('Integrations', () => {
     it('MM-T661 /invite extra white space before @ in DM or GM', () => {
         const [member1, member2, userToInviteGM, userToInviteDM] = userGroup;
 
-        loginAndVisitChannel(testUser, `${testTeam.name}/channels/${testChannel.name}`);
+        loginAndVisitChannel(testUser, testChannelUrl);
 
         // # In a GM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
         cy.postMessage(`/groupmsg @${member1.username} @${member2.username} `);
@@ -93,7 +94,7 @@ describe('Integrations', () => {
         cy.get('#selectItems').type(`${userToInviteDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userToInviteDM.username}`).click();
         cy.findByText('Go').click();
-        cy.get('#channelHeaderDropdownButton').contains(`${userToInviteDM.username}`).should('be.visible');
+        cy.uiGetChannelHeaderButton().contains(`${userToInviteDM.username}`);
 
         // # In a DM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
         cy.postMessage(`/invite        @${userToInviteDM.username} ~${testChannel.name} `);
@@ -105,7 +106,7 @@ describe('Integrations', () => {
     it('MM-T659 /invite - other channel', () => {
         const userToInvite = userGroup[0];
 
-        loginAndVisitChannel(testUser, townSquareUrl);
+        loginAndVisitChannel(testUser, offTopicUrl);
 
         // # Post `/invite @username ~channel` where channel name is a channel you have permission to add members to but not the current channel, and username is a user not in that other channel
         cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name} `);
@@ -114,7 +115,7 @@ describe('Integrations', () => {
         cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} added to ${testChannel.name} channel.`);
 
         cy.apiLogout();
-        loginAndVisitChannel(userToInvite, townSquareUrl);
+        loginAndVisitChannel(userToInvite, offTopicUrl);
 
         // * Added user sees channel added to LHS, mention badge.
         cy.uiGetLhsSection('CHANNELS').
@@ -129,7 +130,7 @@ describe('Integrations', () => {
     it('MM-T660_1 /invite tests when used in DMs and GMs', () => {
         const [member1, member2, userDM] = userGroup;
 
-        loginAndVisitChannel(testUser, `${testTeam.name}/channels/${testChannel.name}`);
+        loginAndVisitChannel(testUser, testChannelUrl);
 
         // # In a GM Use the /invite command to invite a channel to another channel (e.g., /invite @[channel name])
         cy.postMessage(`/groupmsg @${member1.username} @${member2.username} `);
@@ -142,7 +143,7 @@ describe('Integrations', () => {
         cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
-        cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
+        cy.uiGetChannelHeaderButton().contains(`${userDM.username}`);
 
         // # In a GM Use the /invite command to invite a channel to another channel (e.g., /invite @[channel name])
         cy.postMessage(`/invite @${testChannel.name} `);
@@ -155,7 +156,7 @@ describe('Integrations', () => {
         const [member1, member2, userDM, userToInvite] = userGroup;
 
         cy.apiAddUserToChannel(testChannel.id, userToInvite.id);
-        loginAndVisitChannel(testUser, `${testTeam.name}/channels/${testChannel.name}`);
+        loginAndVisitChannel(testUser, testChannelUrl);
 
         // # In a GM use the /invite command to invite someone to a channel they're already a member of
         cy.postMessage(`/groupmsg @${member1.username} @${member2.username} `);
@@ -168,7 +169,7 @@ describe('Integrations', () => {
         cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
-        cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
+        cy.uiGetChannelHeaderButton().contains(`${userDM.username}`);
 
         // # In a DM use the /invite command to invite someone to a channel they're already a member of
         cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name} `);
@@ -181,20 +182,20 @@ describe('Integrations', () => {
         const [userA, userB, userC, userDM, member1, member2] = userGroup;
 
         // # As UserA create a new public channel
-        loginAndVisitChannel(testUser, townSquareUrl);
+        loginAndVisitChannel(testUser, offTopicUrl);
         cy.uiBrowseOrCreateChannel('Create New Channel').click();
         cy.get('#newChannelName').type(`${userA.username}-channel`);
         cy.get('#submitNewChannel').click();
         cy.get('#postListContent').should('be.visible');
 
         cy.apiLogout();
-        loginAndVisitChannel(userB, townSquareUrl);
+        loginAndVisitChannel(userB, offTopicUrl);
 
         cy.uiAddDirectMessage().click();
         cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
-        cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
+        cy.uiGetChannelHeaderButton().contains(`${userDM.username}`);
 
         // # As UserB use the /invite command in a DM to invite UserC to the public channel that UserB is not a member of
         cy.postMessage(`/invite @${userC.username} ~${userA.username}-channel `);
@@ -213,7 +214,7 @@ describe('Integrations', () => {
     it('MM-T660_4 /invite tests when used in DMs and GMs', () => {
         const userToInvite = userGroup[0];
 
-        loginAndVisitChannel(testUser, townSquareUrl);
+        loginAndVisitChannel(testUser, offTopicUrl);
 
         // # Use the /invite command to invite a user to a channel by typing the channel name out without the tilde (~).
         cy.postMessage(`/invite @${userToInvite.username} ${testChannel.display_name} `);

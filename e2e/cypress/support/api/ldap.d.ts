@@ -20,22 +20,29 @@ declare namespace Cypress {
 
         /**
          * Synchronize any user attribute changes in the configured AD/LDAP server with Mattermost.
-         * See https://api.mattermost.com/#tag/LDAP/paths/~1ldap~1sync/post
-         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         * See https://api.mattermost.com/#operation/SyncLdap
          *
          * @example
          *   cy.apiLDAPSync();
          */
-        apiLDAPSync(): Chainable<Response>;
+        apiLDAPSync(): Chainable;
 
         /**
          * Test the current AD/LDAP configuration to see if the AD/LDAP server can be contacted successfully.
-         * See https://api.mattermost.com/#tag/LDAP/paths/~1ldap~1test/post
-         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         * See https://api.mattermost.com/#operation/TestLdap
          *
          * @example
          *   cy.apiLDAPTest();
          */
-        apiLDAPTest(): Chainable<Response>;
+        apiLDAPTest(): Chainable;
+
+        /**
+         * Sync LDAP user
+         * @returns {UserProfile} user - user object
+         *
+         * @example
+         *   cy.apiSyncLDAPUser();
+         */
+        apiSyncLDAPUser(): Chainable<UserProfile>;
     }
 }
