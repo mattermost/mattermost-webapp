@@ -766,6 +766,7 @@ export const CloudLinks = {
     COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
     CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
+    DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
 };
 
 export const BillingSchemes = {
