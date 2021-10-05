@@ -463,7 +463,7 @@ export default class SwitchChannelProvider extends Provider {
 
         const currentUserId = getCurrentUserId(getState());
         if (user.id === currentUserId) {
-            displayName += ' (you)';
+            displayName += (' ' + Utils.localizeMessage('suggestion.user.isCurrent', '(you)'));
         }
 
         return {
