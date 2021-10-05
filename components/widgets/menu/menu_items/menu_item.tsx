@@ -46,6 +46,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
                 >
                     <Component
                         text={textProp}
+                        accessibilityLabel={text}
                         ariaLabel={text}
                         {...props}
                     />
