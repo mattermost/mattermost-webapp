@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -11,14 +10,15 @@ import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permiss
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import imgTrans from 'images/img_trans.gif';
+import {CustomEmoji, Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
-export default class EmojiPickerPreview extends React.PureComponent {
-    static propTypes = {
-        emoji: PropTypes.object,
-        customEmojisEnabled: PropTypes.bool,
-        currentTeamName: PropTypes.string.isRequired,
-    }
+type Props = {
+    emoji?: Emoji;
+    customEmojisEnabled?: boolean;
+    currentTeamName: string;
+}
 
+export default class EmojiPickerPreview extends React.PureComponent<Props> {
     customEmojis = () => {
         if (!this.props.customEmojisEnabled) {
             return null;
@@ -43,7 +43,7 @@ export default class EmojiPickerPreview extends React.PureComponent {
         );
     }
 
-    render() {
+    render(): React.ReactNode {
         const emoji = this.props.emoji;
 
         if (emoji) {
@@ -51,10 +51,12 @@ export default class EmojiPickerPreview extends React.PureComponent {
             let aliases;
             let previewImage;
 
-            if (emoji.short_names && emoji.image !== 'mattermost') {
+            const {short_names: shortNames, image} = emoji as SystemEmoji;
+
+            if (shortNames && image !== 'mattermost') {
                 // This is a system emoji which only has a list of aliases
-                name = emoji.short_names[0];
-                aliases = emoji.short_names;
+                name = shortNames[0];
+                aliases = shortNames;
 
                 previewImage = (
                     <span className='sprite-preview'>
@@ -62,13 +64,14 @@ export default class EmojiPickerPreview extends React.PureComponent {
                             id='emojiPickerSpritePreview'
                             alt={'emoji category image'}
                             src={imgTrans}
-                            className={'emojisprite-preview emoji-category-' + emoji.category + ' emoji-' + emoji.image}
+                            className={'emojisprite-preview emoji-category-' + emoji.category + ' emoji-' + image}
                         />
                     </span>
                 );
             } else {
                 // This is a custom emoji that matches the model on the server
-                name = emoji.name;
+                const {name: emojiName} = (emoji as CustomEmoji);
+                name = emojiName;
                 aliases = [name];
                 previewImage = (
                     <img

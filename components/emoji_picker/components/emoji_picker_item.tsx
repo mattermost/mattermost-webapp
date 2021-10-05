@@ -1,39 +1,40 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 import debounce from 'lodash/debounce';
 
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import imgTrans from 'images/img_trans.gif';
-import {intlShape} from 'utils/react_intl';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
 
-class EmojiPickerItem extends React.Component {
-    static propTypes = {
-        emoji: PropTypes.object.isRequired,
-        onItemOver: PropTypes.func.isRequired,
-        onItemClick: PropTypes.func.isRequired,
-        category: PropTypes.string.isRequired,
-        isSelected: PropTypes.bool,
-        categoryIndex: PropTypes.number.isRequired,
-        emojiIndex: PropTypes.number.isRequired,
-        containerRef: PropTypes.any,
-        containerTop: PropTypes.number.isRequired,
-        containerBottom: PropTypes.number.isRequired,
-        intl: intlShape.isRequired,
-    };
+type Props = {
+    emoji: Emoji;
+    onItemOver: (categoryIndex: number, emojiIndex: number) => void;
+    onItemClick: (emoji: Emoji) => void;
+    category: string;
+    isSelected?: boolean;
+    categoryIndex: number;
+    emojiIndex: number;
+    containerRef: HTMLDivElement;
+    containerTop: number;
+    containerBottom: number;
+    intl: IntlShape;
+}
 
-    shouldComponentUpdate(nextProps) {
+class EmojiPickerItem extends React.Component<Props> {
+    private emojiItem: HTMLDivElement | undefined;
+
+    shouldComponentUpdate(nextProps: Props) {
         return nextProps.isSelected !== this.props.isSelected;
     }
 
-    emojiItemRef = (emojiItem) => {
+    emojiItemRef = (emojiItem: HTMLDivElement) => {
         this.emojiItem = emojiItem;
     };
 
@@ -49,10 +50,10 @@ class EmojiPickerItem extends React.Component {
         });
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (!prevProps.isSelected && this.props.isSelected) {
-            const topOfTheEmojiItem = this.emojiItem.offsetTop;
-            const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem.offsetHeight;
+            const topOfTheEmojiItem = this.emojiItem!.offsetTop;
+            const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem!.offsetHeight;
             const {containerRef, containerTop, containerBottom} = this.props;
             if (topOfTheEmojiItem < containerTop) {
                 containerRef.scrollTop = topOfTheEmojiItem - SCROLLING_ADDITIONAL_VISUAL_SPACING;
@@ -82,12 +83,11 @@ class EmojiPickerItem extends React.Component {
             itemClassName += ' selected';
         }
 
-        let spriteClassName = 'emojisprite';
-        spriteClassName += ' emoji-category-' + emoji.category;
-        spriteClassName += ' emoji-' + emoji.image;
-
         let image;
         if (emoji.category && emoji.category !== 'custom') {
+            let spriteClassName = 'emojisprite';
+            spriteClassName += ' emoji-category-' + emoji.category;
+            spriteClassName += ' emoji-' + emoji.image;
             image = (
                 <img
                     alt={'emoji image'}
