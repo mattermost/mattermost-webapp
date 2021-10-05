@@ -5,26 +5,11 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
-
 import {ProductComponent} from 'types/store/plugins';
-
 import {TutorialSteps, TopLevelProducts} from 'utils/constants';
 
 import {Props, ProductSwitcherTip} from './product_switcher_tip';
-
-function makeProduct(name: string): ProductComponent {
-    return {
-        id: '',
-        pluginId: '',
-        switcherIcon: 'none',
-        switcherText: name,
-        baseURL: '',
-        switcherLinkURL: '',
-        mainComponent: null,
-        headerCentreComponent: null,
-        headerRightComponent: null,
-    };
-}
+import {makeProduct} from '../test_helpers'
 
 let props: Props = {
     currentUserId: '',
@@ -39,8 +24,8 @@ describe('components/product_switcher/product_switcher_tip', () => {
         props = {
             currentUserId: '',
             products: [
-                makeProduct(TopLevelProducts.BOARDS),
-                makeProduct(TopLevelProducts.PLAYBOOKS),
+                makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
+                makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent,
             ],
             step: TutorialSteps.PRODUCT_SWITCHER,
             actions: {
@@ -66,7 +51,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
     it('does not skip tutorial tip when tutorial step does not match and a product is missing', () => {
         props.step = TutorialSteps.PRODUCT_SWITCHER - 1;
         props.products = [
-            makeProduct(TopLevelProducts.BOARDS),
+            makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
         ];
         shallow(<ProductSwitcherTip {...props}/>);
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
@@ -74,7 +59,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
 
     it('does not show tutorial tip when playbooks is missing', () => {
         props.products = [
-            makeProduct(TopLevelProducts.BOARDS),
+            makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
         ];
 
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
@@ -86,7 +71,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
 
     it('does not show tutorial tip when boards is missing', () => {
         props.products = [
-            makeProduct(TopLevelProducts.PLAYBOOKS),
+            makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent,
         ];
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
         const wrapper = shallow(<ProductSwitcherTip {...props}/>);
