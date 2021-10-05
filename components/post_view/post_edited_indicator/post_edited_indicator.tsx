@@ -35,7 +35,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, editedAt = 0}: Props): JSX
         date = formatDate(editedDate, {month: 'long', day: 'numeric'});
     }
 
-    const time = formatTime(editedDate, {hour: 'numeric', minute: '2-digit', hour12: isMilitaryTime});
+    const time = formatTime(editedDate, {hour: 'numeric', minute: '2-digit', hour12: !isMilitaryTime});
 
     const editedText = formatMessage({
         id: 'post_message_view.edited',
