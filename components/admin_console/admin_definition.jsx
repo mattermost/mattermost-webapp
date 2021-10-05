@@ -2206,9 +2206,9 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'TeamSettings.EnableConfirmNotificationsToChannel',
                         label: t('admin.environment.notifications.enableConfirmNotificationsToChannel.label'),
-                        label_default: 'Show @channel and @all and group mention confirmation dialog:',
+                        label_default: 'Show @channel, @all, @here and group mention confirmation dialog:',
                         help_text: t('admin.environment.notifications.enableConfirmNotificationsToChannel.help'),
-                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all and group mentions in channels with over five members. When false, no confirmation is required.',
+                        help_text_default: 'When true, users will be prompted to confirm when posting @channel, @all, @here and group mentions in channels with over five members. When false, no confirmation is required.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                     },
                     {
