@@ -60,4 +60,10 @@
     --elevation-4: 0 8px 24px 0 rgba(0, 0, 0, 0.12);
     --elevation-5: 0 12px 32px 0 rgba(0, 0, 0, 0.12);
     --elevation-6: 0 20px 32px 0 rgba(0, 0, 0, 0.12);
+
+    // Global Header variables
+    --global-header-background: var(--sidebar-teambar-bg);
+    --global-header-text: var(--sidebar-header-text-color);
+    --global-header-background-rgb: var(--sidebar-teambar-bg-rgb);
+    --global-header-text-rgb: var(--sidebar-header-text-color-rgb);
 }

@@ -16,8 +16,6 @@ import {openModal} from 'actions/views/modals';
 import {Preferences, TutorialSteps} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
-
 import SidebarHeaderDropdown from './sidebar_header_dropdown.jsx';
 
 function mapStateToProps(state) {
@@ -36,7 +34,6 @@ function mapStateToProps(state) {
         showTutorialTip,
         enablePluginMarketplace,
         firstAdminVisitMarketplaceStatus: firstAdminVisitMarketplaceStatus(state),
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
     };
 }
 

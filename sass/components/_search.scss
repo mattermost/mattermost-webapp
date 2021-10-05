@@ -1,4 +1,9 @@
-@charset "UTF-8";
+@charset "utf-8";
+
+// global header styles
+.search-bar-container--global {
+    width: 100%;
+}
 
 .search-bar__container {
     .channel-header__links {
@@ -90,6 +95,8 @@
     display: flex;
     align-items: center;
     padding: 0;
+    background: rgba(var(--sidebar-text-rgb), 0.08);
+    border-radius: 4px;
 
     .searchTypeBadge {
         position: relative;
@@ -98,8 +105,9 @@
         align-items: center;
         justify-content: center;
         padding: 2px 2px 2px 7px;
-        background: rgba(v(button-bg-rgb), 0.08);
-        color: v(button-bg);
+        margin: 0 6px;
+        background: rgba(var(--sidebar-text-rgb), 0.08);
+        color: var(--sidebar-text);
         font-size: 10px;
         font-weight: 700;
 
@@ -112,6 +120,27 @@
 
         &:hover {
             background: rgba(v(button-bg-rgb), 0.16);
+        }
+    }
+
+    .search-bar {
+        width: 100%;
+        height: 28px;
+        padding: 3px 2.8rem 2px 3rem;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        color: rgba(var(--global-header-text-rgb), 0.64);
+        font-size: 12px;
+        outline: none;
+
+        &::placeholder {
+            color: rgba(var(--global-header-text-rgb), 0.64);
+            opacity: 1;
+        }
+
+        &.a11y--focused {
+            box-shadow: none;
         }
     }
 
@@ -158,21 +187,6 @@
         width: 272px;
     }
 
-    .search-bar {
-        width: 100%;
-        height: 28px;
-        padding: 0 2.8rem 2px 3rem;
-        border: none;
-        background: transparent;
-        box-shadow: none;
-        font-size: 14px;
-        outline: none;
-
-        &.a11y--focused {
-            box-shadow: none;
-        }
-    }
-
     .LoadingSpinner {
         @include opacity(0.5);
 
@@ -180,6 +194,43 @@
         top: 4px;
         right: 25px;
         font-size: 1em;
+    }
+
+    // global header style adjustments
+    &:hover {
+        background: rgba(var(--sidebar-text-rgb), 0.16);
+    }
+
+    &.active {
+        background: rgba(var(--sidebar-text-rgb), 0.32);
+    }
+
+    &:focus-within {
+        background: var(--center-channel-bg);
+
+        .search__font-icon,
+        .input-clear-x {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+
+        .searchTypeBadge {
+            background: rgba(var(--button-bg-rgb), 0.08);
+            color: var(--button-bg);
+        }
+
+        .search-bar {
+            color: rgb(var(--center-channel-color-rgb));
+        }
+    }
+
+    .search-help-popover {
+        width: 432px;
+        max-width: 432px;
+    }
+
+    .search__font-icon,
+    .input-clear-x {
+        color: rgba(var(--global-header-text-rgb), 0.56);
     }
 }
 
