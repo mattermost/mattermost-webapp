@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import { ErrorPageTypes } from "utils/constants";
+import {ErrorPageTypes} from 'utils/constants';
 
-import { isGuest } from "utils/utils.jsx";
+import {isGuest} from 'utils/utils.jsx';
 
 interface ICallback {
     (error: Error | null, comp?: string | Component[]): unknown;
@@ -18,7 +18,7 @@ export function importComponentSuccess(callback: ICallback): unknown {
 }
 
 export function createGetChildComponentsFunction(
-    arrayOfComponents: Component[]
+    arrayOfComponents: Component[],
 ): unknown {
     return (locaiton: string, callback: ICallback) =>
         callback(null, arrayOfComponents);
@@ -42,7 +42,7 @@ export function checkIfMFARequired(
     user: any,
     license: any,
     config: ConfigOption,
-    path: string
+    path: string,
 ): boolean {
     if (
         license.MFA === 'true' &&
