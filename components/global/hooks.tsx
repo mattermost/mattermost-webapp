@@ -10,9 +10,11 @@ import {ProductComponent} from 'types/store/plugins';
 import {getBasePath} from 'utils/url';
 import {Preferences} from 'utils/constants';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
+import {getIsMobileView} from 'selectors/views/browser';
 import {isModalOpen} from 'selectors/views/modals';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
@@ -66,6 +68,10 @@ export const useShowTutorialStep = (stepToShow: number): boolean => {
     return step === stepToShow;
 };
 
+export const useIsLoggedIn = (): boolean => {
+    return Boolean(useSelector<GlobalState, UserProfile>(getCurrentUser));
+};
+
 /**
  * Hook that returns the current open state of the specified modal
  * - returns both the direct boolean for regular use and a ref that contains the boolean for usage in a callback
@@ -79,4 +85,8 @@ export const useIsModalOpen = (modalIdentifier: string): [boolean, React.RefObje
     }, [modalOpenState]);
 
     return [modalOpenState, modalOpenStateRef];
+};
+
+export const useIsMobileView = (): boolean => {
+    return Boolean(useSelector(getIsMobileView));
 };

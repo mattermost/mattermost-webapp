@@ -29,6 +29,13 @@ List all PRs related to resolving a ticket. For instance, if you submitted a PR 
 #### Screenshots
 <!--
 If the PR includes UI changes, include screenshots/GIFs.
+
+For an easier comparison of UI changes a table (template below) can be used.
+
+|  before  |  after  |
+|----|----|
+| <insert before screenshot here> | <insert after screenshot here> |
+
 -->
 
 #### Release Note

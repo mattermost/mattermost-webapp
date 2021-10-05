@@ -99,8 +99,6 @@ export class TestHelper {
             header: 'header',
             purpose: 'purpose',
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
             creator_id: 'id',
             scheme_id: 'id',
             group_constrained: false,
@@ -121,8 +119,6 @@ export class TestHelper {
             header: 'header',
             purpose: 'purpose',
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
             creator_id: 'id',
             scheme_id: 'id',
             group_constrained: false,
@@ -206,8 +202,9 @@ export class TestHelper {
             user_id: 'user_id',
             roles: 'team_user',
             delete_at: 0,
-            scheme_user: true,
             scheme_admin: false,
+            scheme_guest: false,
+            scheme_user: true,
         };
         return Object.assign({}, defaultMembership, override);
     }

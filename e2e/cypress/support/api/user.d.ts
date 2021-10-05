@@ -185,9 +185,12 @@ declare namespace Cypress {
 
         /**
          * Create a randomly named admin account
+         *
+         * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new admin.
+         *
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          */
-        apiCreateCustomAdmin(): Chainable<{sysadmin: UserProfile}>;
+        apiCreateCustomAdmin(options: {loginAfter: boolean}): Chainable<{sysadmin: UserProfile}>;
 
         /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.
@@ -350,5 +353,18 @@ declare namespace Cypress {
          *   cy.apiUpdateUserAuth('user-id', 'auth-data', 'password', 'auth-service');
          */
         apiUpdateUserAuth(userId: string, authData: string, password: string, authService: string): Chainable<Response>;
+
+        /**
+         * Get total count of users in the system
+         * See https://api.mattermost.com/#operation/GetTotalUsersStats
+         *
+         * @returns {number} - total count of all users
+         *
+         * @example
+         *   cy.apiGetTotalUsers().then(() => {
+         *      // do something with total users
+         *   });
+         */
+        apiGetTotalUsers(): Chainable<number>;
     }
 }

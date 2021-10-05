@@ -68,7 +68,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut, globalHeaderEnabled} = props;
+    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut} = props;
 
     const intl = useIntl();
 
@@ -452,7 +452,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
                 searchType={searchType}
-                globalHeaderEnabled={globalHeaderEnabled}
                 clearSearchType={() => actions.updateSearchType('')}
             >
                 {!Utils.isMobile() && renderHintPopover()}
@@ -482,7 +481,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return (
             <div
                 id='searchbarContainer'
-                className={globalHeaderEnabled ? 'search-bar-container--global' : 'search-bar__container flex-child'}
+                className={'search-bar-container--global'}
             >
                 <div className='sidebar-right__table'>
                     {renderSearchBar()}

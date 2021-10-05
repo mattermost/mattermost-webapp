@@ -28,7 +28,7 @@ import {
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {
@@ -300,19 +300,6 @@ export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss', 
     return moment.unix(timestamp).format(format) + timezone;
 }
 
-// Replaces all occurrences of a pattern
-export function loopReplacePattern(text, pattern, replacement) {
-    let result = text;
-
-    let match = pattern.exec(result);
-    while (match) {
-        result = result.replace(pattern, replacement);
-        match = pattern.exec(result);
-    }
-
-    return result;
-}
-
 // Taken from http://stackoverflow.com/questions/1068834/object-comparison-in-javascript and modified slightly
 export function areObjectsEqual(x, y) {
     let p;
@@ -411,7 +398,7 @@ export function areObjectsEqual(x, y) {
     return true;
 }
 
-export function areMapsEqual(a, b) {
+function areMapsEqual(a, b) {
     if (a.size !== b.size) {
         return false;
     }
@@ -434,22 +421,6 @@ export function replaceHtmlEntities(text) {
         '&amp;': '&',
         '&lt;': '<',
         '&gt;': '>',
-    };
-    var newtext = text;
-    for (var tag in tagsToReplace) {
-        if (Reflect.apply({}.hasOwnProperty, this, [tagsToReplace, tag])) {
-            var regex = new RegExp(tag, 'g');
-            newtext = newtext.replace(regex, tagsToReplace[tag]);
-        }
-    }
-    return newtext;
-}
-
-export function insertHtmlEntities(text) {
-    var tagsToReplace = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
     };
     var newtext = text;
     for (var tag in tagsToReplace) {
@@ -549,16 +520,12 @@ export function toTitleCase(str) {
     return str.replace(/\w\S*/g, doTitleCase);
 }
 
-export function isHexColor(value) {
-    return value && (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i).test(value);
-}
-
-export function dropAlpha(value) {
+function dropAlpha(value) {
     return value.substr(value.indexOf('(') + 1).split(',', 3).join(',');
 }
 
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
-export function toRgbValues(hexStr) {
+function toRgbValues(hexStr) {
     const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
     return rgbaStr;
 }
@@ -764,7 +731,7 @@ export function applyTheme(theme) {
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
             'mention-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5)),
-            'pinned-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.12)),
+            'pinned-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.24)),
             'own-highlight-bg-rgb': dropAlpha(blendColors(theme.mentionHighlightBg, theme.centerChannelColor, 0.05)),
             'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
@@ -870,7 +837,7 @@ export function resetTheme() {
     applyTheme(Preferences.THEMES.denim);
 }
 
-export function changeCss(className, classValue) {
+function changeCss(className, classValue) {
     let styleEl = document.querySelector('style[data-class="' + className + '"]');
     if (!styleEl) {
         styleEl = document.createElement('style');
@@ -905,7 +872,7 @@ export function changeCss(className, classValue) {
     }
 }
 
-export function updateCodeTheme(userTheme) {
+function updateCodeTheme(userTheme) {
     let cssPath = '';
     Constants.THEME_ELEMENTS.forEach((element) => {
         if (element.id === 'codeTheme') {
@@ -967,15 +934,15 @@ export function getCaretPosition(el) {
     return 0;
 }
 
-export function createHtmlElement(el) {
+function createHtmlElement(el) {
     return document.createElement(el);
 }
 
-export function getElementComputedStyle(el) {
+function getElementComputedStyle(el) {
     return getComputedStyle(el);
 }
 
-export function addElementToDocument(el) {
+function addElementToDocument(el) {
     document.body.appendChild(el);
 }
 
@@ -1012,7 +979,7 @@ export function copyTextAreaToDiv(textArea) {
     return copy;
 }
 
-export function convertEmToPixels(el, remNum) {
+function convertEmToPixels(el, remNum) {
     if (isNaN(remNum)) {
         return 0;
     }
@@ -1104,7 +1071,7 @@ export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
     };
 }
 
-export function getSuggestionBoxWidth(textArea) {
+function getSuggestionBoxWidth(textArea) {
     if (textArea.id === 'edit_textbox') {
         // when the sugeestion box is in the edit mode it will inhering the class .modal suggestion-list which has width: 100%
         return textArea.offsetWidth;
@@ -1228,7 +1195,7 @@ export function loadImage(url, onLoad, onProgress) {
     request.send();
 }
 
-export function changeColor(colourIn, amt) {
+function changeColor(colourIn, amt) {
     var hex = colourIn;
     var lum = amt;
 
@@ -1301,13 +1268,6 @@ export function getLongDisplayNameParts(user) {
         nickname: user.nickname && user.nickname.trim() ? user.nickname : null,
         position: user.position && user.position.trim() ? user.position : null,
     };
-}
-
-/**
- * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
- */
-export function getDisplayNameByUserId(state, userId) {
-    return getDisplayNameByUser(state, getUser(state, userId));
 }
 
 /**
@@ -1671,7 +1631,7 @@ export function isValidPassword(password, passwordConfig) {
     return {valid, error};
 }
 
-export function isChannelOrPermalink(link) {
+function isChannelOrPermalink(link) {
     let match = (/\/([^/]+)\/channels\/(\S+)/).exec(link);
     if (match) {
         return {
@@ -1691,7 +1651,7 @@ export function isChannelOrPermalink(link) {
     return match;
 }
 
-export async function handleFormattedTextClick(e, currentRelativeTeamUrl) {
+export async function handleFormattedTextClick(e, currentRelativeTeamUrl = '') {
     const hashtagAttribute = e.target.getAttributeNode('data-hashtag');
     const linkAttribute = e.target.getAttributeNode('data-link');
     const channelMentionAttribute = e.target.getAttributeNode('data-channel-mention');
@@ -2155,7 +2115,7 @@ export function deleteKeysFromObject(value, keys) {
     return value;
 }
 
-export function isSelection() {
+function isSelection() {
     const selection = window.getSelection();
     return selection.type === 'Range';
 }

@@ -54,6 +54,7 @@ const state: GlobalState = {
             manuallyUnread: {},
             channelModerations: {},
             channelMemberCountsByGroup: {},
+            messageCounts: {},
         },
         posts: {
             expandedURLs: {},
@@ -76,6 +77,7 @@ const state: GlobalState = {
         },
         threads: {
             threadsInTeam: {},
+            unreadThreadsInTeam: {},
             threads: {},
             counts: {},
         },

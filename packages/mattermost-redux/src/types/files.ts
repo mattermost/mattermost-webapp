@@ -23,7 +23,7 @@ export type FilesState = {
     files: Dictionary<FileInfo>;
     filesFromSearch: Dictionary<FileSearchResultItem>;
     fileIdsByPostId: Dictionary<string[]>;
-    filePublicLink?: string;
+    filePublicLink?: {link: string};
 };
 
 export type FileUploadResponse = {

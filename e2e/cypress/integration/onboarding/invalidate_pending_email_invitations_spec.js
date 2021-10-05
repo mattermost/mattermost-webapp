@@ -63,9 +63,8 @@ describe('Onboarding', () => {
         cy.apiAdminLogin();
         cy.reload();
 
-        // # Open the 'Invite People' full screen modal
-        cy.findByLabelText('main menu', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
-        cy.findByText('Invite People').should('be.visible').click();
+        // # Open the 'Invite People' modal
+        cy.uiOpenTeamMenu('Invite People');
 
         // # Wait half a second to ensure that the modal has been fully loaded
         cy.wait(TIMEOUTS.HALF_SEC);
@@ -77,8 +76,7 @@ describe('Onboarding', () => {
         cy.findByText('Done').should('be.visible').click();
 
         // # Go to system console and invalidate the last two email invites
-        cy.get('.sidebar-header-dropdown__icon').click();
-        cy.get('#systemConsole').should('be.visible').click();
+        cy.uiOpenProductSwitchMenu('System Console');
         cy.findByText('Signup').scrollIntoView().should('be.visible').click();
         cy.get('#InvalidateEmailInvitesButton').should('be.visible').within(() => {
             cy.findByText('Invalidate pending email invites').should('be.visible').click();
