@@ -184,70 +184,76 @@ export default function ExpandView({
             {isCRTEnabled &&
             section === NotificationSections.DESKTOP &&
             memberNotifyLevel === NotificationLevels.MENTION &&
-            <fieldset>
-                <legend className='form-legend'>
-                    <FormattedMessage
-                        id='user.settings.notifications.threads.desktop'
-                        defaultMessage='Thread reply notifications'
-                    />
-                </legend>
-                <div className='checkbox'>
-                    <label>
-                        <input
-                            id='desktopThreadsNotificationAllActivity'
-                            type='checkbox'
-                            name='desktopThreadsNotificationLevel'
-                            checked={memberThreadsNotifyLevel === NotificationLevels.ALL}
-                            onChange={onChangeThreads}
-                        />
+            <>
+                <hr/>
+                <fieldset>
+                    <legend className='form-legend'>
                         <FormattedMessage
-                            id='user.settings.notifications.threads.allActivity'
-                            defaultMessage={'Notify me about threads I\'m following'}
+                            id='user.settings.notifications.threads.desktop'
+                            defaultMessage='Thread reply notifications'
                         />
-                    </label>
-                    <br/>
-                </div>
-                <div className='mt-5'>
-                    <FormattedMessage
-                        id='user.settings.notifications.threads'
-                        defaultMessage={'When enabled, any reply to a thread you\'re following will send a desktop notification.'}
-                    />
-                </div>
-            </fieldset>
+                    </legend>
+                    <div className='checkbox'>
+                        <label>
+                            <input
+                                id='desktopThreadsNotificationAllActivity'
+                                type='checkbox'
+                                name='desktopThreadsNotificationLevel'
+                                checked={memberThreadsNotifyLevel === NotificationLevels.ALL}
+                                onChange={onChangeThreads}
+                            />
+                            <FormattedMessage
+                                id='user.settings.notifications.threads.allActivity'
+                                defaultMessage={'Notify me about threads I\'m following'}
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='mt-5'>
+                        <FormattedMessage
+                            id='user.settings.notifications.threads'
+                            defaultMessage={'When enabled, any reply to a thread you\'re following will send a desktop notification.'}
+                        />
+                    </div>
+                </fieldset>
+            </>
             }
             {isCRTEnabled &&
             section === NotificationSections.PUSH &&
             memberNotifyLevel === NotificationLevels.MENTION &&
-            <fieldset>
-                <legend className='form-legend'>
-                    <FormattedMessage
-                        id='user.settings.notifications.threads.push'
-                        defaultMessage='Thread reply notifications'
-                    />
-                </legend>
-                <div className='checkbox'>
-                    <label>
-                        <input
-                            id='pushThreadsNotificationAllActivity'
-                            type='checkbox'
-                            name='pushThreadsNotificationLevel'
-                            checked={memberThreadsNotifyLevel === NotificationLevels.ALL}
-                            onChange={onChangeThreads}
-                        />
+            <>
+                <hr/>
+                <fieldset>
+                    <legend className='form-legend'>
                         <FormattedMessage
-                            id='user.settings.notifications.push_threads.allActivity'
-                            defaultMessage={'Notify me about threads I\'m following'}
+                            id='user.settings.notifications.threads.push'
+                            defaultMessage='Thread reply notifications'
                         />
-                    </label>
-                    <br/>
-                </div>
-                <div className='mt-5'>
-                    <FormattedMessage
-                        id='user.settings.notifications.push_threads'
-                        defaultMessage={'When enabled, any reply to a thread you\'re following will send a mobile push notification.'}
-                    />
-                </div>
-            </fieldset>
+                    </legend>
+                    <div className='checkbox'>
+                        <label>
+                            <input
+                                id='pushThreadsNotificationAllActivity'
+                                type='checkbox'
+                                name='pushThreadsNotificationLevel'
+                                checked={memberThreadsNotifyLevel === NotificationLevels.ALL}
+                                onChange={onChangeThreads}
+                            />
+                            <FormattedMessage
+                                id='user.settings.notifications.push_threads.allActivity'
+                                defaultMessage={'Notify me about threads I\'m following'}
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='mt-5'>
+                        <FormattedMessage
+                            id='user.settings.notifications.push_threads'
+                            defaultMessage={'When enabled, any reply to a thread you\'re following will send a mobile push notification.'}
+                        />
+                    </div>
+                </fieldset>
+            </>
             }
         </div>
     )];
