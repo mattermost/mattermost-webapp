@@ -162,6 +162,60 @@ exports[`components/global/product_switcher should match snapshot with product s
 </div>
 `;
 
+exports[`components/global/product_switcher should render once when there are no top level products available 1`] = `
+<div>
+  <MenuWrapper
+    animationComponent={[Function]}
+    className=""
+    open={false}
+  >
+    <ProductSwitcherContainer
+      onClick={[Function]}
+    >
+      <ProductSwitcherButton
+        active={false}
+        aria-label="Select to open product switch menu."
+      />
+      <Connect(ProductSwitcherTip) />
+      <ProductBranding />
+    </ProductSwitcherContainer>
+    <Menu
+      ariaLabel="switcherOpen"
+      className="product-switcher-menu"
+    >
+      <SwitcherNavEntry
+        active={true}
+        destination="/"
+        icon="product-channels"
+        onClick={[Function]}
+        text="Channels"
+      />
+      <SwitcherNavEntry
+        active={false}
+        destination=""
+        icon="none"
+        key=""
+        onClick={[Function]}
+        text="Boards"
+      />
+      <SwitcherNavEntry
+        active={false}
+        destination=""
+        icon="none"
+        key=""
+        onClick={[Function]}
+        text="Playbooks"
+      />
+      <Connect(injectIntl(ProductSwitcherMenu))
+        id="ProductSwitcherMenu"
+        isMessaging={true}
+        onClick={[Function]}
+      />
+    </Menu>
+  </MenuWrapper>
+</div>
+`;
+
 exports[`components/global/product_switcher should render the correct amount of times when there are products available 1`] = `
 <div>
   <MenuWrapper
