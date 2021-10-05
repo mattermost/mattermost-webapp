@@ -102,7 +102,7 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         cy.get('.DayPickerInput-Overlay').find(`.DayPicker-Week div[aria-label="${dateToBeSelected.format('ddd MMM DD YYYY')}"]`).click();
 
         // * Check that the date input should have the correct value
-        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-M-DD'));
+        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-M-D'));
     });
 
     it('MM-T4065_7 should show selected time in the time input field', () => {
