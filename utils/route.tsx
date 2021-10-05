@@ -1,16 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import { ComponentPropsWithoutRef } from 'react';
 import {ErrorPageTypes} from 'utils/constants';
 
 import {isGuest} from 'utils/utils.jsx';
 
-export function importComponentSuccess(callback: any): any {
-    return (comp: any) => callback(null, comp.default);
+interface ICallback{
+    (error: Error | null,comp? : string | Component[]):unknown;
 }
 
-export function createGetChildComponentsFunction(arrayOfComponents: []): any {
-    return (locaiton: string, callback: any) => callback(null, arrayOfComponents);
+interface Component{
+    default:string;
+}
+
+export function importComponentSuccess(callback: ICallback): unknown{
+    return (comp: Component) => callback(null, comp.default);
+}
+
+export function createGetChildComponentsFunction(arrayOfComponents: Component[]): unknown {
+    return (locaiton: string, callback: ICallback) => callback(null, arrayOfComponents);
 }
 
 export const notFoundParams = {
