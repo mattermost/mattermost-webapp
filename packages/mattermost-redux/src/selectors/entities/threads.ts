@@ -78,7 +78,7 @@ export const getThread: (state: GlobalState, threadId: $ID<UserThread> | undefin
         }
         const thread = threads[threadId];
 
-        if (!thread || (thread.post.channel_id && myChannels.indexOf(thread.post.channel_id) === -1)) {
+        if (!thread || (thread.post && myChannels.indexOf(thread.post.channel_id) === -1)) {
             return null;
         }
 
