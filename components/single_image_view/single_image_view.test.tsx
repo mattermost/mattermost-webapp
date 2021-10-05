@@ -106,4 +106,27 @@ describe('components/SingleImageView', () => {
         expect(wrapper.find(SizeAwareImage).prop('handleSmallImageContainer')).
             toEqual(true);
     });
+
+    test('should not show filename when image is displayed', () => {
+        const wrapper = shallow(
+            <SingleImageView
+                {...baseProps}
+                isEmbedVisible={true}
+            />,
+        );
+
+        expect(wrapper.find('[data-testid="image-name"]')).toHaveLength(0);
+    });
+
+    test('should show filename when image is collapsed', () => {
+        const wrapper = shallow(
+            <SingleImageView
+                {...baseProps}
+                isEmbedVisible={false}
+            />,
+        );
+
+        expect(wrapper.find('[data-testid="image-name"]').text()).
+            toEqual(baseProps.fileInfo.name);
+    });
 });
