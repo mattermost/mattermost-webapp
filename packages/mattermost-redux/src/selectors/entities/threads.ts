@@ -3,6 +3,7 @@
 
 import {createSelector} from 'reselect';
 
+import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team} from 'mattermost-redux/types/teams';
@@ -66,16 +67,24 @@ export function getThreads(state: GlobalState): IDMappedObjects<UserThread> {
     return state.entities.threads.threads;
 }
 
-export function getThread(state: GlobalState, threadId: $ID<UserThread> | undefined): UserThread | null {
-    if (
-        !threadId ||
-        !(getThreadsInCurrentTeam(state)?.includes(threadId) || getUnreadThreadsInCurrentTeam(state)?.includes(threadId))
-    ) {
-        return null;
-    }
+export const getThread: (state: GlobalState, threadId: $ID<UserThread> | undefined) => UserThread | null = createSelector(
+    'getThread',
+    getThreads,
+    (state: GlobalState) => getMyChannels(state).map((c) => c.id),
+    (_state: GlobalState, threadId?: $ID<UserThread>) => threadId,
+    (threads, myChannels, threadId) => {
+        if (!threadId) {
+            return null;
+        }
+        const thread = threads[threadId];
 
-    return getThreads(state)[threadId];
-}
+        if (!thread || (thread.post.channel_id && myChannels.indexOf(thread.post.channel_id) === -1)) {
+            return null;
+        }
+
+        return thread;
+    },
+);
 
 export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserThread | UserThreadSynthetic {
     const thread = getThreads(state)[rootPost.id];
