@@ -26,13 +26,13 @@ export const contactSalesCard = (
 
     const pricingLink = (
         <a
-            href={CloudLinks.CLOUD_PRICING}
+            href={CloudLinks.PRICING}
             rel='noopener noreferrer'
             target='_blank'
             className='PrivateCloudCard__pricingLink'
             onClick={() => trackEvent('cloud_admin', 'click_pricing_link')}
         >
-            {CloudLinks.CLOUD_PRICING}
+            {CloudLinks.PRICING}
         </a>
     );
 
