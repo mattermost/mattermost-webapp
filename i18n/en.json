@@ -2640,7 +2640,6 @@
   "channel_header.groupConstrained": "Members managed by linked groups.",
   "channel_header.groupMessageHasGuests": "This group message has guests",
   "channel_header.leave": "Leave Channel",
-  "channel_header.leaveGroup": "Leave Group Message",
   "channel_header.manageMembers": "Manage Members",
   "channel_header.menuAriaLabel": "Channel Menu",
   "channel_header.mute": "Mute Channel",
