@@ -76,7 +76,7 @@ describe('Utils.Route', () => {
         });
 
         test('mfa is not enforced or enabled', () => {
-            const user: UserProfile = {mfa_active: false,
+            const user: UserProfile = {mfa_active: true,
                 auth_service: '',
                 id: '',
                 create_at: 0,
