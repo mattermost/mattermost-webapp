@@ -216,11 +216,6 @@ Cypress.Commands.add('apiInvalidateCache', () => {
 });
 
 function isCloudEdition() {
-    const isCloudServer = Cypress.env('serverEdition') === Constants.ServerEdition.CLOUD;
-    if (isCloudServer) {
-        return cy.wrap(true);
-    }
-
     return cy.apiGetClientLicense().then(({isCloudLicensed}) => {
         return cy.wrap(isCloudLicensed);
     });
@@ -233,12 +228,6 @@ Cypress.Commands.add('shouldNotRunOnCloudEdition', () => {
 });
 
 function isTeamEdition() {
-    const isTeamServer = Cypress.env('serverEdition') === Constants.ServerEdition.TEAM;
-
-    if (isTeamServer) {
-        return cy.wrap(true);
-    }
-
     return cy.apiGetClientLicense().then(({isLicensed}) => {
         return cy.wrap(!isLicensed);
     });
