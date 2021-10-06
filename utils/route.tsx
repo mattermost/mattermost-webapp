@@ -7,7 +7,6 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
 
-
 import {isGuest} from 'utils/utils.jsx';
 
 export const notFoundParams = {
