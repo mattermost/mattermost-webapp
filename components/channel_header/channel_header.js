@@ -26,7 +26,6 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
-import RHSSearchNav from 'components/rhs_search_nav';
 
 import {
     Constants,
@@ -67,7 +66,6 @@ class ChannelHeader extends React.PureComponent {
         intl: intlShape.isRequired,
         pinnedPostsCount: PropTypes.number,
         hasMoreThanOneTeam: PropTypes.bool,
-        globalHeaderEnabled: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -209,8 +207,8 @@ class ChannelHeader extends React.PureComponent {
             this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
 
-        const globalHeaderOffset = this.props.globalHeaderEnabled ? 40 : 0;
-        const topOffset = (announcementBarSize * this.props.announcementBarCount) + globalHeaderOffset;
+        // add 40px to take the global header into account
+        const topOffset = (announcementBarSize * this.props.announcementBarCount) + 40;
 
         this.setState({topOffset});
     }
@@ -262,7 +260,6 @@ class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
             teammateNameDisplaySetting,
-            globalHeaderEnabled,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -772,7 +769,6 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
-                    {!globalHeaderEnabled && <RHSSearchNav/>}
                 </div>
             </div>
         );

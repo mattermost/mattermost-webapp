@@ -359,24 +359,20 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         }
     };
 
-    handleMouseUpKeyUp = (e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>) => {
-        const caretPosition = Utils.getCaretPosition(e.target);
+    handleMouseUpKeyUp = (e: React.MouseEvent<Element> | React.KeyboardEvent<Element>) => {
+        const caretPosition = Utils.getCaretPosition(e.target as HTMLElement);
         this.setState({
             caretPosition,
         });
     };
 
-    handleSelect = (
-        e: React.SyntheticEvent<Element, Event> | React.SyntheticEvent<Modal, Event>,
-    ) => {
+    handleSelect = (e: React.SyntheticEvent) => {
         if (this.editbox) {
             Utils.adjustSelection(this.editbox.getInputBox(), e);
         }
     };
 
-    handleKeyDown = (
-        e: React.KeyboardEvent<Element> | React.KeyboardEvent<Modal>,
-    ) => {
+    handleKeyDown = (e: React.KeyboardEvent) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
         const ctrlOrMetaKeyPressed =
@@ -418,9 +414,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         }
     };
 
-    applyHotkeyMarkdown = (
-        e: React.KeyboardEvent<Element> | React.KeyboardEvent<Modal>,
-    ) => {
+    applyHotkeyMarkdown = (e: React.KeyboardEvent) => {
         const res = Utils.applyHotkeyMarkdown(e);
 
         this.setState(
@@ -569,8 +563,6 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                 id='editPostModal'
                 dialogClassName='a11y__modal edit-modal'
                 show={this.props.editingPost.show}
-                onKeyDown={this.handleKeyDown}
-                onSelect={this.handleSelect}
                 onHide={this.handleCheckForChangesHide}
                 onEntered={this.handleEntered}
                 onExit={this.handleExit}
