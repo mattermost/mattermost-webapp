@@ -15,6 +15,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
 >
   <InviteMembersButton
     onClick={[MockFunction]}
+    totalUserCount={10}
     touchedInviteMembersButton={false}
   >
     <Connect(TeamPermissionGate)

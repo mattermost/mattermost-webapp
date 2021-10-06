@@ -14,7 +14,6 @@ import InviteMembersButton from 'components/sidebar/invite_members_button';
 
 import * as teams from 'mattermost-redux/selectors/entities/teams';
 
-jest.useFakeTimers();
 describe('components/sidebar/invite_members_button', () => {
     // required state to mount using the provider
     const state = {
@@ -42,9 +41,6 @@ describe('components/sidebar/invite_members_button', () => {
                         roles: 'system_role',
                     },
                 },
-                stats: {
-                    total_users_count: 10,
-                },
             },
             roles: {
                 roles: {
@@ -58,11 +54,13 @@ describe('components/sidebar/invite_members_button', () => {
     const props = {
         onClick: jest.fn(),
         touchedInviteMembersButton: false,
+        totalUserCount: 10,
     };
 
     const mockStore = configureStore([thunk]);
     const store = mockStore(state);
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team_id2sss');
+    jest.useFakeTimers();
 
     test('should match snapshot', () => {
         const wrapper = mountWithIntl(
@@ -117,34 +115,18 @@ describe('components/sidebar/invite_members_button', () => {
     });
 
     test('should be highlighted when component has not been touched/clicked and has less than 10 users', () => {
-        const lessThan10Users = {
-            ...state.entities.users,
-            stats: {
-                total_users_count: 9,
-            },
-        };
-        const lessThan10UsersState = {...state, entities: {...state.entities, users: lessThan10Users}};
-        const store = mockStore(lessThan10UsersState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton {...props}/>
+                <InviteMembersButton {...{...props, totalUserCount: 9}}/>
             </Provider>,
         );
         expect(wrapper.find('li').prop('className')).toContain('untouched');
     });
 
     test('should not be highlighted when component has not been touched/clicked but the workspace has more than 10 users', () => {
-        const moreThan10Users = {
-            ...state.entities.users,
-            stats: {
-                total_users_count: 11,
-            },
-        };
-        const moreThan10UsersState = {...state, entities: {...state.entities, users: moreThan10Users}};
-        const store = mockStore(moreThan10UsersState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton {...props}/>
+                <InviteMembersButton {...{...props, totalUserCount: 11}}/>
             </Provider>,
         );
         expect(wrapper.find('li').prop('className')).not.toContain('untouched');

@@ -7,9 +7,10 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {setCategoryCollapsed, setCategorySorting} from 'mattermost-redux/actions/channel_categories';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
 import {Preferences, Touched} from 'utils/constants';
 
 import {getDraggingState, makeGetFilteredChannelIdsForCategory} from 'selectors/views/channel_sidebar';
@@ -25,11 +26,13 @@ function makeMapStateToProps() {
     const getChannelIdsForCategory = makeGetFilteredChannelIdsForCategory();
 
     return (state: GlobalState, ownProps: OwnProps) => {
+        const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
         return {
             channelIds: getChannelIdsForCategory(state, ownProps.category),
             draggingState: getDraggingState(state),
             touchedInviteMembersButton: getBool(state, Preferences.TOUCHED, Touched.INVITE_MEMBERS),
             currentUserId: getCurrentUserId(state),
+            totalUserCount: stats.total_users_count,
         };
     };
 }
@@ -40,6 +43,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             setCategoryCollapsed,
             setCategorySorting,
             savePreferences,
+            getTotalUsersStats,
         }, dispatch),
     };
 }

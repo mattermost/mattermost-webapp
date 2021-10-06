@@ -38,10 +38,12 @@ type Props = {
     draggingState: DraggingState;
     currentUserId: string;
     touchedInviteMembersButton: boolean;
+    totalUserCount: number;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+        getTotalUsersStats: () => void;
     };
 };
 
@@ -75,6 +77,9 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         if (this.categoryTitleRef.current) {
             this.categoryTitleRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.categoryTitleRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
+        if (!this.props.totalUserCount) {
+            this.props.actions.getTotalUsersStats();
         }
     }
 
@@ -361,6 +366,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                         );
                                     }
                                 }}
+                                totalUserCount={this.props.totalUserCount || 0}
                             />
                         );
                     }
