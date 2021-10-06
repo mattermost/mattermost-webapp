@@ -270,6 +270,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
   <InviteMembersButton
     className="followingSibling"
     onClick={[Function]}
+    totalUserCount={10}
     touchedInviteMembersButton={false}
   />
 </div>
@@ -400,6 +401,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
   <InviteMembersButton
     className="followingSibling"
     onClick={[Function]}
+    totalUserCount={10}
     touchedInviteMembersButton={false}
   />
 </div>
