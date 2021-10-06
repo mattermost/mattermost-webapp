@@ -479,8 +479,6 @@
   "admin.channel_settings.description": "Manage channel settings.",
   "admin.channel_settings.groupsPageTitle": "{siteName} Channels",
   "admin.channel_settings.title": "Channels",
-  "admin.channels_feature_discovery.copy": "Decide which channels should be public, private, read-only, or react-only.",
-  "admin.channels_feature_discovery.title": "Create read-only channels with Mattermost Professional",
   "admin.cloud.import.header.TrialBadge": "Trial",
   "admin.cluster.ClusterName": "Cluster Name:",
   "admin.cluster.ClusterNameDesc": "The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database.",
