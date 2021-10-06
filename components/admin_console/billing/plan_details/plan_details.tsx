@@ -16,6 +16,7 @@ import {localizeMessage} from 'utils/utils';
 import Badge from 'components/widgets/badges/badge';
 
 import './plan_details.scss';
+import { Product } from 'mattermost-redux/types/cloud';
 
 const howBillingWorksLink = (
     <a
@@ -229,7 +230,7 @@ export const currentPlanText = (isFreeTrial: boolean) => {
 export const getPlanDetailElements = (
     userLimit: number,
     isPaidTier: boolean,
-    product: any,
+    product: Product,
     aboveUserLimit: number,
 ) => {
     let planPricing;
@@ -240,7 +241,7 @@ export const getPlanDetailElements = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails_paidTier__planName'>
                     {`$${product.price_per_seat.toFixed(2)}`}
-                    {product.billing_schema === BillingSchemes.FLAT_FEE ?
+                    {product.billing_scheme === BillingSchemes.FLAT_FEE ?
                         <FormattedMessage
                             id='admin.billing.subscription.planDetails.flatFeePerMonth'
                             defaultMessage='/month (Unlimited Users). '
