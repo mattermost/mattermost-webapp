@@ -13,7 +13,7 @@ import {ConfigOption} from './route';
 describe('Utils.Route', () => {
     describe('checkIfMFARequired', () => {
         test('mfa is enforced', () => {
-            const user: UserProfile= {mfa_active: false, auth_service: ''};
+            const user: UserProfile = {mfa_active: false, auth_service: ''};
             const config: ConfigOption = {EnableMultifactorAuthentication: 'true', EnforceMultifactorAuthentication: 'true'};
             const license: ClientLicense = {MFA: 'true'};
 
