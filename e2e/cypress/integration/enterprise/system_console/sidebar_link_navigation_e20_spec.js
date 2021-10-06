@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @e20 @not_cloud @system_console
+// Group: @enterprise @e20_only @not_cloud @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {adminConsoleNavigation} from '../../../utils/admin_console';
