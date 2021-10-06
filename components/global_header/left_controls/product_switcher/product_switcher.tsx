@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useRef, useState} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,7 +11,8 @@ import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon'
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-import {useClickOutsideRef, useCurrentProductId, useProducts} from './hooks';
+import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
+
 import ProductBranding from './product_branding';
 import ProductSwitcherMenu from './product_switcher_menu';
 import ProductSwitcherTip from './product_switcher_tip';

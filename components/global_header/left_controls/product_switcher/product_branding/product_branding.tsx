@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Icon from '@mattermost/compass-components/foundations/icon';
 import Heading from '@mattermost/compass-components/components/heading';
 
-import {useProducts, useCurrentProductId} from '../hooks';
+import {useProducts, useCurrentProductId} from '../../../hooks';
 
 const ProductBrandingContainer = styled.div`
     display: flex;
