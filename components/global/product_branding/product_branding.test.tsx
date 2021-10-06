@@ -8,7 +8,7 @@ import {ProductComponent} from 'types/store/plugins';
 import {TopLevelProducts} from 'utils/constants';
 
 import * as hooks from '../hooks';
-import {makeProduct} from '../test_helpers';
+import {TestHelper} from 'utils/test_helper';
 
 import ProductBranding from './product_branding';
 
@@ -30,8 +30,8 @@ describe('components/ProductBranding', () => {
     test('should show correct icon glyph when we are on Playbooks', () => {
         const products = jest.spyOn(hooks, 'useProducts');
         products.mockReturnValue([
-            makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
-            makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent,
+            TestHelper.makeProduct(TopLevelProducts.BOARDS),
+            TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ]);
 
         const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
@@ -47,8 +47,8 @@ describe('components/ProductBranding', () => {
     test('should show correct icon glyph when we are on Boards', () => {
         const products = jest.spyOn(hooks, 'useProducts');
         products.mockReturnValue([
-            makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
-            makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent,
+            TestHelper.makeProduct(TopLevelProducts.BOARDS),
+            TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ]);
 
         const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');

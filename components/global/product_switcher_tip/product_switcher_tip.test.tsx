@@ -8,7 +8,7 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 import {ProductComponent} from 'types/store/plugins';
 import {TutorialSteps, TopLevelProducts} from 'utils/constants';
 
-import {makeProduct} from '../test_helpers';
+import {TestHelper} from 'utils/test_helper';
 
 import {Props, ProductSwitcherTip} from './product_switcher_tip';
 
@@ -25,8 +25,8 @@ describe('components/product_switcher/product_switcher_tip', () => {
         props = {
             currentUserId: '',
             products: [
-                makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
-                makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent,
+                TestHelper.makeProduct(TopLevelProducts.BOARDS),
+                TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
             ],
             step: TutorialSteps.PRODUCT_SWITCHER,
             actions: {
@@ -52,7 +52,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
     it('does not skip tutorial tip when tutorial step does not match and a product is missing', () => {
         props.step = TutorialSteps.PRODUCT_SWITCHER - 1;
         props.products = [
-            makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
+            TestHelper.makeProduct(TopLevelProducts.BOARDS),
         ];
         shallow(<ProductSwitcherTip {...props}/>);
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
@@ -60,7 +60,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
 
     it('does not show tutorial tip when playbooks is missing', () => {
         props.products = [
-            makeProduct(TopLevelProducts.BOARDS) as ProductComponent,
+            TestHelper.makeProduct(TopLevelProducts.BOARDS),
         ];
 
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
@@ -72,7 +72,7 @@ describe('components/product_switcher/product_switcher_tip', () => {
 
     it('does not show tutorial tip when boards is missing', () => {
         props.products = [
-            makeProduct(TopLevelProducts.PLAYBOOKS) as ProductComponent,
+            TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ];
         expect(props.actions.savePreferences).not.toHaveBeenCalled();
         const wrapper = shallow(<ProductSwitcherTip {...props}/>);
