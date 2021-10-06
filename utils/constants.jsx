@@ -327,7 +327,6 @@ export const ModalIdentifiers = {
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
-    LEAVE_GROUP_MESSAGE_MODAL: 'leave_group_message_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
 };
 

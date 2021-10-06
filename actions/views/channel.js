@@ -148,7 +148,7 @@ export function leaveChannel(channelId) {
             LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
         }
 
-        if (getMyChannels(getState()).filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL || c.type === Constants.GM_CHANNEL).length === 0) {
+        if (getMyChannels(getState()).filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).length === 0) {
             LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
             dispatch(selectTeam(''));
             dispatch({type: TeamTypes.LEAVE_TEAM, data: currentTeam});

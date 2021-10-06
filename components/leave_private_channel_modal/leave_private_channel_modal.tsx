@@ -74,7 +74,7 @@ export default class LeavePrivateChannelModal extends React.PureComponent<Props,
     render() {
         let title;
         let message;
-        if (this.state.channel?.type === Constants.PRIVATE_CHANNEL && this.state.channel?.display_name) {
+        if (this.state.channel && this.state.channel.display_name) {
             title = (
                 <FormattedMessage
                     id='leave_private_channel_modal.title'
@@ -96,26 +96,10 @@ export default class LeavePrivateChannelModal extends React.PureComponent<Props,
             );
         }
 
-        if (this.state.channel?.type === Constants.GM_CHANNEL) {
-            title = (
-                <FormattedMessage
-                    id='leave_group_message_modal.title'
-                    defaultMessage='Leave this Group Message?'
-                />
-            );
-
-            message = (
-                <FormattedMessage
-                    id='leave_group_message_modal.message'
-                    defaultMessage="You won't be able to rejoin this group unless you are invited again"
-                />
-            );
-        }
-
         const buttonClass = 'btn btn-danger';
         const button = (
             <FormattedMessage
-                id={`${this.state.channel?.type === Constants.GM_CHANNEL ? 'leave_group_message_modal' : 'leave_private_channel_modal'}.leave`}
+                id='leave_private_channel_modal.leave'
                 defaultMessage='Yes, leave channel'
             />
         );

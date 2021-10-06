@@ -11,6 +11,7 @@ exports[`components/ChannelHeaderDropdown/MenuItem.CloseMessage should match sna
 exports[`components/ChannelHeaderDropdown/MenuItem.CloseMessage should match snapshot for GM Channel 1`] = `
 <MenuItemAction
   onClick={[Function]}
-  show={false}
+  show={true}
+  text="Close Group Message"
 />
 `;

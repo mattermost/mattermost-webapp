@@ -19,8 +19,8 @@ exports[`components/ChannelHeaderDropdown/MenuItem.LeaveChannel should be hidden
 exports[`components/ChannelHeaderDropdown/MenuItem.LeaveChannel should be hidden if the channel type is DM or GM 2`] = `
 <MenuItemAction
   onClick={[Function]}
-  show={true}
-  text="Leave Group Message"
+  show={false}
+  text="Leave Channel"
 />
 `;
 
