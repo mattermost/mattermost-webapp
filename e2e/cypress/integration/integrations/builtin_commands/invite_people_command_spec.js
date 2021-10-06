@@ -7,47 +7,60 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @integrations
 
-import {loginAndVisitChannel} from './helper';
+import { loginAndVisitChannel } from './helper';
+import { getJoinEmailTemplate, verifyEmailBody } from "../../../utils";
 
 describe('Integrations', () => {
     let testUser;
     let testTeam;
-    const userGroup = [];
+    const usersToInvite = [];
+    let siteName;
     let testChannelUrl;
 
     before(() => {
+        cy.apiGetConfig().then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
             testTeam = team;
 
             Cypress._.times(2, () => {
                 cy.apiCreateUser().then(({user: otherUser}) => {
-                    userGroup.push(otherUser);
+                    usersToInvite.push(otherUser);
                 });
+            });
+    
+            cy.apiAdminLogin();
+            cy.apiCreateChannel(team.id, 'channel', 'channel').then(({channel}) => {
+                testChannelUrl = `/${team.name}/channels/${channel.name}`;
+                cy.apiAddUserToChannel(channel.id, testUser.id);
             });
         });
     });
 
-    beforeEach(() => {
-        cy.apiAdminLogin();
-        cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
-            testChannelUrl = `/${testTeam.name}/channels/${channel.name}`;
-            cy.apiAddUserToChannel(channel.id, testUser.id);
-        });
-    });
-
     it('MM-T575 /invite-people', () => {
-        const [user1ToInvite, user2ToInvite] = userGroup;
-
         loginAndVisitChannel(testUser, testChannelUrl);
 
         // # Post `/invite email1 email2` where emails are of users not added to the team yet
-        cy.postMessage(`/invite_people ${user1ToInvite.email} ${user2ToInvite.email} `);
+        cy.postMessage(`/invite_people ${usersToInvite.map(user => user.email).join(" ")} `);
 
         // * User who added them sees system message "Email invite(s) sent"
         cy.uiWaitUntilMessagePostedIncludes(`Email invite(s) sent`);
+
+        usersToInvite.forEach(invitedUser => {
+            cy.getRecentEmail({username: invitedUser.username, email: invitedUser.email}).then((data) => {
+                const {body: actualEmailBody, subject} = data;
+    
+                // * Verify the subject
+                expect(subject).to.contain(`[${siteName}] ${testUser.username} invited you to join ${testTeam.display_name} Team`);
+    
+                // * Verify email body
+                const expectedEmailBody = getJoinEmailTemplate(testUser.username, invitedUser.email, testTeam);
+                verifyEmailBody(expectedEmailBody, actualEmailBody);
+            });
+        })
     });
 });
