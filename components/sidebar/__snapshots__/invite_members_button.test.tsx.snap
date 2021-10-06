@@ -134,7 +134,8 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
               onClick={[MockFunction]}
             >
               <button
-                aria-label="Invite Users dialog"
+                accessibilityLabel="Invite Users"
+                aria-label=" dialog"
                 className="style--none intro-links color--link cursor--pointer"
                 data-toggle="modal toggle"
                 id="introTextInvite"
