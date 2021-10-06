@@ -10,6 +10,8 @@ import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
+import AlertBanner from 'components/alert_banner';
+import MultiSelect from 'components/multiselect/multiselect';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 
@@ -20,9 +22,6 @@ import {
     optionValue,
     OptionValue,
 } from './types';
-
-import AlertBanner from 'components/alert_banner';
-import MultiSelect from 'components/multiselect/multiselect';
 
 export type Props = {
     currentUserId: string;
