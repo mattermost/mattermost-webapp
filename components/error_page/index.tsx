@@ -8,7 +8,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
 import {GlobalState} from 'types/store';
 
-import { isGuest } from 'mattermost-redux/utils/user_utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import ErrorPage from './error_page';
 

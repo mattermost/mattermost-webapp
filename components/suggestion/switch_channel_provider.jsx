@@ -44,7 +44,7 @@ import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import { isGuest } from 'mattermost-redux/utils/user_utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';

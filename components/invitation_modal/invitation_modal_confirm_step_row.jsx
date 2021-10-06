@@ -13,7 +13,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
 import {imageURLForUser, getLongDisplayName} from 'utils/utils.jsx';
-import { isGuest } from 'mattermost-redux/utils/user_utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import './invitation_modal_confirm_step_row.scss';
 

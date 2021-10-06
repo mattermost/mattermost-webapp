@@ -11,7 +11,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
-import { isAdmin } from 'mattermost-redux/utils/user_utils';
+import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 

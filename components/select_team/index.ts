@@ -16,7 +16,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'types/store';
 
 import {addUserToTeam} from 'actions/team_actions';
-import { isGuest } from 'mattermost-redux/utils/user_utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import SelectTeam from './select_team';
 

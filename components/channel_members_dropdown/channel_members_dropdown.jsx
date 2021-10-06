@@ -111,15 +111,13 @@ export default class ChannelMembersDropdown extends React.PureComponent {
         );
     }
 
-    isChannelAdminOrLicenced(isLicensed, channelMember){
+    isChannelAdminOrLicenced(isLicensed, channelMember) {
         if (!isLicensed) {
             return false;
         }
-    
         if (UserUtils.isChannelAdmin(channelMember.roles) || channelMember.scheme_admin) {
             return true;
         }
-    
         return false;
     }
 

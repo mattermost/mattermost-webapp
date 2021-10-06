@@ -5,12 +5,10 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {joinChannel} from 'mattermost-redux/actions/channels';
-
 import {addUsersToTeam} from 'actions/team_actions';
-
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
-import { isGuest } from 'mattermost-redux/utils/user_utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 export function sendMembersInvites(teamId, users, emails) {
     return async (dispatch, getState) => {

@@ -11,7 +11,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {t} from 'utils/i18n';
 import {toTitleCase} from 'utils/utils.jsx';
-import { isSystemAdmin } from 'mattermost-redux/utils/user_utils';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 const holders = defineMessages({
     sessionRevoked: {

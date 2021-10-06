@@ -11,7 +11,7 @@ import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entitie
 
 import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils.jsx';
-import { isGuest, isAdmin, isSystemAdmin } from 'mattermost-redux/utils/user_utils';
+import {isGuest, isAdmin, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import ConfirmModal from 'components/confirm_modal';
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 

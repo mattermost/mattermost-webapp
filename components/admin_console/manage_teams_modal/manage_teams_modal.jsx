@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import { isAdmin } from 'mattermost-redux/utils/user_utils';
+import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import LoadingScreen from 'components/loading_screen';
 import Avatar from 'components/widgets/users/avatar';
 

@@ -30,7 +30,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import {displayUsername, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {
     getCurrentRelativeTeamUrl,
     getCurrentTeam,
