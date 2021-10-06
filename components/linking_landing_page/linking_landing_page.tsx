@@ -276,9 +276,12 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         );
         if (this.props.enableCustomBrand) {
             openingLink = (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='get_app.openingLinkWhiteLabel'
-                    defaultMessage='Opening link in the Desktop App...'
+                    defaultMessage='Opening link in {appName}...'
+                    values={{
+                        appName: this.props.siteName || 'Mattermost',
+                    }}
                 />
             );
         }
