@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @notifications
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -22,26 +21,27 @@ describe('Notifications', () => {
     let siteName;
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiGetConfig().then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
+
+        cy.apiCreateUser().then(({user: otherUser}) => {
+            user2 = otherUser;
+        });
+
+        cy.apiCreateTeam('team-b', 'Team B').then(({team}) => {
+            team2 = team;
+            testTeam2TownSquareUrl = `/${team2.name}/channels/town-square`;
+        });
+
+        cy.apiInitSetup().then(({team, user, townSquareUrl}) => {
             team1 = team;
             user1 = user;
-            testTeam1TownSquareUrl = `/${team.name}/channels/town-square`;
+            testTeam1TownSquareUrl = townSquareUrl;
 
-            cy.apiCreateUser().then(({user: otherUser}) => {
-                user2 = otherUser;
-                cy.apiAddUserToTeam(team.id, user2.id);
-            });
-
-            cy.apiCreateTeam('team-b', 'Team B').then(({team: anotherTeam}) => {
-                team2 = anotherTeam;
-                testTeam2TownSquareUrl = `/${team2.name}/channels/town-square`;
-                cy.apiAddUserToTeam(team2.id, user1.id);
-                cy.apiAddUserToTeam(team2.id, user2.id);
-            });
-
-            cy.apiGetConfig().then(({config}) => {
-                siteName = config.TeamSettings.SiteName;
-            });
+            cy.apiAddUserToTeam(team1.id, user2.id);
+            cy.apiAddUserToTeam(team2.id, user1.id);
+            cy.apiAddUserToTeam(team2.id, user2.id);
 
             // # Remove mention notification (for initial channel).
             cy.apiLogin(user1);
@@ -54,22 +54,6 @@ describe('Notifications', () => {
             cy.get('.badge').should('not.exist');
             cy.apiLogout();
         });
-    });
-
-    it('MM-T556 Browser tab and team sidebar notification - no unreads/mentions', () => {
-        // # User 1 views team A
-        cy.apiLogin(user1);
-        cy.visit(testTeam1TownSquareUrl);
-
-        cy.title().should('include', `Town Square - ${team1.display_name} ${siteName}`);
-
-        // * Browser tab shows channel name with no unread indicator
-        cy.get(`#${team1.name}TeamButton`).parent('.unread').should('not.exist');
-        cy.get('.badge').should('not.exist');
-
-        // * No unread/mention indicator in team sidebar
-        cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.exist');
-        cy.get('.badge').should('not.exist');
     });
 
     it('MM-T560_1 Browser tab and team sidebar unreads and mentions - Mention in different team', () => {
@@ -156,15 +140,15 @@ describe('Notifications', () => {
             cy.get('.badge').contains('2');
         });
     });
+});
 
-    function verifyFaviconEquals(expectedFixture) {
-        cy.get('link[rel=icon]').should('have.attr', 'href').then((defaultFaviconUrl) => {
-            cy.fixture(expectedFixture).then((imageData) => {
-                cy.request({url: defaultFaviconUrl, encoding: 'base64'}).then((response) => {
-                    expect(response.status).to.equal(200);
-                    expect(response.body).to.eq(imageData);
-                });
+function verifyFaviconEquals(expectedFixture) {
+    cy.get('link[rel=icon]').should('have.attr', 'href').then((defaultFaviconUrl) => {
+        cy.fixture(expectedFixture).then((imageData) => {
+            cy.request({url: defaultFaviconUrl, encoding: 'base64'}).then((response) => {
+                expect(response.status).to.equal(200);
+                expect(response.body).to.eq(imageData);
             });
         });
-    }
-});
+    });
+}

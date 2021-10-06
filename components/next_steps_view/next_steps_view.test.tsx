@@ -50,7 +50,6 @@ describe('components/next_steps_view', () => {
         isFirstAdmin: true,
         isCloud: false,
         team: {name: 'TestTeam'} as Team,
-        globalHeaderEnabled: true,
         downloadAppsAsNextStep: false,
         actions: {
             setShowNextStepsView: jest.fn(),

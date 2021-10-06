@@ -57,7 +57,7 @@ const PostMessagePreview = (props: Props) => {
     const isSystemMessage = PostUtils.isSystemMessage(previewPost);
     const fromWebhook = PostUtils.isFromWebhook(previewPost);
     const fromAutoResponder = PostUtils.fromAutoResponder(previewPost);
-    const profileSrc = Utils.imageURLForUser(user?.id);
+    const profileSrc = Utils.imageURLForUser(user?.id ?? '');
     const src = getPostIconURL(profileSrc, fromAutoResponder, fromWebhook);
 
     let avatar = (

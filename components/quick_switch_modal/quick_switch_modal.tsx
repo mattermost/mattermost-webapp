@@ -136,9 +136,11 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
 
     private handleSuggestionsReceived = (suggestions: ProviderSuggestions): void => {
         const loadingPropPresent = suggestions.items.some((item: any) => item.loading);
-        this.setState({shouldShowLoadingSpinner: loadingPropPresent,
+        this.setState({
+            shouldShowLoadingSpinner: loadingPropPresent,
             pretext: suggestions.matchedPretext,
-            hasSuggestions: suggestions.items.length > 0});
+            hasSuggestions: suggestions.items.length > 0,
+        });
     }
 
     public render = (): JSX.Element => {

@@ -13,7 +13,6 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {openModal, closeModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ModalIdentifiers, Preferences, TutorialSteps} from 'utils/constants';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 
@@ -47,7 +46,6 @@ function mapStateToProps(state: GlobalState) {
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
-        globalHeaderEnabled: getGlobalHeaderEnabled(state),
         addChannelButton: getAddChannelButtonTreatment(state),
         isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
     };

@@ -15,7 +15,7 @@ import ProductBranding from './product_branding';
 import ProductSwitcherMenu from './product_switcher_menu';
 import ProductSwitcherTip from './product_switcher_tip';
 
-interface SwitcherNavEntryProps {
+export interface SwitcherNavEntryProps {
     destination: string;
     icon: TIconGlyph;
     text: React.ReactNode;
@@ -23,13 +23,30 @@ interface SwitcherNavEntryProps {
     onClick: () => void;
 }
 
-const ProductSwitcherContainer = styled.nav`
+export const ProductSwitcherContainer = styled.nav`
     display: flex;
     align-items: center;
     cursor: pointer;
 
     > * + * {
         margin-left: 12px;
+    }
+`;
+
+export const ProductSwitcherButton = styled(IconButton).attrs(() => ({
+    icon: 'products',
+    size: 'sm',
+
+    // we currently need this, since not passing a onClick handler is disabling the IconButton
+    // this is a known issue and is being tracked by UI platform team
+    // TODO@UI: remove the onClick, when it is not a mandatory prop anymore
+    onClick: () => {},
+    inverted: true,
+    compact: true,
+}))`
+    > i::before {
+        font-size: 20px;
+        letter-spacing: 20px;
     }
 `;
 
@@ -70,7 +87,7 @@ const MenuItemTextContainer = styled.div`
     line-height: 20px;
 `;
 
-const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNavEntryProps) => {
+export const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNavEntryProps) => {
     return (
         <MenuItem
             to={destination}
@@ -125,17 +142,8 @@ const ProductSwitcher = (): JSX.Element => {
                 open={switcherOpen}
             >
                 <ProductSwitcherContainer onClick={handleClick}>
-                    <IconButton
-                        icon={'products'}
-                        size={'sm'}
-
-                        // we currently need this, since not passing a onClick handler is disabling the IconButton
-                        // this is a known issue and is being tracked by UI platform team
-                        // TODO@UI: remove the onClick, when it is not a mandatory prop anymore
-                        onClick={() => {}}
-                        compact={true}
+                    <ProductSwitcherButton
                         active={switcherOpen}
-                        inverted={true}
                         aria-label='Select to open product switch menu.'
                     />
                     <ProductSwitcherTip/>

@@ -19,7 +19,7 @@ const PluginsSvg = () => (
                 width='128'
                 height='71.3739'
                 rx='4'
-                fill='var(--center-channel-bg)'
+                fill='#FFFFFF'
             />
             <rect
                 x='34'
@@ -27,7 +27,7 @@ const PluginsSvg = () => (
                 width='128.5'
                 height='71.8739'
                 rx='4.25'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.16'
                 strokeWidth='0.5'
             />
@@ -38,7 +38,7 @@ const PluginsSvg = () => (
             width='78'
             height='2.97391'
             rx='1.48696'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -47,7 +47,7 @@ const PluginsSvg = () => (
             width='78'
             height='2.97391'
             rx='1.48696'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -56,7 +56,7 @@ const PluginsSvg = () => (
             width='78'
             height='2.97391'
             rx='1.48696'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -65,7 +65,7 @@ const PluginsSvg = () => (
             width='78'
             height='2.97391'
             rx='1.48696'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -74,7 +74,7 @@ const PluginsSvg = () => (
             width='78'
             height='2.97391'
             rx='1.48696'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -83,7 +83,7 @@ const PluginsSvg = () => (
             width='78'
             height='2.97391'
             rx='1.48696'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -92,7 +92,7 @@ const PluginsSvg = () => (
             width='24'
             height='1.98261'
             rx='0.991304'
-            fill='var(--sidebar-text-active-border)'
+            fill='#5D89EA'
         />
         <rect
             x='105.25'
@@ -100,7 +100,7 @@ const PluginsSvg = () => (
             width='24'
             height='1.98261'
             rx='0.991304'
-            fill='var(--sidebar-text-active-border)'
+            fill='#5D89EA'
         />
         <rect
             x='78.25'
@@ -108,7 +108,7 @@ const PluginsSvg = () => (
             width='80'
             height='7.93043'
             rx='3.96522'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             x='78.5'
@@ -116,13 +116,13 @@ const PluginsSvg = () => (
             width='79.5'
             height='7.43043'
             rx='3.71522'
-            stroke='var(--center-channel-color)'
+            stroke='#3F4350'
             strokeOpacity='0.16'
             strokeWidth='0.5'
         />
         <path
             d='M34.25 31.7565C34.25 29.5474 36.0409 27.7565 38.25 27.7565H74.25V99.1304H38.25C36.0409 99.1304 34.25 97.3396 34.25 95.1304V31.7565Z'
-            fill='var(--sidebar-bg)'
+            fill='#174ab5'
         />
         <rect
             opacity='0.48'
@@ -131,7 +131,7 @@ const PluginsSvg = () => (
             width='3.04766'
             height='3.22594'
             rx='1.52383'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -140,7 +140,7 @@ const PluginsSvg = () => (
             width='21.8416'
             height='3.22594'
             rx='1.61297'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -149,7 +149,7 @@ const PluginsSvg = () => (
             width='3.04766'
             height='3.22594'
             rx='1.52383'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -158,7 +158,7 @@ const PluginsSvg = () => (
             width='21.8416'
             height='3.22594'
             rx='1.61297'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             x='38.25'
@@ -174,7 +174,7 @@ const PluginsSvg = () => (
             width='21.8416'
             height='3.22594'
             rx='1.61297'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             x='67.2024'
@@ -182,7 +182,7 @@ const PluginsSvg = () => (
             width='3.04766'
             height='3.22594'
             rx='1.52383'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -191,7 +191,7 @@ const PluginsSvg = () => (
             width='3.04766'
             height='3.22594'
             rx='1.52383'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -200,7 +200,7 @@ const PluginsSvg = () => (
             width='21.8416'
             height='3.22594'
             rx='1.61297'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -209,7 +209,7 @@ const PluginsSvg = () => (
             width='3.04766'
             height='3.22594'
             rx='1.52383'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -218,7 +218,7 @@ const PluginsSvg = () => (
             width='21.8416'
             height='3.22594'
             rx='1.61297'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             x='38.25'
@@ -235,7 +235,7 @@ const PluginsSvg = () => (
             width='21.8416'
             height='3.22594'
             rx='1.61297'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -244,7 +244,7 @@ const PluginsSvg = () => (
             width='3.04766'
             height='3.22594'
             rx='1.52383'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -253,7 +253,7 @@ const PluginsSvg = () => (
             width='21.8416'
             height='3.22594'
             rx='1.61297'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -262,7 +262,7 @@ const PluginsSvg = () => (
             width='3.04766'
             height='3.22594'
             rx='1.52383'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             opacity='0.48'
@@ -271,7 +271,7 @@ const PluginsSvg = () => (
             width='21.8416'
             height='3.22594'
             rx='1.61297'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             x='38.25'
@@ -288,7 +288,7 @@ const PluginsSvg = () => (
             width='21.8416'
             height='3.22594'
             rx='1.61297'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <g filter='url(#svg3-filter1_d)'>
             <ellipse
@@ -296,11 +296,11 @@ const PluginsSvg = () => (
                 cy='19.8261'
                 rx='20'
                 ry='19.8261'
-                fill='var(--sidebar-text)'
+                fill='#FFFFFF'
             />
             <path
                 d='M179.976 19.8261C179.976 30.6217 171.147 39.3774 160.251 39.3774C149.355 39.3774 140.526 30.6217 140.526 19.8261C140.526 9.03044 149.355 0.27476 160.251 0.27476C171.147 0.27476 179.976 9.03044 179.976 19.8261Z'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.08'
                 strokeWidth='0.549521'
             />
@@ -318,11 +318,11 @@ const PluginsSvg = () => (
                 cy='35.687'
                 rx='18'
                 ry='17.8435'
-                fill='var(--sidebar-text)'
+                fill='#FFFFFF'
             />
             <path
                 d='M43.4746 35.687C43.4746 45.3877 35.541 53.2558 25.7493 53.2558C15.9577 53.2558 8.02409 45.3877 8.02409 35.687C8.02409 25.9864 15.9577 18.1183 25.7493 18.1183C35.541 18.1183 43.4746 25.9864 43.4746 35.687Z'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.08'
                 strokeWidth='0.549521'
             />
@@ -340,11 +340,11 @@ const PluginsSvg = () => (
                 cy='94.1739'
                 rx='15'
                 ry='14.8696'
-                fill='var(--sidebar-text)'
+                fill='#FFFFFF'
             />
             <path
                 d='M50.9733 94.1739C50.9733 102.232 44.3829 108.769 36.2481 108.769C28.1133 108.769 21.5229 102.232 21.5229 94.1739C21.5229 86.1157 28.1133 79.5791 36.2481 79.5791C44.3829 79.5791 50.9733 86.1157 50.9733 94.1739Z'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.08'
                 strokeWidth='0.549521'
             />
@@ -362,11 +362,11 @@ const PluginsSvg = () => (
                 cy='24.7826'
                 rx='15'
                 ry='14.8696'
-                fill='var(--sidebar-text)'
+                fill='#FFFFFF'
             />
             <path
                 d='M98.9746 24.7826C98.9746 32.8408 92.3842 39.3774 84.2494 39.3774C76.1146 39.3774 69.5241 32.8408 69.5241 24.7826C69.5241 16.7244 76.1146 10.1878 84.2494 10.1878C92.3842 10.1878 98.9746 16.7244 98.9746 24.7826Z'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.08'
                 strokeWidth='0.549521'
             />
@@ -384,11 +384,11 @@ const PluginsSvg = () => (
                 cy='99.1304'
                 rx='15'
                 ry='14.8696'
-                fill='var(--sidebar-text)'
+                fill='#FFFFFF'
             />
             <path
                 d='M180.975 99.1304C180.975 107.189 174.384 113.725 166.249 113.725C158.115 113.725 151.524 107.189 151.524 99.1304C151.524 91.0721 158.115 84.5356 166.249 84.5356C174.384 84.5356 180.975 91.0721 180.975 99.1304Z'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.08'
                 strokeWidth='0.549521'
             />
