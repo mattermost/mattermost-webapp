@@ -92,6 +92,13 @@
         span {
             display: none;
         }
+
+        @media screen and (max-width: 768px) {
+            background: none;
+            .menu-divider {
+                margin: 0;
+            }
+        }
     }
 
     .SubMenuItemContainer:not(.hasDivider) {
@@ -126,6 +133,7 @@
             justify-content: space-between;
             padding: 0 15px;
             margin: 0;
+            height: 34px;
         }
 
         .sorting-menu-checkbox {

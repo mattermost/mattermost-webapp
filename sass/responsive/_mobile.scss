@@ -99,7 +99,7 @@
                     >a,
                     >button,
                     >.styleSelectableItemDiv {
-                        display: block;
+                        display: flex;
                         width: 100%;
                         height: auto;
                         padding: 0.4rem 2rem;
@@ -108,6 +108,7 @@
                         font-weight: 600;
                         line-height: 32px;
                         text-align: center;
+                        justify-content: center;
 
                         &:hover {
                             background: transparent;
