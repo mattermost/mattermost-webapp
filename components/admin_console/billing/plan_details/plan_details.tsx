@@ -156,7 +156,8 @@ export const planDetailsTopElements = (
                 />
             );
             break;
-        case CloudProducts.LEGACY:
+        default:
+            // must be CloudProducts.LEGACY
             productName = (
                 <FormattedMessage
                     id='admin.billing.subscription.planDetails.productName.mmCloud'
@@ -176,14 +177,6 @@ export const planDetailsTopElements = (
                         values={{userCount, userLimit}}
                     />
                 </div>
-            );
-            break;
-        default:
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                    defaultMessage='Cloud Professional'
-                />
             );
             break;
         }
@@ -369,11 +362,9 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
         case CloudProducts.ENTERPRISE:
             features = featuresCloudEnterprise;
             break;
-        case CloudProducts.LEGACY:
-            features = featuresFreeTier;
-            break;
         default:
-            features = featuresCloudProfessional;
+            // must be CloudProducts.LEGACY
+            features = featuresFreeTier;
             break;
         }
     } else {
