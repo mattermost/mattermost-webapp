@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import classNames from 'classnames';
+
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from 'mattermost-redux/types/files';
 
@@ -138,25 +140,28 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             />
         );
 
-        let imageNameClass = 'image-name';
+        const imageNameClasses = ['image-name'];
         if (compactDisplay) {
-            imageNameClass += ' compact-display';
+            imageNameClasses.push('compact-display');
         }
 
         const fileHeader = (
-            <div className={`image-header ${this.props.isEmbedVisible && 'active'}`}>
+            <div
+                className={classNames('image-header', {
+                    active: this.props.isEmbedVisible,
+                })}
+            >
                 {toggle}
-                {!this.props.isEmbedVisible &&
-                <div
-                    data-testid='image-name'
-                    className={imageNameClass}
-                >
+                {!this.props.isEmbedVisible && (
                     <div
-                        onClick={this.handleImageClick}
+                        data-testid='image-name'
+                        className={classNames(imageNameClasses)}
                     >
-                        {fileInfo.name}
+                        <div onClick={this.handleImageClick}>
+                            {fileInfo.name}
+                        </div>
                     </div>
-                </div>}
+                )}
             </div>
         );
 
@@ -208,7 +213,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                         style={imageContainerStyle}
                     >
                         <div
-                            className={`image-loaded ${fadeInClass} ${svgClass}`}
+                            className={classNames('image-loaded', fadeInClass, svgClass)}
                             style={styleIfSvgWithDimensions}
                         >
                             <SizeAwareImage
