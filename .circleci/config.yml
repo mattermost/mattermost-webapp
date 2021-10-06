@@ -246,6 +246,7 @@ jobs:
             cd ./docker-build
             wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/Dockerfile
             wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/entrypoint.sh
+            chmod +x entrypoint.sh
 
             export DOCKER_CLI_EXPERIMENTAL=enabled
             echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
