@@ -17,7 +17,7 @@ import ProductBranding from './product_branding';
 import ProductSwitcherMenu from './product_switcher_menu';
 import ProductSwitcherTip from './product_switcher_tip';
 
-interface SwitcherNavEntryProps {
+export interface SwitcherNavEntryProps {
     destination: string;
     icon: TIconGlyph;
     text: React.ReactNode;
@@ -25,7 +25,7 @@ interface SwitcherNavEntryProps {
     onClick: () => void;
 }
 
-const ProductSwitcherContainer = styled.nav`
+export const ProductSwitcherContainer = styled.nav`
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -35,7 +35,7 @@ const ProductSwitcherContainer = styled.nav`
     }
 `;
 
-const ProductSwitcherButton = styled(IconButton).attrs(() => ({
+export const ProductSwitcherButton = styled(IconButton).attrs(() => ({
     icon: 'products',
     size: 'sm',
 
@@ -89,7 +89,7 @@ const MenuItemTextContainer = styled.div`
     line-height: 20px;
 `;
 
-const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNavEntryProps) => {
+export const SwitcherNavEntry = ({icon, destination, text, active, onClick}: SwitcherNavEntryProps) => {
     return (
         <MenuItem
             to={destination}
