@@ -4,6 +4,7 @@
 import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes} from 'mattermost-redux/action_types';
 
 import {Posts} from 'mattermost-redux/constants';
+import {PostTypes as PostConstant} from 'utils/constants';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {
@@ -402,7 +403,7 @@ export function postsInChannel(state: Dictionary<PostOrderBlock[]> = {}, action:
     case PostTypes.RECEIVED_NEW_POST: {
         const post = action.data as Post;
 
-        if (action.features?.crtEnabled && post.root_id) {
+        if (action.features?.crtEnabled && post.root_id && post.type !== PostConstant.EPHEMERAL) {
             return state;
         }
 

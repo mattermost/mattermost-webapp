@@ -8,6 +8,9 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
     <div
       className="post-right-comments-container"
     >
+      <FileUploadOverlay
+        overlayType="right"
+      />
       <DeferredRenderWrapper
         channel={
           Object {
@@ -29,6 +32,7 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
             "update_at": 0,
           }
         }
+        isThreadView={false}
         key="id"
         onCardClick={[Function]}
         onCardClickPost={[Function]}
