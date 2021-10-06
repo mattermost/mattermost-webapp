@@ -232,22 +232,27 @@ jobs:
   build-docker:
     working_directory: ~/mattermost/
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: cimg/base:stable
     steps:
       - attach_workspace:
           at: ~/mattermost/
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.7
       - run:
           command: |
             export TAG="${CIRCLE_SHA1:0:7}"
 
-            git clone https://github.com/mattermost/mattermost-server.git
+            mkdir -p ./docker-build
+            cd ./docker-build
+            wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/Dockerfile
+            wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/entrypoint.sh
+            chmod +x entrypoint.sh
 
-            cd mattermost-server
-            export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
-            docker build --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-enterprise-edition:${TAG} build
+            export DOCKER_CLI_EXPERIMENTAL=enabled
             echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
-            docker push mattermost/mattermost-enterprise-edition:${TAG}
+            export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
+            # Pushing the images to two places to not break anything, but the `mattermost/mattermost-enterprise-edition` will be removed soon.
+            docker buildx build --push --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-enterprise-edition:${TAG} -t mattermost/mm-ee-test:${TAG} .
 
 workflows:
   version: 2

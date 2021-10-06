@@ -121,7 +121,7 @@ export default class UserGridRoleDropdown extends React.PureComponent<Props> {
         return Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member');
     }
 
-    public render = (): JSX.Element | null => {
+    public render = (): React.ReactNode => {
         if (!this.props.membership) {
             return null;
         }

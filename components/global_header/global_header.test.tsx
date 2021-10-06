@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import * as redux from 'react-redux';
 
-import GlobalHeader from 'components/global/global_header';
+import GlobalHeader from 'components/global_header/global_header';
 
 import * as hooks from './hooks';
 
