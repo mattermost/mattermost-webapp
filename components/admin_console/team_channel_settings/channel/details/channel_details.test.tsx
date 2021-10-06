@@ -168,6 +168,9 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             creator_id: 'id',
             scheme_id: 'id',
             group_constrained: false,
+            total_msg_count: 100,
+            total_msg_count_root: 10,
+            extra_update_at: 0,
         };
         const team: Partial<Team> = {
             display_name: 'test',
@@ -287,6 +290,9 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             creator_id: 'id',
             scheme_id: 'id',
             group_constrained: false,
+            total_msg_count: 100,
+            total_msg_count_root: 10,
+            extra_update_at: 0,
         };
         const team: Partial<Team> = {
             display_name: 'test',
