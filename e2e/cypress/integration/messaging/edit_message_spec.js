@@ -148,7 +148,7 @@ describe('Edit Message', () => {
             cy.get('#editPostModal').should('not.exist');
 
             // * Check the second post and verify that it contains new edited message.
-            cy.get(postText).should('have.text', `${secondMessage} Another new message`);
+            cy.get(postText).should('have.text', `${secondMessage} Another new message Edited`);
         });
     });
 });

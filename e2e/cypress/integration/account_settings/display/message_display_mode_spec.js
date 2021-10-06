@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @account_setting
 
-import {getRandomId} from '../../../utils';
-
 describe('Account Settings', () => {
     before(() => {
         // # Login as new user and visit off-topic
@@ -34,8 +32,8 @@ describe('Account Settings', () => {
 function verifyLineBreaksRemainIntact(display) {
     cy.uiChangeMessageDisplaySetting(display);
 
-    const firstLine = `First line ${getRandomId()}`;
-    const secondLine = `Text after ${getRandomId()}`;
+    const firstLine = 'First line';
+    const secondLine = 'Second line';
 
     // # Enter in text
     cy.get('#post_textbox').
@@ -48,8 +46,8 @@ function verifyLineBreaksRemainIntact(display) {
     cy.getLastPostId().then((postId) => {
         const postMessageTextId = `#postMessageText_${postId}`;
 
-        // * Verify HTML still includes new line
-        cy.get(postMessageTextId).should('have.html', `<p>${firstLine}</p>\n<p>${secondLine}</p>`);
+        // * Verify text still includes new line
+        cy.get(postMessageTextId).should('have.text', `${firstLine}\n${secondLine}`);
 
         // # click dot menu button
         cy.clickPostDotMenu(postId);
@@ -58,17 +56,18 @@ function verifyLineBreaksRemainIntact(display) {
         cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
 
         // # Add ",edited" to the text
-        cy.get('#edit_textbox').type(',edited');
+        const editMessage = ',edited';
+        cy.get('#edit_textbox').type(editMessage);
 
         // # Save
-        cy.get('#editButton').click();
+        cy.uiSave();
 
-        // * Verify HTML includes newline and the edit
-        cy.get(postMessageTextId).should('have.html', `<p>${firstLine}</p>\n<p>${secondLine},edited</p>`);
+        // * Verify posted message includes newline, edit message and "Edited" indicator
+        cy.get(postMessageTextId).should('have.text', `${firstLine}\n${secondLine}${editMessage} Edited`);
 
-        // * Post should have (edited)
+        // * Post should have "Edited"
         cy.get(`#postEdited_${postId}`).
             should('be.visible').
-            should('contain', '(edited)');
+            should('contain', 'Edited');
     });
 }

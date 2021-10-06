@@ -109,7 +109,7 @@ describe('Data Retention', () => {
             cy.uiGetButton('Save').click();
 
             // * Assert the pagination is correct
-            cy.get('#custom_policy_table .DataGrid .DataGrid_footer .DataGrid_cell').should('be.visible').invoke('text').should('include', '1 - 3 of 3');
+            cy.get('#custom_policy_table .DataGrid .DataGrid_footer .DataGrid_cell').scrollIntoView().should('be.visible').invoke('text').should('include', '1 - 3 of 3');
 
             cy.apiGetCustomRetentionPolicies().then((result) => {
                 // * Assert the total policy count is 3
