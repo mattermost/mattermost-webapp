@@ -115,7 +115,7 @@ describe('components/SingleImageView', () => {
             />,
         );
 
-        expect(wrapper.find('[data-testid="image-name"]')).toHaveLength(0);
+        expect(wrapper.find('.image-header').text()).toHaveLength(0);
     });
 
     test('should show filename when image is collapsed', () => {
@@ -126,7 +126,7 @@ describe('components/SingleImageView', () => {
             />,
         );
 
-        expect(wrapper.find('[data-testid="image-name"]').text()).
+        expect(wrapper.find('.image-header').text()).
             toEqual(baseProps.fileInfo.name);
     });
 });
