@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import {ProductComponent} from 'types/store/plugins';
 import {TutorialSteps, TopLevelProducts} from 'utils/constants';
 
 import {TestHelper} from 'utils/test_helper';

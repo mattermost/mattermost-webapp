@@ -4,10 +4,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import Icon from '@mattermost/compass-components/foundations/icon';
 
-import {ProductComponent} from 'types/store/plugins';
 import {TopLevelProducts} from 'utils/constants';
 
-import * as hooks from '../hooks';
+import * as hooks from '../../../hooks';
 import {TestHelper} from 'utils/test_helper';
 
 import ProductBranding from './product_branding';
