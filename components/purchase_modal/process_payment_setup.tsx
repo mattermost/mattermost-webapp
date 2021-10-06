@@ -195,12 +195,14 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         let title = t('admin.billing.subscription.upgradedSuccess');
         if (this.props.isFirstPurchase) {
             title = t('admin.billing.subscription.firstPurchaseSuccess');
-            this.props.savePreferences(this.props.currentUser.id, [{
-                category: Preferences.UNIQUE,
-                user_id: this.props.currentUser.id,
-                name: Unique.HAS_CLOUD_PURCHASE,
-                value: 'true',
-            }]);
+            setTimeout(() => {
+                this.props.savePreferences(this.props.currentUser.id, [{
+                    category: Preferences.UNIQUE,
+                    user_id: this.props.currentUser.id,
+                    name: Unique.HAS_CLOUD_PURCHASE,
+                    value: 'true',
+                }]);
+            }, 2000);
         }
         return (
             <IconMessage
