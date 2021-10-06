@@ -132,59 +132,58 @@ export const planDetailsTopElements = (
             </div>
         );
         switch (subscriptionPlan) {
-            case CloudProducts.PROFESSIONAL:
-                productName = (
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                        defaultMessage='Cloud Professional'
-                    />
+        case CloudProducts.PROFESSIONAL:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+                    defaultMessage='Cloud Professional'
+                />
             );
             break;
-            case CloudProducts.ENTERPRISE:
-                productName = (
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
-                        defaultMessage='Cloud Enterprise'
-                    />
+        case CloudProducts.ENTERPRISE:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
+                    defaultMessage='Cloud Enterprise'
+                />
             );
             break;
-            case CloudProducts.STARTER:
-                productName = (
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.productName.cloudStarter'
-                        defaultMessage='Cloud Starter'
-                    />
+        case CloudProducts.STARTER:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudStarter'
+                    defaultMessage='Cloud Starter'
+                />
             );
             break;
-            case CloudProducts.LEGACY: {
-                productName = (
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.productName.mmCloud'
-                        defaultMessage='Mattermost Cloud'
+        case CloudProducts.LEGACY:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.mmCloud'
+                    defaultMessage='Mattermost Cloud'
+                />
+            );
+            userCountDisplay = (
+                <div
+                    className={classNames('PlanDetails__userCount', {
+                        withinLimit: (userLimit - userCount) <= 5,
+                        overLimit: userCount > userLimit,
+                    })}
+                >
+                    <FormattedMarkdownMessage
+                        id='admin.billing.subscription.planDetails.userCountWithLimit'
+                        defaultMessage='{userCount} / {userLimit} users'
+                        values={{userCount, userLimit}}
                     />
-                );
-                userCountDisplay = (
-                    <div
-                        className={classNames('PlanDetails__userCount', {
-                            withinLimit: (userLimit - userCount) <= 5,
-                            overLimit: userCount > userLimit,
-                        })}
-                    >
-                        <FormattedMarkdownMessage
-                            id='admin.billing.subscription.planDetails.userCountWithLimit'
-                            defaultMessage='{userCount} / {userLimit} users'
-                            values={{userCount, userLimit}}
-                        />
-                    </div>
-                );
-            }
+                </div>
+            );
             break;
-            default:
-                productName = (
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                        defaultMessage='Cloud Professional'
-                    />
+        default:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+                    defaultMessage='Cloud Professional'
+                />
             );
             break;
         }
@@ -210,7 +209,6 @@ export const planDetailsTopElements = (
                 defaultMessage='Mattermost Cloud'
             />
         );
-
     }
 
     const trialBadge = (
