@@ -15,7 +15,7 @@ import {
     getPlanDetailElements,
     planDetailsTopElements,
     currentPlanText,
-    featureList
+    featureList,
 } from './plan_details';
 
 import './plan_details.scss';

@@ -16,7 +16,7 @@ import {localizeMessage} from 'utils/utils';
 import Badge from 'components/widgets/badges/badge';
 
 import './plan_details.scss';
-import { Product } from 'mattermost-redux/types/cloud';
+import {Product} from 'mattermost-redux/types/cloud';
 
 const howBillingWorksLink = (
     <a
