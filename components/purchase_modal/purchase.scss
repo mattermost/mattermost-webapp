@@ -281,6 +281,7 @@
                 .price-decimals {
                     align-self: end;
                     font-size: 16px;
+                    padding-bottom: 2px;
 
                     &::before {
                         content: '.';
