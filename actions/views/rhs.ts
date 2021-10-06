@@ -296,6 +296,13 @@ export function showChannelFiles(channelId: string) {
 
         const results: any = await dispatch(performSearch('channel:' + channelId));
 
+        // HERE WE COULD DO A POST REQUEST FOR THE MISSING POSTS
+        // 1. LOOP THROUGH THE FILE RESULTS
+        // 2. CHECK IF THOSE POST IDS EXIST IN EXISTING STATE (CALL SELECTOR CALLED getPost)
+        // 3. CHECK IF POST EXISTS IN results[1].data.posts
+        // 4. CREATE THE ARRAY OF MISSING POSTIDS
+        // 5. MAKE API REQUEST getPostsByIds and add them to `data` below this comment.
+
         let data: any;
         if (results && results.length === 2 && 'data' in results[1]) {
             data = results[1].data;
