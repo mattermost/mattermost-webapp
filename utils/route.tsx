@@ -3,26 +3,12 @@
 
 import {ErrorPageTypes} from 'utils/constants';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {ClientLicense} from 'mattermost-redux/types/config';
+
+
 import {isGuest} from 'utils/utils.jsx';
-
-interface ICallback {
-    (error: Error | null, comp?: string | Component[]): unknown;
-}
-
-interface Component {
-    default: string;
-}
-
-export function importComponentSuccess(callback: ICallback): unknown {
-    return (comp: Component) => callback(null, comp.default);
-}
-
-export function createGetChildComponentsFunction(
-    arrayOfComponents: Component[],
-): unknown {
-    return (locaiton: string, callback: ICallback) =>
-        callback(null, arrayOfComponents);
-}
 
 export const notFoundParams = {
     type: ErrorPageTypes.PAGE_NOT_FOUND,
@@ -39,8 +25,8 @@ export type ConfigOption = {
 };
 
 export function checkIfMFARequired(
-    user: any,
-    license: any,
+    user: UserProfile,
+    license: ClientLicense,
     config: ConfigOption,
     path: string,
 ): boolean {

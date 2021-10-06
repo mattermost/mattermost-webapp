@@ -4,14 +4,18 @@ import assert from 'assert';
 
 import {checkIfMFARequired} from 'utils/route';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {ClientLicense} from 'mattermost-redux/types/config';
+
 import {ConfigOption} from './route';
 
 describe('Utils.Route', () => {
     describe('checkIfMFARequired', () => {
         test('mfa is enforced', () => {
-            const user = {mfa_active: false, auth_service: ''};
+            const user: UserProfile= {mfa_active: false, auth_service: ''};
             const config: ConfigOption = {EnableMultifactorAuthentication: 'true', EnforceMultifactorAuthentication: 'true'};
-            const license = {MFA: 'true'};
+            const license: ClientLicense = {MFA: 'true'};
 
             assert.ok(checkIfMFARequired(user, license, config, ''));
             assert.ok(!checkIfMFARequired(user, license, config, '/mfa/setup'));
