@@ -179,6 +179,14 @@ export const planDetailsTopElements = (
             />
         );
         break;
+    case CloudProducts.LEGACY:
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.mmCloud'
+                defaultMessage='Mattermost Cloud'
+            />
+        );
+        break;
     default:
         productName = (
             <FormattedMessage
