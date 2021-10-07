@@ -11,12 +11,12 @@ import {Constants} from 'utils/constants';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import MainMenu from './main_menu.jsx';
+import MainMenu from './main_menu';
 
 describe('components/Menu', () => {
     // Neccessary for components enhanced by HOCs due to issue with enzyme.
     // See https://github.com/enzymejs/enzyme/issues/539
-    const getMainMenuWrapper = (props) => {
+    const getMainMenuWrapper = (props: any) => {
         const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         return wrapper.find('MainMenu').shallow();
     };

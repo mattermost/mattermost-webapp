@@ -1,15 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
@@ -32,58 +30,58 @@ import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
+import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
-class MainMenu extends React.PureComponent {
-    static propTypes = {
-        mobile: PropTypes.bool.isRequired,
-        id: PropTypes.string,
-        teamId: PropTypes.string,
-        teamName: PropTypes.string,
-        siteName: PropTypes.string,
-        currentUser: PropTypes.object,
-        appDownloadLink: PropTypes.string,
-        enableCommands: PropTypes.bool.isRequired,
-        enableCustomEmoji: PropTypes.bool.isRequired,
-        enableIncomingWebhooks: PropTypes.bool.isRequired,
-        enableOAuthServiceProvider: PropTypes.bool.isRequired,
-        enableOutgoingWebhooks: PropTypes.bool.isRequired,
-        canManageSystemBots: PropTypes.bool.isRequired,
-        canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
-        canManageIntegrations: PropTypes.bool.isRequired,
-        enablePluginMarketplace: PropTypes.bool.isRequired,
-        experimentalPrimaryTeam: PropTypes.string,
-        helpLink: PropTypes.string,
-        reportAProblemLink: PropTypes.string,
-        moreTeamsToJoin: PropTypes.bool.isRequired,
-        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
-        isMentionSearch: PropTypes.bool,
-        teamIsGroupConstrained: PropTypes.bool.isRequired,
-        isLicensedForLDAPGroups: PropTypes.bool,
-        showGettingStarted: PropTypes.bool.isRequired,
-        intl: intlShape.isRequired,
-        showNextStepsTips: PropTypes.bool,
-        isCloud: PropTypes.bool,
-        subscriptionStats: PropTypes.object,
-        firstAdminVisitMarketplaceStatus: PropTypes.bool,
-        globalHeaderEnabled: PropTypes.bool,
-        actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequred,
-            showMentions: PropTypes.func,
-            showFlaggedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func.isRequired,
-            closeRhsMenu: PropTypes.func.isRequired,
-            unhideNextSteps: PropTypes.func.isRequired,
-            getSubscriptionStats: PropTypes.func.isRequired,
-        }).isRequired,
+export type Props = {
+    mobile: boolean;
+    id?: string;
+    teamId?: string;
+    teamName?: string;
+    siteName?: string;
+    currentUser?: any;
+    appDownloadLink?: string;
+    enableCommands: boolean;
+    enableCustomEmoji: boolean;
+    enableIncomingWebhooks: boolean;
+    enableOAuthServiceProvider: boolean;
+    enableOutgoingWebhooks: boolean;
+    canManageSystemBots: boolean;
+    canCreateOrDeleteCustomEmoji: boolean;
+    canManageIntegrations: boolean;
+    enablePluginMarketplace: boolean;
+    experimentalPrimaryTeam?: string;
+    helpLink?: string;
+    reportAProblemLink?: string;
+    moreTeamsToJoin: boolean;
+    pluginMenuItems?: any[];
+    isMentionSearch?: boolean;
+    teamIsGroupConstrained: boolean;
+    isLicensedForLDAPGroups?: boolean;
+    showGettingStarted: boolean;
+    intl: IntlShape;
+    showNextStepsTips?: boolean;
+    isCloud?: boolean;
+    subscriptionStats?: SubscriptionStats;
+    firstAdminVisitMarketplaceStatus?: boolean;
+    globalHeaderEnabled?: boolean;
+    actions: {
+        openModal: (params: {modalId: string; dialogType: any, dialogProps: any}) => void;
+        showMentions: () => void;
+        showFlaggedPosts: () => void;
+        closeRightHandSide: () => void;
+        closeRhsMenu: () => void;
+        unhideNextSteps: () => void;
+        getSubscriptionStats: () => SubscriptionStats;
     };
-
+};
+class MainMenu extends React.PureComponent<Props> {
     static defaultProps = {
         teamType: '',
         mobile: false,
         pluginMenuItems: [],
     };
 
-    toggleShortcutsModal = (e) => {
+    toggleShortcutsModal = (e: Event) => {
         e.preventDefault();
         GlobalActions.toggleShortcutsModal();
     }
@@ -96,10 +94,10 @@ class MainMenu extends React.PureComponent {
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (e: KeyboardEvent) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
             e.preventDefault();
-            this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
+            this.props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
         }
     }
 
@@ -107,13 +105,13 @@ class MainMenu extends React.PureComponent {
         GlobalActions.emitUserLoggedOutEvent();
     }
 
-    getFlagged = (e) => {
+    getFlagged = (e: Event) => {
         e.preventDefault();
         this.props.actions.showFlaggedPosts();
         this.props.actions.closeRhsMenu();
     }
 
-    searchMentions = (e) => {
+    searchMentions = (e: Event) => {
         e.preventDefault();
 
         if (this.props.isMentionSearch) {
@@ -130,7 +128,7 @@ class MainMenu extends React.PureComponent {
         if (subscriptionStats?.is_paid_tier === 'true') { // eslint-disable-line camelcase
             return false;
         }
-        return isCloud && subscriptionStats?.remaining_seats <= 0;
+        return isCloud && (subscriptionStats?.remaining_seats ?? 0) <= 0;
     }
 
     render() {
@@ -140,7 +138,7 @@ class MainMenu extends React.PureComponent {
             return null;
         }
 
-        const pluginItems = this.props.pluginMenuItems.map((item) => {
+        const pluginItems = this.props.pluginMenuItems?.map((item) => {
             return (
                 <Menu.ItemAction
                     id={item.id + '_pluginmenuitem'}

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import MainMenu from 'components/main_menu/main_menu.jsx';
+import MainMenu from 'components/main_menu/main_menu';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
