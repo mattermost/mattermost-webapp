@@ -528,7 +528,7 @@ function createSetHeaderButton(channel: Channel) {
     return (
         <ToggleModalButtonRedux
             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-            accessibilityLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
+            ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
             className={'intro-links color--link setHeaderButton'}
             dialogType={EditChannelHeaderModal}
             dialogProps={{channel}}
