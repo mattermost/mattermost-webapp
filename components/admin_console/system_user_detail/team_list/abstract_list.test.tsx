@@ -6,6 +6,7 @@ import {shallow} from 'enzyme';
 
 import AbstractList from './abstract_list';
 import TeamRow from './team_row';
+import {TeamWithMembership} from './types';
 
 describe('admin_console/system_user_detail/team_list/AbstractList', () => {
     const renderRow = jest.fn((item) => {
@@ -26,12 +27,12 @@ describe('admin_console/system_user_detail/team_list/AbstractList', () => {
             id: 'id1',
             display_name: 'Team 1',
             description: 'Team 1 description',
-        },
+        } as TeamWithMembership,
         {
             id: 'id2',
             display_name: 'Team 2',
             description: 'The 2 description',
-        },
+        } as TeamWithMembership,
     ];
 
     const headerLabels = [
@@ -60,10 +61,6 @@ describe('admin_console/system_user_detail/team_list/AbstractList', () => {
         },
     ];
 
-    const getTeamsData = jest.fn(() => {
-        return Promise.resolve(teamsWithMemberships);
-    });
-
     const defaultProps = {
         userId: '1234',
         data: [],
@@ -74,7 +71,7 @@ describe('admin_console/system_user_detail/team_list/AbstractList', () => {
         emptyListTextId: 'admin.team_settings.team_list.no_teams_found',
         emptyListTextDefaultMessage: 'No teams found',
         actions: {
-            getTeamsData,
+            getTeamsData: jest.fn().mockResolvedValue(Promise.resolve([])),
             removeGroup: jest.fn(),
         },
     };
@@ -113,7 +110,7 @@ describe('admin_console/system_user_detail/team_list/AbstractList', () => {
                 id: 'id' + i,
                 display_name: 'Team ' + i,
                 description: 'Team ' + i + ' description',
-            });
+            } as TeamWithMembership);
         }
         const wrapper = shallow(
             <AbstractList
@@ -134,7 +131,7 @@ describe('admin_console/system_user_detail/team_list/AbstractList', () => {
                 id: 'id' + i,
                 display_name: 'Team ' + i,
                 description: 'Team ' + i + ' description',
-            });
+            } as TeamWithMembership);
         }
         const wrapper = shallow(
             <AbstractList

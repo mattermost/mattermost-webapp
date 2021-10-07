@@ -214,8 +214,11 @@ export function reconnect(includeWebSocket = true) {
         }
         StatusActions.loadStatusesForChannelAndSidebar();
 
-        dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state), true));
-        dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+        const crtEnabled = isCollapsedThreadsEnabled(state);
+        dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
+        if (crtEnabled) {
+            dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+        }
     }
 
     if (state.websocket.lastDisconnectAt) {
@@ -1519,6 +1522,13 @@ function handleThreadUpdated(msg) {
         const currentTeamId = getCurrentTeamId(state);
 
         let lastViewedAt;
+
+        // if current user has replied to the thread
+        // make sure to set following as true
+        if (currentUserId === threadData.post.user_id) {
+            threadData.is_following = true;
+        }
+
         if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
             lastViewedAt = Date.now();
 
