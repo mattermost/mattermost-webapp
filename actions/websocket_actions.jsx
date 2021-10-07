@@ -893,7 +893,7 @@ function fetchChannelAndAddToSidebar(channelId) {
     };
 }
 
-export async function handleUserRemovedEvent(msg) {
+export function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUser = getCurrentUser(state);
@@ -910,14 +910,7 @@ export async function handleUserRemovedEvent(msg) {
         }
 
         if (msg.data.channel_id === currentChannel.id) {
-            if (msg.data.remover_id === msg.broadcast.user_id) {
-                browserHistory.push(getCurrentRelativeTeamUrl(state));
-
-                await dispatch({
-                    type: ChannelTypes.LEAVE_CHANNEL,
-                    data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-                });
-            } else {
+            if (msg.data.remover_id !== msg.broadcast.user_id) {
                 const user = getUser(state, msg.data.remover_id);
                 if (!user) {
                     dispatch(loadUser(msg.data.remover_id));
@@ -931,14 +924,16 @@ export async function handleUserRemovedEvent(msg) {
                         removerId: msg.data.remover_id,
                     },
                 }));
-
-                await dispatch({
-                    type: ChannelTypes.LEAVE_CHANNEL,
-                    data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-                });
-
-                redirectUserToDefaultTeam();
             }
+        }
+
+        dispatch({
+            type: ChannelTypes.LEAVE_CHANNEL,
+            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
+        });
+
+        if (msg.data.channel_id === currentChannel.id) {
+            redirectUserToDefaultTeam();
         }
 
         if (isGuest(currentUser)) {
