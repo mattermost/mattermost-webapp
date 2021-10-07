@@ -85,14 +85,14 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.uiGetChannelMenu({exist: false});
     });
 
-    it('MM-T1476 Accessibility Support in Main Menu Dropdown', () => {
+    it('MM-T1476 Accessibility Support in Team Menu Dropdown', () => {
         // # Open team menu
         cy.uiGetLHSHeader().click();
 
         // * Verify the accessibility support in the Main Menu Dropdown
         cy.findByRole('menu').
             should('exist').
-            and('have.attr', 'aria-label', 'main menu').
+            and('have.attr', 'aria-label', 'team menu').
             and('have.class', 'a11y__popup');
 
         // * Verify the first option is not selected by default
