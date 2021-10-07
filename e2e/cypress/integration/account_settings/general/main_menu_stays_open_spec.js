@@ -33,7 +33,7 @@ describe('Account Settings > General', () => {
         });
     });
 
-    it('MM-T285 Main Menu stays open', () => {
+    it('MM-T285 Status Menu stays open', () => {
         // # Click the hamburger button
         cy.uiGetSetStatusButton().click();
 
