@@ -8,7 +8,7 @@ import {InviteTypes} from 'utils/constants';
 
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
 
-describe('components/invitation_modal/InvitationModalConfirmStep', () => {
+describe('components/invitation_modal/fullscreen/InvitationModalConfirmStep', () => {
     test('should match the snapshot for guests with failures and successes', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep

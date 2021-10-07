@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot for guests with failures and successes 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStep should match the snapshot for guests with failures and successes 1`] = `
 <div
   className="InvitationModalConfirmStep"
 >
@@ -105,7 +105,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 </div>
 `;
 
-exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot for members with failures and successes 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStep should match the snapshot for members with failures and successes 1`] = `
 <div
   className="InvitationModalConfirmStep"
 >
@@ -210,7 +210,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 </div>
 `;
 
-exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot without failures 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStep should match the snapshot without failures 1`] = `
 <div
   className="InvitationModalConfirmStep"
 >
@@ -292,7 +292,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 </div>
 `;
 
-exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot without failures or successes 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStep should match the snapshot without failures or successes 1`] = `
 <div
   className="InvitationModalConfirmStep"
 >
@@ -347,7 +347,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 </div>
 `;
 
-exports[`components/invitation_modal/InvitationModalConfirmStep should match the snapshot without successes 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStep should match the snapshot without successes 1`] = `
 <div
   className="InvitationModalConfirmStep"
 >

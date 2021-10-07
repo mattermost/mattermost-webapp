@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/invitation_modal/InvitationModalInitialStep should match the snapshot 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalInitialStep should match the snapshot 1`] = `
 <div
   className="InvitationModalInitialStep"
 >
@@ -85,7 +85,7 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
 </div>
 `;
 
-exports[`components/invitation_modal/InvitationModalInitialStep should match the snapshot when email invitations are disabled 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalInitialStep should match the snapshot when email invitations are disabled 1`] = `
 <div
   className="InvitationModalInitialStep"
 >

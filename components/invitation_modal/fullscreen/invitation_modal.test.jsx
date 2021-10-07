@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import InvitationModal from './invitation_modal.jsx';
 
-describe('components/invitation_modal/InvitationModal', () => {
+describe('components/invitation_modal/fullscreen/InvitationModal', () => {
     const context = {router: {}};
 
     const defaultProps = {

@@ -9,12 +9,14 @@ import {isEmpty} from 'lodash';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getInviteToTeamTreatment} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
 import {getTeam} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
+import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
 import {closeModal, openModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
@@ -22,7 +24,7 @@ import {ModalIdentifiers, Constants} from 'utils/constants';
 import {isAdmin} from 'utils/utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 
-import InvitationModal from './invitation_modal.jsx';
+import FullscreenInvitationModal from './fullscreen/invitation_modal.jsx';
 
 const searchProfiles = (term, options = {}) => {
     if (!term) {
@@ -59,6 +61,7 @@ export function mapStateToProps(state) {
     const isFreeTierWithNoFreeSeats = isCloud && !isEmpty(subscriptionStats) && subscriptionStats.is_paid_tier === 'false' && subscriptionStats.remaining_seats <= 0;
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
+    const inviteToTeamTreatment = getInviteToTeamTreatment(state);
     return {
         invitableChannels,
         currentTeam,
@@ -70,6 +73,7 @@ export function mapStateToProps(state) {
         isCloud,
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
+        asLightbox: inviteToTeamTreatment === InviteToTeamTreatments.LIGHTBOX || inviteToTeamTreatment === InviteToTeamTreatments.LIGHTBOX_SLIDER,
     };
 }
 
@@ -87,4 +91,10 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InvitationModal);
+function InvitationModal() {
+    return <div>
+        lightbox version.
+    </div>
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(({asLightbox, ...props}) => asLightbox ? <InvitationModal {...props}/> : <FullscreenInvitationModal {...props} />);

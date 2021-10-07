@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import InvitationModalConfirmStepRow from 'components/invitation_modal/invitation_modal_confirm_step_row';
+import InvitationModalConfirmStepRow from 'components/invitation_modal/fullscreen/invitation_modal_confirm_step_row';
 
 import './invitation_modal_confirm_step_table.scss';
 

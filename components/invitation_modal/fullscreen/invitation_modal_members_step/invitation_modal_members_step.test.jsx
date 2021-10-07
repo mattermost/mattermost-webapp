@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
-import InvitationModalGuestsStep from './invitation_modal_guests_step';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-describe('components/invitation_modal/InvitationModalGuestsStep', () => {
+import InvitationModalMembersStep from './invitation_modal_members_step.jsx';
+
+describe('components/invitation_modal/fullscreen/InvitationModalMembersStep', () => {
     const props = {
         teamName: 'Test Team',
         currentTeamId: 'test-team-id',
@@ -23,15 +24,14 @@ describe('components/invitation_modal/InvitationModalGuestsStep', () => {
             remaining_seats: 6,
             is_paid_tier: 'false',
         },
-        myInvitableChannels: [],
-        searchChannels: jest.fn(),
         actions: {
             getSubscriptionStats: () => {},
         },
     };
+
     test('should match the snapshot', () => {
-        const wrapper = shallow(
-            <InvitationModalGuestsStep
+        const wrapper = shallowWithIntl(
+            <InvitationModalMembersStep
                 {...props}
             />,
         );
@@ -39,8 +39,8 @@ describe('components/invitation_modal/InvitationModalGuestsStep', () => {
     });
 
     test('should match the snapshot when email invitations are disabled', () => {
-        const wrapper = shallow(
-            <InvitationModalGuestsStep
+        const wrapper = shallowWithIntl(
+            <InvitationModalMembersStep
                 {...props}
             />,
         );

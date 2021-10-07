@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import InvitationModalConfirmStepTable from './invitation_modal_confirm_step_table.jsx';
 
-describe('components/invitation_modal/InvitationModalConfirmStepTable', () => {
+describe('components/invitation_modal/fullscreen/InvitationModalConfirmStepTable', () => {
     test('should match the snapshot', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStepTable

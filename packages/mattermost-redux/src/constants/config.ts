@@ -22,3 +22,9 @@ export enum PrewrittenMessagesTreatments {
     TOUR_POINT = 'tour_point',
     AROUND_INPUT = 'around_input',
 }
+
+export enum InviteToTeamTreatments {
+    NONE = 'none',
+    LIGHTBOX = 'lightbox',
+    LIGHTBOX_SLIDER = 'lightbox_slider',
+}

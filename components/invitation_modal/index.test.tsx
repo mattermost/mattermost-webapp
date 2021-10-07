@@ -3,7 +3,7 @@
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {mapStateToProps} from './index.js';
+import {mapStateToProps} from './index';
 
 describe('mapStateToProps', () => {
     const currentTeamId = 'team-id';

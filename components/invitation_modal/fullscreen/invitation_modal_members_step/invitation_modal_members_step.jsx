@@ -21,7 +21,7 @@ import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
+import withGetCloudSubscription from '../../../common/hocs/cloud/with_get_cloud_subscription';
 
 import './invitation_modal_members_step.scss';
 

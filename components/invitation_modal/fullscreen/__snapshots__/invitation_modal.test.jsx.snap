@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/invitation_modal/InvitationModal should match the snapshot 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModal should match the snapshot 1`] = `
 <Fragment>
   <RootPortal>
     <injectIntl(FullScreenModal)
@@ -50,7 +50,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot 1
 </Fragment>
 `;
 
-exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to add users 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModal should match the snapshot when I have no permission to add users 1`] = `
 <Fragment>
   <RootPortal>
     <injectIntl(FullScreenModal)
@@ -106,7 +106,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
 </Fragment>
 `;
 
-exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to invite guests 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModal should match the snapshot when I have no permission to invite guests 1`] = `
 <Fragment>
   <RootPortal>
     <injectIntl(FullScreenModal)
@@ -159,7 +159,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
 </Fragment>
 `;
 
-exports[`components/invitation_modal/InvitationModal should match the snapshot when is free tier and have no free seats 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModal should match the snapshot when is free tier and have no free seats 1`] = `
 <Fragment>
   <UserLimitModal
     actions={
@@ -175,7 +175,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
 </Fragment>
 `;
 
-exports[`components/invitation_modal/InvitationModal should match the snapshot when not show 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModal should match the snapshot when not show 1`] = `
 <Fragment>
   <RootPortal>
     <injectIntl(FullScreenModal)

@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 
-describe('components/invitation_modal/InvitationModalInitialStep', () => {
+describe('components/invitation_modal/fullscreen/InvitationModalInitialStep', () => {
     test('should match the snapshot', () => {
         const wrapper = shallow(
             <InvitationModalInitialStep

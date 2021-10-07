@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/invitation_modal/InvitationModalConfirmStepTable should match the snapshot 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStepTable should match the snapshot 1`] = `
 <div
   className="InvitationModalConfirmStepTable"
 >

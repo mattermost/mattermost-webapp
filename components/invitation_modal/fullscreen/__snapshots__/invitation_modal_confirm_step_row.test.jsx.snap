@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/invitation_modal/InvitationModalConfirmStepRow should match the snapshot for email invitation 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStepRow should match the snapshot for email invitation 1`] = `
 <div
   className="InvitationModalConfirmStepRow"
 >
@@ -24,7 +24,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
 </div>
 `;
 
-exports[`components/invitation_modal/InvitationModalConfirmStepRow should match the snapshot for guest addition to channel 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStepRow should match the snapshot for guest addition to channel 1`] = `
 <div
   className="InvitationModalConfirmStepRow"
 >
@@ -58,7 +58,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
 </div>
 `;
 
-exports[`components/invitation_modal/InvitationModalConfirmStepRow should match the snapshot for text failure 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStepRow should match the snapshot for text failure 1`] = `
 <div
   className="InvitationModalConfirmStepRow"
 >
@@ -82,7 +82,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
 </div>
 `;
 
-exports[`components/invitation_modal/InvitationModalConfirmStepRow should match the snapshot for user invitation 1`] = `
+exports[`components/invitation_modal/fullscreen/InvitationModalConfirmStepRow should match the snapshot for user invitation 1`] = `
 <div
   className="InvitationModalConfirmStepRow"
 >
