@@ -26,7 +26,13 @@ import {
     isFavoriteChannel,
     isManuallyUnread,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId, getTeamsList} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getCurrentRelativeTeamUrl,
+    getCurrentTeam,
+    getCurrentTeamId,
+    getTeam,
+    getTeamsList,
+} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMostRecentPostIdInChannel, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
@@ -84,7 +90,14 @@ export function switchToChannelById(channelId) {
 export function switchToChannel(channel) {
     return async (dispatch, getState) => {
         const state = getState();
-        const teamUrl = getCurrentRelativeTeamUrl(state);
+        let teamUrl;
+        const currentTeamId = getCurrentTeamId(state);
+        const selectedTeamId = channel.team_id;
+        if (currentTeamId === selectedTeamId || !selectedTeamId) {
+            teamUrl = getCurrentRelativeTeamUrl(state);
+        } else if (selectedTeamId) {
+            teamUrl = `/${getTeam(state, selectedTeamId).name}`;
+        }
 
         if (channel.userId) {
             const username = channel.userId ? channel.name : channel.display_name;
