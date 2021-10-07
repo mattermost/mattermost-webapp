@@ -134,7 +134,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
         mark('SidebarLink#click');
-        trackEvent('ui', 'ui_channel_selected_v2');
+        trackEvent(TelemetryCategories.UI, 'ui_channel_selected_v2');
 
         this.handleSelectChannel(event);
     }

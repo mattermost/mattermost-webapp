@@ -68,7 +68,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         const wasEscapeDismissal = e.type === 'keyup';
         const tag = this.props.telemetryTag + '_dismiss';
         if (wasEscapeDismissal) {
-            trackEvent('tutorial', tag);
+            trackEvent(TelemetryCategories.TUTORIAL, tag);
             return;
         }
         const target = e.target as HTMLElement;
@@ -85,7 +85,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             target.id !== 'post_textbox'
         );
         if (wasOutsideClick) {
-            trackEvent('tutorial', tag);
+            trackEvent(TelemetryCategories.TUTORIAL, tag);
         }
     }
 
@@ -108,7 +108,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 tag += '_next';
             }
 
-            trackEvent('tutorial', tag);
+            trackEvent(TelemetryCategories.TUTORIAL, tag);
         }
 
         const {currentUserId, actions} = this.props;
@@ -136,7 +136,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 tag += '_' + this.state.currentScreen;
             }
             tag += '_skip';
-            trackEvent('tutorial', tag);
+            trackEvent(TelemetryCategories.TUTORIAL, tag);
         }
 
         const {currentUserId, actions} = this.props;

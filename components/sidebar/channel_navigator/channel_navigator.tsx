@@ -51,7 +51,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
     openQuickSwitcher = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
-        trackEvent('ui', 'ui_sidebar_open_channel_switcher_v2');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_open_channel_switcher_v2');
 
         this.props.actions.openModal({
             modalId: ModalIdentifiers.QUICK_SWITCH,
@@ -97,12 +97,12 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
     }
 
     goBack = () => {
-        trackEvent('ui', 'ui_history_back');
+        trackEvent(TelemetryCategories.UI, 'ui_history_back');
         this.props.actions.goBack();
     }
 
     goForward = () => {
-        trackEvent('ui', 'ui_history_forward');
+        trackEvent(TelemetryCategories.UI, 'ui_history_forward');
         this.props.actions.goForward();
     }
 

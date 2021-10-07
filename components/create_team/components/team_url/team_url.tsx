@@ -68,12 +68,12 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
     }
 
     public componentDidMount() {
-        trackEvent('signup', 'signup_team_02_url');
+        trackEvent(TelemetryCategories.SIGNUP, 'signup_team_02_url');
     }
 
     public submitBack = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
-        trackEvent('signup', 'click_back');
+        trackEvent(TelemetryCategories.SIGNUP, 'click_back');
         const newState = this.props.state;
         newState.wizard = 'display_name';
         this.props.updateParent(newState);
@@ -81,7 +81,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
 
     public submitNext = async (e: React.MouseEvent<Button, MouseEvent>) => {
         e.preventDefault();
-        trackEvent('signup', 'click_finish');
+        trackEvent(TelemetryCategories.SIGNUP, 'click_finish');
 
         const name = this.state.teamURL!.trim();
         const cleanedName = URL.cleanUpUrlable(name);
@@ -159,7 +159,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
 
         if (data) {
             this.props.history.push('/' + data.name + '/channels/' + Constants.DEFAULT_CHANNEL);
-            trackEvent('signup', 'signup_team_03_complete');
+            trackEvent(TelemetryCategories.SIGNUP, 'signup_team_03_complete');
         } else if (error) {
             this.setState({nameError: error.message});
             this.setState({isLoading: false});

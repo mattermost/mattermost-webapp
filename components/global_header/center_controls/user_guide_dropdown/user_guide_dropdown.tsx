@@ -12,6 +12,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {toggleShortcutsModal} from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions';
 import * as Utils from 'utils/utils';
+import {TelemetryCategories, TelemetryEvents} from 'utils/constants';
 
 const askTheCommunityUrl = 'https://mattermost.com/pl/default-ask-mattermost-community/';
 
@@ -51,7 +52,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
     }
 
     askTheCommunityClick = () => {
-        trackEvent('ui', 'help_ask_the_community');
+        trackEvent(TelemetryCategories.UI, TelemetryEvents.HELP_ASK_THE_COMMUNITY);
     }
 
     renderDropdownItems = (): React.ReactNode => {

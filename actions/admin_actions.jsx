@@ -12,7 +12,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
-import {ActionTypes} from 'utils/constants';
+import {ActionTypes, TelemetryCategories, TelemetryEvents} from 'utils/constants';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -424,7 +424,7 @@ export async function setSamlIdpCertificateFromMetadata(success, error, certData
 
 export function upgradeToE0() {
     return async () => {
-        trackEvent('api', 'upgrade_to_e0_requested');
+        trackEvent(TelemetryCategories.API, TelemetryEvents.UPGRADE_TO_E0_REQUESTED);
         const data = await Client4.upgradeToEnterprise();
         return data;
     };
@@ -454,7 +454,7 @@ export function ping() {
 export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted, page) {
     return async () => {
         try {
-            trackEvent('api', 'api_request_trial_license', {from_page: page});
+            trackEvent(TelemetryCategories.API, TelemetryEvents.REQUEST_TRIAL_LICENSE, {from_page: page});
             const response = await Client4.doFetch(`${Client4.getBaseRoute()}/trial-license`, {
                 method: 'POST', body: JSON.stringify({users, terms_accepted: termsAccepted, receive_emails_accepted: receiveEmailsAccepted}),
             });

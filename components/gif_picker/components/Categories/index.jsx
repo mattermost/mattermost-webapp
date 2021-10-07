@@ -13,6 +13,7 @@ import * as PostUtils from 'utils/post_utils';
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 
 import './Categories.scss';
+import {TelemetryCategories, TelemetryEvents} from '../../../../utils/constants';
 
 function mapStateToProps(state) {
     return {
@@ -63,7 +64,7 @@ export class Categories extends PureComponent {
         });
 
         if (gfycats.length) {
-            trackEvent('gfycat', 'views', {context: 'category_list', count: gfycats.length});
+            trackEvent(TelemetryCategories.GFYCAT, TelemetryEvents.VIEWS, {context: 'category_list', count: gfycats.length});
         }
     }
 

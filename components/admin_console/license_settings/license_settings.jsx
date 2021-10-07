@@ -22,6 +22,7 @@ import RenewLinkCard from './renew_license_card/renew_license_card';
 import TrialLicenseCard from './trial_license_card/trial_license_card';
 
 import './license_settings.scss';
+import {TelemetryCategories} from 'utils/constants';
 
 export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
@@ -89,9 +90,9 @@ export default class LicenseSettings extends React.PureComponent {
                 clearInterval(this.interval);
                 this.interval = null;
                 if (error) {
-                    trackEvent('api', 'upgrade_to_e0_failed', {error});
+                    trackEvent(TelemetryCategories.API, 'upgrade_to_e0_failed', {error});
                 } else {
-                    trackEvent('api', 'upgrade_to_e0_success');
+                    trackEvent(TelemetryCategories.API, 'upgrade_to_e0_success');
                 }
             }
         } else if (percentage > 0 && !this.interval) {
@@ -155,7 +156,7 @@ export default class LicenseSettings extends React.PureComponent {
             this.setState({upgradingPercetage: 1});
             await this.reloadPercentage();
         } catch (error) {
-            trackEvent('api', 'upgrade_to_e0_failed', {error: error.message});
+            trackEvent(TelemetryCategories.API, 'upgrade_to_e0_failed', {error: error.message});
             this.setState({upgradeError: error.message, upgradingPercetage: 0});
         }
     }

@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+import {TelemetryCategories, TelemetryEvents} from '../../../utils/constants';
 interface RevokeTokenButtonProps {
     actions: {
         revokeUserAccessToken: (tokenId: string) => Promise<ActionFunc | ActionResult> | ActionFunc | ActionResult;
@@ -20,7 +21,7 @@ export default class RevokeTokenButton extends React.PureComponent<RevokeTokenBu
         e.preventDefault();
 
         const response = await this.props.actions.revokeUserAccessToken(this.props.tokenId);
-        trackEvent('system_console', 'revoke_user_access_token');
+        trackEvent(TelemetryCategories.SYSTEM_CONSOLE, TelemetryEvents.REVOKE_USER_ACCESS_TOKEN);
 
         if ('error' in response) {
             this.props.onError(response.error.message);

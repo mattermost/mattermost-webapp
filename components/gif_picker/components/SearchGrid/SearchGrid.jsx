@@ -16,6 +16,7 @@ import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 import SearchItem from 'components/gif_picker/components/SearchItem';
 
 import './SearchGrid.scss';
+import {TelemetryCategories, TelemetryEvents} from '../../../../utils/constants';
 
 const ITEMS_PADDING = 8;
 const NUMBER_OF_COLUMNS_PORTRAIT = 2;
@@ -106,7 +107,7 @@ export class SearchGrid extends PureComponent {
         const {keyword, handleItemClick} = this.props;
         this.props.saveSearchScrollPosition(this.scrollPosition);
 
-        trackEvent('gfycat', 'shares', {gfyid: gfyItem.gfyId, keyword});
+        trackEvent(TelemetryCategories.GFYCAT, TelemetryEvents.shares, {gfyid: gfyItem.gfyId, keyword});
         handleItemClick(gfyItem);
     }
 

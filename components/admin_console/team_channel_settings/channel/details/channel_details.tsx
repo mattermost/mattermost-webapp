@@ -390,7 +390,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                 serverError = <FormError error={result.error.message}/>;
                 saveNeeded = true;
             } else {
-                trackEvent('admin_channel_config_page', 'channel_archived', {channel_id: channelID});
+                trackEvent(TelemetryCategories.ADMIN_CHANNEL_CONFIG_PAGE, 'channel_archived', {channel_id: channelID});
             }
             this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: false, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
                 actions.setNavigationBlocked(saveNeeded);
@@ -404,7 +404,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             if ('error' in result) {
                 serverError = <FormError error={result.error.message}/>;
             } else {
-                trackEvent('admin_channel_config_page', 'channel_unarchived', {channel_id: channelID});
+                trackEvent(TelemetryCategories.ADMIN_CHANNEL_CONFIG_PAGE, 'channel_unarchived', {channel_id: channelID});
             }
             this.setState({serverError, previousServerError: null});
         }
@@ -466,10 +466,10 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                 serverError = <FormError error={resultWithError.error.message}/>;
             } else {
                 if (unlink.length > 0) {
-                    trackEvent('admin_channel_config_page', 'groups_removed_from_channel', {count: unlink.length, channel_id: channelID});
+                    trackEvent(TelemetryCategories.ADMIN_CHANNEL_CONFIG_PAGE, 'groups_removed_from_channel', {count: unlink.length, channel_id: channelID});
                 }
                 if (link.length > 0) {
-                    trackEvent('admin_channel_config_page', 'groups_added_to_channel', {count: link.length, channel_id: channelID});
+                    trackEvent(TelemetryCategories.ADMIN_CHANNEL_CONFIG_PAGE, 'groups_added_to_channel', {count: link.length, channel_id: channelID});
                 }
 
                 const actionsToAwait: any[] = [actions.getGroups(channelID)];
@@ -534,7 +534,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     serverError = <FormError error={resultWithError.error.message}/>;
                 }
                 if (count > 0) {
-                    trackEvent('admin_channel_config_page', 'members_added_to_channel', {count, channel_id: channelID});
+                    trackEvent(TelemetryCategories.ADMIN_CHANNEL_CONFIG_PAGE, 'members_added_to_channel', {count, channel_id: channelID});
                 }
             }
 
@@ -546,7 +546,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     serverError = <FormError error={resultWithError.error.message}/>;
                 }
                 if (count > 0) {
-                    trackEvent('admin_channel_config_page', 'members_removed_from_channel', {count, channel_id: channelID});
+                    trackEvent(TelemetryCategories.ADMIN_CHANNEL_CONFIG_PAGE, 'members_removed_from_channel', {count, channel_id: channelID});
                 }
             }
 
@@ -569,7 +569,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     serverError = <FormError error={resultWithError.error.message}/>;
                 }
                 if (count > 0) {
-                    trackEvent('admin_channel_config_page', 'members_elevated_to_channel_admin', {count, channel_id: channelID});
+                    trackEvent(TelemetryCategories.ADMIN_CHANNEL_CONFIG_PAGE, 'members_elevated_to_channel_admin', {count, channel_id: channelID});
                 }
             }
 
@@ -581,7 +581,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     serverError = <FormError error={resultWithError.error.message}/>;
                 }
                 if (count > 0) {
-                    trackEvent('admin_channel_config_page', 'admins_demoted_to_channel_member', {count, channel_id: channelID});
+                    trackEvent(TelemetryCategories.ADMIN_CHANNEL_CONFIG_PAGE, 'admins_demoted_to_channel_member', {count, channel_id: channelID});
                 }
             }
         }

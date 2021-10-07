@@ -13,7 +13,7 @@ import {emitUserLoggedOutEvent} from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent';
-import Constants from 'utils/constants';
+import Constants, {TelemetryCategories, TelemetryEvents} from 'utils/constants';
 
 import logoImage from 'images/logo.png';
 
@@ -90,7 +90,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        trackEvent('signup', 'signup_select_team', {userId: this.props.currentUserId});
+        trackEvent(TelemetryCategories.SIGNUP, 'signup_select_team', {userId: this.props.currentUserId});
         this.fetchMoreTeams();
         if (this.props.currentUserRoles !== undefined) {
             this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
@@ -152,7 +152,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
 
     handleLogoutClick = (e: MouseEvent): void => {
         e.preventDefault();
-        trackEvent('select_team', 'click_logout');
+        trackEvent(TelemetryCategories.SELECT_TEAM, TelemetryEvents.CLICK_LOGOUT);
         emitUserLoggedOutEvent('/login');
     };
 
@@ -289,7 +289,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
                     <Link
                         id='createNewTeamLink'
                         to='/create_team'
-                        onClick={() => trackEvent('select_team', 'click_create_team')}
+                        onClick={() => trackEvent(TelemetryCategories.SELECT_TEAM, TelemetryEvents.CLICK_CREATE_TEAM)}
                         className='signup-team-login'
                     >
                         <FormattedMessage
@@ -309,7 +309,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
                         <Link
                             to='/admin_console'
                             className='signup-team-login'
-                            onClick={() => trackEvent('select_team', 'click_system_console')}
+                            onClick={() => trackEvent(TelemetryCategories.SELECT_TEAM, TelemetryEvents.CLICK_SYSTEM_CONSOLE)}
                         >
                             <FormattedMessage
                                 id='signup_team_system_console'

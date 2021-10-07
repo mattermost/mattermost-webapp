@@ -181,7 +181,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
 
         const trackOption = this.getActionOption(actionOptions, 'TrackEventId');
         if (trackOption) {
-            trackEvent('admin', 'click_warn_metric_bot_id', {metric: trackOption.value});
+            trackEvent(TelemetryCategories.ADMIN, 'click_warn_metric_bot_id', {metric: trackOption.value});
         }
 
         const actionId = e.currentTarget.getAttribute('data-action-id') || '';

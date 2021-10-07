@@ -223,7 +223,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 
         user.username = username;
 
-        trackEvent('settings', 'user_settings_update', {field: 'username'});
+        trackEvent(TelemetryCategories.SETTINGS, 'user_settings_update', {field: 'username'});
 
         this.submitUser(user, false);
     }
@@ -239,7 +239,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 
         user.nickname = nickname;
 
-        trackEvent('settings', 'user_settings_update', {field: 'nickname'});
+        trackEvent(TelemetryCategories.SETTINGS, 'user_settings_update', {field: 'nickname'});
 
         this.submitUser(user, false);
     }
@@ -257,7 +257,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         user.first_name = firstName;
         user.last_name = lastName;
 
-        trackEvent('settings', 'user_settings_update', {field: 'fullname'});
+        trackEvent(TelemetryCategories.SETTINGS, 'user_settings_update', {field: 'fullname'});
 
         this.submitUser(user, false);
     }
@@ -292,7 +292,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 
         user.email = email;
         user.password = currentPassword;
-        trackEvent('settings', 'user_settings_update', {field: 'email'});
+        trackEvent(TelemetryCategories.SETTINGS, 'user_settings_update', {field: 'email'});
         this.submitUser(user, true);
     }
 
@@ -353,7 +353,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             return;
         }
 
-        trackEvent('settings', 'user_settings_update', {field: 'picture'});
+        trackEvent(TelemetryCategories.SETTINGS, 'user_settings_update', {field: 'picture'});
 
         const {formatMessage} = this.props.intl;
         const file = this.state.pictureFile;
@@ -392,7 +392,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 
         user.position = position;
 
-        trackEvent('settings', 'user_settings_update', {field: 'position'});
+        trackEvent(TelemetryCategories.SETTINGS, 'user_settings_update', {field: 'position'});
 
         this.submitUser(user, false);
     }

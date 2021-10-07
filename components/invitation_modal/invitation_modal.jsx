@@ -11,7 +11,7 @@ import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
 import UserLimitModal from 'components/user_limit_modal/user_limit_modal';
 
-import {InviteTypes} from 'utils/constants';
+import {InviteTypes, TelemetryCategories} from 'utils/constants';
 
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step';
@@ -112,7 +112,7 @@ export default class InvitationModal extends React.PureComponent {
 
     goToMembers = () => {
         if (this.props.isCloud) {
-            trackEvent('cloud_invite_users', 'click_invite_members');
+            trackEvent(TelemetryCategories.CLOUD_INVITE_USERS, 'click_invite_members');
         }
         this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
         if (this.modal && this.modal.current) {
@@ -122,7 +122,7 @@ export default class InvitationModal extends React.PureComponent {
 
     goToGuests = () => {
         if (this.props.isCloud) {
-            trackEvent('cloud_invite_users', 'click_invite_guests');
+            trackEvent(TelemetryCategories.CLOUD_INVITE_USERS, 'click_invite_guests');
         }
         this.setState({step: STEPS_INVITE_GUESTS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
         if (this.modal && this.modal.current) {
@@ -184,7 +184,7 @@ export default class InvitationModal extends React.PureComponent {
         const invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
 
         if (this.props.isCloud) {
-            trackEvent('cloud_invite_users', 'invitations_sent', {num_invitations_sent: invites.sent});
+            trackEvent(TelemetryCategories.CLOUD_INVITE_USERS, 'invitations_sent', {num_invitations_sent: invites.sent});
         }
 
         if (extraText !== '') {

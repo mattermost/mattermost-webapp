@@ -8,7 +8,7 @@ import {Preferences} from 'mattermost-redux/constants';
 import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import Constants from 'utils/constants';
+import Constants, {TelemetryCategories} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -49,7 +49,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         const {category} = this.props;
 
         this.props.actions.setCategorySorting(category.id, sorting);
-        trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
+        trackEvent(TelemetryCategories.UI, `ui_sidebar_sort_dm_${sorting}`);
     }
 
     handlelimitVisibleDMsGMs = (number: number) => {
@@ -156,7 +156,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         this.props.onToggleMenu(open);
 
         if (open) {
-            trackEvent('ui', 'ui_sidebar_channel_menu_opened');
+            trackEvent(TelemetryCategories.UI, 'ui_sidebar_channel_menu_opened');
         }
     }
 

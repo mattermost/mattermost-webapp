@@ -134,7 +134,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
 
     trackOpen(opened: boolean) {
         if (opened) {
-            trackEvent('ui', 'ui_add_channel_dropdown_opened');
+            trackEvent(TelemetryCategories.UI, 'ui_add_channel_dropdown_opened');
         }
     }
 

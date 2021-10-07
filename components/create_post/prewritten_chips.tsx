@@ -12,6 +12,8 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {t} from 'utils/i18n.jsx';
 
+import {TelemetryCategories} from 'utils/constants';
+
 import Chip from './chip';
 
 type Props = {
@@ -150,7 +152,7 @@ class PrewrittenChips extends React.PureComponent<Props> {
                             values={{username: this.props.currentChannelTeammateUsername}}
                             onClick={() => {
                                 if (event) {
-                                    trackEvent('ui', event);
+                                    trackEvent(TelemetryCategories.UI, event);
                                 }
                                 this.props.prefillMessage(messageToPrefill, true);
                             }}

@@ -255,33 +255,33 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         if (publicChannels.value || privateChannels.value || deleted.value || groupConstrained.value || excludeGroupConstrained.value || (teamIds.value as string[]).length) {
             filters.public = publicChannels.value as boolean;
             if (filters.public) {
-                trackEvent('admin_channels_page', 'public_filter_applied_to_channel_list');
+                trackEvent(TelemetryCategories.ADMIN_CHANNELS_PAGE, 'public_filter_applied_to_channel_list');
             }
 
             filters.private = privateChannels.value as boolean;
             if (filters.private) {
-                trackEvent('admin_channels_page', 'private_filter_applied_to_channel_list');
+                trackEvent(TelemetryCategories.ADMIN_CHANNELS_PAGE, 'private_filter_applied_to_channel_list');
             }
 
             filters.deleted = deleted.value as boolean;
             if (filters.deleted) {
-                trackEvent('admin_channels_page', 'archived_filter_applied_to_channel_list');
+                trackEvent(TelemetryCategories.ADMIN_CHANNELS_PAGE, 'archived_filter_applied_to_channel_list');
             }
 
             if (!(groupConstrained.value && excludeGroupConstrained.value)) {
                 filters.group_constrained = groupConstrained.value as boolean;
                 if (filters.group_constrained) {
-                    trackEvent('admin_channels_page', 'group_sync_filter_applied_to_channel_list');
+                    trackEvent(TelemetryCategories.ADMIN_CHANNELS_PAGE, 'group_sync_filter_applied_to_channel_list');
                 }
                 filters.exclude_group_constrained = excludeGroupConstrained.value as boolean;
                 if (filters.exclude_group_constrained) {
-                    trackEvent('admin_channels_page', 'manual_invites_filter_applied_to_channel_list');
+                    trackEvent(TelemetryCategories.ADMIN_CHANNELS_PAGE, 'manual_invites_filter_applied_to_channel_list');
                 }
             }
 
             filters.team_ids = teamIds.value as string[];
             if (filters.team_ids.length > 0) {
-                trackEvent('admin_channels_page', 'team_id_filter_applied_to_channel_list');
+                trackEvent(TelemetryCategories.ADMIN_CHANNELS_PAGE, 'team_id_filter_applied_to_channel_list');
             }
         }
         this.loadPage(0, this.state.term, filters);

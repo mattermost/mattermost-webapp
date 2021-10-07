@@ -175,7 +175,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                 filters = {...filters, channel_roles: channelRoles};
             }
             [...systemRoles, ...channelRoles].forEach((role) => {
-                trackEvent('admin_channel_config_page', `${role}_filter_applied_to_members_block`, {channel_id: this.props.channelId});
+                trackEvent(TelemetryCategories.ADMIN_CHANNEL_CONFIG_PAGE, `${role}_filter_applied_to_members_block`, {channel_id: this.props.channelId});
             });
 
             this.props.actions.setUserGridFilters(filters);

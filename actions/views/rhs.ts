@@ -328,7 +328,7 @@ export function showMentions() {
 
         const terms = termKeys.map(({key}) => key).join(' ').trim() + ' ';
 
-        trackEvent('api', 'api_posts_search_mention');
+        trackEvent(TelemetryCategories.API, 'api_posts_search_mention');
 
         dispatch(performSearch(terms, true));
         dispatch(batchActions([

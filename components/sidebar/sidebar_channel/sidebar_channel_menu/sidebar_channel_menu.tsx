@@ -59,17 +59,17 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
     markAsRead = () => {
         this.props.actions.markChannelAsRead(this.props.channel.id);
-        trackEvent('ui', 'ui_sidebar_channel_menu_markAsRead');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_channel_menu_markAsRead');
     }
 
     favoriteChannel = () => {
         this.props.actions.favoriteChannel(this.props.channel.id);
-        trackEvent('ui', 'ui_sidebar_channel_menu_favorite');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_channel_menu_favorite');
     }
 
     unfavoriteChannel = () => {
         this.props.actions.unfavoriteChannel(this.props.channel.id);
-        trackEvent('ui', 'ui_sidebar_channel_menu_unfavorite');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_channel_menu_unfavorite');
     }
 
     unmuteChannel = () => {
@@ -92,7 +92,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         }
 
         this.isLeaving = true;
-        trackEvent('ui', 'ui_sidebar_channel_menu_leave');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_channel_menu_leave');
 
         this.props.closeHandler(() => {
             this.isLeaving = false;
@@ -107,7 +107,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
             dialogType: ChannelInviteModal,
             dialogProps: {channel},
         });
-        trackEvent('ui', 'ui_sidebar_channel_menu_addMembers');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_channel_menu_addMembers');
     }
 
     renderDropdownItems = () => {
@@ -251,7 +251,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         this.props.onToggleMenu(open);
 
         if (open) {
-            trackEvent('ui', 'ui_sidebar_channel_menu_opened');
+            trackEvent(TelemetryCategories.UI, 'ui_sidebar_channel_menu_opened');
         }
     }
 

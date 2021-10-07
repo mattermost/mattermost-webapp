@@ -241,7 +241,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             ),
             confirmComplete: () => {
                 this.handleCreateToken();
-                trackEvent('settings', 'system_admin_create_user_access_token');
+                trackEvent(TelemetryCategories.SETTINGS, 'system_admin_create_user_access_token');
             },
         });
     }
@@ -282,7 +282,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             ),
             confirmComplete: () => {
                 this.revokeToken(tokenId);
-                trackEvent('settings', 'revoke_user_access_token');
+                trackEvent(TelemetryCategories.SETTINGS, 'revoke_user_access_token');
             },
         });
     }
@@ -300,7 +300,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
         if (error) {
             this.setState({serverError: error.message});
         } else {
-            trackEvent('settings', 'activate_user_access_token');
+            trackEvent(TelemetryCategories.SETTINGS, 'activate_user_access_token');
         }
     }
 
@@ -309,7 +309,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
         if (error) {
             this.setState({serverError: error.message});
         } else {
-            trackEvent('settings', 'deactivate_user_access_token');
+            trackEvent(TelemetryCategories.SETTINGS, 'deactivate_user_access_token');
         }
     }
 

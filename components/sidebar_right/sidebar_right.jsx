@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import Constants from 'utils/constants';
+import Constants, {TelemetryCategories} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import FileUploadOverlay from 'components/file_upload_overlay';
@@ -103,7 +103,7 @@ export default class SidebarRight extends React.PureComponent {
 
         if (!wasOpen && isOpen) {
             this.determineTransition();
-            trackEvent('ui', 'ui_rhs_opened');
+            trackEvent(TelemetryCategories.UI, 'ui_rhs_opened');
         }
 
         const {actions, isChannelFiles, isPinnedPosts, rhsChannel, channel} = this.props;

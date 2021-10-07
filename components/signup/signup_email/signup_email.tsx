@@ -15,7 +15,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
 import {browserHistory} from 'utils/browser_history';
-import Constants, {ValidationErrors} from 'utils/constants';
+import Constants, {TelemetryCategories, TelemetryEvents, ValidationErrors} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import logoImage from 'images/logo.png';
@@ -111,7 +111,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        trackEvent('signup', 'signup_user_01_welcome');
+        trackEvent(TelemetryCategories.SIGNUP, 'signup_user_01_welcome');
 
         this.setDocumentTitle(this.props.siteName!);
 
@@ -170,7 +170,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
     }
 
     handleSignupSuccess = (user: UserProfile, data: UserProfile) => {
-        trackEvent('signup', 'signup_user_02_complete');
+        trackEvent(TelemetryCategories.SIGNUP, 'signup_user_02_complete');
         const redirectTo = (new URLSearchParams(this.props.location!.search)).get('redirect_to');
 
         this.props.actions.loginById(data.id, user.password, '').then((result: {data: boolean} | {error: ServerError}) => {
@@ -286,7 +286,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
 
     handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        trackEvent('signup_email', 'click_create_account');
+        trackEvent(TelemetryCategories.SIGNUP_EMAIL, TelemetryEvents.CLICK_CREATE_ACCOUNT);
 
         // bail out if a submission is already in progress
         if (this.state.isSubmitting) {
@@ -542,7 +542,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
 
         return (
             <div>
-                {hasAccounts && <BackButton onClick={() => trackEvent('signup_email', 'click_back')}/>}
+                {hasAccounts && <BackButton onClick={() => trackEvent(TelemetryCategories.SIGNUP_EMAIL, TelemetryEvents.CLICK_BACK)}/>}
                 <div
                     id='signup_email_section'
                     className='col-sm-12'
@@ -578,7 +578,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
                             <Link
                                 id='signin_account_link'
                                 to={'/login' + location!.search}
-                                onClick={() => trackEvent('signup_email', 'click_signin_account')}
+                                onClick={() => trackEvent(TelemetryCategories.SIGNUP_EMAIL, TelemetryEvents.CLICK_SIGNIN_ACCOUNT)}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'

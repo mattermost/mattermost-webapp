@@ -50,7 +50,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
     const moveToCategory = (categoryId: string) => {
         if (currentCategory?.id !== categoryId) {
             dispatch(addChannelsInSidebar(categoryId, channel.id));
-            trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
+            trackEvent(TelemetryCategories.UI, 'ui_sidebar_channel_menu_moveToExistingCategory');
         }
     };
 
@@ -62,7 +62,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
                 channelIdsToAdd: multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel.id] : multiSelectedChannelIds,
             },
         }));
-        trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_channel_menu_createCategory');
     };
 
     let filteredCategories = categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);

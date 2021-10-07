@@ -5,6 +5,8 @@ import {Client4} from 'mattermost-redux/client';
 
 import {isDevMode} from 'utils/utils';
 
+import {TelemetryCategories, TelemetryEvents} from 'utils/constants';
+
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
 const SUPPORTS_MARK = isSupported([performance.mark]);
 const SUPPORTS_MEASURE_METHODS = isSupported([
@@ -88,7 +90,7 @@ export function trackLoadTime() {
     setTimeout(() => {
         const {loadEventEnd, navigationStart} = window.performance.timing;
         const pageLoadTime = loadEventEnd - navigationStart;
-        trackEvent('performance', 'page_load', {duration: pageLoadTime});
+        trackEvent(TelemetryCategories.PERFORMANCE, TelemetryEvents.PAGE_LOAD, {duration: pageLoadTime});
     }, tenSeconds);
 }
 

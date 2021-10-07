@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
 import {LicenseSkus} from 'mattermost-redux/types/general';
-import {Constants} from 'utils/constants';
+import {Constants, TelemetryCategories} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import {
@@ -1696,7 +1696,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         onConfigSave: (displayVal, previousVal) => {
                             if (previousVal && previousVal !== displayVal) {
-                                trackEvent('ui', 'diagnostics_disabled');
+                                trackEvent(TelemetryCategories.UI, 'diagnostics_disabled');
                             }
                             return displayVal;
                         },

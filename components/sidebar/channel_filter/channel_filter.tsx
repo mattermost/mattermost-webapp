@@ -26,9 +26,9 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
         const {unreadFilterEnabled} = this.props;
 
         if (unreadFilterEnabled) {
-            trackEvent('ui', 'ui_sidebar_unread_filter_disabled');
+            trackEvent(TelemetryCategories.UI, 'ui_sidebar_unread_filter_disabled');
         } else {
-            trackEvent('ui', 'ui_sidebar_unread_filter_enabled');
+            trackEvent(TelemetryCategories.UI, 'ui_sidebar_unread_filter_enabled');
         }
 
         this.props.actions.setUnreadFilterEnabled(!unreadFilterEnabled);

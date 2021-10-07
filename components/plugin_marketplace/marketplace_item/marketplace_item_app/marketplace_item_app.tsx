@@ -35,7 +35,7 @@ export type MarketplaceItemAppProps = {
 
 export default class MarketplaceItemApp extends React.PureComponent <MarketplaceItemAppProps> {
     onInstall = (): void => {
-        this.props.trackEvent('plugins', 'ui_marketplace_install_app', {
+        this.props.trackEvent(TelemetryCategories.PLUGINS, 'ui_marketplace_install_app', {
             app_id: this.props.id,
         });
 

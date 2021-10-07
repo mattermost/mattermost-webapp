@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
-import {BillingSchemes, CloudLinks, TrialPeriodDays} from 'utils/constants';
+import {BillingSchemes, CloudLinks, TrialPeriodDays, TelemetryCategories, TelemetryEvents} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -40,7 +40,7 @@ export const noBillingHistory = (
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingSummary__noBillingHistory-link'
-            onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'subscriptions'})}
+            onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, TelemetryEvents.CLICK_HOW_BILLING_WORKS, {screen: 'subscriptions'})}
         >
             <FormattedMessage
                 id='admin.billing.subscriptions.billing_summary.noBillingHistory.link'

@@ -10,7 +10,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {openModal} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, TelemetryCategories} from 'utils/constants';
 import PurchaseModal from 'components/purchase_modal';
 
 import './link.scss';
@@ -30,7 +30,7 @@ const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
     const handleLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (props.telemetryInfo) {
-            trackEvent('upgrade_mm_cloud', props.telemetryInfo);
+            trackEvent(TelemetryCategories.UPGRADE_MM_CLOUD, props.telemetryInfo);
         }
         try {
             dispatch(openModal({

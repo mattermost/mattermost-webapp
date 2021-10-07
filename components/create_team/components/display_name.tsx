@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {TelemetryCategories, TelemetryEvents} from 'utils/constants.jsx';
 import {cleanUpUrlable} from 'utils/url';
 import logoImage from 'images/logo.png';
 import NextIcon from 'components/widgets/icons/fa_next_icon';
@@ -46,12 +46,12 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent<Props
     }
 
     componentDidMount(): void {
-        trackEvent('signup', 'signup_team_01_name');
+        trackEvent(TelemetryCategories.SIGNUP, 'signup_team_01_name');
     }
 
     submitNext = (e: React.MouseEvent): void => {
         e.preventDefault();
-        trackEvent('display_name', 'click_next');
+        trackEvent(TelemetryCategories.DISPLAY_NAME, TelemetryEvents.CLICK_NEXT);
         const displayName = this.state.teamDisplayName.trim();
         if (!displayName) {
             this.setState({nameError: (

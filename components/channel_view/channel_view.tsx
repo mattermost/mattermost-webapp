@@ -112,10 +112,10 @@ export default class ChannelView extends React.PureComponent<Props, State> {
             ]);
 
             if (dur1 !== -1) {
-                trackEvent('performance', 'channel_switch', {duration: Math.round(dur1)});
+                trackEvent(TelemetryCategories.PERFORMANCE, 'channel_switch', {duration: Math.round(dur1)});
             }
             if (dur2 !== -1) {
-                trackEvent('performance', 'team_switch', {duration: Math.round(dur2)});
+                trackEvent(TelemetryCategories.PERFORMANCE, 'team_switch', {duration: Math.round(dur2)});
             }
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
                 this.props.actions.goToLastViewedChannel();

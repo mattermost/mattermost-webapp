@@ -38,12 +38,12 @@ const HistoryButtons = (): JSX.Element => {
         </Tooltip>
     );
     const goBack = () => {
-        trackEvent('ui', 'ui_history_back');
+        trackEvent(TelemetryCategories.UI, 'ui_history_back');
         browserHistory.goBack();
     };
 
     const goForward = () => {
-        trackEvent('ui', 'ui_history_forward');
+        trackEvent(TelemetryCategories.UI, 'ui_history_forward');
         browserHistory.goForward();
     };
 

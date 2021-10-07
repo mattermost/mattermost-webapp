@@ -9,7 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions';
 import * as Utils from 'utils/utils';
-import Constants, {StoragePrefixes} from 'utils/constants';
+import Constants, {StoragePrefixes, TelemetryCategories, TelemetryEvents} from 'utils/constants';
 
 jest.mock('fastclick', () => ({
     attach: () => {}, // eslint-disable-line no-empty-function
@@ -208,7 +208,7 @@ describe('components/Root', () => {
 
             wrapper.instance().onConfigLoaded();
 
-            Client4.trackEvent('category', 'event');
+            Client4.trackEvent(TelemetryCategories.CATEGORY, TelemetryEvents.EVENT);
 
             expect(Client4.telemetryHandler).not.toBeDefined();
 
@@ -223,7 +223,7 @@ describe('components/Root', () => {
 
             wrapper.instance().onConfigLoaded();
 
-            Client4.trackEvent('category', 'event');
+            Client4.trackEvent(TelemetryCategories.CATEGORY, TelemetryEvents.EVENT);
 
             expect(Client4.telemetryHandler).toBeDefined();
 

@@ -21,7 +21,8 @@ import {
     CloudBanners,
     AnnouncementBarTypes,
     ModalIdentifiers,
-    TELEMETRY_CATEGORIES,
+    TelemetryCategories,
+    TelemetryEvents,
 } from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
@@ -52,13 +53,13 @@ class UserLimitAnnouncementBar extends React.PureComponent<Props> {
         if (!isEmpty(this.props.subscription) && !isEmpty(this.props.analytics) && this.shouldShowBanner()) {
             if (this.isDismissable()) {
                 trackEvent(
-                    TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                    'bannerview_user_limit_reached',
+                    TelemetryCategories.CLOUD_ADMIN,
+                    TelemetryEvents.BANNERVIEW_USER_LIMIT_REACHED,
                 );
             } else {
                 trackEvent(
-                    TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                    'bannerview_user_limit_exceeded',
+                    TelemetryCategories.CLOUD_ADMIN,
+                    TelemetryEvents.BANNERVIEW_USER_LIMIT_EXCEEDED,
                 );
             }
         }
@@ -70,8 +71,8 @@ class UserLimitAnnouncementBar extends React.PureComponent<Props> {
 
     handleClose = async () => {
         trackEvent(
-            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-            'click_close_banner_user_limit_reached',
+            TelemetryCategories.CLOUD_ADMIN,
+            TelemetryEvents.CLICK_CLOSE_BANNER_USER_LIMIT_REACHED,
         );
         await this.props.actions.savePreferences(this.props.currentUser.id, [{
             category: Preferences.CLOUD_UPGRADE_BANNER,
@@ -122,13 +123,13 @@ class UserLimitAnnouncementBar extends React.PureComponent<Props> {
     showModal = () => {
         if (this.isDismissable()) {
             trackEvent(
-                TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                'click_upgrade_banner_user_limit_reached',
+                TelemetryCategories.CLOUD_ADMIN,
+                TelemetryEvents.CLICK_UPGRADE_BANNER_USER_LIMIT_REACHED,
             );
         } else {
             trackEvent(
-                TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                'click_upgrade_banner_user_limit_exceeded',
+                TelemetryCategories.CLOUD_ADMIN,
+                TelemetryEvents.CLICK_UPGRADE_BANNER_USER_LIMIT_EXCEEDED,
             );
         }
         this.props.actions.openModal({

@@ -444,10 +444,10 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         if (result.reason === 'DROP' && result.destination) {
             if (result.type === 'SIDEBAR_CHANNEL') {
                 this.props.actions.moveChannelsInSidebar(result.destination.droppableId, result.destination.index, result.draggableId);
-                trackEvent('ui', 'ui_sidebar_dragdrop_dropped_channel');
+                trackEvent(TelemetryCategories.UI, 'ui_sidebar_dragdrop_dropped_channel');
             } else if (result.type === 'SIDEBAR_CATEGORY') {
                 this.props.actions.moveCategory(this.props.currentTeam.id, result.draggableId, result.destination.index);
-                trackEvent('ui', 'ui_sidebar_dragdrop_dropped_category');
+                trackEvent(TelemetryCategories.UI, 'ui_sidebar_dragdrop_dropped_category');
             }
         }
 

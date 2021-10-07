@@ -9,7 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {
-    ModalIdentifiers,
+    ModalIdentifiers, TelemetryCategories,
 } from 'utils/constants';
 
 import NoInternetConnection from '../no_internet_connection/no_internet_connection';
@@ -43,7 +43,7 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
             const {status} = await Client4.ping();
             if (status === 'OK' && renewalLink !== '') {
                 if (props.telemetryInfo?.success) {
-                    trackEvent('renew_license', props.telemetryInfo.success);
+                    trackEvent(TelemetryCategories.RENEW_LICENSE, props.telemetryInfo.success);
                 }
                 window.open(renewalLink, '_blank');
             } else {
@@ -56,7 +56,7 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
 
     const showConnectionErrorModal = () => {
         if (props.telemetryInfo?.error) {
-            trackEvent('renew_license', props.telemetryInfo.error);
+            trackEvent(TelemetryCategories.RENEW_LICENSE, props.telemetryInfo.error);
         }
         props.actions.openModal({
             modalId: ModalIdentifiers.NO_INTERNET_CONNECTION,

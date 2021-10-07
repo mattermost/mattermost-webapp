@@ -190,7 +190,7 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
 
     private trackClickEvent = () => {
         const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
-        trackEvent('ui', `notice_click_${presentNoticeInfo.id}`);
+        trackEvent(TelemetryCategories.UI, `notice_click_${presentNoticeInfo.id}`);
     }
 
     private renderActionButton(presentNoticeInfo: ProductNotice) {

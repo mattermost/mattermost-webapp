@@ -131,11 +131,11 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
     }
 
     componentDidMount(): void {
-        trackEvent('plugins', 'ui_marketplace_opened');
+        trackEvent(TelemetryCategories.PLUGINS, 'ui_marketplace_opened');
 
         this.fetchListing();
         if (!this.props.firstAdminVisitMarketplaceStatus) {
-            trackEvent('plugins', 'ui_first_admin_visit_marketplace_status');
+            trackEvent(TelemetryCategories.PLUGINS, 'ui_first_admin_visit_marketplace_status');
 
             this.props.actions.setFirstAdminVisitMarketplaceStatus();
         }
@@ -156,7 +156,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
     }
 
     close = (): void => {
-        trackEvent('plugins', 'ui_marketplace_closed');
+        trackEvent(TelemetryCategories.PLUGINS, 'ui_marketplace_closed');
         this.props.actions.closeModal();
     }
 
@@ -180,7 +180,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
     }
 
     doSearch = async (): Promise<void> => {
-        trackEvent('plugins', 'ui_marketplace_search', {filter: this.state.filter});
+        trackEvent(TelemetryCategories.PLUGINS, 'ui_marketplace_search', {filter: this.state.filter});
 
         const {error} = await this.props.actions.filterListing(this.state.filter);
 

@@ -20,7 +20,7 @@ const addInfoButton = (
         <BlockableLink
             to='/admin_console/billing/payment_info_edit'
             className='PaymentInfoDisplay__addInfoButton'
-            onClick={() => trackEvent('cloud_admin', 'click_add_credit_card')}
+            onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, 'click_add_credit_card')}
         >
             <i className='icon icon-plus'/>
             <FormattedMessage
@@ -46,7 +46,7 @@ const noPaymentInfoSection = (
         <BlockableLink
             to='/admin_console/billing/payment_info_edit'
             className='PaymentInfoDisplay__noPaymentInfo-link'
-            onClick={() => trackEvent('cloud_admin', 'click_add_credit_card')}
+            onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, 'click_add_credit_card')}
         >
             <FormattedMessage
                 id='admin.billing.payment_info.add'

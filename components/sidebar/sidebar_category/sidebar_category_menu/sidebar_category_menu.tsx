@@ -76,21 +76,21 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
         });
-        trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_category_menu_createCategory');
     }
 
     handleSortChannels = (sorting: CategorySorting) => {
         const {category} = this.props;
 
         this.props.actions.setCategorySorting(category.id, sorting);
-        trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
+        trackEvent(TelemetryCategories.UI, `ui_sidebar_sort_dm_${sorting}`);
     }
 
     onToggleMenu = (open: boolean) => {
         this.props.onToggleMenu(open);
 
         if (open) {
-            trackEvent('ui', 'ui_sidebar_category_menu_opened');
+            trackEvent(TelemetryCategories.UI, 'ui_sidebar_category_menu_opened');
         }
     }
 

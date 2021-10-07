@@ -37,7 +37,7 @@ export default class SidebarGroupChannel extends React.PureComponent<Props, Stat
         const currentUserId = this.props.currentUserId;
         this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id, value: 'false'}]).then(callback);
 
-        trackEvent('ui', 'ui_direct_channel_x_button_clicked');
+        trackEvent(TelemetryCategories.UI, 'ui_direct_channel_x_button_clicked');
 
         if (this.props.active) {
             browserHistory.push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);

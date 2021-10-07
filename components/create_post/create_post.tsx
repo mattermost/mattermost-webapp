@@ -1342,7 +1342,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                 value: (Constants.TutorialSteps.POST_POPOVER + 1).toString(),
             }],
         );
-        trackEvent('ui', 'tutorial_tip_1_complete_' + source);
+        trackEvent(TelemetryCategories.UI, 'tutorial_tip_1_complete_' + source);
     }
 
     renderPrewrittenMessages() {

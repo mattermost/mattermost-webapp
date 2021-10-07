@@ -77,9 +77,9 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         let forceAck = false;
         if (e && e.target && e.target.dataset && e.target.dataset.forceack) {
             forceAck = true;
-            trackEvent('admin', 'click_warn_metric_mailto', {metric: this.props.warnMetricStatus.id});
+            trackEvent(TelemetryCategories.ADMIN, 'click_warn_metric_mailto', {metric: this.props.warnMetricStatus.id});
         } else {
-            trackEvent('admin', 'click_warn_metric_contact_us', {metric: this.props.warnMetricStatus.id});
+            trackEvent(TelemetryCategories.ADMIN, 'click_warn_metric_contact_us', {metric: this.props.warnMetricStatus.id});
         }
 
         const {error} = await this.props.actions.sendWarnMetricAck(this.props.warnMetricStatus.id, forceAck);

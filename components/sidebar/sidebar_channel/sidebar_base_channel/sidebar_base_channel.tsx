@@ -29,12 +29,12 @@ type State = {
 export default class SidebarBaseChannel extends React.PureComponent<Props, State> {
     handleLeavePublicChannel = () => {
         this.props.actions.leaveChannel(this.props.channel.id);
-        trackEvent('ui', 'ui_public_channel_x_button_clicked');
+        trackEvent(TelemetryCategories.UI, 'ui_public_channel_x_button_clicked');
     }
 
     handleLeavePrivateChannel = () => {
         GlobalActions.showLeavePrivateChannelModal({id: this.props.channel.id, display_name: this.props.channel.display_name} as Channel);
-        trackEvent('ui', 'ui_private_channel_x_button_clicked');
+        trackEvent(TelemetryCategories.UI, 'ui_private_channel_x_button_clicked');
     }
 
     getCloseHandler = () => {

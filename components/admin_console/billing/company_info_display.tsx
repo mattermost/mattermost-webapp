@@ -19,7 +19,7 @@ const addInfoButton = (
         <BlockableLink
             to='/admin_console/billing/company_info_edit'
             className='CompanyInfoDisplay__addInfoButton'
-            onClick={() => trackEvent('cloud_admin', 'click_add_company_info')}
+            onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, 'click_add_company_info')}
         >
             <i className='icon icon-plus'/>
             <FormattedMessage
@@ -45,7 +45,7 @@ const noCompanyInfoSection = (
         <BlockableLink
             to='/admin_console/billing/company_info_edit'
             className='CompanyInfoDisplay__noCompanyInfo-link'
-            onClick={() => trackEvent('cloud_admin', 'click_add_company_info')}
+            onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, 'click_add_company_info')}
         >
             <FormattedMessage
                 id='admin.billing.company_info.add'
@@ -97,7 +97,7 @@ const CompanyInfoDisplay: React.FC = () => {
                     <BlockableLink
                         to='/admin_console/billing/company_info_edit'
                         className='CompanyInfoDisplay__companyInfo-editButton'
-                        onClick={() => trackEvent('cloud_admin', 'click_edit_company_info')}
+                        onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, 'click_edit_company_info')}
                     >
                         <i className='icon icon-pencil-outline'/>
                     </BlockableLink>

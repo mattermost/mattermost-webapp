@@ -20,7 +20,7 @@ import LinkIcon from 'components/widgets/icons/link_icon';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-import {Constants} from 'utils/constants';
+import {Constants, TelemetryCategories} from 'utils/constants';
 import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 import './invitation_modal_members_step.scss';
@@ -59,7 +59,7 @@ class InvitationModalMembersStep extends React.PureComponent {
 
     copyLink = () => {
         if (this.props.isCloud) {
-            trackEvent('cloud_invite_users', 'click_copy_link');
+            trackEvent(TelemetryCategories.CLOUD_INVITE_USERS, 'click_copy_link');
         }
         const input = this.inviteLinkRef.current;
 
@@ -120,7 +120,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     onChange = (usersAndEmails) => {
         this.setState({usersAndEmails}, () => {
             if (this.shouldShowPickerError() && this.props.isCloud) {
-                trackEvent('cloud_invite_users', 'warning_near_limit', {remaining: this.getRemainingUsers() - this.state.usersAndEmails.length});
+                trackEvent(TelemetryCategories.CLOUD_INVITE_USERS, 'warning_near_limit', {remaining: this.getRemainingUsers() - this.state.usersAndEmails.length});
             }
         });
         this.props.onEdit(
@@ -137,7 +137,7 @@ class InvitationModalMembersStep extends React.PureComponent {
 
     submit = () => {
         if (this.props.isCloud) {
-            trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.usersAndEmails.length});
+            trackEvent(TelemetryCategories.CLOUD_INVITE_USERS, 'click_send_invitations', {num_invitations: this.state.usersAndEmails.length});
         }
         const users = [];
         const emails = [];

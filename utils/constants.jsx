@@ -1682,4 +1682,72 @@ export const durationValues = {
     },
 };
 
+export const TelemetryCategories = {
+    ACTIONS: 'actions',
+    ADMIN: 'admin',
+    ADMIN_CHANNELS_PAGE: 'admin_channels_page',
+    ADMIN_CHANNEL_CONFIG_PAGE: 'admin_channel_config_page',
+    ADMIN_TEAM_CONFIG_PAGE: 'admin_team_config_page',
+    API: 'api',
+    CATEGORY: 'category',
+    CLOUD_ADMIN: 'cloud_admin',
+    CLOUD_INVITE_USERS: 'cloud_invite_users',
+    DISPLAY_NAME: 'display_name',
+    GFYCAT: 'gfycat',
+    PERFORMANCE: 'performance',
+    PLUGINS: 'plugins',
+    RENEW_LICENSE: 'renew_license',
+    SELECT_TEAM: 'select_team',
+    SETTINGS: 'settings',
+    SIGNUP: 'signup',
+    SIGNUP_EMAIL: 'signup_email',
+    SYSTEM_CONSOLE: 'system_console',
+    TEST: 'test',
+    TUTORIAL: 'tutorial',
+    UI: 'ui',
+    UPGRADE_MM_CLOUD: 'upgrade_mm_cloud',
+};
+
+export const TelemetryEvents = {
+    UPGRADE_TO_E0_REQUESTED: 'upgrade_to_e0_requested',
+    REQUEST_TRIAL_LICENSE: 'api_request_trial_license',
+
+    CLICK_PRICING_LINK: 'click_pricing_link',
+    CLICK_CONTACT_SALES: 'click_contact_sales',
+    CLICK_CONTACT_US: 'click_contact_us',
+    CLICK_HOW_BILLING_WORKS: 'click_how_billing_works',
+    CLICK_CLOSE_BANNER_USER_LIMIT_WARNING: 'click_close_banner_user_limit_warning',
+    CLICK_CLOSE_BANNER_USER_LIMIT_REACHED: 'click_close_banner_user_limit_reached',
+    CLICK_SUBSCRIBE_FROM_FEATURE_DISCOVERY: 'click_subscribe_from_feature_discovery',
+    CLICK_UPGRADE_MATTERMOST_CLOUD: 'click_upgrade_mattermost_cloud',
+    CLICK_UPGRADE_BANNER_USER_LIMIT_REACHED: 'click_upgrade_banner_user_limit_reached',
+    CLICK_UPGRADE_BANNER_USER_LIMIT_EXCEEDED: 'click_upgrade_banner_user_limit_exceeded',
+    CLICK_SYSTEM_CONSOLE: 'click_system_console',
+
+    UI_DIRECT_CHANNEL_X_BUTTON_CLICKED: 'ui_direct_channel_x_button_clicked',
+    UI_TEAM_SIDEBAR_SWITCH_TEAM: 'ui_team_sidebar_switch_team',
+    UI_MARKETPLACE_DOWNLOAD: 'ui_marketplace_download',
+    UI_MARKETPLACE_CONFIGURE: 'ui_marketplace_configure',
+    UI_MARKETPLACE_DOWNLOAD_UPDATE: 'ui_marketplace_download_update',
+    HELP_ASK_THE_COMMUNITY: 'help_ask_the_community',
+
+    BANNERVIEW_USER_LIMIT_WARNING: 'bannerview_user_limit_warning',
+    BANNERVIEW_USER_LIMIT_REACHED: 'bannerview_user_limit_reached',
+    BANNERVIEW_USER_LIMIT_EXCEEDED: 'bannerview_user_limit_exceeded',
+
+    PAGE_LOAD: 'page_load',
+
+    EVENT: 'event',
+    VIEWS: 'views',
+    SHARES: 'shares',
+    ONCLICK: 'onclick',
+    REVOKE_USER_ACCESS_TOKEN: 'revoke_user_access_token',
+    CLICK_NEXT: 'click_next',
+    CLICK_LOGOUT: 'click_logout',
+    CLICK_CREATE_TEAM: 'click_create_team',
+    CLICK_CREATE_ACCOUNT: 'click_create_account',
+    CLICK_BACK: 'click_back',
+    CLICK_SIGNIN_ACCOUNT: 'click_signin_account',
+};
+
 export default Constants;

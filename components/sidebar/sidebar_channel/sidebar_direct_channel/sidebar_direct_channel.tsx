@@ -13,7 +13,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {trackEvent} from 'actions/telemetry_actions';
 import ProfilePicture from 'components/profile_picture';
 import {browserHistory} from 'utils/browser_history';
-import {Constants} from 'utils/constants';
+import {Constants, TelemetryCategories, TelemetryEvents} from 'utils/constants';
 
 import SidebarChannelLink from '../sidebar_channel_link';
 
@@ -41,7 +41,7 @@ class SidebarDirectChannel extends React.PureComponent<Props> {
         this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id!, value: 'false'}]).then(callback);
         this.props.actions.leaveDirectChannel(this.props.channel.name);
 
-        trackEvent('ui', 'ui_direct_channel_x_button_clicked');
+        trackEvent(TelemetryCategories.UI, TelemetryEvents.UI_DIRECT_CHANNEL_X_BUTTON_CLICKED);
 
         if (this.props.active) {
             browserHistory.push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);

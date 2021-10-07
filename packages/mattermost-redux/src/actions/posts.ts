@@ -694,7 +694,7 @@ export function flagPost(postId: string) {
             value: 'true',
         };
 
-        Client4.trackEvent('action', 'action_posts_flag');
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_posts_flag');
 
         return savePreferences(currentUserId, [preference])(dispatch);
     };
@@ -1086,7 +1086,7 @@ export function unflagPost(postId: string) {
             name: postId,
         };
 
-        Client4.trackEvent('action', 'action_posts_unflag');
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_posts_unflag');
 
         return deletePreferences(currentUserId, [preference])(dispatch, getState);
     };

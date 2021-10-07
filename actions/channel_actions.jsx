@@ -14,7 +14,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {Constants, Preferences, NotificationLevels} from 'utils/constants';
+import {Constants, Preferences, NotificationLevels, TelemetryCategories} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
 
 export function openDirectChannelToUserId(userId) {
@@ -28,7 +28,7 @@ export function openDirectChannelToUserId(userId) {
             return dispatch(ChannelActions.createDirectChannel(currentUserId, userId));
         }
 
-        trackEvent('api', 'api_channels_join_direct');
+        trackEvent(TelemetryCategories.API, 'api_channels_join_direct');
         const now = Date.now();
         const prefDirect = {
             category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,

@@ -7,6 +7,7 @@ import React from 'react';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
 import * as Utils from 'utils/utils.jsx';
+import {TelemetryCategories} from '../../utils/constants';
 
 export default class AdminSidebarSection extends React.PureComponent {
     static get propTypes() {
@@ -77,7 +78,7 @@ export default class AdminSidebarSection extends React.PureComponent {
                 className={`${className}-title`}
                 activeClassName={`${className}-title ${className}-title--active`}
                 to={link}
-                onClick={() => trackEvent('admin', sidebarItemSafeId)}
+                onClick={() => trackEvent(TelemetryCategories.ADMIN, sidebarItemSafeId)}
             >
                 <span className={`${className}-title__text`}>
                     {this.props.title}{tag}

@@ -18,6 +18,7 @@ import ConfirmModal from 'components/confirm_modal';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import {localizeMessage} from 'utils/utils';
+import {TelemetryCategories, TelemetryEvents} from '../../../../utils/constants';
 
 type UpdateVersionProps = {
     version: string;
@@ -248,13 +249,13 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
 
     trackEvent = (eventName: string, allowDetail = true): void => {
         if (this.props.isDefaultMarketplace && allowDetail) {
-            this.props.trackEvent('plugins', eventName, {
+            this.props.trackEvent(TelemetryCategories.PLUGINS, eventName, {
                 plugin_id: this.props.id,
                 version: this.props.version,
                 installed_version: this.props.installedVersion,
             });
         } else {
-            this.props.trackEvent('plugins', eventName);
+            this.props.trackEvent(TelemetryCategories.PLUGINS, eventName);
         }
     }
 
@@ -267,18 +268,18 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
     }
 
     onInstall = (): void => {
-        this.trackEvent('ui_marketplace_download');
+        this.trackEvent(TelemetryEvents.UI_MARKETPLACE_DOWNLOAD);
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
     onConfigure = (): void => {
-        this.trackEvent('ui_marketplace_configure', false);
+        this.trackEvent(TelemetryEvents.UI_MARKETPLACE_CONFIGURE, false);
 
         this.props.actions.closeMarketplaceModal();
     }
 
     onUpdate = (): void => {
-        this.trackEvent('ui_marketplace_download_update');
+        this.trackEvent(TelemetryEvents.UI_MARKETPLACE_DOWNLOAD_UPDATE);
 
         this.hideUpdateConfirmationModal();
         this.props.actions.installPlugin(this.props.id, this.props.version);

@@ -17,7 +17,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
 
-import {CloudLinks} from 'utils/constants';
+import {CloudLinks, TelemetryCategories} from 'utils/constants';
 
 import './billing_history.scss';
 
@@ -44,7 +44,7 @@ const noBillingHistorySection = (
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingHistory__noHistory-link'
-            onClick={() => trackEvent('cloud_admin', 'click_billing_history', {screen: 'billing'})}
+            onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, 'click_billing_history', {screen: 'billing'})}
         >
             <FormattedMessage
                 id='admin.billing.history.seeHowBillingWorks'

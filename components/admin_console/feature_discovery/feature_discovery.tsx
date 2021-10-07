@@ -8,7 +8,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ClientLicense} from 'mattermost-redux/types/config';
 
-import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {ModalIdentifiers, TelemetryCategories, TelemetryEvents} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -86,8 +86,8 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         e.preventDefault();
 
         trackEvent(
-            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-            'click_subscribe_from_feature_discovery',
+            TelemetryCategories.CLOUD_ADMIN,
+            TelemetryEvents.CLICK_SUBSCRIBE_FROM_FEATURE_DISCOVERY,
         );
 
         this.props.actions.openModal({

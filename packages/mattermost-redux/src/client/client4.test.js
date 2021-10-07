@@ -8,6 +8,8 @@ import {ClientError, HEADER_X_VERSION_ID} from 'mattermost-redux/client/client4'
 import TestHelper from 'mattermost-redux/test/test_helper';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
+import {TelemetryCategories, TelemetryEvents} from 'utils/constants';
+
 import {rudderAnalytics, RudderTelemetryHandler} from './rudder';
 
 jest.mock('rudder-sdk-js', () => {
@@ -86,12 +88,12 @@ describe('trackEvent', () => {
     it('should call Rudder\'s track when a RudderTelemetryHandler is attached to Client4', () => {
         const client = TestHelper.createClient4();
 
-        client.trackEvent('test', 'onClick');
+        client.trackEvent(TelemetryCategories.TEST, TelemetryEvents.ONCLICK);
 
         expect(rudderAnalytics.track).not.toHaveBeenCalled();
 
         client.setTelemetryHandler(new RudderTelemetryHandler());
-        client.trackEvent('test', 'onClick');
+        client.trackEvent(TelemetryCategories.TEST, TelemetryEvents.ONCLICK);
 
         expect(rudderAnalytics.track).toHaveBeenCalledTimes(1);
     });

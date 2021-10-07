@@ -44,7 +44,7 @@ export default class TextDismissableBar extends React.PureComponent<Props, State
         if (!this.props.allowDismissal) {
             return;
         }
-        trackEvent('signup', 'click_dismiss_bar');
+        trackEvent(TelemetryCategories.SIGNUP, 'click_dismiss_bar');
 
         localStorage.setItem(localStoragePrefix + this.props.text, 'true');
         this.setState({

@@ -23,7 +23,7 @@ const howBillingWorksLink = (
         target='_new'
         rel='noopener noreferrer'
         href={CloudLinks.BILLING_DOCS}
-        onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'payment'})}
+        onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, 'click_how_billing_works', {screen: 'payment'})}
     >
         <FormattedMessage
             id='admin.billing.subscription.planDetails.howBillingWorks'

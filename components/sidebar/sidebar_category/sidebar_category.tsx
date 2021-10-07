@@ -14,7 +14,7 @@ import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {trackEvent} from 'actions/telemetry_actions';
 import OverlayTrigger from 'components/overlay_trigger';
 import {DraggingState} from 'types/store';
-import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates, Preferences, Touched} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates, Preferences, Touched, TelemetryCategories} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 import SidebarChannel from '../sidebar_channel';
@@ -124,9 +124,9 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         const {category} = this.props;
 
         if (category.collapsed) {
-            trackEvent('ui', 'ui_sidebar_expand_category');
+            trackEvent(TelemetryCategories.UI, 'ui_sidebar_expand_category');
         } else {
-            trackEvent('ui', 'ui_sidebar_collapse_category');
+            trackEvent(TelemetryCategories.UI, 'ui_sidebar_collapse_category');
         }
 
         this.props.actions.setCategoryCollapsed(category.id, !category.collapsed);
@@ -138,7 +138,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
         const newSorting = category.sorting === CategorySorting.Recency ? CategorySorting.Alphabetical : CategorySorting.Recency;
         this.props.actions.setCategorySorting(category.id, newSorting);
-        trackEvent('ui', `ui_sidebar_sort_dm_${newSorting}`);
+        trackEvent(TelemetryCategories.UI, `ui_sidebar_sort_dm_${newSorting}`);
     }
     removeAnimation = () => {
         if (this.newDropBoxRef.current) {
@@ -149,7 +149,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
-        trackEvent('ui', 'ui_sidebar_create_direct_message');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_create_direct_message');
     }
 
     handleMenuToggle = (open: boolean) => {

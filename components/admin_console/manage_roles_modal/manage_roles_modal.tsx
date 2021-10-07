@@ -99,21 +99,21 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
 
     trackRoleChanges = (roles: string, oldRoles: string) => {
         if (UserUtils.hasUserAccessTokenRole(roles) && !UserUtils.hasUserAccessTokenRole(oldRoles)) {
-            trackEvent('actions', 'add_roles', {role: General.SYSTEM_USER_ACCESS_TOKEN_ROLE});
+            trackEvent(TelemetryCategories.ACTIONS, 'add_roles', {role: General.SYSTEM_USER_ACCESS_TOKEN_ROLE});
         } else if (!UserUtils.hasUserAccessTokenRole(roles) && UserUtils.hasUserAccessTokenRole(oldRoles)) {
-            trackEvent('actions', 'remove_roles', {role: General.SYSTEM_USER_ACCESS_TOKEN_ROLE});
+            trackEvent(TelemetryCategories.ACTIONS, 'remove_roles', {role: General.SYSTEM_USER_ACCESS_TOKEN_ROLE});
         }
 
         if (UserUtils.hasPostAllRole(roles) && !UserUtils.hasPostAllRole(oldRoles)) {
-            trackEvent('actions', 'add_roles', {role: General.SYSTEM_POST_ALL_ROLE});
+            trackEvent(TelemetryCategories.ACTIONS, 'add_roles', {role: General.SYSTEM_POST_ALL_ROLE});
         } else if (!UserUtils.hasPostAllRole(roles) && UserUtils.hasPostAllRole(oldRoles)) {
-            trackEvent('actions', 'remove_roles', {role: General.SYSTEM_POST_ALL_ROLE});
+            trackEvent(TelemetryCategories.ACTIONS, 'remove_roles', {role: General.SYSTEM_POST_ALL_ROLE});
         }
 
         if (UserUtils.hasPostAllPublicRole(roles) && !UserUtils.hasPostAllPublicRole(oldRoles)) {
-            trackEvent('actions', 'add_roles', {role: General.SYSTEM_POST_ALL_PUBLIC_ROLE});
+            trackEvent(TelemetryCategories.ACTIONS, 'add_roles', {role: General.SYSTEM_POST_ALL_PUBLIC_ROLE});
         } else if (!UserUtils.hasPostAllPublicRole(roles) && UserUtils.hasPostAllPublicRole(oldRoles)) {
-            trackEvent('actions', 'remove_roles', {role: General.SYSTEM_POST_ALL_PUBLIC_ROLE});
+            trackEvent(TelemetryCategories.ACTIONS, 'remove_roles', {role: General.SYSTEM_POST_ALL_PUBLIC_ROLE});
         }
     }
 

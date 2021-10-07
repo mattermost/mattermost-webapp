@@ -9,7 +9,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';
 import AlertBanner from 'components/alert_banner';
 
-import {CloudLinks, CloudProducts} from 'utils/constants';
+import {CloudLinks, CloudProducts, TelemetryCategories, TelemetryEvents} from 'utils/constants';
 import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud.svg';
 import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial.svg';
 
@@ -30,7 +30,7 @@ export const contactSalesCard = (
             rel='noopener noreferrer'
             target='_blank'
             className='PrivateCloudCard__pricingLink'
-            onClick={() => trackEvent('cloud_admin', 'click_pricing_link')}
+            onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, TelemetryEvents.CLICK_PRICING_LINK)}
         >
             {CloudLinks.PRICING}
         </a>
@@ -140,7 +140,7 @@ export const contactSalesCard = (
                         rel='noopener noreferrer'
                         target='_blank'
                         className='PrivateCloudCard__actionButton'
-                        onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
+                        onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, TelemetryEvents.CLICK_CONTACT_SALES)}
                     >
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.contactSales'
@@ -202,7 +202,7 @@ export const cancelSubscription = (cancelAccountLink: any, isFreeTrial: boolean,
                     rel='noopener noreferrer'
                     target='_new'
                     className='cancelSubscriptionSection__contactUs'
-                    onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
+                    onClick={() => trackEvent(TelemetryCategories.CLOUD_ADMIN, TelemetryEvents.CLICK_CONTACT_US)}
                 >
                     <FormattedMessage
                         id='admin.billing.subscription.cancelSubscriptionSection.contactUs'

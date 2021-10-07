@@ -299,7 +299,7 @@ export function getRecentMentions(): ActionFunc {
 
             const terms = termKeys.map(({key}) => key).join(' ').trim() + ' ';
 
-            Client4.trackEvent('api', 'api_posts_search_mention');
+            Client4.trackEvent(TelemetryCategories.API, 'api_posts_search_mention');
             posts = await Client4.searchPosts(teamId, terms, true);
 
             const profilesAndStatuses = getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);

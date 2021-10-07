@@ -9,7 +9,6 @@ import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
 import {mark, trackEvent} from 'actions/telemetry_actions.jsx';
-import Constants from 'utils/constants';
 import {isDesktopApp} from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
@@ -18,6 +17,7 @@ import TeamIcon from '../../widgets/team_icon/team_icon';
 import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import {Constants, TelemetryCategories, TelemetryEvents} from 'utils/constants';
 
 interface Props {
     btnClass?: string;
@@ -45,7 +45,7 @@ class TeamButton extends React.PureComponent<Props> {
     handleSwitch = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         mark('TeamLink#click');
-        trackEvent('ui', 'ui_team_sidebar_switch_team');
+        trackEvent(TelemetryCategories.UI, TelemetryEvents.UI_TEAM_SIDEBAR_SWITCH_TEAM);
         this.props.switchTeam(this.props.url);
     }
 

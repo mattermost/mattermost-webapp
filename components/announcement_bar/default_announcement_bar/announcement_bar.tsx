@@ -150,7 +150,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                                             accessibilityLabel={linkmessage}
                                             className={'color--link--adminack'}
                                             dialogType={WarnMetricAckModal}
-                                            onClick={() => trackEvent('admin', 'click_warn_metric_learn_more')}
+                                            onClick={() => trackEvent(TelemetryCategories.ADMIN, 'click_warn_metric_learn_more')}
                                             modalId={ModalIdentifiers.WARN_METRIC_ACK}
                                             dialogProps={{
                                                 warnMetricStatus: this.props.warnMetricStatus,

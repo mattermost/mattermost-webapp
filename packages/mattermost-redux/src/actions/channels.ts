@@ -612,7 +612,7 @@ export function leaveChannel(channelId: string): ActionFunc {
         const channel = channels[channelId];
         const member = myMembers[channelId];
 
-        Client4.trackEvent('action', 'action_channels_leave', {channel_id: channelId});
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_channels_leave', {channel_id: channelId});
 
         dispatch({
             type: ChannelTypes.LEAVE_CHANNEL,
@@ -676,7 +676,7 @@ export function joinChannel(userId: string, teamId: string, channelId: string, c
             return {error};
         }
 
-        Client4.trackEvent('action', 'action_channels_join', {channel_id: channelId});
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_channels_join', {channel_id: channelId});
 
         dispatch(batchActions([
             {
@@ -1128,7 +1128,7 @@ export function addChannelMember(channelId: string, userId: string, postRootId =
             return {error};
         }
 
-        Client4.trackEvent('action', 'action_channels_add_member', {channel_id: channelId});
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_channels_add_member', {channel_id: channelId});
 
         dispatch(batchActions([
             {
@@ -1159,7 +1159,7 @@ export function removeChannelMember(channelId: string, userId: string): ActionFu
             return {error};
         }
 
-        Client4.trackEvent('action', 'action_channels_remove_member', {channel_id: channelId});
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_channels_remove_member', {channel_id: channelId});
 
         dispatch(batchActions([
             {
@@ -1200,7 +1200,7 @@ export function updateChannelMemberRoles(channelId: string, userId: string, role
 
 export function updateChannelHeader(channelId: string, header: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        Client4.trackEvent('action', 'action_channels_update_header', {channel_id: channelId});
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_channels_update_header', {channel_id: channelId});
 
         dispatch({
             type: ChannelTypes.UPDATE_CHANNEL_HEADER,
@@ -1216,7 +1216,7 @@ export function updateChannelHeader(channelId: string, header: string): ActionFu
 
 export function updateChannelPurpose(channelId: string, purpose: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        Client4.trackEvent('action', 'action_channels_update_purpose', {channel_id: channelId});
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_channels_update_purpose', {channel_id: channelId});
 
         dispatch({
             type: ChannelTypes.UPDATE_CHANNEL_PURPOSE,
@@ -1468,7 +1468,7 @@ export function favoriteChannel(channelId: string): ActionFunc {
         const channel = getChannelSelector(state, channelId);
         const category = getCategoryInTeamByType(state, channel.team_id || getCurrentTeamId(state), CategoryTypes.FAVORITES);
 
-        Client4.trackEvent('action', 'action_channels_favorite');
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_channels_favorite');
 
         if (!category) {
             return {data: false};
@@ -1489,7 +1489,7 @@ export function unfavoriteChannel(channelId: string): ActionFunc {
             channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL ? CategoryTypes.DIRECT_MESSAGES : CategoryTypes.CHANNELS,
         );
 
-        Client4.trackEvent('action', 'action_channels_unfavorite');
+        Client4.trackEvent(TelemetryCategories.ACTION, 'action_channels_unfavorite');
 
         if (!category) {
             return {data: false};

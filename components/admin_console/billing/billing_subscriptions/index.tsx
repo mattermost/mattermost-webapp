@@ -24,9 +24,10 @@ import {GlobalState} from 'types/store';
 import {
     Preferences,
     CloudBanners,
-    TELEMETRY_CATEGORIES,
     ModalIdentifiers,
     TrialPeriodDays,
+    TelemetryCategories,
+    TelemetryEvents,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
@@ -79,7 +80,7 @@ const BillingSubscriptions: React.FC = () => {
 
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
-        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
+        trackEvent(TelemetryCategories.CLOUD_ADMIN, TelemetryEvents.CLICK_UPGRADE_MATTERMOST_CLOUD);
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
             dialogType: PurchaseModal,
@@ -110,7 +111,7 @@ const BillingSubscriptions: React.FC = () => {
         pageVisited('cloud_admin', 'pageview_billing_subscription');
 
         if (analytics && shouldShowInfoBanner()) {
-            trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'bannerview_user_limit_warning');
+            trackEvent(TelemetryCategories.CLOUD_ADMIN, TelemetryEvents.BANNERVIEW_USER_LIMIT_WARNING);
         }
 
         if (actionQueryParam === 'show_purchase_modal') {
@@ -136,8 +137,8 @@ const BillingSubscriptions: React.FC = () => {
 
     const handleHide = async () => {
         trackEvent(
-            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-            'click_close_banner_user_limit_warning',
+            TelemetryCategories.CLOUD_ADMIN,
+            TelemetryEvents.CLICK_CLOSE_BANNER_USER_LIMIT_WARNING,
         );
         dispatch(savePreferences(currentUser.id, [
             {

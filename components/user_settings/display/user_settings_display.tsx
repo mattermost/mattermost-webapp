@@ -177,7 +177,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         };
 
         if (preference.value !== oldValue) {
-            trackEvent('settings', 'user_settings_update', props);
+            trackEvent(TelemetryCategories.SETTINGS, 'user_settings_update', props);
         }
     }
 

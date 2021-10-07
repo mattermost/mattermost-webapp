@@ -92,7 +92,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     showMoreDirectChannelsModal = () => {
         this.setState({showDirectChannelsModal: true});
-        trackEvent('ui', 'ui_channels_more_direct_v2');
+        trackEvent(TelemetryCategories.UI, 'ui_channels_more_direct_v2');
     }
 
     hideMoreDirectChannelsModal = () => {
@@ -104,7 +104,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
         });
-        trackEvent('ui', 'ui_sidebar_menu_createCategory');
+        trackEvent(TelemetryCategories.UI, 'ui_sidebar_menu_createCategory');
     }
 
     handleCreateCategory = (categoryName: string) => {
@@ -117,7 +117,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             dialogType: MoreChannels,
             dialogProps: {morePublicChannelsModalType: 'public'},
         });
-        trackEvent('ui', 'ui_channels_more_public_v2');
+        trackEvent(TelemetryCategories.UI, 'ui_channels_more_public_v2');
     }
 
     invitePeopleModal = () => {
@@ -125,7 +125,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.INVITATION,
             dialogType: InvitationModal,
         });
-        trackEvent('ui', 'ui_channels_dropdown_invite_people');
+        trackEvent(TelemetryCategories.UI, 'ui_channels_dropdown_invite_people');
     }
 
     showNewChannelModal = () => {
@@ -133,7 +133,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
             dialogType: NewChannelFlow,
         });
-        trackEvent('ui', 'ui_channels_create_channel_v2');
+        trackEvent(TelemetryCategories.UI, 'ui_channels_create_channel_v2');
     }
 
     handleOpenMoreDirectChannelsModal = (e: Event) => {
