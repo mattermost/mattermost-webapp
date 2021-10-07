@@ -4,8 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {
@@ -37,6 +35,8 @@ import {
     showNextStepsTips,
     showNextSteps,
 } from 'components/next_steps_view/steps';
+
+import {GlobalState} from 'types/store';
 
 import MainMenu from './main_menu';
 
