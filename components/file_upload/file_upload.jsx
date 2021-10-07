@@ -180,6 +180,8 @@ export class FileUpload extends PureComponent {
             this.registerDragEvents('.row.main', '.center-file-overlay');
         } else if (this.props.postType === 'comment') {
             this.registerDragEvents('.post-right__container', '.right-file-overlay');
+        } else if (this.props.postType === 'thread') {
+            this.registerDragEvents('.ThreadPane', '.right-file-overlay');
         }
 
         document.addEventListener('paste', this.pasteUpload);
