@@ -274,7 +274,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         return (
             <Menu.Group>
                 <Menu.ItemToggleModalRedux
-                    accessibilityLabel='Custom Status'
+                    ariaLabel='Custom Status'
                     modalId={ModalIdentifiers.CUSTOM_STATUS}
                     dialogType={CustomStatusModal}
                     className='MenuItem__primary-text custom_status__row'
@@ -489,7 +489,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     <Menu.Group>
                         <Menu.ItemToggleModalRedux
                             id='accountSettings'
-                            accessibilityLabel='Account Settings'
+                            ariaLabel='Account Settings'
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             dialogProps={{isContentProductSettings: false}}

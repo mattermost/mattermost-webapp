@@ -67,7 +67,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
                         defaultMessage='Let’s add some people to the workspace!'
                     />
                     <ToggleModalButtonRedux
-                        accessibilityLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
+                        ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                         id='introTextInvite'
                         className='intro-links color--link cursor--pointer'
                         modalId={ModalIdentifiers.INVITATION}
