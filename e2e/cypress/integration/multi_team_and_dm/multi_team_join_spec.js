@@ -18,7 +18,7 @@ describe('Multi-Team + DMs', () => {
         cy.apiCreateUser().its('user').as('user');
 
         // delete all existing teams to clean-up
-        cy.apiGetAllTeams({perPage: 1000}).then(({teams}) => {
+        cy.apiGetAllTeams().then(({teams}) => {
             teams.forEach((team) => {
                 if (team.name !== DEFAULT_TEAM.name) {
                     cy.apiDeleteTeam(team.id, true);
