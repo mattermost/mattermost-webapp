@@ -4312,7 +4312,7 @@ const AdminDefinition = {
                     it.licensedForSku('starter'),
                 ),
                 it.all(
-                    it.licensedForFeature('OpenId'),
+                    it.licensedForFeature('openid'),
                     it.not(usesLegacyOauth),
                 ),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
@@ -4954,7 +4954,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
             isHidden: it.any(
-                it.licensedForFeature('OpenId'),
+                it.licensedForFeature('openid'),
                 it.not(it.enterpriseReady),
             ),
             schema: {
