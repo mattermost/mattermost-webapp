@@ -25,7 +25,7 @@ declare namespace Cypress {
          * @param {String} displayName - Non-unique UI name for the team
          * @param {String} type - 'O' for open (default), 'I' for invite only
          * @param {Boolean} unique - if true (default), it will create with unique/random team name.
-         * @param {Object} options - if true (default), it will create with unique/random team name.
+         * @param {Partial<Team>} options - other fields of team to include
          * @returns {Team} `out.team` as `Team`
          *
          * @example
