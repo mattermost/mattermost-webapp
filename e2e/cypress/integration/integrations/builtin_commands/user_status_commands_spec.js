@@ -18,18 +18,18 @@ describe('Integrations', () => {
         {command: '/online', className: 'icon-check-circle', message: 'You are now online'},
     ];
 
-    let testChannelUrl;
+    let offTopicUrl;
 
     before(() => {
-        // # Login as test user, go to town-square and set user status to online
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            testChannelUrl = `/${team.name}/channels/town-square`;
+        // # Login as test user
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl: url}) => {
+            offTopicUrl = url;
         });
     });
 
     it('I18456 Built-in slash commands: change user status via post', () => {
         cy.apiSaveMessageDisplayPreference('compact');
-        cy.visit(testChannelUrl);
+        cy.visit(offTopicUrl);
 
         testCases.forEach((testCase) => {
             cy.postMessage(testCase.command + ' ');
@@ -40,7 +40,7 @@ describe('Integrations', () => {
 
     it('I18456 Built-in slash commands: change user status via suggestion list', () => {
         cy.apiSaveMessageDisplayPreference('clean');
-        cy.visit(testChannelUrl);
+        cy.visit(offTopicUrl);
 
         testCases.forEach((testCase) => {
             // # Type "/" on textbox

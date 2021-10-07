@@ -61,7 +61,7 @@ export function shouldRemoveMentionsInRHS(teamName, sidebarItemClass) {
         postId = lastPostId;
 
         // # Click on the Recent Mentions button to open the RHS
-        cy.get('#channelHeaderMentionButton').click();
+        cy.uiGetRecentMentionButton().click();
 
         // * Verify that the recently posted message is shown in the RHS
         cy.get(`#rhsPostMessageText_${postId}`).should('exist');
@@ -86,7 +86,7 @@ export function shouldRemoveSavedPostsInRHS(teamName, sidebarItemClass) {
         cy.clickPostSaveIcon(postId);
 
         // # Click on the Saved Posts button to open the RHS
-        cy.get('#channelHeaderFlagButton').click();
+        cy.uiGetSavedPostButton().click();
 
         // * Verify that the recently posted message is shown in the RHS
         cy.get(`#rhsPostMessageText_${postId}`).should('exist');

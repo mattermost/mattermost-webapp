@@ -14,8 +14,8 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
 
         // # Login as test user and visit channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            cy.visit(channelUrl);
         });
     });
 
@@ -102,7 +102,7 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         cy.get('.DayPickerInput-Overlay').find(`.DayPicker-Week div[aria-label="${dateToBeSelected.format('ddd MMM DD YYYY')}"]`).click();
 
         // * Check that the date input should have the correct value
-        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-M-DD'));
+        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-M-D'));
     });
 
     it('MM-T4065_7 should show selected time in the time input field', () => {
@@ -128,7 +128,9 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         cy.get('#custom_status_modal').should('not.exist');
 
         // * Status should be set and the emoji should be visible in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
     it('MM-T4065_9 should show the set custom status with expiry when status dropdown is opened', () => {

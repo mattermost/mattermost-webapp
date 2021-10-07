@@ -19,11 +19,11 @@ describe('Messaging', () => {
     });
 
     it('MM-T196 Markdown correctly parses "://///" and doesn\'t break the channel', () => {
-        // # Go to Town Square as test channel
-        cy.get('#sidebarItem_town-square').click({force: true});
+        // # Go to Off-topic as test channel
+        cy.get('#sidebarItem_off-topic').click({force: true});
 
         // # Validate if the channel has been opened
-        cy.url().should('include', '/channels/town-square');
+        cy.url().should('include', '/channels/off-topic');
 
         // # type in the message "://///"
         const message = '://///';

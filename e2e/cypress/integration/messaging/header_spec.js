@@ -54,7 +54,7 @@ describe('Header', () => {
         cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Update DM channel header
-        const header = 'quote newheader newheader newheader newheader newheader newheader newheader newheader newheader newheader';
+        const header = `quote ${'newheader'.repeat(15)}`;
 
         updateAndVerifyChannelHeader('>', header);
 

@@ -79,6 +79,7 @@ const defaultProps = {
         hideEditPostModal: jest.fn(),
         openModal: jest.fn(),
         setShowPreview: jest.fn(),
+        runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
     },
 };
 
@@ -97,6 +98,7 @@ function createEditPost(
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         },
     }: Props,
 ) {
@@ -141,7 +143,7 @@ describe('components/EditPostModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should not call openModal on empty edited message but with attachment', () => {
+    it('should not call openModal on empty edited message but with attachment', async () => {
         global.scrollTo = jest.fn();
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
@@ -149,6 +151,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         const editingPost = {
             postId: '123',
@@ -164,7 +167,7 @@ describe('components/EditPostModal', () => {
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions, editingPost}));
         const instance = wrapper.instance() as EditPostModalClass;
         wrapper.setState({editText: ''});
-        instance.handleEdit();
+        await instance.handleEdit();
 
         expect(actions.openModal).not.toHaveBeenCalled();
         expect(actions.addMessageIntoHistory).toBeCalled();
@@ -179,6 +182,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
 
@@ -186,13 +190,12 @@ describe('components/EditPostModal', () => {
         expect(actions.editPost).not.toBeCalled();
 
         wrapper.setState({editText: 'new message'});
-        wrapper.find('.btn-primary').simulate('click');
+        await wrapper.find('.btn-primary').simulate('click');
 
         await Promise.resolve();
         expect(actions.addMessageIntoHistory).toBeCalledWith('new message');
         expect(actions.editPost).toBeCalledWith({
-            id: defaultProps.editingPost.post.id,
-            channel_id: defaultProps.editingPost.post.channel_id,
+            ...defaultPost,
             message: 'new message',
         });
         expect(actions.hideEditPostModal).toBeCalled();
@@ -223,11 +226,11 @@ describe('components/EditPostModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should set the errorClass to animate when try to edit with an error', () => {
+    it('should set the errorClass to animate when try to edit with an error', async () => {
         const wrapper = shallowWithIntl(createEditPost({...defaultProps}));
         wrapper.setState({postError: 'Test error message'});
         expect((wrapper.state() as EditPostModalState).errorClass).toBe(null);
-        (wrapper.instance() as EditPostModalClass).handleEdit();
+        await (wrapper.instance() as EditPostModalClass).handleEdit();
         expect((wrapper.state() as EditPostModalState).errorClass).toBe('animation--highlight');
         jest.runOnlyPendingTimers();
         expect((wrapper.state() as EditPostModalState).errorClass).toBe(null);
@@ -302,6 +305,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
 
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
@@ -313,20 +317,21 @@ describe('components/EditPostModal', () => {
         expect(actions.setShowPreview).toHaveBeenCalledWith(false);
     });
 
-    it('should close without saving when post text is not changed', () => {
+    it('should close without saving when post text is not changed', async () => {
         const actions = {
             editPost: jest.fn((data) => (Promise.resolve(data))),
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
         const instance = wrapper.instance() as EditPostModalClass;
 
         expect(actions.hideEditPostModal).not.toBeCalled();
 
-        instance.handleEdit();
+        await instance.handleEdit();
 
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
@@ -340,6 +345,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         let wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
         let instance = wrapper.instance() as EditPostModalClass;
@@ -347,7 +353,7 @@ describe('components/EditPostModal', () => {
         expect(actions.hideEditPostModal).not.toBeCalled();
 
         wrapper.setState({editText: ''});
-        instance.handleEdit();
+        await instance.handleEdit();
 
         expect(actions.hideEditPostModal).toBeCalled();
         expect(actions.openModal).toHaveBeenCalledWith({
@@ -386,6 +392,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         global.scrollTo = jest.fn();
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
@@ -415,6 +422,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         const editingPost = {
             show: false,
@@ -451,6 +459,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
         const instance = wrapper.instance() as EditPostModalClass;
@@ -710,6 +719,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         const wrapper = shallowWithIntl(
             createEditPost({...defaultProps, actions, canEditPost: false}),
@@ -738,6 +748,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
             setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn((newPost: Post) => Promise.resolve({data: newPost})),
         };
         const wrapper = shallowWithIntl(
             createEditPost({...defaultProps, actions, canDeletePost: false}),
@@ -865,5 +876,43 @@ describe('components/EditPostModal', () => {
             onSelect(e);
         }
         expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
+    });
+
+    it('should show error when hooks returns one', async () => {
+        const err = 'an error occurred';
+        const actions = {
+            editPost: jest.fn((data) => (Promise.resolve(data))),
+            addMessageIntoHistory: jest.fn(),
+            hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
+            setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn(() => Promise.resolve({error: err})),
+        };
+        const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
+        const instance = wrapper.instance() as EditPostModalClass;
+
+        await instance.handleEdit();
+
+        expect(actions.runMessageWillBeUpdatedHooks).toBeCalled();
+        expect((wrapper.state() as EditPostModalState).postError).toBe(err);
+    });
+
+    it('should call editPost with data returned by hook', async () => {
+        const newPost = {message: 'edited'};
+        const actions = {
+            editPost: jest.fn((data) => (Promise.resolve(data))),
+            addMessageIntoHistory: jest.fn(),
+            hideEditPostModal: jest.fn(),
+            openModal: jest.fn(),
+            setShowPreview: jest.fn(),
+            runMessageWillBeUpdatedHooks: jest.fn(() => Promise.resolve({data: newPost})),
+        };
+        const wrapper = shallowWithIntl(createEditPost({...defaultProps, actions}));
+        const instance = wrapper.instance() as EditPostModalClass;
+
+        await instance.handleEdit();
+
+        expect(actions.runMessageWillBeUpdatedHooks).toBeCalled();
+        expect(actions.editPost).toHaveBeenCalledWith(newPost);
     });
 });

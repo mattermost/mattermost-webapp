@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AddChannelButtonTreatments, CollapsedThreads} from '../constants/config';
+import {AddChannelButtonTreatments, CollapsedThreads, PrewrittenMessagesTreatments} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
@@ -72,6 +72,7 @@ export type ClientConfig = {
     EnableGuestAccounts: string;
     EnableIncomingWebhooks: string;
     EnableLatex: string;
+    EnableInlineLatex: string;
     EnableLdap: string;
     EnableLinkPreviews: string;
     EnableMarketplace: string;
@@ -156,6 +157,7 @@ export type ClientConfig = {
     PasswordRequireNumber: string;
     PasswordRequireSymbol: string;
     PasswordRequireUppercase: string;
+    PrewrittenMessages: PrewrittenMessagesTreatments;
     PluginsEnabled: string;
     PostEditTimeLimit: string;
     PrivacyPolicyLink: string;

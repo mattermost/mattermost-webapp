@@ -67,8 +67,7 @@ describe('Notifications', () => {
             checkUnreadMentions(channel);
 
             // # Leave the test channel and logout
-            cy.get('#channelHeaderDropdownButton').should('be.visible').click();
-            cy.get('#channelLeaveChannel').should('be.visible').click();
+            cy.uiOpenChannelMenu('Leave Channel');
             cy.apiLogout();
 
             // # Login as first user and visit town square
@@ -76,7 +75,10 @@ describe('Notifications', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // * Check that the display name of the team the user was invited to is being correctly displayed
-            cy.get('#headerUsername', {timeout: TIMEOUTS.HALF_MIN}).should('contain.text', firstUser.username);
+            cy.uiOpenUserMenu().findByText(`@${firstUser.username}`);
+
+            // # Close the user menu
+            cy.uiGetSetStatusButton().click();
 
             // * Check that 'Town Square' is currently being selected
             cy.get('.active').within(() => {

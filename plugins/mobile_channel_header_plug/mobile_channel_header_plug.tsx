@@ -8,7 +8,7 @@ import {injectIntl, IntlShape} from 'react-intl';
 import {sendEphemeralPost} from 'actions/global_actions';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppCallResponse, AppCallType, AppForm} from 'mattermost-redux/types/apps';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
 
@@ -38,6 +38,7 @@ type Props = {
     intl: IntlShape;
     actions: {
         doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
+        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
     };
 }
 
@@ -128,7 +129,8 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
     }
 
     fireAppAction = async (binding: AppBinding) => {
-        if (!binding.call) {
+        const call = binding.form?.call || binding.call;
+        if (!call) {
             return;
         }
 
@@ -138,8 +140,13 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
             this.props.channel.id,
             this.props.channel.team_id,
         );
-        const call = createCallRequest(binding.call, context);
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+        const callRequest = createCallRequest(call, context);
+
+        if (binding.form) {
+            this.props.actions.openAppsModal(binding.form, callRequest);
+            return;
+        }
+        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, this.props.intl);
 
         const callResp = (res as {data: AppCallResponse}).data;
         const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id, '', callResp.app_metadata?.bot_user_id);

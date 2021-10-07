@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @ldap_group
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -30,15 +29,15 @@ const navigateToGroup = (id) => {
     cy.get('#group_profile').scrollIntoView();
 };
 
-// Goes to the townsquare and attempts to display suggestions for the given group name
+// Goes to the off-topic and attempts to display suggestions for the given group name
 // Attempts to @mention the given group
 // Checks to see that the group is not highlighted as a link when viewed by a user without permission to mention
 // Checks to see that the group is not highlighted as a mention when viewed by user inside the group
 const assertGroupMentionDisabled = (groupName) => {
     const suggestion = groupName.substring(0, groupName.length - 1);
 
-    // # Visit town-square
-    cy.visit(`/${testTeam.name}/channels/town-square`);
+    // # Visit off-topic
+    cy.visit(`/${testTeam.name}/channels/off-topic`);
 
     // # Type suggestion in channel post text box
     cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
@@ -59,8 +58,8 @@ const assertGroupMentionDisabled = (groupName) => {
     // # Login as board user
     cy.apiLogin(boardUser);
 
-    // # Visit town-square
-    cy.visit(`/${testTeam.name}/channels/town-square`);
+    // # Visit off-topic
+    cy.visit(`/${testTeam.name}/channels/off-topic`);
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -70,15 +69,15 @@ const assertGroupMentionDisabled = (groupName) => {
     });
 };
 
-// Goes to the townsquare and attempts to display suggestions for the given group name
+// Goes to the off-topic and attempts to display suggestions for the given group name
 // Attempts to @mention the given group
 // Checks to see that the group is highlighted as a link when viewed by a user outside of the group
 // Checks to see that the group is highlighted as a mention when viewed by user inside the group
 const assertGroupMentionEnabled = (groupName) => {
     const suggestion = groupName.substring(0, groupName.length - 1);
 
-    // # Visit town-square
-    cy.visit(`/${testTeam.name}/channels/town-square`);
+    // # Visit off-topic
+    cy.visit(`/${testTeam.name}/channels/off-topic`);
 
     // # Type suggestion in channel post text box
     cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
@@ -102,8 +101,8 @@ const assertGroupMentionEnabled = (groupName) => {
     // # Login as board user
     cy.apiLogin(boardUser);
 
-    // # Visit town-square
-    cy.visit(`/${testTeam.name}/channels/town-square`);
+    // # Visit off-topic
+    cy.visit(`/${testTeam.name}/channels/off-topic`);
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -172,7 +171,7 @@ describe('System Console', () => {
 
         // # Add board user to test team to ensure that it exists in the team and set its preferences to skip tutorial step
         cy.apiGetUserByEmail(boardUser.email).then(({user}) => {
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then(({channel}) => {
+            cy.apiGetChannelByName(testTeam.name, 'off-topic').then(({channel}) => {
                 cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, user.id);
                 });
@@ -232,7 +231,7 @@ describe('System Console', () => {
 
         // # Click reset to defaults, confirm and save
         cy.findByTestId('resetPermissionsToDefault').click({force: true});
-        cy.get('#confirmModalButton').click();
+        cy.get('#confirmModalButton').click({force: true});
         saveConfig();
 
         // # Login as a normal user
@@ -267,7 +266,7 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Click reset to defaults confirm and save
-        cy.findByTestId('resetPermissionsToDefault').click({force: true});
+        cy.findByTestId('resetPermissionsToDefault').click();
         cy.get('#confirmModalButton').click();
         saveConfig();
     });
