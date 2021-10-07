@@ -41,14 +41,20 @@ describe('components/mfa/components/Confirm', () => {
     });
 
     test('should submit on enter', () => {
-        const wrapper = mountWithIntl(<Confirm {...defaultProps}/>);
+        const map: { [key: string]: any } = {
+            keydown: null,
+        };
+        document.body.addEventListener = jest.fn().mockImplementation((event: string, callback: string) => {
+            map[event] = callback;
+        });
 
-        wrapper.simulate('keydown', {
+        mountWithIntl(<Confirm {...defaultProps}/>);
+
+        const event = {
             preventDefault: jest.fn(),
             key: Constants.KeyCodes.ENTER[0],
-            keyCode: Constants.KeyCodes.ENTER[1],
-            ctrlKey: false,
-        });
+        };
+        map.keydown(event);
 
         expect(redirectUserToDefaultTeam).toHaveBeenCalled();
     });
