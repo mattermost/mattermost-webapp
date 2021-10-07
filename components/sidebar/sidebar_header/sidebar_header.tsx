@@ -198,7 +198,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     placement='bottom'
                     overlay={currentTeam.description?.length ? (
                         <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip>
-                    ) : null}
+                    ) : <></>}
                 >
                     {sidebarHeadingContent}
                 </OverlayTrigger>
