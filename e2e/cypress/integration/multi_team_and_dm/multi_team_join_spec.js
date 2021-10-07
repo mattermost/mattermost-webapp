@@ -9,6 +9,8 @@
 
 // Group: @multi_team_and_dm
 
+import {DEFAULT_TEAM} from '../../support/constants';
+
 const NUMBER_OF_TEAMS = 3;
 
 describe('Multi-Team + DMs', () => {
@@ -17,7 +19,11 @@ describe('Multi-Team + DMs', () => {
 
         // delete all existing teams to clean-up
         cy.apiGetAllTeams({perPage: 1000}).then(({teams}) => {
-            teams.forEach(({id}) => cy.apiDeleteTeam(id, true));
+            teams.forEach((team) => {
+                if (team.name !== DEFAULT_TEAM.name) {
+                    cy.apiDeleteTeam(team.id, true);
+                }
+            });
         });
 
         // create teams for user to join
