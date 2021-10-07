@@ -8,7 +8,7 @@ import debounce from 'lodash/debounce';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import imgTrans from 'images/img_trans.gif';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
@@ -69,11 +69,18 @@ class EmojiPickerItem extends React.Component<Props> {
         }
     };
 
-    handleMouseOverThrottle = debounce(this.handleMouseOver, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {leading: true, trailing: true});
+    handleMouseOverThrottle = debounce(this.handleMouseOver, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {
+        leading: true,
+        trailing: true,
+    });
 
     handleClick = () => {
         this.props.onItemClick(this.props.emoji);
     };
+
+    isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
+        return emoji.category && emoji.category !== 'custom';
+    }
 
     render() {
         const {emoji} = this.props;
@@ -84,7 +91,7 @@ class EmojiPickerItem extends React.Component<Props> {
         }
 
         let image;
-        if (emoji.category && emoji.category !== 'custom') {
+        if (this.isSystemEmoji(emoji)) {
             let spriteClassName = 'emojisprite';
             spriteClassName += ' emoji-category-' + emoji.category;
             spriteClassName += ' emoji-' + emoji.image;

@@ -10,7 +10,7 @@ import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permiss
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import imgTrans from 'images/img_trans.gif';
-import {CustomEmoji, Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 type Props = {
     emoji?: Emoji;
@@ -43,6 +43,10 @@ export default class EmojiPickerPreview extends React.PureComponent<Props> {
         );
     }
 
+    isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
+        return (emoji as SystemEmoji).short_names && (emoji as SystemEmoji).image !== 'mattermost';
+    }
+
     render(): React.ReactNode {
         const emoji = this.props.emoji;
 
@@ -51,12 +55,9 @@ export default class EmojiPickerPreview extends React.PureComponent<Props> {
             let aliases;
             let previewImage;
 
-            const {short_names: shortNames, image} = emoji as SystemEmoji;
-
-            if (shortNames && image !== 'mattermost') {
+            if (this.isSystemEmoji(emoji)) {
                 // This is a system emoji which only has a list of aliases
-                name = shortNames[0];
-                aliases = shortNames;
+                aliases = emoji.short_names;
 
                 previewImage = (
                     <span className='sprite-preview'>
@@ -64,14 +65,13 @@ export default class EmojiPickerPreview extends React.PureComponent<Props> {
                             id='emojiPickerSpritePreview'
                             alt={'emoji category image'}
                             src={imgTrans}
-                            className={'emojisprite-preview emoji-category-' + emoji.category + ' emoji-' + image}
+                            className={'emojisprite-preview emoji-category-' + emoji.category + ' emoji-' + emoji.image}
                         />
                     </span>
                 );
             } else {
                 // This is a custom emoji that matches the model on the server
-                const {name: emojiName} = (emoji as CustomEmoji);
-                name = emojiName;
+                name = emoji.name;
                 aliases = [name];
                 previewImage = (
                     <img
