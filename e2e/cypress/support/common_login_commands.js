@@ -51,7 +51,7 @@ Cypress.Commands.add('checkLeftSideBar', (settings = {}) => {
     }
 
     // # Close product switch menu
-    cy.uiGetProductSwitchButton().click();
+    cy.uiGetProductMenuButton().click();
 
     cy.get('#channel_view').should('be.visible');
 });

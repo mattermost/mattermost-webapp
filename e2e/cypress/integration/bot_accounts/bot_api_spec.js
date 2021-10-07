@@ -69,7 +69,7 @@ describe('Bot accounts ownership and API', () => {
         cy.uiOpenProductMenu();
 
         // * Confirm "Integrations" is not visible
-        cy.uiGetProductSwitchMenu().should('not.contain', 'Integrations');
+        cy.uiGetProductMenu().should('not.contain', 'Integrations');
     });
 
     it('MM-T1863 Only System Admin are able to create bots (API)', () => {
