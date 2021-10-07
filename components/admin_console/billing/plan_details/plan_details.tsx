@@ -119,19 +119,69 @@ export const planDetailsTopElements = (
     userLimit: number,
     subscriptionPlan: string | undefined,
 ) => {
-    let userCountDisplay = (
-        <div className='PlanDetails__userCount'>
-            <FormattedMarkdownMessage
-                id='admin.billing.subscription.planDetails.userCount'
-                defaultMessage='{userCount} users'
-                values={{userCount}}
-            />
-        </div>
-    );
-
+    let userCountDisplay;
     let productName;
 
-    if (!isPaidTier) {
+    if (isPaidTier) {
+        userCountDisplay = (
+            <div className='PlanDetails__userCount'>
+                <FormattedMarkdownMessage
+                    id='admin.billing.subscription.planDetails.userCount'
+                    defaultMessage='{userCount} users'
+                    values={{userCount}}
+                />
+            </div>
+        );
+        switch (subscriptionPlan) {
+        case CloudProducts.PROFESSIONAL:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+                    defaultMessage='Cloud Professional'
+                />
+            );
+            break;
+        case CloudProducts.ENTERPRISE:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
+                    defaultMessage='Cloud Enterprise'
+                />
+            );
+            break;
+        case CloudProducts.STARTER:
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.cloudStarter'
+                    defaultMessage='Cloud Starter'
+                />
+            );
+            break;
+        default:
+            // must be CloudProducts.LEGACY
+            productName = (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.productName.mmCloud'
+                    defaultMessage='Mattermost Cloud'
+                />
+            );
+            userCountDisplay = (
+                <div
+                    className={classNames('PlanDetails__userCount', {
+                        withinLimit: (userLimit - userCount) <= 5,
+                        overLimit: userCount > userLimit,
+                    })}
+                >
+                    <FormattedMarkdownMessage
+                        id='admin.billing.subscription.planDetails.userCountWithLimit'
+                        defaultMessage='{userCount} / {userLimit} users'
+                        values={{userCount, userLimit}}
+                    />
+                </div>
+            );
+            break;
+        }
+    } else {
         userCountDisplay = (
             <div
                 className={classNames('PlanDetails__userCount', {
@@ -153,41 +203,6 @@ export const planDetailsTopElements = (
                 defaultMessage='Mattermost Cloud'
             />
         );
-    }
-
-    switch (subscriptionPlan) {
-    case CloudProducts.PROFESSIONAL:
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                defaultMessage='Cloud Professional'
-            />
-        );
-        break;
-    case CloudProducts.ENTERPRISE:
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
-                defaultMessage='Cloud Enterprise'
-            />
-        );
-        break;
-    case CloudProducts.STARTER:
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudStarter'
-                defaultMessage='Cloud Starter'
-            />
-        );
-        break;
-    default:
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                defaultMessage='Cloud Professional'
-            />
-        );
-        break;
     }
 
     const trialBadge = (
@@ -349,7 +364,8 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
             features = featuresCloudEnterprise;
             break;
         default:
-            features = featuresCloudProfessional;
+            // must be CloudProducts.LEGACY
+            features = featuresFreeTier;
             break;
         }
     } else {
