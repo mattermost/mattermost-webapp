@@ -4177,6 +4177,7 @@
   "sidebar.sort": "Sort",
   "sidebar.sortedByRecencyLabel": "Recent activity",
   "sidebar.sortedManually": "Manually",
+  "sidebar.team_menu.menuAriaLabel": "team menu",
   "sidebar.team_select": "{siteName} - Join a team",
   "sidebar.tutorialAddChannel.channelDiscovery": "**Create new channels** or **browse channels** to see what your team is discussing. Optionally, organize your channels into custom, collapsible channel **categories**. [Learn more](!https://docs.mattermost.com/messaging/organizing-your-sidebar.html).",
   "sidebar.tutorialAddChannel.preAdd.offTopic": "**{offtopic}** can be used for fun and humor outside of work-related conversations.",
