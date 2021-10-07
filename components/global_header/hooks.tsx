@@ -14,7 +14,6 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
-import {getIsMobileView} from 'selectors/views/browser';
 import {isModalOpen} from 'selectors/views/modals';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
@@ -85,8 +84,4 @@ export const useIsModalOpen = (modalIdentifier: string): [boolean, React.RefObje
     }, [modalOpenState]);
 
     return [modalOpenState, modalOpenStateRef];
-};
-
-export const useIsMobileView = (): boolean => {
-    return Boolean(useSelector(getIsMobileView));
 };

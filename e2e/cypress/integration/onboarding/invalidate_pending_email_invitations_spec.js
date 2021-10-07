@@ -39,7 +39,7 @@ describe('Onboarding', () => {
         }).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;

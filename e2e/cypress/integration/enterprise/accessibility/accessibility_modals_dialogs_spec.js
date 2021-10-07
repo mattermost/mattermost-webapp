@@ -99,12 +99,13 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 });
 
             // # Search for an invalid text
+            const additionalSearchTerm = 'somethingwhichdoesnotexist';
             cy.findByRole('textbox', {name: 'Search for people'}).
-                type('somethingwhichdoesnotexist', {force: true}).
+                type(additionalSearchTerm, {force: true}).
                 wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
-            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No results found matching ****');
+            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', `No results found matching s${additionalSearchTerm}`);
         });
     });
 
