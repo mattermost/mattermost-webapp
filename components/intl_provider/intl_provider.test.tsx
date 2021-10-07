@@ -49,7 +49,7 @@ describe('components/IntlProvider', () => {
     test('should render null when missing translation strings', () => {
         const props = {
             ...baseProps,
-            translations: null,
+            translations: undefined,
         };
 
         const wrapper = mount(<IntlProvider {...props}/>);
@@ -61,7 +61,7 @@ describe('components/IntlProvider', () => {
         const props = {
             ...baseProps,
             locale: 'fr',
-            translations: null,
+            translations: undefined,
             actions: {
                 loadTranslations: jest.fn(),
             },
