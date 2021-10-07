@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -74,6 +75,7 @@ export function mapStateToProps(state) {
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
         asLightbox: inviteToTeamTreatment === InviteToTeamTreatments.LIGHTBOX || inviteToTeamTreatment === InviteToTeamTreatments.LIGHTBOX_SLIDER,
+        inviteToTeamTreatment,
     };
 }
 
