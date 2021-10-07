@@ -3,36 +3,55 @@
         position: relative;
 
         .image-header {
-            button.post__embed-visibility {
-                width: 1.4rem;
-                height: 1.4rem;
-                color: #8c8c8d;
-                text-align: left;
+            button.single-image-view__toggle {
+                display: inline-block;
+                padding: 0;
+                border: none;
+                background: transparent;
+                border-radius: 4px;
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                font-size: 18px;
+                line-height: 18px;
+
+                &:hover {
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                }
+
+                .icon {
+                    width: 18px;
+                    height: 18px;
+
+                    &::before {
+                        margin-right: 0;
+                        margin-left: 0;
+                    }
+                }
             }
 
             &.active {
                 position: absolute;
-                z-index: 3;
-                top: -5px;
-                left: -5px;
 
-                button.post__embed-visibility {
-                    width: 2.4rem;
-                    height: 0;
-                    border: 1px solid #e7e7e7;
-                    background: var(--button-color);
-                    border-radius: 50%;
-                    opacity: 0;
-                    text-align: center;
-                    transition: height 0s linear 0.3s, opacity 0.3s ease-in-out;
+                button.single-image-view__toggle {
+                    display: none;
+                    width: 24px;
+                    height: 24px;
+                    padding: 0;
+                    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                    background-color: var(--center-channel-bg);
+                    border-radius: 16px;
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                    font-size: 18px;
+                    line-height: 21px;
+
+                    @include box-shadow($elevation-1);
                 }
             }
         }
 
-        &:hover .image-header.active button.post__embed-visibility {
-            height: 2.4rem;
-            opacity: 1;
-            transition: height 0s linear 0s, opacity 0.3s;
+        &:hover .image-header.active button.single-image-view__toggle {
+            display: block;
+
+            @include box-shadow($elevation-2);
         }
     }
 }
