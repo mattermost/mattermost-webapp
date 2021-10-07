@@ -4368,7 +4368,7 @@ const AdminDefinition = {
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
                         isHidden: it.any(
-                            it.not(it.licensedForFeature('OpenId')),
+                            it.not(it.licensedForFeature('openid')),
                             it.not(usesLegacyOauth),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
@@ -4623,7 +4623,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
             isHidden: it.any(
-                it.not(it.licensedForFeature('OpenId')),
+                it.not(it.licensedForFeature('openid')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             ),
             schema: {

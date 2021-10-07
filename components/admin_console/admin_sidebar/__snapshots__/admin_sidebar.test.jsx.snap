@@ -2004,20 +2004,6 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              definitionKey="authentication.openid"
-              key="authentication.openid"
-              name="authentication/openid"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="OpenID Connect"
-                  id="admin.sidebar.openid"
-                />
-              }
-            />
-            <AdminSidebarSection
               definitionKey="authentication.openid_feature_discovery"
               key="authentication.openid_feature_discovery"
               name="authentication/openid"
