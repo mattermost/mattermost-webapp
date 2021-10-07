@@ -60,6 +60,8 @@ import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
 
+import RootRedirect from './root_redirect';
+
 const CreateTeam = makeAsyncComponent(LazyCreateTeam);
 const ErrorPage = makeAsyncComponent(LazyErrorPage);
 const TermsOfService = makeAsyncComponent(LazyTermsOfService);
@@ -403,12 +405,7 @@ export default class Root extends React.PureComponent {
                                 path={'/:team'}
                                 component={NeedsTeam}
                             />
-                            <Redirect
-                                to={{
-                                    ...this.props.location,
-                                    pathname: '/login',
-                                }}
-                            />
+                            <RootRedirect/>
                         </Switch>
                     </CompassThemeProvider>
                 </Switch>
