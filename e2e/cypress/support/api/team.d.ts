@@ -33,7 +33,7 @@ declare namespace Cypress {
          *       // do something with team
          *   });
          */
-        apiCreateTeam(name: string, displayName: string, type?: string, unique?: boolean, options?: Record<string, any>): Chainable<Team>;
+        apiCreateTeam(name: string, displayName: string, type?: string, unique?: boolean, options?: Partial<Team>): Chainable<Team>;
 
         /**
          * Delete a team.
