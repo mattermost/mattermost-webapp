@@ -11,8 +11,8 @@ import {Team} from 'mattermost-redux/types/teams';
 
 type Props = {
     team: Team;
-    onRemoveTeam?: (teamId: string) => void;
-    isDisabled?: boolean;
+    onRemoveTeam: (teamId: string) => void;
+    isDisabled: boolean;
 }
 
 export default class TeamInList extends React.PureComponent<Props> {
@@ -21,9 +21,7 @@ export default class TeamInList extends React.PureComponent<Props> {
         if (isDisabled) {
             return;
         }
-        if (onRemoveTeam) {
-            onRemoveTeam(team.id);
-        }
+        onRemoveTeam(team.id);
     }
 
     render() {

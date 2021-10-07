@@ -28,6 +28,8 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 scheme_id: '987',
                 group_constrained: true,
             },
+            isDisabled: false,
+            onRemoveTeam: () => {},
         };
 
         const wrapper = shallow(
