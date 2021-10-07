@@ -39,9 +39,9 @@ declare namespace Cypress {
          * @param {string} item - menu item ex. System Console, Integrations, etc.
          *
          * @example
-         *   cy.uiOpenProductSwitchMenu().click();
+         *   cy.uiOpenProductMenu().click();
          */
-        uiOpenProductSwitchMenu(item: string): Chainable;
+        uiOpenProductMenu(item: string): Chainable;
 
         /**
          * Get set status button

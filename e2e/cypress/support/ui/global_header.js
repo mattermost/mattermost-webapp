@@ -9,7 +9,7 @@ Cypress.Commands.add('uiGetProductSwitchMenu', () => {
     return cy.get('.product-switcher-menu').should('be.visible');
 });
 
-Cypress.Commands.add('uiOpenProductSwitchMenu', (item = '') => {
+Cypress.Commands.add('uiOpenProductMenu', (item = '') => {
     // # Click on product switch button
     cy.uiGetProductSwitchButton().click();
 
