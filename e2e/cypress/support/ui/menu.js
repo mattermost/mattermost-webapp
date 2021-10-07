@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 const SYSTEM_CONSOLE_MAIN_MENU = 'Menu Icon';
-const CHANNEL_MENU = 'channel menu';
 
 function openMenu(name, item) {
     const menu = () => cy.findByRole('button', {name}).should('be.visible');
@@ -32,16 +31,4 @@ Cypress.Commands.add('uiCloseSystemConsoleMainMenu', () => {
 
 Cypress.Commands.add('uiGetSystemConsoleMainMenu', () => {
     return getMenu(SYSTEM_CONSOLE_MAIN_MENU);
-});
-
-Cypress.Commands.add('uiOpenChannelMenu', (item = '') => {
-    return openMenu(CHANNEL_MENU, item);
-});
-
-Cypress.Commands.add('uiCloseChannelMenu', () => {
-    return cy.uiGetChannelMenu().click();
-});
-
-Cypress.Commands.add('uiGetChannelMenu', () => {
-    return getMenu(CHANNEL_MENU);
 });

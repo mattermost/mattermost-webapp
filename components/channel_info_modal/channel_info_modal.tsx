@@ -107,7 +107,7 @@ export default class ChannelInfoModal extends React.PureComponent<Props, State> 
                 header: notFound,
                 id: notFound,
                 team_id: notFound,
-                type: notFound,
+                type: 'O',
                 delete_at: 0,
                 create_at: 0,
                 update_at: 0,

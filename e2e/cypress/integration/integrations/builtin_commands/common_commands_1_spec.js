@@ -71,7 +71,7 @@ describe('Integrations', () => {
         // * Verify that that markdown isn't rendered
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', testUser.username);
-            cy.get(`#postMessageText_${postId}`).get('code').should('have.text', message);
+            cy.get(`#postMessageText_${postId}`).get('code').should('contain', message);
         });
 
         // # Type "/code" with no text

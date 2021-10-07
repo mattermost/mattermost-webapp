@@ -14,10 +14,26 @@ export function getThreadsInTeam(state: GlobalState): RelationOneToMany<Team, Us
     return state.entities.threads.threadsInTeam;
 }
 
+export function getUnreadThreadsInTeam(state: GlobalState): RelationOneToMany<Team, UserThread> {
+    return state.entities.threads.unreadThreadsInTeam;
+}
+
 export const getThreadsInCurrentTeam: (state: GlobalState) => Array<$ID<UserThread>> = createSelector(
     'getThreadsInCurrentTeam',
     getCurrentTeamId,
     getThreadsInTeam,
+    (
+        currentTeamId,
+        threadsInTeam,
+    ) => {
+        return threadsInTeam?.[currentTeamId] ?? [];
+    },
+);
+
+export const getUnreadThreadsInCurrentTeam: (state: GlobalState) => Array<$ID<UserThread>> = createSelector(
+    'getUnreadThreadsInCurrentTeam',
+    getCurrentTeamId,
+    getUnreadThreadsInTeam,
     (
         currentTeamId,
         threadsInTeam,
@@ -51,7 +67,10 @@ export function getThreads(state: GlobalState): IDMappedObjects<UserThread> {
 }
 
 export function getThread(state: GlobalState, threadId: $ID<UserThread> | undefined): UserThread | null {
-    if (!threadId || !getThreadsInCurrentTeam(state)?.includes(threadId)) {
+    if (
+        !threadId ||
+        !(getThreadsInCurrentTeam(state)?.includes(threadId) || getUnreadThreadsInCurrentTeam(state)?.includes(threadId))
+    ) {
         return null;
     }
 
@@ -105,7 +124,7 @@ export const getUnreadThreadOrderInCurrentTeam: (
     selectedThreadIdInTeam?: $ID<UserThread>,
 ) => Array<$ID<UserThread>> = createSelector(
     'getUnreadThreadOrderInCurrentTeam',
-    getThreadsInCurrentTeam,
+    getUnreadThreadsInCurrentTeam,
     getThreads,
     (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => selectedThreadIdInTeam,
     (
@@ -115,7 +134,7 @@ export const getUnreadThreadOrderInCurrentTeam: (
     ) => {
         const ids = threadsInTeam.filter((id) => {
             const thread = threads[id];
-            return thread.is_following && (thread.unread_mentions || thread.unread_replies);
+            return thread.is_following && (thread.unread_replies || thread.unread_mentions);
         });
 
         if (selectedThreadIdInTeam && !ids.includes(selectedThreadIdInTeam)) {

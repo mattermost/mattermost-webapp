@@ -21,7 +21,7 @@ describe('Authentication', () => {
 
     before(() => {
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({user, team}) => {
             testUserAlreadyInTeam = user;
