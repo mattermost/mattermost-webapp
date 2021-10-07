@@ -9,8 +9,9 @@
 
 // Group: @integrations
 
-import { loginAndVisitChannel } from './helper';
-import { getJoinEmailTemplate, verifyEmailBody } from "../../../utils";
+import {getJoinEmailTemplate, verifyEmailBody} from '../../../utils';
+
+import {loginAndVisitChannel} from './helper';
 
 describe('Integrations', () => {
     let testUser;
@@ -23,20 +24,15 @@ describe('Integrations', () => {
         cy.apiGetConfig().then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, user, channelUrl}) => {
             testUser = user;
             testTeam = team;
+            testChannelUrl = channelUrl;
 
             Cypress._.times(2, () => {
                 cy.apiCreateUser().then(({user: otherUser}) => {
                     usersToInvite.push(otherUser);
                 });
-            });
-    
-            cy.apiAdminLogin();
-            cy.apiCreateChannel(team.id, 'channel', 'channel').then(({channel}) => {
-                testChannelUrl = `/${team.name}/channels/${channel.name}`;
-                cy.apiAddUserToChannel(channel.id, testUser.id);
             });
         });
     });
@@ -45,22 +41,22 @@ describe('Integrations', () => {
         loginAndVisitChannel(testUser, testChannelUrl);
 
         // # Post `/invite email1 email2` where emails are of users not added to the team yet
-        cy.postMessage(`/invite_people ${usersToInvite.map(user => user.email).join(" ")} `);
+        cy.postMessage(`/invite_people ${usersToInvite.map((user) => user.email).join(' ')} `);
 
         // * User who added them sees system message "Email invite(s) sent"
-        cy.uiWaitUntilMessagePostedIncludes(`Email invite(s) sent`);
+        cy.uiWaitUntilMessagePostedIncludes('Email invite(s) sent');
 
-        usersToInvite.forEach(invitedUser => {
+        usersToInvite.forEach((invitedUser) => {
             cy.getRecentEmail({username: invitedUser.username, email: invitedUser.email}).then((data) => {
                 const {body: actualEmailBody, subject} = data;
-    
+
                 // * Verify the subject
                 expect(subject).to.contain(`[${siteName}] ${testUser.username} invited you to join ${testTeam.display_name} Team`);
-    
+
                 // * Verify email body
                 const expectedEmailBody = getJoinEmailTemplate(testUser.username, invitedUser.email, testTeam);
                 verifyEmailBody(expectedEmailBody, actualEmailBody);
             });
-        })
+        });
     });
 });
