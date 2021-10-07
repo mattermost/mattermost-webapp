@@ -40,7 +40,7 @@ type Props = {
     isProratedPayment?: boolean;
     currentUser: UserProfile;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
-    isFirstPurchase: boolean;
+    preferences: PreferenceType[];
 }
 
 type State = {
@@ -193,16 +193,17 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             );
         }
         let title = t('admin.billing.subscription.upgradedSuccess');
-        if (this.props.isFirstPurchase) {
+        const isFirstPurchase = Boolean(!(this.props.preferences.some((pref: PreferenceType) =>
+            pref.name === Unique.HAS_CLOUD_PURCHASE && pref.value === 'true'))
+        );
+        if (isFirstPurchase) {
             title = t('admin.billing.subscription.firstPurchaseSuccess');
-            setTimeout(() => {
-                this.props.savePreferences(this.props.currentUser.id, [{
-                    category: Preferences.UNIQUE,
-                    user_id: this.props.currentUser.id,
-                    name: Unique.HAS_CLOUD_PURCHASE,
-                    value: 'true',
-                }]);
-            }, 2000);
+            this.props.savePreferences(this.props.currentUser.id, [{
+                category: Preferences.UNIQUE,
+                user_id: this.props.currentUser.id,
+                name: Unique.HAS_CLOUD_PURCHASE,
+                value: 'true',
+            }]);
         }
         return (
             <IconMessage

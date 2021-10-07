@@ -699,9 +699,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                         currentUser={this.props.currentUser}
                                         savePreferences={this.props.actions.savePreferences}
-                                        isFirstPurchase={!this.props.preferences.some((pref) =>
-                                            pref.name === Unique.HAS_CLOUD_PURCHASE && pref.value === 'true')
-                                        }
+                                        preferences={this.props.preferences}
                                     />
                                 </div>
                             ) : null}
