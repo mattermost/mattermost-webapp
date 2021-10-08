@@ -15,9 +15,10 @@ const NUMBER_OF_TEAMS = 3;
 
 describe('Multi-Team + DMs', () => {
     before(() => {
+        // # Create an account
         cy.apiCreateUser().its('user').as('user');
 
-        // delete all existing teams to clean-up
+        // # Delete all existing teams to clean-up
         cy.apiGetAllTeams().then(({teams}) => {
             teams.forEach((team) => {
                 if (team.name !== DEFAULT_TEAM.name) {
@@ -26,15 +27,20 @@ describe('Multi-Team + DMs', () => {
             });
         });
 
-        // create teams for user to join
+        // # Create teams for user to join
         for (let i = 0; i < NUMBER_OF_TEAMS; i++) {
             cy.apiCreateTeam('team', 'Team', 'O', true, {allow_open_invite: true});
         }
     });
 
     it('MM-T1805 No infinite loading spinner on Select Team page', function() {
+        // # Log-in with created user
         cy.apiLogin(this.user);
+
+        // # Join all available teams and go to {servername}/select_team
         joinAllTeams();
+
+        // * Check that no infinite loading spinner is shown
         cy.get('.loading-screen').should('not.exist');
     });
 });
