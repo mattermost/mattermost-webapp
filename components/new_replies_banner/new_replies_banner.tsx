@@ -2,10 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useEffect} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import Toast from 'components/toast/toast';
-import * as Utils from 'utils/utils.jsx';
 
 import './new_replies_banner.scss';
 
@@ -26,7 +25,8 @@ function NewRepliesBanner({
     width,
     actions,
 }: Props) {
-    const onClickMessage = Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages');
+    const intl = useIntl();
+    const onClickMessage = intl.formatMessage({id: 'postlist.toast.scrollToLatest', defaultMessage: 'Jump to new messages'});
 
     useEffect(() => {
         actions.updateThreadToastStatus(hasNewReplies);
