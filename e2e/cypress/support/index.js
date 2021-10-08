@@ -169,14 +169,8 @@ function sysadminSetup(user) {
         cy.apiVerifyUserEmailById(user.id);
     }
 
-    // # Reset config and invalidate cache
+    // # Reset config to default
     cy.apiUpdateConfig();
-    cy.apiGetClientLicense().then(({isCloudLicensed}) => {
-        // Invalidating cache on cloud server is not permitted since sysadmin is restricted by default
-        if (!isCloudLicensed) {
-            cy.apiInvalidateCache();
-        }
-    });
 
     // # Reset admin preference, online status and locale
     cy.apiSaveTeammateNameDisplayPreference('username');
