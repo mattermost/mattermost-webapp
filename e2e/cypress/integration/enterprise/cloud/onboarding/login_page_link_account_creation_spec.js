@@ -33,7 +33,7 @@ describe('Onboarding', () => {
             siteName = config.TeamSettings.SiteName;
             siteUrl = config.ServiceSettings.SiteURL;
         });
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;

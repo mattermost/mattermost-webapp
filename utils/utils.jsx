@@ -28,7 +28,7 @@ import {
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {
@@ -300,156 +300,11 @@ export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss', 
     return moment.unix(timestamp).format(format) + timezone;
 }
 
-// Replaces all occurrences of a pattern
-export function loopReplacePattern(text, pattern, replacement) {
-    let result = text;
-
-    let match = pattern.exec(result);
-    while (match) {
-        result = result.replace(pattern, replacement);
-        match = pattern.exec(result);
-    }
-
-    return result;
-}
-
-// Taken from http://stackoverflow.com/questions/1068834/object-comparison-in-javascript and modified slightly
-export function areObjectsEqual(x, y) {
-    let p;
-    const leftChain = [];
-    const rightChain = [];
-
-    // Remember that NaN === NaN returns false
-    // and isNaN(undefined) returns true
-    if (isNaN(x) && isNaN(y) && typeof x === 'number' && typeof y === 'number') {
-        return true;
-    }
-
-    // Compare primitives and functions.
-    // Check if both arguments link to the same object.
-    // Especially useful on step when comparing prototypes
-    if (x === y) {
-        return true;
-    }
-
-    // Works in case when functions are created in constructor.
-    // Comparing dates is a common scenario. Another built-ins?
-    // We can even handle functions passed across iframes
-    if ((typeof x === 'function' && typeof y === 'function') ||
-        (x instanceof Date && y instanceof Date) ||
-        (x instanceof RegExp && y instanceof RegExp) ||
-        (x instanceof String && y instanceof String) ||
-        (x instanceof Number && y instanceof Number)) {
-        return x.toString() === y.toString();
-    }
-
-    if (x instanceof Map && y instanceof Map) {
-        return areMapsEqual(x, y);
-    }
-
-    // At last checking prototypes as good a we can
-    if (!(x instanceof Object && y instanceof Object)) {
-        return false;
-    }
-
-    if (x.isPrototypeOf(y) || y.isPrototypeOf(x)) {
-        return false;
-    }
-
-    if (x.constructor !== y.constructor) {
-        return false;
-    }
-
-    if (x.prototype !== y.prototype) {
-        return false;
-    }
-
-    // Check for infinitive linking loops
-    if (leftChain.indexOf(x) > -1 || rightChain.indexOf(y) > -1) {
-        return false;
-    }
-
-    // Quick checking of one object being a subset of another.
-    for (p in y) {
-        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
-            return false;
-        } else if (typeof y[p] !== typeof x[p]) {
-            return false;
-        }
-    }
-
-    for (p in x) { //eslint-disable-line guard-for-in
-        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
-            return false;
-        } else if (typeof y[p] !== typeof x[p]) {
-            return false;
-        }
-
-        switch (typeof (x[p])) {
-        case 'object':
-        case 'function':
-
-            leftChain.push(x);
-            rightChain.push(y);
-
-            if (!areObjectsEqual(x[p], y[p])) {
-                return false;
-            }
-
-            leftChain.pop();
-            rightChain.pop();
-            break;
-
-        default:
-            if (x[p] !== y[p]) {
-                return false;
-            }
-            break;
-        }
-    }
-
-    return true;
-}
-
-export function areMapsEqual(a, b) {
-    if (a.size !== b.size) {
-        return false;
-    }
-
-    for (const [key, value] of a) {
-        if (!b.has(key)) {
-            return false;
-        }
-
-        if (!areObjectsEqual(value, b.get(key))) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 export function replaceHtmlEntities(text) {
     var tagsToReplace = {
         '&amp;': '&',
         '&lt;': '<',
         '&gt;': '>',
-    };
-    var newtext = text;
-    for (var tag in tagsToReplace) {
-        if (Reflect.apply({}.hasOwnProperty, this, [tagsToReplace, tag])) {
-            var regex = new RegExp(tag, 'g');
-            newtext = newtext.replace(regex, tagsToReplace[tag]);
-        }
-    }
-    return newtext;
-}
-
-export function insertHtmlEntities(text) {
-    var tagsToReplace = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
     };
     var newtext = text;
     for (var tag in tagsToReplace) {
@@ -549,16 +404,12 @@ export function toTitleCase(str) {
     return str.replace(/\w\S*/g, doTitleCase);
 }
 
-export function isHexColor(value) {
-    return value && (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i).test(value);
-}
-
-export function dropAlpha(value) {
+function dropAlpha(value) {
     return value.substr(value.indexOf('(') + 1).split(',', 3).join(',');
 }
 
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
-export function toRgbValues(hexStr) {
+function toRgbValues(hexStr) {
     const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
     return rgbaStr;
 }
@@ -870,7 +721,7 @@ export function resetTheme() {
     applyTheme(Preferences.THEMES.denim);
 }
 
-export function changeCss(className, classValue) {
+function changeCss(className, classValue) {
     let styleEl = document.querySelector('style[data-class="' + className + '"]');
     if (!styleEl) {
         styleEl = document.createElement('style');
@@ -905,7 +756,7 @@ export function changeCss(className, classValue) {
     }
 }
 
-export function updateCodeTheme(userTheme) {
+function updateCodeTheme(userTheme) {
     let cssPath = '';
     Constants.THEME_ELEMENTS.forEach((element) => {
         if (element.id === 'codeTheme') {
@@ -967,15 +818,15 @@ export function getCaretPosition(el) {
     return 0;
 }
 
-export function createHtmlElement(el) {
+function createHtmlElement(el) {
     return document.createElement(el);
 }
 
-export function getElementComputedStyle(el) {
+function getElementComputedStyle(el) {
     return getComputedStyle(el);
 }
 
-export function addElementToDocument(el) {
+function addElementToDocument(el) {
     document.body.appendChild(el);
 }
 
@@ -1012,7 +863,7 @@ export function copyTextAreaToDiv(textArea) {
     return copy;
 }
 
-export function convertEmToPixels(el, remNum) {
+function convertEmToPixels(el, remNum) {
     if (isNaN(remNum)) {
         return 0;
     }
@@ -1104,7 +955,7 @@ export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
     };
 }
 
-export function getSuggestionBoxWidth(textArea) {
+function getSuggestionBoxWidth(textArea) {
     if (textArea.id === 'edit_textbox') {
         // when the sugeestion box is in the edit mode it will inhering the class .modal suggestion-list which has width: 100%
         return textArea.offsetWidth;
@@ -1228,7 +1079,7 @@ export function loadImage(url, onLoad, onProgress) {
     request.send();
 }
 
-export function changeColor(colourIn, amt) {
+function changeColor(colourIn, amt) {
     var hex = colourIn;
     var lum = amt;
 
@@ -1301,13 +1152,6 @@ export function getLongDisplayNameParts(user) {
         nickname: user.nickname && user.nickname.trim() ? user.nickname : null,
         position: user.position && user.position.trim() ? user.position : null,
     };
-}
-
-/**
- * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
- */
-export function getDisplayNameByUserId(state, userId) {
-    return getDisplayNameByUser(state, getUser(state, userId));
 }
 
 /**
@@ -1671,7 +1515,7 @@ export function isValidPassword(password, passwordConfig) {
     return {valid, error};
 }
 
-export function isChannelOrPermalink(link) {
+function isChannelOrPermalink(link) {
     let match = (/\/([^/]+)\/channels\/(\S+)/).exec(link);
     if (match) {
         return {
@@ -1691,7 +1535,7 @@ export function isChannelOrPermalink(link) {
     return match;
 }
 
-export async function handleFormattedTextClick(e, currentRelativeTeamUrl) {
+export async function handleFormattedTextClick(e, currentRelativeTeamUrl = '') {
     const hashtagAttribute = e.target.getAttributeNode('data-hashtag');
     const linkAttribute = e.target.getAttributeNode('data-link');
     const channelMentionAttribute = e.target.getAttributeNode('data-channel-mention');
@@ -2155,7 +1999,7 @@ export function deleteKeysFromObject(value, keys) {
     return value;
 }
 
-export function isSelection() {
+function isSelection() {
     const selection = window.getSelection();
     return selection.type === 'Range';
 }

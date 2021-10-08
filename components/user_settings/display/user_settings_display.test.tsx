@@ -86,6 +86,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         globalHeaderDisplay: '',
         globalHeaderAllowed: true,
         lastActiveDisplay: true,
+        oneClickReactionsOnPosts: '',
+        emojiPickerEnabled: true,
     };
 
     test('should match snapshot, no active section', () => {

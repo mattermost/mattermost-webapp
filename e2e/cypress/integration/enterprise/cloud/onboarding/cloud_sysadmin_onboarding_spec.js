@@ -9,13 +9,14 @@
 
 // Group: @enterprise @onboarding @cloud_only
 
-describe('Cloud Onboarding - Sysadmin', () => {
+import {stubClipboard} from '../../../../utils';
+import {spyNotificationAs} from '../../../../support/notification';
+
+describe('Onboarding - Sysadmin', () => {
     let townSquarePage;
     let sysadmin;
 
     before(() => {
-        cy.apiRequireLicenseForFeature('Cloud');
-
         cy.apiUpdateConfig({
             ServiceSettings: {EnableOnboardingFlow: true},
         });
@@ -52,6 +53,9 @@ describe('Cloud Onboarding - Sysadmin', () => {
     it('MM-T3326 Sysadmin - Happy Path', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
+
+        // # Use to grant permission to Notification
+        spyNotificationAs('withNotification', 'granted');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
@@ -97,13 +101,13 @@ describe('Cloud Onboarding - Sysadmin', () => {
         // # Click Finish button
         cy.findByTestId('InviteMembersStep__finishButton').should('be.visible').and('not.be.disabled').click();
 
-        // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '4 / 4 steps complete');
-
         // * Should show Tips and Next Steps
-        cy.findByText('Tips & Next Steps').should('be.visible');
-        cy.findByText('A few other areas to explore').should('be.visible');
-        cy.get('.SidebarNextSteps .SidebarNextSteps__top').should('contain', 'Tips & Next steps');
+        cy.get('#app-content').within(() => {
+            cy.findByText('Tips & Next Steps').should('be.visible');
+            cy.findByText('A few other areas to explore').should('be.visible');
+        });
+
+        cy.get('.SidebarNextSteps .SidebarNextSteps__top').should('contain', 'Tips & Next Steps');
         cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', 'A few other areas to explore');
 
         // * Transition screen should be visible
@@ -180,20 +184,15 @@ describe('Cloud Onboarding - Sysadmin', () => {
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # Stub out clipboard
-            const clipboard = {link: '', wasCalled: false};
-            cy.window().then((win) => {
-                cy.stub(win.navigator.clipboard, 'writeText', (link) => {
-                    clipboard.wasCalled = true;
-                    clipboard.link = link;
-                });
-            });
+            stubClipboard().as('clipboard');
 
             // # Get invite link
             const baseUrl = Cypress.config('baseUrl');
             const inviteLink = `${baseUrl}/signup_user_complete/?id=${team.invite_id}`;
 
             // * Verify initial state
-            cy.wrap(clipboard).its('link').should('eq', '');
+            cy.get('@clipboard').its('wasCalled').should('eq', false);
+            cy.get('@clipboard').its('contents').should('eq', '');
 
             // * Make sure channel view has loaded
             cy.url().should('include', `/${team.name}/channels/town-square`);
@@ -214,8 +213,8 @@ describe('Cloud Onboarding - Sysadmin', () => {
             cy.findByTestId('InviteMembersStep__shareLinkInputButton').should('be.visible').and('contain', 'Copied');
 
             // * Verify if it's called with correct link value
-            cy.wrap(clipboard).its('wasCalled').should('eq', true);
-            cy.wrap(clipboard).its('link').should('eq', inviteLink);
+            cy.get('@clipboard').its('wasCalled').should('eq', true);
+            cy.get('@clipboard').its('contents').should('eq', inviteLink);
         });
     });
 });

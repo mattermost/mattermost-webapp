@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
+import {cloneDeep} from 'lodash';
 
 import {isEmptyObject, windowHeight} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
@@ -195,15 +196,17 @@ export default class SuggestionList extends React.PureComponent {
             return null;
         }
 
+        const clonedItems = cloneDeep(this.props.items);
+
         const items = [];
-        if (this.props.items.length === 0) {
+        if (clonedItems.length === 0) {
             if (!this.props.renderNoResults) {
                 return null;
             }
             items.push(this.renderNoResults());
         }
 
-        let lastType;
+        let dividerRendered = false;
         for (let i = 0; i < this.props.items.length; i++) {
             const item = this.props.items[i];
             const term = this.props.terms[i];
@@ -212,9 +215,9 @@ export default class SuggestionList extends React.PureComponent {
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
 
-            if (this.props.renderDividers && item.type !== lastType) {
+            if (!dividerRendered && item.type === 'mention.recent.channels') {
                 items.push(this.renderDivider(item.type));
-                lastType = item.type;
+                dividerRendered = true;
             }
 
             if (item.loading) {

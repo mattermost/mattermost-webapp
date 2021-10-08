@@ -48,8 +48,10 @@ describe('components/Root', () => {
         telemetryId: '1234ab',
         noAccounts: false,
         showTermsOfService: false,
+        theme: {},
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
+            emitBrowserWindowResized: () => {},
         },
         location: {
             pathname: '/',
@@ -244,6 +246,24 @@ describe('components/Root', () => {
         window.dispatchEvent(loginSignal);
         document.dispatchEvent(new Event('visibilitychange'));
         expect(window.location.reload).toBeCalledTimes(1);
+        wrapper.unmount();
+    });
+
+    test('should update redux when the browser window is resized', () => {
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                emitBrowserWindowResized: jest.fn(),
+            },
+        };
+
+        const wrapper = shallow(<Root {...props}/>);
+
+        window.dispatchEvent(new UIEvent('resize'));
+
+        expect(props.actions.emitBrowserWindowResized).toBeCalledTimes(2); // called once in constructor
+
         wrapper.unmount();
     });
 });

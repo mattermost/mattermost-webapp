@@ -16,7 +16,7 @@ const IncidentsSvg = () => (
             cx='17'
             cy='32.2084'
             r='9.5'
-            stroke='var(--sidebar-text-active-border)'
+            stroke='#5D89EA'
         />
         <g filter='url(#svg1-filter0_d)'>
             <ellipse
@@ -24,7 +24,7 @@ const IncidentsSvg = () => (
                 cy='32.2084'
                 rx='8'
                 ry='8'
-                fill='var(--center-channel-bg)'
+                fill='#FFFFFF'
             />
             <ellipse
                 cx='17'
@@ -35,7 +35,7 @@ const IncidentsSvg = () => (
             />
             <path
                 d='M17 40.4584C21.5563 40.4584 25.25 36.7647 25.25 32.2084C25.25 27.652 21.5563 23.9584 17 23.9584C12.4437 23.9584 8.75 27.652 8.75 32.2084C8.75 36.7647 12.4437 40.4584 17 40.4584Z'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.08'
                 strokeWidth='0.5'
             />
@@ -46,7 +46,7 @@ const IncidentsSvg = () => (
                 cy='56.2084'
                 rx='8'
                 ry='8'
-                fill='var(--center-channel-bg)'
+                fill='#FFFFFF'
             />
             <ellipse
                 cx='17'
@@ -57,7 +57,7 @@ const IncidentsSvg = () => (
             />
             <path
                 d='M17 64.4584C21.5563 64.4584 25.25 60.7647 25.25 56.2084C25.25 51.652 21.5563 47.9584 17 47.9584C12.4437 47.9584 8.75 51.652 8.75 56.2084C8.75 60.7647 12.4437 64.4584 17 64.4584Z'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.08'
                 strokeWidth='0.5'
             />
@@ -68,7 +68,7 @@ const IncidentsSvg = () => (
                 cy='80.2084'
                 rx='8'
                 ry='8'
-                fill='var(--center-channel-bg)'
+                fill='#FFFFFF'
             />
             <ellipse
                 cx='17'
@@ -79,7 +79,7 @@ const IncidentsSvg = () => (
             />
             <path
                 d='M17 88.4584C21.5563 88.4584 25.25 84.7647 25.25 80.2084C25.25 75.652 21.5563 71.9584 17 71.9584C12.4437 71.9584 8.75 75.652 8.75 80.2084C8.75 84.7647 12.4437 88.4584 17 88.4584Z'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.08'
                 strokeWidth='0.5'
             />
@@ -91,7 +91,7 @@ const IncidentsSvg = () => (
                 width='128'
                 height='72'
                 rx='4'
-                fill='var(--center-channel-bg)'
+                fill='#FFFFFF'
             />
             <rect
                 x='31.75'
@@ -99,7 +99,7 @@ const IncidentsSvg = () => (
                 width='128.5'
                 height='72.5'
                 rx='4.25'
-                stroke='var(--center-channel-color)'
+                stroke='#3F4350'
                 strokeOpacity='0.16'
                 strokeWidth='0.5'
             />
@@ -110,7 +110,7 @@ const IncidentsSvg = () => (
             width='78'
             height='3'
             rx='1.5'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -119,7 +119,7 @@ const IncidentsSvg = () => (
             width='78'
             height='3'
             rx='1.5'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -128,7 +128,7 @@ const IncidentsSvg = () => (
             width='78'
             height='3'
             rx='1.5'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -137,7 +137,7 @@ const IncidentsSvg = () => (
             width='78'
             height='3'
             rx='1.5'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -146,7 +146,7 @@ const IncidentsSvg = () => (
             width='78'
             height='3'
             rx='1.5'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -155,7 +155,7 @@ const IncidentsSvg = () => (
             width='78'
             height='3'
             rx='1.5'
-            fill='var(--center-channel-color)'
+            fill='#3F4350'
             fillOpacity='0.08'
         />
         <rect
@@ -164,7 +164,7 @@ const IncidentsSvg = () => (
             width='24'
             height='2'
             rx='1'
-            fill='var(--sidebar-text-active-border)'
+            fill='#5D89EA'
         />
         <rect
             x='103.5'
@@ -172,7 +172,7 @@ const IncidentsSvg = () => (
             width='24'
             height='2'
             rx='1'
-            fill='var(--sidebar-text-active-border)'
+            fill='#5D89EA'
         />
         <rect
             x='76.5'
@@ -180,7 +180,7 @@ const IncidentsSvg = () => (
             width='80'
             height='8'
             rx='4'
-            fill='var(--center-channel-bg)'
+            fill='#FFFFFF'
         />
         <rect
             x='76.75'
@@ -188,13 +188,13 @@ const IncidentsSvg = () => (
             width='79.5'
             height='7.5'
             rx='3.75'
-            stroke='var(--center-channel-color)'
+            stroke='#3F4350'
             strokeOpacity='0.16'
             strokeWidth='0.5'
         />
         <path
             d='M32 24C32 21.7909 33.7909 20 36 20H72V92H36C33.7909 92 32 90.2091 32 88V24Z'
-            fill='var(--sidebar-bg)'
+            fill='#174ab5'
         />
         <path
             d='M38 45L27.5 38.5'
@@ -210,7 +210,7 @@ const IncidentsSvg = () => (
         />
         <path
             d='M64 54.0795C64 56.49 63.4773 58.8061 62.432 61.0279C61.3867 63.2079 59.968 65.0734 58.176 66.6244C56.32 68.1965 54.2613 69.255 52 69.8C49.7387 69.255 47.68 68.1965 45.824 66.6244C44.032 65.0734 42.6133 63.2079 41.568 61.0279C40.5227 58.8061 40 56.49 40 54.0795V46.2192L52 41L64 46.2192V54.0795ZM52 67.1904C53.6427 66.7502 55.1893 65.8699 56.64 64.5493C58.048 63.2288 59.1787 61.6777 60.032 59.8961C60.9067 58.0515 61.344 56.207 61.344 54.3624V47.917L52 43.8297L42.656 47.917V54.3624C42.656 56.207 43.0933 58.0515 43.968 59.8961C44.8213 61.6777 45.952 63.2288 47.36 64.5493C48.8107 65.8699 50.3573 66.7502 52 67.1904ZM50.656 48.8603H53.344V56.7205H50.656V48.8603ZM50.656 59.3301H53.344V61.9397H50.656V59.3301Z'
-            fill='var(--sidebar-text)'
+            fill='#FFFFFF'
         />
         <defs>
             <filter

@@ -55,7 +55,7 @@ describe('Messaging', () => {
             cy.get('#editButton').click();
 
             // * Assert post message should contain 'This is sample add text'
-            cy.get(`#postMessageText_${postID}`).should('have.text', 'This is sample add text');
+            cy.get(`#postMessageText_${postID}`).should('have.text', 'This is sample add text Edited');
 
             cy.get(`#${postID}_message`).within(() => {
                 // * Assert file attachment should still exist

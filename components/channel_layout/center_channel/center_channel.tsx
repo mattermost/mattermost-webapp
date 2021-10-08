@@ -11,6 +11,7 @@ import LoadingScreen from 'components/loading_screen';
 import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
+import PlaybookRunner from 'components/channel_layout/playbook_runner';
 import {makeAsyncComponent} from 'components/async_load';
 const LazyGlobalThreads = makeAsyncComponent(
     React.lazy(() => import('components/threading/global_threads')),
@@ -115,6 +116,11 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                             path='/:team/:path(channels|messages)/:identifier/:postid?'
                             component={ChannelIdentifierRouter}
                         />
+                        <Route
+                            path='/:team/_playbooks/:playbookId/run'
+                        >
+                            <PlaybookRunner/>
+                        </Route>
                         {isCollapsedThreadsEnabled ? (
                             <Route
                                 path='/:team/threads/:threadIdentifier?'

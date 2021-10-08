@@ -47,7 +47,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     /**
      * User the popover is being opened for
      */
-    user?: Partial<UserProfile>;
+    user?: UserProfile;
     userId: string;
     channelId?: string;
 
@@ -629,7 +629,7 @@ ProfilePopoverState
                             onClick={this.handleAddToChannel}
                         >
                             <ToggleModalButtonRedux
-                                accessibilityLabel={addToChannelMessage}
+                                ariaLabel={addToChannelMessage}
                                 modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
                                 role='menuitem'
                                 dialogType={AddUserToChannelModal}

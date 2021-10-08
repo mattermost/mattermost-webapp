@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
+import deepEqual from 'fast-deep-equal';
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
@@ -15,7 +16,6 @@ import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 
 import * as I18n from 'i18n/i18n.jsx';
@@ -43,6 +43,7 @@ function getDisplayStateFromProps(props: Props) {
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
         lastActiveDisplay: props.lastActiveDisplay.toString(),
+        oneClickReactionsOnPosts: props.oneClickReactionsOnPosts,
     };
 }
 
@@ -104,6 +105,8 @@ type Props = {
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
+    oneClickReactionsOnPosts: string;
+    emojiPickerEnabled: boolean;
     timezoneLabel: string;
     lastActiveDisplay: boolean;
     actions: {
@@ -125,6 +128,7 @@ type State = {
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
     lastActiveDisplay: string;
+    oneClickReactionsOnPosts: string;
     handleSubmit?: () => void;
     serverError?: string;
 }
@@ -260,6 +264,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.LINK_PREVIEW_DISPLAY,
             value: this.state.linkPreviewDisplay,
         };
+        const oneClickReactionsOnPostsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.ONE_CLICK_REACTIONS_ENABLED,
+            value: this.state.oneClickReactionsOnPosts,
+        };
 
         this.setState({isSaving: true});
 
@@ -272,6 +282,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             linkPreviewDisplayPreference,
             teammateNameDisplayPreference,
             availabilityStatusOnPostsPreference,
+            oneClickReactionsOnPostsPreference,
         ];
 
         this.trackChangeIfNecessary(collapsedReplyThreadsPreference, this.props.collapsedReplyThreads);
@@ -317,6 +328,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({linkPreviewDisplay});
     }
 
+    handleOneClickReactionsRadio = (oneClickReactionsOnPosts: string) => {
+        this.setState({oneClickReactionsOnPosts});
+    }
+
     handleOnChange(display: {[key: string]: any}) {
         this.setState({...display});
     }
@@ -328,7 +343,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
     updateState = () => {
         const newState = getDisplayStateFromProps(this.props);
-        if (!Utils.areObjectsEqual(newState, this.state)) {
+        if (!deepEqual(newState, this.state)) {
             this.setState(newState);
         }
 
@@ -936,6 +951,38 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             );
         }
 
+        let oneClickReactionsOnPostsSection;
+        if (this.props.emojiPickerEnabled) {
+            oneClickReactionsOnPostsSection = this.createSection({
+                section: Preferences.ONE_CLICK_REACTIONS_ENABLED,
+                display: 'oneClickReactionsOnPosts',
+                value: this.state.oneClickReactionsOnPosts,
+                defaultDisplay: 'true',
+                title: {
+                    id: t('user.settings.display.oneClickReactionsOnPostsTitle'),
+                    message: 'One-click reactions on messages',
+                },
+                firstOption: {
+                    value: 'true',
+                    radionButtonText: {
+                        id: t('user.settings.sidebar.on'),
+                        message: 'On',
+                    },
+                },
+                secondOption: {
+                    value: 'false',
+                    radionButtonText: {
+                        id: t('user.settings.sidebar.off'),
+                        message: 'Off',
+                    },
+                },
+                description: {
+                    id: t('user.settings.display.oneClickReactionsOnPostsDescription'),
+                    message: 'When enabled, you can react in one-click with recently used reactions when hovering over a message.',
+                },
+            });
+        }
+
         return (
             <div id='displaySettings'>
                 <div className='modal-header'>
@@ -985,6 +1032,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {messageDisplaySection}
                     {collapsedReplyThreads}
                     {channelDisplayModeSection}
+                    {oneClickReactionsOnPostsSection}
                     {languagesSection}
                     {lastActiveSection}
                 </div>

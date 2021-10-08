@@ -46,6 +46,7 @@ function mapStateToProps(state: GlobalState) {
     const lockTeammateNameDisplay = getLicense(state).LockTeammateNameDisplay === 'true' && config.LockTeammateNameDisplay === 'true';
     const configTeammateNameDisplay = config.TeammateNameDisplay as string;
     const lastActiveDisplay = getUser(state, currentUserId).show_last_active;
+    const emojiPickerEnabled = config.EnableEmojiPicker === 'true';
 
     return {
         lockTeammateNameDisplay,
@@ -70,6 +71,8 @@ function mapStateToProps(state: GlobalState) {
         collapsedReplyThreads: getCollapsedThreadsPreference(state),
         linkPreviewDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
         lastActiveDisplay,
+        oneClickReactionsOnPosts: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT),
+        emojiPickerEnabled,
     };
 }
 

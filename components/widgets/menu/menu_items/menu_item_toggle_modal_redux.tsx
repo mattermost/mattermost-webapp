@@ -16,18 +16,18 @@ type Props = {
     dialogType: React.ComponentType<any>;
     dialogProps?: Dictionary<any>;
     extraText?: string;
-    text?: string;
-    accessibilityLabel?: string;
+    text?: React.ReactNode;
+    ariaLabel?: string;
     className?: string;
     children?: React.ReactNode;
     sibling?: React.ReactNode;
     showUnread?: boolean;
 }
 
-export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, accessibilityLabel, extraText, children, className, sibling, showUnread}: Props) => (
+export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, ariaLabel, extraText, children, className, sibling, showUnread}: Props) => (
     <>
         <ToggleModalButtonRedux
-            accessibilityLabel={accessibilityLabel || text}
+            ariaLabel={ariaLabel}
             modalId={modalId}
             dialogType={dialogType}
             dialogProps={dialogProps}

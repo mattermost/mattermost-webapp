@@ -6,6 +6,8 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
+import thunk from 'redux-thunk';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InviteMembersButton from 'components/sidebar/invite_members_button';
@@ -49,14 +51,19 @@ describe('components/sidebar/invite_members_button', () => {
         },
     };
 
-    const mockStore = configureStore();
+    const props = {
+        onClick: jest.fn(),
+        touchedInviteMembersButton: false,
+    };
+
+    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team_id2sss');
 
     test('should match snapshot', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton/>
+                <InviteMembersButton {...props}/>
             </Provider>,
         );
 
@@ -78,9 +85,39 @@ describe('components/sidebar/invite_members_button', () => {
 
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <InviteMembersButton/>
+                <InviteMembersButton {...props}/>
             </Provider>,
         );
         expect(wrapper.find('i').exists()).toBeFalsy();
+    });
+
+    test('should should fire onClick prop on click', () => {
+        const mock = jest.fn();
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...{...props, onClick: mock}}/>
+            </Provider>,
+        );
+        expect(mock).not.toHaveBeenCalled();
+        wrapper.find('i').simulate('click');
+        expect(mock).toHaveBeenCalled();
+    });
+
+    test('should not have untouched ui when component has been touched', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...{...props, touchedInviteMembersButton: true}}/>
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).not.toContain('untouched');
+    });
+
+    test('should have untouched ui when component has not been touched', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <InviteMembersButton {...props}/>
+            </Provider>,
+        );
+        expect(wrapper.find('li').prop('className')).toContain('untouched');
     });
 });

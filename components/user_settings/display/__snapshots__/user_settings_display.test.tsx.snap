@@ -244,6 +244,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         describe="English (US)"
         section="languages"
         title={
@@ -517,6 +532,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -810,6 +840,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         describe="English (US)"
         section="languages"
         title={
@@ -1030,6 +1075,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
+      <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
       <Connect(ManageLanguage)
         locale="en"
         updateSection={[Function]}
@@ -1232,6 +1292,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -1515,6 +1590,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -1826,6 +1916,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         describe="English (US)"
         section="languages"
         title={
@@ -2037,6 +2142,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -2268,6 +2388,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         describe="English (US)"
         section="languages"
         title={
@@ -2479,6 +2614,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -2722,6 +2872,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         describe="English (US)"
         section="languages"
         title={
@@ -2933,6 +3098,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Channel Display"
             id="user.settings.display.channelDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="One-click reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
           />
         }
         updateSection={[Function]}

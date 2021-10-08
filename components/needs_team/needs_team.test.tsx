@@ -27,9 +27,7 @@ jest.mock('actions/post_actions.jsx', () => ({
 }));
 
 jest.mock('utils/utils', () => ({
-    applyTheme: jest.fn(),
     localizeMessage: jest.fn(),
-    areObjectsEqual: jest.fn(),
     isGuest: jest.fn(),
     makeIsEligibleForClick: jest.fn(),
 }));
@@ -100,10 +98,9 @@ describe('components/needs_team', () => {
     const baseProps = {
         license: {},
         actions,
-        currentUser: {
+        currentUser: TestHelper.getUserMock({
             id: 'test',
-        },
-        theme: {},
+        }),
         mfaRequired: false,
         match,
         teamsList,

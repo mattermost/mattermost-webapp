@@ -9,7 +9,6 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {Theme} from 'mattermost-redux/types/themes';
 
-import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
 import PostMarkdown from 'components/post_markdown';
@@ -90,24 +89,6 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
         );
     }
 
-    renderEditedIndicator() {
-        if (!PostUtils.isEdited(this.props.post)) {
-            return null;
-        }
-
-        return (
-            <span
-                id={`postEdited_${this.props.post.id}`}
-                className='post-edited__indicator'
-            >
-                <FormattedMessage
-                    id='post_message_view.edited'
-                    defaultMessage='(edited)'
-                />
-            </span>
-        );
-    }
-
     handleFormattedTextClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
         Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
@@ -180,7 +161,6 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
                         mentionKeys={[]}
                     />
                 </div>
-                {this.renderEditedIndicator()}
                 <Pluggable
                     pluggableName='PostMessageAttachment'
                     postId={post.id}

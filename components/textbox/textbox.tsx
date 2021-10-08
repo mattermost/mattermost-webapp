@@ -34,8 +34,8 @@ type Props = {
     createMessage: string;
     onKeyDown?: (e: KeyboardEvent) => void;
     onSelect?: (e: React.SyntheticEvent) => void;
-    onMouseUp?: (e: MouseEvent) => void;
-    onKeyUp?: (e: KeyboardEvent) => void;
+    onMouseUp?: (e: React.MouseEvent) => void;
+    onKeyUp?: (e: React.KeyboardEvent) => void;
     onBlur?: (e: FocusEvent) => void;
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
