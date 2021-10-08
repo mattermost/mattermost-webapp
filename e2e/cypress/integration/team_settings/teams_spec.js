@@ -219,7 +219,7 @@ describe('Teams Suite', () => {
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
 
-        // Team display name shows as "Testing Team" at top of main menu
+        // Team display name shows as "Testing Team" at top of team menu
         cy.uiGetLHSHeader().findByText(teamName);
 
         // Team initials show in the team icon in the sidebar

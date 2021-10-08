@@ -136,21 +136,21 @@ declare namespace Cypress {
 
         /**
         * keycloakSuspendUser is a command that suspends a user (enabled=false)
-        * @param {string} userId - a keycloak user id
+        * @param {string} userEmail - email of keycloak user
         *
         * @example
-        *   cy.keycloakSuspendUser('12345');
+        *   cy.keycloakSuspendUser('user@test.com');
         */
-        keycloakSuspendUser(userId: string): Chainable;
+        keycloakSuspendUser(userEmail: string): Chainable;
 
         /**
         * keycloakUnsuspendUser is a command that re-activates a user (enabled=true)
-        * @param {string} userId - a keycloak user id
+        * @param {string} userEmail - email of keycloak user
         *
         * @example
-        *   cy.keycloakUnsuspendUser('12345');
+        *   cy.keycloakUnsuspendUser('user@test.com');
         */
-        keycloakUnsuspendUser(userId: string): Chainable;
+        keycloakUnsuspendUser(userEmail: string): Chainable;
 
         /**
         * checkKeycloakLoginPage is a command that verifies the keycloak login page is displayed

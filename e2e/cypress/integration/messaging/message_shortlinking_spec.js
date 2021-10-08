@@ -15,12 +15,12 @@ describe('Message', () => {
     let testTeam;
 
     before(() => {
-        // # Login as test user and go to town-square
+        // # Login as test user and go to off-topic
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testChannel = channel;
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 

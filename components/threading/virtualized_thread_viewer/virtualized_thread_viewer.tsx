@@ -38,6 +38,7 @@ type Props = {
     selected: Post | FakePost;
     teamId: string;
     useRelativeTimestamp: boolean;
+    isThreadView: boolean;
 }
 
 type State = {
@@ -57,6 +58,10 @@ const virtListStyles = {
     top: '0',
     height: '100%',
     willChange: 'auto',
+};
+
+const innerStyles = {
+    paddingTop: '28px',
 };
 
 const CREATE_COMMENT_BUTTON_HEIGHT = 81;
@@ -318,12 +323,13 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         if (isCreateComment(itemId)) {
             return (
                 <CreateComment
-                    focusOnMount={this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0)}
                     channelId={this.props.channel.id}
                     channelIsArchived={this.props.channel.delete_at !== 0}
                     channelType={this.props.channel.type}
+                    focusOnMount={this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0)}
                     isDeleted={(this.props.selected as Post).state === Posts.POST_DELETED}
                     isFakeDeletedPost={this.props.selected.type === Constants.PostTypes.FAKE_PARENT_DELETED}
+                    isThreadView={this.props.isThreadView}
                     latestPostId={this.props.lastPost.id}
                     onHeightChange={this.handleCreateCommentHeightChange}
                     ref={this.postCreateContainerRef}
@@ -356,9 +362,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
     getInnerStyles = (): React.CSSProperties|undefined => {
         if (!this.props.useRelativeTimestamp) {
-            return {
-                paddingTop: '28px',
-            };
+            return innerStyles;
         }
 
         return undefined;

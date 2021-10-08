@@ -30,6 +30,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 actions={{
                     doAppCall: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
@@ -48,6 +49,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 actions={{
                     doAppCall: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
@@ -82,6 +84,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 actions={{
                     doAppCall: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}

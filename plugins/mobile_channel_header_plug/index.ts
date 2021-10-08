@@ -10,9 +10,9 @@ import {getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {GlobalState} from 'types/store';
-import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
-import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {doAppCall} from 'actions/apps';
+import {AppCallRequest, AppCallType, AppForm} from 'mattermost-redux/types/apps';
+import {ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {doAppCall, openAppsModal} from 'actions/apps';
 
 import MobileChannelHeaderPlug from './mobile_channel_header_plug';
 
@@ -31,12 +31,14 @@ function mapStateToProps(state: GlobalState) {
 
 type Actions = {
     doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+    openAppsModal: (form: AppForm, call: AppCallRequest) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             doAppCall,
+            openAppsModal,
         }, dispatch),
     };
 }

@@ -145,9 +145,10 @@
     }
 
     .SidebarChannelNavigator {
+        margin: 16px 14px 8px 14px;
+
         &.desktop {
             display: block;
-            margin: 16px 14px 8px 14px;
 
             .AddChannelDropdown_dropdownButton,
             .SidebarFilters_filterButton,
@@ -165,7 +166,6 @@
 
         &.webapp {
             display: flex;
-            margin: 16px 14px 8px 14px;
 
             .AddChannelDropdown_dropdownButton,
             .SidebarChannelNavigator_inviteUsers,
@@ -725,13 +725,23 @@
             margin-left: 5px;
         }
 
-        &:hover {
-            color: var(--sidebar-text);
+        &--untouched {
+            color: var(--sidebar-unread-text);
+            font-weight: $font-weight--semibold;
+
+            i::before {
+                font-weight: $font-weight--semibold;
+            }
         }
     }
 
     #introTextInvite {
-        margin-top: -2px;
+        display: flex;
+        width: 100%;
+
+        &:hover {
+            background-color: var(--sidebar-text-hover-bg);
+        }
     }
 
     .SidebarChannelNavigator_inviteUsersSticky {
@@ -1372,5 +1382,18 @@
     > div,
     > a {
         padding: 0 32px 0 24px;
+    }
+}
+
+// global header style adjustments
+@media screen and (min-width: 769px) {
+    // adjust height of sidebar to account for global header
+    #SidebarContainer {
+        height: calc(100% - 40px);
+
+        .SidebarChannelNavigator {
+            margin-top: 0;
+            margin-bottom: 11px;
+        }
     }
 }

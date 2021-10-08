@@ -5,6 +5,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -57,6 +58,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -232,6 +234,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "openAppsModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }

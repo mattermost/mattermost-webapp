@@ -23,6 +23,7 @@ export type ViewsState = {
 
     browser: {
         focused: boolean;
+        windowSize: string;
     };
 
     channel: {
