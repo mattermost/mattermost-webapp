@@ -88,7 +88,7 @@ const GlobalThreads = () => {
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
-        if ((!selectedThread || !selectedPost) && !isLoading) {
+        if (!selectedThread && !selectedPost && !isLoading) {
             clear();
         }
     }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
